@@ -207,3 +207,9 @@ body:has(.kopf2) #ll-fab-nav { display: none !important; }
   }
   .kopf2__menue { padding: 2px 8px 6px; }
 }
+
+/* 2026-11-04: Stimmen-Auswahl + „Erweitert“ im ⚙️-Fenster */
+.kopf2__hinweis { color: var(--k-grau); font-size: 12px; }
+.kopf2__erweitert { border-top: 1px solid rgba(0,0,0,.1); padding-top: 8px; font-size: 14px; }
+.kopf2__erweitert summary { cursor: pointer; color: var(--k-grau); }
+.kopf2__erweitert[open] summary { margin-bottom: 8px; }

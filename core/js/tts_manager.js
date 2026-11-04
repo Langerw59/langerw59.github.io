@@ -68,6 +68,7 @@
     if (Array.isArray(list) && list.length) {
       voicesCache = list;
       voicesReady = true;
+      stimmenUIFuellen();
       voicesWaiters.forEach((res) => res(list));
       voicesWaiters = [];
     }
@@ -90,11 +91,41 @@
     });
   }
 
+  // 2026-11-04: gewählte Stimme (⚙️ in der Kopfleiste) gilt auf allen Seiten
+  const STIMME_KEY = "LL_TTS_STIMME_";
+  function gespeicherteStimme(base) {
+    try { return localStorage.getItem(STIMME_KEY + base) || ""; } catch (e) { return ""; }
+  }
+  function istOnline(v) { return /Online|Natural/i.test(v.name); }
+
+  function stimmenUIFuellen() {
+    document.querySelectorAll("select[data-stimme]").forEach((sel) => {
+      const base = sel.dataset.stimme;
+      const liste = voicesCache.filter((v) => (v.lang || "").toLowerCase().indexOf(base) === 0);
+      const akt = gespeicherteStimme(base);
+      sel.innerHTML = '<option value="">Automatisch (empfohlen)</option>' + liste.map((v) => {
+        const n = v.name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+        return '<option value="' + n + '"' + (v.name === akt ? " selected" : "") + ">" + (istOnline(v) ? "🌐 " : "⚡ ") + n + "</option>";
+      }).join("");
+      if (sel.dataset.gebunden === "1") return;
+      sel.dataset.gebunden = "1";
+      sel.addEventListener("change", () => {
+        try { localStorage.setItem(STIMME_KEY + base, sel.value); } catch (e) {}
+        speak(base === "de" ? "Guten Tag! Das ist die Stimme." : "Hello! This is the voice.", base);
+      });
+    });
+  }
+
   function findVoice(locale) {
     if (!voicesCache.length) refreshVoices();
     if (!voicesCache.length) return null;
     const target = (locale || "en-US").toLowerCase();
     const base = target.split("-")[0];
+    const wunsch = gespeicherteStimme(base);
+    if (wunsch) {
+      const w = voicesCache.find((v) => v.name === wunsch);
+      if (w) return w;
+    }
 
     const exact = voicesCache.find((v) => v.lang && v.lang.toLowerCase() === target);
     if (exact) return exact;
@@ -144,6 +175,7 @@
   }
 
   function bindProfileUI() {
+    stimmenUIFuellen();
     const select = document.getElementById("ttsProfileSelect");
     const note = document.getElementById("ttsProfileNote");
     const info = document.getElementById("ttsProfileInfo");

@@ -39,17 +39,31 @@
   <div class="kopf2__panel" id="kopf2Panel" hidden>
     <div class="kopf2__panel-titel">Einstellungen <small>· Настройки</small></div>
 
-    <div class="audio-system kopf2__feld">
-      <label for="ttsProfileSelect">🔊 Audio-System <small>(Sprachausgabe / озвучка)</small></label>
-      <select id="ttsProfileSelect">
-        <option value="auto">Auto (empfohlen)</option>
-        <option value="ios">iPhone / iPad (iOS)</option>
-        <option value="android">Android (Samsung/Tablet/TV)</option>
-        <option value="desktop">PC/Laptop (Windows/macOS/Linux)</option>
-      </select>
-      <span id="ttsProfileInfo" class="audio-info" tabindex="0" role="button" aria-label="Audio-System Info">ⓘ Was ist das?</span>
-      <div id="ttsProfileNote" class="audio-note"></div>
+    <!-- 2026-11-04: Stimme für alle Seiten (Glossar, SprachBox, Spiele) / голос для всех страниц -->
+    <div class="kopf2__feld">
+      <label for="kopf2StimmeEn">🇬🇧 die Stimme Englisch <small>(голос английский)</small></label>
+      <select id="kopf2StimmeEn" data-stimme="en"><option value="">Automatisch (empfohlen)</option></select>
     </div>
+    <div class="kopf2__feld">
+      <label for="kopf2StimmeDe">🇩🇪 die Stimme Deutsch <small>(голос немецкий)</small></label>
+      <select id="kopf2StimmeDe" data-stimme="de"><option value="">Automatisch (empfohlen)</option></select>
+      <small class="kopf2__hinweis">⚡ schnell · 🌐 online (langsam) – beim Wählen hörst du eine Probe.</small>
+    </div>
+
+    <details class="kopf2__erweitert">
+      <summary>Erweitert <small>(дополнительно)</small></summary>
+      <div class="audio-system kopf2__feld">
+        <label for="ttsProfileSelect">🔊 das Audio-System <small>(Sprachausgabe / озвучка)</small></label>
+        <select id="ttsProfileSelect">
+          <option value="auto">Auto (empfohlen)</option>
+          <option value="ios">iPhone / iPad (iOS)</option>
+          <option value="android">Android (Samsung/Tablet/TV)</option>
+          <option value="desktop">PC/Laptop (Windows/macOS/Linux)</option>
+        </select>
+        <span id="ttsProfileInfo" class="audio-info" tabindex="0" role="button" aria-label="Audio-System Info">ⓘ Was ist das?</span>
+        <div id="ttsProfileNote" class="audio-note"></div>
+      </div>
+    </details>
 
     <div class="kopf2__feld">
       <span>Ansicht <small>(вид)</small></span>

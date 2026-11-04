@@ -87,9 +87,9 @@
             <button type="button" id="neuLangsam">🐢 Langsam</button>
             <button type="button" id="neuSpeichern" class="gl-knopf">➕ Ins Glossar</button>
           </div>
-          <div class="gl-neu-zeile" style="margin-top:8px;font-size:.9rem">
-            <label for="neuStimme">Stimme / голос:</label>
-            <select id="neuStimme" style="font:inherit;padding:5px 8px;border-radius:8px;flex:1;min-width:200px"></select>
+          <div class="gl-neu-zeile" style="margin-top:8px;font-size:.85rem;color:#6b7280">
+            <!-- 2026-11-04: die Stimme wird jetzt oben im ⚙️-Fenster gewählt (gilt für alle Seiten) -->
+            <span>🔊 die Stimme / голос: <button type="button" id="neuStimmeOeffnen" style="font:inherit;padding:2px 8px;border-radius:8px">⚙️ oben ändern</button></span>
           </div>
           <div class="gl-neu-msg" id="neuMsg"></div>
         </div>
@@ -183,7 +183,7 @@
       function stimmenFuer(sprache) { const code = (SPRACHEN[sprache] || "en-GB").slice(0, 2); return stimmenListe.filter((x) => (x.lang || "").toLowerCase().indexOf(code) === 0); }
       function stimmeFuer(sprache) {
         const v = stimmenFuer(sprache); if (!v.length) return null;
-        let gespeichert = ""; try { gespeichert = localStorage.getItem(LS_STIMME + sprache) || ""; } catch (e) {}
+        let gespeichert = ""; try { gespeichert = localStorage.getItem("LL_TTS_STIMME_" + sprache) || localStorage.getItem(LS_STIMME + sprache) || ""; } catch (e) {}
         const voll = (SPRACHEN[sprache] || "en-GB").toLowerCase();
         return v.find((x) => x.name === gespeichert)
           || v.find((x) => !istOnline(x) && (x.lang || "").toLowerCase().replace("_", "-") === voll)
@@ -544,9 +544,11 @@
           ? v.map((x) => `<option value="${esc(x.name)}" ${akt && akt.name === x.name ? "selected" : ""}>${istOnline(x) ? "🌐 online (langsam)" : "⚡ schnell"} – ${esc(x.name)}</option>`).join("")
           : "<option>Standard</option>";
       }
-      $("neuStimme").addEventListener("change", (ev) => {
-        try { localStorage.setItem(LS_STIMME + neuSprache, ev.target.value); } catch (e) {}
-        sprechen(neuSprache === "de" ? "Guten Tag" : "Hello", neuSprache);
+      $("neuStimmeOeffnen").addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        const k = document.getElementById("kopf2Einst"); if (!k) return;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        const p = document.getElementById("kopf2Panel"); if (p && p.hidden) k.click();
       });
       const neuMsg = (t, ok) => { $("neuMsg").textContent = t; $("neuMsg").className = "gl-neu-msg" + (ok ? " ok" : ""); };
       $("neuBox").addEventListener("click", (ev) => {
