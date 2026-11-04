@@ -1,0 +1,1449 @@
+{
+ "meta": {
+  "title": "SprachBox DE→EN – Lektionen Level 1–2",
+  "created": "2026-11-02",
+  "info": "Je Lektion 6 Sätze. Die App zeigt die Lektionen der Reihe nach."
+ },
+ "items": [
+  {
+   "id": "lek-L1-01-1",
+   "order": 1,
+   "lesson": "L1-01",
+   "topic": "L1-01 Begrüßung",
+   "stufe": "1",
+   "de": "Hallo!",
+   "en": "Hello!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-01-2",
+   "order": 2,
+   "lesson": "L1-01",
+   "topic": "L1-01 Begrüßung",
+   "stufe": "1",
+   "de": "Guten Morgen!",
+   "en": "Good morning!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-01-3",
+   "order": 3,
+   "lesson": "L1-01",
+   "topic": "L1-01 Begrüßung",
+   "stufe": "1",
+   "de": "Wie geht es Ihnen?",
+   "en": "How are you?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-01-4",
+   "order": 4,
+   "lesson": "L1-01",
+   "topic": "L1-01 Begrüßung",
+   "stufe": "1",
+   "de": "Mir geht es gut.",
+   "en": "I'm fine.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-01-5",
+   "order": 5,
+   "lesson": "L1-01",
+   "topic": "L1-01 Begrüßung",
+   "stufe": "1",
+   "de": "Danke!",
+   "en": "Thank you!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-01-6",
+   "order": 6,
+   "lesson": "L1-01",
+   "topic": "L1-01 Begrüßung",
+   "stufe": "1",
+   "de": "Tschüss!",
+   "en": "Bye!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-02-1",
+   "order": 7,
+   "lesson": "L1-02",
+   "topic": "L1-02 Ich über mich",
+   "stufe": "1",
+   "de": "Ich heiße Wladimir.",
+   "en": "My name is Wladimir.",
+   "mnemo": "Muster: Ich bin … = I'm …"
+  },
+  {
+   "id": "lek-L1-02-2",
+   "order": 8,
+   "lesson": "L1-02",
+   "topic": "L1-02 Ich über mich",
+   "stufe": "1",
+   "de": "Ich bin aus Deutschland.",
+   "en": "I'm from Germany.",
+   "mnemo": "Muster: Ich bin … = I'm …"
+  },
+  {
+   "id": "lek-L1-02-3",
+   "order": 9,
+   "lesson": "L1-02",
+   "topic": "L1-02 Ich über mich",
+   "stufe": "1",
+   "de": "Ich wohne in Willich.",
+   "en": "I live in Willich.",
+   "mnemo": "Muster: Ich bin … = I'm …"
+  },
+  {
+   "id": "lek-L1-02-4",
+   "order": 10,
+   "lesson": "L1-02",
+   "topic": "L1-02 Ich über mich",
+   "stufe": "1",
+   "de": "Ich bin Rentner.",
+   "en": "I'm retired.",
+   "mnemo": "Muster: Ich bin … = I'm …"
+  },
+  {
+   "id": "lek-L1-02-5",
+   "order": 11,
+   "lesson": "L1-02",
+   "topic": "L1-02 Ich über mich",
+   "stufe": "1",
+   "de": "Ich war Lehrer.",
+   "en": "I was a teacher.",
+   "mnemo": "Muster: Ich bin … = I'm …"
+  },
+  {
+   "id": "lek-L1-02-6",
+   "order": 12,
+   "lesson": "L1-02",
+   "topic": "L1-02 Ich über mich",
+   "stufe": "1",
+   "de": "Freut mich!",
+   "en": "Nice to meet you!",
+   "mnemo": "Muster: Ich bin … = I'm …"
+  },
+  {
+   "id": "lek-L1-03-1",
+   "order": 13,
+   "lesson": "L1-03",
+   "topic": "L1-03 Ja, nein, bitte",
+   "stufe": "1",
+   "de": "Ja, bitte.",
+   "en": "Yes, please.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-03-2",
+   "order": 14,
+   "lesson": "L1-03",
+   "topic": "L1-03 Ja, nein, bitte",
+   "stufe": "1",
+   "de": "Nein, danke.",
+   "en": "No, thank you.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-03-3",
+   "order": 15,
+   "lesson": "L1-03",
+   "topic": "L1-03 Ja, nein, bitte",
+   "stufe": "1",
+   "de": "Bitte schön.",
+   "en": "You're welcome.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-03-4",
+   "order": 16,
+   "lesson": "L1-03",
+   "topic": "L1-03 Ja, nein, bitte",
+   "stufe": "1",
+   "de": "Entschuldigung!",
+   "en": "Excuse me!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-03-5",
+   "order": 17,
+   "lesson": "L1-03",
+   "topic": "L1-03 Ja, nein, bitte",
+   "stufe": "1",
+   "de": "Kein Problem.",
+   "en": "No problem.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-03-6",
+   "order": 18,
+   "lesson": "L1-03",
+   "topic": "L1-03 Ja, nein, bitte",
+   "stufe": "1",
+   "de": "Einen Moment, bitte.",
+   "en": "One moment, please.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-04-1",
+   "order": 19,
+   "lesson": "L1-04",
+   "topic": "L1-04 Ich verstehe nicht",
+   "stufe": "1",
+   "de": "Ich verstehe nicht.",
+   "en": "I don't understand.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-04-2",
+   "order": 20,
+   "lesson": "L1-04",
+   "topic": "L1-04 Ich verstehe nicht",
+   "stufe": "1",
+   "de": "Langsam, bitte.",
+   "en": "Slowly, please.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-04-3",
+   "order": 21,
+   "lesson": "L1-04",
+   "topic": "L1-04 Ich verstehe nicht",
+   "stufe": "1",
+   "de": "Noch einmal, bitte.",
+   "en": "Again, please.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-04-4",
+   "order": 22,
+   "lesson": "L1-04",
+   "topic": "L1-04 Ich verstehe nicht",
+   "stufe": "1",
+   "de": "Sprechen Sie Deutsch?",
+   "en": "Do you speak German?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-04-5",
+   "order": 23,
+   "lesson": "L1-04",
+   "topic": "L1-04 Ich verstehe nicht",
+   "stufe": "1",
+   "de": "Ich spreche ein bisschen Englisch.",
+   "en": "I speak a little English.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-04-6",
+   "order": 24,
+   "lesson": "L1-04",
+   "topic": "L1-04 Ich verstehe nicht",
+   "stufe": "1",
+   "de": "Was bedeutet das?",
+   "en": "What does that mean?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-05-1",
+   "order": 25,
+   "lesson": "L1-05",
+   "topic": "L1-05 Familie",
+   "stufe": "1",
+   "de": "Das ist meine Frau.",
+   "en": "This is my wife.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-05-2",
+   "order": 26,
+   "lesson": "L1-05",
+   "topic": "L1-05 Familie",
+   "stufe": "1",
+   "de": "Ich habe zwei Söhne.",
+   "en": "I have two sons.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-05-3",
+   "order": 27,
+   "lesson": "L1-05",
+   "topic": "L1-05 Familie",
+   "stufe": "1",
+   "de": "Ich habe Enkelkinder.",
+   "en": "I have grandchildren.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-05-4",
+   "order": 28,
+   "lesson": "L1-05",
+   "topic": "L1-05 Familie",
+   "stufe": "1",
+   "de": "Das ist mein Enkel.",
+   "en": "This is my grandson.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-05-5",
+   "order": 29,
+   "lesson": "L1-05",
+   "topic": "L1-05 Familie",
+   "stufe": "1",
+   "de": "Mein Sohn ist Programmierer.",
+   "en": "My son is a programmer.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-05-6",
+   "order": 30,
+   "lesson": "L1-05",
+   "topic": "L1-05 Familie",
+   "stufe": "1",
+   "de": "Meine Familie ist groß.",
+   "en": "My family is big.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-06-1",
+   "order": 31,
+   "lesson": "L1-06",
+   "topic": "L1-06 Ich habe …",
+   "stufe": "1",
+   "de": "Ich habe ein Auto.",
+   "en": "I have a car.",
+   "mnemo": "Muster: Ich habe … = I have …"
+  },
+  {
+   "id": "lek-L1-06-2",
+   "order": 32,
+   "lesson": "L1-06",
+   "topic": "L1-06 Ich habe …",
+   "stufe": "1",
+   "de": "Ich habe ein Haus.",
+   "en": "I have a house.",
+   "mnemo": "Muster: Ich habe … = I have …"
+  },
+  {
+   "id": "lek-L1-06-3",
+   "order": 33,
+   "lesson": "L1-06",
+   "topic": "L1-06 Ich habe …",
+   "stufe": "1",
+   "de": "Ich habe einen Garten.",
+   "en": "I have a garden.",
+   "mnemo": "Muster: Ich habe … = I have …"
+  },
+  {
+   "id": "lek-L1-06-4",
+   "order": 34,
+   "lesson": "L1-06",
+   "topic": "L1-06 Ich habe …",
+   "stufe": "1",
+   "de": "Ich habe einen Wohnwagen.",
+   "en": "I have a caravan.",
+   "mnemo": "Muster: Ich habe … = I have …"
+  },
+  {
+   "id": "lek-L1-06-5",
+   "order": 35,
+   "lesson": "L1-06",
+   "topic": "L1-06 Ich habe …",
+   "stufe": "1",
+   "de": "Ich habe keine Zeit.",
+   "en": "I have no time.",
+   "mnemo": "Muster: Ich habe … = I have …"
+  },
+  {
+   "id": "lek-L1-06-6",
+   "order": 36,
+   "lesson": "L1-06",
+   "topic": "L1-06 Ich habe …",
+   "stufe": "1",
+   "de": "Hast du Zeit?",
+   "en": "Do you have time?",
+   "mnemo": "Muster: Ich habe … = I have …"
+  },
+  {
+   "id": "lek-L1-07-1",
+   "order": 37,
+   "lesson": "L1-07",
+   "topic": "L1-07 Ich brauche …",
+   "stufe": "1",
+   "de": "Ich brauche Hilfe.",
+   "en": "I need help.",
+   "mnemo": "Muster: Ich brauche … = I need …"
+  },
+  {
+   "id": "lek-L1-07-2",
+   "order": 38,
+   "lesson": "L1-07",
+   "topic": "L1-07 Ich brauche …",
+   "stufe": "1",
+   "de": "Ich brauche Wasser.",
+   "en": "I need water.",
+   "mnemo": "Muster: Ich brauche … = I need …"
+  },
+  {
+   "id": "lek-L1-07-3",
+   "order": 39,
+   "lesson": "L1-07",
+   "topic": "L1-07 Ich brauche …",
+   "stufe": "1",
+   "de": "Ich brauche einen Arzt.",
+   "en": "I need a doctor.",
+   "mnemo": "Muster: Ich brauche … = I need …"
+  },
+  {
+   "id": "lek-L1-07-4",
+   "order": 40,
+   "lesson": "L1-07",
+   "topic": "L1-07 Ich brauche …",
+   "stufe": "1",
+   "de": "Ich brauche das nicht.",
+   "en": "I don't need that.",
+   "mnemo": "Muster: Ich brauche … = I need …"
+  },
+  {
+   "id": "lek-L1-07-5",
+   "order": 41,
+   "lesson": "L1-07",
+   "topic": "L1-07 Ich brauche …",
+   "stufe": "1",
+   "de": "Brauchen Sie Hilfe?",
+   "en": "Do you need help?",
+   "mnemo": "Muster: Ich brauche … = I need …"
+  },
+  {
+   "id": "lek-L1-07-6",
+   "order": 42,
+   "lesson": "L1-07",
+   "topic": "L1-07 Ich brauche …",
+   "stufe": "1",
+   "de": "Was brauchst du?",
+   "en": "What do you need?",
+   "mnemo": "Muster: Ich brauche … = I need …"
+  },
+  {
+   "id": "lek-L1-08-1",
+   "order": 43,
+   "lesson": "L1-08",
+   "topic": "L1-08 Wo ist …?",
+   "stufe": "1",
+   "de": "Wo ist die Toilette?",
+   "en": "Where is the restroom?",
+   "mnemo": "Muster: Wo ist …? = Where is …?"
+  },
+  {
+   "id": "lek-L1-08-2",
+   "order": 44,
+   "lesson": "L1-08",
+   "topic": "L1-08 Wo ist …?",
+   "stufe": "1",
+   "de": "Wo ist der Bahnhof?",
+   "en": "Where is the train station?",
+   "mnemo": "Muster: Wo ist …? = Where is …?"
+  },
+  {
+   "id": "lek-L1-08-3",
+   "order": 45,
+   "lesson": "L1-08",
+   "topic": "L1-08 Wo ist …?",
+   "stufe": "1",
+   "de": "Wo ist mein Auto?",
+   "en": "Where is my car?",
+   "mnemo": "Muster: Wo ist …? = Where is …?"
+  },
+  {
+   "id": "lek-L1-08-4",
+   "order": 46,
+   "lesson": "L1-08",
+   "topic": "L1-08 Wo ist …?",
+   "stufe": "1",
+   "de": "Es ist hier.",
+   "en": "It's here.",
+   "mnemo": "Muster: Wo ist …? = Where is …?"
+  },
+  {
+   "id": "lek-L1-08-5",
+   "order": 47,
+   "lesson": "L1-08",
+   "topic": "L1-08 Wo ist …?",
+   "stufe": "1",
+   "de": "Es ist dort drüben.",
+   "en": "It's over there.",
+   "mnemo": "Muster: Wo ist …? = Where is …?"
+  },
+  {
+   "id": "lek-L1-08-6",
+   "order": 48,
+   "lesson": "L1-08",
+   "topic": "L1-08 Wo ist …?",
+   "stufe": "1",
+   "de": "Links oder rechts?",
+   "en": "Left or right?",
+   "mnemo": "Muster: Wo ist …? = Where is …?"
+  },
+  {
+   "id": "lek-L1-09-1",
+   "order": 49,
+   "lesson": "L1-09",
+   "topic": "L1-09 Ich möchte …",
+   "stufe": "1",
+   "de": "Ich möchte einen Kaffee.",
+   "en": "I'd like a coffee.",
+   "mnemo": "Muster: Ich möchte … = I'd like …"
+  },
+  {
+   "id": "lek-L1-09-2",
+   "order": 50,
+   "lesson": "L1-09",
+   "topic": "L1-09 Ich möchte …",
+   "stufe": "1",
+   "de": "Ein Wasser, bitte.",
+   "en": "A water, please.",
+   "mnemo": "Muster: Ich möchte … = I'd like …"
+  },
+  {
+   "id": "lek-L1-09-3",
+   "order": 51,
+   "lesson": "L1-09",
+   "topic": "L1-09 Ich möchte …",
+   "stufe": "1",
+   "de": "Ich möchte das hier.",
+   "en": "I'd like this one.",
+   "mnemo": "Muster: Ich möchte … = I'd like …"
+  },
+  {
+   "id": "lek-L1-09-4",
+   "order": 52,
+   "lesson": "L1-09",
+   "topic": "L1-09 Ich möchte …",
+   "stufe": "1",
+   "de": "Ich möchte bezahlen.",
+   "en": "I'd like to pay.",
+   "mnemo": "Muster: Ich möchte … = I'd like …"
+  },
+  {
+   "id": "lek-L1-09-5",
+   "order": 53,
+   "lesson": "L1-09",
+   "topic": "L1-09 Ich möchte …",
+   "stufe": "1",
+   "de": "Was möchten Sie?",
+   "en": "What would you like?",
+   "mnemo": "Muster: Ich möchte … = I'd like …"
+  },
+  {
+   "id": "lek-L1-09-6",
+   "order": 54,
+   "lesson": "L1-09",
+   "topic": "L1-09 Ich möchte …",
+   "stufe": "1",
+   "de": "Ich möchte nach Hause.",
+   "en": "I want to go home.",
+   "mnemo": "Muster: Ich möchte … = I'd like …"
+  },
+  {
+   "id": "lek-L1-10-1",
+   "order": 55,
+   "lesson": "L1-10",
+   "topic": "L1-10 Preise",
+   "stufe": "1",
+   "de": "Wie viel kostet das?",
+   "en": "How much is this?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-10-2",
+   "order": 56,
+   "lesson": "L1-10",
+   "topic": "L1-10 Preise",
+   "stufe": "1",
+   "de": "Zehn Euro.",
+   "en": "Ten euros.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-10-3",
+   "order": 57,
+   "lesson": "L1-10",
+   "topic": "L1-10 Preise",
+   "stufe": "1",
+   "de": "Das ist teuer.",
+   "en": "That's expensive.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-10-4",
+   "order": 58,
+   "lesson": "L1-10",
+   "topic": "L1-10 Preise",
+   "stufe": "1",
+   "de": "Das ist billig.",
+   "en": "That's cheap.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-10-5",
+   "order": 59,
+   "lesson": "L1-10",
+   "topic": "L1-10 Preise",
+   "stufe": "1",
+   "de": "Kann ich mit Karte zahlen?",
+   "en": "Can I pay by card?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-10-6",
+   "order": 60,
+   "lesson": "L1-10",
+   "topic": "L1-10 Preise",
+   "stufe": "1",
+   "de": "Die Rechnung, bitte.",
+   "en": "The check, please.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-11-1",
+   "order": 61,
+   "lesson": "L1-11",
+   "topic": "L1-11 Zeit",
+   "stufe": "1",
+   "de": "Wie spät ist es?",
+   "en": "What time is it?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-11-2",
+   "order": 62,
+   "lesson": "L1-11",
+   "topic": "L1-11 Zeit",
+   "stufe": "1",
+   "de": "Es ist acht Uhr.",
+   "en": "It's eight o'clock.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-11-3",
+   "order": 63,
+   "lesson": "L1-11",
+   "topic": "L1-11 Zeit",
+   "stufe": "1",
+   "de": "Heute habe ich Zeit.",
+   "en": "Today I have time.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-11-4",
+   "order": 64,
+   "lesson": "L1-11",
+   "topic": "L1-11 Zeit",
+   "stufe": "1",
+   "de": "Jetzt nicht.",
+   "en": "Not now.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-11-5",
+   "order": 65,
+   "lesson": "L1-11",
+   "topic": "L1-11 Zeit",
+   "stufe": "1",
+   "de": "Später.",
+   "en": "Later.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-11-6",
+   "order": 66,
+   "lesson": "L1-11",
+   "topic": "L1-11 Zeit",
+   "stufe": "1",
+   "de": "Bis morgen!",
+   "en": "See you tomorrow!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-12-1",
+   "order": 67,
+   "lesson": "L1-12",
+   "topic": "L1-12 Wetter",
+   "stufe": "1",
+   "de": "Es ist kalt.",
+   "en": "It's cold.",
+   "mnemo": "Muster: Es ist … = It's …"
+  },
+  {
+   "id": "lek-L1-12-2",
+   "order": 68,
+   "lesson": "L1-12",
+   "topic": "L1-12 Wetter",
+   "stufe": "1",
+   "de": "Es ist warm.",
+   "en": "It's warm.",
+   "mnemo": "Muster: Es ist … = It's …"
+  },
+  {
+   "id": "lek-L1-12-3",
+   "order": 69,
+   "lesson": "L1-12",
+   "topic": "L1-12 Wetter",
+   "stufe": "1",
+   "de": "Es regnet.",
+   "en": "It's raining.",
+   "mnemo": "Muster: Es ist … = It's …"
+  },
+  {
+   "id": "lek-L1-12-4",
+   "order": 70,
+   "lesson": "L1-12",
+   "topic": "L1-12 Wetter",
+   "stufe": "1",
+   "de": "Die Sonne scheint.",
+   "en": "The sun is shining.",
+   "mnemo": "Muster: Es ist … = It's …"
+  },
+  {
+   "id": "lek-L1-12-5",
+   "order": 71,
+   "lesson": "L1-12",
+   "topic": "L1-12 Wetter",
+   "stufe": "1",
+   "de": "Es ist windig.",
+   "en": "It's windy.",
+   "mnemo": "Muster: Es ist … = It's …"
+  },
+  {
+   "id": "lek-L1-12-6",
+   "order": 72,
+   "lesson": "L1-12",
+   "topic": "L1-12 Wetter",
+   "stufe": "1",
+   "de": "Das Wetter ist schön.",
+   "en": "The weather is nice.",
+   "mnemo": "Muster: Es ist … = It's …"
+  },
+  {
+   "id": "lek-L1-13-1",
+   "order": 73,
+   "lesson": "L1-13",
+   "topic": "L1-13 Ich mag …",
+   "stufe": "1",
+   "de": "Ich mag Kaffee.",
+   "en": "I like coffee.",
+   "mnemo": "Muster: Ich mag … = I like …"
+  },
+  {
+   "id": "lek-L1-13-2",
+   "order": 74,
+   "lesson": "L1-13",
+   "topic": "L1-13 Ich mag …",
+   "stufe": "1",
+   "de": "Ich mag Schach.",
+   "en": "I like chess.",
+   "mnemo": "Muster: Ich mag … = I like …"
+  },
+  {
+   "id": "lek-L1-13-3",
+   "order": 75,
+   "lesson": "L1-13",
+   "topic": "L1-13 Ich mag …",
+   "stufe": "1",
+   "de": "Ich mag das nicht.",
+   "en": "I don't like that.",
+   "mnemo": "Muster: Ich mag … = I like …"
+  },
+  {
+   "id": "lek-L1-13-4",
+   "order": 76,
+   "lesson": "L1-13",
+   "topic": "L1-13 Ich mag …",
+   "stufe": "1",
+   "de": "Magst du Tee?",
+   "en": "Do you like tea?",
+   "mnemo": "Muster: Ich mag … = I like …"
+  },
+  {
+   "id": "lek-L1-13-5",
+   "order": 77,
+   "lesson": "L1-13",
+   "topic": "L1-13 Ich mag …",
+   "stufe": "1",
+   "de": "Das ist gut.",
+   "en": "That's good.",
+   "mnemo": "Muster: Ich mag … = I like …"
+  },
+  {
+   "id": "lek-L1-13-6",
+   "order": 78,
+   "lesson": "L1-13",
+   "topic": "L1-13 Ich mag …",
+   "stufe": "1",
+   "de": "Das ist sehr gut!",
+   "en": "That's very good!",
+   "mnemo": "Muster: Ich mag … = I like …"
+  },
+  {
+   "id": "lek-L1-14-1",
+   "order": 79,
+   "lesson": "L1-14",
+   "topic": "L1-14 Zu Hause",
+   "stufe": "1",
+   "de": "Komm rein!",
+   "en": "Come in!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-14-2",
+   "order": 80,
+   "lesson": "L1-14",
+   "topic": "L1-14 Zu Hause",
+   "stufe": "1",
+   "de": "Setz dich, bitte.",
+   "en": "Please sit down.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-14-3",
+   "order": 81,
+   "lesson": "L1-14",
+   "topic": "L1-14 Zu Hause",
+   "stufe": "1",
+   "de": "Möchtest du etwas trinken?",
+   "en": "Would you like something to drink?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-14-4",
+   "order": 82,
+   "lesson": "L1-14",
+   "topic": "L1-14 Zu Hause",
+   "stufe": "1",
+   "de": "Das Essen ist fertig.",
+   "en": "The food is ready.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-14-5",
+   "order": 83,
+   "lesson": "L1-14",
+   "topic": "L1-14 Zu Hause",
+   "stufe": "1",
+   "de": "Guten Appetit!",
+   "en": "Enjoy your meal!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-14-6",
+   "order": 84,
+   "lesson": "L1-14",
+   "topic": "L1-14 Zu Hause",
+   "stufe": "1",
+   "de": "Gute Nacht!",
+   "en": "Good night!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-15-1",
+   "order": 85,
+   "lesson": "L1-15",
+   "topic": "L1-15 Auto",
+   "stufe": "1",
+   "de": "Das Auto ist kaputt.",
+   "en": "The car is broken.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-15-2",
+   "order": 86,
+   "lesson": "L1-15",
+   "topic": "L1-15 Auto",
+   "stufe": "1",
+   "de": "Der Motor ist laut.",
+   "en": "The engine is loud.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-15-3",
+   "order": 87,
+   "lesson": "L1-15",
+   "topic": "L1-15 Auto",
+   "stufe": "1",
+   "de": "Ich brauche neue Reifen.",
+   "en": "I need new tires.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-15-4",
+   "order": 88,
+   "lesson": "L1-15",
+   "topic": "L1-15 Auto",
+   "stufe": "1",
+   "de": "Wo ist die Werkstatt?",
+   "en": "Where is the repair shop?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-15-5",
+   "order": 89,
+   "lesson": "L1-15",
+   "topic": "L1-15 Auto",
+   "stufe": "1",
+   "de": "Volltanken, bitte.",
+   "en": "Fill it up, please.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-15-6",
+   "order": 90,
+   "lesson": "L1-15",
+   "topic": "L1-15 Auto",
+   "stufe": "1",
+   "de": "Wann ist es fertig?",
+   "en": "When will it be ready?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-16-1",
+   "order": 91,
+   "lesson": "L1-16",
+   "topic": "L1-16 Notfall",
+   "stufe": "1",
+   "de": "Hilfe!",
+   "en": "Help!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-16-2",
+   "order": 92,
+   "lesson": "L1-16",
+   "topic": "L1-16 Notfall",
+   "stufe": "1",
+   "de": "Ich bin krank.",
+   "en": "I'm sick.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-16-3",
+   "order": 93,
+   "lesson": "L1-16",
+   "topic": "L1-16 Notfall",
+   "stufe": "1",
+   "de": "Es tut weh.",
+   "en": "It hurts.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-16-4",
+   "order": 94,
+   "lesson": "L1-16",
+   "topic": "L1-16 Notfall",
+   "stufe": "1",
+   "de": "Rufen Sie einen Krankenwagen!",
+   "en": "Call an ambulance!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-16-5",
+   "order": 95,
+   "lesson": "L1-16",
+   "topic": "L1-16 Notfall",
+   "stufe": "1",
+   "de": "Wo ist das Krankenhaus?",
+   "en": "Where is the hospital?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L1-16-6",
+   "order": 96,
+   "lesson": "L1-16",
+   "topic": "L1-16 Notfall",
+   "stufe": "1",
+   "de": "Bitte schnell!",
+   "en": "Quickly, please!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-01-1",
+   "order": 97,
+   "lesson": "L2-01",
+   "topic": "L2-01 Fragen stellen",
+   "stufe": "2",
+   "de": "Können Sie mir helfen?",
+   "en": "Can you help me?",
+   "mnemo": "Muster: Can you …? / Where can I …?"
+  },
+  {
+   "id": "lek-L2-01-2",
+   "order": 98,
+   "lesson": "L2-01",
+   "topic": "L2-01 Fragen stellen",
+   "stufe": "2",
+   "de": "Darf ich etwas fragen?",
+   "en": "May I ask something?",
+   "mnemo": "Muster: Can you …? / Where can I …?"
+  },
+  {
+   "id": "lek-L2-01-3",
+   "order": 99,
+   "lesson": "L2-01",
+   "topic": "L2-01 Fragen stellen",
+   "stufe": "2",
+   "de": "Wo kann ich parken?",
+   "en": "Where can I park?",
+   "mnemo": "Muster: Can you …? / Where can I …?"
+  },
+  {
+   "id": "lek-L2-01-4",
+   "order": 100,
+   "lesson": "L2-01",
+   "topic": "L2-01 Fragen stellen",
+   "stufe": "2",
+   "de": "Gibt es hier ein Café?",
+   "en": "Is there a café here?",
+   "mnemo": "Muster: Can you …? / Where can I …?"
+  },
+  {
+   "id": "lek-L2-01-5",
+   "order": 101,
+   "lesson": "L2-01",
+   "topic": "L2-01 Fragen stellen",
+   "stufe": "2",
+   "de": "Wann öffnet der Laden?",
+   "en": "When does the store open?",
+   "mnemo": "Muster: Can you …? / Where can I …?"
+  },
+  {
+   "id": "lek-L2-01-6",
+   "order": 102,
+   "lesson": "L2-01",
+   "topic": "L2-01 Fragen stellen",
+   "stufe": "2",
+   "de": "Wie komme ich zum Bahnhof?",
+   "en": "How do I get to the train station?",
+   "mnemo": "Muster: Can you …? / Where can I …?"
+  },
+  {
+   "id": "lek-L2-02-1",
+   "order": 103,
+   "lesson": "L2-02",
+   "topic": "L2-02 Im Restaurant",
+   "stufe": "2",
+   "de": "Einen Tisch für zwei, bitte.",
+   "en": "A table for two, please.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-02-2",
+   "order": 104,
+   "lesson": "L2-02",
+   "topic": "L2-02 Im Restaurant",
+   "stufe": "2",
+   "de": "Die Speisekarte, bitte.",
+   "en": "The menu, please.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-02-3",
+   "order": 105,
+   "lesson": "L2-02",
+   "topic": "L2-02 Im Restaurant",
+   "stufe": "2",
+   "de": "Was empfehlen Sie?",
+   "en": "What do you recommend?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-02-4",
+   "order": 106,
+   "lesson": "L2-02",
+   "topic": "L2-02 Im Restaurant",
+   "stufe": "2",
+   "de": "Ich nehme die Suppe.",
+   "en": "I'll have the soup.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-02-5",
+   "order": 107,
+   "lesson": "L2-02",
+   "topic": "L2-02 Im Restaurant",
+   "stufe": "2",
+   "de": "Ohne Zucker, bitte.",
+   "en": "Without sugar, please.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-02-6",
+   "order": 108,
+   "lesson": "L2-02",
+   "topic": "L2-02 Im Restaurant",
+   "stufe": "2",
+   "de": "Es hat sehr gut geschmeckt.",
+   "en": "It was delicious.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-03-1",
+   "order": 109,
+   "lesson": "L2-03",
+   "topic": "L2-03 Einkaufen",
+   "stufe": "2",
+   "de": "Ich suche eine Jacke.",
+   "en": "I'm looking for a jacket.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-03-2",
+   "order": 110,
+   "lesson": "L2-03",
+   "topic": "L2-03 Einkaufen",
+   "stufe": "2",
+   "de": "Haben Sie das in Größe L?",
+   "en": "Do you have this in size L?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-03-3",
+   "order": 111,
+   "lesson": "L2-03",
+   "topic": "L2-03 Einkaufen",
+   "stufe": "2",
+   "de": "Kann ich das anprobieren?",
+   "en": "Can I try this on?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-03-4",
+   "order": 112,
+   "lesson": "L2-03",
+   "topic": "L2-03 Einkaufen",
+   "stufe": "2",
+   "de": "Ich schaue nur.",
+   "en": "I'm just looking.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-03-5",
+   "order": 113,
+   "lesson": "L2-03",
+   "topic": "L2-03 Einkaufen",
+   "stufe": "2",
+   "de": "Das nehme ich.",
+   "en": "I'll take it.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-03-6",
+   "order": 114,
+   "lesson": "L2-03",
+   "topic": "L2-03 Einkaufen",
+   "stufe": "2",
+   "de": "Kann ich eine Tüte haben?",
+   "en": "Can I have a bag?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-04-1",
+   "order": 115,
+   "lesson": "L2-04",
+   "topic": "L2-04 Mit dem Wohnwagen",
+   "stufe": "2",
+   "de": "Wir sind mit dem Wohnwagen unterwegs.",
+   "en": "We're traveling with our caravan.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-04-2",
+   "order": 116,
+   "lesson": "L2-04",
+   "topic": "L2-04 Mit dem Wohnwagen",
+   "stufe": "2",
+   "de": "Gibt es hier einen Campingplatz?",
+   "en": "Is there a campsite here?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-04-3",
+   "order": 117,
+   "lesson": "L2-04",
+   "topic": "L2-04 Mit dem Wohnwagen",
+   "stufe": "2",
+   "de": "Wir bleiben zwei Nächte.",
+   "en": "We're staying two nights.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-04-4",
+   "order": 118,
+   "lesson": "L2-04",
+   "topic": "L2-04 Mit dem Wohnwagen",
+   "stufe": "2",
+   "de": "Wie viel kostet eine Nacht?",
+   "en": "How much is one night?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-04-5",
+   "order": 119,
+   "lesson": "L2-04",
+   "topic": "L2-04 Mit dem Wohnwagen",
+   "stufe": "2",
+   "de": "Gibt es hier Strom?",
+   "en": "Is there electricity here?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-04-6",
+   "order": 120,
+   "lesson": "L2-04",
+   "topic": "L2-04 Mit dem Wohnwagen",
+   "stufe": "2",
+   "de": "Wo kann ich Wasser auffüllen?",
+   "en": "Where can I fill up water?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-05-1",
+   "order": 121,
+   "lesson": "L2-05",
+   "topic": "L2-05 Gestern",
+   "stufe": "2",
+   "de": "Gestern war ich im Garten.",
+   "en": "Yesterday I was in the garden.",
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+  },
+  {
+   "id": "lek-L2-05-2",
+   "order": 122,
+   "lesson": "L2-05",
+   "topic": "L2-05 Gestern",
+   "stufe": "2",
+   "de": "Ich habe gut geschlafen.",
+   "en": "I slept well.",
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+  },
+  {
+   "id": "lek-L2-05-3",
+   "order": 123,
+   "lesson": "L2-05",
+   "topic": "L2-05 Gestern",
+   "stufe": "2",
+   "de": "Wir haben Freunde besucht.",
+   "en": "We visited friends.",
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+  },
+  {
+   "id": "lek-L2-05-4",
+   "order": 124,
+   "lesson": "L2-05",
+   "topic": "L2-05 Gestern",
+   "stufe": "2",
+   "de": "Ich habe das vergessen.",
+   "en": "I forgot that.",
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+  },
+  {
+   "id": "lek-L2-05-5",
+   "order": 125,
+   "lesson": "L2-05",
+   "topic": "L2-05 Gestern",
+   "stufe": "2",
+   "de": "Was hast du gemacht?",
+   "en": "What did you do?",
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+  },
+  {
+   "id": "lek-L2-05-6",
+   "order": 126,
+   "lesson": "L2-05",
+   "topic": "L2-05 Gestern",
+   "stufe": "2",
+   "de": "Es war ein schöner Tag.",
+   "en": "It was a nice day.",
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+  },
+  {
+   "id": "lek-L2-06-1",
+   "order": 127,
+   "lesson": "L2-06",
+   "topic": "L2-06 Morgen",
+   "stufe": "2",
+   "de": "Morgen fahre ich nach Hannover.",
+   "en": "Tomorrow I'm driving to Hanover.",
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+  },
+  {
+   "id": "lek-L2-06-2",
+   "order": 128,
+   "lesson": "L2-06",
+   "topic": "L2-06 Morgen",
+   "stufe": "2",
+   "de": "Ich besuche meinen Sohn.",
+   "en": "I'm visiting my son.",
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+  },
+  {
+   "id": "lek-L2-06-3",
+   "order": 129,
+   "lesson": "L2-06",
+   "topic": "L2-06 Morgen",
+   "stufe": "2",
+   "de": "Wir fahren am Wochenende weg.",
+   "en": "We're going away for the weekend.",
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+  },
+  {
+   "id": "lek-L2-06-4",
+   "order": 130,
+   "lesson": "L2-06",
+   "topic": "L2-06 Morgen",
+   "stufe": "2",
+   "de": "Was machst du morgen?",
+   "en": "What are you doing tomorrow?",
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+  },
+  {
+   "id": "lek-L2-06-5",
+   "order": 131,
+   "lesson": "L2-06",
+   "topic": "L2-06 Morgen",
+   "stufe": "2",
+   "de": "Ich rufe dich später an.",
+   "en": "I'll call you later.",
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+  },
+  {
+   "id": "lek-L2-06-6",
+   "order": 132,
+   "lesson": "L2-06",
+   "topic": "L2-06 Morgen",
+   "stufe": "2",
+   "de": "Ich komme um sechs Uhr.",
+   "en": "I'll come at six o'clock.",
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+  },
+  {
+   "id": "lek-L2-07-1",
+   "order": 133,
+   "lesson": "L2-07",
+   "topic": "L2-07 Beim Arzt",
+   "stufe": "2",
+   "de": "Ich habe einen Termin.",
+   "en": "I have an appointment.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-07-2",
+   "order": 134,
+   "lesson": "L2-07",
+   "topic": "L2-07 Beim Arzt",
+   "stufe": "2",
+   "de": "Ich habe Kopfschmerzen.",
+   "en": "I have a headache.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-07-3",
+   "order": 135,
+   "lesson": "L2-07",
+   "topic": "L2-07 Beim Arzt",
+   "stufe": "2",
+   "de": "Mein Rücken tut weh.",
+   "en": "My back hurts.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-07-4",
+   "order": 136,
+   "lesson": "L2-07",
+   "topic": "L2-07 Beim Arzt",
+   "stufe": "2",
+   "de": "Seit zwei Tagen.",
+   "en": "For two days.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-07-5",
+   "order": 137,
+   "lesson": "L2-07",
+   "topic": "L2-07 Beim Arzt",
+   "stufe": "2",
+   "de": "Brauche ich ein Rezept?",
+   "en": "Do I need a prescription?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-07-6",
+   "order": 138,
+   "lesson": "L2-07",
+   "topic": "L2-07 Beim Arzt",
+   "stufe": "2",
+   "de": "Wo ist die nächste Apotheke?",
+   "en": "Where is the nearest pharmacy?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-08-1",
+   "order": 139,
+   "lesson": "L2-08",
+   "topic": "L2-08 Mit den Enkeln",
+   "stufe": "2",
+   "de": "Wollen wir Schach spielen?",
+   "en": "Shall we play chess?",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-08-2",
+   "order": 140,
+   "lesson": "L2-08",
+   "topic": "L2-08 Mit den Enkeln",
+   "stufe": "2",
+   "de": "Du hast gewonnen!",
+   "en": "You won!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-08-3",
+   "order": 141,
+   "lesson": "L2-08",
+   "topic": "L2-08 Mit den Enkeln",
+   "stufe": "2",
+   "de": "Das hast du toll gemacht!",
+   "en": "You did a great job!",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-08-4",
+   "order": 142,
+   "lesson": "L2-08",
+   "topic": "L2-08 Mit den Enkeln",
+   "stufe": "2",
+   "de": "Ich bin stolz auf dich.",
+   "en": "I'm proud of you.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-08-5",
+   "order": 143,
+   "lesson": "L2-08",
+   "topic": "L2-08 Mit den Enkeln",
+   "stufe": "2",
+   "de": "Mach deine Hausaufgaben.",
+   "en": "Do your homework.",
+   "mnemo": ""
+  },
+  {
+   "id": "lek-L2-08-6",
+   "order": 144,
+   "lesson": "L2-08",
+   "topic": "L2-08 Mit den Enkeln",
+   "stufe": "2",
+   "de": "Ich hab dich lieb.",
+   "en": "I love you.",
+   "mnemo": ""
+  }
+ ]
+}

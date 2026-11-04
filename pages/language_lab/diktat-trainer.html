@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diktat-Trainer</title>
+<style>
+  :root{
+    --bg:#f5f3ee; --card:#ffffff; --ink:#1d2430; --muted:#6b7280; --line:#e2ded5;
+    --accent:#2f5d8a; --accent-ink:#ffffff;
+    --ok:#1f7a4d; --ok-bg:#e3f4ea; --err:#b3261e; --err-bg:#fbe7e5;
+    --warn:#9a5b00; --warn-bg:#fff1d6; --miss:#c65d00; --miss-bg:#ffe2c4;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.5 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 60px}
+  header{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+  h1{font-size:30px;margin:0;letter-spacing:-.5px}
+  .sub{color:var(--muted);font-size:16px}
+  .bar{display:flex;flex-wrap:wrap;gap:14px;align-items:end;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+  .field{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
+  select{font:inherit;font-size:17px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);min-width:150px}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{font:inherit;font-size:17px;border:0;background:#fff;padding:7px 16px;cursor:pointer;color:var(--ink)}
+  .seg button.on{background:var(--accent);color:var(--accent-ink)}
+  .datainfo{font-size:14px;color:var(--muted);width:100%}
+  .w.klick,.sw-word{cursor:pointer}
+  .w.klick:hover{outline:2px solid var(--accent)}
+  .sw-word{border-radius:4px;padding:0 2px}
+  .sw-word:hover{background:#e3ecf6}
+  #bFehlerModus.on{background:var(--warn-bg);border-color:var(--warn)}
+  .checks{display:flex;gap:16px;flex-wrap:wrap;font-size:15px;color:var(--ink)}
+  .checks label{display:flex;gap:6px;align-items:center;cursor:pointer}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .progress{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:var(--muted);margin-bottom:8px}
+  .pbar{height:8px;background:#ece8df;border-radius:6px;overflow:hidden;margin-bottom:18px}
+  .pbar div{height:100%;background:var(--ok);width:0;transition:width .3s}
+  .listen{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .btn{font:inherit;font-size:18px;padding:10px 18px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+  .btn:hover{border-color:#b9b2a3}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{filter:brightness(1.08)}
+  .btn kbd{font:12px/1 monospace;background:rgba(0,0,0,.08);border-radius:4px;padding:2px 5px;margin-left:6px}
+  .btn.primary kbd{background:rgba(255,255,255,.25)}
+  textarea{width:100%;min-height:96px;font:26px/1.45 "Segoe UI",system-ui,Arial,sans-serif;padding:14px 16px;border:2px solid var(--line);border-radius:12px;resize:vertical;color:var(--ink);background:#fffefb}
+  textarea:focus{outline:none;border-color:var(--accent)}
+  textarea[readonly]{background:#f4f2ec}
+  .hint{font-size:15px;color:var(--muted);margin:6px 2px 0;min-height:22px}
+  .hint b.bad{color:var(--miss)}
+  .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  .result{margin-top:22px;display:none}
+  .verdict{font-size:22px;font-weight:600;margin-bottom:6px}
+  .verdict.ok{color:var(--ok)} .verdict.err{color:var(--err)}
+  .summary{color:var(--muted);font-size:16px;margin-bottom:14px}
+  .words{display:flex;flex-wrap:wrap;gap:10px 8px;align-items:flex-start;padding:14px;background:#faf8f3;border-radius:12px;border:1px solid var(--line)}
+  .w{display:inline-flex;flex-direction:column;align-items:center;border-radius:8px;padding:4px 9px;font-size:24px;line-height:1.3}
+  .w small{font-size:13px;color:var(--muted);margin-top:2px;white-space:nowrap}
+  .w.ok{background:var(--ok-bg);color:var(--ok)}
+  .w.gross{background:var(--warn-bg);color:var(--warn)}
+  .w.fehler{background:var(--err-bg);color:var(--ink)}
+  .w.fehlt{border:2px dashed var(--miss);color:var(--miss);background:#fff;font-style:italic}
+  .w.extra{background:var(--err-bg);color:var(--err);text-decoration:line-through}
+  .c-miss{background:var(--miss);color:#fff;border-radius:3px;padding:0 1px;font-weight:700}
+  .c-extra{color:var(--err);text-decoration:line-through;font-weight:700}
+  .c-case{background:var(--warn);color:#fff;border-radius:3px;padding:0 1px;font-weight:700}
+  .solution{margin-top:16px;font-size:24px}
+  .solution .lbl,.trans .lbl{font-size:14px;color:var(--muted);display:block}
+  .trans{margin-top:10px;font-size:18px;color:#3b4250}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;font-size:14px;color:var(--muted)}
+  .legend span.sw{display:inline-block;padding:0 6px;border-radius:4px;margin-right:4px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .stat .n{font-size:28px;font-weight:600}
+  .stat .t{font-size:14px;color:var(--muted)}
+  .center{text-align:center;padding:30px 10px}
+  .center h2{font-size:28px;margin:0 0 8px}
+  .note{font-size:14px;color:var(--muted);margin-top:18px}
+  @media (max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Diktat-Trainer</h1>
+    <span class="sub">Hören · Schreiben · Prüfen — Sätze aus dem Sprachführer</span>
+  </header>
+
+  <div class="bar">
+    <div class="field">Sprache
+      <div class="seg" id="sprache">
+        <button data-l="en" class="on">Englisch</button>
+        <button data-l="de">Deutsch</button>
+      </div>
+    </div>
+    <div class="field">Level
+      <select id="level"></select>
+    </div>
+    <div class="field">Thema
+      <select id="thema"></select>
+    </div>
+    <div class="field">Teil (je 10 Sätze)
+      <select id="teil"></select>
+    </div>
+    <div class="field">&nbsp;
+      <button class="btn" id="bFehlerModus" style="padding:7px 12px;font-size:16px">★ Fehlersätze</button>
+    </div>
+    <div class="field">Stimme
+      <select id="stimme"></select>
+    </div>
+    <div class="checks">
+      <label><input type="checkbox" id="optCase" checked> Groß-/Kleinschreibung prüfen</label>
+      <label><input type="checkbox" id="optPunct"> Satzzeichen prüfen</label>
+      <label><input type="checkbox" id="optCount"> Wortanzahl zeigen</label>
+    </div>
+    <div class="datainfo" id="datainfo"></div>
+  </div>
+
+  <div class="card" id="main"></div>
+
+  <div class="stats" id="stats"></div>
+
+  <p class="note">Tastatur: <b>Enter</b> = Prüfen / Weiter · <b>Esc</b> = noch einmal anhören · <b>Umschalt + Esc</b> = langsam · <b>Strg + Esc</b> = Wort für Wort.
+  Tipp: In Microsoft Edge unter Windows gibt es die besten Stimmen (Name mit „Natural“ oder „Online“).</p>
+</div>
+
+<script>
+/* =====================================================================
+   DATENBANK – Sätze aus dem Sprachführer
+   Später wird diese Liste durch die echte Datenbank des Sprachführers
+   ersetzt. Jeder Satz: id, thema, de, en, ru.
+   ===================================================================== */
+const DATEN_URLS = ["/pages/language_lab/shared_data/sprachfuehrer_phrases.json", "shared_data/sprachfuehrer_phrases.json"];
+const THEMEN_NAMEN = {
+  allgemein:"Allgemein", alltag:"Alltag", arzt_apotheke:"Arzt & Apotheke", bahn_flug:"Bahn & Flug", cafe:"Café",
+  einkaufen:"Einkaufen", hilfe:"Hilfe", hotel:"Hotel", notfall:"Notfall", restaurant:"Restaurant", smalltalk:"Smalltalk",
+  survival_plus:"Survival plus", survival_more:"Survival more", telefon_internet:"Telefon & Internet",
+  unterkunft_probleme:"Unterkunft – Probleme", unterwegs:"Unterwegs", verkehr_auto:"Verkehr & Auto"
+};
+const themaName = t => THEMEN_NAMEN[t] || t;
+const TEIL_GROESSE = 10;
+/* Beispielsätze – nur falls der Sprachführer nicht geladen werden kann */
+let DATENBANK = [
+  {id:"h1", level:1, thema:"Höflichkeit", de:"Entschuldigung, können Sie mir helfen?", en:"Excuse me, can you help me?", ru:"Извините, вы можете мне помочь?"},
+  {id:"h2", level:1, thema:"Höflichkeit", de:"Vielen Dank für Ihre Hilfe.", en:"Thank you very much for your help.", ru:"Большое спасибо за вашу помощь."},
+  {id:"h3", level:1, thema:"Höflichkeit", de:"Ich spreche nur ein bisschen Englisch.", en:"I only speak a little English.", ru:"Я говорю по-английски совсем немного."},
+  {id:"h4", level:1, thema:"Höflichkeit", de:"Können Sie das bitte wiederholen?", en:"Could you repeat that, please?", ru:"Повторите, пожалуйста."},
+  {id:"h5", level:1, thema:"Höflichkeit", de:"Sprechen Sie bitte langsamer.", en:"Please speak more slowly.", ru:"Говорите, пожалуйста, медленнее."},
+  {id:"h6", level:1, thema:"Höflichkeit", de:"Das macht nichts.", en:"It doesn't matter.", ru:"Ничего страшного."},
+
+  {id:"b1", level:1, thema:"Begrüßung", de:"Guten Morgen, wie geht es Ihnen?", en:"Good morning, how are you?", ru:"Доброе утро, как у вас дела?"},
+  {id:"b2", level:1, thema:"Begrüßung", de:"Mir geht es gut, danke.", en:"I am fine, thank you.", ru:"У меня всё хорошо, спасибо."},
+  {id:"b3", level:1, thema:"Begrüßung", de:"Ich heiße Wladimir.", en:"My name is Wladimir.", ru:"Меня зовут Владимир."},
+  {id:"b4", level:1, thema:"Begrüßung", de:"Ich komme aus Deutschland.", en:"I am from Germany.", ru:"Я из Германии."},
+  {id:"b5", level:1, thema:"Begrüßung", de:"Freut mich, Sie kennenzulernen.", en:"Nice to meet you.", ru:"Приятно познакомиться."},
+  {id:"b6", level:1, thema:"Begrüßung", de:"Bis morgen!", en:"See you tomorrow!", ru:"До завтра!"},
+
+  {id:"u1", level:1, thema:"Unterwegs", de:"Wo ist der Bahnhof?", en:"Where is the train station?", ru:"Где вокзал?"},
+  {id:"u2", level:1, thema:"Unterwegs", de:"Wie komme ich zum Hotel?", en:"How do I get to the hotel?", ru:"Как мне пройти к гостинице?"},
+  {id:"u3", level:1, thema:"Unterwegs", de:"Ist es weit von hier?", en:"Is it far from here?", ru:"Это далеко отсюда?"},
+  {id:"u4", level:1, thema:"Unterwegs", de:"Ich möchte eine Fahrkarte kaufen.", en:"I would like to buy a ticket.", ru:"Я хотел бы купить билет."},
+  {id:"u5", level:1, thema:"Unterwegs", de:"Wann fährt der nächste Zug?", en:"When does the next train leave?", ru:"Когда отправляется следующий поезд?"},
+  {id:"u6", level:1, thema:"Unterwegs", de:"Gehen Sie geradeaus und dann links.", en:"Go straight ahead and then turn left.", ru:"Идите прямо, а потом налево."},
+
+  {id:"r1", level:1, thema:"Im Restaurant", de:"Einen Tisch für zwei Personen, bitte.", en:"A table for two, please.", ru:"Столик на двоих, пожалуйста."},
+  {id:"r2", level:1, thema:"Im Restaurant", de:"Die Speisekarte, bitte.", en:"The menu, please.", ru:"Меню, пожалуйста."},
+  {id:"r3", level:1, thema:"Im Restaurant", de:"Ich hätte gern ein Glas Wasser.", en:"I would like a glass of water.", ru:"Мне, пожалуйста, стакан воды."},
+  {id:"r4", level:1, thema:"Im Restaurant", de:"Das Essen ist sehr lecker.", en:"The food is very good.", ru:"Еда очень вкусная."},
+  {id:"r5", level:1, thema:"Im Restaurant", de:"Die Rechnung, bitte.", en:"The bill, please.", ru:"Счёт, пожалуйста."},
+  {id:"r6", level:1, thema:"Im Restaurant", de:"Kann ich mit Karte bezahlen?", en:"Can I pay by card?", ru:"Можно оплатить картой?"}
+];
+
+/* ---------- Speicher (nur in diesem Browser) ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ---------- Zustand ---------- */
+let sprache = store.get("diktat_sprache", "en");
+if(location.hash === "#de" || location.hash === "#en") sprache = location.hash.slice(1);
+let wahl = store.get("diktat_wahl", {level:0, thema:"__alle", teil:0});
+let fehlerModus = false;
+let erledigt = store.get("diktat_erledigt", {});      // "en|0|__alle|0" -> true
+let fehlerListe = store.get("diktat_fehler", {});     // "en:h1" -> Anzahl
+let queue = [], session = {}, current = null, phase = "start";
+let stats = {gesamt:0, ersterVersuch:0, fehler:0, gelernt:0};
+
+const $ = id => document.getElementById(id);
+const byId = id => DATENBANK.find(s => s.id === id);
+const teilKey = () => [sprache, wahl.level, wahl.thema, wahl.teil].join("|");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const verfuegbar = () => DATENBANK.filter(s => s[sprache]);
+const levels = () => [...new Set(verfuegbar().map(s => s.level))].sort((a,b) => a - b);
+const fehlerKey = id => sprache + ":" + id;
+const fehlerSaetze = () => verfuegbar().filter(s => (fehlerListe[fehlerKey(s.id)] || 0) > 0);
+
+/* ---------- Stimmen ---------- */
+let voices = [];
+function ladeStimmen(){
+  if(!("speechSynthesis" in window)) return;
+  voices = speechSynthesis.getVoices();
+  const sel = $("stimme");
+  const passend = voices.filter(v => v.lang.toLowerCase().startsWith(sprache));
+  const rang = v => (/natural|online/i.test(v.name) ? 0 : /google/i.test(v.name) ? 1 : 2);
+  passend.sort((a,b) => rang(a) - rang(b) || a.name.localeCompare(b.name));
+  const gespeichert = store.get("diktat_stimme_" + sprache, null);
+  sel.innerHTML = passend.length
+    ? passend.map(v => `<option value="${esc(v.voiceURI)}">${esc(v.name)} (${esc(v.lang)})</option>`).join("")
+    : `<option value="">Keine passende Stimme gefunden</option>`;
+  if(gespeichert && passend.some(v => v.voiceURI === gespeichert)) sel.value = gespeichert;
+}
+function aktuelleStimme(){
+  const uri = $("stimme").value;
+  return voices.find(v => v.voiceURI === uri) || null;
+}
+/* Lokale (Offline-)Stimme als Ersatz, falls die Online-/Natural-Stimme nicht antwortet */
+function lokaleStimme(){
+  if(!voices.length) voices = speechSynthesis.getVoices();
+  const p = voices.filter(v => v.lang.toLowerCase().startsWith(sprache));
+  return p.find(v => v.localService) || p[0] || null;
+}
+function tonHinweis(text){
+  let el = $("tonHinweis");
+  if(!el){
+    el = document.createElement("div"); el.id = "tonHinweis";
+    el.style.cssText = "position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#fff1d6;color:#9a5b00;border:1px solid #9a5b00;border-radius:10px;padding:10px 16px;font-size:16px;z-index:99;max-width:90%";
+    document.body.appendChild(el);
+  }
+  el.textContent = text; el.style.display = text ? "block" : "none";
+}
+function sprich(text, rate, ersatz, ohneWaechter){
+  if(!("speechSynthesis" in window)){ tonHinweis("Dieser Browser kann nicht vorlesen."); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  const v = ersatz ? lokaleStimme() : (aktuelleStimme() || lokaleStimme());
+  if(v){ u.voice = v; u.lang = v.lang; } else { u.lang = sprache === "de" ? "de-DE" : "en-GB"; }
+  u.rate = rate;
+  let gestartet = false;
+  u.onstart = () => { gestartet = true; tonHinweis(""); };
+  u.onerror = e => {
+    if(e.error === "interrupted" || e.error === "canceled") return;
+    if(!ersatz){ sprich(text, rate, true); }
+    else tonHinweis("Kein Ton: Stimme meldet Fehler (" + e.error + "). Edge ganz schließen und neu öffnen.");
+  };
+  if(speechSynthesis.paused) speechSynthesis.resume();
+  speechSynthesis.speak(u);
+  /* Wächter: Edge „hängt“ manchmal – nach 2,5 s ohne Start einmal neu versuchen */
+  if(!ersatz && !ohneWaechter) setTimeout(() => {
+    if(!gestartet && !speechSynthesis.speaking){
+      speechSynthesis.cancel();
+      sprich(text, rate, true);
+    } else if(!gestartet){
+      tonHinweis("Kein Ton? Bitte Lautstärke prüfen oder Edge ganz schließen und neu öffnen.");
+    }
+  }, 2500);
+}
+function anhoeren(modus){
+  if(!current) return;
+  speechSynthesis.cancel();
+  const satz = current[sprache];
+  /* kurze Pause nach cancel() – sonst verschluckt Edge manchmal den neuen Satz */
+  setTimeout(() => {
+    if(modus === "langsam") sprich(satz, 0.6);
+    else if(modus === "wort") satz.split(/\s+/).forEach(w => sprich(w.replace(/[.,!?;:]/g,""), 0.75, false, true));
+    else sprich(satz, 0.95);
+  }, 80);
+  const ta = $("eingabe"); if(ta && !ta.readOnly) ta.focus();
+}
+
+/* ---------- Vergleich ---------- */
+function normalisiere(s){
+  return s.replace(/[’‘`´]/g, "'").replace(/[„“”«»]/g, '"').replace(/\s+/g, " ").trim();
+}
+function zerlege(s, mitSatzzeichen){
+  s = normalisiere(s);
+  if(mitSatzzeichen) s = s.replace(/([.,!?;:"])/g, " $1 ");
+  else s = s.replace(/[.,!?;:"()…¿¡]/g, " ").replace(/\s[-–—]+\s/g, " ");
+  return s.split(/\s+/).filter(Boolean);
+}
+function lev(a, b){
+  const m = a.length, n = b.length; const d = Array.from({length:m+1}, (_, i) => [i]);
+  for(let j = 1; j <= n; j++) d[0][j] = j;
+  for(let i = 1; i <= m; i++) for(let j = 1; j <= n; j++)
+    d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+  return d[m][n];
+}
+function vergleiche(ziel, eingabe, optCase, optPunct){
+  const T = zerlege(ziel, optPunct), U = zerlege(eingabe, optPunct);
+  const kosten = (t, u) => {
+    if(t === u) return 0;
+    const tl = t.toLowerCase(), ul = u.toLowerCase();
+    if(tl === ul) return optCase ? 0.2 : 0;
+    return 2 * lev(tl, ul) / Math.max(tl.length, ul.length) + 0.01;
+  };
+  const n = T.length, m = U.length;
+  const D = Array.from({length:n+1}, () => new Array(m+1).fill(0));
+  for(let i = 1; i <= n; i++) D[i][0] = i;
+  for(let j = 1; j <= m; j++) D[0][j] = j;
+  for(let i = 1; i <= n; i++) for(let j = 1; j <= m; j++)
+    D[i][j] = Math.min(D[i-1][j] + 1, D[i][j-1] + 1, D[i-1][j-1] + kosten(T[i-1], U[j-1]));
+  const ops = []; let i = n, j = m;
+  while(i > 0 || j > 0){
+    if(i > 0 && j > 0 && Math.abs(D[i][j] - (D[i-1][j-1] + kosten(T[i-1], U[j-1]))) < 1e-9){
+      const t = T[i-1], u = U[j-1];
+      if(t === u || (!optCase && t.toLowerCase() === u.toLowerCase())) ops.push({typ:"ok", t, u});
+      else if(t.toLowerCase() === u.toLowerCase()) ops.push({typ:"gross", t, u});
+      else ops.push({typ:"fehler", t, u});
+      i--; j--;
+    } else if(i > 0 && Math.abs(D[i][j] - (D[i-1][j] + 1)) < 1e-9){
+      ops.push({typ:"fehlt", t:T[i-1]}); i--;
+    } else {
+      ops.push({typ:"extra", u:U[j-1]}); j--;
+    }
+  }
+  ops.reverse();
+  return ops;
+}
+/* Buchstaben-Vergleich innerhalb eines Wortes */
+function buchstabenDiff(t, u){
+  const a = [...t], b = [...u], A = a.map(c => c.toLowerCase()), B = b.map(c => c.toLowerCase());
+  const n = a.length, m = b.length;
+  const L = Array.from({length:n+1}, () => new Array(m+1).fill(0));
+  for(let i = n-1; i >= 0; i--) for(let j = m-1; j >= 0; j--)
+    L[i][j] = A[i] === B[j] ? L[i+1][j+1] + 1 : Math.max(L[i+1][j], L[i][j+1]);
+  const seg = []; let i = 0, j = 0;
+  while(i < n || j < m){
+    if(i < n && j < m && A[i] === B[j]){ seg.push({typ: a[i] === b[j] ? "same" : "case", ch: b[j], soll: a[i]}); i++; j++; }
+    else if(j < m && (i >= n || L[i][j+1] >= L[i+1][j])){ seg.push({typ:"extra", ch:b[j]}); j++; }
+    else { seg.push({typ:"miss", ch:a[i]}); i++; }
+  }
+  return seg;
+}
+
+/* ---------- Ablauf ---------- */
+function levelSaetze(){
+  return verfuegbar().filter(s => s.level === wahl.level && (wahl.thema === "__alle" || s.thema === wahl.thema));
+}
+function lektionSaetze(){
+  if(fehlerModus) return fehlerSaetze();
+  return levelSaetze().slice(wahl.teil * TEIL_GROESSE, (wahl.teil + 1) * TEIL_GROESSE);
+}
+function fuelleLektionen(){
+  const lv = levels();
+  if(!lv.includes(wahl.level)) wahl.level = lv[0] ?? 0;
+  $("level").innerHTML = lv.map(l => {
+    const n = verfuegbar().filter(s => s.level === l).length;
+    return `<option value="${l}">Level ${l} (${n})</option>`;
+  }).join("");
+  $("level").value = wahl.level;
+
+  const imLevel = verfuegbar().filter(s => s.level === wahl.level);
+  const th = [...new Set(imLevel.map(s => s.thema))];
+  if(wahl.thema !== "__alle" && !th.includes(wahl.thema)) wahl.thema = "__alle";
+  $("thema").innerHTML = `<option value="__alle">Alle Themen (${imLevel.length})</option>` +
+    th.map(t => `<option value="${esc(t)}">${esc(themaName(t))} (${imLevel.filter(s => s.thema === t).length})</option>`).join("");
+  $("thema").value = wahl.thema;
+
+  const n = levelSaetze().length, teile = Math.max(1, Math.ceil(n / TEIL_GROESSE));
+  if(wahl.teil >= teile) wahl.teil = 0;
+  let opts = "";
+  for(let i = 0; i < teile; i++){
+    const k = [sprache, wahl.level, wahl.thema, i].join("|");
+    opts += `<option value="${i}">${erledigt[k] ? "✓ " : ""}Teil ${i+1} (Sätze ${i*TEIL_GROESSE+1}–${Math.min(n,(i+1)*TEIL_GROESSE)})</option>`;
+  }
+  $("teil").innerHTML = opts;
+  $("teil").value = wahl.teil;
+
+  const nF = fehlerSaetze().length;
+  $("bFehlerModus").textContent = `★ Fehlersätze (${nF})`;
+  $("bFehlerModus").classList.toggle("on", fehlerModus);
+  ["level","thema","teil"].forEach(id => $(id).disabled = fehlerModus);
+  store.set("diktat_wahl", wahl);
+}
+function titel(){
+  return fehlerModus ? "Meine Fehlersätze"
+    : `Level ${wahl.level} · ${wahl.thema === "__alle" ? "Alle Themen" : themaName(wahl.thema)} · Teil ${wahl.teil + 1}`;
+}
+function starteLektion(sofort){
+  const saetze = lektionSaetze();
+  queue = saetze.map(s => s.id);
+  session = {}; saetze.forEach(s => session[s.id] = {streak:0, hadError:false, done:false});
+  stats = {gesamt:saetze.length, ersterVersuch:0, fehler:0, gelernt:0};
+  current = null;
+  if(!saetze.length){ zeigeLeer(); zeigeStats(); return; }
+  if(sofort) naechsterSatz(); else zeigeStart();
+  zeigeStats();
+}
+function zeigeStart(){
+  phase = "start";
+  $("main").innerHTML = `<div class="center">
+      <h2>${esc(titel())}</h2>
+      <p>${stats.gesamt} Sätze · ${sprache === "en" ? "Englisch" : "Deutsch"}</p>
+      <p style="color:var(--muted)">Sie hören einen Satz und schreiben ihn auf. Danach zeigt das Programm jeden Fehler – auch fehlende Buchstaben und Wörter.</p>
+      <button class="btn primary" id="startBtn">▶ Diktat beginnen <kbd>Enter</kbd></button>
+    </div>`;
+  $("startBtn").onclick = naechsterSatz;
+}
+function zeigeLeer(){
+  phase = "leer";
+  $("main").innerHTML = `<div class="center"><h2>Keine Fehlersätze 🎉</h2>
+    <p style="color:var(--muted)">In dieser Sprache gibt es zurzeit keine Sätze mit Fehlern. Wählen Sie eine Lektion.</p></div>`;
+}
+function naechsterSatz(){
+  if(!queue.length){ zeigeFertig(); return; }
+  current = byId(queue.shift());
+  phase = "schreiben";
+  const erledigt = stats.gelernt, ges = stats.gesamt;
+  $("main").innerHTML = `
+    <div class="progress"><span>Gelernt: ${erledigt} von ${ges}</span><span>${esc(fehlerModus ? "Fehlersätze · Level " + current.level : titel())}</span></div>
+    <div class="pbar"><div style="width:${ges ? (100*erledigt/ges) : 0}%"></div></div>
+    <div class="listen">
+      <button class="btn" id="bNormal">▶ Anhören <kbd>Esc</kbd></button>
+      <button class="btn" id="bLangsam">🐢 Langsam <kbd>⇧ Esc</kbd></button>
+      <button class="btn" id="bWort">Wort für Wort <kbd>Strg Esc</kbd></button>
+    </div>
+    <textarea id="eingabe" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"
+      placeholder="Hier schreiben, was Sie gehört haben …"></textarea>
+    <div class="hint" id="hint"></div>
+    <div class="actions">
+      <button class="btn primary" id="bPruefen">Prüfen <kbd>Enter</kbd></button>
+    </div>
+    <div class="result" id="result"></div>`;
+  $("bNormal").onclick = () => anhoeren("normal");
+  $("bLangsam").onclick = () => anhoeren("langsam");
+  $("bWort").onclick = () => anhoeren("wort");
+  $("bPruefen").onclick = () => phase === "schreiben" ? pruefen() : naechsterSatz();
+  $("eingabe").addEventListener("input", zeigeHinweis);
+  zeigeHinweis();
+  $("eingabe").focus();
+  anhoeren("normal");
+}
+function zeigeHinweis(){
+  const h = $("hint"); if(!h) return;
+  if(!$("optCount").checked || phase !== "schreiben"){ h.innerHTML = ""; return; }
+  const soll = zerlege(current[sprache], false).length;
+  const ist = zerlege($("eingabe").value, false).length;
+  h.innerHTML = `Wörter im Satz: <b>${soll}</b> · Sie haben: <b class="${ist < soll ? "bad" : ""}">${ist}</b>`;
+}
+function pruefen(){
+  const ta = $("eingabe");
+  if(!ta.value.trim()){ ta.focus(); return; }
+  const optCase = $("optCase").checked, optPunct = $("optPunct").checked;
+  const ops = vergleiche(current[sprache], ta.value, optCase, optPunct);
+  const ok = ops.every(o => o.typ === "ok");
+  const s = session[current.id];
+  const key = fehlerKey(current.id);
+  let meldung;
+
+  if(ok){
+    s.streak++;
+    if(!s.hadError){
+      s.done = true; stats.ersterVersuch++;
+      if(fehlerListe[key]){ fehlerListe[key]--; if(!fehlerListe[key]) delete fehlerListe[key]; }
+      meldung = "Richtig! ✓";
+    } else if(s.streak >= 2){
+      s.done = true; meldung = "Richtig! ✓ Jetzt sitzt der Satz.";
+    } else {
+      queue.splice(Math.min(3, queue.length), 0, current.id);
+      meldung = "Richtig! ✓ Noch einmal richtig schreiben, dann ist er gelernt.";
+    }
+    if(s.done) stats.gelernt++;
+  } else {
+    s.streak = 0; s.hadError = true; stats.fehler++;
+    fehlerListe[key] = (fehlerListe[key] || 0) + 1;
+    queue.splice(Math.min(3, queue.length), 0, current.id);
+    meldung = "Noch nicht ganz – der Satz kommt gleich noch einmal.";
+  }
+  store.set("diktat_fehler", fehlerListe);
+
+  phase = "geprueft";
+  ta.readOnly = true;
+  zeigeHinweis();
+  $("bPruefen").innerHTML = `Weiter <kbd>Enter</kbd>`;
+  zeigeErgebnis(ops, ok, meldung);
+  zeigeStats();
+  fuelleLektionen();
+  $("bPruefen").focus();
+}
+function zeigeErgebnis(ops, ok, meldung){
+  let fehlBuchst = 0, zuvielBuchst = 0, gross = 0, fehlWort = 0, zuvielWort = 0;
+  const html = ops.map(o => {
+    if(o.typ === "ok") return `<span class="w ok klick" data-wort="${esc(o.t)}" title="Klicken: Wort anhören">${esc(o.u)}</span>`;
+    if(o.typ === "fehlt"){ fehlWort++; return `<span class="w fehlt klick" data-wort="${esc(o.t)}" title="Klicken: Wort anhören">${esc(o.t)}<small>Wort fehlt</small></span>`; }
+    if(o.typ === "extra"){ zuvielWort++; return `<span class="w extra">${esc(o.u)}<small>zu viel</small></span>`; }
+    const seg = buchstabenDiff(o.t, o.u);
+    const inner = seg.map(c => {
+      if(c.typ === "same") return esc(c.ch);
+      if(c.typ === "case"){ gross++; return `<span class="c-case" title="richtig: ${esc(c.soll)}">${esc(c.ch)}</span>`; }
+      if(c.typ === "miss"){ fehlBuchst++; return `<span class="c-miss" title="dieser Buchstabe fehlt">${esc(c.ch)}</span>`; }
+      zuvielBuchst++; return `<span class="c-extra">${esc(c.ch)}</span>`;
+    }).join("");
+    const cls = o.typ === "gross" ? "gross" : "fehler";
+    return `<span class="w ${cls} klick" data-wort="${esc(o.t)}" title="Klicken: richtiges Wort anhören"><span>${inner}</span><small>richtig: ${esc(o.t)}</small></span>`;
+  }).join("");
+
+  const teile = [];
+  if(fehlBuchst) teile.push(`${fehlBuchst} Buchstabe${fehlBuchst > 1 ? "n" : ""} fehlt${fehlBuchst > 1 ? "en" : ""}`);
+  if(zuvielBuchst) teile.push(`${zuvielBuchst} Buchstabe${zuvielBuchst > 1 ? "n" : ""} zu viel/falsch`);
+  if(gross) teile.push(`${gross}× Groß-/Kleinschreibung`);
+  if(fehlWort) teile.push(`${fehlWort} Wort${fehlWort > 1 ? "e" : ""} fehlt${fehlWort > 1 ? "en" : ""}`);
+  if(zuvielWort) teile.push(`${zuvielWort} Wort${zuvielWort > 1 ? "e" : ""} zu viel`);
+
+  const uebers = sprache === "en"
+    ? `<span class="lbl">Deutsch</span>${esc(current.de)}${current.ru ? `<br><span class="lbl">Русский</span>${esc(current.ru)}` : ""}`
+    : `<span class="lbl">Englisch</span>${esc(current.en)}${current.ru ? `<br><span class="lbl">Русский</span>${esc(current.ru)}` : ""}`;
+
+  const r = $("result");
+  r.style.display = "block";
+  r.innerHTML = `
+    <div class="verdict ${ok ? "ok" : "err"}">${esc(meldung)}</div>
+    <div class="summary">${teile.length ? esc(teile.join(" · ")) : "Alles richtig geschrieben."}</div>
+    <div class="words">${html}</div>
+    <div class="solution"><span class="lbl">Richtig – auf ein Wort klicken, um es zu hören</span>${current[sprache].split(/\s+/).map(w => `<span class="sw-word" data-wort="${esc(w.replace(/[.,!?;:"“”„]/g,""))}">${esc(w)}</span>`).join(" ")}
+      <button class="btn" id="bSatzNochmal" style="font-size:15px;padding:4px 10px;margin-left:8px">▶ Satz</button></div>
+    <div class="trans">${uebers}</div>
+    ${ok ? "" : `<div class="legend">
+      <span><span class="sw c-miss">a</span>Buchstabe fehlt</span>
+      <span><span class="sw c-extra">a</span>zu viel / falsch</span>
+      <span><span class="sw c-case">A</span>Groß/klein</span>
+      <span><span class="sw" style="border:2px dashed var(--miss)">&nbsp;&nbsp;</span>Wort fehlt</span>
+    </div>`}`;
+  r.querySelectorAll("[data-wort]").forEach(el => el.addEventListener("click", () => sprichWort(el.dataset.wort)));
+  $("bSatzNochmal").onclick = () => anhoeren("normal");
+}
+function sprichWort(w){
+  if(!w || !("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  sprich(w, 0.8);
+}
+function zeigeFertig(){
+  phase = "fertig"; current = null;
+  if(!fehlerModus){ erledigt[teilKey()] = true; store.set("diktat_erledigt", erledigt); fuelleLektionen(); }
+  const naechsterTeil = !fehlerModus && (wahl.teil + 1) * TEIL_GROESSE < levelSaetze().length;
+  const nF = fehlerSaetze().length;
+  $("main").innerHTML = `<div class="center">
+      <h2>Lektion geschafft! 🎉</h2>
+      <p>${stats.gesamt} Sätze · ${stats.ersterVersuch} sofort richtig · ${stats.fehler} Fehlversuche</p>
+      <div class="actions" style="justify-content:center">
+        ${naechsterTeil ? `<button class="btn primary" id="bWeiterTeil">Nächster Teil ▶</button>` : ""}
+        <button class="btn ${naechsterTeil ? "" : "primary"}" id="bNochmal">Noch einmal${naechsterTeil ? "" : " <kbd>Enter</kbd>"}</button>
+        ${nF ? `<button class="btn" id="bFehler">★ Fehlersätze üben (${nF})</button>` : ""}
+      </div></div>`;
+  $("bNochmal").onclick = () => starteLektion(true);
+  if(naechsterTeil) $("bWeiterTeil").onclick = () => { wahl.teil++; fuelleLektionen(); starteLektion(true); };
+  if(nF) $("bFehler").onclick = () => { fehlerModus = true; fuelleLektionen(); starteLektion(true); };
+  zeigeStats();
+}
+function zeigeStats(){
+  const offen = Math.max(0, stats.gesamt - stats.gelernt);
+  $("stats").innerHTML = [
+    [stats.gelernt + " / " + stats.gesamt, "gelernt"],
+    [stats.ersterVersuch, "sofort richtig"],
+    [stats.fehler, "Fehlversuche"],
+    [offen, "noch offen"]
+  ].map(([n, t]) => `<div class="stat"><div class="n">${n}</div><div class="t">${t}</div></div>`).join("");
+}
+
+/* ---------- Bedienung ---------- */
+document.querySelectorAll("#sprache button").forEach(b => {
+  b.classList.toggle("on", b.dataset.l === sprache);
+  b.onclick = () => {
+    sprache = b.dataset.l; store.set("diktat_sprache", sprache);
+    document.querySelectorAll("#sprache button").forEach(x => x.classList.toggle("on", x === b));
+    speechSynthesis.cancel(); ladeStimmen(); fuelleLektionen(); starteLektion(false);
+  };
+});
+$("level").onchange = e => { wahl.level = Number(e.target.value); wahl.thema = "__alle"; wahl.teil = 0; speechSynthesis.cancel(); fuelleLektionen(); starteLektion(false); };
+$("thema").onchange = e => { wahl.thema = e.target.value; wahl.teil = 0; speechSynthesis.cancel(); fuelleLektionen(); starteLektion(false); };
+$("teil").onchange = e => { wahl.teil = Number(e.target.value); speechSynthesis.cancel(); fuelleLektionen(); starteLektion(false); };
+$("bFehlerModus").onclick = () => { fehlerModus = !fehlerModus; speechSynthesis.cancel(); fuelleLektionen(); starteLektion(false); };
+$("stimme").onchange = e => { store.set("diktat_stimme_" + sprache, e.target.value); anhoeren("normal"); };
+$("optCount").onchange = zeigeHinweis;
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){
+    e.preventDefault();
+    anhoeren(e.ctrlKey ? "wort" : e.shiftKey ? "langsam" : "normal");
+    return;
+  }
+  if(e.key === "Enter" && !e.shiftKey){
+    if(e.target.tagName === "SELECT") return;
+    if(e.target.tagName === "BUTTON" && phase !== "geprueft") return; // Button erledigt das selbst
+    e.preventDefault();
+    if(phase === "start") naechsterSatz();
+    else if(phase === "schreiben") pruefen();
+    else if(phase === "geprueft") naechsterSatz();
+    else if(phase === "fertig"){
+      if((!fehlerModus && (wahl.teil + 1) * TEIL_GROESSE < levelSaetze().length)){ wahl.teil++; fuelleLektionen(); }
+      starteLektion(true);
+    }
+  }
+});
+
+if("speechSynthesis" in window){
+  ladeStimmen();
+  speechSynthesis.onvoiceschanged = ladeStimmen;
+}
+async function ladeSprachfuehrer(){
+  for(const url of DATEN_URLS){
+    try{
+      const res = await fetch(url, {cache:"no-store"});
+      if(!res.ok) continue;
+      const json = await res.json();
+      const items = Array.isArray(json?.items) ? json.items : [];
+      const liste = items.filter(r => r.DE && r.EN).map(r => ({
+        id: r.id || `${r.topic}|${r.level}|${r.DE}|${r.EN}`,
+        level: Number(r.level ?? r.stufe ?? 0), thema: r.topic || "allgemein",
+        de: r.DE, en: r.EN, ru: r.RU || ""
+      }));
+      if(liste.length){
+        DATENBANK = liste;
+        $("datainfo").textContent = `Sätze aus dem Sprachführer: ${liste.length} (Level ${levels()[0]}–${levels().at(-1)})`;
+        return;
+      }
+    }catch(e){}
+  }
+  $("datainfo").textContent = "Sprachführer nicht gefunden – es werden Beispielsätze benutzt.";
+  if(!DATENBANK.some(s => s.level === wahl.level)) wahl = {level:1, thema:"__alle", teil:0};
+}
+ladeSprachfuehrer().then(() => { fuelleLektionen(); starteLektion(false); });
+</script>
+</body>
+</html>

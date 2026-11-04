@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Satzlabor – Satz bauen &amp; analysieren</title>
+    <link rel="icon" href="../../../../../core/assets/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- =========================================================
+         DE: Gemeinsame Styles + Master-Skript
+         EN: Shared styles + master script
+         RU: Общие стили и главный скрипт
+         ========================================================= -->
+    <link rel="stylesheet" href="../../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../shared/lg_tts.css" />
+    <link rel="stylesheet" href="../shared/lang_switch.css" />
+    <link rel="stylesheet" href="../shared/translation_panel.css" />
+    <script src="../../../../../core/js/core_init.js" defer></script>
+    <script src="../shared/lg_tts.js" defer></script>
+    <script src="../shared/lang_switch.js" defer></script>
+    <script src="../shared/lg_translate.js" defer></script>
+
+    <!-- =========================================================
+         DE: Zentrale Datenbanken für Deutsch
+         EN: Central databases for German
+         RU: Центральные базы данных для немецкого
+         Pfad: ../../../../../datenbanken/de/...
+         Reihenfolge wichtig: erst Daten, dann de_script.js
+         ========================================================= -->
+
+    <!-- DE: Pronomen / EN: Pronouns / RU: Местоимения -->
+    <script src="../../../../../datenbanken/de/de_pronouns/de_pronouns.js" defer></script>
+
+    <!-- DE: Verben / EN: Verbs / RU: Глаголы -->
+    <script src="../../../../../datenbanken/de/de_verbs_main/de_verbs_main.js" defer></script>
+    <script src="../../../../../datenbanken/de/de_verbs_modals/de_verbs_modals.js" defer></script>
+    <script src="../../../../../datenbanken/de/de_verbs_aux/de_verbs_aux.js" defer></script>
+
+    <!-- DE: Adjektive / EN: Adjectives / RU: Прилагательные -->
+    <script src="../../../../../datenbanken/de/de_adjectives/de_adjectives.js" defer></script>
+
+    <!-- DE: Adverbien / EN: Adverbs / RU: Наречия -->
+    <script src="../../../../../datenbanken/de/de_adverbs/de_adverbs.js" defer></script>
+
+    <!-- DE: Präpositionen / EN: Prepositions / RU: Предлоги -->
+    <script src="../../../../../datenbanken/de/de_preps/de_preps.js" defer></script>
+    <!-- DE/EN/RU: Präposition + Ort Muster -->
+    <script src="../../../../../datenbanken/de/de_prep_patterns.js" defer></script>
+
+    <!-- DE: Nomen / EN: Nouns / RU: Существительные -->
+    <script src="../../../../../datenbanken/de/de_nouns/de_nouns.js" defer></script>
+    <!-- DE: Satzglieder – gemeinsame Grundlage (Generator + Analyse)
+         RU: члены предложения – общая основа -->
+    <script src="../../../../../datenbanken/de/de_satzglieder.js" defer></script>
+
+    <!-- =========================================================
+         DE: Logik des deutschen Generators
+         EN: Logic of the German generator
+         RU: Логика немецкого генератора
+         ========================================================= -->
+    <script src="de_script.js" defer></script>
+    <!-- DE: Grammatik-Erklärungen / RU: грамматические объяснения на русском -->
+    <script src="de_erklaerung.js" defer></script>
+    <!-- DE: Analyse eingegebener Sätze / RU: разбор введённого предложения -->
+    <script src="de_satz_analyse.js" defer></script>
+
+    <style>
+      /* DE: Satzglieder-Generator / RU: стили генератора */
+      .sg-box { border-left: 5px solid var(--c, #8c959f); background: color-mix(in srgb, var(--c, #8c959f) 7%, transparent); border-radius: 8px; padding: 8px 10px; margin: 8px 0; }
+      .sg-box select { width: 100%; margin-top: 4px; }
+      .sg-box.sg-grau { --c: #8c959f; }
+      .sg-box.sg-off { opacity: .45; }
+      .sg-head { font-size: .95rem; }
+      .sg-head small, .form-row label small { color: #6e7781; font-weight: normal; }
+      .sg-zeile { display: flex; gap: 6px; align-items: center; }
+      .sg-zeile select { flex: 1; }
+      .sg-mini { font-size: .8rem; white-space: nowrap; }
+      .sg-info { font-size: .8rem; color: #57606a; margin-top: 3px; }
+      .sg-tag { font-size: .72rem; padding: 1px 6px; border-radius: 9px; background: #eaeef2; color: #57606a; margin-left: 4px; }
+      .sg-check { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+      .sg-farbsatz { font-size: 1.35rem; line-height: 2.2; margin: 10px 0; }
+      .sg-chip { border-bottom: 3px solid var(--c); background: color-mix(in srgb, var(--c) 12%, transparent); padding: 2px 5px; border-radius: 5px; cursor: help; }
+      .sg-klammer { display: grid; grid-template-columns: auto auto 1fr auto; gap: 4px; margin: 10px 0; font-size: .9rem; }
+      .sg-feld { border: 1px dashed #afb8c1; border-radius: 6px; padding: 6px; text-align: center; }
+      .sg-feld.sg-k { border: 2px solid #d1242f; }
+      .sg-feld-t { font-size: .75rem; color: #57606a; margin-bottom: 4px; }
+      .sg-feld .sg-chip { display: inline-block; margin: 2px 0; }
+      .sg-leer { color: #afb8c1; }
+      .sg-tab { width: 100%; border-collapse: collapse; font-size: .88rem; margin-top: 8px; }
+      .sg-tab th, .sg-tab td { border-bottom: 1px solid #d0d7de; padding: 5px 6px; text-align: left; vertical-align: top; }
+      .sg-tab small { color: #6e7781; }
+      .sg-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+      .sg-meta { font-size: .85rem; color: #57606a; margin-top: 8px; }
+      .sl-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+      .sl-tab { flex: 1; padding: 8px 6px; border: 2px solid #d0d7de; border-radius: 10px; background: #f6f8fa; cursor: pointer; font-weight: bold; font-size: 1rem; line-height: 1.2; }
+      .sl-tab small { font-weight: normal; color: #57606a; }
+      .sl-tab.active { border-color: #1f6feb; background: #ddf4ff; color: #0550ae; }
+      #slEingabe { width: 100%; box-sizing: border-box; font-size: 1.1rem; padding: 8px; border-radius: 8px; border: 1px solid #afb8c1; margin: 6px 0; font-family: inherit; }
+      .sl-beispiele { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0; }
+      .sl-beispiele button { font-size: .82rem; padding: 3px 8px; border-radius: 12px; border: 1px solid #d0d7de; background: #fff; cursor: pointer; }
+      .sl-beispiele button:hover { background: #ddf4ff; }
+      .sl-hinweis { font-size: .82rem; color: #57606a; background: #f6f8fa; border-radius: 6px; padding: 6px 8px; margin-top: 8px; }
+      .sl-alarm { background: #ffebe9; border: 2px solid #d1242f; color: #82071e; border-radius: 8px; padding: 8px 10px; margin: 8px 0; font-weight: bold; line-height: 1.45; }
+      #de_generator_message:not(:empty) { background: #fff8c5; border: 1px solid #d4a72c; border-radius: 6px; padding: 6px 8px; margin-top: 8px; }
+      /* RU: блок объяснений (de_erklaerung.js) */
+      .ek-wrap { margin-top: 14px; border-top: 2px solid #d0d7de; padding-top: 8px; }
+      .ek-titel { font-size: 1.1rem; font-weight: bold; margin-bottom: 6px; }
+      .ek-knoepfe { display: flex; gap: 6px; margin-bottom: 6px; }
+      .ek-knoepfe .btn { font-size: .8rem; padding: 2px 8px; }
+      .ek-block { border: 1px solid #d0d7de; border-radius: 8px; margin: 6px 0; background: #fff; }
+      .ek-block > summary { cursor: pointer; padding: 8px 10px; font-weight: bold; list-style: none; }
+      .ek-block > summary::before { content: "▸ "; color: #57606a; }
+      .ek-block[open] > summary::before { content: "▾ "; }
+      .ek-block[open] > summary { border-bottom: 1px solid #eaeef2; }
+      .ek-nr { display: inline-block; min-width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 50%; background: #1f6feb; color: #fff; font-size: .8rem; margin-right: 4px; }
+      .ek-inhalt { padding: 8px 12px; font-size: .95rem; line-height: 1.55; }
+      .ek-inhalt p { margin: 6px 0; }
+      .ek-de { font-family: inherit; background: #ddf4ff; border-radius: 4px; padding: 0 4px; white-space: nowrap; }
+      .ek-merke { background: #f6f8fa; border-left: 4px solid #1f6feb; border-radius: 6px; padding: 8px 10px; margin: 8px 0; }
+      .ek-liste li { margin: 6px 0; }
+      .ek-klein { font-size: .85rem; color: #57606a; }
+      .ek-tab { border-collapse: collapse; font-size: .88rem; margin: 6px 0; }
+      .ek-tab th, .ek-tab td { border: 1px solid #d0d7de; padding: 4px 8px; text-align: left; vertical-align: top; }
+      .ek-tab th { background: #f6f8fa; }
+      .ek-tab small { color: #6e7781; font-weight: normal; }
+      .ek-tab .ek-aktiv, .ek-tab tr.ek-aktiv td { background: #fff8c5; }
+      .ek-end { font-weight: bold; color: #d1242f; }
+      .ek-art td:first-child { font-weight: bold; }
+      /* RU: панель озвучки под предложением */
+      .sl-tts { margin: 8px 0 4px; }
+      .sl-tts .lg-tts-btn { font-size: .95rem; padding: 6px 12px; }
+      .sl-tts .lg-tts-btn.aktiv { border: 2px solid #1f6feb; background: #ddf4ff; color: #0550ae; font-weight: bold; }
+      .sl-vorlesen { font-weight: bold; }
+      .sl-sep { width: 1px; height: 24px; background: #d0d7de; }
+      .sl-ratewert { min-width: 42px; text-align: right; }
+      .sl-auto { font-size: .85rem; margin-top: 8px; }
+      .sl-auto small { color: #6e7781; }
+    </style>
+  </head>
+  <body>
+    <!-- =========================================================
+         HEADER (als Partial)
+         Pfad von hier: ../../../../../core/partials/header.html
+         ========================================================= -->
+    <div
+      data-partial="header"
+      data-partial-path="../../../../../core/partials/header.html"
+    ></div>
+
+    <!-- =========================================================
+         DE: Sprachumschalter – Buttons
+         EN: Language switcher – buttons
+         RU: Переключатель языков – кнопки
+         ========================================================= -->
+    <div class="page-wrapper">
+      <div class="lang-switch" data-active-lang="de">
+        <button class="lang-switch__btn" data-lang="de">Deutsch</button>
+        <button class="lang-switch__btn" data-lang="en">English</button>
+        <button class="lang-switch__btn" data-lang="fr">Français</button>
+        <button class="lang-switch__btn" data-lang="it">Italiano</button>
+        <button class="lang-switch__btn" data-lang="ru">Русский</button>
+        <button class="lang-switch__btn" data-lang="es">Español</button>
+      </div>
+    </div>
+
+    <main class="page-wrapper">
+      <div class="card">
+        <h1>Satzlabor – Satz bauen &amp; analysieren</h1>
+        <p class="hint-text">
+          <!-- DE -->
+          <b>Zwei Wege:</b> 🔧 <b>Satz bauen</b> – aus Satzgliedern zusammenstellen, oder 🔍 <b>Satz eingeben</b> – einen Satz aus einem Buch eintippen und zerlegen lassen.
+          <br />
+          Baue den Satz aus Satzgliedern (Wer? Was tut …? Wem? Wen/Was? Wann? Wie? Wo/Wohin?) und klicke auf „Satz erzeugen“.
+          Darunter siehst du sofort die Satzanalyse: farbige Satzglieder, Satzklammer und Tabelle.
+          <br />
+          <!-- EN -->
+          Build the sentence from its constituents and click “Generate sentence” – the analysis appears below.
+          <br />
+          <!-- RU -->
+          Два пути: 🔧 собрать предложение из частей или 🔍 ввести готовое предложение (например, из книги) – справа появится разбор и объяснения на русском.
+        </p>
+
+        <section class="language-grid">
+          <!-- ==================== LINKES PANEL: Satzglieder ==================== -->
+          <div class="language-panel">
+            <!-- DE: Umschalter Bauen / Eingeben  RU: переключатель «собрать / ввести» -->
+            <div class="sl-tabs" role="tablist">
+              <button type="button" class="sl-tab active" data-mode="bauen" role="tab">🔧 Satz bauen<br><small>собрать</small></button>
+              <button type="button" class="sl-tab" data-mode="eingabe" role="tab">🔍 Satz eingeben<br><small>ввести и разобрать</small></button>
+            </div>
+
+            <!-- ==================== MODUS 2: Satz eingeben ==================== -->
+            <div id="slModeEingabe" style="display:none">
+              <div class="language-panel__title">Satz eingeben / Ввести предложение</div>
+              <div class="language-panel__subtitle">Tippe oder kopiere einen deutschen Satz (z. B. aus einem Buch) und klicke auf „Analysieren“.</div>
+              <textarea id="slEingabe" rows="3" placeholder="z. B. Gestern ist mein Sohn mit dem Auto nach Hannover gefahren."></textarea>
+              <div class="btn-row">
+                <button id="slAnalyseBtn" class="btn btn-primary" type="button">Analysieren</button>
+                <button id="slEingabeLeeren" class="btn" type="button">Leeren</button>
+              </div>
+              <div class="sg-info">Ctrl + Enter = analysieren. Beispiele / примеры:</div>
+              <div class="sl-beispiele" id="slBeispiele"></div>
+              <div class="sl-hinweis">
+                ⚠ Программа понимает простые главные предложения и слова из своей базы (сейчас ≈ 36 глаголов, ≈ 200 существительных).
+                Незнакомые слова показываются <b>серым</b>. Из сложного предложения разбирается только главная часть.
+              </div>
+            </div>
+
+            <!-- ==================== MODUS 1: Satz bauen ==================== -->
+            <div id="slModeBauen">
+            <div class="language-panel__title">Satz bauen / Построить предложение</div>
+            <div class="language-panel__subtitle">
+              Schritt für Schritt nach Satzgliedern: Wer? → Was tut …? → Wem? → Wen/Was? → Wann? → Wie? → Wo/Wohin?
+            </div>
+
+            <!-- Satzart + Zeit -->
+            <div class="sg-box sg-grau">
+              <div class="sg-head"><b>Satzart &amp; Zeitform</b> <small>тип предложения и время</small></div>
+              <div class="form-row">
+                <label for="sgSatzart">Satzart <small>тип предложения</small></label>
+                <select id="sgSatzart">
+                  <option value="aussage">Aussagesatz (Ich gehe …)</option>
+                  <option value="frage">Ja/Nein-Frage (Gehst du …?)</option>
+                  <option value="wfrage">W-Frage (Wohin gehst du?)</option>
+                </select>
+              </div>
+              <div class="form-row" id="sgFragNachRow" style="display:none">
+                <label for="sgFragNach">Gefragt wird nach <small>о чём вопрос</small></label>
+                <select id="sgFragNach"></select>
+              </div>
+              <div class="form-row">
+                <label class="sg-check"><input type="checkbox" id="sgNeg" /> Verneinung (nicht / kein) <small>отрицание</small></label>
+              </div>
+              <div class="form-row">
+                <label for="sgZeitform">Zeitform <small>время</small></label>
+                <select id="sgZeitform">
+                  <option value="praesens">Präsens (Gegenwart)</option>
+                  <option value="praeteritum">Präteritum (einfache Vergangenheit)</option>
+                  <option value="perfekt">Perfekt (Vergangenheit)</option>
+                  <option value="plusquamperfekt">Plusquamperfekt (Vorvergangenheit)</option>
+                  <option value="futur1">Futur I (Zukunft)</option>
+                  <option value="futur2">Futur II (vollendete Zukunft)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Subjekt -->
+            <div class="sg-box" style="--c:#1f6feb">
+              <div class="sg-head"><b>Wer?</b> – Subjekt <small>подлежащее · Nominativ</small></div>
+              <select id="sgSubj"></select>
+              <div class="sg-zeile" id="sgSubjExtra">
+                <select id="sgSubjArt" title="Artikel"></select>
+                <select id="sgSubjAdj" title="Adjektiv"></select>
+              </div>
+            </div>
+
+            <!-- Prädikat -->
+            <div class="sg-box" style="--c:#d1242f">
+              <div class="sg-head"><b>Was tut …?</b> – Prädikat (Verb) <small>сказуемое</small></div>
+              <select id="sgVerb"></select>
+              <div class="sg-info" id="sgVerbInfo"></div>
+              <div class="sg-zeile">
+                <label for="sgAux" class="sg-mini">Hilfsverb (Perfekt):</label>
+                <select id="sgAux">
+                  <option value="">— automatisch —</option>
+                  <option value="haben">haben</option>
+                  <option value="sein">sein</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Dativobjekt -->
+            <div class="sg-box" id="sgDatBox" style="--c:#1a7f37">
+              <div class="sg-head"><b>Wem?</b> – Dativobjekt <small>кому? · Dativ</small> <span class="sg-tag" id="sgDatTag"></span></div>
+              <div class="sg-zeile">
+                <select id="sgDatArt" title="Artikel"></select>
+                <select id="sgDatAdj" title="Adjektiv"></select>
+              </div>
+              <select id="sgDatNomen"></select>
+            </div>
+
+            <!-- Akkusativobjekt -->
+            <div class="sg-box" id="sgAkkBox" style="--c:#e16f24">
+              <div class="sg-head"><b>Wen? / Was?</b> – Akkusativobjekt <small>кого? что? · Akkusativ</small> <span class="sg-tag" id="sgAkkTag"></span></div>
+              <div class="sg-zeile">
+                <select id="sgAkkArt" title="Artikel"></select>
+                <select id="sgAkkAdj" title="Adjektiv"></select>
+              </div>
+              <select id="sgAkkNomen"></select>
+            </div>
+
+            <!-- Zeit -->
+            <div class="sg-box" style="--c:#8250df">
+              <div class="sg-head"><b>Wann? / Wie oft?</b> – Zeitangabe <small>когда?</small></div>
+              <select id="sgZeit"></select>
+            </div>
+
+            <!-- Art und Weise -->
+            <div class="sg-box" style="--c:#0f8a8a">
+              <div class="sg-head"><b>Wie?</b> – Art und Weise <small>как?</small></div>
+              <select id="sgWie"></select>
+            </div>
+
+            <!-- Ort -->
+            <div class="sg-box" style="--c:#9a6700">
+              <div class="sg-head"><b>Wo? / Wohin? / Woher?</b> – Ortsangabe <small>где? куда? откуда?</small></div>
+              <select id="sgOrt"></select>
+            </div>
+
+            <div class="btn-row">
+              <button id="deGenerateBtn" class="btn btn-primary" type="button">Satz erzeugen</button>
+              <button id="deClearBtn" class="btn" type="button">Zurücksetzen</button>
+              <button id="slUebernehmen" class="btn" type="button" title="Den erzeugten Satz im Modus „Satz eingeben“ analysieren">→ Satz zur Analyse</button>
+            </div>
+            </div><!-- /slModeBauen -->
+          </div>
+
+          <!-- ==================== RECHTES PANEL: Ausgabe ==================== -->
+          <div class="language-panel">
+            <div class="language-panel__title">Ausgabe / Output</div>
+            <div class="language-panel__subtitle">
+              Hier erscheint der generierte Satz.
+            </div>
+            <div id="deSentenceOutput" class="sentence-output"></div>
+            <!-- =====================================================
+                 DE: Sprachausgabe – direkt unter dem Satz, immer sichtbar
+                 RU: Озвучка – сразу под предложением, всегда видна
+                 ===================================================== -->
+            <div class="lg-tts-panel sl-tts">
+              <div class="lg-tts-row">
+                <button type="button" class="lg-tts-btn primary sl-vorlesen" id="ttsSpeakBtn" title="Satz vorlesen / прослушать">🔊 Vorlesen</button>
+                <button type="button" class="lg-tts-btn" id="ttsStopBtn" title="Stopp / стоп">■ Stopp</button>
+                <span class="sl-sep"></span>
+                <button type="button" class="lg-tts-btn" id="ttsSlowBtn" title="медленно">🐢 langsam</button>
+                <button type="button" class="lg-tts-btn" id="ttsNormalBtn" title="нормально">normal</button>
+                <button type="button" class="lg-tts-btn" id="ttsFastBtn" title="быстро">🐇 schnell</button>
+              </div>
+              <div class="lg-tts-row">
+                <span class="lg-tts-label">Geschwindigkeit <small>скорость</small></span>
+                <input id="ttsRateSlider" class="lg-tts-slider" type="range" min="0.5" max="1.5" step="0.1" value="1.0" />
+                <b id="ttsRateWert" class="sl-ratewert">1.0×</b>
+              </div>
+              <label class="sg-check sl-auto"><input type="checkbox" id="ttsAuto" checked /> Satz automatisch vorlesen <small>озвучивать автоматически</small></label>
+            </div>
+            <!-- DE: Satzanalyse des erzeugten Satzes / RU: разбор предложения -->
+            <div id="sgAnalyse"></div>
+            <!-- =====================================================
+                 DE: Übersetzung auf Deutsch
+                 EN: Translation into German
+                 RU: Перевод на немецкий
+                 ===================================================== -->
+            <div class="translation-panel">
+              <div class="translation-label">
+                <!-- DE: Deutsch -->Deutsch
+                <!-- EN: German -->
+                <!-- RU: Немецкий -->
+              </div>
+              <div class="translation-box" id="translationDeBox">–</div>
+              <div class="translation-actions">
+                <button type="button" class="translation-btn" id="translationSpeakDeBtn">
+                  <!-- DE: vorlesen / EN: speak / RU: озвучить -->
+                  ▶
+                </button>
+              </div>
+            </div>
+            <p id="deHintLine" class="hint-text">Fahre mit der Maus über ein farbiges Wort, um das Satzglied zu sehen. / Наведи мышь на цветное слово.</p>
+            <div id="de_generator_message" class="hint-text"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- FOOTER (Partial) -->
+    <div
+      data-partial="footer"
+      data-partial-path="../../../../../core/partials/footer.html"
+    ></div>
+  </body>
+</html>

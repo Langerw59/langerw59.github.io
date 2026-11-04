@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<title>Glossar – Grammatik &amp; Mathematik</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Glossar" />
+<meta name="theme-color" content="#7a3e00" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237a3e00'/%3E%3Ctext x='32' y='44' font-size='32' text-anchor='middle' fill='white' font-family='Georgia' font-weight='bold'%3EGl%3C/text%3E%3C/svg%3E" />
+<style>
+  :root { --bg:#f6f3ee; --card:#fff; --ink:#1f1a14; --muted:#6b6257; --line:#e2dbd0; --acc:#7a3e00; --acc2:#b8650f; --soft:#fbf1e3; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; background:var(--bg); color:var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-text-size-adjust:100%; }
+  .kopf { position:sticky; top:0; z-index:5; background:var(--acc); color:#fff; padding:calc(10px + env(safe-area-inset-top)) 14px 10px; box-shadow:0 2px 8px rgba(0,0,0,.18); }
+  .kopf h1 { margin:0; font-size:1.2rem; font-family: Georgia, "Times New Roman", serif; }
+  .kopf small { opacity:.85; }
+  .suche { margin-top:8px; display:flex; gap:6px; }
+  .suche input { flex:1; font-size:16px; padding:9px 12px; border-radius:999px; border:none; }
+  .chips { display:flex; gap:6px; flex-wrap:wrap; padding:10px 12px 0; max-width:900px; margin:0 auto; }
+  .chip { border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 12px; font-size:.92rem; cursor:pointer; }
+  .chip.an { background:var(--acc); color:#fff; border-color:var(--acc); }
+  main { max-width:900px; margin:0 auto; padding:10px 10px 40px; }
+  .intro { background:var(--soft); border-left:4px solid var(--acc2); border-radius:10px; padding:10px 12px; font-size:.95rem; line-height:1.5; margin:6px 0 12px; }
+  .karte { background:var(--card); border:1px solid var(--line); border-radius:14px; margin:10px 0; overflow:hidden; }
+  .karte > summary { list-style:none; cursor:pointer; padding:12px 14px; display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+  .karte > summary::-webkit-details-marker { display:none; }
+  .wort { font-family: Georgia, serif; font-size:1.25rem; font-weight:bold; color:var(--acc); }
+  .ruterm { color:var(--muted); font-size:.95rem; }
+  .kat { margin-left:auto; font-size:.72rem; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:1px 8px; }
+  .inhalt { padding:0 14px 14px; line-height:1.55; font-size:1rem; }
+  .zeile { margin:6px 0; }
+  .lbl { display:inline-block; min-width:118px; color:var(--muted); font-size:.85rem; }
+  .lat { font-style:italic; font-family: Georgia, serif; }
+  .woertl { background:#fff6d6; border-radius:6px; padding:1px 6px; font-weight:600; }
+  .kalke { background:#e8f3ea; border-left:4px solid #2f7a3e; border-radius:8px; padding:6px 10px; margin:8px 0; font-size:.95rem; }
+  .bsp { background:#eef4fb; border-radius:8px; padding:6px 10px; margin:8px 0; }
+  .bsp b { font-family: Georgia, serif; }
+  .sprich { border:1px solid var(--line); background:#fff; border-radius:999px; padding:4px 10px; font-size:.9rem; cursor:pointer; margin-left:4px; }
+  .leer { text-align:center; color:var(--muted); padding:30px; }
+  .fuss { font-size:.8rem; color:var(--muted); text-align:center; margin-top:20px; }
+  .tempo { display:flex; align-items:center; gap:8px; font-size:.85rem; color:#fff; margin-top:6px; }
+  .tempo input { flex:1; }
+</style>
+</head>
+<body>
+<div class="kopf">
+  <h1>📖 Glossar <small>Wörter erklärt · откуда берутся термины</small></h1>
+  <div class="suche"><input id="q" type="search" placeholder="Suchen … / поиск: Präteritum, Dativ, Kathete …" autocomplete="off" /></div>
+  <div class="tempo">🔊 Tempo <input id="rate" type="range" min="0.5" max="1.3" step="0.1" value="0.9" /><b id="rateW">0.9×</b></div>
+</div>
+<div class="chips" id="chips"></div>
+<main>
+  <div class="intro">
+    <b>Почему это важно.</b> Почти все грамматические и математические термины пришли из <b>латыни</b> и <b>греческого</b>.
+    Немецкий ребёнок слышит «Präteritum» как чужое слово, а русская школа когда-то <b>дословно перевела</b> эти слова — получились <b>кальки</b>:
+    <i>casus</i> «падение» → <b>падеж</b>, <i>subiectum</i> «лежащее под» → <b>подлежащее</b>, <i>praepositio</i> «поставленное впереди» → <b>предлог</b>.
+    Зная дословный смысл, термин понимаешь «с молоком матери». Зелёная рамка 🟩 показывает такую кальку.
+  </div>
+  <div id="liste"></div>
+  <div class="fuss">Нажмите на слово, чтобы открыть объяснение · 🔊 — прослушать по-немецки</div>
+</main>
+
+<script>
+// ============================================================
+// DE: Glossar-Daten  RU: данные словаря
+// w = Begriff, ru = русский термин, k = Kategorie,
+// h = Herkunft (Sprache + Ausgangswort), d = dosl. (дословно),
+// e = Erklärung RU, b = Beispiel DE, c = Kalke-Hinweis (optional)
+// ============================================================
+const G = [
+// ---------- Zeitformen ----------
+{w:"Tempus", ru:"время (грамматическое)", k:"Zeitformen", h:"лат. <span class='lat'>tempus</span>", d:"время", e:"Общее название для всех времён глагола. Во множественном числе — <b>die Tempora</b>. В немецком 6 времён: Präsens, Präteritum, Perfekt, Plusquamperfekt, Futur I, Futur II.", b:"Welches Tempus ist das? – Perfekt."},
+{w:"Präsens", ru:"настоящее время", k:"Zeitformen", h:"лат. <span class='lat'>praesens</span> ← <span class='lat'>prae</span> «перед» + <span class='lat'>esse</span> «быть»", d:"«находящийся перед (нами)», присутствующий", e:"То, что происходит сейчас, «перед глазами». Используется и для будущего, если есть слово времени: <i>Morgen gehe ich…</i>", b:"Ich gehe nach Hause."},
+{w:"Präteritum", ru:"простое прошедшее", k:"Zeitformen", h:"лат. <span class='lat'>praeteritum</span> ← <span class='lat'>praeter-ire</span>: <span class='lat'>praeter</span> «мимо» + <span class='lat'>ire</span> «идти»", d:"«прошедшее мимо»", e:"Действие уже прошло мимо нас. Одно слово-глагол без помощника: <i>ging, kam, schlief</i>. Типично для книг, сказок и газет; в разговоре чаще Perfekt (кроме <i>war, hatte</i> и модальных: <i>konnte, musste</i>).", b:"Als er nach Hause kam, schlief seine Frau schon.", c:"Русское «<b>прошедшее</b>» — то же самое: про-шедшее = «прошедшее мимо»."},
+{w:"Perfekt", ru:"перфект (сложное прошедшее)", k:"Zeitformen", h:"лат. <span class='lat'>perfectum</span> ← <span class='lat'>per-ficere</span>: <span class='lat'>per</span> «до конца, насквозь» + <span class='lat'>facere</span> «делать»", d:"«доделанное до конца», завершённое", e:"Действие завершено, результат важен сейчас. Строится из двух частей: <b>haben/sein</b> (на 2-м месте) + <b>Partizip II</b> (в конце, правая скобка). Главное время немецкого разговора.", b:"Ich bin nach Hause gegangen.", c:"Отсюда и слово «перфектный» = совершенный, законченный. Русское «<b>совершенный</b> вид» — тот же смысл."},
+{w:"Plusquamperfekt", ru:"предпрошедшее время", k:"Zeitformen", h:"лат. <span class='lat'>plus quam perfectum</span>", d:"«больше, чем завершённое»", e:"Прошлое ещё раньше другого прошлого. <b>hatte/war</b> + Partizip II. Часто вместе с Präteritum: сначала одно (Plusquamperfekt), потом другое (Präteritum).", b:"Ich war schon nach Hause gegangen, als es regnete."},
+{w:"Futur I", ru:"будущее время", k:"Zeitformen", h:"лат. <span class='lat'>futurum</span> — форма глагола <span class='lat'>esse</span> «быть»", d:"«то, что будет»", e:"<b>werden</b> + Infinitiv. Будущее, а также предположение: <i>Er wird krank sein</i> = он, наверное, болен.", b:"Ich werde nach Hause gehen."},
+{w:"Futur II", ru:"будущее завершённое", k:"Zeitformen", h:"лат. <span class='lat'>futurum exactum</span>; <span class='lat'>exactus</span> «доведённый до конца»", d:"«точно завершённое будущее»", e:"К определённому моменту в будущем действие уже будет закончено. <b>werden</b> + Partizip II + <b>haben/sein</b>. Также предположение о прошлом: <i>Er wird es vergessen haben</i>.", b:"Morgen um acht werde ich nach Hause gegangen sein."},
+
+// ---------- Verb ----------
+{w:"Verb", ru:"глагол", k:"Verb", h:"лат. <span class='lat'>verbum</span>", d:"«слово»", e:"Римляне называли глагол просто «словом» — главным словом предложения. Без глагола нет предложения.", b:"gehen, kommen, schlafen", c:"Старославянское «<b>глаголъ</b>» тоже значило «слово» (глаголить = говорить). Русский термин — точная калька."},
+{w:"finites Verb", ru:"спрягаемый (личный) глагол", k:"Verb", h:"лат. <span class='lat'>finitus</span> «ограниченный, определённый» ← <span class='lat'>finis</span> «граница, конец»", d:"«определённый (ограниченный) глагол»", e:"Форма глагола, которая «ограничена» лицом и числом: <i>gehe</i> (только ich), <i>gehst</i> (только du). В каждом предложении ровно один finites Verb. В Satzlabor он красный.", b:"Ich <b>gehe</b>. Du <b>bist</b> gegangen.", c:"Слово <i>finis</i> знакомо: «<b>финиш</b>», «<b>финал</b>» — граница, конец."},
+{w:"Verbzweitstellung (V2)", ru:"глагол на втором месте", k:"Verb", h:"нем. <i>Verb</i> + <i>zwei</i> «два» + <i>Stellung</i> «положение»", d:"«глагол-два-позиция»", e:"Главное правило немецкого повествовательного предложения: <b>finites Verb стоит на 2-м месте</b>. На 1-м месте — одно любое Satzglied (Vorfeld). Даже целое придаточное считается одним местом!", b:"Heute <b>gehe</b> ich nach Hause. · Als er kam, <b>schlief</b> sie schon."},
+{w:"Infinitiv", ru:"неопределённая форма (инфинитив)", k:"Verb", h:"лат. <span class='lat'>(modus) infinitivus</span>: <span class='lat'>in-</span> «не» + <span class='lat'>finitus</span> «определённый»", d:"«неопределённый»", e:"Глагол без лица и числа — словарная форма на <b>-en</b>. Противоположность finites Verb.", b:"gehen, arbeiten, sein", c:"«<b>Неопределённая форма</b>» — дословный перевод <i>in-finitivus</i>."},
+{w:"Partizip", ru:"причастие", k:"Verb", h:"лат. <span class='lat'>participium</span> ← <span class='lat'>pars</span> «часть» + <span class='lat'>capere</span> «брать»", d:"«берущее часть», причастное", e:"Форма, которая «участвует» сразу в двух частях речи: она и глагол, и прилагательное. Partizip I = <i>gehend</i>, Partizip II = <i>gegangen</i>.", b:"der <b>schlafende</b> Mann · ich bin <b>gegangen</b>", c:"«<b>При-част-ие</b>» = «при-частное», участвующее — точная калька с <i>parti-cipium</i>."},
+{w:"Partizip II", ru:"причастие прошедшего времени", k:"Verb", h:"см. Partizip; «II» — вторая форма", d:"«вторая причастная форма»", e:"Обычно <b>ge-…-t</b> (gemacht) или <b>ge-…-en</b> (gegangen). Нужно для Perfekt, Plusquamperfekt, Futur II и Passiv. В Satzlabor стоит в конце — правая скобка.", b:"gemacht, gegangen, geschlafen, gebracht"},
+{w:"Partizip I", ru:"причастие настоящего времени", k:"Verb", h:"см. Partizip", d:"«первая причастная форма»", e:"Infinitiv + <b>-d</b>: <i>gehend, lachend</i>. «Тот, кто сейчас делает». Как прилагательное или наречие.", b:"das <b>lachende</b> Kind · Er kam <b>singend</b> nach Hause."},
+{w:"Hilfsverb", ru:"вспомогательный глагол", k:"Verb", h:"нем. <i>Hilfe</i> «помощь» + <i>Verb</i>", d:"«глагол-помощник»", e:"<b>haben, sein, werden</b> — помогают строить сложные времена и пассив. Движение/изменение состояния (gehen, kommen, einschlafen) → <b>sein</b>; остальное чаще → <b>haben</b>.", b:"Ich <b>habe</b> gegessen. Ich <b>bin</b> gelaufen."},
+{w:"Modalverb", ru:"модальный глагол", k:"Verb", h:"лат. <span class='lat'>modus</span> «мера, способ»", d:"«глагол способа»", e:"Показывает <i>как</i> относится человек к действию: может, хочет, должен. <b>können, müssen, wollen, sollen, dürfen, mögen</b>. Второй глагол — в Infinitiv в конце.", b:"Ich <b>will</b> heute nicht arbeiten."},
+{w:"Konjugation", ru:"спряжение", k:"Verb", h:"лат. <span class='lat'>coniugatio</span> ← <span class='lat'>con-</span> «вместе» + <span class='lat'>iugum</span> «ярмо»", d:"«запряжение вместе»", e:"Изменение глагола по лицам и числам: ich gehe, du gehst, er geht… Глагол «запрягают» вместе с лицом.", b:"ich gehe · du gehst · er geht · wir gehen", c:"«<b>Спряжение</b>» от «с-прягать» = запрягать вместе. Калька с <i>con-iugatio</i>. Слово «<b>иго</b>» — родственник <i>iugum</i>!"},
+{w:"starke / schwache Verben", ru:"сильные / слабые глаголы", k:"Verb", h:"нем. — термины Якоба Гримма (1819)", d:"«сильные» меняются сами, «слабым» нужна помощь", e:"<b>Сильные</b> меняют гласную корня своими силами: <i>gehen – ging – gegangen</i>. <b>Слабые</b> просто добавляют <b>-te / -t</b>: <i>machen – machte – gemacht</i>.", b:"singen – sang – gesungen · spielen – spielte – gespielt"},
+{w:"Aktiv", ru:"действительный залог", k:"Verb", h:"лат. <span class='lat'>activum</span> ← <span class='lat'>agere</span> «действовать»", d:"«действующий»", e:"Подлежащее само действует.", b:"Der Mann isst den Apfel.", c:"«<b>Действительный</b>» — калька с <i>activum</i>."},
+{w:"Passiv", ru:"страдательный залог", k:"Verb", h:"лат. <span class='lat'>passivum</span> ← <span class='lat'>pati</span> «терпеть, страдать»", d:"«претерпевающий»", e:"С подлежащим что-то делают. <b>werden</b> + Partizip II.", b:"Der Apfel wird gegessen.", c:"«<b>Страдательный</b>» = претерпевающий — калька с <i>passivum</i>. Отсюда же «пассивный» и «пациент» (терпящий)."},
+
+// ---------- Modus ----------
+{w:"Modus", ru:"наклонение", k:"Modus", h:"лат. <span class='lat'>modus</span> «мера, способ»; греч. <span class='lat'>enklisis</span> «наклон»", d:"«способ (высказывания)»", e:"Как говорящий подаёт действие: как факт (Indikativ), как мечту/возможность (Konjunktiv) или как приказ (Imperativ).", b:"Er kommt. · Er käme. · Komm!", c:"«<b>Наклонение</b>» — калька с греческого <i>enklisis</i> «наклон» (речь «наклоняется» к факту, желанию или приказу)."},
+{w:"Indikativ", ru:"изъявительное наклонение", k:"Modus", h:"лат. <span class='lat'>indicare</span> «указывать, объявлять»", d:"«указывающий»", e:"Обычная форма: просто сообщаем факт.", b:"Ich gehe nach Hause.", c:"«<b>Изъявительное</b>» (изъявлять = объявлять) — калька."},
+{w:"Konjunktiv", ru:"сослагательное наклонение", k:"Modus", h:"лат. <span class='lat'>(modus) coniunctivus</span> ← <span class='lat'>con-iungere</span> «соединять»", d:"«соединительный»", e:"В латыни эта форма чаще всего стояла в придаточных, «соединённых» с главным. В немецком: <b>Konjunktiv II</b> — мечта, вежливость, нереальное (<i>wäre, hätte, würde gehen</i>); <b>Konjunktiv I</b> — чужая речь в газетах (<i>er sei, er habe</i>).", b:"Wenn ich Zeit <b>hätte</b>, <b>würde</b> ich kommen.", c:"«<b>Со-слага-тельное</b>» = «со-слагаемое, присоединяемое» — та же идея, что <i>con-iunctivus</i>."},
+{w:"Imperativ", ru:"повелительное наклонение", k:"Modus", h:"лат. <span class='lat'>imperare</span> «приказывать, повелевать»", d:"«приказывающий»", e:"Просьба или приказ. Глагол на 1-м месте.", b:"Geh nach Hause! · Kommt bitte!", c:"«<b>Повелительное</b>» — калька. Родственники: <i>imperator</i> «повелитель», «империя»."},
+
+// ---------- Fälle ----------
+{w:"Kasus", ru:"падеж", k:"Fälle", h:"лат. <span class='lat'>casus</span> «падение» ← <span class='lat'>cadere</span> «падать»; калька с греч. <span class='lat'>ptōsis</span>", d:"«падение»", e:"Греки представляли: слово «стоит» в Nominativ, а в остальных формах «падает, отклоняется». В немецком 4 падежа: Nominativ, Akkusativ, Dativ, Genitiv. Нем. слово: <b>der Fall</b> (тоже «падение»!).", b:"der Mann · den Mann · dem Mann · des Mannes", c:"«<b>Падеж</b>» от «падать» — точная калька. И немецкое <b>Fall</b> = падение. Три языка — одна картинка."},
+{w:"Nominativ", ru:"именительный падеж", k:"Fälle", h:"лат. <span class='lat'>nominare</span> «называть» ← <span class='lat'>nomen</span> «имя»", d:"«называющий»", e:"Словарная форма, падеж подлежащего. Вопрос: <b>Wer? Was?</b>", b:"<b>Der Mann</b> isst den Apfel.", c:"«<b>Именительный</b>» — калька (nomen = имя)."},
+{w:"Genitiv", ru:"родительный падеж", k:"Fälle", h:"лат. <span class='lat'>genitivus</span> ← <span class='lat'>gignere</span> «рождать»; ошибочный перевод греч. <span class='lat'>genikē</span> «родовой»", d:"«родительный, рождающий»", e:"Принадлежность. Вопрос: <b>Wessen?</b> Греки имели в виду «падеж рода, вида», а римляне поняли как «рождение».", b:"das Auto <b>des Vaters</b>", c:"«<b>Родительный</b>» — калька с латинской (неточной) версии."},
+{w:"Dativ", ru:"дательный падеж", k:"Fälle", h:"лат. <span class='lat'>dativus</span> ← <span class='lat'>dare</span> «давать»", d:"«дающий, дательный»", e:"Кому дают. Вопрос: <b>Wem?</b> Также после <i>mit, nach, bei, seit, von, zu, aus</i>.", b:"Ich gebe <b>meiner Oma</b> einen Brief.", c:"«<b>Дательный</b>» — калька (dare = давать; ср. «дата» — «дано такого-то числа»)."},
+{w:"Akkusativ", ru:"винительный падеж", k:"Fälle", h:"лат. <span class='lat'>accusativus</span> ← <span class='lat'>accusare</span> «обвинять»; неточный перевод греч. <span class='lat'>aitiatikē</span>", d:"«обвинительный»", e:"Прямое дополнение. Вопрос: <b>Wen? Was?</b> Греческое <i>aitia</i> значило и «причина», и «вина»; римляне выбрали «вину» — так появилось странное название.", b:"Ich sehe <b>den Mann</b>.", c:"«<b>Винительный</b>» — калька с той же ошибки: <i>accusare</i> = обвинять, винить."},
+{w:"Deklination", ru:"склонение", k:"Fälle", h:"лат. <span class='lat'>declinatio</span> ← <span class='lat'>de-clinare</span> «отклонять»", d:"«отклонение»", e:"Изменение существительных, артиклей, прилагательных по падежам и числам — они «отклоняются» от исходной формы.", b:"der · des · dem · den", c:"«<b>Склонение</b>» — «склонять, отклонять» — калька."},
+
+// ---------- Wortarten ----------
+{w:"Substantiv (Nomen)", ru:"существительное", k:"Wortarten", h:"лат. <span class='lat'>(nomen) substantivum</span> ← <span class='lat'>substantia</span> «сущность»", d:"«(имя) сущности»", e:"Предмет, человек, понятие. В немецком всегда с большой буквы. <i>Nomen</i> = «имя».", b:"der Mann, die Frau, das Haus", c:"«<b>Существительное</b>» — калька с <i>substantivum</i>."},
+{w:"Adjektiv", ru:"прилагательное", k:"Wortarten", h:"лат. <span class='lat'>(nomen) adiectivum</span> ← <span class='lat'>ad-icere</span> «прибавлять, прикладывать»", d:"«прилагаемое»", e:"Признак предмета; «прикладывается» к существительному.", b:"das <b>kleine</b> Kind", c:"«<b>При-лаг-ательное</b>» = при-кладываемое — калька."},
+{w:"Adverb", ru:"наречие", k:"Wortarten", h:"лат. <span class='lat'>adverbium</span>: <span class='lat'>ad</span> «при» + <span class='lat'>verbum</span> «глагол/слово»", d:"«при глаголе»", e:"Неизменяемое слово, уточняет глагол: когда, как, где.", b:"heute, schnell, dort, oft", c:"«<b>На-речие</b>» = «при-слове» (речь = слово) — калька с <i>ad-verbium</i>."},
+{w:"Pronomen", ru:"местоимение", k:"Wortarten", h:"лат. <span class='lat'>pro nomine</span>", d:"«вместо имени»", e:"Стоит вместо существительного: <i>der Mann → er</i>.", b:"ich, du, er, sie, es, wir, ihr, sie", c:"«<b>Место-имение</b>» = «вместо имени» — калька."},
+{w:"Präposition", ru:"предлог", k:"Wortarten", h:"лат. <span class='lat'>praepositio</span> ← <span class='lat'>prae</span> «перед» + <span class='lat'>ponere</span> «ставить»", d:"«поставленное впереди»", e:"Маленькое слово перед существительным; определяет падеж: <i>mit</i> + Dativ, <i>für</i> + Akkusativ, <i>in</i> + Dat./Akk.", b:"<b>nach</b> Hause, <b>mit</b> dem Auto, <b>in</b> die Stadt", c:"«<b>Пред-лог</b>» = «пред-положенное» — калька."},
+{w:"Konjunktion", ru:"союз", k:"Wortarten", h:"лат. <span class='lat'>coniunctio</span> «соединение»", d:"«соединение»", e:"Соединяет слова и предложения: <i>und, aber, oder</i> (глагол остаётся на 2-м месте), <i>weil, dass, als, wenn</i> (глагол уходит в конец придаточного).", b:"<b>Als</b> er nach Hause kam, schlief sie schon.", c:"«<b>Союз</b>» (со-уз = связывающий узел) — та же идея соединения."},
+{w:"Artikel", ru:"артикль", k:"Wortarten", h:"лат. <span class='lat'>articulus</span> «суставчик, членик» ← <span class='lat'>artus</span> «сустав»", d:"«маленький сустав»", e:"<b>der, die, das</b> (определённый), <b>ein, eine</b> (неопределённый). Как суставчик, соединяет существительное с предложением и показывает род, число и падеж.", b:"<b>der</b> Mann, <b>eine</b> Frau"},
+
+// ---------- Satz ----------
+{w:"Satzglied", ru:"член предложения", k:"Satz", h:"нем. <i>Satz</i> «предложение» + <i>Glied</i> «член, звено»", d:"«звено предложения»", e:"Часть предложения, которую можно целиком переставить на 1-е место (Umstellprobe). Может состоять из нескольких слов: <i>seine Frau</i> — одно Satzglied.", b:"[Heute] [gehe] [ich] [nach Hause]."},
+{w:"Subjekt", ru:"подлежащее", k:"Satz", h:"лат. <span class='lat'>subiectum</span> ← <span class='lat'>sub</span> «под» + <span class='lat'>iacere</span> «бросать, класть»; калька с греч. <span class='lat'>hypokeimenon</span> «лежащее в основе»", d:"«положенное под, лежащее в основе»", e:"То, о чём говорится, — основа предложения. Всегда в Nominativ. Вопрос: <b>Wer? Was?</b>", b:"<b>Mein Sohn</b> hat einen Brief gebracht.", c:"«<b>Под-лежащее</b>» = «лежащее под» — точная калька."},
+{w:"Prädikat", ru:"сказуемое", k:"Satz", h:"лат. <span class='lat'>praedicatum</span> ← <span class='lat'>praedicare</span> «объявлять, высказывать»", d:"«высказанное»", e:"То, что «высказывается» о подлежащем, — глагольная часть. Может быть из нескольких слов: <i>bin … gegangen</i>.", b:"Ich <b>bin</b> nach Hause <b>gegangen</b>.", c:"«<b>Сказуемое</b>» = «то, что сказано» — калька с <i>praedicatum</i>."},
+{w:"Objekt", ru:"дополнение", k:"Satz", h:"лат. <span class='lat'>obiectum</span> ← <span class='lat'>ob</span> «навстречу» + <span class='lat'>iacere</span> «бросать»", d:"«брошенное навстречу»", e:"На что направлено действие. <b>Akkusativobjekt</b> (Wen? Was?), <b>Dativobjekt</b> (Wem?).", b:"Ich gebe <b>meiner Oma</b> <b>einen Brief</b>."},
+{w:"Adverbiale (Angabe)", ru:"обстоятельство", k:"Satz", h:"лат. <span class='lat'>adverbialis</span> ← <span class='lat'>adverbium</span>", d:"«наречное»", e:"Обстоятельства действия: <b>Wann?</b> (Zeit), <b>Wie?</b> (Art und Weise), <b>Wo/Wohin?</b> (Ort), <b>Warum?</b> (Grund). Порядок в Mittelfeld: <b>te-ka-mo-lo</b> — temporal, kausal, modal, lokal.", b:"Ich fahre <b>morgen</b> <b>mit dem Zug</b> <b>nach Hannover</b>."},
+{w:"Satzklammer", ru:"рамочная конструкция", k:"Satz", h:"нем. <i>Satz</i> + <i>Klammer</i> «скобка, скоба»", d:"«скобка предложения»", e:"Две части сказуемого образуют скобки: <b>левая</b> — finites Verb (2-е место), <b>правая</b> — Infinitiv/Partizip/приставка в конце. Всё остальное — внутри, в Mittelfeld.", b:"Ich [<b>bin</b>] gestern nach Hause [<b>gegangen</b>]."},
+{w:"Vorfeld · Mittelfeld · Nachfeld", ru:"переднее · среднее · заднее поле", k:"Satz", h:"нем.; модель полей Эриха Драха (1937)", d:"«поле перед, в середине, после»", e:"<b>Vorfeld</b> — всё до левой скобки (одно Satzglied). <b>Mittelfeld</b> — между скобками. <b>Nachfeld</b> — после правой скобки (редко). Так немецкое предложение можно «измерить», как геометрическую фигуру.", b:"[Gestern] <b>bin</b> [ich nach Hause] <b>gegangen</b> [mit Lidia]."},
+{w:"Hauptsatz / Nebensatz", ru:"главное / придаточное предложение", k:"Satz", h:"нем. <i>Haupt</i> «голова, главный»; <i>neben</i> «рядом, побочный»", d:"«главное» / «побочное» предложение", e:"Hauptsatz: глагол на 2-м месте. Nebensatz: начинается с союза (<i>weil, dass, als, wenn</i>), finites Verb — <b>в самом конце</b>.", b:"Ich bleibe zu Hause, weil ich müde <b>bin</b>."},
+{w:"Syntax", ru:"синтаксис", k:"Satz", h:"греч. <span class='lat'>syntaxis</span> ← <span class='lat'>syn</span> «вместе» + <span class='lat'>taxis</span> «порядок, построение»", d:"«построение вместе»", e:"Учение о том, как слова строятся в предложение. Слово <i>taxis</i> — то же, что в «тактика» (построение войска).", b:"Satzbau = Syntax"},
+{w:"Grammatik", ru:"грамматика", k:"Satz", h:"греч. <span class='lat'>grammatikē (technē)</span> ← <span class='lat'>gramma</span> «буква»", d:"«искусство букв»", e:"Сначала — просто умение читать и писать. Потом — все правила языка.", b:"die deutsche Grammatik"},
+
+// ---------- Form ----------
+{w:"Genus", ru:"род", k:"Form", h:"лат. <span class='lat'>genus</span> «род, происхождение»", d:"«род»", e:"<b>Maskulinum</b> (лат. <i>masculus</i> «мужской») — der; <b>Femininum</b> (<i>femina</i> «женщина») — die; <b>Neutrum</b> (<i>ne-uter</i> «ни тот, ни другой») — das.", b:"der Tisch · die Lampe · das Buch", c:"«<b>Средний</b> род» = «ни мужской, ни женский» — смысл <i>ne-uter</i>. Отсюда «нейтральный»."},
+{w:"Numerus: Singular / Plural", ru:"число: единственное / множественное", k:"Form", h:"лат. <span class='lat'>numerus</span> «число»; <span class='lat'>singularis</span> «единичный»; <span class='lat'>pluralis</span> ← <span class='lat'>plus</span> «больше»", d:"«единичное» / «большее»", e:"Одна вещь или несколько.", b:"das Kind – die Kinder", c:"Русские термины — кальки: «единственное», «множественное»."},
+{w:"Person", ru:"лицо", k:"Form", h:"лат. <span class='lat'>persona</span> «маска актёра»; греч. <span class='lat'>prosōpon</span> «лицо, маска»", d:"«маска, роль»", e:"Кто говорит (1-е лицо: ich/wir), к кому обращаются (2-е: du/ihr), о ком говорят (3-е: er/sie/es). Как роли в театре.", b:"ich gehe · du gehst · er geht", c:"«<b>Лицо</b>» — калька с греческого <i>prosōpon</i> «лицо»."},
+{w:"Präfix / Suffix", ru:"приставка / суффикс", k:"Form", h:"лат. <span class='lat'>prae-fixum</span> «прикреплённое впереди», <span class='lat'>suf-fixum</span> «прикреплённое снизу (после)» ← <span class='lat'>figere</span> «прикреплять»", d:"«прикреплённое спереди / сзади»", e:"Приставка — перед корнем (<i>ver-, be-, ab-</i>), суффикс — после (<i>-ung, -heit, -lich</i>). Отделяемые приставки (<i>an-, ab-, mit-</i>) уходят в конец: правая скобка.", b:"<b>an</b>kommen → Ich komme um 8 Uhr <b>an</b>.", c:"«<b>При-ставка</b>» = «при-ставленное» — та же картинка, что <i>prae-fixum</i>."},
+{w:"Umlaut / Ablaut", ru:"умлаут / аблаут (чередование гласных)", k:"Form", h:"нем. <i>um</i> «пере-» / <i>ab</i> «от-» + <i>Laut</i> «звук»", d:"«перезвук» / «отзвук»", e:"<b>Umlaut</b> — гласная меняется на ä, ö, ü (<i>Haus – Häuser</i>). <b>Ablaut</b> — смена гласной в сильных глаголах (<i>singen – sang – gesungen</i>).", b:"der Apfel – die Äpfel · finden – fand – gefunden"},
+
+// ---------- Mathematik ----------
+{w:"Mathematik", ru:"математика", k:"Mathematik", h:"греч. <span class='lat'>mathēma</span> «знание, наука, то, чему учатся»", d:"«наука о знании», учение", e:"Для древних греков — просто «то, что изучают». Позже — наука о числах и формах.", b:"Mathematik ist überall."},
+{w:"senkrecht / Perpendikel", ru:"перпендикуляр", k:"Mathematik", h:"лат. <span class='lat'>perpendiculum</span> «отвес» ← <span class='lat'>per-pendere</span> «свисать»", d:"«отвес»", e:"Перпендикуляр — линия, как нить с грузиком (отвес), висящая к земле: под прямым углом. Немецкое <b>senkrecht</b> = «опущенно-прямой».", b:"Die Gerade steht senkrecht auf der anderen.", c:"Слова «<b>маятник</b>» (Pendel) и «<b>подвеска</b>» (Anhänger, pendant) — родственники <i>pendere</i> «висеть»."},
+{w:"Konstante", ru:"постоянная (константа)", k:"Mathematik", h:"лат. <span class='lat'>constans</span> ← <span class='lat'>con-stare</span> «твёрдо стоять»", d:"«твёрдо стоящая»", e:"Величина, которая не меняется: π, g = 9,81 м/с².", b:"Die Kreiszahl π ist eine Konstante.", c:"«<b>Постоянная</b>» = «по-стоянная», стоящая на месте — калька."},
+{w:"Variable", ru:"переменная", k:"Mathematik", h:"лат. <span class='lat'>variabilis</span> ← <span class='lat'>variare</span> «изменять»", d:"«изменчивая»", e:"Буква вместо числа, которое может меняться: x, y.", b:"Setze für x die Zahl 3 ein.", c:"«<b>Переменная</b>» — калька."},
+{w:"parallel", ru:"параллельный", k:"Mathematik", h:"греч. <span class='lat'>para allēlois</span>", d:"«рядом друг с другом»", e:"Прямые, которые идут рядом и никогда не пересекаются.", b:"Die Schienen verlaufen parallel."},
+{w:"Diagonale", ru:"диагональ", k:"Mathematik", h:"греч. <span class='lat'>dia</span> «через» + <span class='lat'>gōnia</span> «угол»", d:"«из угла через угол»", e:"Отрезок, соединяющий два несоседних угла.", b:"Ein Rechteck hat zwei Diagonalen.", c:"<i>gōnia</i> «угол» — также в «три-<b>гон</b>-ометрия», «поли-<b>гон</b>» (многоугольник)."},
+{w:"Kathete", ru:"катет", k:"Mathematik", h:"греч. <span class='lat'>kathetos</span> «опущенный (отвесно)»", d:"«отвес, опущенная»", e:"Сторона прямоугольного треугольника, прилегающая к прямому углу. Один катет «опущен» на другой, как отвес.", b:"a² + b² = c² – a und b sind die Katheten."},
+{w:"Hypotenuse", ru:"гипотенуза", k:"Mathematik", h:"греч. <span class='lat'>hypoteinousa</span> ← <span class='lat'>hypo</span> «под» + <span class='lat'>teinein</span> «натягивать»", d:"«натянутая под (прямым углом)»", e:"Самая длинная сторона прямоугольного треугольника, лежит напротив прямого угла — как тетива, натянутая под углом.", b:"c ist die Hypotenuse."},
+{w:"Geometrie", ru:"геометрия", k:"Mathematik", h:"греч. <span class='lat'>gē</span> «земля» + <span class='lat'>metrein</span> «измерять»", d:"«землемерие»", e:"В Египте после разливов Нила заново измеряли участки земли — отсюда наука о фигурах.", b:"Geometrie: Dreieck, Kreis, Quadrat", c:"Русское слово «<b>землемер</b>» — дословный перевод."},
+{w:"Radius / Durchmesser", ru:"радиус / диаметр", k:"Mathematik", h:"лат. <span class='lat'>radius</span> «спица колеса, луч»; греч. <span class='lat'>dia-metros</span> «мера через»", d:"«спица» / «мера насквозь»", e:"Radius — от центра до окружности, как спица колеса. Durchmesser (диаметр) — через весь круг = 2 · r. Немецкое <b>Durch-messer</b> — калька с <i>dia-metros</i>.", b:"d = 2 · r"},
+{w:"Prozent", ru:"процент", k:"Mathematik", h:"лат. <span class='lat'>pro centum</span>", d:"«на сотню»", e:"Одна сотая часть. 3 % = 3 из 100. Отсюда и вычисления процентов по кредиту при покупке машины.", b:"3 % Zinsen auf 10 000 € = 300 €"},
+{w:"Quotient", ru:"частное", k:"Mathematik", h:"лат. <span class='lat'>quotiens</span> «сколько раз»", d:"«сколько раз»", e:"Результат деления: сколько раз делитель помещается в делимом.", b:"12 : 3 = 4 – 4 ist der Quotient."},
+{w:"Algebra", ru:"алгебра", k:"Mathematik", h:"араб. <span class='lat'>al-dschabr</span> «восполнение, восстановление»", d:"«восстановление»", e:"Из названия книги аль-Хорезми (IX век, родом из Хорезма — Средняя Азия). «Восстановление» — перенос членов уравнения на другую сторону.", b:"x + 5 = 8  →  x = 3"},
+{w:"Algorithmus", ru:"алгоритм", k:"Mathematik", h:"от имени <b>аль-Хорезми</b>, лат. <span class='lat'>Algorismi</span>", d:"«(по методу) аль-Хорезми»", e:"Точная последовательность шагов. Средневековые латинские переводы начинались словами «Dixit Algorismi…» — «сказал аль-Хорезми».", b:"Ein Kochrezept ist auch ein Algorithmus."}
+];
+
+// ============================================================
+const KATS = ["Alle", "Zeitformen", "Verb", "Modus", "Fälle", "Wortarten", "Satz", "Form", "Mathematik"];
+const KAT_RU = { "Alle":"все", "Zeitformen":"времена", "Verb":"глагол", "Modus":"наклонения", "Fälle":"падежи", "Wortarten":"части речи", "Satz":"предложение", "Form":"формы", "Mathematik":"математика" };
+let aktivKat = "Alle";
+
+function plain(s) { const d = document.createElement("div"); d.innerHTML = s; return d.textContent || ""; }
+function norm(s) { return plain(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+
+function render() {
+  const q = norm(document.getElementById("q").value.trim());
+  const box = document.getElementById("liste");
+  const treffer = G.filter((x) => (aktivKat === "Alle" || x.k === aktivKat) &&
+    (!q || norm(x.w + " " + x.ru + " " + x.h + " " + x.d + " " + x.e + " " + (x.b || "")).includes(q)));
+  if (!treffer.length) { box.innerHTML = "<div class='leer'>Nichts gefunden / ничего не найдено</div>"; return; }
+  box.innerHTML = treffer.map((x, i) => `
+    <details class="karte" ${q ? "open" : ""}>
+      <summary><span class="wort">${x.w}</span><span class="ruterm">— ${x.ru}</span><span class="kat">${x.k}</span></summary>
+      <div class="inhalt">
+        <div class="zeile"><span class="lbl">Herkunft · откуда</span>${x.h}</div>
+        <div class="zeile"><span class="lbl">дословно</span><span class="woertl">${x.d}</span></div>
+        <div class="zeile">${x.e}</div>
+        ${x.c ? `<div class="kalke">🟩 ${x.c}</div>` : ""}
+        ${x.b ? `<div class="bsp">Beispiel: <b>${x.b}</b> <button class="sprich" data-t="${encodeURIComponent(plain(x.b))}">🔊</button></div>` : ""}
+        <button class="sprich" data-t="${encodeURIComponent(plain(x.w).replace(/[()·\/]/g, ","))}">🔊 ${plain(x.w)}</button>
+      </div>
+    </details>`).join("");
+}
+
+function chips() {
+  const c = document.getElementById("chips");
+  c.innerHTML = KATS.map((k) => `<button class="chip ${k === aktivKat ? "an" : ""}" data-k="${k}">${k} <small>${KAT_RU[k]}</small></button>`).join("");
+}
+
+// ---------- Sprachausgabe / озвучка ----------
+const SCHLECHT = /(eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|bad news|bubbles|jester|organ|whisper|zarvox|trinoids|cellos|bells|boing|albert|fred|junior|kathy|ralph|superstar|wobble|good news|hysterical)/i;
+const GUT = /(anna|helena|petra|markus|yannick|viktor|google deutsch|katja|conrad|amala|seraphina|florian|hedda|stefan|natural|online|premium|enhanced|erweitert)/i;
+let rate = 0.9;
+function stimme() {
+  if (!("speechSynthesis" in window)) return null;
+  const v = speechSynthesis.getVoices().filter((x) => x.lang && x.lang.toLowerCase().replace("_", "-").startsWith("de"));
+  let gespeichert = ""; try { gespeichert = localStorage.getItem("satzlabor_voice") || ""; } catch (e) {}
+  const g = v.find((x) => x.name === gespeichert);
+  if (g) return g;
+  const p = (x) => (GUT.test(x.name) ? 20 : 0) + (SCHLECHT.test(x.name) ? -50 : 0) + (x.lang.toLowerCase().replace("_","-") === "de-de" ? 10 : 0);
+  return v.sort((a, b) => p(b) - p(a))[0] || null;
+}
+function sprich(t) {
+  if (!("speechSynthesis" in window) || !t) return;
+  const u = new SpeechSynthesisUtterance(t);
+  u.lang = "de-DE"; u.rate = rate;
+  const s = stimme(); if (s) u.voice = s;
+  const syn = window.speechSynthesis;
+  if (syn.speaking || syn.pending) { syn.cancel(); setTimeout(() => syn.speak(u), 120); } else { syn.cancel(); syn.speak(u); }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  try { rate = parseFloat(localStorage.getItem("glossar_rate")) || 0.9; } catch (e) {}
+  const r = document.getElementById("rate"), rw = document.getElementById("rateW");
+  r.value = String(rate); rw.textContent = rate.toFixed(1) + "×";
+  r.addEventListener("input", () => { rate = parseFloat(r.value); rw.textContent = rate.toFixed(1) + "×"; try { localStorage.setItem("glossar_rate", String(rate)); } catch (e) {} });
+  chips(); render();
+  document.getElementById("q").addEventListener("input", render);
+  document.getElementById("chips").addEventListener("click", (e) => {
+    const b = e.target.closest(".chip"); if (!b) return;
+    aktivKat = b.dataset.k; chips(); render();
+  });
+  document.getElementById("liste").addEventListener("click", (e) => {
+    const b = e.target.closest(".sprich"); if (!b) return;
+    e.preventDefault(); sprich(decodeURIComponent(b.dataset.t));
+  });
+  if ("speechSynthesis" in window) speechSynthesis.getVoices();
+});
+</script>
+</body>
+</html>

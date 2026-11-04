@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Glossar – Wörter mit Herkunft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <script src="../../../datenbanken/glossar/glossar_en.js" defer></script>
+    <!-- 2026-11-02: Glossar EN – erstellt mit Claude
+         DE: Alle Wörter alphabetisch, mit Herkunft, Suche und Filtern.
+         RU: Все слова по алфавиту, с происхождением, поиском и фильтрами. -->
+    <style>
+      .gl-wrap { max-width: 980px; margin: 0 auto; }
+      .gl-sub { color: var(--text-muted, #59636e); margin-top: 0; }
+      .gl-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
+      .gl-tabs button { font: inherit; cursor: pointer; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border-subtle, #d0d7de); background: var(--bg-surface, #fff); color: var(--text-main, #1f2328); }
+      .gl-tabs button.aktiv { background: var(--accent, #1f6feb); border-color: var(--accent, #1f6feb); color: #fff; font-weight: 600; }
+      .gl-filter { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+      .gl-filter input, .gl-filter select { font: inherit; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border-subtle, #d0d7de); background: var(--bg-surface, #fff); color: var(--text-main, #1f2328); }
+      .gl-filter input { flex: 1; min-width: 200px; }
+      .gl-abc { display: flex; flex-wrap: wrap; gap: 3px; margin: 8px 0 14px; }
+      .gl-abc button { font: inherit; font-weight: 600; width: 32px; height: 32px; cursor: pointer; border-radius: 6px; border: 1px solid var(--border-subtle, #d0d7de); background: var(--bg-surface, #fff); color: var(--text-main, #1f2328); }
+      .gl-abc button:disabled { opacity: .3; cursor: default; }
+      .gl-buchstabe { font-size: 1.4rem; font-weight: 700; margin: 18px 0 6px; padding-bottom: 4px; border-bottom: 2px solid var(--accent, #1f6feb); }
+      .gl-eintrag { border: 1px solid var(--border-subtle, #d0d7de); border-radius: 10px; margin: 6px 0; background: var(--bg-surface, #fff); }
+      .gl-kopf { display: flex; gap: 10px; align-items: baseline; padding: 9px 12px; cursor: pointer; flex-wrap: wrap; }
+      .gl-wort { font-weight: 700; font-size: 1.1rem; min-width: 110px; }
+      .gl-de { flex: 1; }
+      .gl-ru { color: var(--text-muted, #59636e); }
+      .gl-punkt { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; align-self: center; }
+      .gl-stern { color: #d29922; }
+      .gl-body { padding: 0 12px 12px 32px; display: none; line-height: 1.45; }
+      .gl-eintrag.offen .gl-body { display: block; }
+      .gl-eintrag.offen { box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+      .gl-her { display: inline-block; font-size: .78rem; font-weight: 700; padding: 1px 9px; border-radius: 999px; color: #fff; margin: 2px 0 6px; }
+      .gl-tip { margin: 8px 0; padding: 6px 10px; border-left: 3px solid #d29922; background: rgba(210,153,34,.1); border-radius: 4px; }
+      .gl-bsp { margin-top: 6px; }
+      .gl-tags span { display: inline-block; font-size: .78rem; background: rgba(127,127,127,.14); border-radius: 999px; padding: 1px 8px; margin: 6px 4px 0 0; }
+      .gl-knoepfe { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
+      .gl-knoepfe button { font: inherit; font-size: .9rem; cursor: pointer; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border-subtle, #d0d7de); background: transparent; color: inherit; }
+      .gl-knoepfe button.ok { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+      .gl-satz { font-size: .9rem; color: var(--text-muted, #59636e); margin-top: 6px; }
+      .gl-leer { color: var(--text-muted, #59636e); padding: 20px 0; }
+      .gl-legende { display: flex; flex-wrap: wrap; gap: 10px; font-size: .82rem; color: var(--text-muted, #59636e); margin-top: 6px; }
+      .gl-warte { border: 1px dashed var(--border-subtle, #afb8c1); border-radius: 10px; padding: 12px; margin-top: 10px; }
+      .gl-warte textarea { width: 100%; min-height: 110px; font: inherit; font-size: .9rem; margin-top: 8px; box-sizing: border-box; }
+      .gl-knopf { font: inherit; cursor: pointer; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--accent, #1f6feb); background: var(--accent, #1f6feb); color: #fff; font-weight: 600; }
+      .gl-links { font-size: .9rem; margin-top: 18px; }
+      /* 2026-11-04: Schnelleingabe / быстрый ввод */
+      .gl-neu { border: 2px solid var(--accent, #1f6feb); border-radius: 12px; padding: 12px; margin: 10px 0 14px; background: var(--bg-surface, #fff); }
+      .gl-neu-titel { font-weight: 700; margin-bottom: 8px; }
+      .gl-neu-zeile { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      .gl-neu input[type=text] { font: inherit; font-size: 1.15rem; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--border-subtle, #d0d7de); background: var(--bg-surface, #fff); color: var(--text-main, #1f2328); flex: 1; min-width: 180px; }
+      .gl-neu input.notiz { font-size: .95rem; margin-top: 8px; width: 100%; box-sizing: border-box; flex: none; }
+      .gl-neu button { font: inherit; cursor: pointer; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-subtle, #d0d7de); background: transparent; color: inherit; }
+      .gl-neu button.an { background: var(--accent, #1f6feb); border-color: var(--accent, #1f6feb); color: #fff; }
+      .gl-neu .gl-knopf { border-color: var(--accent, #1f6feb); }
+      .gl-neu-msg { min-height: 1.3em; margin-top: 6px; font-size: .92rem; }
+      .gl-neu-msg.ok { color: #1a7f37; }
+    </style>
+  </head>
+  <body>
+    <div data-partial="header" data-partial-path="../../../core/partials/header.html"></div>
+
+    <main class="page-wrapper">
+      <div class="card gl-wrap">
+        <h1>📖 Glossar – Wörter mit Herkunft</h1>
+        <p class="gl-sub">Woher kommt das Wort? Wer die Herkunft kennt, vergisst das Wort nicht.<br>
+          <small>Откуда взялось слово? Кто знает происхождение – тот не забудет слово.</small></p>
+
+        <!-- 2026-11-04: Schnelleingabe – Wort eingeben, anhören, ins Glossar -->
+        <div class="gl-neu" id="neuBox">
+          <div class="gl-neu-titel">➕ Neues Wort / новое слово</div>
+          <div class="gl-neu-zeile">
+            <input type="text" id="neuWort" placeholder="z. B. default" autocomplete="off" autocapitalize="off" spellcheck="false" />
+            <button type="button" data-sp="en" class="an">EN</button>
+            <button type="button" data-sp="de">DE</button>
+          </div>
+          <input type="text" id="neuNotiz" class="notiz" placeholder="Wo gesehen? / где встретил? (необязательно)" autocomplete="off" />
+          <div class="gl-neu-zeile" style="margin-top:8px">
+            <button type="button" id="neuHoer">🔊 Anhören</button>
+            <button type="button" id="neuLangsam">🐢 Langsam</button>
+            <button type="button" id="neuSpeichern" class="gl-knopf">➕ Ins Glossar</button>
+          </div>
+          <div class="gl-neu-zeile" style="margin-top:8px;font-size:.9rem">
+            <label for="neuStimme">Stimme / голос:</label>
+            <select id="neuStimme" style="font:inherit;padding:5px 8px;border-radius:8px;flex:1;min-width:200px"></select>
+          </div>
+          <div class="gl-neu-msg" id="neuMsg"></div>
+        </div>
+
+        <div class="gl-tabs" id="tabs">
+          <button type="button" data-tab="alle" class="aktiv">Alle Wörter / все слова <span id="nAlle"></span></button>
+          <button type="button" data-tab="meine">⭐ Meine Wörter / мои <span id="nMeine"></span></button>
+          <button type="button" data-tab="warte">📭 Warten auf Erklärung / ждут объяснения <span id="nWarte"></span></button>
+        </div>
+
+        <div id="ansichtListe">
+          <div class="gl-filter">
+            <input type="search" id="suche" placeholder="Suchen: retired / Rentner / пенсия …" autocomplete="off" />
+            <select id="selHerkunft"><option value="">Herkunft: alle / все</option></select>
+            <select id="selThema"><option value="">Thema: alle / все темы</option></select>
+          </div>
+          <div class="gl-legende" id="legende"></div>
+          <div class="gl-abc" id="abc"></div>
+          <div id="liste"></div>
+        </div>
+
+        <div id="ansichtWarte" hidden>
+          <p>Diese Wörter hast du in der SprachBox gemerkt, aber es gibt noch keine Erklärung.
+            Schreib in den Chat mit Claude: <b>„Glossar ergänzen“</b> – oder kopiere die Liste und schicke sie.<br>
+            <small>Эти слова ты отметил, но объяснения ещё нет. Напиши Claude «дополни глоссарий» или скопируй список.</small></p>
+          <div id="warteListe"></div>
+          <div class="gl-warte">
+            <button type="button" class="gl-knopf" id="btnKopieren">📋 Liste kopieren / скопировать список</button>
+            <button type="button" class="gl-knopf" id="btnDatei" style="background:transparent;color:inherit">💾 Als Datei speichern</button>
+            <textarea id="warteText" readonly></textarea>
+          </div>
+        </div>
+
+        <div class="gl-links">
+          Weitere Glossare: <a href="https://claude.ai/artifact/GUJbrsqikj6uM1MgmjwoN5" target="_blank" rel="noopener">Grammatik &amp; Mathematik (online) ↗</a>
+          · <a href="../apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html">← SprachBox DE↔EN</a>
+          · <a href="../index.html">Language Lab</a>
+        </div>
+      </div>
+    </main>
+
+    <div data-partial="footer" data-partial-path="../../../core/partials/footer.html"></div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      "use strict";
+      const LS_MEINE = "glossar_meine_v1";
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      const G = (window.GLOSSAR_EN || []).slice().sort((a, b) => a.w.localeCompare(b.w, "en", { sensitivity: "base" }));
+      const H = window.GLOSSAR_HERKUNFT || {};
+      const norm = (s) => String(s || "").toLowerCase().replace(/[’`´]/g, "'").trim();
+
+      // Formen-Index (für „Meine Wörter“ und #w=)
+      const idx = {};
+      G.forEach((e) => [e.w].concat(e.f || []).forEach((x) => { const k = norm(x); if (!idx[k]) idx[k] = e; }));
+
+      function meine() { try { const d = JSON.parse(localStorage.getItem(LS_MEINE) || "{}"); return Array.isArray(d.items) ? d.items : []; } catch (e) { return []; } }
+      function meineSetzen(items) { try { localStorage.setItem(LS_MEINE, JSON.stringify({ items })); } catch (e) {} }
+      function gemerkt(w) { return meine().some((x) => (x.lang || "en") === "en" && norm(x.w) === norm(w)); }
+      function umschalten(e) {
+        const items = meine();
+        if (gemerkt(e.w)) meineSetzen(items.filter((x) => !((x.lang || "en") === "en" && norm(x.w) === norm(e.w))));
+        else { items.unshift({ w: e.w, lang: "en", satz: "", datum: new Date().toISOString().slice(0, 10), gefunden: true }); meineSetzen(items); }
+      }
+
+      let tab = "alle";
+      let offen = null;
+
+      // Filter füllen
+      Object.entries(H).forEach(([k, v]) => {
+        if (!G.some((e) => e.h === k)) return;
+        const o = document.createElement("option"); o.value = k; o.textContent = v.de + " / " + v.ru; $("selHerkunft").appendChild(o);
+        $("legende").insertAdjacentHTML("beforeend", `<span><span class="gl-punkt" style="background:${v.farbe}"></span> ${esc(v.de)}</span>`);
+      });
+      [...new Set(G.flatMap((e) => e.t || []))].sort((a, b) => a.localeCompare(b, "de")).forEach((t) => {
+        const o = document.createElement("option"); o.value = t; o.textContent = t; $("selThema").appendChild(o);
+      });
+
+      // 2026-11-04: Sprachausgabe – schnelle lokale Stimme bevorzugt, Stimme wählbar (Edge: Online-Stimmen sind langsam)
+      let stimmenListe = [];
+      const LS_STIMME = "glossar_stimme_";
+      function stimmenLaden() { try { stimmenListe = speechSynthesis.getVoices() || []; } catch (e) { stimmenListe = []; } if (typeof stimmenAuswahlFuellen === "function") stimmenAuswahlFuellen(); }
+      function tonHinweis(t) { const m = document.getElementById("neuMsg"); if (m) { m.textContent = t; m.className = "gl-neu-msg"; } }
+      function istOnline(v) { return !v.localService || /Online|Natural/i.test(v.name); }
+      function stimmenFuer(sprache) { const re = sprache === "de" ? /^de/i : /^en/i; return stimmenListe.filter((x) => re.test(x.lang)); }
+      function stimmeFuer(sprache) {
+        const v = stimmenFuer(sprache); if (!v.length) return null;
+        let gespeichert = ""; try { gespeichert = localStorage.getItem(LS_STIMME + sprache) || ""; } catch (e) {}
+        return v.find((x) => x.name === gespeichert)
+          || v.find((x) => !istOnline(x) && (sprache === "de" ? /de-DE/i : /en-GB/i).test(x.lang))
+          || v.find((x) => !istOnline(x))
+          || v[0];
+      }
+      function sprechen(text, sprache, tempo, ohneStimme) {
+        if (!("speechSynthesis" in window)) { tonHinweis("Dieser Browser kann nicht vorlesen. / Браузер не умеет озвучивать."); return; }
+        const de = sprache === "de";
+        const los = () => {
+          if (!stimmenListe.length) stimmenLaden();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = de ? "de-DE" : "en-GB"; u.rate = tempo || 0.85; u.volume = 1;
+          const st = ohneStimme ? null : stimmeFuer(de ? "de" : "en");
+          if (st) { u.voice = st; u.lang = st.lang; }
+          u.onerror = (ev) => {
+            if (!ohneStimme && ev.error !== "interrupted" && ev.error !== "canceled") sprechen(text, sprache, tempo, true);
+            else if (ohneStimme && ev.error !== "interrupted" && ev.error !== "canceled") tonHinweis("Kein Ton: " + ev.error + " / нет звука");
+          };
+          try { speechSynthesis.resume(); speechSynthesis.speak(u); } catch (e) {}
+        };
+        try {
+          if (speechSynthesis.speaking || speechSynthesis.pending) { speechSynthesis.cancel(); setTimeout(los, 60); }
+          else los();
+        } catch (e) {}
+      }
+
+      function eintragHtml(e, satz) {
+        const h = H[e.h] || { farbe: "#999", de: "", ru: "" };
+        const ist = gemerkt(e.w);
+        return `<div class="gl-eintrag ${offen === e.w ? "offen" : ""}" data-w="${esc(e.w)}" id="w-${esc(e.w)}">
+          <div class="gl-kopf">
+            <span class="gl-punkt" style="background:${h.farbe}" title="${esc(h.de)}"></span>
+            <span class="gl-wort">${esc(e.w)} ${ist ? '<span class="gl-stern">⭐</span>' : ""}</span>
+            <span class="gl-de">${esc(e.de)}</span>
+            <span class="gl-ru">${esc(e.ru)}</span>
+          </div>
+          <div class="gl-body">
+            <span class="gl-her" style="background:${h.farbe}">${esc(h.de)} · ${esc(h.ru)}</span>
+            <div><b>Herkunft / происхождение:</b> ${esc(e.her)}</div>
+            ${e.ver ? `<div style="margin-top:4px"><b>Verwandt / родственные:</b> ${esc(e.ver)}</div>` : ""}
+            ${e.f && e.f.length ? `<div style="margin-top:4px"><b>Formen:</b> ${esc(e.f.join(", "))}</div>` : ""}
+            ${e.tip ? `<div class="gl-tip">💡 ${esc(e.tip)}</div>` : ""}
+            ${e.bsp ? `<div class="gl-bsp">„${esc(e.bsp[0])}“ – <i>${esc(e.bsp[1])}</i></div>` : ""}
+            ${satz ? `<div class="gl-satz">Gefunden in / встретилось: „${esc(satz)}“</div>` : ""}
+            <div class="gl-tags">${(e.t || []).map((t) => `<span>${esc(t)}</span>`).join("")}</div>
+            <div class="gl-knoepfe">
+              <button type="button" data-a="hoer">🔊 ${esc(e.w)}</button>
+              ${e.bsp ? `<button type="button" data-a="satz">🔊 Satz</button>` : ""}
+              <button type="button" data-a="merk" class="${ist ? "ok" : ""}">${ist ? "⭐ Gemerkt" : "☆ Merken / в мои"}</button>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      function filterListe(liste) {
+        const q = norm($("suche").value);
+        const hk = $("selHerkunft").value, th = $("selThema").value;
+        return liste.filter((e) => {
+          if (hk && e.h !== hk) return false;
+          if (th && !(e.t || []).includes(th)) return false;
+          if (!q) return true;
+          return [e.w, e.de, e.ru, e.her, e.ver].concat(e.f || []).some((x) => norm(x).includes(q));
+        });
+      }
+
+      function zeichneListe() {
+        const m = meine();
+        $("nAlle").textContent = `(${G.length})`;
+        $("nMeine").textContent = `(${m.filter((x) => x.gefunden !== false && idx[norm(x.w)]).length})`;
+        const warte = m.filter((x) => !idx[norm(x.w)]);
+        $("nWarte").textContent = `(${warte.length})`;
+        $("ansichtListe").hidden = tab === "warte";
+        $("ansichtWarte").hidden = tab !== "warte";
+        if (tab === "warte") return zeichneWarte(warte);
+
+        let liste = G, saetze = {};
+        if (tab === "meine") {
+          liste = [];
+          m.forEach((x) => { const e = idx[norm(x.w)]; if (e && !liste.includes(e)) { liste.push(e); saetze[e.w] = x.satz; } });
+          liste.sort((a, b) => a.w.localeCompare(b.w, "en", { sensitivity: "base" }));
+        }
+        liste = filterListe(liste);
+        // 2026-11-04: wartende Wörter (noch ohne Erklärung) auch alphabetisch zeigen
+        if (tab === "alle" && !$("selHerkunft").value && !$("selThema").value) {
+          const q = norm($("suche").value);
+          warte.filter((x) => !q || norm(x.w).includes(q)).forEach((x) => liste.push({ w: x.w, warte: true, lang: x.lang, satz: x.satz }));
+          liste.sort((a, b) => a.w.localeCompare(b.w, "en", { sensitivity: "base" }));
+        }
+
+        // Alphabet
+        const buchst = new Set(liste.map((e) => e.w[0].toUpperCase()));
+        $("abc").innerHTML = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((b) => `<button type="button" ${buchst.has(b) ? "" : "disabled"} data-b="${b}">${b}</button>`).join("");
+
+        if (!liste.length) {
+          $("liste").innerHTML = `<div class="gl-leer">${tab === "meine" ? "Noch keine Wörter gemerkt. In der SprachBox auf ein Wort tippen → „📖 Ins Glossar“. <br><small>Пока пусто: в SprachBox нажми на слово → «📖 в глоссарий».</small>" : "Nichts gefunden / ничего не найдено."}</div>`;
+          return;
+        }
+        let h = "", akt = "";
+        liste.forEach((e) => {
+          const b = e.w[0].toUpperCase();
+          if (b !== akt) { akt = b; h += `<div class="gl-buchstabe" id="b-${b}">${b}</div>`; }
+          h += e.warte
+            ? `<div class="gl-eintrag" style="border-style:dashed"><div class="gl-kopf"><button type="button" data-hoer="${esc(e.w)}" data-l="${esc(e.lang || "en")}" style="font:inherit;cursor:pointer;border:none;background:none" title="anhören">🔊</button><span class="gl-wort">${esc(e.w)}</span><span class="gl-de" style="color:var(--text-muted,#59636e)">📭 wartet auf Erklärung / ждёт объяснения${e.satz ? " · " + esc(e.satz) : ""}</span></div></div>`
+            : eintragHtml(e, saetze[e.w]);
+        });
+        $("liste").innerHTML = h;
+      }
+
+      function zeichneWarte(warte) {
+        $("warteListe").innerHTML = warte.length
+          ? warte.map((x) => `<div class="gl-eintrag"><div class="gl-kopf"><button type="button" data-hoer="${esc(x.w)}" data-l="${esc(x.lang || "en")}" style="font:inherit;cursor:pointer;border:none;background:none" title="anhören">🔊</button><span class="gl-wort">${esc(x.w)}</span><span class="gl-de">${esc(x.satz || "")}</span><span class="gl-ru">${esc(x.datum || "")}</span><button type="button" data-weg="${esc(x.w)}" style="font:inherit;cursor:pointer;border:none;background:none" title="entfernen">✕</button></div></div>`).join("")
+          : '<div class="gl-leer">Keine Wörter warten. Alles erklärt! ✓ / Все слова объяснены.</div>';
+        $("warteText").value = warte.length
+          ? "Glossar ergänzen – bitte Herkunft schreiben für:\n" + warte.map((x) => `- ${x.w} (${(x.lang || "en").toUpperCase()})${x.satz ? "  („" + x.satz + "“)" : ""}`).join("\n")
+          : "";
+      }
+
+      // Ereignisse
+      $("tabs").addEventListener("click", (ev) => {
+        const b = ev.target.closest("button[data-tab]"); if (!b) return;
+        tab = b.dataset.tab;
+        document.querySelectorAll("#tabs button").forEach((x) => x.classList.toggle("aktiv", x === b));
+        zeichneListe();
+      });
+      ["suche", "selHerkunft", "selThema"].forEach((id) => $(id).addEventListener("input", zeichneListe));
+      $("abc").addEventListener("click", (ev) => {
+        const b = ev.target.closest("button[data-b]"); if (!b) return;
+        const z = $("b-" + b.dataset.b); if (z) z.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      $("liste").addEventListener("click", (ev) => {
+        const hb = ev.target.closest("button[data-hoer]");
+        if (hb) { sprechen(hb.dataset.hoer, hb.dataset.l); return; }
+        const ein = ev.target.closest(".gl-eintrag"); if (!ein) return;
+        const e = G.find((x) => x.w === ein.dataset.w); if (!e) return;
+        const a = ev.target.closest("button[data-a]");
+        if (a) {
+          if (a.dataset.a === "hoer") sprechen(e.w);
+          if (a.dataset.a === "satz" && e.bsp) sprechen(e.bsp[0]);
+          if (a.dataset.a === "merk") { umschalten(e); zeichneListe(); }
+          return;
+        }
+        if (ev.target.closest(".gl-kopf")) { offen = offen === e.w ? null : e.w; ein.classList.toggle("offen", offen === e.w); document.querySelectorAll(".gl-eintrag.offen").forEach((x) => { if (x !== ein) x.classList.remove("offen"); }); }
+      });
+      $("warteListe").addEventListener("click", (ev) => {
+        const h = ev.target.closest("button[data-hoer]");
+        if (h) { sprechen(h.dataset.hoer, h.dataset.l); return; }
+        const b = ev.target.closest("button[data-weg]"); if (!b) return;
+        meineSetzen(meine().filter((x) => x.w !== b.dataset.weg)); zeichneListe();
+      });
+      $("btnKopieren").addEventListener("click", () => {
+        const t = $("warteText"); t.select();
+        (navigator.clipboard ? navigator.clipboard.writeText(t.value) : Promise.reject()).catch(() => document.execCommand("copy"));
+        $("btnKopieren").textContent = "✓ Kopiert / скопировано";
+      });
+      $("btnDatei").addEventListener("click", () => {
+        const blob = new Blob([JSON.stringify({ datum: new Date().toISOString(), items: meine() }, null, 2)], { type: "application/json" });
+        const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "glossar_meine_woerter.json"; a.click();
+      });
+      window.addEventListener("storage", (ev) => { if (ev.key === LS_MEINE) zeichneListe(); });
+
+      // ---------- 2026-11-04: Schnelleingabe / быстрый ввод ----------
+      let neuSprache = "en";
+      function stimmenAuswahlFuellen() {
+        const sel = $("neuStimme"); if (!sel) return;
+        const v = stimmenFuer(neuSprache), akt = stimmeFuer(neuSprache);
+        sel.innerHTML = v.length
+          ? v.map((x) => `<option value="${esc(x.name)}" ${akt && akt.name === x.name ? "selected" : ""}>${istOnline(x) ? "🌐 online (langsam)" : "⚡ schnell"} – ${esc(x.name)}</option>`).join("")
+          : "<option>Standard</option>";
+      }
+      $("neuStimme").addEventListener("change", (ev) => {
+        try { localStorage.setItem(LS_STIMME + neuSprache, ev.target.value); } catch (e) {}
+        sprechen(neuSprache === "de" ? "Guten Tag" : "Hello", neuSprache);
+      });
+      const neuMsg = (t, ok) => { $("neuMsg").textContent = t; $("neuMsg").className = "gl-neu-msg" + (ok ? " ok" : ""); };
+      $("neuBox").addEventListener("click", (ev) => {
+        const b = ev.target.closest("button[data-sp]"); if (!b) return;
+        neuSprache = b.dataset.sp;
+        document.querySelectorAll("#neuBox button[data-sp]").forEach((x) => x.classList.toggle("an", x === b));
+        stimmenAuswahlFuellen();
+      });
+      function neuHoeren(tempo) {
+        const w = $("neuWort").value.trim();
+        if (!w) return neuMsg("Bitte zuerst ein Wort eingeben. / Сначала введи слово.");
+        sprechen(w, neuSprache, tempo);
+      }
+      $("neuHoer").addEventListener("click", () => neuHoeren(0.85));
+      $("neuLangsam").addEventListener("click", () => neuHoeren(0.5));
+      function neuSpeichern() {
+        const w = $("neuWort").value.trim();
+        if (!w) return neuMsg("Bitte zuerst ein Wort eingeben. / Сначала введи слово.");
+        const satz = $("neuNotiz").value.trim();
+        const e = idx[norm(w)];
+        const items = meine();
+        const schon = items.find((x) => norm(x.w) === norm(w));
+        if (e) {
+          // Wort ist schon erklärt → als „meins“ markieren und öffnen
+          if (!gemerkt(e.w)) { items.unshift({ w: e.w, lang: "en", satz, datum: new Date().toISOString().slice(0, 10), gefunden: true }); meineSetzen(items); }
+          neuMsg(`✓ „${e.w}“ ist schon im Glossar – hier ist die Erklärung. / Уже есть, вот объяснение.`, true);
+          offen = e.w; tab = "alle";
+          document.querySelectorAll("#tabs button").forEach((x) => x.classList.toggle("aktiv", x.dataset.tab === "alle"));
+          $("suche").value = ""; zeichneListe();
+          const el = document.getElementById("w-" + e.w);
+          if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+        } else if (schon) {
+          neuMsg(`„${w}“ wartet schon auf Erklärung. / Уже ждёт объяснения.`);
+        } else {
+          items.unshift({ w, lang: neuSprache, satz, datum: new Date().toISOString().slice(0, 10), gefunden: false });
+          meineSetzen(items);
+          neuMsg(`✓ „${w}“ gespeichert → 📭 Warten auf Erklärung. / Сохранено, ждёт объяснения.`, true);
+          zeichneListe();
+        }
+        $("neuWort").value = ""; $("neuNotiz").value = ""; $("neuWort").focus();
+      }
+      $("neuSpeichern").addEventListener("click", neuSpeichern);
+      if ("speechSynthesis" in window) { stimmenLaden(); speechSynthesis.addEventListener("voiceschanged", stimmenLaden); }
+      $("neuWort").addEventListener("keydown", (ev) => { if (ev.key === "Enter") { ev.preventDefault(); neuSpeichern(); } });
+
+      // #w=retired → Wort öffnen
+      function ausHash() {
+        const m = location.hash.match(/w=([^&]+)/);
+        if (!m) return;
+        const e = idx[norm(decodeURIComponent(m[1]))];
+        if (!e) return;
+        offen = e.w; tab = "alle"; zeichneListe();
+        const el = document.getElementById("w-" + e.w);
+        if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+      }
+      window.addEventListener("hashchange", ausHash);
+      zeichneListe();
+      ausHash();
+    });
+    </script>
+  </body>
+</html>

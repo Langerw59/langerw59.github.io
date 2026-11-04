@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Satzkonstrukteur RU → DE</title>
+<link rel="icon" href="../../../../core/assets/favicon.ico">
+<link rel="stylesheet" href="../../../../core/assets/style.css" />
+<script src="../../../../core/js/core_init.js" defer></script>
+<!--
+  DE: Satzkonstrukteur – Startseite mit Mikrofon. Der eigentliche Satzbau läuft
+      kostenlos in Claude (im Abo). Diese Seite: sprechen → Text kopieren → Claude öffnen.
+  RU: Стартовая страница с микрофоном. Само построение предложения работает
+      бесплатно в Claude (по подписке). Здесь: сказать → скопировать → открыть Claude.
+-->
+<style>
+  .sk { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .sk h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  .sk .sub { color: #59636e; margin: 0 0 16px; }
+  .sk .card { background: #fff; border: 1px solid #d1d9e0; border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+  .sk .frage { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; }
+  .sk .frage small { font-weight: normal; color: #59636e; }
+  .sk textarea { width: 100%; min-height: 80px; font-size: 1.2rem; padding: 10px; border: 1px solid #d1d9e0; border-radius: 8px; font-family: inherit; resize: vertical; box-sizing: border-box; }
+  .sk .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+  .sk button, .sk select { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid #d1d9e0; background: #fff; padding: 8px 14px; }
+  .sk button.primary { background: #1f6feb; color: #fff; border-color: #1f6feb; font-weight: 600; }
+  .sk button.mic.an { background: #d1242f; color: #fff; border-color: #d1242f; animation: puls 1.2s infinite; }
+  @keyframes puls { 50% { opacity: .65; } }
+  .sk .status { color: #59636e; }
+  .sk ol li { margin-bottom: 6px; }
+  .sk .ok { color: #1a7f37; font-weight: 600; }
+</style>
+</head>
+<body>
+<div data-partial="header" data-partial-path="../../../../core/partials/header.html"></div>
+
+<div class="sk">
+  <h1>Satzkonstrukteur RU → DE 🎤</h1>
+  <p class="sub">Sag auf Russisch, was du sagen willst. Claude baut den deutschen Satz und erklärt jeden Schritt – kostenlos im Claude-Abo.<br>
+  Скажи по-русски, что хочешь сказать. Claude построит немецкое предложение и объяснит каждый шаг – бесплатно по подписке.</p>
+
+  <div class="card">
+    <div class="frage">Was willst du sagen? <small>/ Что ты хочешь сказать?</small></div>
+    <textarea id="eingabe" placeholder="Нажми 🎤 Sprechen и скажи предложение по-русски …"></textarea>
+    <div class="row">
+      <button class="mic" id="mic">🎤 Sprechen</button>
+      <select id="micSprache" title="Sprache des Mikrofons">
+        <option value="ru-RU">Russisch</option>
+        <option value="de-DE">Deutsch</option>
+      </select>
+      <button class="primary" id="los">In Claude bauen →</button>
+      <button id="leeren">Leeren</button>
+    </div>
+    <div class="status" id="status" style="margin-top:8px"></div>
+  </div>
+
+  <div class="card">
+    <b>So geht's / Как это работает:</b>
+    <ol>
+      <li>🎤 <b>Sprechen</b> drücken und den Satz auf Russisch sagen, dann <b>⏹ Stopp</b>. / Нажми 🎤 и скажи предложение.</li>
+      <li><b>In Claude bauen →</b> drücken: der Text wird kopiert und der Satzkonstrukteur in Claude öffnet sich. / Текст скопируется, откроется Claude.</li>
+      <li>Dort ins Feld klicken, <b>Strg + V</b> drücken und <b>Satz bauen</b>. / Там вставь текст (Strg + V) и нажми «Satz bauen».</li>
+    </ol>
+    <p class="status">Das Mikrofon funktioniert in Chrome und Edge. / Микрофон работает в Chrome и Edge.</p>
+  </div>
+</div>
+
+<div data-partial="footer" data-partial-path="../../../../core/partials/footer.html"></div>
+
+<script>
+(() => {
+  "use strict";
+  const CLAUDE_URL = "https://claude.ai/artifact/MpKpcpS7Zo5t5PBPJwyc95";
+  const $ = (id) => document.getElementById(id);
+
+  // ---------- Mikrofon ----------
+  let erkenner = null, hoert = false;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const micBtn = $("mic");
+  if (!SR) {
+    micBtn.disabled = true;
+    $("status").textContent = "Mikrofon nur in Chrome oder Edge. / Микрофон только в Chrome или Edge.";
+  }
+  micBtn.onclick = () => {
+    if (!SR) return;
+    if (hoert && erkenner) { erkenner.stop(); return; }
+    erkenner = new SR();
+    erkenner.lang = $("micSprache").value;
+    erkenner.interimResults = true;
+    erkenner.continuous = true;
+    const vorher = $("eingabe").value.trim();
+    let fertig = "";
+    erkenner.onresult = (ev) => {
+      let zwischen = "";
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        const t = ev.results[i][0].transcript;
+        if (ev.results[i].isFinal) fertig += t + " ";
+        else zwischen += t;
+      }
+      $("eingabe").value = (vorher ? vorher + " " : "") + (fertig + zwischen).trim();
+    };
+    erkenner.onerror = (ev) => {
+      $("status").textContent = ev.error === "not-allowed"
+        ? "Mikrofon nicht erlaubt – bitte im Browser erlauben. / Разреши микрофон в браузере."
+        : "Mikrofon-Fehler: " + ev.error;
+    };
+    erkenner.onend = () => {
+      hoert = false;
+      micBtn.classList.remove("an");
+      micBtn.textContent = "🎤 Sprechen";
+      if ($("status").textContent.startsWith("Ich höre")) $("status").textContent = "";
+    };
+    erkenner.start();
+    hoert = true;
+    micBtn.classList.add("an");
+    micBtn.textContent = "⏹ Stopp";
+    $("status").textContent = "Ich höre zu … / Слушаю … (нажми ⏹, когда закончишь)";
+  };
+
+  // ---------- Kopieren + Claude öffnen ----------
+  $("los").onclick = async () => {
+    if (hoert && erkenner) erkenner.stop();
+    const text = $("eingabe").value.trim();
+    if (text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        $("status").innerHTML = '<span class="ok">✔ Text kopiert.</span> In Claude ins Feld klicken und <b>Strg + V</b> drücken. / Текст скопирован – в Claude нажми Strg + V.';
+      } catch (e) {
+        $("eingabe").select();
+        $("status").textContent = "Bitte den Text mit Strg + C kopieren. / Скопируй текст: Strg + C.";
+      }
+    }
+    window.open(CLAUDE_URL, "_blank", "noopener");
+  };
+
+  $("leeren").onclick = () => { $("eingabe").value = ""; $("status").textContent = ""; $("eingabe").focus(); };
+})();
+</script>
+</body>
+</html>

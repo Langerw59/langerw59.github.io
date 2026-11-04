@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantura – Etagenplan</title>
+<style>
+  :root{--bg:#f4f1ea;--card:#fff;--ink:#1d2433;--muted:#5b6475;--line:#d9d3c5;
+        --e3:#2f6fb3;--e2:#2f8a5b;--e1:#b0742a;--eg:#6b4fa3;--k:#8a8a8a;--pf:#b33a3a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,Segoe UI,Arial,sans-serif}
+  main{max-width:1000px;margin:0 auto;padding:24px 16px 48px}
+  h1{margin:0 0 4px;font-size:28px}
+  .lead{color:var(--muted);margin:0 0 20px}
+  .ru{color:var(--muted);font-size:14px}
+  .haus{border:2px solid var(--ink);border-radius:14px 14px 6px 6px;overflow:hidden;background:var(--card)}
+  .dach{background:var(--ink);color:#fff;padding:10px 16px;font-weight:700;letter-spacing:.3px}
+  .etage{border-top:1px solid var(--line);padding:14px 16px;display:grid;grid-template-columns:150px 1fr;gap:14px}
+  .etage:first-of-type{border-top:0}
+  .nr{font-weight:800;font-size:15px;border-left:6px solid var(--c);padding-left:10px}
+  .nr small{display:block;font-weight:400;color:var(--muted)}
+  .raeume{display:flex;flex-wrap:wrap;gap:8px}
+  .raeume a{display:inline-block;text-decoration:none;color:var(--ink);background:#faf8f3;
+            border:1px solid var(--line);border-left:4px solid var(--c);border-radius:8px;padding:7px 10px;font-size:15px}
+  .raeume a:hover{background:#fff;border-color:var(--c)}
+  .raeume a span{display:block;font-size:12px;color:var(--muted)}
+  .hinweis{font-size:13px;color:var(--muted);margin-top:6px}
+  .keller{background:#f0efec}
+  .keller .raeume a{opacity:.75}
+  .portfolio{margin-top:18px;border:2px dashed var(--pf);border-radius:12px;padding:14px 16px;background:var(--card)}
+  @media (max-width:640px){.etage{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Quantura – Etagenplan</h1>
+  <p class="lead">Wo liegt was? Nur ein Wegweiser – es wurde nichts verschoben.<br>
+    <span class="ru">Где что лежит. Это только указатель – ни один файл не перемещён.</span></p>
+
+  <div class="haus">
+    <div class="dach">🏠 Haus Quantura · Дом Quantura</div>
+
+    <div class="etage" style="--c:var(--e3)">
+      <div class="nr">3. Etage<small>Sprachen / Языки<br>(Language Lab)</small></div>
+      <div>
+        <div class="raeume">
+          <a href="/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html">🇬🇧 Sprachführer DE↔EN<span>карточки, английский</span></a>
+          <a href="/pages/language_lab/sprachfuehrer_auswahl/index.html">Sprachführer wählen<span>все пары языков</span></a>
+          <a href="/pages/language_lab/apps/generator/de/index_de.html">Satzlabor DE<span>собрать / разобрать</span></a>
+          <a href="/pages/language_lab/apps/generator/en/index_en.html">Satzlabor EN</a>
+          <a href="/pages/language_lab/apps/satzkonstrukteur/index.html">Satzkonstrukteur RU → DE</a>
+          <a href="/pages/language_lab/diktat-trainer.html#de">Diktat-Trainer DE</a>
+          <a href="/pages/language_lab/diktat-trainer.html#en">Diktat-Trainer EN</a>
+          <a href="/pages/language_lab/glossar/index.html">📖 Glossar<span>главный глоссарий</span></a>
+          <a href="/pages/language_lab/apps/talk_levels/index.html">Talk Levels 0–10</a>
+          <a href="/pages/language_lab/index.html">Eingang Language Lab<span>вход на этаж</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="etage" style="--c:var(--e2)">
+      <div class="nr">2. Etage<small>Mathe &amp; Naturwissenschaften / Математика и науки</small></div>
+      <div>
+        <div class="raeume">
+          <a href="/sections/faecher.html">Fächer – Übersicht<span>все предметы</span></a>
+          <a href="/pages/faecher/mathematik-realschule/index.html">Mathe Realschule<span>классы 5–10</span></a>
+          <a href="/pages/language_lab/apps/mathe/quadratgleichung/index.html">Quadratgleichung<span>сейчас лежит в Language Lab</span></a>
+          <a href="/pages/faecher/physik-oberstufe/kanonenkugel_physik.html">Physik: Kanonenkugel</a>
+          <a href="/pages/faecher/informatik/web-lessons/index.html">Informatik: 10 Web-Lektionen</a>
+          <a href="/pages/bibliothek/index.html">Bibliothek<span>медиа, ресурсы</span></a>
+        </div>
+        <p class="hinweis">Viele Seiten hier sind noch Platzhalter. · Многие страницы здесь пока пустые заготовки.</p>
+      </div>
+    </div>
+
+    <div class="etage" style="--c:var(--e1)">
+      <div class="nr">1. Etage<small>Werkzeuge für den Alltag / Бытовые инструменты</small></div>
+      <div>
+        <div class="raeume">
+          <a href="/pages/language_lab/apps/tools/auto-kauf-assistent/index.html">🚗 Auto-Kauf-Assistent<span>сейчас лежит в Language Lab</span></a>
+          <a href="/pages/store/index.html">Store – Apps &amp; Tools</a>
+          <a href="/pages/portal/werkstatt/index.html">Werkstatt / TagBook</a>
+          <a href="/pages/projekte/index.html">Projekte (Maus)</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="etage" style="--c:var(--eg)">
+      <div class="nr">Erdgeschoss<small>Eingang / Вход</small></div>
+      <div><div class="raeume">
+        <a href="/index.html">Portal – Startseite</a>
+      </div></div>
+    </div>
+
+    <div class="etage keller" style="--c:var(--k)">
+      <div class="nr">Keller<small>Abstellraum – alt, versteckt / Кладовка – старое</small></div>
+      <div>
+        <div class="raeume">
+          <a href="/pages/language_lab/apps/analyse_zaz/index.html">ZAZ-Analyse (alt)</a>
+          <a href="/pages/language_lab/apps/tools/glossar/index.html">Glossar (alt, Tools)<span>2-й глоссарий</span></a>
+          <a href="/pages/language_lab/apps/generator/de/glossar.html">Glossar (alt, Generator)<span>3-й глоссарий</span></a>
+          <a href="/pages/portal/analyse_sprachfuehrer/index.html">Analyse Sprachführer (alt)</a>
+          <a href="/sections/generator.html">Generator-Übersicht (alt)</a>
+          <a href="/pages/legacy/index.html">Legacy-Portal</a>
+        </div>
+        <p class="hinweis">Nicht löschen – nur nicht mehr benutzen. · Не удалять – просто не пользоваться.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="portfolio">
+    <div class="nr" style="--c:var(--pf)">🏫 Nebenhaus: Portfolio für Schulen<small>Отдельный дом: портфолио для школ (с паролем)</small></div>
+    <div class="raeume" style="margin-top:10px">
+      <a href="/prog_min/index.html" style="--c:var(--pf)">Portfolio (prog_min)</a>
+      <a href="/demos/prog_min_portfolio/index.html" style="--c:var(--pf)">Portfolio-Kopie (demos)<span>копия; на неё ведёт меню</span></a>
+    </div>
+  </div>
+</main>
+</body>
+</html>
