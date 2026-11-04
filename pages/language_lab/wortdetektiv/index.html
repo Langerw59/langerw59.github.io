@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 <script src="../../../datenbanken/wortdetektiv/geschichten.js" defer></script>
+<script src="../../../datenbanken/wortdetektiv/tiere.js" defer></script>
 <style>
   :root{--bg:#f4f1ea;--card:#fff;--ink:#1d2433;--muted:#5b6475;--line:#d9d3c5;--acc:#6b4fa3;--acc2:#b0742a;--ort:#2f6fb3}
   *{box-sizing:border-box}
@@ -42,6 +43,23 @@
   #lexbox a{display:block;padding:6px 8px;margin:3px 0;border-radius:8px;background:#faf8f3;border:1px solid var(--line);text-decoration:none;color:var(--ink)}
   #lexbox a:hover{border-color:var(--acc)}
   .wikizeile{margin-top:6px;font-size:14px}
+  /* 2026-11-04: Tier-Lexikon */
+  .tierlink{display:block;text-decoration:none;color:var(--ink);background:linear-gradient(90deg,#eef7ee,#fff);border:1px solid var(--line);border-left:6px solid #1a7f37;border-radius:12px;padding:14px 16px;margin:0 0 10px}
+  .tierlink b{font-size:18px}
+  .tiere{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin:8px 0 18px}
+  .tier{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .tier .emo{font-size:34px;float:right;line-height:1}
+  .tier .zeile{margin:3px 0}
+  .tier .de{font-size:20px;font-weight:700}
+  .tier .pl{font-size:14px;color:var(--muted)}
+  .tier .la{font-style:italic;color:#8250df;font-weight:600}
+  .tier .bed{font-size:14px;color:var(--muted)}
+  .tier .lbl{display:inline-block;min-width:26px;font-size:11px;font-weight:700;color:var(--muted)}
+  .tier .her{font-size:15px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .tier .wk{font-size:13px;margin-top:6px}
+  .sag{cursor:pointer;border:0;background:none;font-size:15px;padding:0 3px}
+  .versteckt .inhalt{display:none}
+  .versteckt::after{content:"❓ antippen / нажать";display:inline-block;background:#efe9f8;color:var(--acc);border-radius:8px;padding:2px 10px;cursor:pointer;font-size:14px;font-style:normal;font-weight:600}
   .ortlink::before{content:"📍";font-size:.8em;margin-right:1px}
   #karte{height:340px;border-radius:12px;border:1px solid var(--line);margin:6px 0 4px;background:#e8eef3}
   .kartehinweis{font-size:13px;color:var(--muted);margin:0 0 16px}
@@ -96,6 +114,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const HER_FARBE = { germ: "#1a7f37", lat: "#8250df", frz: "#0969da", griech: "#bf3989", nord: "#9a6700", orient: "#bc4c00", amerika: "#c2410c" };
   const THEMEN = window.WORTDETEKTIV_THEMEN || [];
   let filterThema = "", filterHer = "";
+  const TIERE = window.WORTDETEKTIV_TIERE || [];
+  const TGR = window.WORTDETEKTIV_TIERGRUPPEN || [];
+  let tierGruppe = "", tierVerdeckt = "";
 
   // ---- Sprachausgabe: Wort in seiner Sprache (Latein → italienische Stimme) ----
   const SPR = { de: "de-DE", en: "en-GB", fr: "fr-FR", it: "it-IT", es: "es-ES", la: "it-IT", ru: "ru-RU", nl: "nl-NL", el: "el-GR" };
@@ -169,6 +190,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const faelle = G.filter((g) => g.thema === t.id && passt(g));
       if (!faelle.length && (filterHer || !filterThema)) { if (!filterThema) return; }
       inhalt += `<h3 class="themakopf">${t.icon} ${esc(t.de)} <span class="ru" style="font-size:15px;font-weight:400">/ ${esc(t.ru)}</span></h3>`;
+      if (t.id === "tiere" && TIERE.length) inhalt += `<a class="tierlink" href="#tiere"><b>🐾 Tier-Lexikon – ${TIERE.length} Tiere</b><br><span class="ru">Словарь животных: по-немецки с артиклем, на латыни, по-русски и по-английски – с историей слова и режимом заучивания.</span></a>`;
+      if (t.id === "tiere" && !faelle.length && TIERE.length) return;
       inhalt += faelle.length ? `<div class="karten">${faelle.map(karteHtml).join("")}</div>`
         : `<p class="leer">Hier noch keine Fälle. Nenne Claude ein Wort – es kommt hierher. / Здесь пока нет дел. Назовите слово – оно появится здесь.</p>`;
     });
@@ -261,8 +284,48 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => m.openPopup(), 1300);
   }
 
+  // ---- Tier-Lexikon / словарь животных ----
+  function tierLexikon() {
+    const VERD = [["", "Alles zeigen / всё видно"], ["de", "Deutsch verdecken"], ["la", "Latein verdecken"], ["ru", "Russisch verdecken"]];
+    const feld = (art, html) => `<div class="zeile f-${art} ${tierVerdeckt === art ? "versteckt" : ""}"><span class="inhalt">${html}</span></div>`;
+    const sag = (txt, l) => `<button type="button" class="sag" data-txt="${esc(txt)}" data-l="${l}" title="anhören / послушать">🔊</button>`;
+    const karte1 = (x) => `<div class="tier">
+        <span class="emo">${x.emo || ""}</span>
+        ${feld("de", `<span class="lbl">DE</span><span class="de">${esc(x.de)}</span> ${sag(x.de, "de")}<br><span class="lbl"></span><span class="pl">Mehrzahl: ${esc(x.pl)}</span>`)}
+        ${feld("la", `<span class="lbl">LA</span><span class="la">${esc(x.la)}</span> ${sag(x.la, "la")}<br><span class="lbl"></span><span class="bed">${esc(x.laRu)}</span>`)}
+        ${feld("ru", `<span class="lbl">RU</span>${esc(x.ru)}`)}
+        <div class="zeile"><span class="lbl">EN</span>${esc(x.en)} ${sag(x.en, "en")}</div>
+        <div class="her">🔎 ${esc(x.her)}</div>
+        <div class="wk">📚 <a href="${wikiUrl("de", x.wiki || x.de)}" target="_blank" rel="noopener">Wikipedia DE</a> · <a href="${wikiUrl("ru", x.wikiRu || x.ru)}" target="_blank" rel="noopener">Википедия RU</a></div>
+      </div>`;
+    let inhalt = "";
+    TGR.filter((g) => !tierGruppe || g.id === tierGruppe).forEach((g) => {
+      const l = TIERE.filter((x) => x.gr === g.id);
+      if (!l.length) return;
+      inhalt += `<h3 class="themakopf">${g.icon} ${esc(g.de)} <span class="ru" style="font-size:15px;font-weight:400">/ ${esc(g.ru)}</span></h3><div class="tiere">${l.map(karte1).join("")}</div>`;
+    });
+    app.innerHTML = `
+      <a class="zur" href="#">← alle Fälle / все дела</a>
+      <h1>🐾 Tier-Lexikon</h1>
+      <p class="lead"><span class="ru">Животные: немецкое название с артиклем, латынь (научное имя) и что оно значит, русский, английский. 🔊 – послушать.<br>Для заучивания: выберите «… verdecken» – название спрячется, вспомните его и нажмите, чтобы проверить.</span></p>
+      <div class="filter" id="tgr">
+        <button type="button" data-g="" class="${tierGruppe ? "" : "an"}">Alle / все <span class="n">(${TIERE.length})</span></button>
+        ${TGR.map((g) => `<button type="button" data-g="${g.id}" class="${tierGruppe === g.id ? "an" : ""}">${g.icon} ${esc(g.de)} <span class="n">(${TIERE.filter((x) => x.gr === g.id).length})</span></button>`).join("")}
+      </div>
+      <div class="filter" id="tverd">
+        ${VERD.map(([k, n]) => `<button type="button" data-v="${k}" class="${tierVerdeckt === k ? "an" : ""}">${n}</button>`).join("")}
+      </div>
+      ${inhalt}`;
+    app.querySelector("#tgr").addEventListener("click", (ev) => { const b = ev.target.closest("button[data-g]"); if (b) { tierGruppe = b.dataset.g; tierLexikon(); } });
+    app.querySelector("#tverd").addEventListener("click", (ev) => { const b = ev.target.closest("button[data-v]"); if (b) { tierVerdeckt = b.dataset.v; tierLexikon(); } });
+    app.querySelectorAll(".sag").forEach((b) => b.addEventListener("click", (ev) => { ev.stopPropagation(); sprich(b.dataset.txt, b.dataset.l); }));
+    app.querySelectorAll(".versteckt").forEach((f) => f.addEventListener("click", () => f.classList.remove("versteckt")));
+    document.title = "Tier-Lexikon – Wortdetektiv";
+  }
+
   function route() {
     const id = decodeURIComponent(location.hash.slice(1));
+    if (id === "tiere") { if (karte) { karte.remove(); karte = null; } tierLexikon(); window.scrollTo(0, 0); return; }
     const g = G.find((x) => x.id === id);
     if (karte && !g) { karte.remove(); karte = null; }
     g ? geschichte(g) : liste();
