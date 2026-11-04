@@ -23,3 +23,12 @@ assets/data/*.bak
 main
 _BACKUPS/
 _REPORTS/
+
+# 2026-11-04: nur lokal im Ordner vorlage, NICHT auf die öffentliche Seite
+# (prog_min = Portfolio mit Passwörtern)
+.vscode/
+codex.sh
+demos/
+pfad.php
+prog_min/
+tools/hintergrund_builder/_RAW/background_sprachführer/
