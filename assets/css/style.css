@@ -80,3 +80,11 @@ small{ color:#555; }
   background: transparent;
   cursor: pointer;
 }
+
+/* 2026-11-04: Dunkel-Modus auch auf Seiten mit dieser Datei (z. B. Portal) */
+html[data-theme="dark"] body { color: var(--text-main, #e5e7eb); background: var(--bg-page, #020617); }
+html[data-theme="dark"] header:not(.kopf2),
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .nav a { background: #0f172a; color: #e5e7eb; border-color: #1e293b; }
+html[data-theme="dark"] small { color: #9ca3af; }
+html[data-theme="dark"] #btnBack { color: #e5e7eb; border-color: rgba(255,255,255,.3); }

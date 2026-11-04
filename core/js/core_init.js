@@ -37,7 +37,7 @@
     const next = current === "dark" ? "light" : "dark";
 
     setTheme(next);
-  });
+  }, true); // 2026-11-04: capture – das ⚙️-Fenster stoppt Klicks (stopPropagation), sonst kam der Klick hier nie an
 })();
 
 // ------------------------------------------------------------
