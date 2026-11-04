@@ -296,7 +296,12 @@
     const dt = document.getElementById("headerDateTime");
     const kw = document.getElementById("headerKW");
     const kb = document.getElementById("headerCalendarBtn");
-    if (dt) dt.textContent = `${u.datum} · ${u.zeit}`;
+    if (dt) {
+      dt.textContent = `${u.datum} · ${u.zeit}`;
+      // Kopfleiste v2: kurze Formen für Tablet/Handy (CSS wählt aus)
+      dt.dataset.zeit = u.zeit;
+      dt.dataset.kurz = d.toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "short" }) + " · " + u.zeit;
+    }
     if (kw) kw.textContent = "KW " + u.kw;
     if (kb) kb.title = `Kalender · KW ${u.kw}`;
     // b) eigene kleine Uhr (Seiten ohne Kopfzeile)

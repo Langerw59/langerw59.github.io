@@ -47,7 +47,68 @@
 // EN: Loads HTML fragments (header.html, footer.html) into containers
 // RU: Ð—Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÑ‚ Ñ„Ñ€Ð°Ð³Ð¼ÐµÐ½Ñ‚Ñ‹ (header.html, footer.html) Ð² ÐºÐ¾Ð½Ñ‚ÐµÐ¹Ð½ÐµÑ€Ñ‹
 (function loadPartials() {
+  // DE: Kopfleiste v2 – eigene CSS-Datei immer laden (auch auf Seiten ohne style.css)
+  // RU: стили новой шапки подключаются всегда
+  (function ensureKopfCss() {
+    const href = "/core/assets/kopfleiste.css";
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.appendChild(link);
+  })();
+
+  // DE: Seite ohne Kopfleiste? → automatisch oben einsetzen.
+  //     Ausschalten pro Seite: <body data-kein-kopf>
+  // RU: если на странице нет шапки – вставляем её сами (сверху).
+  if (!document.querySelector('[data-partial="header"]') && document.body && !document.body.hasAttribute("data-kein-kopf")) {
+    const host = document.createElement("div");
+    host.setAttribute("data-partial", "header");
+    host.setAttribute("data-partial-path", "/core/partials/header.html");
+    document.body.insertBefore(host, document.body.firstChild);
+  }
+
   const hosts = document.querySelectorAll("[data-partial]");
+
+  // DE: Kopfleiste v2 einrichten: aktueller Menüpunkt, ⚙️-Fenster, Audio-Auswahl
+  // RU: подсветка текущего раздела, окно ⚙️, выбор аудио
+  function kopfEinrichten(host) {
+    const pfad = window.location.pathname.replace(/\/index\.html$/, "/");
+    let bester = null, laenge = 0;
+    host.querySelectorAll(".kopf2__menue .nav-link").forEach((a) => {
+      const ziel = new URL(a.getAttribute("href"), window.location.origin).pathname.replace(/\/index\.html$/, "/");
+      const passt = ziel === "/" ? pfad === "/" : pfad.startsWith(ziel);
+      if (passt && ziel.length > laenge) { bester = a; laenge = ziel.length; }
+    });
+    if (bester) {
+      bester.classList.add("ist-hier");
+      bester.setAttribute("aria-current", "page");
+      const menue = bester.parentElement;
+      if (menue) menue.scrollLeft = Math.max(0, bester.offsetLeft - (menue.clientWidth - bester.offsetWidth) / 2);
+    }
+
+    const knopf = host.querySelector("#kopf2Einst");
+    const panel = host.querySelector("#kopf2Panel");
+    if (knopf && panel) {
+      const zu = () => { panel.hidden = true; knopf.setAttribute("aria-expanded", "false"); };
+      knopf.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const offen = panel.hidden;
+        panel.hidden = !offen;
+        knopf.setAttribute("aria-expanded", String(offen));
+      });
+      panel.addEventListener("click", (e) => e.stopPropagation());
+      document.addEventListener("click", zu);
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !panel.hidden) zu(); });
+    }
+
+    // Audio-Auswahl: Kopfleiste kommt später als tts_manager.js → neu verbinden
+    let n = 0;
+    (function tts() {
+      if (window.TTSManager && typeof window.TTSManager.bindUI === "function") { window.TTSManager.bindUI(); return; }
+      if (n++ < 30) setTimeout(tts, 100);
+    })();
+  }
 
   function navigateSmart(url, evt) {
     if (!url) return;
@@ -129,6 +190,8 @@
             goBack();
           });
         });
+
+        if (type === "header" && host.querySelector(".kopf2")) kopfEinrichten(host);
 
         // DE: Im Footer Jahr aktualisieren
         // EN: Update year in footer

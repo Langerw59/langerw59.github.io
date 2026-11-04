@@ -1,49 +1,62 @@
-<header class="site-header">
-  <meta charset="utf-8">
-  <div class="site-header__inner">
-    <div class="site-header__left">
-      <a class="site-header__brand" href="/index.html" data-nav="/index.html">
-        <span class="brand-badge">LL</span>
-        <span class="brand-sep">·</span>
-        <span class="brand-text">
-          <span class="brand-line">Quantura – Maß &amp; Klarheit <span class="brand-quote">„Alles wird klar, wenn es messbar wird.“</span></span>
-        </span>
-      </a>
+<!--
+  DE: Kopfleiste v2 (2026-11-04) – auf allen Seiten gleich.
+      Zeile 1: ← Zurück · 🏠 Portal · Name · Uhr/KW/📅 · ⚙️
+      Zeile 2: Menü (auf dem Handy seitlich wischen).
+      Audio-System und Hell/Dunkel stecken jetzt im ⚙️-Fenster.
+      Alte Kopfleiste: header_alt_2026-11.html (versteckt, nicht gelöscht).
+  RU: Новая шапка: назад, домой, часы, календарь, ⚙️ (там Audio-System).
+-->
+<header class="site-header kopf2">
+  <div class="kopf2__zeile1">
+    <button type="button" class="kopf2__knopf" data-back title="Zurück / Назад">←<span class="kopf2__wort"> Zurück</span></button>
+    <a class="kopf2__knopf" href="/index.html" data-nav="/index.html" title="Portal / Домой">🏠<span class="kopf2__wort"> Portal</span></a>
 
-      <nav class="site-header__nav">
-        <a href="/index.html" class="nav-link" data-nav="/index.html">Portal</a>
-        <a href="/pages/language_lab/index.html" class="nav-link">LanguageLab</a>
-        <a href="/pages/faecher/index.html" class="nav-link">Fächer</a>
-        <a href="/pages/bibliothek/index.html" class="nav-link">Bibliothek</a>
-        <a href="/pages/projekte/index.html" class="nav-link">Projekte</a>
-        <a href="/demos/prog_min_portfolio/index.html" class="nav-link">Portfolio</a>
-        <a href="/pages/store/index.html" class="nav-link">Store</a>
-      </nav>
+    <a class="kopf2__marke" href="/index.html" data-nav="/index.html">
+      <span class="brand-badge">Q</span>
+      <span class="kopf2__name">Quantura<span class="kopf2__spruch"> · Maß &amp; Klarheit</span></span>
+    </a>
+
+    <div class="site-header__actions kopf2__rechts">
+      <div class="header-clock kopf2__uhr" title="Uhr · Kalender">
+        <span id="headerDateTime"></span>
+        <span id="headerKW" class="kopf2__kw"></span>
+        <button id="headerCalendarBtn" class="kopf2__knopf kopf2__knopf--klein" type="button" aria-label="Kalender">📅</button>
+      </div>
+      <button type="button" class="kopf2__knopf" id="kopf2Einst" aria-expanded="false" aria-controls="kopf2Panel" title="Einstellungen / Настройки">⚙️</button>
+    </div>
+  </div>
+
+  <nav class="kopf2__menue site-header__nav" aria-label="Hauptmenü">
+    <a href="/index.html" class="nav-link" data-nav="/index.html">Portal</a>
+    <a href="/pages/language_lab/index.html" class="nav-link">Language Lab</a>
+    <a href="/pages/faecher/index.html" class="nav-link">Fächer</a>
+    <a href="/pages/bibliothek/index.html" class="nav-link">Bibliothek</a>
+    <a href="/pages/projekte/index.html" class="nav-link">Projekte</a>
+    <a href="/demos/prog_min_portfolio/index.html" class="nav-link">Portfolio</a>
+    <a href="/pages/store/index.html" class="nav-link">Store</a>
+  </nav>
+
+  <div class="kopf2__panel" id="kopf2Panel" hidden>
+    <div class="kopf2__panel-titel">Einstellungen <small>· Настройки</small></div>
+
+    <div class="audio-system kopf2__feld">
+      <label for="ttsProfileSelect">🔊 Audio-System <small>(Sprachausgabe / озвучка)</small></label>
+      <select id="ttsProfileSelect">
+        <option value="auto">Auto (empfohlen)</option>
+        <option value="ios">iPhone / iPad (iOS)</option>
+        <option value="android">Android (Samsung/Tablet/TV)</option>
+        <option value="desktop">PC/Laptop (Windows/macOS/Linux)</option>
+      </select>
+      <span id="ttsProfileInfo" class="audio-info" tabindex="0" role="button" aria-label="Audio-System Info">ⓘ Was ist das?</span>
+      <div id="ttsProfileNote" class="audio-note"></div>
     </div>
 
-    <div class="site-header__actions">
-      <div class="audio-system" title="Audio-System">
-        <label for="ttsProfileSelect">Audio-System:</label>
-        <select id="ttsProfileSelect">
-          <option value="auto">Auto (empfohlen)</option>
-          <option value="ios">iPhone / iPad (iOS)</option>
-          <option value="android">Android (Samsung/Tablet/TV)</option>
-          <option value="desktop">PC/Laptop (Windows/macOS/Linux)</option>
-        </select>
-        <span id="ttsProfileInfo" class="audio-info" tabindex="0" role="button" aria-label="Audio-System Info">ⓘ</span>
-        <div id="ttsProfileNote" class="audio-note"></div>
-      </div>
-      <button id="themeToggle" class="btn btn-ghost" type="button">
-        <span class="theme-icon theme-icon--light">🌞</span>
-        <span class="theme-icon theme-icon--dark">🌙</span>
+    <div class="kopf2__feld">
+      <span>Ansicht <small>(вид)</small></span>
+      <button id="themeToggle" class="kopf2__knopf" type="button">
+        <span class="theme-icon theme-icon--light">🌞 Hell</span>
+        <span class="theme-icon theme-icon--dark">🌙 Dunkel</span>
       </button>
-      <div class="header-clock">
-        <div id="headerDateTime" class="header-clock__row"></div>
-        <div class="header-clock__row">
-          <span id="headerKW"></span>
-          <button id="headerCalendarBtn" class="btn btn-ghost header-calendar-btn" type="button" aria-label="Kalender">📅</button>
-        </div>
-      </div>
     </div>
   </div>
 </header>

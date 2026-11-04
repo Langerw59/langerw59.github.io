@@ -148,6 +148,8 @@
     const note = document.getElementById("ttsProfileNote");
     const info = document.getElementById("ttsProfileInfo");
     if (!select) return;
+    if (select.dataset.gebunden === "1") return; // nicht doppelt verbinden
+    select.dataset.gebunden = "1";
 
     select.value = profile;
     renderProfileNote();
@@ -212,6 +214,7 @@
     getProfile,
     setProfile: saveProfile,
     renderProfileNote,
+    bindUI: bindProfileUI,
     normalizeLang,
     waitForVoices,
   };

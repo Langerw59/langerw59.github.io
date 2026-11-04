@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Diktat-Trainer</title>
+<script src="/core/js/core_init.js" defer></script>
 <style>
   :root{
     --bg:#f5f3ee; --card:#ffffff; --ink:#1d2430; --muted:#6b7280; --line:#e2ded5;
@@ -14,7 +15,7 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.5 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
   .wrap{max-width:980px;margin:0 auto;padding:24px 20px 60px}
-  header{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+  .wrap > header{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:16px}
   h1{font-size:30px;margin:0;letter-spacing:-.5px}
   .sub{color:var(--muted);font-size:16px}
   .bar{display:flex;flex-wrap:wrap;gap:14px;align-items:end;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:16px}
