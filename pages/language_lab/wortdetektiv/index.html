@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wortdetektiv – Geschichten der Wörter</title>
+<!-- 2026-11-04: Wortdetektiv – erstellt mit Claude
+     DE: Geschichten der Wörter mit Karte, Wort-Spuren und „Mehr erfahren“-Links.
+     RU: Истории слов: карта, «улики» (родственные слова), ссылки «узнать больше».
+     Daten: /datenbanken/wortdetektiv/geschichten.js
+     Karte: Leaflet + OpenStreetMap (aus dem Internet geladen). -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+<script src="../../../datenbanken/wortdetektiv/geschichten.js" defer></script>
+<style>
+  :root{--bg:#f4f1ea;--card:#fff;--ink:#1d2433;--muted:#5b6475;--line:#d9d3c5;--acc:#6b4fa3;--acc2:#b0742a;--ort:#2f6fb3}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,Segoe UI,Arial,sans-serif}
+  main{max-width:860px;margin:0 auto;padding:18px 14px 60px}
+  a{color:var(--ort)}
+  .oben{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;margin-bottom:10px}
+  .oben a{text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:var(--ink)}
+  h1{margin:4px 0 2px;font-size:28px}
+  .ru{color:var(--muted)}
+  .lead{margin:0 0 18px}
+  .karten{display:grid;gap:12px}
+  .fall{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-left:6px solid var(--acc);border-radius:12px;padding:14px 16px}
+  .fall:hover{box-shadow:0 3px 14px rgba(0,0,0,.08)}
+  .fall b{font-size:19px}
+  .fall .nr{font-size:13px;color:var(--acc);font-weight:700;letter-spacing:.4px}
+  .fall p{margin:4px 0 0;color:var(--muted);font-size:15px}
+  .zur{display:inline-block;margin-bottom:8px;font-size:15px;text-decoration:none}
+  .gesch h2{margin:0;font-size:25px;line-height:1.25}
+  .gesch .unter{color:var(--muted);margin:2px 0 12px}
+  .kurz{background:#fff7e6;border-left:4px solid var(--acc2);padding:8px 12px;border-radius:6px;margin:0 0 14px}
+  .text p{margin:0 0 12px}
+  .ortlink{color:var(--ort);font-weight:600;cursor:pointer;border-bottom:2px dotted var(--ort);text-decoration:none;white-space:nowrap}
+  .ortlink::before{content:"📍";font-size:.8em;margin-right:1px}
+  #karte{height:340px;border-radius:12px;border:1px solid var(--line);margin:6px 0 4px;background:#e8eef3}
+  .kartehinweis{font-size:13px;color:var(--muted);margin:0 0 16px}
+  .kasten{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:16px 0}
+  .kasten h3{margin:0 0 8px;font-size:18px}
+  .spur{margin:0 0 8px}
+  .spur b{color:var(--acc)}
+  .links a.lk{display:block;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:6px 0;background:#faf8f3}
+  .links a.lk:hover{background:#fff;border-color:var(--ort)}
+  .links .t{font-weight:600;color:var(--ort)}
+  .links .i{display:block;font-size:14px;color:var(--muted)}
+  .sp{font-size:11px;font-weight:700;border-radius:4px;padding:0 5px;margin-left:6px;background:#eceae4;color:var(--muted);vertical-align:middle}
+  .hinweisext{font-size:13px;color:var(--muted);margin:6px 0 0}
+  .raetsel button{font:inherit;cursor:pointer;border:1px solid var(--acc);background:#fff;color:var(--acc);border-radius:999px;padding:5px 14px;margin-top:6px}
+  .raetsel .antw{display:none;margin-top:8px;padding:8px 12px;background:#efeaf8;border-radius:8px}
+  .raetsel.offen .antw{display:block}
+  .pfeil{font-size:20px;color:#b33a3a;line-height:1;text-shadow:0 0 3px #fff}
+  .wegname{background:rgba(255,255,255,.85);border:0;box-shadow:none;color:#b33a3a;font-weight:700;font-size:12px;padding:0 4px}
+</style>
+</head>
+<body>
+<main>
+  <nav class="oben">
+    <a href="/etagen.html">🏠 Etagenplan</a>
+    <a href="/pages/language_lab/glossar/index.html">📖 Glossar</a>
+  </nav>
+  <div id="app"></div>
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+  const G = window.WORTDETEKTIV || [];
+  const app = document.getElementById("app");
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const HER = { germ: "germanisch", lat: "Latein", frz: "Französisch", griech: "Griechisch", nord: "Altnordisch" };
+  const ART = { lexikon: "📚", woerterbuch: "📖", video: "▶️", karte: "🗺️" };
+  let karte = null, marker = {};
+
+  // **fett** und [[ort:id|Name]] in HTML umwandeln
+  function fmt(s) {
+    return esc(s)
+      .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
+      .replace(/\[\[ort:([a-z0-9_]+)\|([^\]]+)\]\]/g, '<a class="ortlink" data-ort="$1" href="#">$2</a>');
+  }
+
+  function liste() {
+    app.innerHTML = `
+      <h1>🔍 Wortdetektiv</h1>
+      <p class="lead"><span class="ru">Словодетектив – истории слов: откуда пришло слово, кто его принёс, где это на карте.</span></p>
+      <div class="karten">${G.map((g, i) => `
+        <a class="fall" href="#${esc(g.id)}">
+          <span class="nr">FALL ${i + 1} · ДЕЛО №${i + 1}</span><br>
+          <b>${esc(g.titel)}</b>
+          <p>${esc(g.ru)}</p>
+        </a>`).join("")}
+      </div>`;
+    document.title = "Wortdetektiv – Geschichten der Wörter";
+  }
+
+  function geschichte(g) {
+    const hatKarte = g.orte && Object.keys(g.orte).length > 0;
+    app.innerHTML = `
+      <a class="zur" href="#">← alle Fälle / все дела</a>
+      <article class="gesch">
+        <h2>${esc(g.titel)}</h2>
+        <p class="unter">${esc(g.ru)} · <i>${esc(HER[g.h] || "")}</i></p>
+        <p class="kurz">${fmt(g.kurz)}</p>
+        ${hatKarte ? `<div id="karte"></div><p class="kartehinweis">Нажмите на 📍 название в тексте – место покажется на карте. Карту можно двигать и увеличивать.</p>` : ""}
+        <div class="text">${g.text.map((p) => `<p>${fmt(p)}</p>`).join("")}</div>
+        ${g.spuren && g.spuren.length ? `<div class="kasten"><h3>🔎 Wort-Spuren / Улики</h3>${g.spuren.map((s) => `<p class="spur"><b>${esc(s[0])}</b> – ${fmt(s[1])}</p>`).join("")}</div>` : ""}
+        ${g.raetsel ? `<div class="kasten raetsel"><h3>❓ Rätsel / Загадка</h3><div>${fmt(g.raetsel.frage)}</div><button type="button">Antwort zeigen / Показать ответ</button><div class="antw">${fmt(g.raetsel.antwort)}</div></div>` : ""}
+        ${g.links && g.links.length ? `<div class="kasten links"><h3>🔗 Mehr erfahren / Узнать больше</h3>${g.links.map((l) => `
+          <a class="lk" href="${esc(l.url)}" target="_blank" rel="noopener"><span>${ART[l.art] || "🔗"}</span> <span class="t">${esc(l.t)}</span><span class="sp">${esc(l.sp)}</span><span class="i">${esc(l.info)}</span></a>`).join("")}
+          <p class="hinweisext">Ссылки ведут на чужие сайты и открываются в новой вкладке.</p></div>` : ""}
+      </article>`;
+    document.title = g.titel + " – Wortdetektiv";
+    window.scrollTo(0, 0);
+
+    const r = app.querySelector(".raetsel button");
+    if (r) r.addEventListener("click", () => r.parentNode.classList.toggle("offen"));
+
+    app.querySelectorAll(".ortlink").forEach((a) => a.addEventListener("click", (ev) => {
+      ev.preventDefault(); zeigeOrt(a.dataset.ort);
+    }));
+
+    if (hatKarte) karteBauen(g);
+  }
+
+  function karteBauen(g) {
+    const box = document.getElementById("karte");
+    if (!window.L) { box.innerHTML = '<p style="padding:20px">Karte konnte nicht geladen werden (kein Internet?). / Карта не загрузилась – нет интернета?</p>'; return; }
+    if (karte) { karte.remove(); karte = null; }
+    marker = {};
+    karte = L.map(box, { scrollWheelZoom: false });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(karte);
+    const punkte = [];
+    Object.entries(g.orte).forEach(([id, o]) => {
+      const m = L.marker([o.lat, o.lng]).addTo(karte).bindPopup(`<b>${esc(o.name)}</b><br>${esc(o.info)}`);
+      marker[id] = m; punkte.push([o.lat, o.lng]);
+    });
+    (g.wege || []).forEach(([von, nach, name]) => {
+      const a = g.orte[von], b = g.orte[nach]; if (!a || !b) return;
+      L.polyline([[a.lat, a.lng], [b.lat, b.lng]], { color: "#b33a3a", weight: 3, dashArray: "8 6", opacity: .85 })
+        .addTo(karte).bindTooltip(esc(name), { permanent: true, direction: "center", className: "wegname" });
+      const pf = L.marker([b.lat, b.lng], { interactive: false, icon: L.divIcon({ className: "", html: '<div class="pfeil">➤</div>', iconSize: [20, 20], iconAnchor: [10, 10] }) }).addTo(karte);
+      const drehen = () => {
+        const p1 = karte.latLngToLayerPoint([a.lat, a.lng]), p2 = karte.latLngToLayerPoint([b.lat, b.lng]);
+        const w = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+        const el = pf.getElement(); if (el && el.firstChild) el.firstChild.style.transform = `translate(-14px,0) rotate(${w}deg)`;
+      };
+      karte.on("zoomend viewreset", drehen); setTimeout(drehen, 0);
+    });
+    karte.fitBounds(punkte, { padding: [25, 25] });
+  }
+
+  function zeigeOrt(id) {
+    const m = marker[id]; if (!m || !karte) return;
+    document.getElementById("karte").scrollIntoView({ behavior: "smooth", block: "center" });
+    karte.flyTo(m.getLatLng(), 8, { duration: 1.2 });
+    setTimeout(() => m.openPopup(), 1300);
+  }
+
+  function route() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    const g = G.find((x) => x.id === id);
+    if (karte && !g) { karte.remove(); karte = null; }
+    g ? geschichte(g) : liste();
+  }
+  window.addEventListener("hashchange", route);
+  // Leaflet wird mit "defer" geladen – ist beim DOMContentLoaded schon da
+  route();
+});
+</script>
+</body>
+</html>
