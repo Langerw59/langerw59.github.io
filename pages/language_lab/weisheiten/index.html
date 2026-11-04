@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weisheiten – Мудрые изречения</title>
+<!-- 2026-11-04: Weisheiten – erstellt mit Claude
+     DE: Aphorismen, Bibelsprüche, Vaterunser, Latein – parallel DE/RU/EN/IT mit Sprachausgabe.
+     RU: Мудрые изречения на 4 языках с озвучкой. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f1e7; --card:#fffdf8; --ink:#2b2620; --muted:#7a6f62; --line:#e4dccd;
+  --accent:#8a5a2b; --accent-soft:#f1e4d3; --ok:#3f7d4e; --ok-soft:#e3f0e5; --bad:#a3442f; --bad-soft:#f6e2dc;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.45}
+.wrap{max-width:760px;margin:0 auto;padding:16px 14px 60px}
+header h1{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:26px;margin:4px 0 2px}
+header p{margin:0 0 14px;color:var(--muted);font-size:14px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tab{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink)}
+.tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab small{opacity:.75}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:14px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:5px 9px;cursor:pointer;font:inherit;font-size:13px;color:var(--muted)}
+.chip.on{background:var(--accent-soft);border-color:#d9c3a6;color:var(--ink);font-weight:600}
+.sep{width:1px;height:22px;background:var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px;box-shadow:0 2px 10px rgba(80,60,30,.06)}
+.meta{display:flex;justify-content:space-between;align-items:baseline;gap:10px;color:var(--muted);font-size:13px;margin-bottom:6px}
+.title{font-family:"Source Serif 4",Georgia,serif;font-size:21px;font-weight:600;margin:0 0 12px}
+.title span{display:block;font-weight:400;font-size:16px;color:var(--muted)}
+.lang{display:grid;grid-template-columns:34px 1fr 44px;gap:8px;align-items:start;padding:10px 0;border-top:1px dashed var(--line)}
+.flag{font-size:12px;font-weight:600;color:var(--accent);padding-top:5px;letter-spacing:.03em}
+.txt{font-family:"Source Serif 4",Georgia,serif;font-size:19px}
+.lang.la .txt{font-style:italic}
+.hidden .txt{color:transparent;background:repeating-linear-gradient(90deg,var(--line) 0 10px,transparent 10px 14px);border-radius:4px;user-select:none}
+.say{width:40px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--accent-soft);cursor:pointer;font-size:17px}
+.say:active{transform:scale(.95)}
+.reveal{display:block;width:100%;margin:10px 0 2px;padding:10px;border-radius:10px;border:1px dashed #cdb48f;background:#fbf5ea;font:inherit;font-weight:600;color:var(--accent);cursor:pointer}
+details{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--accent);padding:4px 0}
+.words{width:100%;border-collapse:collapse;margin-top:6px;font-size:15px}
+.words td{padding:5px 4px;border-bottom:1px solid #f0e9dc;vertical-align:top}
+.words td:first-child{font-weight:600;width:52%}
+.words button{border:none;background:none;cursor:pointer;font-size:14px;padding:0 4px}
+.note{font-size:15px;color:#4a4238;margin:6px 0 2px}
+.nav{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:14px}
+.nav button{padding:12px 6px;border-radius:12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
+.nav .ok{background:var(--ok-soft);border-color:#b9d8bf;color:var(--ok)}
+.nav .bad{background:var(--bad-soft);border-color:#e6c1b6;color:var(--bad)}
+.nav small{display:block;font-weight:400;font-size:12px;opacity:.8}
+.status{font-size:12px;padding:2px 8px;border-radius:999px}
+.status.ok{background:var(--ok-soft);color:var(--ok)}
+.status.bad{background:var(--bad-soft);color:var(--bad)}
+.progress{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:4px 0 14px}
+.progress div{height:100%;background:var(--ok);width:0;transition:width .3s}
+.settings{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 14px 12px}
+.settings label{display:grid;grid-template-columns:110px 1fr;gap:8px;align-items:center;margin:8px 0;font-size:14px}
+.settings select,.settings input{font:inherit;font-size:14px;padding:5px;border-radius:8px;border:1px solid var(--line);background:#fff;width:100%}
+.hint{font-size:13px;color:var(--muted);margin:6px 0 0}
+.empty{padding:30px 10px;text-align:center;color:var(--muted)}
+.oben{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;margin-bottom:10px}
+.oben a{text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:var(--ink)}
+.linkbtn{background:none;border:none;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;font-size:13px;padding:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="oben">
+  <a href="/etagen.html">🏠 Etagenplan</a>
+  <a href="/pages/language_lab/index.html">Language Lab</a>
+  <a href="/pages/language_lab/wortdetektiv/index.html">🔍 Wortdetektiv</a>
+</nav>
+<header>
+  <h1>Weisheiten · Мудрые изречения</h1>
+  <p>Die Spruchkarte / карточки: Deutsch · Русский · English · Italiano (+ Latein)</p>
+</header>
+
+<div class="tabs" id="tabs"></div>
+<div class="progress"><div id="prog"></div></div>
+
+<div class="bar">
+  <span style="color:var(--muted)">Sprachen:</span>
+  <span id="langChips"></span>
+  <span class="sep"></span>
+  <button class="chip" id="modeBtn"></button>
+  <button class="chip" id="onlyBad"></button>
+</div>
+
+<div id="cardHost"></div>
+
+<div class="nav">
+  <button id="prev">◀<small>Zurück / Назад</small></button>
+  <button class="bad" id="no">✗<small>Nicht gewusst / Не знал</small></button>
+  <button class="ok" id="yes">✓<small>Gewusst / Знал</small></button>
+  <button id="next">▶<small>Weiter / Дальше</small></button>
+</div>
+
+<details class="settings">
+  <summary>⚙ Die Stimme / Голос и настройки</summary>
+  <div id="voiceSel"></div>
+  <label>Tempo / Скорость <input type="range" id="rate" min="0.55" max="1.15" step="0.05"></label>
+  <p class="hint">Latein wird mit der italienischen Stimme gesprochen (kirchliche Aussprache) / Латынь озвучивается итальянским голосом.</p>
+  <p class="hint">iPhone: Einstellungen → Bedienungshilfen → Gesprochene Inhalte → Stimmen → Deutsch → „Anna (Premium)“ laden. Danach klingt es viel besser. / На iPhone так можно скачать хороший голос.</p>
+  <p class="hint"><button class="linkbtn" id="reset">Fortschritt löschen / Сбросить прогресс</button></p>
+</details>
+</div>
+
+<script>
+const DATA = [
+/* ---------- Lektion 1: Bergpredigt ---------- */
+{id:"splitter", lesson:"berg", t_de:"Splitter und Balken", t_ru:"Соринка и бревно", src:"Matthäus 7,3",
+ de:"Was siehst du den Splitter im Auge deines Bruders, aber den Balken in deinem eigenen Auge bemerkst du nicht?",
+ ru:"И что ты смотришь на сучок в глазе брата твоего, а бревна в твоём глазе не чувствуешь?",
+ en:"Why do you look at the speck in your brother's eye, but do not notice the log in your own eye?",
+ it:"Perché guardi la pagliuzza nell'occhio di tuo fratello, e non ti accorgi della trave che è nel tuo occhio?",
+ words:[["der Splitter","соринка, заноза"],["der Balken","бревно, балка"],["das Auge","глаз"],["der Bruder","брат"],["bemerken","замечать"]],
+ note:"Из Нагорной проповеди (die Bergpredigt, Матфей 5–7). Смысл: сначала исправь себя, потом суди других. По-немецки часто говорят коротко: „den Splitter im fremden Auge sehen“."},
+{id:"friedfertig", lesson:"berg", t_de:"Selig sind die Friedfertigen", t_ru:"Блаженны миротворцы", src:"Matthäus 5,9",
+ de:"Selig sind die Friedfertigen, denn sie werden Gottes Kinder heißen.",
+ ru:"Блаженны миротворцы, ибо они будут наречены сынами Божиими.",
+ en:"Blessed are the peacemakers, for they shall be called children of God.",
+ it:"Beati gli operatori di pace, perché saranno chiamati figli di Dio.",
+ words:[["selig","блаженный, счастливый"],["friedfertig","миролюбивый"],["der Frieden","мир (покой)"],["das Kind","ребёнок"],["heißen","называться"]],
+ note:"Одна из заповедей блаженства (die Seligpreisungen). „Selig sind…“ — устойчивое начало, его узнаёт каждый немец."},
+{id:"licht", lesson:"berg", t_de:"Das Licht der Welt", t_ru:"Свет мира", src:"Matthäus 5,14",
+ de:"Ihr seid das Licht der Welt.",
+ ru:"Вы — свет мира.",
+ en:"You are the light of the world.",
+ it:"Voi siete la luce del mondo.",
+ words:[["das Licht","свет"],["die Welt","мир (вселенная)"]],
+ note:"Обратите внимание: по-немецки der Frieden — мир как покой, а die Welt — мир как вселенная. В русском одно слово, в немецком два."},
+{id:"bittet", lesson:"berg", t_de:"Bittet, so wird euch gegeben", t_ru:"Просите, и дано будет вам", src:"Matthäus 7,7",
+ de:"Bittet, so wird euch gegeben; sucht, so werdet ihr finden; klopft an, so wird euch aufgetan.",
+ ru:"Просите, и дано будет вам; ищите, и найдёте; стучите, и отворят вам.",
+ en:"Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you.",
+ it:"Chiedete e vi sarà dato; cercate e troverete; bussate e vi sarà aperto.",
+ words:[["bitten","просить"],["suchen","искать"],["anklopfen","стучать (в дверь)"],["auftun","открывать (старинное)"]],
+ note:"Хороший пример для грамматики: „wird gegeben“ — пассив (das Passiv), „werdet finden“ — будущее время (das Futur I)."},
+{id:"goldene", lesson:"berg", t_de:"Die goldene Regel", t_ru:"Золотое правило", src:"nach Matthäus 7,12 (Sprichwort)",
+ de:"Was du nicht willst, dass man dir tu, das füg auch keinem andern zu.",
+ ru:"Не делай другому того, чего не желаешь себе.",
+ en:"Do not do to others what you would not want done to you.",
+ it:"Non fare agli altri ciò che non vorresti fosse fatto a te.",
+ words:[["die Regel","правило"],["zufügen","причинять"],["wollen","хотеть"]],
+ note:"Немецкая поговорка в рифму — так легче запомнить. В Евангелии та же мысль сказана в положительной форме: „Alles, was ihr wollt, dass euch die Leute tun, das tut ihr ihnen auch.“ Почти так же сказал и Конфуций, за 500 лет до этого („Gespräche“ 15,24)."},
+{id:"plage", lesson:"berg", t_de:"Jeder Tag hat seine Plage", t_ru:"Довольно для каждого дня своей заботы", src:"Matthäus 6,34",
+ de:"Sorgt euch nicht um morgen; jeder Tag hat seine eigene Plage.",
+ ru:"Не заботьтесь о завтрашнем дне; довольно для каждого дня своей заботы.",
+ en:"Do not worry about tomorrow; sufficient unto the day is the evil thereof.",
+ it:"Non preoccupatevi del domani; a ciascun giorno basta la sua pena.",
+ words:[["die Plage","мучение, забота"],["der Tag","день"],["sich sorgen um","беспокоиться о"],["morgen","завтра"]],
+ note:"„Jeder Tag hat seine Plage“ до сих пор говорят в обычной жизни."},
+{id:"brot", lesson:"berg", t_de:"Nicht vom Brot allein", t_ru:"Не хлебом единым", src:"Matthäus 4,4",
+ de:"Der Mensch lebt nicht vom Brot allein.",
+ ru:"Не хлебом одним будет жить человек.",
+ en:"Man shall not live by bread alone.",
+ it:"Non di solo pane vivrà l'uomo.",
+ words:[["der Mensch","человек"],["das Brot","хлеб"],["allein","один, только"]],
+ note:"Не из Нагорной проповеди, а чуть раньше (Матфей 4) — но знают это все."},
+{id:"schwert", lesson:"berg", t_de:"Wer das Schwert nimmt…", t_ru:"Взявшие меч…", src:"Matthäus 26,52",
+ de:"Wer das Schwert nimmt, der wird durch das Schwert umkommen.",
+ ru:"Все, взявшие меч, мечом погибнут.",
+ en:"All they that take the sword shall perish with the sword.",
+ it:"Tutti quelli che prendono la spada, di spada periranno.",
+ words:[["das Schwert","меч"],["umkommen","погибнуть"],["nehmen","брать"]],
+ note:"По-русски часто добавляют от себя: «Кто с мечом к нам придёт, от меча и погибнет» (это из фильма «Александр Невский»)."},
+
+/* ---------- Lektion 2: Vaterunser ---------- */
+{id:"vu1", lesson:"vater", t_de:"Vaterunser – 1", t_ru:"Отче наш – 1", src:"Matthäus 6,9",
+ de:"Vater unser im Himmel, geheiligt werde dein Name.",
+ ru:"Отче наш, сущий на небесах! Да святится имя Твоё.",
+ en:"Our Father, who art in heaven, hallowed be thy name.",
+ it:"Padre nostro, che sei nei cieli, sia santificato il tuo nome.",
+ la:"Pater noster, qui es in caelis, sanctificetur nomen tuum.",
+ words:[["der Vater","отец"],["der Himmel","небо"],["der Name","имя"],["heiligen","святить"]],
+ note:"„Vater unser“ — старый порядок слов (сначала существительное, потом местоимение), как в латинском „Pater noster“. Обычно говорят „unser Vater“."},
+{id:"vu2", lesson:"vater", t_de:"Vaterunser – 2", t_ru:"Отче наш – 2", src:"Matthäus 6,10",
+ de:"Dein Reich komme. Dein Wille geschehe, wie im Himmel, so auf Erden.",
+ ru:"Да приидет Царствие Твоё; да будет воля Твоя и на земле, как на небе.",
+ en:"Thy kingdom come, thy will be done, on earth as it is in heaven.",
+ it:"Venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra.",
+ la:"Adveniat regnum tuum. Fiat voluntas tua, sicut in caelo et in terra.",
+ words:[["das Reich","царство"],["der Wille","воля"],["die Erde","земля"],["geschehen","происходить, свершаться"]],
+ note:"„komme“, „geschehe“ — форма желания (der Konjunktiv I): «пусть придёт», «пусть будет»."},
+{id:"vu3", lesson:"vater", t_de:"Vaterunser – 3", t_ru:"Отче наш – 3", src:"Matthäus 6,11",
+ de:"Unser tägliches Brot gib uns heute.",
+ ru:"Хлеб наш насущный дай нам на сей день.",
+ en:"Give us this day our daily bread.",
+ it:"Dacci oggi il nostro pane quotidiano.",
+ la:"Panem nostrum quotidianum da nobis hodie.",
+ words:[["das Brot","хлеб"],["täglich","ежедневный"],["heute","сегодня"],["geben","давать"]],
+ note:"Сравните: латинское „quotidianum“ → итальянское „quotidiano“ — почти одно и то же слово."},
+{id:"vu4", lesson:"vater", t_de:"Vaterunser – 4", t_ru:"Отче наш – 4", src:"Matthäus 6,12",
+ de:"Und vergib uns unsere Schuld, wie auch wir vergeben unsern Schuldigern.",
+ ru:"И прости нам долги наши, как и мы прощаем должникам нашим.",
+ en:"And forgive us our trespasses, as we forgive those who trespass against us.",
+ it:"E rimetti a noi i nostri debiti, come noi li rimettiamo ai nostri debitori.",
+ la:"Et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris.",
+ words:[["die Schuld","вина, долг"],["der Schuldiger","должник, виновный (старинное)"],["vergeben","прощать"]],
+ note:"Интересно: по-немецки die Schuld — и «вина», и «долг» (die Schulden — денежные долги)."},
+{id:"vu5", lesson:"vater", t_de:"Vaterunser – 5", t_ru:"Отче наш – 5", src:"Matthäus 6,13",
+ de:"Und führe uns nicht in Versuchung, sondern erlöse uns von dem Bösen.",
+ ru:"И не введи нас во искушение, но избавь нас от лукавого.",
+ en:"And lead us not into temptation, but deliver us from evil.",
+ it:"E non ci indurre in tentazione, ma liberaci dal male.",
+ la:"Et ne nos inducas in tentationem, sed libera nos a malo.",
+ words:[["die Versuchung","искушение"],["das Böse","зло"],["führen","вести"],["erlösen","избавлять, спасать"]],
+ note:"В Италии с 2020 года молятся по-новому: „e non abbandonarci alla tentazione“ (не оставь нас в искушении). Старый вариант тоже все знают."},
+{id:"vu6", lesson:"vater", t_de:"Vaterunser – 6", t_ru:"Отче наш – 6", src:"Schluss / Окончание",
+ de:"Denn dein ist das Reich und die Kraft und die Herrlichkeit in Ewigkeit. Amen.",
+ ru:"Ибо Твоё есть Царство и сила и слава во веки. Аминь.",
+ en:"For thine is the kingdom, and the power, and the glory, for ever and ever. Amen.",
+ it:"Tuo è il regno, tua la potenza e la gloria nei secoli. Amen.",
+ words:[["die Kraft","сила"],["die Herrlichkeit","слава, великолепие"],["die Ewigkeit","вечность"]],
+ note:"Это окончание (die Doxologie) есть не во всех рукописях; католики в Италии говорят его отдельно, после молитвы."},
+
+/* ---------- Lektion 3: Latein ---------- */
+{id:"credo", lesson:"latein", t_de:"Credo quia absurdum", t_ru:"Верую, ибо абсурдно", src:"Tertullian zugeschrieben",
+ la:"Credo quia absurdum.",
+ de:"Ich glaube, weil es absurd ist.",
+ ru:"Верую, потому что абсурдно.",
+ en:"I believe because it is absurd.",
+ it:"Credo perché è assurdo.",
+ words:[["der Glaube","вера"],["glauben","верить"],["absurd","нелепый"]],
+ note:"Обычно приписывают Тертуллиану (около 200 г.), но у него написано иначе: „credibile est, quia ineptum est“ — «достойно веры, ибо нелепо». Короткая форма появилась позже."},
+{id:"errare", lesson:"latein", t_de:"Irren ist menschlich", t_ru:"Человеку свойственно ошибаться", src:"Seneca (nach)",
+ la:"Errare humanum est.",
+ de:"Irren ist menschlich.",
+ ru:"Человеку свойственно ошибаться.",
+ en:"To err is human.",
+ it:"Errare è umano.",
+ words:[["der Irrtum","ошибка, заблуждение"],["irren","ошибаться"],["menschlich","человеческий"]],
+ note:"Полная форма: „Errare humanum est, perseverare diabolicum“ — ошибаться свойственно человеку, упорствовать в ошибке — дьявольски."},
+{id:"repetitio", lesson:"latein", t_de:"Wiederholung ist die Mutter des Lernens", t_ru:"Повторение — мать учения", src:"Sprichwort",
+ la:"Repetitio est mater studiorum.",
+ de:"Wiederholung ist die Mutter des Lernens.",
+ ru:"Повторение — мать учения.",
+ en:"Repetition is the mother of learning.",
+ it:"La ripetizione è la madre dello studio.",
+ words:[["die Wiederholung","повторение"],["die Mutter","мать"],["das Lernen","учение, учёба"]],
+ note:"Девиз всей этой страницы 🙂"},
+{id:"carpe", lesson:"latein", t_de:"Nutze den Tag", t_ru:"Лови день", src:"Horaz",
+ la:"Carpe diem.",
+ de:"Nutze den Tag.",
+ ru:"Лови момент (лови день).",
+ en:"Seize the day.",
+ it:"Cogli l'attimo.",
+ words:[["der Tag","день"],["nutzen","использовать"],["der Augenblick","мгновение"]],
+ note:"Из стихотворения Горация (I в. до н. э.). Буквально „carpe“ — «срывай», как срывают плод."},
+{id:"veni", lesson:"latein", t_de:"Ich kam, ich sah, ich siegte", t_ru:"Пришёл, увидел, победил", src:"Julius Caesar",
+ la:"Veni, vidi, vici.",
+ de:"Ich kam, ich sah, ich siegte.",
+ ru:"Пришёл, увидел, победил.",
+ en:"I came, I saw, I conquered.",
+ it:"Venni, vidi, vinsi.",
+ words:[["der Sieg","победа"],["siegen","побеждать"],["kommen – kam","приходить – пришёл"],["sehen – sah","видеть – увидел"]],
+ note:"Цезарь написал так в Рим после быстрой победы в 47 г. до н. э. Хорошее упражнение на das Präteritum: kam, sah, siegte."},
+{id:"mens", lesson:"latein", t_de:"Ein gesunder Geist…", t_ru:"В здоровом теле — здоровый дух", src:"Juvenal",
+ la:"Mens sana in corpore sano.",
+ de:"Ein gesunder Geist in einem gesunden Körper.",
+ ru:"В здоровом теле — здоровый дух.",
+ en:"A healthy mind in a healthy body.",
+ it:"Mente sana in corpo sano.",
+ words:[["der Geist","дух, ум"],["der Körper","тело"],["gesund","здоровый"]],
+ note:"У Ювенала это была молитва: «надо молиться, чтобы был здоровый дух в здоровом теле»."},
+{id:"scio", lesson:"latein", t_de:"Ich weiß, dass ich nichts weiß", t_ru:"Я знаю, что ничего не знаю", src:"Sokrates (nach Platon)",
+ la:"Scio me nihil scire.",
+ de:"Ich weiß, dass ich nichts weiß.",
+ ru:"Я знаю, что ничего не знаю.",
+ en:"I know that I know nothing.",
+ it:"So di non sapere.",
+ words:[["das Wissen","знание"],["wissen – weiß","знать – знаю"]],
+ note:"Сократ говорил по-гречески, латинская форма — более поздний перевод. По-немецки после „dass“ глагол уходит в конец: „dass ich nichts weiß“."},
+
+/* ---------- Lektion 4: Lebensweisheiten ---------- */
+{id:"lassgehen", lesson:"leben", t_de:"Lass es gehen", t_ru:"Отпусти", src:"oft Konfuzius zugeschrieben",
+ de:"Alles, was du liebst, lass gehen. Kommt es zurück, bleibt es bei dir für immer.",
+ ru:"Если любишь — отпусти. Если вернётся — останется с тобой навсегда.",
+ en:"If you love something, set it free. If it comes back, it is yours forever.",
+ it:"Se ami qualcosa, lasciala andare. Se torna, sarà tua per sempre.",
+ words:[["lieben","любить"],["gehen lassen","отпустить"],["zurückkommen","вернуться"],["für immer","навсегда"]],
+ note:"Часто подписывают «Конфуций», но у Конфуция этой фразы нет — это современная мудрость, автор неизвестен. Грамматика: „Kommt es zurück, …“ — условие без „wenn“, глагол стоит первым; поэтому во второй части тоже нужен „es“: „bleibt es bei dir“."},
+{id:"glashaus", lesson:"leben", t_de:"Wer im Glashaus sitzt…", t_ru:"Живущий в стеклянном доме…", src:"Sprichwort",
+ de:"Wer im Glashaus sitzt, sollte nicht mit Steinen werfen.",
+ ru:"Кто живёт в стеклянном доме, не должен бросаться камнями.",
+ en:"People who live in glass houses shouldn't throw stones.",
+ it:"Chi ha la casa di vetro non tiri sassi al vicino.",
+ words:[["das Glashaus","стеклянный дом, теплица"],["der Stein","камень"],["werfen","бросать"]],
+ note:"Тот же смысл, что «соринка и бревно», но это живая немецкая поговорка — её поймёт любой школьник. Удобно сказать в классе, когда ребёнок жалуется на другого, а сам делает то же самое."},
+{id:"konfuzius-wissen", lesson:"leben", t_de:"Wissen, was man weiß", t_ru:"Знать, что знаешь", src:"Konfuzius, Gespräche 2,17",
+ de:"Was man weiß, als Wissen gelten lassen; was man nicht weiß, als Nichtwissen gelten lassen – das ist Wissen.",
+ ru:"Что знаешь — считай, что знаешь; чего не знаешь — считай, что не знаешь. Это и есть знание.",
+ en:"To know what you know and to know what you do not know – that is true knowledge.",
+ it:"Sapere ciò che si sa e sapere ciò che non si sa: questo è il vero sapere.",
+ words:[["das Wissen","знание"],["das Nichtwissen","незнание"],["gelten lassen","признавать"]],
+ note:"Это настоящий Конфуций, из книги «Беседы и суждения» (Lunyu, по-немецки „die Gespräche“). Сравните с Сократом из урока «Латынь»."},
+{id:"konfuzius-lehrer", lesson:"leben", t_de:"Drei gehen zusammen", t_ru:"Идут трое", src:"Konfuzius, Gespräche 7,22",
+ de:"Wenn drei Menschen zusammen gehen, ist bestimmt einer darunter, der mein Lehrer sein kann.",
+ ru:"Если идут трое, среди них обязательно найдётся мой учитель.",
+ en:"When three people walk together, one of them can surely be my teacher.",
+ it:"Se tre persone camminano insieme, tra loro c'è sicuramente il mio maestro.",
+ words:[["der Lehrer","учитель"],["der Mensch","человек"],["zusammen","вместе"]],
+ note:"Конфуций продолжает: у хорошего учусь, а глядя на плохое — исправляю это в себе. Хорошая мысль для класса."}
+];
+
+const LESSONS = [
+  {k:"berg",   de:"Bergpredigt", ru:"Нагорная проповедь"},
+  {k:"vater",  de:"Vaterunser",  ru:"Отче наш"},
+  {k:"latein", de:"Latein",      ru:"Латынь"},
+  {k:"leben",  de:"Lebensweisheiten", ru:"Житейская мудрость"},
+  {k:"alle",   de:"Alle",        ru:"Все"}
+];
+const LANGS = [
+  {k:"la", label:"LA", tts:"it", name:"Latein"},
+  {k:"de", label:"DE", tts:"de", name:"Deutsch"},
+  {k:"ru", label:"RU", tts:"ru", name:"Русский"},
+  {k:"en", label:"EN", tts:"en", name:"English"},
+  {k:"it", label:"IT", tts:"it", name:"Italiano"}
+];
+const TTS_LANG = {de:"de-DE", ru:"ru-RU", en:"en-GB", it:"it-IT"};
+
+/* ---------- state (localStorage with try/catch) ---------- */
+const KEY = "weisheiten-v1";
+let S = {lesson:"berg", idx:{}, status:{}, show:{la:true,de:true,ru:true,en:true,it:true}, test:false, onlyBad:false, rate:0.85, voice:{}};
+try{ const s = JSON.parse(localStorage.getItem(KEY)||"null"); if(s) S = Object.assign(S, s); }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+let revealed = false;
+
+function list(){
+  let l = S.lesson==="alle" ? DATA : DATA.filter(d=>d.lesson===S.lesson);
+  if(S.onlyBad){ const f = l.filter(d=>S.status[d.id]!=="ok"); if(f.length) l = f; }
+  return l;
+}
+function cur(){ const l = list(); let i = S.idx[S.lesson]||0; if(i>=l.length) i=0; return {l, i, d:l[i]}; }
+
+/* ---------- speech ---------- */
+let voices = [];
+function loadVoices(){ voices = (window.speechSynthesis && speechSynthesis.getVoices()) || []; buildVoiceSel(); }
+if(window.speechSynthesis){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function score(v){
+  const n = v.name.toLowerCase(); let s = 0;
+  if(/premium|enhanced|natural|neural|online/.test(n)) s += 5;
+  if(/google/.test(n)) s += 3;
+  if(/anna|petra|helena|katja|milena|yuri|daniel|serena|alice|federica|luca|kate|arthur/.test(n)) s += 1;
+  if(v.localService) s += 1;
+  return s;
+}
+function voicesFor(code){ return voices.filter(v=>v.lang && v.lang.toLowerCase().replace("_","-").startsWith(code)).sort((a,b)=>score(b)-score(a)); }
+function pickVoice(code){
+  const vs = voicesFor(code);
+  if(S.voice[code]){ const v = vs.find(x=>x.name===S.voice[code]); if(v) return v; }
+  return vs[0] || null;
+}
+function speak(text, code){
+  if(!window.speechSynthesis) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = TTS_LANG[code]; u.rate = S.rate;
+    const v = pickVoice(code); if(v) u.voice = v;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function buildVoiceSel(){
+  const host = document.getElementById("voiceSel"); if(!host) return;
+  host.innerHTML = "";
+  [["de","Deutsch"],["ru","Русский"],["en","English"],["it","Italiano / Latein"]].forEach(([c,name])=>{
+    const vs = voicesFor(c);
+    const lab = document.createElement("label");
+    lab.innerHTML = `<span>${name}</span>`;
+    const sel = document.createElement("select");
+    if(!vs.length){ sel.innerHTML = "<option>keine Stimme / нет голоса</option>"; sel.disabled = true; }
+    vs.forEach(v=>{ const o=document.createElement("option"); o.value=v.name; o.textContent=v.name; sel.appendChild(o); });
+    const p = pickVoice(c); if(p) sel.value = p.name;
+    sel.onchange = ()=>{ S.voice[c] = sel.value; save(); speak({de:"Guten Tag",ru:"Добрый день",en:"Good day",it:"Buongiorno"}[c], c); };
+    lab.appendChild(sel); host.appendChild(lab);
+  });
+}
+
+/* ---------- render ---------- */
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function render(){
+  // tabs
+  const tabs = document.getElementById("tabs"); tabs.innerHTML = "";
+  LESSONS.forEach(L=>{
+    const items = L.k==="alle" ? DATA : DATA.filter(d=>d.lesson===L.k);
+    const ok = items.filter(d=>S.status[d.id]==="ok").length;
+    const b = document.createElement("button");
+    b.className = "tab"+(S.lesson===L.k?" on":"");
+    b.innerHTML = `${L.de} / ${L.ru} <small>${ok}/${items.length}</small>`;
+    b.onclick = ()=>{ S.lesson=L.k; revealed=false; save(); render(); };
+    tabs.appendChild(b);
+  });
+  // progress bar for current lesson
+  const all = S.lesson==="alle" ? DATA : DATA.filter(d=>d.lesson===S.lesson);
+  document.getElementById("prog").style.width = (100*all.filter(d=>S.status[d.id]==="ok").length/all.length)+"%";
+  // language chips
+  const lc = document.getElementById("langChips"); lc.innerHTML = "";
+  LANGS.forEach(L=>{
+    const b = document.createElement("button");
+    b.className = "chip"+(S.show[L.k]?" on":""); b.textContent = L.label; b.title = L.name;
+    b.onclick = ()=>{ S.show[L.k]=!S.show[L.k]; save(); render(); };
+    lc.appendChild(b); lc.appendChild(document.createTextNode(" "));
+  });
+  const mb = document.getElementById("modeBtn");
+  mb.className = "chip"+(S.test?" on":"");
+  mb.textContent = S.test ? "🧠 Prüfen / Проверка" : "📖 Lesen / Чтение";
+  mb.onclick = ()=>{ S.test=!S.test; revealed=false; save(); render(); };
+  const ob = document.getElementById("onlyBad");
+  ob.className = "chip"+(S.onlyBad?" on":"");
+  ob.textContent = "Nur Ungelerntes / Только невыученное";
+  ob.onclick = ()=>{ S.onlyBad=!S.onlyBad; S.idx[S.lesson]=0; revealed=false; save(); render(); };
+
+  // card
+  const {l,i,d} = cur();
+  const host = document.getElementById("cardHost");
+  if(!d){ host.innerHTML = '<div class="card empty">Keine Karten / Нет карточек</div>'; return; }
+  const st = S.status[d.id];
+  const stHtml = st==="ok" ? '<span class="status ok">✓ gewusst</span>' : st==="bad" ? '<span class="status bad">✗ wiederholen</span>' : "";
+  let rows = "";
+  LANGS.forEach(L=>{
+    if(!d[L.k] || !S.show[L.k]) return;
+    const hide = S.test && !revealed && L.k!=="ru";
+    rows += `<div class="lang ${L.k}${hide?" hidden":""}">
+      <div class="flag">${L.label}</div>
+      <div class="txt">${esc(d[L.k])}</div>
+      <button class="say" data-l="${L.k}" title="Vorlesen / Прочитать" ${hide?"disabled":""}>🔊</button>
+    </div>`;
+  });
+  const reveal = S.test && !revealed ? '<button class="reveal" id="rev">Zeigen / Показать</button>' : "";
+  const words = d.words.map(w=>`<tr><td>${esc(w[0])} <button data-w="${esc(w[0])}" title="Vorlesen">🔊</button></td><td>${esc(w[1])}</td></tr>`).join("");
+  host.innerHTML = `<div class="card">
+    <div class="meta"><span>${i+1} / ${l.length} · ${esc(d.src)}</span>${stHtml}</div>
+    <h2 class="title">${esc(d.t_de)}<span>${esc(d.t_ru)}</span></h2>
+    ${rows}${reveal}
+    <details ${S.test&&!revealed?"":"open"}><summary>Die Wörter / Слова</summary><table class="words">${words}</table></details>
+    <details><summary>Die Herkunft / Откуда это</summary><p class="note">${esc(d.note)}</p></details>
+  </div>`;
+  host.querySelectorAll(".say").forEach(b=>b.onclick=()=>{ const k=b.dataset.l; const L=LANGS.find(x=>x.k===k); speak(d[k], L.tts); });
+  host.querySelectorAll("[data-w]").forEach(b=>b.onclick=()=>speak(b.dataset.w.split(" – ")[0], "de"));
+  const r = document.getElementById("rev"); if(r) r.onclick = ()=>{ revealed=true; render(); };
+}
+function move(step){
+  const {l,i} = cur(); S.idx[S.lesson] = (i+step+l.length)%l.length; revealed=false; save(); render();
+}
+function mark(v){
+  const {d} = cur(); if(!d) return;
+  S.status[d.id] = v; save();
+  if(S.onlyBad && v==="ok"){ revealed=false; render(); } else move(1);
+}
+document.getElementById("prev").onclick = ()=>move(-1);
+document.getElementById("next").onclick = ()=>move(1);
+document.getElementById("yes").onclick = ()=>mark("ok");
+document.getElementById("no").onclick = ()=>mark("bad");
+const rate = document.getElementById("rate"); rate.value = S.rate;
+rate.oninput = ()=>{ S.rate = parseFloat(rate.value); save(); };
+rate.onchange = ()=>speak("Wiederholung ist die Mutter des Lernens.","de");
+document.getElementById("reset").onclick = ()=>{ S.status={}; S.idx={}; save(); render(); };
+render();
+</script>
+</body>
+</html>
