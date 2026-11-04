@@ -57,6 +57,16 @@
     link.href = href;
     document.head.appendChild(link);
   })();
+  // DE: Dunkel-Modus „Nachtblau“ für alle Seiten (2026-11-04)
+  // RU: тёмная тема «ночной синий» для всех страниц
+  (function ensureDunkelCss() {
+    const href = "/core/assets/dunkel.css";
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.appendChild(link);
+  })();
 
   // DE: Seite ohne Kopfleiste? → automatisch oben einsetzen.
   //     Ausschalten pro Seite: <body data-kein-kopf>

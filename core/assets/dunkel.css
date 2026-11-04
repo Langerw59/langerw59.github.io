@@ -1,0 +1,113 @@
+/* ============================================================
+   DE: Dunkel-Modus „Nachtblau“ – für ALLE Seiten (wird von core_init.js geladen)
+       Weiches Blau statt Schwarz, Schrift nicht grellweiß – schont die Augen.
+       Farben ändern: nur die Variablen hier oben.
+   RU: Тёмная тема «ночной синий» – для ВСЕХ страниц (подключает core_init.js).
+       Мягкий синий вместо чёрного, текст не ярко-белый – не режет глаза.
+       Чтобы поменять цвета – только переменные вверху.
+   2026-11-04 · geschrieben mit Claude
+   ============================================================ */
+html[data-theme="dark"] {
+  --nb-bg: #1d2c47;        /* Hintergrund / фон страницы */
+  --nb-flaeche: #253858;   /* Karten / карточки */
+  --nb-flaeche2: #2d4368;  /* Hover, Eingabefelder / поля ввода */
+  --nb-linie: #3d5680;     /* Rahmen / рамки */
+  --nb-text: #dfe7f3;      /* Schrift / текст */
+  --nb-grau: #a8b8d2;      /* Nebentext / второстепенный текст */
+  --nb-link: #9fcbff;      /* Links / ссылки */
+  --nb-akzent: #8ab8ff;
+
+  /* Kern-Variablen (core/assets/style.css) */
+  --bg-page: var(--nb-bg);
+  --bg-surface: var(--nb-flaeche);
+  --border-subtle: var(--nb-linie);
+  --text-main: var(--nb-text);
+  --text-muted: var(--nb-grau);
+  --footer-fg: var(--nb-text);
+  --accent: var(--nb-akzent);
+  --accent-soft: var(--nb-flaeche2);
+  --accent-strong: #b9d6ff;
+  --shadow-soft: 0 8px 22px rgba(0, 0, 0, .28);
+  --sf-toolbar-bg-light: var(--nb-flaeche);
+  --sf-toolbar-text-light: var(--nb-text);
+  --sf-level-pill-bg-light: var(--nb-flaeche2);
+  --sf-level-pill-text-light: var(--nb-text);
+
+  /* Wortdetektiv-Variablen */
+  --bg: var(--nb-bg);
+  --card: var(--nb-flaeche);
+  --ink: var(--nb-text);
+  --muted: var(--nb-grau);
+  --line: var(--nb-linie);
+  --ort: var(--nb-link);
+  --acc: #c3a8ff;
+  --acc2: #e0b26a;
+
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] body {
+  background: var(--nb-bg) !important;
+  color: var(--nb-text) !important;
+}
+html[data-theme="dark"] a { color: var(--nb-link); }
+
+/* Karten und Kästen / карточки и блоки */
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .portal-card,
+html[data-theme="dark"] .sf-card,
+html[data-theme="dark"] .fall,
+html[data-theme="dark"] .tier,
+html[data-theme="dark"] .kasten,
+html[data-theme="dark"] .leer,
+html[data-theme="dark"] .gesch {
+  background: var(--nb-flaeche) !important;
+  color: var(--nb-text) !important;
+  border-color: var(--nb-linie) !important;
+}
+html[data-theme="dark"] .portal-card a,
+html[data-theme="dark"] .card a { color: var(--nb-link) !important; }
+html[data-theme="dark"] .portal-card p,
+html[data-theme="dark"] .portal-card small,
+html[data-theme="dark"] small,
+html[data-theme="dark"] .ru,
+html[data-theme="dark"] p.lead { color: var(--nb-grau) !important; }
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] .sf-card .top,
+html[data-theme="dark"] .sf-card .sub,
+html[data-theme="dark"] .sf-badge { color: var(--nb-text) !important; }
+
+/* Eingabefelder, Knöpfe / поля и кнопки */
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] .filter button,
+html[data-theme="dark"] .oben a,
+html[data-theme="dark"] .links a.lk {
+  background: var(--nb-flaeche2) !important;
+  color: var(--nb-text) !important;
+  border-color: var(--nb-linie) !important;
+}
+html[data-theme="dark"] .filter button.an {
+  background: #6f58b8 !important;
+  border-color: #6f58b8 !important;
+  color: #fff !important;
+}
+
+/* Wortdetektiv: Hervorhebungen / выделения */
+html[data-theme="dark"] .kurz { background: #34405a !important; }
+html[data-theme="dark"] .tierlink { background: var(--nb-flaeche) !important; color: var(--nb-text) !important; }
+html[data-theme="dark"] .tier .la { color: #c3a8ff; }
+html[data-theme="dark"] .raetsel .antw,
+html[data-theme="dark"] .versteckt::after,
+html[data-theme="dark"] .lexlink:hover,
+html[data-theme="dark"] .ton:hover { background: #3a3f6b !important; }
+html[data-theme="dark"] #lexbox { background: var(--nb-flaeche); border-color: var(--nb-linie); }
+html[data-theme="dark"] #lexbox a { background: var(--nb-flaeche2); color: var(--nb-text); }
+html[data-theme="dark"] .chip:not(.h) { background: var(--nb-flaeche2); color: var(--nb-grau); }
+
+/* Fußzeile / подвал */
+html[data-theme="dark"] .site-footer,
+html[data-theme="dark"] .site-footer * { color: var(--nb-grau) !important; }
