@@ -58,6 +58,10 @@
       .gl-neu .gl-knopf { border-color: var(--accent, #1f6feb); }
       .gl-neu-msg { min-height: 1.3em; margin-top: 6px; font-size: .92rem; }
       .gl-neu-msg.ok { color: #1a7f37; }
+      /* fremde Wörter im Herkunft-Text: anklickbar */
+      .gl-q { color: var(--accent, #1f6feb); border-bottom: 1px dashed currentColor; cursor: pointer; font-style: italic; }
+      .gl-q:hover { background: rgba(31,111,235,.12); border-radius: 3px; }
+      .gl-q::after { content: " 🔊"; font-size: .7em; font-style: normal; opacity: .7; }
     </style>
   </head>
   <body>
@@ -98,10 +102,13 @@
 
         <div id="ansichtListe">
           <div class="gl-filter">
-            <input type="search" id="suche" placeholder="Suchen: retired / Rentner / пенсия …" autocomplete="off" />
+            <input type="search" id="suche" placeholder="🔍 Wort suchen: retired / Rentner / пенсия …" autocomplete="off" style="font-size:1.15rem;padding:10px 12px" />
+            <button type="button" id="btnMikro" title="Wort sagen / сказать слово" style="font:inherit;font-size:1.3rem;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--border-subtle,#d0d7de);background:var(--bg-surface,#fff)">🎤</button>
+            <select id="selMikro" title="Sprache fürs Mikrofon / язык для микрофона"><option value="en-GB">EN</option><option value="de-DE">DE</option><option value="ru-RU">RU</option></select>
             <select id="selHerkunft"><option value="">Herkunft: alle / все</option></select>
             <select id="selThema"><option value="">Thema: alle / все темы</option></select>
           </div>
+          <div id="suchMsg" style="font-size:.9rem;min-height:1.2em;color:var(--text-muted,#59636e)"></div>
           <div class="gl-legende" id="legende"></div>
           <div class="gl-abc" id="abc"></div>
           <div id="liste"></div>
@@ -170,24 +177,27 @@
       const LS_STIMME = "glossar_stimme_";
       function stimmenLaden() { try { stimmenListe = speechSynthesis.getVoices() || []; } catch (e) { stimmenListe = []; } if (typeof stimmenAuswahlFuellen === "function") stimmenAuswahlFuellen(); }
       function tonHinweis(t) { const m = document.getElementById("neuMsg"); if (m) { m.textContent = t; m.className = "gl-neu-msg"; } }
-      function istOnline(v) { return !v.localService || /Online|Natural/i.test(v.name); }
-      function stimmenFuer(sprache) { const re = sprache === "de" ? /^de/i : /^en/i; return stimmenListe.filter((x) => re.test(x.lang)); }
+      // Sprachen: Latein und Griechisch haben keine eigene Stimme → italienische Stimme (klingt am ähnlichsten)
+      const SPRACHEN = { de: "de-DE", en: "en-GB", fr: "fr-FR", la: "it-IT", el: "el-GR", it: "it-IT", es: "es-ES", nl: "nl-NL", tr: "tr-TR" };
+      function istOnline(v) { return /Online|Natural/i.test(v.name); }
+      function stimmenFuer(sprache) { const code = (SPRACHEN[sprache] || "en-GB").slice(0, 2); return stimmenListe.filter((x) => (x.lang || "").toLowerCase().indexOf(code) === 0); }
       function stimmeFuer(sprache) {
         const v = stimmenFuer(sprache); if (!v.length) return null;
         let gespeichert = ""; try { gespeichert = localStorage.getItem(LS_STIMME + sprache) || ""; } catch (e) {}
+        const voll = (SPRACHEN[sprache] || "en-GB").toLowerCase();
         return v.find((x) => x.name === gespeichert)
-          || v.find((x) => !istOnline(x) && (sprache === "de" ? /de-DE/i : /en-GB/i).test(x.lang))
+          || v.find((x) => !istOnline(x) && (x.lang || "").toLowerCase().replace("_", "-") === voll)
           || v.find((x) => !istOnline(x))
           || v[0];
       }
       function sprechen(text, sprache, tempo, ohneStimme) {
         if (!("speechSynthesis" in window)) { tonHinweis("Dieser Browser kann nicht vorlesen. / Браузер не умеет озвучивать."); return; }
-        const de = sprache === "de";
+        sprache = SPRACHEN[sprache] ? sprache : "en";
         const los = () => {
           if (!stimmenListe.length) stimmenLaden();
           const u = new SpeechSynthesisUtterance(text);
-          u.lang = de ? "de-DE" : "en-GB"; u.rate = tempo || 0.85; u.volume = 1;
-          const st = ohneStimme ? null : stimmeFuer(de ? "de" : "en");
+          u.lang = SPRACHEN[sprache]; u.rate = tempo || 0.85; u.volume = 1;
+          const st = ohneStimme ? null : stimmeFuer(sprache);
           if (st) { u.voice = st; u.lang = st.lang; }
           u.onerror = (ev) => {
             if (!ohneStimme && ev.error !== "interrupted" && ev.error !== "canceled") sprechen(text, sprache, tempo, true);
@@ -199,6 +209,154 @@
           if (speechSynthesis.speaking || speechSynthesis.pending) { speechSynthesis.cancel(); setTimeout(los, 60); }
           else los();
         } catch (e) {}
+      }
+
+      // 2026-11-04: Herkunft-Text – fremde Wörter direkt im Text anklickbar (in ihrer Sprache),
+      // Sprach-Hinweise (Лат., греч., франц. …) werden auf Deutsch angezeigt (Latein, Griechisch …).
+      // Die Sprache gilt ab dem Hinweis bis zum Satzende.
+      const MARKER = [
+        [/^(древнеангл)/i, null, "Altenglisch"],
+        [/^(среднеангл)/i, null, "Mittelenglisch"],
+        [/^(англо-франц)/i, "fr", "Anglonormannisch"],
+        [/^(нормандско-франц|норманнско-франц)/i, "fr", "Normannisch"],
+        [/^(англ)/i, null, "Englisch"],
+        [/^(древнескандинав|сканд)/i, null, "Altnordisch"],
+        [/^(старонорм)/i, null, "Altnordisch"],
+        [/^(араб)/i, null, "Arabisch"],
+        [/^(перс)/i, null, "Persisch"],
+        [/^(кит)/i, null, "Chinesisch"],
+        [/^(санскрит)/i, null, "Sanskrit"],
+        [/^(хинди|индий)/i, null, "Hindi"],
+        [/^(япон)/i, null, "Japanisch"],
+        [/^(лат|латин|латын)/i, "la", "Latein"],
+        [/^(старофранц)/i, "fr", "Altfranzösisch"],
+        [/^(франц|француз|норм)/i, "fr", "Französisch"],
+        [/^(древнегреч)/i, "el", "Altgriechisch"],
+        [/^(греч)/i, "el", "Griechisch"],
+        [/^(итал)/i, "it", "Italienisch"],
+        [/^(исп)/i, "es", "Spanisch"],
+        [/^(нижненем)/i, "de", "Niederdeutsch"],
+        [/^(нем)/i, "de", "Deutsch"],
+        [/^(средненидерл)/i, "nl", "Mittelniederländisch"],
+        [/^(голл|нидерл)/i, "nl", "Niederländisch"],
+        [/^(тур)/i, "tr", "Türkisch"]
+      ];
+      const SPR_NAME = { la: "Latein", fr: "Französisch", el: "Griechisch", it: "Italienisch", es: "Spanisch", de: "Deutsch", nl: "Niederländisch", tr: "Türkisch" };
+      const TOKEN = /([A-Za-zÀ-ÿĀ-ſœæ][A-Za-zÀ-ÿĀ-ſœæ'’]*-?)|([А-Яа-яЁё][А-Яа-яЁё-]*)|([.!?;:,()«»+=←→–—]|\s+)|([\s\S])/g;
+      const findeMarker = (k) => MARKER.find(([re]) => re.test(k));
+
+      // zerlegt den Herkunft-Text; Ergebnis: Tokens (mit Gruppen für fremde Wörter) – für Anzeige und Knöpfe
+      function analysiere(e) {
+        const txt = String(e.her || "");
+        const toks = []; let m; TOKEN.lastIndex = 0;
+        while ((m = TOKEN.exec(txt))) toks.push({ lat: m[1], kyr: m[2], z: m[3] != null ? m[3] : m[4], roh: m[0] });
+        const gruppen = [], schon = {};
+        const teile = [norm(e.w)].concat((e.f || []).map(norm));
+        let spr = null, gruppe = [], inKlammer = false, ueberspringen = false;
+        function fertig(l) {
+          if (gruppe.length && l) {
+            const w = gruppe.map((i) => toks[i].lat).join(" ").replace(/-$/, "").trim();
+            const nw = norm(w);
+            const istTeil = teile.some((t) => nw.length >= 3 && (t.startsWith(nw) || t.endsWith(nw)) && t.length - nw.length >= 3 && t !== nw);
+            if (w.length >= 2 && !istTeil) {
+              const g = gruppen.length; gruppen.push({ l, w, neu: !schon[l + nw] }); schon[l + nw] = 1;
+              gruppe.forEach((i) => { toks[i].g = g; });
+            }
+          }
+          gruppe = [];
+        }
+        for (let i = 0; i < toks.length; i++) {
+          const t = toks[i];
+          if (t.kyr) {
+            fertig(spr);
+            const mk = findeMarker(t.kyr);
+            const naechst = toks[i + 1] || {};
+            const abk = naechst.z === ".";
+            const adj = /(ое|ого|ий|ая|ой|ом|ыни|ых|ым|ую|ские|ское|ского)$/i.test(t.kyr);
+            if (mk && (abk || adj)) {
+              spr = mk[1];
+              // Hinweis auf Deutsch anzeigen, wenn danach ein fremdes Wort oder «…» kommt
+              let j = i + 1; if (abk) j++;
+              while (toks[j] && /^\s+$/.test(toks[j].z || "")) j++;
+              // nur Kürzel („Лат.“, „греч.“) und den Anfang des Textes ersetzen – „немецкое «…»“ im Satz bleibt russisch
+              if (toks[j] && (toks[j].lat || toks[j].z === "«") && (abk || i === 0)) { t.anzeige = mk[2]; if (abk) naechst.weg = true; }
+            }
+            continue;
+          }
+          if (t.lat) {
+            if (ueberspringen || /-$/.test(t.lat)) { fertig(spr); ueberspringen = /-$/.test(t.lat); continue; }
+            let l = spr;
+            const nach = toks.slice(i + 1, i + 6).map((x) => x.roh).join("");
+            const naechstesKyr = (nach.match(/^\s*[–—]\s*([А-Яа-яЁё]+)/) || [])[1];
+            if (inKlammer && naechstesKyr && !findeMarker(naechstesKyr) && gruppe.length === 0) { fertig(spr); gruppe = [i]; fertig("de"); continue; }
+            if (/[äöüß]/i.test(t.lat)) l = "de";
+            if (l !== spr) { fertig(spr); gruppe = [i]; fertig(l); continue; }
+            gruppe.push(i); continue;
+          }
+          const z = t.z || "";
+          if (/^\s+$/.test(z)) continue;
+          ueberspringen = false;
+          fertig(spr);
+          if (z === "(") inKlammer = true;
+          if (z === ")") inKlammer = false;
+          if ((z === "!" || z === "?") && !inKlammer) spr = null;
+          if (z === "." && !inKlammer) { const k = toks[i - 1] && toks[i - 1].kyr; if (!(k && findeMarker(k))) spr = null; }
+        }
+        fertig(spr);
+        return { toks, gruppen };
+      }
+
+      function quellTitel(l) { return l === "la" ? "Latein – anhören (italienische Stimme, klingt am ähnlichsten)" : (SPR_NAME[l] || "") + " – anhören"; }
+
+      // Herkunft als HTML: fremde Wörter anklickbar
+      function herkunftHtml(e) {
+        const { toks, gruppen } = analysiere(e);
+        let h = "";
+        toks.forEach((t, i) => {
+          if (t.weg) return;
+          const g = t.g;
+          if (g != null && (i === 0 || toks[i - 1].g !== g) && !(i > 1 && /^\s+$/.test(toks[i - 1].z || "") && toks[i - 2].g === g))
+            h += `<span class="gl-q" data-quelle="${esc(gruppen[g].w)}" data-l="${gruppen[g].l}" title="${esc(quellTitel(gruppen[g].l))}">`;
+          h += t.anzeige ? `<b>${esc(t.anzeige)}</b>` : esc(t.roh);
+          if (g != null) {
+            let j = i + 1; while (toks[j] && /^\s+$/.test(toks[j].z || "")) j++;
+            if (!toks[j] || toks[j].g !== g) h += "</span>";
+          }
+        });
+        return h;
+      }
+
+      // Verwandt als HTML: DE …, LAT …, FR …, GR … anklickbar
+      const VER_CODE = { DE: "de", LAT: "la", LA: "la", FR: "fr", GR: "el", IT: "it", ES: "es", NL: "nl" };
+      function verwandtHtml(e) {
+        return String(e.ver || "").split("·").map((seg) => {
+          const s = seg.trim(), m2 = s.match(/^([A-Z]{2,3})\s+(.+)$/);
+          if (!m2 || !VER_CODE[m2[1]]) return esc(s);
+          const l = VER_CODE[m2[1]];
+          const teile = m2[2].split(/(\([^)]*\)|[,+\/=]|…)/);
+          return `<b>${esc(m2[1])}</b> ` + teile.map((x) => {
+            const w = x.trim();
+            if (!w || /^[(,+\/=…]/.test(w) || /[А-Яа-яЁё]/.test(w)) return esc(x);
+            const vor = x.match(/^\s*/)[0], nach = x.match(/\s*$/)[0];
+            return `${vor}<span class="gl-q" data-quelle="${esc(w)}" data-l="${l}" title="${esc(quellTitel(l))}">${esc(w)}</span>${nach}`;
+          }).join("");
+        }).join(" · ");
+      }
+
+      // Griechisch: Umschrift → griechische Schrift, damit eine griechische Stimme es lesen kann
+      function griechischeSchrift(w) {
+        const paare = [["ph","φ"],["th","θ"],["kh","χ"],["ch","χ"],["ps","ψ"],["rh","ρ"],["ou","ου"],["ō","ω"],["ē","η"],["a","α"],["b","β"],["g","γ"],["d","δ"],["e","ε"],["z","ζ"],["i","ι"],["k","κ"],["c","κ"],["l","λ"],["m","μ"],["n","ν"],["x","ξ"],["o","ο"],["p","π"],["r","ρ"],["s","σ"],["t","τ"],["y","υ"],["u","υ"],["h",""],["ā","α"],["ī","ι"],["ū","υ"]];
+        let s = w.toLowerCase().normalize("NFC"), r = "";
+        while (s) { const p = paare.find(([a]) => s.startsWith(a)); if (p) { r += p[1]; s = s.slice(p[0].length); } else { r += s[0]; s = s.slice(1); } }
+        return r.replace(/σ(?=$|[^α-ωάέήίόύώ])/g, "ς");
+      }
+      // Quellwort sprechen: echte Stimme, wenn vorhanden; Latein (und Griechisch ohne Stimme) → italienisch
+      function sprechenQuelle(w, l) {
+        if (!stimmenListe.length) stimmenLaden();
+        if (l === "el") { if (stimmenFuer("el").length) return sprechen(griechischeSchrift(w), "el", 0.8); return sprechen(w, "it", 0.8); }
+        if (l === "la") return sprechen(w, "it", 0.8);
+        if (!stimmenFuer(l).length) { tonHinweis("Keine Stimme für " + (SPR_NAME[l] || l) + " auf diesem Computer. / Нет голоса для этого языка."); return sprechen(w, "it", 0.8); }
+        sprechen(w, l, 0.8);
       }
 
       function eintragHtml(e, satz) {
@@ -213,8 +371,8 @@
           </div>
           <div class="gl-body">
             <span class="gl-her" style="background:${h.farbe}">${esc(h.de)} · ${esc(h.ru)}</span>
-            <div><b>Herkunft / происхождение:</b> ${esc(e.her)}</div>
-            ${e.ver ? `<div style="margin-top:4px"><b>Verwandt / родственные:</b> ${esc(e.ver)}</div>` : ""}
+            <div><b>Herkunft / происхождение:</b> ${herkunftHtml(e)}</div>
+            ${e.ver ? `<div style="margin-top:4px"><b>Verwandt / родственные:</b> ${verwandtHtml(e)}</div>` : ""}
             ${e.f && e.f.length ? `<div style="margin-top:4px"><b>Formen:</b> ${esc(e.f.join(", "))}</div>` : ""}
             ${e.tip ? `<div class="gl-tip">💡 ${esc(e.tip)}</div>` : ""}
             ${e.bsp ? `<div class="gl-bsp">„${esc(e.bsp[0])}“ – <i>${esc(e.bsp[1])}</i></div>` : ""}
@@ -229,15 +387,15 @@
         </div>`;
       }
 
+      // Suche: zuerst im Wort, den Formen und der Übersetzung; nur wenn dort nichts – auch im Herkunftstext
       function filterListe(liste) {
         const q = norm($("suche").value);
         const hk = $("selHerkunft").value, th = $("selThema").value;
-        return liste.filter((e) => {
-          if (hk && e.h !== hk) return false;
-          if (th && !(e.t || []).includes(th)) return false;
-          if (!q) return true;
-          return [e.w, e.de, e.ru, e.her, e.ver].concat(e.f || []).some((x) => norm(x).includes(q));
-        });
+        const basis = liste.filter((e) => !(hk && e.h !== hk) && !(th && !(e.t || []).includes(th)));
+        if (!q) return basis;
+        const kurz = basis.filter((e) => [e.w, e.de, e.ru].concat(e.f || []).some((x) => norm(x).includes(q)));
+        if (kurz.length) return kurz;
+        return basis.filter((e) => [e.her, e.ver].some((x) => norm(x).includes(q)));
       }
 
       function zeichneListe() {
@@ -300,6 +458,46 @@
         zeichneListe();
       });
       ["suche", "selHerkunft", "selThema"].forEach((id) => $(id).addEventListener("input", zeichneListe));
+
+      // 2026-11-04: Suche – genaues Wort sofort öffnen, Enter öffnet den ersten Treffer, 🎤 Mikrofon
+      function suchTrefferOeffnen(auchErsten) {
+        const q = norm($("suche").value); if (!q) return;
+        let e = idx[q] || G.find((x) => norm(x.de).split(/[,;]\s*/).includes(q) || norm(x.ru).split(/[,;]\s*/).includes(q));
+        if (!e && auchErsten) { const erste = document.querySelector("#liste .gl-eintrag[data-w]"); if (erste) e = G.find((x) => x.w === erste.dataset.w); }
+        if (!e) return;
+        offen = e.w; zeichneListe();
+        const el = document.getElementById("w-" + e.w);
+        if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+      }
+      $("suche").addEventListener("input", () => suchTrefferOeffnen(false));
+      $("suche").addEventListener("keydown", (ev) => { if (ev.key === "Enter") { ev.preventDefault(); suchTrefferOeffnen(true); } });
+
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) { $("btnMikro").hidden = true; $("selMikro").hidden = true; }
+      else {
+        try { const g = localStorage.getItem("glossar_mikro_sprache"); if (g) $("selMikro").value = g; } catch (e) {}
+        $("selMikro").addEventListener("change", (ev) => { try { localStorage.setItem("glossar_mikro_sprache", ev.target.value); } catch (e) {} });
+        let hoert = null;
+        $("btnMikro").addEventListener("click", () => {
+          if (hoert) { try { hoert.stop(); } catch (e) {} return; }
+          const r = new SR();
+          r.lang = $("selMikro").value; r.interimResults = false; r.maxAlternatives = 1;
+          hoert = r; $("btnMikro").textContent = "🔴"; $("suchMsg").textContent = "Sprich jetzt … / говори …";
+          r.onresult = (ev) => {
+            const t = (ev.results[0][0].transcript || "").replace(/[.!?]+$/, "").trim();
+            $("suchMsg").textContent = "Gehört / услышал: „" + t + "“";
+            if (tab === "warte") { tab = "alle"; document.querySelectorAll("#tabs button").forEach((x) => x.classList.toggle("aktiv", x.dataset.tab === "alle")); }
+            $("suche").value = t; zeichneListe(); suchTrefferOeffnen(true);
+          };
+          r.onerror = (ev) => {
+            $("suchMsg").textContent = ev.error === "not-allowed"
+              ? "Mikrofon nicht erlaubt – oben links in der Adresszeile erlauben. / Разреши микрофон в адресной строке."
+              : ev.error === "no-speech" ? "Nichts gehört. / Ничего не услышал." : "Mikrofon-Fehler: " + ev.error;
+          };
+          r.onend = () => { hoert = null; $("btnMikro").textContent = "🎤"; };
+          try { r.start(); } catch (e) { hoert = null; $("btnMikro").textContent = "🎤"; }
+        });
+      }
       $("abc").addEventListener("click", (ev) => {
         const b = ev.target.closest("button[data-b]"); if (!b) return;
         const z = $("b-" + b.dataset.b); if (z) z.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -307,6 +505,8 @@
       $("liste").addEventListener("click", (ev) => {
         const hb = ev.target.closest("button[data-hoer]");
         if (hb) { sprechen(hb.dataset.hoer, hb.dataset.l); return; }
+        const qb = ev.target.closest("[data-quelle]");
+        if (qb) { sprechenQuelle(qb.dataset.quelle, qb.dataset.l); return; }
         const ein = ev.target.closest(".gl-eintrag"); if (!ein) return;
         const e = G.find((x) => x.w === ein.dataset.w); if (!e) return;
         const a = ev.target.closest("button[data-a]");
