@@ -6,13 +6,15 @@
    ============================================================ */
 
 .kopf2 {
-  --k-bg: var(--bg-surface, #ffffff);
-  --k-rand: var(--border-subtle, #d0d7e2);
-  --k-text: var(--text-main, #111827);
-  --k-grau: var(--text-muted, #6b7280);
-  --k-akzent: var(--accent, #2563eb);
-  --k-akzent-hell: var(--accent-soft, #dbeafe);
-  --k-akzent-stark: var(--accent-strong, #1d4ed8);
+  /* Eigene feste Farben – Seiten mit eigenen Farben (z. B. Mathe-Spiel)
+     können die Kopfleiste nicht mehr unsichtbar machen. */
+  --k-bg: #ffffff;
+  --k-rand: #d0d7e2;
+  --k-text: #111827;
+  --k-grau: #5b6475;
+  --k-akzent: #2563eb;
+  --k-akzent-hell: #dbeafe;
+  --k-akzent-stark: #1d4ed8;
 
   position: relative;
   z-index: 9000;
@@ -29,6 +31,17 @@
 
 /* Schutz vor fremden "header { … }"-Regeln einzelner Seiten */
 header.kopf2 { max-width: none; width: auto; padding: 0; gap: 0; border-radius: 0; text-align: left; }
+
+/* Dunkel-Modus (🌙) */
+html[data-theme="dark"] .kopf2 {
+  --k-bg: #0f172a;
+  --k-rand: #1e293b;
+  --k-text: #e5e7eb;
+  --k-grau: #9ca3af;
+  --k-akzent: #60a5fa;
+  --k-akzent-hell: #1e293b;
+  --k-akzent-stark: #93c5fd;
+}
 
 /* ---------- Zeile 1 ---------- */
 .kopf2__zeile1 {
