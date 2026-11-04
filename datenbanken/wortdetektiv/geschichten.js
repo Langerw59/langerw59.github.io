@@ -38,13 +38,13 @@ window.WORTDETEKTIV = [
   thema: "voelker",
   kurz: "Англичане – не «дети» немцев, а двоюродные братья: у них общие германские предки.",
   text: [
-    "Около **410 года** римляне ушли из Британии. Вскоре через Северное море туда начали переселяться германские племена. По преданию, которое записал монах **Беда Достопочтенный** (Beda Venerabilis, 731 г.), первые пришли в **449 году**.",
-    "Пришли три главных племени: **англы (Angeln)** – с полуострова [[ort:angeln|Angeln]] между [[ort:flensburg|Flensburg]] и [[ort:schleswig|Schleswig]]; **саксы (Sachsen)** – с земель между Эльбой и Везером, [[ort:sachsen|Niedersachsen]]; **юты (Jüten)** – из [[ort:juetland|Jütland]], нынешней Дании.",
+    "Около **410 года** римляне ушли из [[lex:britannia|Британии]]. Вскоре через [[lex:nordsee|Северное море]] туда начали переселяться германские племена. По преданию, которое записал монах **[[lex:beda|Беда Достопочтенный]]** (Beda Venerabilis, 731 г.), первые пришли в **449 году**.",
+    "Пришли три главных племени: **[[lex:angeln_volk|англы (Angeln)]]** – с полуострова [[ort:angeln|Angeln]] между [[ort:flensburg|Flensburg]] и [[ort:schleswig|Schleswig]]; **[[lex:sachsen_volk|саксы (Sachsen)]]** – с земель между [[lex:elbe|Эльбой]] и [[lex:weser|Везером]], [[ort:sachsen|Niedersachsen]]; **[[lex:jueten|юты (Jüten)]]** – из [[ort:juetland|Jütland]], нынешней [[lex:daenemark|Дании]].",
     "Беда пишет, что англы ушли почти все – их старая родина Angeln после этого долго стояла полупустой. В Британии они осели на востоке и севере: [[ort:eastanglia|East Anglia]], [[ort:northumbria|Northumbria]]. Саксы – на юге: [[ort:wessex|Wessex]]. Юты – в [[ort:kent|Kent]].",
-    "От англов – имя всей страны: древнеангл. **Engla land** «земля англов» → **England**, а **Englisc** → **English**. Саксы остались в названиях графств: **Essex** = East Saxons (восточные саксы), **Sussex** = South Saxons (южные), **Wessex** = West Saxons (западные).",
+    "От англов – имя всей страны: [[lex:altenglisch|древнеангл.]] **Engla land** «земля англов» → **England**, а **Englisc** → **English**. Саксы остались в названиях графств: **[[lex:essex|Essex]]** = East Saxons (восточные саксы), **[[lex:sussex|Sussex]]** = South Saxons (южные), **[[lex:wessex|Wessex]]** = West Saxons (западные).",
     "Поэтому английский – **германский язык**, родня немецкому: Haus – house, Wasser – water, Hand – hand, gut – good, Vater – father.",
     "**Важная поправка:** немцев как народа тогда ещё не было. Были германские племена – и от них потом произошли и немцы, и англичане, и голландцы, и датчане. Так что англичане немцам – как **двоюродные братья**.",
-    "А кто жил в Британии до них? **Кельты (бритты)**. Их язык сохранился в Уэльсе (валлийский) и Шотландии. Потом в английский пришли слова **викингов** (sky, egg, they) и в 1066 году – **французов-норманнов** (поэтому столько «умных» французских слов, как engagement)."
+    "А кто жил в Британии до них? **[[lex:kelten|Кельты]] ([[lex:briten|бритты]])**. Их язык сохранился в [[lex:wales|Уэльсе]] ([[lex:walisisch|валлийский]]) и [[lex:schottland|Шотландии]]. Потом в английский пришли слова **[[lex:wikinger|викингов]]** (sky, egg, they) и в [[lex:normannen1066|1066 году]] – **[[lex:normannen|французов-норманнов]]** (поэтому столько «умных» французских слов, как engagement)."
   ],
   spuren: [
     ["Angeln (Landschaft)", "Одна из версий: от германского *angul «крючок» (нем. Angel – удочка, крючок) – по изогнутой форме земли или узкой бухты Schlei. Это гипотеза, не точно."],
@@ -53,15 +53,15 @@ window.WORTDETEKTIV = [
     ["Anglistik", "Нем. «наука об английском языке» – от лат. Angli «англы»."]
   ],
   orte: {
-    angeln:     { name: "Angeln", lat: 54.70, lng: 9.75, info: "Полуостров в Шлезвиг-Гольштейне. Родина англов." },
-    flensburg:  { name: "Flensburg", lat: 54.78, lng: 9.44, info: "Город на Фленсбургской бухте, на краю Angeln." },
-    schleswig:  { name: "Schleswig", lat: 54.52, lng: 9.56, info: "Город на заливе Schlei. Рядом – Haithabu, древний город викингов." },
-    juetland:   { name: "Jütland", lat: 56.20, lng: 9.20, info: "Полуостров Ютландия (Дания) – родина ютов." },
-    sachsen:    { name: "Land der Sachsen", lat: 53.30, lng: 8.80, info: "Между Эльбой и Везером – откуда пришли саксы (нынешняя Нижняя Саксония)." },
-    eastanglia: { name: "East Anglia", lat: 52.65, lng: 1.10, info: "«Восточная Англия» – здесь осели англы." },
-    northumbria:{ name: "Northumbria", lat: 55.00, lng: -1.70, info: "Королевство англов на севере – «к северу от реки Humber»." },
-    wessex:     { name: "Wessex", lat: 51.10, lng: -1.80, info: "Королевство западных саксов. Отсюда позже объединили Англию." },
-    kent:       { name: "Kent", lat: 51.20, lng: 0.90, info: "Сюда пришли юты. По преданию – первыми, в 449 году." }
+    angeln:     { name: "Angeln", lat: 54.70, lng: 9.75, info: "Полуостров в Шлезвиг-Гольштейне. Родина англов.", wiki: "Angeln (Halbinsel)", wikiRu: "Ангельн" },
+    flensburg:  { name: "Flensburg", lat: 54.78, lng: 9.44, info: "Город на Фленсбургской бухте, на краю Angeln.", wiki: "Flensburg", wikiRu: "Фленсбург" },
+    schleswig:  { name: "Schleswig", lat: 54.52, lng: 9.56, info: "Город на заливе Schlei. Рядом – Haithabu, древний город викингов.", wiki: "Schleswig", wikiRu: "Шлезвиг (город)" },
+    juetland:   { name: "Jütland", lat: 56.20, lng: 9.20, info: "Полуостров Ютландия (Дания) – родина ютов.", wiki: "Jütland", wikiRu: "Ютландия" },
+    sachsen:    { name: "Land der Sachsen", lat: 53.30, lng: 8.80, info: "Между Эльбой и Везером – откуда пришли саксы (нынешняя Нижняя Саксония).", wiki: "Niedersachsen", wikiRu: "Нижняя Саксония" },
+    eastanglia: { name: "East Anglia", lat: 52.65, lng: 1.10, info: "«Восточная Англия» – здесь осели англы.", wiki: "East Anglia", wikiRu: "Восточная Англия" },
+    northumbria:{ name: "Northumbria", lat: 55.00, lng: -1.70, info: "Королевство англов на севере – «к северу от реки Humber».", wiki: "Northumbria", wikiRu: "Нортумбрия" },
+    wessex:     { name: "Wessex", lat: 51.10, lng: -1.80, info: "Королевство западных саксов. Отсюда позже объединили Англию.", wiki: "Wessex", wikiRu: "Уэссекс" },
+    kent:       { name: "Kent", lat: 51.20, lng: 0.90, info: "Сюда пришли юты. По преданию – первыми, в 449 году.", wiki: "Kent", wikiRu: "Кент" }
   },
   wege: [
     ["angeln", "eastanglia", "Angeln"],
@@ -89,9 +89,9 @@ window.WORTDETEKTIV = [
   thema: "woerter",
   kurz: "Слово пришло в немецкий из английского, а туда – из латыни. И оно родня немецкому «Dach»!",
   text: [
-    "**Detektiv** – не немецкое слово. В немецкий оно пришло в **XIX веке из английского** detective. В Лондоне около **1828 года** появилась «detective police» – полиция, которая раскрывает преступления. Потом осталось одно слово: detective.",
-    "Английское detect «обнаружить, раскрыть» – из латыни: **detegere** = **de-** «прочь, с» + **tegere** «покрывать». То есть буквально: **снять покров, раскрыть то, что спрятано**.",
-    "А теперь самое интересное. Латинское **tegere** и немецкое **Dach** (крыша) – из одного очень древнего корня **steg- «покрывать»**. Римляне говорили tegere, германцы – Dach. Значит, **Detektiv – это «тот, кто снимает крышу»** и смотрит, что под ней.",
+    "**Detektiv** – не немецкое слово. В немецкий оно пришло в **XIX веке из английского** detective. В [[lex:london|Лондоне]] около **1828 года** появилась «detective police» – полиция, которая раскрывает преступления. Потом осталось одно слово: detective.",
+    "Английское detect «обнаружить, раскрыть» – из [[lex:latein|латыни]]: **detegere** = **de-** «прочь, с» + **tegere** «покрывать». То есть буквально: **снять покров, раскрыть то, что спрятано**.",
+    "А теперь самое интересное. Латинское **tegere** и немецкое **Dach** (крыша) – из одного очень древнего ([[lex:indogermanisch|индоевропейского]]) корня **steg- «покрывать»**. [[lex:roemer|Римляне]] говорили tegere, [[lex:germanen|германцы]] – Dach. Значит, **Detektiv – это «тот, кто снимает крышу»** и смотрит, что под ней.",
     "Из того же латинского корня – **tegula** «черепица» → немецкое **Ziegel** (кирпич, черепица) и английское **tile** (плитка). А **protegere** «прикрыть спереди» → **Protektor, Protektion** (протекция – когда тебя «прикрывают»).",
     "Так что **Wortdetektiv** (словодетектив) – это тот, кто снимает «крышу» со слова и смотрит, что у него внутри."
   ],
@@ -120,14 +120,15 @@ window.WORTDETEKTIV = [
   thema: "pflanzen",
   kurz: "Одно растение – два имени: «томат» пришёл от ацтеков через Испанию, а «помидор» – от итальянского «золотого яблока».",
   text: [
-    "Дикий томат родом из [[ort:anden|Anden]] – гор Перу и Эквадора. Там он рос маленькими ягодками, как смородина, и его почти не ели.",
-    "Настоящим овощем его сделали в Мексике. Ацтеки в [[ort:tenochtitlan|Tenochtitlan]] (сегодня Mexiko-Stadt) называли его на своём языке науатль **[[ton:es|tomatl]]** – по одному толкованию «набухающий плод» (от tomana «набухать»). Был и вариант **xitomatl**.",
-    "В **1519–1521 годах** испанцы во главе с **Эрнаном Кортесом** завоевали царство ацтеков. Корабли из Америки приходили в [[ort:sevilla|Sevilla]]. Испанцы переделали слово под себя: **[[ton:es|tomate]]**. Из испанского – французское **[[ton:fr|tomate]]**, а оттуда немецкое **[[ton:de|Tomate]]**.",
-    "Самое раннее описание томата в Европе – у итальянского врача **Пьетро Андреа Маттиоли** в **1544 году**, в книге, напечатанной в [[ort:venedig|Venedig]]. Имени он ещё не дал – назвал «новым видом баклажана» и написал, что его жарят в масле с солью и перцем. Растения тогда выращивали в первом университетском ботаническом саду в [[ort:pisa|Pisa]].",
-    "В **1554 году** Маттиоли пишет: в народе их зовут **[[ton:it|pomi d'oro]]** – «золотые яблоки». Первые томаты в Европе часто были **жёлтые**, золотые! Отсюда итальянское **[[ton:it|pomodoro]]** – и наше русское **[[ton:ru|помидор]]**. В том же году фламандский врач **Додунс** в [[ort:antwerpen|Antwerpen]] переводит это как «gulden appelen» – тоже «золотые яблоки».",
-    "Север Европы томата **боялся**. Он из семейства паслёновых (**Nachtschattengewächse**) – как ядовитые белладонна и дурман. Поэтому долго его держали как **декоративное растение** в саду, а не на столе. Смелее всех были на юге Италии – в [[ort:neapel|Neapel]], который тогда принадлежал Испании.",
+    "Дикий [[lex:tomate|томат]] родом из [[ort:anden|Anden]] ([[lex:anden|Анды]]) – гор [[lex:peru|Перу]] и [[lex:ecuador|Эквадора]]. Там он рос маленькими ягодками, как смородина, и его почти не ели.",
+    "Кто там жил? В Андах издавна жили индейские народы – [[lex:quechua|кечуа (Quechua)]] и [[lex:aymara|аймара (Aymara)]]. В XV веке здесь возникла огромная империя [[lex:inka|инков (Inka)]] со столицей [[ort:cusco|Cusco]]. Но, насколько известно, томат инки не выращивали – культурным растением он стал далеко на севере, в [[lex:mexiko|Мексике]].",
+    "Настоящим овощем его сделали в Мексике. [[lex:azteken|Ацтеки]] в [[ort:tenochtitlan|Tenochtitlan]] (сегодня [[lex:mexikostadt|Mexiko-Stadt]]) называли его на своём языке [[lex:nahuatl|науатль]] **[[ton:es|tomatl]]** – по одному толкованию «набухающий плод» (от tomana «набухать»). Был и вариант **xitomatl**.",
+    "В **1519–1521 годах** испанцы во главе с **[[lex:cortes|Эрнаном Кортесом]]** [[lex:eroberung|завоевали царство ацтеков]]. Корабли из Америки приходили в [[ort:sevilla|Sevilla]]. Испанцы переделали слово под себя: **[[ton:es|tomate]]**. Из испанского – французское **[[ton:fr|tomate]]**, а оттуда немецкое **[[ton:de|Tomate]]**.",
+    "Самое раннее описание томата в Европе – у итальянского врача **[[lex:mattioli|Пьетро Андреа Маттиоли]]** в **1544 году**, в книге, напечатанной в [[ort:venedig|Venedig]]. Имени он ещё не дал – назвал «новым видом баклажана» и написал, что его жарят в масле с солью и перцем. Растения тогда выращивали в первом [[lex:ortobotanico_pisa|университетском ботаническом саду]] в [[ort:pisa|Pisa]].",
+    "В **1554 году** Маттиоли пишет: в народе их зовут **[[ton:it|pomi d'oro]]** – «золотые яблоки». Первые томаты в Европе часто были **жёлтые**, золотые! Отсюда итальянское **[[ton:it|pomodoro]]** – и наше русское **[[ton:ru|помидор]]**. В том же году фламандский врач **[[lex:dodoens|Додунс]]** в [[ort:antwerpen|Antwerpen]] переводит это как «gulden appelen» – тоже «золотые яблоки».",
+    "Север Европы томата **боялся**. Он из семейства паслёновых (**[[lex:nachtschatten|Nachtschattengewächse]]**) – как ядовитые [[lex:belladonna|белладонна]] и [[lex:stechapfel|дурман]]. Поэтому долго его держали как **декоративное растение** в саду, а не на столе. Смелее всех были на юге Италии – в [[ort:neapel|Neapel]], который тогда принадлежал Испании.",
     "Отсюда и другие красивые имена: французское **[[ton:fr|pomme d'amour]]** – «яблоко любви», немецкое **[[ton:de|Liebesapfel]]**, а в Австрии и сегодня – **[[ton:de|Paradeiser]]**, «райское яблоко» ([[ort:wien|Wien]]).",
-    "Учёный **Карл Линней** в **1753 году** дал томату латинское имя **[[ton:la|Solanum lycopersicum]]**: lycopersicum – от греческого **lykos** «волк» + **persikon** «персик», то есть «волчий персик». Слово **Tomate** впервые появилось в немецком орфографическом словаре Duden в **1897 году**.",
+    "Учёный **[[lex:linne|Карл Линней]]** в **1753 году** дал томату латинское имя **[[ton:la|Solanum lycopersicum]]**: lycopersicum – от греческого **lykos** «волк» + **persikon** «персик», то есть «волчий персик». Слово **Tomate** впервые появилось в немецком орфографическом словаре [[lex:duden|Duden]] в **1897 году**.",
     "В Россию томат пришёл, по распространённому рассказу, в **XVIII веке** – тоже сначала как диковинка. Поэтому у нас два слова: **томат** (как у ацтеков и испанцев) и **помидор** (как у итальянцев)."
   ],
   spuren: [
@@ -139,15 +140,16 @@ window.WORTDETEKTIV = [
     ["Nachtschatten · Solanum", "Паслёновые: томат, картофель, баклажан, перец. Нем. Nachtschattengewächse, лат. Solanaceae."]
   ],
   orte: {
-    anden:        { name: "Anden (Peru / Ecuador)", lat: -6.5, lng: -78.5, info: "Родина дикого томата: маленькие ягоды на склонах гор." },
-    tenochtitlan: { name: "Tenochtitlan", lat: 19.43, lng: -99.13, info: "Столица ацтеков на озере. Сегодня здесь Mexiko-Stadt. Здесь томат – tomatl." },
-    sevilla:      { name: "Sevilla", lat: 37.39, lng: -5.99, info: "Главный порт для кораблей из Америки. Испанцы: tomate." },
-    pisa:         { name: "Pisa", lat: 43.72, lng: 10.40, info: "Первый университетский ботанический сад Европы (Luca Ghini, 1544). Здесь росли одни из первых томатов." },
-    venedig:      { name: "Venedig", lat: 45.44, lng: 12.33, info: "Здесь печатали книгу Маттиоли – первое описание томата (1544), потом имя pomi d'oro (1554)." },
-    antwerpen:    { name: "Antwerpen", lat: 51.22, lng: 4.40, info: "Додунс, 1554: первая книга с рисунком томата – «gulden appelen», золотые яблоки." },
-    neapel:       { name: "Neapel", lat: 40.85, lng: 14.27, info: "Юг Италии, тогда под властью Испании. Здесь томат раньше всех стал едой – потом соус к пасте и пицце." },
-    wien:         { name: "Wien", lat: 48.21, lng: 16.37, info: "В Австрии томат и сегодня – Paradeiser, «райское яблоко»." },
-    petersburg:   { name: "Sankt Petersburg", lat: 59.94, lng: 30.31, info: "В России томат – с XVIII века, сначала как диковинка. Два имени: томат и помидор." }
+    anden:        { name: "Anden (Peru / Ecuador)", lat: -6.5, lng: -78.5, info: "Родина дикого томата: маленькие ягоды на склонах гор.", wiki: "Anden", wikiRu: "Анды" },
+    tenochtitlan: { name: "Tenochtitlan", lat: 19.43, lng: -99.13, info: "Столица ацтеков на озере. Сегодня здесь Mexiko-Stadt. Здесь томат – tomatl.", wiki: "Tenochtitlan", wikiRu: "Теночтитлан" },
+    sevilla:      { name: "Sevilla", lat: 37.39, lng: -5.99, info: "Главный порт для кораблей из Америки. Испанцы: tomate.", wiki: "Sevilla", wikiRu: "Севилья" },
+    pisa:         { name: "Pisa", lat: 43.72, lng: 10.40, info: "Первый университетский ботанический сад Европы (Luca Ghini, 1544). Здесь росли одни из первых томатов.", wiki: "Pisa", wikiRu: "Пиза" },
+    venedig:      { name: "Venedig", lat: 45.44, lng: 12.33, info: "Здесь печатали книгу Маттиоли – первое описание томата (1544), потом имя pomi d'oro (1554).", wiki: "Venedig", wikiRu: "Венеция" },
+    antwerpen:    { name: "Antwerpen", lat: 51.22, lng: 4.40, info: "Додунс, 1554: первая книга с рисунком томата – «gulden appelen», золотые яблоки.", wiki: "Antwerpen", wikiRu: "Антверпен" },
+    neapel:       { name: "Neapel", lat: 40.85, lng: 14.27, info: "Юг Италии, тогда под властью Испании. Здесь томат раньше всех стал едой – потом соус к пасте и пицце.", wiki: "Neapel", wikiRu: "Неаполь" },
+    cusco:        { name: "Cusco", lat: -13.53, lng: -71.97, info: "Столица империи инков в Андах (XV–XVI век).", wiki: "Cusco", wikiRu: "Куско" },
+    wien:         { name: "Wien", lat: 48.21, lng: 16.37, info: "В Австрии томат и сегодня – Paradeiser, «райское яблоко».", wiki: "Wien", wikiRu: "Вена" },
+    petersburg:   { name: "Sankt Petersburg", lat: 59.94, lng: 30.31, info: "В России томат – с XVIII века, сначала как диковинка. Два имени: томат и помидор.", wiki: "Sankt Petersburg", wikiRu: "Санкт-Петербург" }
   },
   wege: [
     ["anden", "tenochtitlan", "Wildtomate"],
@@ -169,3 +171,62 @@ window.WORTDETEKTIV = [
 }
 
 ];
+
+// ------------------------------------------------------------
+// Lexikon für Links im Text / словарь ссылок: [[lex:id|Text]]
+// Klick → Wikipedia Deutsch oder Russisch. de / ru = Titel des Artikels.
+// Neue Namen einfach hier ergänzen.
+// ------------------------------------------------------------
+window.WORTDETEKTIV_LEXIKON = {
+  // Völker & Geschichte
+  beda:         { de: "Beda Venerabilis", ru: "Беда Достопочтенный" },
+  britannia:    { de: "Britannia", ru: "Римская Британия" },
+  angeln_volk:  { de: "Angeln (Volk)", ru: "Англы" },
+  sachsen_volk: { de: "Sachsen (Volk)", ru: "Саксы" },
+  jueten:       { de: "Jüten", ru: "Юты" },
+  altenglisch:  { de: "Altenglische Sprache", ru: "Древнеанглийский язык" },
+  kelten:       { de: "Kelten", ru: "Кельты" },
+  briten:       { de: "Briten (Volk)", ru: "Бритты" },
+  walisisch:    { de: "Walisische Sprache", ru: "Валлийский язык" },
+  wikinger:     { de: "Wikinger", ru: "Викинги" },
+  normannen:    { de: "Normannen", ru: "Норманны" },
+  normannen1066:{ de: "Normannische Eroberung Englands", ru: "Нормандское завоевание Англии" },
+  roemer:       { de: "Römisches Reich", ru: "Римская империя" },
+  germanen:     { de: "Germanen", ru: "Германцы" },
+  latein:       { de: "Latein", ru: "Латинский язык" },
+  indogermanisch:{ de: "Indogermanische Ursprache", ru: "Праиндоевропейский язык" },
+  azteken:      { de: "Azteken", ru: "Ацтеки" },
+  nahuatl:      { de: "Nahuatl", ru: "Науатль" },
+  cortes:       { de: "Hernán Cortés", ru: "Кортес, Эрнан" },
+  eroberung:    { de: "Spanische Eroberung des Aztekenreiches", ru: "Испанское завоевание империи ацтеков" },
+  inka:         { de: "Inka", ru: "Инки" },
+  quechua:      { de: "Quechua (Volk)", ru: "Кечуа (народ)" },
+  aymara:       { de: "Aymara (Volk)", ru: "Аймара" },
+  // Länder, Orte, Natur
+  nordsee:      { de: "Nordsee", ru: "Северное море" },
+  elbe:         { de: "Elbe", ru: "Эльба" },
+  weser:        { de: "Weser", ru: "Везер" },
+  daenemark:    { de: "Dänemark", ru: "Дания" },
+  essex:        { de: "Essex", ru: "Эссекс" },
+  sussex:       { de: "Sussex", ru: "Суссекс" },
+  wessex:       { de: "Wessex", ru: "Уэссекс" },
+  wales:        { de: "Wales", ru: "Уэльс" },
+  schottland:   { de: "Schottland", ru: "Шотландия" },
+  london:       { de: "London", ru: "Лондон" },
+  anden:        { de: "Anden", ru: "Анды" },
+  peru:         { de: "Peru", ru: "Перу" },
+  ecuador:      { de: "Ecuador", ru: "Эквадор" },
+  mexiko:       { de: "Mexiko", ru: "Мексика" },
+  mexikostadt:  { de: "Mexiko-Stadt", ru: "Мехико" },
+  ortobotanico_pisa: { de: "Botanischer Garten Pisa", ru: "Ботанический сад Пизы" },
+  // Menschen
+  mattioli:     { de: "Pietro Andrea Mattioli", ru: "Маттиоли, Пьетро Андреа" },
+  dodoens:      { de: "Rembert Dodoens", ru: "Додунс, Ремберт" },
+  linne:        { de: "Carl von Linné", ru: "Линней, Карл" },
+  // Pflanzen, Bücher
+  tomate:       { de: "Tomate", ru: "Томат" },
+  nachtschatten:{ de: "Nachtschattengewächse", ru: "Паслёновые" },
+  belladonna:   { de: "Schwarze Tollkirsche", ru: "Красавка" },
+  stechapfel:   { de: "Gemeiner Stechapfel", ru: "Дурман обыкновенный" },
+  duden:        { de: "Duden", ru: "Дуден (словарь)" }
+};

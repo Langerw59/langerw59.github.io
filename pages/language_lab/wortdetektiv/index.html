@@ -35,6 +35,13 @@
   .kurz{background:#fff7e6;border-left:4px solid var(--acc2);padding:8px 12px;border-radius:6px;margin:0 0 14px}
   .text p{margin:0 0 12px}
   .ortlink{color:var(--ort);font-weight:600;cursor:pointer;border-bottom:2px dotted var(--ort);text-decoration:none;white-space:nowrap}
+  .lexlink{color:var(--acc);cursor:pointer;border-bottom:1px solid rgba(107,79,163,.45);text-decoration:none}
+  .lexlink:hover{background:#efe9f8}
+  #lexbox{position:absolute;z-index:2000;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.18);padding:10px 12px;max-width:300px;font-size:15px;display:none}
+  #lexbox b{display:block;margin-bottom:6px}
+  #lexbox a{display:block;padding:6px 8px;margin:3px 0;border-radius:8px;background:#faf8f3;border:1px solid var(--line);text-decoration:none;color:var(--ink)}
+  #lexbox a:hover{border-color:var(--acc)}
+  .wikizeile{margin-top:6px;font-size:14px}
   .ortlink::before{content:"📍";font-size:.8em;margin-right:1px}
   #karte{height:340px;border-radius:12px;border:1px solid var(--line);margin:6px 0 4px;background:#e8eef3}
   .kartehinweis{font-size:13px;color:var(--muted);margin:0 0 16px}
@@ -110,12 +117,34 @@ document.addEventListener("DOMContentLoaded", function () {
   const SPR_NAME = { de: "Deutsch", en: "Englisch", fr: "Französisch", it: "Italienisch", es: "Spanisch", la: "Latein (italienische Stimme)", ru: "Russisch", nl: "Niederländisch", el: "Griechisch" };
   const ART = { lexikon: "📚", woerterbuch: "📖", video: "▶️", karte: "🗺️" };
   let karte = null, marker = {};
+  const LEX = window.WORTDETEKTIV_LEXIKON || {};
+  // Wikipedia-Link: „go“ springt direkt zum Artikel, sonst Suchergebnisse
+  const wikiUrl = (sp, titel) => `https://${sp}.wikipedia.org/w/index.php?search=${encodeURIComponent(titel)}&go=Go`;
+  const lexbox = document.createElement("div"); lexbox.id = "lexbox"; document.body.appendChild(lexbox);
+  function zeigeLex(a) {
+    const e = LEX[a.dataset.lex] || { de: a.textContent, ru: a.textContent };
+    lexbox.innerHTML = `<b>${esc(a.textContent)}</b>
+      <a href="${wikiUrl("de", e.de)}" target="_blank" rel="noopener">📚 Wikipedia Deutsch: ${esc(e.de)}</a>
+      <a href="${wikiUrl("ru", e.ru)}" target="_blank" rel="noopener">📚 Википедия по-русски: ${esc(e.ru)}</a>`;
+    const r = a.getBoundingClientRect();
+    lexbox.style.display = "block";
+    const breite = lexbox.offsetWidth;
+    lexbox.style.left = Math.max(8, Math.min(window.scrollX + r.left, window.scrollX + document.documentElement.clientWidth - breite - 8)) + "px";
+    lexbox.style.top = (window.scrollY + r.bottom + 6) + "px";
+  }
+  document.addEventListener("click", (ev) => {
+    const a = ev.target.closest(".lexlink");
+    if (a) { ev.preventDefault(); zeigeLex(a); return; }
+    if (!ev.target.closest("#lexbox")) lexbox.style.display = "none";
+  });
+  document.addEventListener("keydown", (ev) => { if (ev.key === "Escape") lexbox.style.display = "none"; });
 
   // **fett** und [[ort:id|Name]] in HTML umwandeln
   function fmt(s) {
     return esc(s)
       .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
       .replace(/\[\[ort:([a-z0-9_]+)\|([^\]]+)\]\]/g, '<a class="ortlink" data-ort="$1" href="#">$2</a>')
+      .replace(/\[\[lex:([a-z0-9_]+)\|([^\]]+)\]\]/g, '<a class="lexlink" data-lex="$1" href="#" title="Wikipedia">$2</a>')
       .replace(/\[\[ton:([a-z]{2})\|([^\]]+)\]\]/g, (m, l, w) => `<span class="ton" data-l="${l}" title="${SPR_NAME[l] || l} – anhören / послушать">${w}</span>`);
   }
 
@@ -183,6 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </article>`;
     document.title = g.titel + " – Wortdetektiv";
     window.scrollTo(0, 0);
+    lexbox.style.display = "none";
 
     const r = app.querySelector(".raetsel button");
     if (r) r.addEventListener("click", () => r.parentNode.classList.toggle("offen"));
@@ -206,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }).addTo(karte);
     const punkte = [];
     Object.entries(g.orte).forEach(([id, o]) => {
-      const m = L.marker([o.lat, o.lng]).addTo(karte).bindPopup(`<b>${esc(o.name)}</b><br>${esc(o.info)}`);
+      const m = L.marker([o.lat, o.lng]).addTo(karte).bindPopup(`<b>${esc(o.name)}</b><br>${esc(o.info)}<div class="wikizeile">📚 <a href="${wikiUrl("de", o.wiki || o.name)}" target="_blank" rel="noopener">Wikipedia DE</a> · <a href="${wikiUrl("ru", o.wikiRu || o.wiki || o.name)}" target="_blank" rel="noopener">Википедия RU</a></div>`);
       marker[id] = m; punkte.push([o.lat, o.lng]);
     });
     (g.wege || []).forEach(([von, nach, name]) => {
