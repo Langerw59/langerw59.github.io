@@ -65,7 +65,20 @@
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = href;
+    link.onload = () => window.FARBWAECHTER && window.FARBWAECHTER.neu();
     document.head.appendChild(link);
+  })();
+
+  // DE: Farbwächter (2026-11-05) – passt fremde feste Farben an Hell/Dunkel an,
+  //     damit alle Seiten gleich aussehen und alles lesbar bleibt.
+  // RU: «страж цвета» – одинаковый светлый/тёмный фон на всех страницах.
+  (function ensureFarbwaechter() {
+    const src = "/core/js/farbwaechter.js";
+    if (window.__FARBWAECHTER__ || document.querySelector(`script[src="${src}"]`)) return;
+    const s = document.createElement("script");
+    s.src = src;
+    s.defer = true;
+    document.head.appendChild(s);
   })();
 
   // DE: Seite ohne Kopfleiste? → automatisch oben einsetzen.

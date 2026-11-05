@@ -138,13 +138,16 @@ html[data-theme="dark"] .kopf2 {
   padding: 5px 12px;
   border-radius: 999px;
   border: 1px solid transparent;
-  color: var(--k-grau);
+  color: var(--k-grau) !important;
+  background: transparent;
+  box-shadow: none;
+  font-weight: 500;
   text-decoration: none;
   font-size: 14px;
 }
-.kopf2__menue .nav-link:hover { color: var(--k-akzent-stark); background: var(--k-akzent-hell); }
+.kopf2__menue .nav-link:hover { color: var(--k-akzent-stark) !important; background: var(--k-akzent-hell); }
 .kopf2__menue .nav-link.ist-hier {
-  color: var(--k-akzent-stark);
+  color: var(--k-akzent-stark) !important;
   background: var(--k-akzent-hell);
   border-color: var(--k-akzent);
   font-weight: 600;
