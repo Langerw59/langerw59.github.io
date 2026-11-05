@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Der Leiter und der Widerstand – Elektrotechnik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../et.css" />
+    <script src="../../../../core/js/core_init.js" defer></script>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="../index.html">Elektrotechnik</a> › Etage 1 – die Grundlagen › Lektion 2</p>
+        <h1>Der Leiter und der Widerstand</h1>
+        <p class="hint-text">Проводник и сопротивление: от чего зависит сопротивление провода?</p>
+
+        <!-- ===== Theorie ===== -->
+        <h2>1. Die Theorie</h2>
+        <p>
+          <b>Der Leiter</b> (der Draht, das Kabel) lässt den elektrischen Strom durch – aber nicht ganz ohne „Bremse“.
+          Diese Bremse heißt <b>der elektrische Widerstand</b> <i>R</i>, die Einheit ist <b>das Ohm</b> (Ω).
+        </p>
+        <p>Der Widerstand eines Drahtes hängt von vier Dingen ab:</p>
+        <ol>
+          <li><b>das Material</b> – Kupfer leitet besser als Eisen (der spezifische Widerstand ρ).</li>
+          <li><b>die Länge</b> <i>l</i> – doppelt so lang → doppelt so großer Widerstand.</li>
+          <li><b>der Querschnitt</b> <i>A</i> – doppelt so dick (Fläche) → halber Widerstand.</li>
+          <li><b>die Temperatur</b> – bei Metallen: wärmer → größerer Widerstand.</li>
+        </ol>
+
+        <svg class="et-bild" viewBox="0 0 520 150" width="520" aria-label="Draht mit Länge l und Querschnitt A">
+          <defs>
+            <linearGradient id="cu" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f3b27a" /><stop offset=".5" stop-color="#c46a2b" /><stop offset="1" stop-color="#8a4519" />
+            </linearGradient>
+          </defs>
+          <rect x="60" y="45" width="380" height="40" fill="url(#cu)" />
+          <ellipse cx="440" cy="65" rx="12" ry="20" fill="#e08a4a" stroke="#8a4519" />
+          <ellipse cx="60" cy="65" rx="12" ry="20" fill="#c46a2b" stroke="#8a4519" />
+          <text x="455" y="40" font-size="16">A (Querschnitt)</text>
+          <line x1="60" y1="110" x2="440" y2="110" stroke="currentColor" stroke-width="1.5" />
+          <line x1="60" y1="102" x2="60" y2="118" stroke="currentColor" />
+          <line x1="440" y1="102" x2="440" y2="118" stroke="currentColor" />
+          <text x="230" y="135" font-size="16">l (Länge)</text>
+          <text x="200" y="30" font-size="16">ρ (Material: Kupfer)</text>
+        </svg>
+
+        <div class="et-box">
+          <h3>Die Formel</h3>
+          <div class="et-formel">R = ρ · l / A</div>
+          <p>
+            <i>R</i> in Ω, <i>l</i> in m, <i>A</i> in mm², <i>ρ</i> in Ω·mm²/m.<br />
+            Wenn nur der Durchmesser <i>d</i> bekannt ist: <b>A = π · d² / 4</b>.
+          </p>
+        </div>
+
+        <table class="et-woerter">
+          <tr><th>der Stoff</th><th>ρ in Ω·mm²/m (20 °C)</th><th>α in 1/K</th></tr>
+          <tr><td>das Silber</td><td>0,016</td><td>0,0038</td></tr>
+          <tr><td>das Kupfer</td><td>0,0178</td><td>0,0039</td></tr>
+          <tr><td>das Aluminium</td><td>0,0278</td><td>0,0040</td></tr>
+          <tr><td>das Eisen</td><td>0,10</td><td>0,0060</td></tr>
+          <tr><td>das Konstantan</td><td>0,49</td><td>≈ 0 (fast konstant!)</td></tr>
+        </table>
+
+        <div class="et-box">
+          <h3>Die Temperatur</h3>
+          <div class="et-formel">R<sub>T</sub> = R<sub>20</sub> · (1 + α · ΔT)</div>
+          <p>
+            <i>R</i><sub>20</sub> = Widerstand bei 20 °C, ΔT = Temperaturänderung in K (= in °C),
+            α = der Temperaturkoeffizient. Deshalb heißt Konstantan so: Sein Widerstand bleibt fast gleich –
+            gut für Messwiderstände.
+          </p>
+        </div>
+
+        <!-- ===== Beispiel ===== -->
+        <h2>2. Das Beispiel</h2>
+        <div class="et-aufgabe">
+          <p>Eine Kupferleitung ist 20 m lang und hat den Querschnitt 1,5 mm². Wie groß ist ihr Widerstand?</p>
+          <p>
+            Gegeben: ρ = 0,0178 Ω·mm²/m; l = 20 m; A = 1,5 mm²<br />
+            Gesucht: R<br />
+            R = 0,0178 · 20 / 1,5 = 0,356 / 1,5 ≈ <b>0,24 Ω</b>
+          </p>
+        </div>
+
+        <!-- ===== Rechner ===== -->
+        <h2>3. Der Rechner</h2>
+        <p class="hint-text">Probieren: Länge verdoppeln, Querschnitt verdoppeln, Temperatur erhöhen – was passiert mit R?</p>
+        <div class="et-rechner">
+          <label>das Material
+            <select id="mat">
+              <option value="0.016|0.0038">das Silber</option>
+              <option value="0.0178|0.0039" selected>das Kupfer</option>
+              <option value="0.0278|0.0040">das Aluminium</option>
+              <option value="0.10|0.0060">das Eisen</option>
+              <option value="0.49|0">das Konstantan</option>
+            </select>
+          </label>
+          <label>die Länge l (m)<input id="len" type="number" value="20" min="0" step="any" /></label>
+          <label>der Querschnitt A (mm²)<input id="qs" type="number" value="1.5" min="0" step="any" /></label>
+          <label>oder der Durchmesser d (mm)<input id="dm" type="number" placeholder="leer lassen" min="0" step="any" /></label>
+          <label>die Temperatur (°C)<input id="tmp" type="number" value="20" step="any" /></label>
+        </div>
+        <div class="et-ergebnis" id="erg"></div>
+        <div class="hint-text" id="weg"></div>
+
+        <!-- ===== Aufgaben ===== -->
+        <h2>4. Die Aufgaben</h2>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – die Verlängerung</h4>
+          <p>Ein Verlängerungskabel (Kupfer, 1,5 mm²) ist 25 m lang. Wie groß ist der Widerstand der Leitung?
+            Achtung: Der Strom fließt hin <i>und</i> zurück!</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">
+              Leitungslänge = 2 · 25 m = 50 m<br />
+              R = 0,0178 · 50 / 1,5 ≈ <b>0,59 Ω</b><br />
+              <i>Merke:</i> Bei Kabeln immer Hin- und Rückleiter rechnen.
+            </div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – Aluminium statt Kupfer</h4>
+          <p>Statt einer Kupferleitung mit 1,5 mm² soll eine Aluminiumleitung mit gleichem Widerstand und
+            gleicher Länge verlegt werden. Welchen Querschnitt braucht sie?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">
+              Gleicher Widerstand, gleiche Länge → ρ / A muss gleich bleiben.<br />
+              A<sub>Al</sub> = A<sub>Cu</sub> · ρ<sub>Al</sub> / ρ<sub>Cu</sub> = 1,5 · 0,0278 / 0,0178 ≈ 2,34 mm²<br />
+              Nächster genormter Querschnitt: <b>2,5 mm²</b>.
+            </div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – die warme Wicklung</h4>
+          <p>Die Kupferwicklung eines Motors hat bei 20 °C den Widerstand 10 Ω. Im Betrieb wird sie 70 °C warm.
+            Wie groß ist der Widerstand jetzt?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">
+              ΔT = 70 − 20 = 50 K<br />
+              R<sub>70</sub> = 10 · (1 + 0,0039 · 50) = 10 · 1,195 ≈ <b>11,95 Ω</b> (fast 20 % mehr!)
+            </div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – wie viel Draht ist noch auf der Rolle?</h4>
+          <p>Auf einer Rolle ist Kupferdraht mit 0,5 mm². Das Multimeter zeigt zwischen den beiden Enden 1,78 Ω.
+            Wie lang ist der Draht?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">
+              Formel umstellen: l = R · A / ρ<br />
+              l = 1,78 · 0,5 / 0,0178 = <b>50 m</b>
+            </div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – vom Durchmesser zum Widerstand</h4>
+          <p>Ein Konstantandraht hat den Durchmesser 0,8 mm und ist 2 m lang. Wie groß ist sein Widerstand?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">
+              A = π · d² / 4 = 3,1416 · 0,64 / 4 ≈ 0,503 mm²<br />
+              R = 0,49 · 2 / 0,503 ≈ <b>1,95 Ω</b>
+            </div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 6 – zum Nachdenken</h4>
+          <p>Warum wird ein langes, dünnes Verlängerungskabel bei einem Heizlüfter warm, ein kurzes dickes aber nicht?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">
+              Lang + dünn → großer Widerstand. Am Widerstand wird ein Teil der Energie in Wärme umgewandelt.
+              Je größer der Strom (Heizlüfter!) und je größer R, desto wärmer das Kabel.
+              Genau berechnen können wir das in Lektion 5 (die Leistung).
+            </div>
+          </details>
+        </div>
+
+        <!-- ===== Wörter ===== -->
+        <h2>5. Die Wörter</h2>
+        <table class="et-woerter">
+          <tr><td>der Leiter</td><td>проводник</td></tr>
+          <tr><td>der Nichtleiter / der Isolator</td><td>непроводник, изолятор</td></tr>
+          <tr><td>der Widerstand</td><td>сопротивление (и резистор)</td></tr>
+          <tr><td>der spezifische Widerstand</td><td>удельное сопротивление</td></tr>
+          <tr><td>der Querschnitt</td><td>сечение</td></tr>
+          <tr><td>der Durchmesser</td><td>диаметр</td></tr>
+          <tr><td>die Länge</td><td>длина</td></tr>
+          <tr><td>der Temperaturkoeffizient</td><td>температурный коэффициент</td></tr>
+          <tr><td>die Leitung</td><td>линия, провод (проводка)</td></tr>
+          <tr><td>die Wicklung</td><td>обмотка</td></tr>
+          <tr><td>das Verlängerungskabel</td><td>удлинитель</td></tr>
+        </table>
+
+        <div class="et-nav">
+          <a href="../index.html">← Übersicht Elektrotechnik</a>
+          <span class="hint-text">Nächste Lektion: das ohmsche Gesetz (in Vorbereitung)</span>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        const fmt = (x, n) => x.toLocaleString("de-DE", { maximumFractionDigits: n });
+        function rechne() {
+          const [rho, alpha] = $("mat").value.split("|").map(Number);
+          const l = parseFloat($("len").value);
+          const d = parseFloat($("dm").value);
+          let A = parseFloat($("qs").value);
+          let wegA = "";
+          if (d > 0) {
+            A = Math.PI * d * d / 4;
+            wegA = "A = π · " + fmt(d, 3) + "² / 4 = " + fmt(A, 3) + " mm²; ";
+          }
+          const t = parseFloat($("tmp").value);
+          if (!(l >= 0) || !(A > 0) || isNaN(t)) { $("erg").textContent = "Bitte Werte eingeben."; $("weg").textContent = ""; return; }
+          const r20 = rho * l / A;
+          const r = r20 * (1 + alpha * (t - 20));
+          $("erg").textContent = "R = " + fmt(r, 4) + " Ω";
+          $("weg").textContent = wegA + "R₂₀ = " + fmt(rho, 4) + " · " + fmt(l, 3) + " / " + fmt(A, 3) + " = " + fmt(r20, 4) + " Ω" +
+            (t !== 20 ? "; bei " + fmt(t, 1) + " °C: R = " + fmt(r20, 4) + " · (1 + " + fmt(alpha, 4) + " · " + fmt(t - 20, 1) + ") = " + fmt(r, 4) + " Ω" : "");
+        }
+        ["mat", "len", "qs", "dm", "tmp"].forEach((id) => $(id).addEventListener("input", rechne));
+        rechne();
+      })();
+    </script>
+  </body>
+</html>
