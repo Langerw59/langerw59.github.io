@@ -12,6 +12,7 @@
 //   la  – lateinischer Name   laRu – что значит латинское название
 //   ru, en                    her – Wortgeschichte (RU)
 //   wiki / wikiRu – Titel des Wikipedia-Artikels (DE / RU)
+//   fall – (optional) id einer ganzen Geschichte im Wortdetektiv (Fälle)
 // Neue Pflanzen einfach unten anhängen.
 // ============================================================
 window.WORTDETEKTIV_PFLANZENGRUPPEN = [
@@ -149,6 +150,9 @@ window.WORTDETEKTIV_PFLANZEN = [
 { id:"petersilie", gr:"gemuese", emo:"🌿", de:"die Petersilie", pl:"–", la:"Petroselinum crispum", laRu:"petros – камень, selinon – сельдерей (греч.), crispum – кудрявая",
   ru:"петрушка", en:"parsley", wiki:"Petersilie", wikiRu:"Петрушка кудрявая",
   her:"Греки называли её «каменный сельдерей» – petroselinon (растёт на камнях). Из этого слова получились немецкое Petersilie, английское parsley и русское «петрушка». Немцы потом услышали в начале слова имя Peter (по-гречески тоже «камень»)." },
+{ id:"tomate", gr:"gemuese", emo:"🍅", de:"die Tomate", pl:"die Tomaten", la:"Solanum lycopersicum", laRu:"solanum – паслён, lycopersicum – «волчий персик» (греч.)",
+  ru:"помидор, томат", en:"tomato", wiki:"Tomate", wikiRu:"Томат", fall:"tomate",
+  her:"Tomate и «томат» – от ацтекского слова tomatl («вздувающийся плод»). Итальянцы назвали её pomodoro – «золотое яблоко»; отсюда русское «помидор». Подробно – в деле «Tomate» ниже." },
 { id:"kuerbis", gr:"gemuese", emo:"🎃", de:"der Kürbis", pl:"die Kürbisse", la:"Cucurbita pepo", laRu:"cucurbita – тыква, pepo – «спелая, сваренная солнцем» (греч.)",
   ru:"тыква", en:"pumpkin", wiki:"Gartenkürbis", wikiRu:"Тыква обыкновенная",
   her:"Kürbis – от латинского cucurbita: древненемецкое kurbiz → Kürbis. Английское pumpkin – от греческого pepon (спелый), как и латинское pepo. Садовая тыква родом из Америки; в Европе её узнали после Колумба." }

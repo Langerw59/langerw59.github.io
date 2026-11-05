@@ -320,6 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ${feld("ru", `<span class="lbl">RU</span>${esc(x.ru)}`)}
         <div class="zeile"><span class="lbl">EN</span>${esc(x.en)} ${sag(x.en, "en")}</div>
         <div class="her">🔎 ${esc(x.her)}</div>
+        ${x.fall ? `<div class="wk">🕵️ <a href="#${esc(x.fall)}"><b>Ganze Geschichte / вся история – Fall „${esc(x.de.replace(/^(der|die|das) /, ""))}“</b></a></div>` : ""}
         <div class="wk">${L.bilder ? `🖼️ <a href="${bildUrl(x)}" target="_blank" rel="noopener">Bilder / картинки</a> · ` : ""}📚 <a href="${wikiUrl("de", x.wiki || x.de)}" target="_blank" rel="noopener">Wikipedia DE</a> · <a href="${wikiUrl("ru", x.wikiRu || x.ru)}" target="_blank" rel="noopener">Википедия RU</a></div>
       </div>`;
     let inhalt = "";
