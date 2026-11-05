@@ -1,6 +1,6 @@
 // 2026-02-23 | RU/DE/EN: Cache bump + safer update flow (skipWaiting/message).
 // 2026-11-02: Lektionen Level 1-2, Lernen der Reihe nach.
-const CACHE = "sprachbox-v22";
+const CACHE = "sprachbox-v23";
 const CORE = [
   "./",
   "./index.html",
@@ -67,7 +67,21 @@ self.addEventListener("fetch", (event) => {
       }
     }
 
-    // Try cache first
+    // 2026-11-05: Programm-Dateien (js, css, json, html) immer zuerst frisch aus dem Netz,
+    // nur offline aus dem Cache – sonst sieht man neue Funktionen erst nach mehrmaligem Neuladen.
+    if (/\.(js|css|json|html|webmanifest)$/i.test(url.pathname)) {
+      try {
+        const fresh = await fetch(req, { cache: "no-cache" });
+        if (fresh && fresh.ok) cache.put(req, fresh.clone());
+        return fresh;
+      } catch (_e) {
+        const old = await cache.match(req);
+        if (old) return old;
+        throw _e;
+      }
+    }
+
+    // Bilder usw.: Cache zuerst
     const cached = await cache.match(req);
     if (cached) return cached;
 

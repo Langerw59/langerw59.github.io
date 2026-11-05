@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-05 (Updates sofort sichtbar)
+
+- Service Worker: js/css/json/html immer zuerst frisch aus dem Netz (offline aus dem Cache). Neue Funktionen erscheinen ohne mehrfaches Neuladen.
+- Service-Worker-Cache `sprachbox-v23`.
+
 ## 2026-11-05 (Namen ändern)
 
 - Neu: Knopf ✏️ neben jedem Benutzer – Namen korrigieren (✔ speichern, ✖ abbrechen). Der Fortschritt bleibt erhalten.
