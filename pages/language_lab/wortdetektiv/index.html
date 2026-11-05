@@ -14,6 +14,7 @@
 <script src="../../../datenbanken/wortdetektiv/geschichten.js" defer></script>
 <script src="../../../datenbanken/wortdetektiv/tiere.js" defer></script>
 <script src="../../../datenbanken/wortdetektiv/pflanzen.js" defer></script>  <!-- 2026-11-05: Pflanzen-Lexikon -->
+<script src="../../../datenbanken/wortdetektiv/werkstatt.js" defer></script>  <!-- 2026-11-05: Werkstatt-Lexikon (DE/IT/RU/EN) -->
 <style>
   :root{--bg:#f4f1ea;--card:#fff;--ink:#1d2433;--muted:#5b6475;--line:#d9d3c5;--acc:#6b4fa3;--acc2:#b0742a;--ort:#2f6fb3}
   *{box-sizing:border-box}
@@ -54,6 +55,7 @@
   .tier .de{font-size:20px;font-weight:700}
   .tier .pl{font-size:14px;color:var(--muted)}
   .tier .la{font-style:italic;color:#8250df;font-weight:600}
+  .tier .it{color:#0b7a3b;font-weight:600}
   .tier .bed{font-size:14px;color:var(--muted)}
   .tier .lbl{display:inline-block;min-width:26px;font-size:11px;font-weight:700;color:var(--muted)}
   .tier .her{font-size:15px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
@@ -125,8 +127,13 @@ document.addEventListener("DOMContentLoaded", function () {
     tiere: { daten: TIERE, gruppen: TGR, icon: "🐾", titel: "Tier-Lexikon",
       lead: "Животные: немецкое название с артиклем, латынь (научное имя) и что оно значит, русский, английский. 🔊 – послушать.", wort: "Tiere" },
     pflanzen: { daten: PFL, gruppen: PGR, icon: "🌳", titel: "Pflanzen-Lexikon",
-      lead: "Деревья, ягоды, фрукты, овощи: немецкое название с артиклем, латынь (научное имя) и что оно значит, русский, английский. 🔊 – послушать.", wort: "Pflanzen" }
+      lead: "Деревья, ягоды, фрукты, овощи: немецкое название с артиклем, латынь (научное имя) и что оно значит, русский, английский. 🔊 – послушать.", wort: "Pflanzen" },
+    // 2026-11-05: Werkstatt-Lexikon – statt Latein: Italienisch, dazu Bilder-Link
+    werkstatt: { daten: window.WORTDETEKTIV_WERKSTATT || [], gruppen: window.WORTDETEKTIV_WERKSTATTGRUPPEN || [], icon: "🧰", titel: "Werkstatt-Lexikon",
+      lead: "Инструменты, электрика, крепёж, стройматериалы: немецкое название с артиклем, итальянское (тоже с артиклем), русский, английский. 🔊 – послушать, 🖼️ – посмотреть картинки.", wort: "Wörter",
+      zweit: "it", bilder: true }
   };
+  const WERK = LEXIKA.werkstatt.daten;
 
   // ---- Sprachausgabe: Wort in seiner Sprache (Latein → italienische Stimme) ----
   const SPR = { de: "de-DE", en: "en-GB", fr: "fr-FR", it: "it-IT", es: "es-ES", la: "it-IT", ru: "ru-RU", nl: "nl-NL", el: "el-GR" };
@@ -202,7 +209,9 @@ document.addEventListener("DOMContentLoaded", function () {
       inhalt += `<h3 class="themakopf">${t.icon} ${esc(t.de)} <span class="ru" style="font-size:15px;font-weight:400">/ ${esc(t.ru)}</span></h3>`;
       if (t.id === "tiere" && TIERE.length) inhalt += `<a class="tierlink" href="#tiere"><b>🐾 Tier-Lexikon – ${TIERE.length} Tiere</b><br><span class="ru">Словарь животных: по-немецки с артиклем, на латыни, по-русски и по-английски – с историей слова и режимом заучивания.</span></a>`;
       if (t.id === "pflanzen" && PFL.length) inhalt += `<a class="tierlink" href="#pflanzen"><b>🌳 Pflanzen-Lexikon – ${PFL.length} Pflanzen</b><br><span class="ru">Словарь растений: деревья, ягоды, фрукты, овощи – по-немецки с артиклем, на латыни, по-русски и по-английски, с историей слова и режимом заучивания.</span></a>`;
+      if (t.id === "werkstatt" && WERK.length) inhalt += `<a class="tierlink" href="#werkstatt"><b>🧰 Werkstatt-Lexikon – ${WERK.length} Wörter</b><br><span class="ru">Словарь мастерской: инструменты, электрика, крепёж, стройматериалы – по-немецки с артиклем, по-итальянски, по-русски и по-английски, с картинками, историей слова и режимом заучивания.</span></a>`;
       if (t.id === "tiere" && !faelle.length && TIERE.length) return;
+      if (t.id === "werkstatt" && !faelle.length && WERK.length) return;
       inhalt += faelle.length ? `<div class="karten">${faelle.map(karteHtml).join("")}</div>`
         : `<p class="leer">Hier noch keine Fälle. Nenne Claude ein Wort – es kommt hierher. / Здесь пока нет дел. Назовите слово – оно появится здесь.</p>`;
     });
@@ -298,17 +307,20 @@ document.addEventListener("DOMContentLoaded", function () {
   // ---- Tier-Lexikon / словарь животных ----
   function tierLexikon(art) {
     const L = LEXIKA[art] || LEXIKA.tiere, DATEN = L.daten, GRUPPEN = L.gruppen;
-    const VERD = [["", "Alles zeigen / всё видно"], ["de", "Deutsch verdecken"], ["la", "Latein verdecken"], ["ru", "Russisch verdecken"]];
+    const Z = L.zweit || "la";
+    const VERD = [["", "Alles zeigen / всё видно"], ["de", "Deutsch verdecken"], [Z, Z === "it" ? "Italienisch verdecken" : "Latein verdecken"], ["ru", "Russisch verdecken"]];
+    const bildUrl = (x) => "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(x.bild || x.de.replace(/^(der|die|das) /, ""));
     const feld = (art, html) => `<div class="zeile f-${art} ${tierVerdeckt === art ? "versteckt" : ""}"><span class="inhalt">${html}</span></div>`;
     const sag = (txt, l) => `<button type="button" class="sag" data-txt="${esc(txt)}" data-l="${l}" title="anhören / послушать">🔊</button>`;
     const karte1 = (x) => `<div class="tier">
         <span class="emo">${x.emo || ""}</span>
         ${feld("de", `<span class="lbl">DE</span><span class="de">${esc(x.de)}</span> ${sag(x.de, "de")}<br><span class="lbl"></span><span class="pl">Mehrzahl: ${esc(x.pl)}</span>`)}
-        ${feld("la", `<span class="lbl">LA</span><span class="la">${esc(x.la)}</span> ${sag(x.la, "la")}<br><span class="lbl"></span><span class="bed">${esc(x.laRu)}</span>`)}
+        ${Z === "it" ? feld("it", `<span class="lbl">IT</span><span class="it">${esc(x.it)}</span> ${sag(x.it, "it")}`)
+          : feld("la", `<span class="lbl">LA</span><span class="la">${esc(x.la)}</span> ${sag(x.la, "la")}<br><span class="lbl"></span><span class="bed">${esc(x.laRu)}</span>`)}
         ${feld("ru", `<span class="lbl">RU</span>${esc(x.ru)}`)}
         <div class="zeile"><span class="lbl">EN</span>${esc(x.en)} ${sag(x.en, "en")}</div>
         <div class="her">🔎 ${esc(x.her)}</div>
-        <div class="wk">📚 <a href="${wikiUrl("de", x.wiki || x.de)}" target="_blank" rel="noopener">Wikipedia DE</a> · <a href="${wikiUrl("ru", x.wikiRu || x.ru)}" target="_blank" rel="noopener">Википедия RU</a></div>
+        <div class="wk">${L.bilder ? `🖼️ <a href="${bildUrl(x)}" target="_blank" rel="noopener">Bilder / картинки</a> · ` : ""}📚 <a href="${wikiUrl("de", x.wiki || x.de)}" target="_blank" rel="noopener">Wikipedia DE</a> · <a href="${wikiUrl("ru", x.wikiRu || x.ru)}" target="_blank" rel="noopener">Википедия RU</a></div>
       </div>`;
     let inhalt = "";
     GRUPPEN.filter((g) => !tierGruppe || g.id === tierGruppe).forEach((g) => {

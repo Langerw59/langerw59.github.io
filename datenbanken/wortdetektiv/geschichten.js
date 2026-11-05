@@ -24,6 +24,7 @@ window.WORTDETEKTIV_THEMEN = [
   { id: "voelker",  icon: "🌍", de: "Völker & Länder",              ru: "народы и страны" },
   { id: "tiere",    icon: "🐾", de: "Tiere · Vögel · Fische",        ru: "звери, птицы, рыбы" },
   { id: "pflanzen", icon: "🍅", de: "Pflanzen & Essen",             ru: "растения и еда" },
+  { id: "werkstatt", icon: "🧰", de: "Werkstatt & Bau",             ru: "мастерская и стройка" },  // 2026-11-05
   { id: "woerter",  icon: "🔤", de: "Wörter über Wörter",           ru: "слова о словах" }
 ];
 
