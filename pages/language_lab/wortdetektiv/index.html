@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2026-11-05: Werkstatt-Lexikon – statt Latein: Italienisch, dazu Bilder-Link
     werkstatt: { daten: window.WORTDETEKTIV_WERKSTATT || [], gruppen: window.WORTDETEKTIV_WERKSTATTGRUPPEN || [], icon: "🧰", titel: "Werkstatt-Lexikon",
       lead: "Инструменты, электрика, крепёж, стройматериалы: немецкое название с артиклем, итальянское (тоже с артиклем), русский, английский. 🔊 – послушать, 🖼️ – посмотреть картинки.", wort: "Wörter",
-      zweit: "it", bilder: true }
+      zweit: "it", bilder: true, laden: true }
   };
   const WERK = LEXIKA.werkstatt.daten;
 
@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="zeile"><span class="lbl">EN</span>${esc(x.en)} ${sag(x.en, "en")}</div>
         <div class="her">🔎 ${esc(x.her)}</div>
         ${x.fall ? `<div class="wk">🕵️ <a href="#${esc(x.fall)}"><b>Ganze Geschichte / вся история – Fall „${esc(x.de.replace(/^(der|die|das) /, ""))}“</b></a></div>` : ""}
-        <div class="wk">${L.bilder ? `🖼️ <a href="${bildUrl(x)}" target="_blank" rel="noopener">Bilder / картинки</a> · ` : ""}📚 <a href="${wikiUrl("de", x.wiki || x.de)}" target="_blank" rel="noopener">Wikipedia DE</a> · <a href="${wikiUrl("ru", x.wikiRu || x.ru)}" target="_blank" rel="noopener">Википедия RU</a></div>
+        <div class="wk">${L.bilder ? `🖼️ <a href="${bildUrl(x)}" target="_blank" rel="noopener">Bilder / картинки</a> · ` : ""}${L.laden ? `🛒 <a href="https://www.google.com/search?tbm=shop&q=${encodeURIComponent(x.bild || x.de.replace(/^(der|die|das) /, ""))}" target="_blank" rel="noopener">im Laden / в магазине</a> · ` : ""}📚 <a href="${wikiUrl("de", x.wiki || x.de)}" target="_blank" rel="noopener">Wikipedia DE</a> · <a href="${wikiUrl("ru", x.wikiRu || x.ru)}" target="_blank" rel="noopener">Википедия RU</a></div>
       </div>`;
     let inhalt = "";
     GRUPPEN.filter((g) => !tierGruppe || g.id === tierGruppe).forEach((g) => {
