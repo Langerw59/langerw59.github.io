@@ -66,14 +66,35 @@
     "title": "Poslezavtra / После_Завтра – Nikolai Dubinin",
     "type": "video",
     "url": "https://www.youtube.com/@posle_zavtra",
-    "tags": ["YouTube", "Video", "Kanal", "Ressourcen"],
+    "tags": [
+      "YouTube",
+      "Video",
+      "Kanal",
+      "Ressourcen"
+    ],
     "note": "YouTube-Kanal mit vielen Videos (Analysen zu Ländern, Wirtschaft und globalen Entwicklungen)."
   },
   {
     "title": "Beispielvideo: Russland – Poslezavtra / После_Завтра",
     "type": "video",
     "url": "https://youtu.be/vhgI4NsxpkU",
-    "tags": ["YouTube", "Video", "Beispiel"],
+    "tags": [
+      "YouTube",
+      "Video",
+      "Beispiel"
+    ],
     "note": "Beispielvideo aus dem Kanal Poslezavtra / После_Завтра."
+  },
+  {
+    "title": "Walter Fendt – Physik-Apps",
+    "type": "tool",
+    "url": "https://www.walter-fendt.de/html5/phde/",
+    "tags": [
+      "Physik",
+      "Simulation",
+      "Experimente",
+      "Unterricht"
+    ],
+    "note": "57 interaktive Physik-Simulationen (Mechanik, Schwingungen, Elektrizität, Optik, Wärme, Atomphysik) – seit 1997 von dem Augsburger Physiklehrer Walter Fendt, kostenlos im Browser. Auch auf Russisch (Русский) und vielen anderen Sprachen."
   }
 ]
