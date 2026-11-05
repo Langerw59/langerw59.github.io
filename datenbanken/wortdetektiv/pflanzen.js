@@ -152,7 +152,7 @@ window.WORTDETEKTIV_PFLANZEN = [
   her:"Греки называли её «каменный сельдерей» – petroselinon (растёт на камнях). Из этого слова получились немецкое Petersilie, английское parsley и русское «петрушка». Немцы потом услышали в начале слова имя Peter (по-гречески тоже «камень»)." },
 { id:"tomate", gr:"gemuese", emo:"🍅", de:"die Tomate", pl:"die Tomaten", la:"Solanum lycopersicum", laRu:"solanum – паслён, lycopersicum – «волчий персик» (греч.)",
   ru:"помидор, томат", en:"tomato", wiki:"Tomate", wikiRu:"Томат", fall:"tomate",
-  her:"Tomate и «томат» – от ацтекского слова tomatl («вздувающийся плод»). Итальянцы назвали её pomodoro – «золотое яблоко»; отсюда русское «помидор». Подробно – в деле «Tomate» ниже." },
+  her:"Tomate и «томат» – от ацтекского слова tomatl («вздувающийся плод»). Итальянцы назвали её pomodoro – «золотое яблоко»; отсюда русское «помидор». Вся история – по ссылке «Ganze Geschichte»." },
 { id:"kuerbis", gr:"gemuese", emo:"🎃", de:"der Kürbis", pl:"die Kürbisse", la:"Cucurbita pepo", laRu:"cucurbita – тыква, pepo – «спелая, сваренная солнцем» (греч.)",
   ru:"тыква", en:"pumpkin", wiki:"Gartenkürbis", wikiRu:"Тыква обыкновенная",
   her:"Kürbis – от латинского cucurbita: древненемецкое kurbiz → Kürbis. Английское pumpkin – от греческого pepon (спелый), как и латинское pepo. Садовая тыква родом из Америки; в Европе её узнали после Колумба." }
