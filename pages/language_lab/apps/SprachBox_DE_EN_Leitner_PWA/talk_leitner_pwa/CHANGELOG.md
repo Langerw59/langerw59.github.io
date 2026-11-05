@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-05 (Name beim Schließen speichern)
+
+- Geänderter Name wird jetzt auch beim „Schließen“ automatisch gespeichert. Knopf heißt „💾 Speichern“.
+- Service-Worker-Cache `sprachbox-v24`.
+
 ## 2026-11-05 (Updates sofort sichtbar)
 
 - Service Worker: js/css/json/html immer zuerst frisch aus dem Netz (offline aus dem Cache). Neue Funktionen erscheinen ohne mehrfaches Neuladen.
