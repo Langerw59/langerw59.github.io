@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finanzmathematik – der Wegweiser</title>
+<!-- 2026-11-05: Finanzmathematik – erstellt mit Claude
+     DE: Wegweiser zu fertigen, kostenlosen Rechnern (Sparen, Kredit, Immobilien)
+         + kleines Glossar DE/RU + die wichtigsten Formeln.
+     RU: Указатель на готовые бесплатные калькуляторы + маленький словарь + формулы.
+     Neue Rechner: unten in der Liste RECHNER ergänzen. -->
+<script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
+<style>
+  :root{--bg:#f4f1ea;--card:#fff;--ink:#1d2433;--muted:#5b6475;--line:#d9d3c5;--acc:#1f6f5c;--acc2:#b0742a;--ort:#2f6fb3}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,Segoe UI,Arial,sans-serif}
+  main{max-width:860px;margin:0 auto;padding:18px 14px 60px}
+  .oben{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;margin-bottom:10px}
+  .oben a{text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:var(--ink)}
+  h1{margin:4px 0 2px;font-size:28px}
+  .ru{color:var(--muted)}
+  h2{margin:26px 0 8px;font-size:21px;border-bottom:2px solid var(--acc);padding-bottom:4px}
+  h2 .ru{font-size:15px;font-weight:400}
+  .lk{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-left:6px solid var(--acc);border-radius:12px;padding:10px 14px;margin:8px 0}
+  .lk:hover{box-shadow:0 3px 14px rgba(0,0,0,.08)}
+  .lk .t{font-weight:700;color:var(--ort)}
+  .lk .q{font-size:13px;color:var(--muted);margin-left:6px}
+  .lk .i{display:block;font-size:15px;margin-top:2px}
+  .lk .r{display:block;font-size:14px;color:var(--muted)}
+  .lk.eigen{border-left-color:var(--acc2)}
+  .kasten{background:#fff7e6;border-left:4px solid var(--acc2);padding:10px 14px;border-radius:8px;margin:12px 0}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#eef5f2}
+  .f{font-family:Cambria,Georgia,serif;font-size:19px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0}
+  .klein{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <nav class="oben">
+    <a href="/etagen.html">🏠 Etagenplan</a>
+    <a href="/pages/faecher/mathematik/index.html">📐 Mathematik</a>
+    <a href="/pages/bibliothek/ressourcen/index.html">🔗 Ressourcen</a>
+  </nav>
+
+  <h1>💶 Finanzmathematik</h1>
+  <p class="ru">Финансовая математика – <b>der Wegweiser</b> (указатель): готовые бесплатные калькуляторы, к каждому – что он считает. Ниже – словарик и формулы.</p>
+
+  <div class="kasten">Все ссылки ведут на чужие сайты и открываются в новой вкладке. Расчёты там – ориентир, а не предложение банка; для настоящего кредита – всегда спросить банк и сравнить.</div>
+
+  <div id="liste"></div>
+
+  <h2>📖 Wörter / Словарик</h2>
+  <table>
+    <tr><th>Deutsch</th><th>Русский</th><th>Kurz erklärt / коротко</th></tr>
+    <tr><td>der Zins (die Zinsen)</td><td>процент(ы)</td><td>плата за деньги: за вклад получаешь, за кредит платишь</td></tr>
+    <tr><td>der Zinssatz</td><td>процентная ставка</td><td>сколько процентов в год (p. a. = pro anno)</td></tr>
+    <tr><td>der Zinseszins</td><td>сложный процент</td><td>проценты на проценты</td></tr>
+    <tr><td>das Anfangskapital / das Endkapital</td><td>начальная / конечная сумма</td><td>с чем начал – что получилось</td></tr>
+    <tr><td>die Sparrate</td><td>регулярный взнос</td><td>сколько откладываешь каждый месяц</td></tr>
+    <tr><td>der Sparplan</td><td>план накоплений</td><td>регулярные взносы на годы</td></tr>
+    <tr><td>das Darlehen / der Kredit</td><td>заём / кредит</td><td>das Darlehen – чаще про дом, der Kredit – общее слово</td></tr>
+    <tr><td>die Tilgung</td><td>погашение</td><td>часть платежа, которая уменьшает долг</td></tr>
+    <tr><td>die Annuität</td><td>аннуитет</td><td>одинаковый платёж: проценты + погашение</td></tr>
+    <tr><td>der Tilgungsplan</td><td>график погашения</td><td>таблица: месяц за месяцем, сколько долга осталось</td></tr>
+    <tr><td>die Restschuld</td><td>остаток долга</td><td>сколько ещё должен на определённую дату</td></tr>
+    <tr><td>die Zinsbindung</td><td>срок фиксированной ставки</td><td>сколько лет ставка не меняется (10, 15, 20 лет)</td></tr>
+    <tr><td>die Anschlussfinanzierung</td><td>последующее финансирование</td><td>новый договор, когда Zinsbindung кончилась</td></tr>
+    <tr><td>die Sondertilgung</td><td>досрочное погашение</td><td>дополнительный платёж сверх обычного</td></tr>
+    <tr><td>der Effektivzins</td><td>эффективная ставка</td><td>настоящая цена кредита со всеми расходами – по ней сравнивать</td></tr>
+    <tr><td>die Vorfälligkeitsentschädigung</td><td>компенсация за досрочное погашение</td><td>штраф банку, если вернуть кредит раньше срока</td></tr>
+  </table>
+
+  <h2>✏️ Formeln / Формулы</h2>
+  <p class="ru">Для учителя математики – главное в трёх строках (q = 1 + p, p – ставка как дробь, например 3 % → 0,03):</p>
+  <div class="f">Zinseszins: &nbsp; K<sub>n</sub> = K<sub>0</sub> · q<sup>n</sup></div>
+  <div class="f">Sparplan (am Jahresende r einzahlen): &nbsp; K<sub>n</sub> = r · (q<sup>n</sup> − 1) / (q − 1)</div>
+  <div class="f">Annuität: &nbsp; A = K<sub>0</sub> · q<sup>n</sup> · (q − 1) / (q<sup>n</sup> − 1)</div>
+  <p class="klein">Bei monatlicher Rechnung: p durch 12 teilen, n in Monaten zählen. / Помесячно: ставку делить на 12, n считать в месяцах.</p>
+</main>
+
+<script>
+// ---- Rechner / калькуляторы: neue einfach anhängen ----
+// gr: sparen | kredit | immobilien | eigen
+const GRUPPEN = [
+  { id: "sparen",     icon: "🐷", de: "Sparen & Zinsen",        ru: "сбережения и проценты" },
+  { id: "kredit",     icon: "💳", de: "Kredit & Tilgung",       ru: "кредит и погашение" },
+  { id: "immobilien", icon: "🏠", de: "Immobilien & Haus",       ru: "недвижимость и дом" },
+  { id: "eigen",      icon: "🛠️", de: "Eigene Werkzeuge",        ru: "свои инструменты" }
+];
+const RECHNER = [
+  { gr: "sparen", t: "Sparrechner – regelmäßige Sparraten", q: "zinsen-berechnen.de",
+    url: "https://www.zinsen-berechnen.de/sparrechner.php",
+    de: "Jeden Monat einen festen Betrag sparen: wie viel wird es mit Zinseszins?",
+    ru: "Каждый месяц одна и та же сумма – сколько будет через N лет. Можно распечатать результат." },
+  { gr: "sparen", t: "Zinsrechner – Einmalanlage", q: "Finanztip (gemeinnützige Stiftung)",
+    url: "https://www.finanztip.de/rechner/zinsrechner",
+    de: "Ein Betrag wird einmal angelegt: Zinsen und Endkapital.",
+    ru: "Положил один раз (das Festgeld, das Sparbuch) – сколько процентов и итог." },
+  { gr: "sparen", t: "Zinseszinsrechner", q: "finanz-tools.de",
+    url: "https://www.finanz-tools.de/zinseszinsrechner",
+    de: "Mit oder ohne Zinseszins, auch mit Sparraten – zum Vergleichen.",
+    ru: "Можно сравнить: с процентами на проценты и без них." },
+
+  { gr: "kredit", t: "Kredit- und Tilgungsrechner", q: "Stiftung Warentest (test.de)",
+    url: "https://www.test.de/Baudarlehen-Kredit-und-Tilgungsrechner-1159351-0/",
+    de: "Effektivzins, Restschuld am Ende der Zinsbindung, Gesamtlaufzeit.",
+    ru: "Независимый тестовый институт. Эффективная ставка, остаток долга и полный срок." },
+  { gr: "kredit", t: "Tilgungsrechner mit Tilgungsplan", q: "smart-rechner.de",
+    url: "https://www.smart-rechner.de/kredit/ratgeber/tilgungsrechner.php",
+    de: "Rate, Laufzeit und Tilgungsplan: Zins- und Tilgungsanteil jeder Rate.",
+    ru: "Полный график погашения: в каждом платеже – сколько проценты, сколько долг." },
+  { gr: "kredit", t: "Darlehensrechner", q: "finanz-tools.de",
+    url: "https://www.finanz-tools.de/darlehensrechner",
+    de: "Zwei Tilgungssätze vergleichen: Rate, Dauer, Zinsen.",
+    ru: "Сравнить два варианта погашения (например 2 % и 3 %)." },
+
+  { gr: "immobilien", t: "Anschlussfinanzierungsrechner", q: "Schwäbisch Hall",
+    url: "https://schwaebisch-hall.de/rechner/anschlussfinanzierungsrechner.html",
+    de: "Wenn die Zinsbindung ausläuft: neue Rate für die Restschuld.",
+    ru: "Когда кончается Zinsbindung: новый платёж на остаток долга. Сайт банка – цифры как ориентир." },
+  { gr: "immobilien", t: "Baukredit-Check", q: "Stiftung Warentest (test.de)",
+    url: "https://www.test.de/Angebotscheck-Immobilienfinanzierung-Guenstig-oder-teuer-Checken-Sie-hier-Ihren-Baukredit-6222213-0/",
+    de: "Angebot der Bank eingeben: günstig, Durchschnitt oder teuer?",
+    ru: "Ввести предложение банка – тест скажет: дёшево, средне или дорого." },
+  { gr: "immobilien", t: "Hauspreis-Rechner: so teuer darf Ihr Haus werden", q: "Stiftung Warentest (test.de)",
+    url: "https://www.test.de/Rechner-Eigenheimfinanzierung-So-teuer-darf-Ihr-Haus-werden-4520153-0/",
+    de: "Wie viel Kredit und welcher Kaufpreis sind realistisch – mit Nebenkosten.",
+    ru: "Сколько кредита и какую цену дома реально потянуть, вместе с побочными расходами." },
+  { gr: "immobilien", t: "Alle Baufinanzierungsrechner", q: "Stiftung Warentest (test.de)",
+    url: "https://www.test.de/thema/baufinanzierungsrechner/alles/",
+    de: "Übersicht: Zinsbindung, Vorfälligkeitsentschädigung, Eigenkapital und mehr.",
+    ru: "Все калькуляторы Stiftung Warentest по дому на одной странице." },
+
+  { gr: "eigen", t: "🚗 Auto-Kauf-Assistent", q: "eigene Seite / своя страница", eigen: true,
+    url: "/pages/language_lab/apps/tools/auto-kauf-assistent/index.html",
+    de: "0 % Finanzierung oder Rabatt bei Barzahlung – was ist günstiger?",
+    ru: "Наш собственный пример: кредит под 0 % или скидка за наличные." }
+];
+
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+document.getElementById("liste").innerHTML = GRUPPEN.map((g) => {
+  const l = RECHNER.filter((r) => r.gr === g.id);
+  if (!l.length) return "";
+  return `<h2>${g.icon} ${esc(g.de)} <span class="ru">/ ${esc(g.ru)}</span></h2>` + l.map((r) => {
+    const fremd = !r.eigen;
+    return `<a class="lk ${r.eigen ? "eigen" : ""}" href="${esc(r.url)}" ${fremd ? 'target="_blank" rel="noopener"' : ""}>
+      <span class="t">${esc(r.t)}</span><span class="q">· ${esc(r.q)}</span>
+      <span class="i">${esc(r.de)}</span><span class="r">${esc(r.ru)}</span></a>`;
+  }).join("");
+}).join("");
+</script>
+</body>
+</html>
