@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-05 (der Benutzer)
+
+- Neu: Knopf „👤 Name“ oben. Jeder Benutzer hat seinen eigenen Fortschritt (Boxen, Sterne, Lektionen, Lernzeit, Einstellungen).
+- Erster Start: Frage „Wer lernt?“. Der erste Name übernimmt den bisherigen Fortschritt.
+- Neuer Benutzer beginnt alle Karten von vorn. Bei mehreren Benutzern fragt die App beim Öffnen, wer lernt.
+- Benutzer löschen (🗑) möglich, außer dem gerade aktiven.
+- Gemeinsam bleiben: Glossar, Hintergrund, Text-Korrekturen.
+- Neue Datei `benutzer.js` (wird vor `app.js` geladen). Service-Worker-Cache `sprachbox-v21`.
+
 ## 2026-11-02 (Tempo in der Karte)
 
 - Neu: In jeder Karte Knöpfe „🐢 Langsam / Normal / 🐇 Schnell“. Klick ändert das Tempo und liest die gerade sichtbare Seite sofort nochmal vor – die Karte bleibt offen.
