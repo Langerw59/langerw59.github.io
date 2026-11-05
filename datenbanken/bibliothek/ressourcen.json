@@ -96,5 +96,28 @@
       "Unterricht"
     ],
     "note": "57 interaktive Physik-Simulationen (Mechanik, Schwingungen, Elektrizität, Optik, Wärme, Atomphysik) – seit 1997 von dem Augsburger Physiklehrer Walter Fendt, kostenlos im Browser. Auch auf Russisch (Русский) und vielen anderen Sprachen."
+  },
+  {
+    "title": "Falstad – Schaltungssimulator (CircuitJS)",
+    "type": "tool",
+    "url": "https://www.falstad.com/circuit/",
+    "tags": [
+      "Elektrotechnik",
+      "Schaltung",
+      "Simulation"
+    ],
+    "note": "Kostenloser Schaltungssimulator im Browser: Schaltplan zeichnen, Strom fließt sichtbar, Spannungen und Ströme ablesen. Ohne Anmeldung."
+  },
+  {
+    "title": "Tinkercad Circuits (Autodesk)",
+    "type": "tool",
+    "url": "https://www.tinkercad.com/circuits",
+    "tags": [
+      "Elektrotechnik",
+      "Arduino",
+      "Simulation",
+      "Schule"
+    ],
+    "note": "Kostenlose Online-Werkstatt: Schaltungen auf dem Steckbrett (das Breadboard) aufbauen und den Arduino programmieren und simulieren. Konto nötig, auch für Schulklassen."
   }
 ]
