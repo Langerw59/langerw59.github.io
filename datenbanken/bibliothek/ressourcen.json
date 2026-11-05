@@ -119,5 +119,17 @@
       "Schule"
     ],
     "note": "Kostenlose Online-Werkstatt: Schaltungen auf dem Steckbrett (das Breadboard) aufbauen und den Arduino programmieren und simulieren. Konto nötig, auch für Schulklassen."
+  },
+  {
+    "title": "Walter Fendt – die Lorentzkraft (Leiterschaukel)",
+    "type": "tool",
+    "url": "https://www.walter-fendt.de/html5/phde/lorentzforce_de.htm",
+    "tags": [
+      "Physik",
+      "Elektrotechnik",
+      "Magnetismus",
+      "Simulation"
+    ],
+    "note": "Die Lorentzkraft auf einen stromdurchflossenen Leiter im Hufeisenmagneten: die Stromrichtung und den Magnetfeld umpolen, Feldlinien und Kraftpfeil einblenden."
   }
 ]
