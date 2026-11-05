@@ -125,9 +125,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const PGR = window.WORTDETEKTIV_PFLANZENGRUPPEN || [];
   const LEXIKA = {
     tiere: { daten: TIERE, gruppen: TGR, icon: "🐾", titel: "Tier-Lexikon",
-      lead: "Животные: немецкое название с артиклем, латынь (научное имя) и что оно значит, русский, английский. 🔊 – послушать.", wort: "Tiere" },
+      lead: "Животные: немецкое название с артиклем, латынь (научное имя) и что оно значит, русский, английский. 🔊 – послушать.", wort: "Tiere", bilder: true },
     pflanzen: { daten: PFL, gruppen: PGR, icon: "🌳", titel: "Pflanzen-Lexikon",
-      lead: "Деревья, ягоды, фрукты, овощи: немецкое название с артиклем, латынь (научное имя) и что оно значит, русский, английский. 🔊 – послушать.", wort: "Pflanzen" },
+      lead: "Деревья, ягоды, фрукты, овощи: немецкое название с артиклем, латынь (научное имя) и что оно значит, русский, английский. 🔊 – послушать.", wort: "Pflanzen", bilder: true },
     // 2026-11-05: Werkstatt-Lexikon – statt Latein: Italienisch, dazu Bilder-Link
     werkstatt: { daten: window.WORTDETEKTIV_WERKSTATT || [], gruppen: window.WORTDETEKTIV_WERKSTATTGRUPPEN || [], icon: "🧰", titel: "Werkstatt-Lexikon",
       lead: "Инструменты, электрика, крепёж, стройматериалы: немецкое название с артиклем, итальянское (тоже с артиклем), русский, английский. 🔊 – послушать, 🖼️ – посмотреть картинки.", wort: "Wörter",
@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const L = LEXIKA[art] || LEXIKA.tiere, DATEN = L.daten, GRUPPEN = L.gruppen;
     const Z = L.zweit || "la";
     const VERD = [["", "Alles zeigen / всё видно"], ["de", "Deutsch verdecken"], [Z, Z === "it" ? "Italienisch verdecken" : "Latein verdecken"], ["ru", "Russisch verdecken"]];
-    const bildUrl = (x) => "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(x.bild || x.de.replace(/^(der|die|das) /, ""));
+    const bildUrl = (x) => "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(x.bild || x.la || x.de.replace(/^(der|die|das) /, ""));
     const feld = (art, html) => `<div class="zeile f-${art} ${tierVerdeckt === art ? "versteckt" : ""}"><span class="inhalt">${html}</span></div>`;
     const sag = (txt, l) => `<button type="button" class="sag" data-txt="${esc(txt)}" data-l="${l}" title="anhören / послушать">🔊</button>`;
     const karte1 = (x) => `<div class="tier">
