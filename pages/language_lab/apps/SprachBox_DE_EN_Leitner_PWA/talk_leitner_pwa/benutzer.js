@@ -92,6 +92,21 @@
     return id;
   }
 
+  function renameProfile(id, name) {
+    name = String(name || "").trim();
+    const u = profiles.list.find((x) => x.id === id);
+    if (!u || !name) return false;
+    if (profiles.list.some((x) => x.id !== id && x.name.toLowerCase() === name.toLowerCase())) {
+      alert(`Den Namen „${name}“ gibt es schon.\nИмя „${name}“ уже есть.`);
+      return false;
+    }
+    u.name = name;
+    writeProfiles(profiles);
+    return true;
+  }
+
+  let editId = null;
+
   function deleteProfile(id) {
     const u = profiles.list.find((x) => x.id === id);
     if (!u || id === activeId) return;
@@ -113,6 +128,9 @@
   .sbUserRow{display:flex;gap:8px}
   .sbUserRow button.pick{flex:1;text-align:left;padding:12px 14px;border-radius:12px;border:1px solid #ffffff2a;background:#1b2a4a;color:#eaf0ff;font-size:17px;cursor:pointer}
   .sbUserRow button.pick.is-active{border-color:#4ade80;background:#173a2a}
+  .sbUserRow button.ren{padding:0 12px;border-radius:12px;border:1px solid #ffffff2a;background:transparent;color:#eaf0ff;font-size:17px;cursor:pointer}
+  .sbUserRow input.renIn{flex:1;min-width:0;padding:12px;border-radius:12px;border:1px solid #7aa7ff;background:#0b1220;color:#eaf0ff;font-size:17px}
+  .sbUserRow button.ok{padding:0 14px;border-radius:12px;border:0;background:#4ade80;color:#07070b;font-weight:700;font-size:17px;cursor:pointer}
   .sbUserRow button.del{padding:0 12px;border-radius:12px;border:1px solid #ffffff2a;background:transparent;color:#fb7185;font-size:17px;cursor:pointer}
   .sbUserNew{display:flex;gap:8px}
   .sbUserNew input{flex:1;padding:12px;border-radius:12px;border:1px solid #ffffff3a;background:#0b1220;color:#eaf0ff;font-size:17px}
@@ -124,6 +142,7 @@
   let firstStart = false;
 
   function closeDialog() {
+    editId = null;
     if (overlay) { overlay.remove(); overlay = null; }
   }
 
@@ -133,11 +152,17 @@
       overlay.className = "sbUserOverlay";
       document.body.appendChild(overlay);
     }
-    const rows = profiles.list.map((u) => `
+    const rows = profiles.list.map((u) => u.id === editId ? `
+      <form class="sbUserRow" data-renform="${u.id}">
+        <input class="renIn" name="n" type="text" maxlength="30" autocomplete="off" value="${esc(u.name)}">
+        <button type="submit" class="ok" title="Speichern / сохранить">✔</button>
+        <button type="button" class="del" data-cancel="1" title="Abbrechen / отмена">✖</button>
+      </form>` : `
       <div class="sbUserRow">
         <button type="button" class="pick ${u.id === activeId ? "is-active" : ""}" data-pick="${u.id}">
           👤 ${esc(u.name)}${u.id === activeId ? " ✔" : ""}
         </button>
+        <button type="button" class="ren" data-ren="${u.id}" title="Namen ändern / изменить имя">✏️</button>
         ${u.id === activeId ? "" : `<button type="button" class="del" data-del="${u.id}" title="Löschen / удалить">🗑</button>`}
       </div>`).join("");
 
@@ -156,10 +181,16 @@
       </div>`;
 
     overlay.querySelectorAll("[data-pick]").forEach((b) => b.addEventListener("click", () => switchTo(b.dataset.pick)));
+    overlay.querySelectorAll("[data-ren]").forEach((b) => b.addEventListener("click", () => { editId = b.dataset.ren; renderDialog(); }));
+    overlay.querySelectorAll("[data-cancel]").forEach((b) => b.addEventListener("click", () => { editId = null; renderDialog(); }));
+    overlay.querySelectorAll("[data-renform]").forEach((f) => f.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (renameProfile(f.dataset.renform, f.n.value)) { editId = null; updateChip(); renderDialog(); }
+    }));
     overlay.querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", () => deleteProfile(b.dataset.del)));
     const close = overlay.querySelector(".sbUserClose");
     if (close) close.addEventListener("click", closeDialog);
-    overlay.querySelector("form").addEventListener("submit", (e) => {
+    overlay.querySelector("form.sbUserNew").addEventListener("submit", (e) => {
       e.preventDefault();
       const id = addProfile(e.target.n.value);
       if (!id) return;
@@ -176,7 +207,9 @@
       }
     });
     if (!firstStart) overlay.addEventListener("click", (e) => { if (e.target === overlay) closeDialog(); });
-    const inp = overlay.querySelector("input");
+    const renIn = overlay.querySelector("input.renIn");
+    if (renIn) setTimeout(() => { renIn.focus(); renIn.select(); }, 50);
+    const inp = overlay.querySelector(".sbUserNew input");
     if (firstStart && inp) setTimeout(() => inp.focus(), 50);
   }
 

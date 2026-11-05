@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-05 (Namen ändern)
+
+- Neu: Knopf ✏️ neben jedem Benutzer – Namen korrigieren (✔ speichern, ✖ abbrechen). Der Fortschritt bleibt erhalten.
+- Service-Worker-Cache `sprachbox-v22`.
+
 ## 2026-11-05 (der Benutzer)
 
 - Neu: Knopf „👤 Name“ oben. Jeder Benutzer hat seinen eigenen Fortschritt (Boxen, Sterne, Lektionen, Lernzeit, Einstellungen).
