@@ -1,5 +1,11 @@
 # Changelog – SprachBox DE↔IT
 
+
+## 2026-11-06 (Handy quer / Fernseher)
+
+- Handy quer (z. B. iPhone auf den Fernseher gespiegelt): Karte links, Knöpfe rechts. „Gewusst / Nicht gewusst“, Tempo und × sind immer sichtbar, ohne Scrollen. Die Karte liegt dann über der Kopfleiste.
+- Hochformat unverändert.
+
 ## 2026-11-06 (neu aufgebaut wie DE↔EN)
 
 - Vorher war hier eine Kopie der alten DE↔EN-App mit **englischen** Sätzen (nur der Titel war Italienisch).

@@ -1034,3 +1034,66 @@ body.mode-bg .bgPreviewThumb{
   background: rgba(96,165,250,.28);
   font-weight: 700;
 }
+
+/* 2026-11-06: Handy quer (z. B. iPhone + Fernseher): Karte links, Knöpfe rechts –
+   „Gewusst / Nicht gewusst“ immer sichtbar, ohne Scrollen.
+   телефон горизонтально: карточка слева, кнопки справа, всё видно без прокрутки */
+@media (orientation: landscape) and (max-height: 560px){
+  .studyOverlay{
+    z-index: 10050; /* über der Kopfleiste / поверх шапки */
+    padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+    overflow-y: auto;
+  }
+  .cardShell{
+    width: min(98vw, 1100px);
+    max-height: calc(100dvh - 12px);
+    padding: 8px 10px;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(210px, 34%);
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 6px;
+  }
+  .cardTop{ grid-column: 1; grid-row: 1; margin: 0; padding-right: 0; }
+  .pill{ padding: 4px 8px; font-size: 11px; }
+  .card3d{
+    grid-column: 1; grid-row: 2;
+    height: auto;
+    min-height: 150px;
+  }
+  .cardFace{ padding: 10px 14px; gap: 6px; overflow-y: auto; }
+  .text{ font-size: clamp(22px, 7.5vh, 38px); }
+  .mnemo{ margin-top: 4px; padding: 5px 8px; font-size: 13px; }
+
+  /* rechte Spalte: oben Tempo (Platz für ×), darunter die Antwort-Knöpfe */
+  .cardTempo{
+    grid-column: 2; grid-row: 1;
+    margin: 0;
+    padding-right: 52px;
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
+  .cardTempo .btn{ padding: 5px 8px; font-size: 13px; }
+  .cardTempo .mini{ display: none; }
+  .cardBottom{
+    grid-column: 2; grid-row: 2;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 6px;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .cardBottom .right{ order: -1; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .cardBottom .right .btn{ padding: 12px 6px; font-size: 16px; }
+  #btnYes, #btnNo{ min-height: 56px; font-size: 18px; font-weight: 800; }
+  #btnForgot, #btnNext{ grid-column: 1 / -1; }
+  .cardBottom .left{ display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .cardBottom .left .btn{ padding: 8px 6px; font-size: 14px; }
+  .x{ top: 6px; right: 8px; }
+  .studyOverlay-backdrop{ background: rgba(4,8,18,.82); }
+}

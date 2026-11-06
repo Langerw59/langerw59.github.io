@@ -1,5 +1,11 @@
 # Changelog
 
+
+## 2026-11-06 (Handy quer / Fernseher)
+
+- Handy quer (z. B. iPhone auf den Fernseher gespiegelt): Karte links, Knöpfe rechts. „Gewusst / Nicht gewusst“, Tempo und × sind immer sichtbar, ohne Scrollen. Die Karte liegt dann über der Kopfleiste.
+- Hochformat unverändert.
+
 ## 2026-11-06 (Service Worker)
 
 - Löscht beim Update nur noch eigene alte Caches (`sprachbox-v…`), nicht den Cache der neuen DE↔IT-App. Cache `sprachbox-v25`.
