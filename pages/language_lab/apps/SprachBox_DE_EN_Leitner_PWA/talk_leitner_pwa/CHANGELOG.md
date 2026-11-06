@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-06 (Service Worker)
+
+- Löscht beim Update nur noch eigene alte Caches (`sprachbox-v…`), nicht den Cache der neuen DE↔IT-App. Cache `sprachbox-v25`.
+
 ## 2026-11-05 (Name beim Schließen speichern)
 
 - Geänderter Name wird jetzt auch beim „Schließen“ automatisch gespeichert. Knopf heißt „💾 Speichern“.

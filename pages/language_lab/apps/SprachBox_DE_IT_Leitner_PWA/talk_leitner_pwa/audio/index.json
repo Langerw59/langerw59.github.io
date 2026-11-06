@@ -1,0 +1,37 @@
+{
+"de": {
+"Hallo!": "de/f02a27e2f102fa75.mp3",
+"Guten Morgen!": "de/a08b984741b87567.mp3",
+"Mir geht es gut.": "de/ad475879e470fef3.mp3",
+"Danke!": "de/f750a81a71f482fb.mp3",
+"Auf Wiedersehen!": "de/43918bcdf43cfc18.mp3",
+"Ich komme aus Deutschland.": "de/faaa160fe3f26b24.mp3",
+"Kein Problem.": "de/ed33ad8b0aee87d5.mp3",
+"Ich verstehe nicht.": "de/fb9145444847b545.mp3",
+"Sprechen Sie Deutsch?": "de/7015863353869e25.mp3",
+"Was bedeutet das?": "de/989004c4f06f22f9.mp3",
+"Ich brauche einen Arzt.": "de/ecbeef4727a48df3.mp3",
+"Wo ist die Toilette?": "de/8e5799cff66d327e.mp3",
+"Wo ist der Bahnhof?": "de/090fb763975604fd.mp3",
+"Wie viel kostet das?": "de/79dcea41dd979ff9.mp3",
+"Kann ich mit Karte zahlen?": "de/aa0e5fbb12a6385e.mp3",
+"Die Rechnung, bitte.": "de/f35acebc2e116f1a.mp3",
+"Es ist acht Uhr.": "de/2a6077d1255d55f0.mp3",
+"Bis morgen!": "de/6f52f65f754af5ed.mp3",
+"Es regnet.": "de/3ea8f55f5f2c3a5f.mp3",
+"Die Sonne scheint.": "de/118b7cac81a3a999.mp3",
+"Gute Nacht!": "de/3fe36bb9b71d4dfe.mp3",
+"Hilfe!": "de/f27c451a942452ee.mp3",
+"Ich bin krank.": "de/237ab290368ecf3a.mp3",
+"Wo ist das Krankenhaus?": "de/7875865cf442eb13.mp3",
+"Können Sie mir helfen?": "de/ab824825f98dc4a6.mp3",
+"Kann ich das anprobieren?": "de/63cc2d45676268fa.mp3",
+"Ich habe Kopfschmerzen.": "de/0b8585afce744d17.mp3",
+"Wo ist die nächste Apotheke?": "de/f63c4c22ecb85a82.mp3"
+},
+"it": {},
+"voices": {
+"de": "de-DE-KatjaNeural",
+"it": ""
+}
+}

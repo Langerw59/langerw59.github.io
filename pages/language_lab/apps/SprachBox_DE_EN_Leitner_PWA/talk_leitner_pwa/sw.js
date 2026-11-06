@@ -1,6 +1,6 @@
 // 2026-02-23 | RU/DE/EN: Cache bump + safer update flow (skipWaiting/message).
 // 2026-11-02: Lektionen Level 1-2, Lernen der Reihe nach.
-const CACHE = "sprachbox-v24";
+const CACHE = "sprachbox-v25";
 const CORE = [
   "./",
   "./index.html",
@@ -27,7 +27,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil((async ()=>{
     const keys = await caches.keys();
-    await Promise.all(keys.map(k => (k === CACHE) ? null : caches.delete(k)));
+    await Promise.all(keys.map(k => (k === CACHE || !k.startsWith("sprachbox-v")) ? null : caches.delete(k) /* 2026-11-06: nur eigene alte Caches loeschen (nicht die von DE↔IT) */));
     self.clients.claim();
   })());
 });

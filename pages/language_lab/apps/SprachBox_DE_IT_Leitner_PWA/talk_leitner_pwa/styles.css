@@ -1015,3 +1015,22 @@ body.mode-bg .bgPreviewThumb{
   display: none !important;
   pointer-events: none !important;
 }
+
+/* 2026-11-02: Tempo-Leiste in der Karte / темп в карточке */
+.cardTempo{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top: 12px;
+}
+.cardTempo .btn{
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+.cardTempo .btn.isActive{
+  border-color: #60a5fa;
+  background: rgba(96,165,250,.28);
+  font-weight: 700;
+}

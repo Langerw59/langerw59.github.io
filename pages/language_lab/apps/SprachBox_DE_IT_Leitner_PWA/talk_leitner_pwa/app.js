@@ -54,6 +54,11 @@ const els = {
   tempoNormal: $("btnTempoNormal"),
   tempoSlow: $("btnTempoSlow"),
   tempoFast: $("btnTempoFast"),
+  voiceDe: $("selVoiceDe"),
+  voiceEn: $("selVoiceEn"),
+  voiceTestDe: $("btnVoiceTestDe"),
+  voiceTestEn: $("btnVoiceTestEn"),
+  audioSource: $("selAudioSource"),
   deck: $("lblDeck"),
   due: $("lblDue"),
   neu: $("lblNew"),
@@ -132,6 +137,10 @@ const els = {
   forgot: $("btnForgot"),
   next: $("btnNext"),
   speak: $("btnSpeak"),
+  cardSlow: $("btnCardSlow"),
+  cardNormal: $("btnCardNormal"),
+  cardFast: $("btnCardFast"),
+  cardSpeedLbl: $("lblCardSpeed"),
   mnemoBtn: $("btnMnemo"),
   wordPopup: $("wordPopup"),
   wordPopupClose: $("btnWordPopupClose"),
@@ -222,22 +231,22 @@ setTxt("btnDeNormBackup", "Backup / Export");
 }
 
 // ---------- config ----------
-const STORAGE_KEY = "sprachbox_leitner_v1"; // progress
-const MNEMO_KEY = "sprachbox_mnemo_v1"; // mnemo overrides
-const TIME_KEY = "sprachbox_time_v1"; // time stats
-const SETTINGS_KEY = "sprachbox_settings_v1"; // optional settings persistence
-const DAILY_KEY = "sprachbox_daily10_v1"; // daily quick session marker
-const BOX_FOCUS_KEY = "SB_BOX_FOCUS_V1"; // selected box focus for level sessions
-const DE_TEXT_OVERRIDES_KEY = "SB_DE_TEXT_OVERRIDES_V1"; // id -> normalized de text overrides
-const DE_NORM_BACKUP_PREFIX = "SB_BACKUP_DECK_";
-const GLOSSARY_KEY = "sprachbox_glossary_v1"; // popup dictionary / glossary
-const GLOSSARY_MIN_KEY = "sprachbox_glossary_min_v1"; // mini lexicon (small)
-const PHRASE_MAP_KEY = "sprachbox_phrase_map_v1"; // small phrase-first overrides
+const STORAGE_KEY = "sprachbox_it_leitner_v1"; // progress
+const MNEMO_KEY = "sprachbox_it_mnemo_v1"; // mnemo overrides
+const TIME_KEY = "sprachbox_it_time_v1"; // time stats
+const SETTINGS_KEY = "sprachbox_it_settings_v1"; // optional settings persistence
+const DAILY_KEY = "sprachbox_it_daily10_v1"; // daily quick session marker
+const BOX_FOCUS_KEY = "SB_IT_BOX_FOCUS_V1"; // selected box focus for level sessions
+const DE_TEXT_OVERRIDES_KEY = "SB_IT_DE_TEXT_OVERRIDES_V1"; // id -> normalized de text overrides
+const DE_NORM_BACKUP_PREFIX = "SB_IT_BACKUP_DECK_";
+const GLOSSARY_KEY = "sprachbox_it_glossary_v1"; // popup dictionary / glossary
+const GLOSSARY_MIN_KEY = "sprachbox_it_glossary_min_v1"; // mini lexicon (small)
+const PHRASE_MAP_KEY = "sprachbox_it_phrase_map_v1"; // small phrase-first overrides
 const BG_LS_ID = "sb_bg_id";
+const TARGET_TTS_LANG = "it-IT"; // 2026-11-06: Italienisch
 const SOURCE_LANG = "DE";
 const TARGET_LANG = "IT";
 const SHARED_PAIR_LABEL = `${SOURCE_LANG}->${TARGET_LANG}`;
-const TARGET_TTS_LANG = "it-IT";
 
 const BOX_COUNT = 8;
 
@@ -246,9 +255,33 @@ const BOX_COUNT = 8;
 const BOX_DAYS = [0, 1, 3, 7, 14, 30, 60, 120];
 
 // Session new cards limits
-const NEW_PER_SESSION = 20; // when you start normal session and nothing due
-const NEW_FOR_BOX1 = 20; // when you click Box 1 and nothing due
+// 2026-11-02: Weniger neue Karten auf einmal (= eine Lektion), sonst entsteht Chaos im Kopf.
+const NEW_PER_SESSION = 6; // max. neue Karten pro Durchgang (eine Lektion)
+const NEW_FOR_BOX1 = 6; // when you click Box 1
 const REVIEW_LIMIT = 10;
+// 2026-11-02: "Nicht gewusst" / "Vergessen" -> Karte kommt im selben Durchgang wieder (nach 2 anderen Karten).
+const RETRY_GAP = 2;
+const RETRY_MAX = 3; // hoechstens 3x pro Karte und Durchgang
+
+// 2026-11-02: Lektionen (Level 1-2, je 6 Saetze, der Reihe nach).
+// Ist diese Datei da, wird NUR sie benutzt (alte Schablonen-Saetze werden nicht mehr geladen).
+const LESSONS_URL = "./data/lektionen_de_it.json";
+// 2026-11-02: hoechstens 2 neue Lektionen pro Tag – Wiederholen ist wichtiger als Neues.
+const NEW_LESSONS_PER_DAY = 2;
+const NEW_LESSONS_DAY_KEY = "sb_it_new_lessons_day_v1";
+
+function newLessonsToday() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(NEW_LESSONS_DAY_KEY) || "null");
+    if (raw && raw.day === dayKey()) return Number(raw.count) || 0;
+  } catch (_) {}
+  return 0;
+}
+function countNewLessonToday() {
+  try {
+    localStorage.setItem(NEW_LESSONS_DAY_KEY, JSON.stringify({ day: dayKey(), count: newLessonsToday() + 1 }));
+  } catch (_) {}
+}
 const FETCH_TIMEOUT_MS = 4500;
 
 // Try these paths first (adjust if you like)
@@ -265,7 +298,7 @@ const EXTRA_DATA_URLS = [
   "./data/sentences_a1.json",
 ];
 
-const PAIR_CODE = "DE_IT";
+const PAIR_CODE = "DE_EN";
 const LOCAL_BG_BASE = `/pages/language_lab/assets/backgrounds/sprachfuehrer/${PAIR_CODE}`;
 const LEGACY_BG_BASE = "/core/assets/backgrounds/sprachfuehrer";
 const FALLBACK_WEBP = [
@@ -381,8 +414,11 @@ const state = {
     topic: "all",
     level: "all",
     starFilter: "all", // all | starred
-    tts: "off", // off | de | en | both
+    tts: "both", // off | de | en | both  (2026-10-28: Standard = Beide)
     speed: 0.9,
+    voiceDe: "", // 2026-11-02: gewaehlte Stimme (voiceURI), "" = Auto
+    voiceEn: "",
+    audioSource: "auto", // auto = mp3 wenn vorhanden, sonst Browser | synth = nur Browser-Stimme
   },
   ui: {
     mode: "level", // daily | level | review
@@ -1288,8 +1324,14 @@ function normalizeItem(raw, idx) {
   const derived = `${topic}::${stufe}::${de}::${en}`;
   const id = givenId || `${strHash(derived)}::${idx}`;
 
+  // 2026-11-02: Reihenfolge fuer Lektionen (kleinere Zahl = frueher lernen)
+  const orderPicked = pick(raw, ["order", "nr", "reihenfolge"]);
+  const orderRaw = orderPicked === "" ? NaN : Number(orderPicked);
+  const order = Number.isFinite(orderRaw) ? orderRaw : 100000 + idx;
+  const lesson = String(pick(raw, ["lesson", "lektion"]) || "").trim();
+
   // keep `level` as alias for backward-compatible code paths / old decks
-  return { id, de, en, topic, stufe, level: stufe, mnemo };
+  return { id, de, en, topic, stufe, level: stufe, mnemo, order, lesson };
 }
 
 // Better shuffle than sort(Math.random()-0.5)
@@ -1724,7 +1766,7 @@ function editGlossaryEntryByKey(key) {
 }
 
 function displayLangLabel(lang) {
-  return lang === "de" ? "DE" : lang === "en" ? "EN" : "?";
+  return lang === "de" ? "DE" : lang === "en" ? "IT" : "?";
 }
 
 function normalizePhraseText(text) {
@@ -2826,9 +2868,9 @@ function glossaryPracticeSpeak() {
   const entry = p.queue[p.idx];
   if (!entry) return;
   if (p.reveal) {
-    speak(entry.translation, entry.detectedLang === "de" ? "en-US" : "de-DE");
+    speak(entry.translation, entry.detectedLang === "de" ? TARGET_TTS_LANG : "de-DE");
   } else {
-    speak(glossaryDisplayTerm(entry), entry.detectedLang === "de" ? "de-DE" : "en-US");
+    speak(glossaryDisplayTerm(entry), entry.detectedLang === "de" ? "de-DE" : TARGET_TTS_LANG);
   }
 }
 
@@ -2979,7 +3021,17 @@ function buildFilters() {
 function applyFilter() {
   const topic = state.settings.topic;
   const level = state.settings.level;
-  const starFilter = state.settings.starFilter || "all";
+  let starFilter = state.settings.starFilter || "all";
+
+  // 2026-11-02: Nach dem Wechsel auf die Lektionen haben die Karten neue IDs.
+  // Alte Sterne passen nicht mehr -> Filter "Gemerkt" zeigte 0 Karten.
+  // Gibt es im ganzen Deck keine gemerkte Karte, Filter automatisch auf "Alle".
+  if (starFilter === "starred" && !state.all.some((it) => isStarredCard(it.id))) {
+    starFilter = "all";
+    state.settings.starFilter = "all";
+    if (els.starFilter) els.starFilter.value = "all";
+    saveSettings();
+  }
 
   state.filtered = state.all.filter((it) => {
     const okT = topic === "all" || it.topic === topic;
@@ -2988,6 +3040,15 @@ function applyFilter() {
     const okStar = starFilter !== "starred" || isStarredCard(it.id);
     return okT && okL && okStar;
   });
+
+  // 2026-11-02: Thema und Stufe passen nicht zusammen (z. B. "L2-03 Einkaufen" + Stufe 1)
+  // -> 0 Karten. Dann Stufe automatisch auf "Alle".
+  if (!state.filtered.length && topic !== "all" && level !== "all") {
+    state.settings.level = "all";
+    if (els.level) els.level.value = "all";
+    saveSettings();
+    return applyFilter();
+  }
 
   if (els.deck) els.deck.textContent = `${state.filtered.length} Karten`;
   const due = dueNowCount(state.filtered);
@@ -3069,6 +3130,7 @@ function buildQueue({ onlyBox = null, focusBoxes = null, dueOnly = false, limit 
   const due = [];
   const fresh = [];
   const trainingPool = [];
+  if (state.session) { state.session.newLesson = ""; state.session.dailyLimitHit = false; }
 
   for (const it of state.filtered) {
     if (!isUsableCard(it)) continue;
@@ -3095,15 +3157,27 @@ function buildQueue({ onlyBox = null, focusBoxes = null, dueOnly = false, limit 
 
   const queue = due.map((x) => x.it);
 
-  // If nothing due:
-  // - normal session: add NEW cards
-  // - Box 1 session: also add NEW cards (because NEW logically belongs to Box 1)
+  // 2026-11-02: Erst wiederholen, dann Neues.
+  // Neue Karten gibt es nur, wenn keine Karte mehr in Box 1 "haengt"
+  // (= alles bisher Gelernte wurde mindestens einmal gewusst).
+  // Dann kommt genau EINE Lektion dazu – der Reihe nach, nicht zufaellig.
   const allowNew = !dueOnly && (!boxFilterSet || boxFilterSet.has(1));
+  let box1Pending = 0;
+  for (const it of state.filtered) {
+    const m = state.prog.meta[it.id];
+    if (m && clamp(m.box ?? 1, 1, BOX_COUNT) === 1) box1Pending++;
+  }
 
-  if (queue.length === 0 && allowNew) {
+  const dailyLimitReached = !state.ui.extraLessonOk && newLessonsToday() >= NEW_LESSONS_PER_DAY;
+  if (state.session) state.session.dailyLimitHit = allowNew && box1Pending === 0 && fresh.length > 0 && dailyLimitReached;
+  if (allowNew && box1Pending === 0 && fresh.length && !dailyLimitReached) {
     const limit = boxFilterSet && boxFilterSet.size === 1 && boxFilterSet.has(1) ? NEW_FOR_BOX1 : NEW_PER_SESSION;
-    shuffleInPlace(fresh);
-    const take = fresh.slice(0, limit);
+    fresh.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    const firstLesson = fresh[0].lesson || "";
+    const sameLesson = firstLesson ? fresh.filter((x) => x.lesson === firstLesson) : fresh;
+    const take = sameLesson.slice(0, limit);
+    state.session.newLesson = firstLesson ? (fresh[0].topic || firstLesson) : "";
+    if (take.length) countNewLessonToday();
 
     for (const it of take) {
       state.prog.meta[it.id] = { box: 1, due: t };
@@ -3195,7 +3269,8 @@ function nextCard() {
     finishSessionSummary();
     applyFilter();
     if (state.session.kind !== "review") {
-      info("Fertig ✅ (für dieses Deck ist jetzt nichts mehr fällig).");
+      const st = state.session.stats || { right: 0, wrong: 0 };
+      info(`Fertig ✅ Gewusst: ${st.right}, nicht gewusst: ${st.wrong}. Morgen wiederholen – das ist das Wichtigste.`);
     }
     return;
   }
@@ -3275,6 +3350,7 @@ function startSession({ onlyBox = null, focusBoxes = null, kind = "level", dueOn
   state.session.queue = queue;
   state.session.kind = kind;
   state.session.stats = { right: 0, wrong: 0, moved: 0 };
+  state.session.retries = {};
 
   if (queue.length === 0) {
     if (kind === "review") {
@@ -3283,6 +3359,9 @@ function startSession({ onlyBox = null, focusBoxes = null, kind = "level", dueOn
     } else {
       if (effectiveFocus.length) {
         info(`In Box ${effectiveFocus.join(", ")} sind keine passenden Karten. Fokus zurücksetzen?`);
+      } else if (state.session.dailyLimitHit) {
+        // 2026-11-02: Nicht sperren, sondern fragen – der Nutzer entscheidet selbst.
+        askExtraLesson(() => startSession({ onlyBox, focusBoxes, kind, dueOnly, limit }));
       } else {
         info("Keine Karten fällig. (Oder Box ist leer.)");
       }
@@ -3293,14 +3372,63 @@ function startSession({ onlyBox = null, focusBoxes = null, kind = "level", dueOn
   if (kind === "review") {
     updateReviewSummary(`Review läuft: ${queue.length} Karte(n)`);
   }
+  if (state.session.newLesson) {
+    info(`Neue Lektion: ${state.session.newLesson} (${queue.length} Karte(n))`);
+  } else if (kind === "level") {
+    info(`Wiederholen: ${queue.length} Karte(n)`);
+  }
   if (trainingFallbackUsed) {
     info(`Fokus-Training: ${queue.length} Karte(n) aus Box ${effectiveFocus.join(", ")} (nicht fällige Karten eingeschlossen).`);
   }
   nextCard();
 }
 
+// 2026-11-02: Tageslimit erreicht -> Frage mit zwei Knoepfen statt Sperre.
+// "Weiter lernen" gilt fuer den Rest des Tages (bis die Seite neu geladen wird).
+function askExtraLesson(onContinue) {
+  const old = document.getElementById("sbExtraAsk");
+  if (old) old.remove();
+  const box = document.createElement("div");
+  box.id = "sbExtraAsk";
+  box.setAttribute("role", "dialog");
+  box.style.cssText = "position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9999;" +
+    "background:#fff;color:#222;border-radius:14px;padding:20px 22px;max-width:420px;width:90%;" +
+    "box-shadow:0 10px 40px rgba(0,0,0,.35);font-size:18px;line-height:1.4;text-align:center";
+  box.innerHTML =
+    `<div style="font-size:22px;margin-bottom:8px">Für heute genug ✅</div>` +
+    `<div>Heute schon ${newLessonsToday()} neue Lektion(en). Möchtest du weiterlernen?</div>` +
+    `<div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap">` +
+    `<button type="button" data-a="go" style="font-size:18px;padding:10px 16px;border-radius:10px;border:0;background:#2e7d32;color:#fff;cursor:pointer">Weiter lernen ▶</button>` +
+    `<button type="button" data-a="stop" style="font-size:18px;padding:10px 16px;border-radius:10px;border:1px solid #999;background:#f3f3f3;color:#222;cursor:pointer">Für heute Schluss</button>` +
+    `</div>`;
+  box.addEventListener("click", (e) => {
+    const a = e.target && e.target.getAttribute && e.target.getAttribute("data-a");
+    if (!a) return;
+    box.remove();
+    if (a === "go") {
+      state.ui.extraLessonOk = true;
+      onContinue();
+    } else {
+      info("Gut gemacht ✅ Morgen: erst wiederholen, dann die nächste Lektion.");
+    }
+  });
+  document.body.appendChild(box);
+}
+
 function startReviewSession() {
   startSession({ kind: "review", dueOnly: true, limit: REVIEW_LIMIT });
+}
+
+// 2026-11-02: Nicht gewusste Karte im selben Durchgang nochmal zeigen (nach RETRY_GAP anderen Karten).
+function requeueForRetry(it) {
+  if (!it || !state.session) return;
+  if (!state.session.retries) state.session.retries = {};
+  const n = state.session.retries[it.id] || 0;
+  if (n >= RETRY_MAX) return;
+  state.session.retries[it.id] = n + 1;
+  const q = state.session.queue || (state.session.queue = []);
+  if (q.some((x) => x && x.id === it.id)) return;
+  q.splice(Math.min(RETRY_GAP, q.length), 0, it);
 }
 
 function grade(known) {
@@ -3321,6 +3449,7 @@ function grade(known) {
   }
 
   const newBox = known ? clamp(currentBox + 1, 1, BOX_COUNT) : 1;
+  if (!known) requeueForRetry(it);
   if (state.session.stats) {
     if (known) state.session.stats.right += 1;
     else state.session.stats.wrong += 1;
@@ -3353,6 +3482,7 @@ function gradeForgotten() {
   }
 
   const newBox = clamp(currentBox - 1, 1, BOX_COUNT);
+  requeueForRetry(it);
   if (state.session.stats) {
     state.session.stats.wrong += 1;
     if (newBox !== currentBox) state.session.stats.moved += 1;
@@ -3432,6 +3562,7 @@ function syncControls() {
   if (els.speed) els.speed.value = String(state.settings.speed);
   if (els.speedLbl)
     els.speedLbl.textContent = `${Number(state.settings.speed).toFixed(2)}×`;
+  syncCardTempo();
 }
 
 function applySpeedPreset(value) {
@@ -3439,8 +3570,43 @@ function applySpeedPreset(value) {
   state.settings.speed = v;
   if (els.speed) els.speed.value = String(v);
   if (els.speedLbl) els.speedLbl.textContent = `${v.toFixed(2)}×`;
+  syncCardTempo();
   saveSettings();
   writeHash();
+}
+
+// 2026-11-02: Tempo-Knöpfe in der Karte (aktiven Knopf markieren)
+// RU: кнопки темпа в карточке – подсветить активную
+function syncCardTempo() {
+  const v = Number(state.settings.speed) || 0.9;
+  if (els.cardSpeedLbl) els.cardSpeedLbl.textContent = `${v.toFixed(2)}×`;
+  [els.cardSlow, els.cardNormal, els.cardFast].forEach((b) => {
+    if (!b) return;
+    const bv = Number(b.dataset.speed);
+    b.classList.toggle("isActive", Math.abs(bv - v) < 0.01);
+  });
+}
+
+// RU: текущую сторону карточки прочитать заново (с новой скоростью)
+function speakCurrentCard() {
+  const id = state.session.currentId;
+  const it = state.all.find((x) => x.id === id);
+  if (!it) return;
+  const flipped = els.card && els.card.classList.contains("isFlipped");
+  if (flipped) speak(it.en, TARGET_TTS_LANG);
+  else speak(it.de, "de-DE");
+}
+
+// RU: нажали «медленно/нормально/быстро» в карточке – сменить темп и сразу прослушать ещё раз
+function onCardTempo(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  const b = e && e.currentTarget;
+  if (!b) return;
+  applySpeedPreset(Number(b.dataset.speed));
+  speakCurrentCard();
 }
 
 function writeHash() {
@@ -3461,31 +3627,249 @@ function clampSettingsToData() {
   if (!["all", "starred"].includes(state.settings.starFilter)) state.settings.starFilter = "all";
 
   const okTts = new Set(["off", "de", "en", "both"]);
-  if (!okTts.has(state.settings.tts)) state.settings.tts = "off";
+  if (!okTts.has(state.settings.tts)) state.settings.tts = "both";
 
   const sp = Number(state.settings.speed);
   state.settings.speed = Number.isFinite(sp) ? clamp(sp, 0.5, 1.5) : 0.9;
 }
 
 // ---------- TTS ----------
+// 2026-10-28: Stimmen sicher laden, Chrome-Haenger vermeiden, Hinweis bei fehlender Stimme.
+const ttsWarned = {};
+let ttsTimer = null;
+
+function getVoicesSafe() {
+  try {
+    return (speechSynthesis.getVoices && speechSynthesis.getVoices()) || [];
+  } catch (_) {
+    return [];
+  }
+}
+
+// 2026-11-02: Beste Stimme waehlen statt der ersten passenden.
+// iOS/macOS liefern fuer en-US oft Spass-Stimmen (Albert, Bubbles, Zarvox ...) oder
+// "Compact"-Stimmen; Windows liefert alte Desktop-Stimmen (Hedda, Zira ...).
+// Natural/Online/Neural/Premium/Enhanced/Google-Stimmen klingen deutlich besser.
+const NOVELTY_VOICES = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|pipe organ|fred|junior|kathy|ralph|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley)\b/i;
+
+function voiceScore(v, want) {
+  const name = String(v.name || "");
+  const vl = String(v.lang || "").toLowerCase().replace("_", "-");
+  let s = 0;
+  if (vl === want) s += 20;
+  else if (vl.startsWith(want.slice(0, 2))) s += 10;
+  else return -1000;
+  if (NOVELTY_VOICES.test(name)) s -= 500;
+  if (/natural|neural/i.test(name)) s += 60;
+  if (/premium/i.test(name)) s += 55;
+  if (/enhanced|erweitert|verbessert/i.test(name)) s += 45;
+  if (/online/i.test(name)) s += 30;
+  if (/siri/i.test(name)) s += 35;
+  if (/google/i.test(name)) s += 25;
+  if (/compact|kompakt/i.test(name)) s -= 30;
+  if (/^microsoft (hedda|katja|stefan|zira|david|mark|hazel|george|susan)\b/i.test(name) && !/online|natural/i.test(name)) s -= 10;
+  if (v.localService === false) s += 5; // Cloud-Stimmen (Chrome/Edge) sind meist besser
+  return s;
+}
+
+function voicesFor(lang) {
+  const want = String(lang || "").toLowerCase();
+  return getVoicesSafe()
+    .map((v) => ({ v, s: voiceScore(v, want) }))
+    .filter((x) => x.s > -1000)
+    .sort((x, y) => y.s - x.s);
+}
+
+function userVoiceKey(lang) {
+  return String(lang || "").toLowerCase().startsWith("it") ? "voiceEn" : "voiceDe";
+}
+
+// 2026-11-04: Manche Online/Natural-Stimmen in Edge bleiben stumm (kein Fehler, kein Ton).
+// "Auto" merkt sich solche Stimmen und nimmt dann automatisch die naechste.
+const BAD_VOICES_KEY = "sprachbox_it_stumme_stimmen";
+let badVoices = new Set();
+try { badVoices = new Set(JSON.parse(localStorage.getItem(BAD_VOICES_KEY) || "[]")); } catch (_) {}
+function voiceId(v) { return v ? (v.voiceURI || v.name) : ""; }
+function markVoiceBad(v) {
+  if (!v) return;
+  badVoices.add(voiceId(v));
+  try { localStorage.setItem(BAD_VOICES_KEY, JSON.stringify([...badVoices])); } catch (_) {}
+  debugLog(`tts.stumm ${v.name} -> naechste Stimme`);
+  refreshVoiceSelects();
+}
+function autoVoice(lang) {
+  const list = voicesFor(lang);
+  const ok = list.find((x) => !badVoices.has(voiceId(x.v)));
+  if (ok) return ok.v;
+  // Alle als stumm markiert -> wohl war Edge selbst haengen geblieben: Liste fuer diese Sprache leeren
+  list.forEach((x) => badVoices.delete(voiceId(x.v)));
+  try { localStorage.setItem(BAD_VOICES_KEY, JSON.stringify([...badVoices])); } catch (_) {}
+  return list.length ? list[0].v : null;
+}
+
+function pickVoice(lang) {
+  const list = voicesFor(lang);
+  const chosen = state.settings[userVoiceKey(lang)];
+  if (chosen) {
+    const hit = list.find((x) => x.v.voiceURI === chosen || x.v.name === chosen);
+    if (hit) return hit.v;
+  }
+  return autoVoice(lang);
+}
+
+function fillVoiceSelect(sel, lang) {
+  if (!sel) return;
+  const list = voicesFor(lang);
+  const key = userVoiceKey(lang);
+  const cur = state.settings[key] || "";
+  const autoLabel = sel.options[0] ? sel.options[0].textContent : "Auto";
+  sel.innerHTML = "";
+  const auto = document.createElement("option");
+  auto.value = "";
+  const av = autoVoice(lang);
+  auto.textContent = av ? `${autoLabel.replace(/ →.*$/, "")} → ${av.name}` : autoLabel;
+  sel.appendChild(auto);
+  list.forEach(({ v, s }) => {
+    if (s < -100) return; // Spass-Stimmen gar nicht anbieten
+    const o = document.createElement("option");
+    o.value = v.voiceURI || v.name;
+    o.textContent = `${v.name} (${v.lang})`;
+    sel.appendChild(o);
+  });
+  sel.value = list.some((x) => (x.v.voiceURI || x.v.name) === cur) ? cur : "";
+}
+
+function refreshVoiceSelects() {
+  fillVoiceSelect(els.voiceDe, "de-DE");
+  fillVoiceSelect(els.voiceEn, TARGET_TTS_LANG);
+}
+
+// 2026-11-02: Vorproduzierte mp3 (neuronale Stimmen, tools/make_audio_de_it.py).
+// Gibt es fuer einen Satz eine Datei, wird sie abgespielt; sonst Browser-Stimme.
+const AUDIO_BASE = "./audio/";
+let audioIndex = null; // { de: {text: "de/xx.mp3"}, en: {...} }
+let audioEl = null;
+
+function normAudioKey(text) {
+  // Muss zu norm() in tools/make_audio_de_it.py passen
+  return String(text || "").normalize("NFC").trim().replace(/\s+/g, " ");
+}
+
+async function loadAudioIndex() {
+  try {
+    const res = await fetch(AUDIO_BASE + "index.json", { cache: "no-store" });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data && typeof data === "object") {
+      audioIndex = data;
+      const n = Object.keys(data.de || {}).length + Object.keys(data.it || {}).length;
+      debugLog(`audio.index ${n} Dateien`);
+    }
+  } catch (_) {}
+}
+
+function stopAllSpeech() {
+  clearTimeout(ttsTimer);
+  if (audioEl) {
+    try { audioEl.pause(); } catch (_) {}
+  }
+  try {
+    if ("speechSynthesis" in window && (speechSynthesis.speaking || speechSynthesis.pending)) speechSynthesis.cancel();
+  } catch (_) {}
+}
+
+function playRecorded(text, lang) {
+  if (!audioIndex) return false;
+  const short = String(lang || "").toLowerCase().startsWith("it") ? "it" : "de";
+  const file = (audioIndex[short] || {})[normAudioKey(text)];
+  if (!file) return false;
+  stopAllSpeech();
+  if (!audioEl) audioEl = new Audio();
+  audioEl.src = AUDIO_BASE + file;
+  const rate = clamp(Number(state.settings.speed) || 0.9, 0.5, 1.5);
+  try {
+    audioEl.preservesPitch = true;
+    audioEl.playbackRate = rate;
+    const p = audioEl.play();
+    if (p && p.catch) {
+      p.catch(() => speakSynth(text, lang)); // Datei kaputt/fehlt -> Browser-Stimme
+    }
+  } catch (_) {
+    return false;
+  }
+  return true;
+}
+
 function speak(text, lang) {
+  const clean = String(text || "").trim();
+  if (!clean) return;
+  if (state.settings.audioSource !== "synth" && playRecorded(clean, lang)) return;
+  speakSynth(clean, lang);
+}
+
+let ttsSeq = 0;
+function speakSynth(text, lang, versuch = 0) {
   if (!("speechSynthesis" in window)) return;
   const clean = String(text || "").trim();
   if (!clean) return;
+  if (audioEl) {
+    try { audioEl.pause(); } catch (_) {}
+  }
 
   const u = new SpeechSynthesisUtterance(clean);
   u.lang = lang;
   u.rate = clamp(Number(state.settings.speed) || 0.9, 0.5, 1.5);
 
-  // Best-effort voice match
-  const voices =
-    (speechSynthesis.getVoices && speechSynthesis.getVoices()) || [];
-  const target = (lang || "").toLowerCase().slice(0, 2);
-  const v = voices.find((x) => (x.lang || "").toLowerCase().startsWith(target));
-  if (v) u.voice = v;
+  const v = pickVoice(lang);
+  if (v) {
+    u.voice = v;
+    if (v.lang) u.lang = v.lang;
+  } else if (getVoicesSafe().length && !ttsWarned[lang]) {
+    ttsWarned[lang] = true;
+    const name = String(lang).startsWith("it") ? "Italienisch" : "Deutsch";
+    info(`Keine ${name}-Stimme installiert. Windows: Einstellungen → Zeit und Sprache → Sprache → Sprache hinzufügen (mit Sprachausgabe).`);
+  }
 
-  speechSynthesis.cancel();
-  speechSynthesis.speak(u);
+  // 2026-11-04: Waechter fuer "Auto": startet die Stimme nicht, naechste Stimme probieren.
+  const mySeq = ++ttsSeq;
+  const istAuto = !state.settings[userVoiceKey(lang)];
+  let gestartet = false;
+  const wechsle = () => {
+    if (gestartet || mySeq !== ttsSeq || !istAuto || !v || versuch >= 4) return;
+    gestartet = true; // nur einmal wechseln
+    markVoiceBad(v);
+    try { speechSynthesis.cancel(); } catch (_) {}
+    setTimeout(() => speakSynth(clean, lang, versuch + 1), 150);
+  };
+  u.onstart = () => { gestartet = true; };
+  u.onerror = (e) => {
+    if (e && (e.error === "interrupted" || e.error === "canceled")) return;
+    wechsle();
+  };
+  setTimeout(wechsle, 4000);
+
+  // iOS/iPadOS: speak() muss direkt im Klick passieren, sonst bleibt es stumm.
+  // Chrome: cancel() direkt vor speak() verschluckt oft den Text -> nur dann kurz warten.
+  let busy = false;
+  try {
+    busy = speechSynthesis.speaking || speechSynthesis.pending;
+  } catch (_) {}
+  clearTimeout(ttsTimer);
+  if (!busy) {
+    try {
+      speechSynthesis.speak(u);
+    } catch (_) {}
+    return;
+  }
+  try {
+    speechSynthesis.cancel();
+  } catch (_) {}
+  ttsTimer = setTimeout(() => {
+    try {
+      speechSynthesis.resume();
+      speechSynthesis.speak(u);
+    } catch (_) {}
+  }, 120);
 }
 
 function speakBack(it) {
@@ -3518,6 +3902,7 @@ async function fetchJson(url, timeoutMs = FETCH_TIMEOUT_MS) {
   if (!res.ok) throw new Error(statusTxt);
   return await res.json();
 }
+fetchJson.last = null;
 
 function extractArray(data) {
   // allow either:
@@ -3620,6 +4005,23 @@ async function tryLoadSharedDeck() {
 async function loadDeck() {
   const tried = [];
   state.ui.loaderTried = tried;
+
+  // 0) 2026-11-02: Lektionen zuerst – wenn vorhanden, nur diese benutzen.
+  try {
+    const data = await fetchJson(LESSONS_URL);
+    let normalized = extractArray(data).map(normalizeItem).filter(isUsableCard);
+    if (normalized.length) {
+      normalized.sort((a, b) => a.order - b.order);
+      normalized = applyDeckTextOverrides(normalized);
+      tried.push(`${LESSONS_URL} ✓ (${normalized.length})`);
+      state.ui.loaderTried = [...tried];
+      state.ui.loaderStatus = "ok";
+      return { normalized, used: `Lektionen (${normalized.length})`, warning: "", tried };
+    }
+    tried.push(`${LESSONS_URL} ✗ empty`);
+  } catch (e) {
+    tried.push(`${LESSONS_URL} ✗ ${e?.message || e}`);
+  }
 
   // 1) try shared deck
   const shared = await tryLoadSharedDeck();
@@ -3897,12 +4299,16 @@ async function init() {
     state.settings.speed = Number(els.speed.value);
     if (els.speedLbl)
       els.speedLbl.textContent = `${Number(state.settings.speed).toFixed(2)}×`;
+    syncCardTempo();
     saveSettings();
     writeHash();
   });
-  on(els.tempoNormal, "click", () => applySpeedPreset(1.0));
-  on(els.tempoSlow, "click", () => applySpeedPreset(0.85));
-  on(els.tempoFast, "click", () => applySpeedPreset(1.15));
+  on(els.tempoNormal, "click", () => applySpeedPreset(0.9));
+  on(els.tempoSlow, "click", () => applySpeedPreset(0.6));
+  on(els.tempoFast, "click", () => applySpeedPreset(1.2));
+  on(els.cardSlow, "click", onCardTempo);
+  on(els.cardNormal, "click", onCardTempo);
+  on(els.cardFast, "click", onCardTempo);
 
   // session controls
   on(els.start, "click", () => startSession({ kind: "level" }));
@@ -3996,7 +4402,7 @@ async function init() {
     if (!els.wordPopup || els.wordPopup.hidden) return;
     const word = String(els.wordPopup.dataset.word || "").trim();
     if (!word) return;
-    const lang = els.wordPopup.dataset.lang === "en" ? "en-US" : "de-DE";
+    const lang = els.wordPopup.dataset.lang === "en" ? TARGET_TTS_LANG : "de-DE";
     speak(word, lang);
   });
   on(els.wordCorrect, "click", correctCurrentPopupTranslation);
@@ -4102,7 +4508,7 @@ async function init() {
       return;
     }
     if (action === "speak") {
-      speak(glossaryDisplayTerm(entry), entry.detectedLang === "de" ? "de-DE" : "en-US");
+      speak(glossaryDisplayTerm(entry), entry.detectedLang === "de" ? "de-DE" : TARGET_TTS_LANG);
     }
   });
 
@@ -4115,14 +4521,7 @@ async function init() {
   on(els.forgot, "click", gradeForgotten);
   on(els.mnemoBtn, "click", editCurrentMnemo);
 
-  on(els.speak, "click", () => {
-    const id = state.session.currentId;
-    const it = state.all.find((x) => x.id === id);
-    if (!it) return;
-    const flipped = els.card && els.card.classList.contains("isFlipped");
-    if (flipped) speak(it.en, "it-IT");
-    else speak(it.de, "de-DE");
-  });
+  on(els.speak, "click", speakCurrentCard);
 
   on(els.yes, "click", () => grade(true));
   on(els.no, "click", () => grade(false));
@@ -4167,8 +4566,31 @@ async function init() {
 
   // ensure voices load in some browsers
   if ("speechSynthesis" in window) {
-    speechSynthesis.onvoiceschanged = () => {};
+    getVoicesSafe();
+    refreshVoiceSelects();
+    speechSynthesis.onvoiceschanged = () => { getVoicesSafe(); refreshVoiceSelects(); };
+    setTimeout(refreshVoiceSelects, 800); // Safari meldet voiceschanged nicht immer
   }
+  on(els.voiceDe, "change", () => {
+    state.settings.voiceDe = els.voiceDe.value;
+    saveSettings();
+    speakSynth("Guten Tag! Wie geht es Ihnen?", "de-DE");
+  });
+  on(els.voiceEn, "change", () => {
+    state.settings.voiceEn = els.voiceEn.value;
+    saveSettings();
+    speakSynth("Buongiorno! Come sta?", TARGET_TTS_LANG);
+  });
+  on(els.voiceTestDe, "click", (e) => { e.preventDefault(); speakSynth("Guten Tag! Wie geht es Ihnen?", "de-DE"); });
+  if (els.audioSource) {
+    els.audioSource.value = state.settings.audioSource === "synth" ? "synth" : "auto";
+    on(els.audioSource, "change", () => {
+      state.settings.audioSource = els.audioSource.value;
+      saveSettings();
+    });
+  }
+  loadAudioIndex();
+  on(els.voiceTestEn, "click", (e) => { e.preventDefault(); speakSynth("Buongiorno! Come sta?", TARGET_TTS_LANG); });
 
   debugLog("init.done");
   updateDebugPanel();

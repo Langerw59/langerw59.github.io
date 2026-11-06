@@ -10,10 +10,14 @@
   <link rel="icon" href="./assets/icon-192.png" />
   <link rel="apple-touch-icon" href="./assets/icon-192.png" />
   <link rel="stylesheet" href="./styles.css" />
+  <!-- 2026-11-05: der Benutzer – eigener Fortschritt pro Name / у каждого пользователя свой прогресс (vor app.js laden!) -->
+  <script src="./benutzer.js"></script>
   <script src="../../../shared_data/sprachfuehrer_phrase_adapter.js" defer></script>
   <!-- 2026-11-02: Uhr, KW, Kalender, Lernzeit / часы, календарь, время занятий -->
   <script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
   <script src="../../../../../core/js/lernuhr.js" defer></script>
+  <!-- 2026-11-02: Glossar – Wortkarte mit Herkunft / глоссарий с происхождением слов -->
+  <script src="../../../../../core/js/glossar_karte.js" data-glossar="../../../glossar/index.html" defer></script>
 </head>
 <body data-lernzeit="SprachBox DE↔IT">
   <header class="topbar">
@@ -26,6 +30,10 @@
     </div>
 
     <div class="top-actions" data-lernuhr-slot>
+      <a class="btn ghost" href="../../../glossar/index.html" title="Glossar – Wörter mit Herkunft">
+        <span class="lbl lbl-de">📖 Glossar</span>
+        <span class="lbl lbl-en">глоссарий</span>
+      </a>
       <button id="btnInstall" class="btn ghost" hidden>
         <span class="lbl lbl-de">App installieren</span>
         <span class="lbl lbl-en">Install app</span>
@@ -129,7 +137,7 @@
           <select id="selTts">
             <option value="off">Aus</option>
             <option value="de">Deutsch</option>
-            <option value="en">English</option>
+            <option value="en">Italiano</option>
             <option value="both">Beide</option>
           </select>
         </label>
@@ -143,6 +151,23 @@
             <button id="btnTempoSlow" class="btn ghost" type="button">Langsam / Slow</button>
             <button id="btnTempoFast" class="btn ghost" type="button">Schnell / Fast</button>
           </div>
+        </label>
+        <label class="field">
+          <span>Audio</span>
+          <select id="selAudioSource">
+            <option value="auto">Aufnahmen (mp3), sonst Browser</option>
+            <option value="synth">Nur Browser-Stimme</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Stimme Deutsch</span>
+          <select id="selVoiceDe"><option value="">Auto (beste Stimme)</option></select>
+          <button id="btnVoiceTestDe" class="btn ghost" type="button">▶ Test</button>
+        </label>
+        <label class="field">
+          <span>Stimme Italienisch / Voce italiana</span>
+          <select id="selVoiceEn"><option value="">Auto (best voice)</option></select>
+          <button id="btnVoiceTestEn" class="btn ghost" type="button">▶ Test</button>
         </label>
         <label class="field">
           <span>⭐ Filter / Starred</span>
@@ -246,7 +271,10 @@
       <div class="boxes" id="boxesGrid"></div>
 
       <div class="hint">
-        Tipp: <b>Gewusst</b> → Karte wandert eine Box nach rechts (längerer Abstand). <b>Nicht gewusst</b> → zurück in Box 1.
+        So lernst du: jeden Tag <b>Start</b> drücken. Zuerst kommt die Wiederholung, danach eine neue Lektion (6 Sätze).
+        Die nächste Lektion kommt erst, wenn du alle Sätze einmal <b>gewusst</b> hast. Höchstens 2 neue Lektionen pro Tag.<br>
+        <b>Gewusst</b> → Karte wandert eine Box nach rechts (längerer Abstand). <b>Nicht gewusst</b> → zurück in Box 1, und sie kommt gleich nochmal.
+        <b>⭐ Merken</b> → Satz gefällt dir / willst du extra üben (Filter „Gemerkt“).
       </div>
     </section>
 
@@ -273,7 +301,7 @@
           <select id="selGlossaryLang">
             <option value="all">Alle / All</option>
             <option value="de">DE (Deutsch)</option>
-            <option value="en">EN (English)</option>
+            <option value="en">IT (Italiano)</option>
           </select>
         </label>
         <label class="field">
@@ -372,10 +400,18 @@
           <div class="mnemo" id="txtMnemo" hidden></div>
         </div>
         <div class="cardFace cardBack">
-          <div class="lang">EN</div>
+          <div class="lang">IT</div>
           <div class="text" id="txtBack">…</div>
         </div>
         </div>
+      </div>
+
+      <!-- 2026-11-02: Tempo direkt in der Karte / темп прямо в карточке -->
+      <div class="cardTempo" role="group" aria-label="Tempo">
+        <button id="btnCardSlow" class="btn ghost" type="button" data-speed="0.6">🐢 Langsam</button>
+        <button id="btnCardNormal" class="btn ghost" type="button" data-speed="0.9">Normal</button>
+        <button id="btnCardFast" class="btn ghost" type="button" data-speed="1.2">🐇 Schnell</button>
+        <span class="mini" id="lblCardSpeed">0.90×</span>
       </div>
 
       <div class="cardBottom">

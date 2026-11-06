@@ -1,16 +1,17 @@
 // 2026-02-23 | RU/DE/EN: Cache bump + safer update flow (skipWaiting/message).
-const CACHE = "sprachbox-v12";
+// 2026-11-02: Lektionen Level 1-2, Lernen der Reihe nach.
+const CACHE = "sprachbox-it-v1"; // 2026-11-06: eigener Cache fuer DE↔IT
 const CORE = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
+  "./benutzer.js",
   "./manifest.webmanifest",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./assets/bg-de-en.webp",
-  "./data/de_en_sample.json",
-  "./data/talk_levels_de_en.json"
+  "./data/lektionen_de_it.json"
 ];
 
 self.addEventListener("install", (event) => {
@@ -24,7 +25,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil((async ()=>{
     const keys = await caches.keys();
-    await Promise.all(keys.map(k => (k === CACHE) ? null : caches.delete(k)));
+    await Promise.all(keys.map(k => (k === CACHE || !k.startsWith("sprachbox-it-")) ? null : caches.delete(k)));
     self.clients.claim();
   })());
 });
@@ -43,6 +44,10 @@ self.addEventListener("fetch", (event) => {
   // Only handle same-origin
   if (url.origin !== self.location.origin) return;
 
+  // 2026-11-02: Audio (mp3 + index.json) nicht ueber den SW-Cache:
+  // Safari braucht Range-Requests fuer <audio>, und der Index soll immer frisch sein.
+  if (url.pathname.includes("/audio/")) return;
+
   event.respondWith((async ()=>{
     const cache = await caches.open(CACHE);
 
@@ -60,7 +65,21 @@ self.addEventListener("fetch", (event) => {
       }
     }
 
-    // Try cache first
+    // 2026-11-05: Programm-Dateien (js, css, json, html) immer zuerst frisch aus dem Netz,
+    // nur offline aus dem Cache – sonst sieht man neue Funktionen erst nach mehrmaligem Neuladen.
+    if (/\.(js|css|json|html|webmanifest)$/i.test(url.pathname)) {
+      try {
+        const fresh = await fetch(req, { cache: "no-cache" });
+        if (fresh && fresh.ok) cache.put(req, fresh.clone());
+        return fresh;
+      } catch (_e) {
+        const old = await cache.match(req);
+        if (old) return old;
+        throw _e;
+      }
+    }
+
+    // Bilder usw.: Cache zuerst
     const cached = await cache.match(req);
     if (cached) return cached;
 
