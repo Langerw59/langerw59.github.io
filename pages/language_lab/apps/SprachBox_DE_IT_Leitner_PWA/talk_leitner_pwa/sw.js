@@ -1,6 +1,6 @@
 // 2026-02-23 | RU/DE/EN: Cache bump + safer update flow (skipWaiting/message).
 // 2026-11-02: Lektionen Level 1-2, Lernen der Reihe nach.
-const CACHE = "sprachbox-it-v2"; // 2026-11-06: eigener Cache fuer DE↔IT
+const CACHE = "sprachbox-it-v3"; // 2026-11-06: eigener Cache fuer DE↔IT
 const CORE = [
   "./",
   "./index.html",
@@ -73,7 +73,7 @@ self.addEventListener("fetch", (event) => {
         if (fresh && fresh.ok) cache.put(req, fresh.clone());
         return fresh;
       } catch (_e) {
-        const old = await cache.match(req);
+        const old = (await cache.match(req)) || (await cache.match(req, { ignoreSearch: true }));
         if (old) return old;
         throw _e;
       }
