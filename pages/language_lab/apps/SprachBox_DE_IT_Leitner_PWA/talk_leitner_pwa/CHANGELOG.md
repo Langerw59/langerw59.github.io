@@ -1,6 +1,12 @@
 # Changelog – SprachBox DE↔IT
 
 
+
+## 2026-11-06 (Knopf Weiter auf dem iPhone)
+
+- „Weiter / Next“ reagierte oft nicht: iOS hielt „Gewusst“ + „Weiter“ schnell nacheinander für einen Doppeltipp (Zoom). Jetzt `touch-action: manipulation` auf allen Knöpfen.
+- Handy quer: nach der Antwort erscheint an der Stelle von Gewusst/Nicht gewusst ein großer Knopf „Weiter“. Rechte Spalte ohne eigene Scroll-Fläche.
+
 ## 2026-11-06 (Handy quer / Fernseher)
 
 - Handy quer (z. B. iPhone auf den Fernseher gespiegelt): Karte links, Knöpfe rechts. „Gewusst / Nicht gewusst“, Tempo und × sind immer sichtbar, ohne Scrollen. Die Karte liegt dann über der Kopfleiste.

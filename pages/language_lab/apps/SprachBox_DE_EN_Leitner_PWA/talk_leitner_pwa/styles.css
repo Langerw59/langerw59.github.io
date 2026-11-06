@@ -1097,3 +1097,19 @@ body.mode-bg .bgPreviewThumb{
   .x{ top: 6px; right: 8px; }
   .studyOverlay-backdrop{ background: rgba(4,8,18,.82); }
 }
+
+/* 2026-11-06: „Weiter / Next“ reagierte auf dem iPhone oft nicht.
+   Grund: zwei schnelle Tipps (Gewusst → Weiter) hält iOS für „Doppeltipp = Zoomen“.
+   touch-action: manipulation schaltet den Doppeltipp-Zoom auf Knöpfen ab.
+   кнопка Weiter: iOS принимал два быстрых нажатия за двойной тап (зум) */
+.btn, button{ touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
+@media (orientation: landscape) and (max-height: 560px){
+  /* keine eigene Scroll-Fläche rechts – ein Tipp ist immer ein Klick */
+  .cardBottom{ overflow: visible; }
+  /* Nach der Antwort: statt Gewusst/Nicht gewusst/Vergessen ein großer Knopf „Weiter“ an derselben Stelle */
+  .cardBottom .right:has(#btnNext:not([hidden])) #btnYes,
+  .cardBottom .right:has(#btnNext:not([hidden])) #btnNo,
+  .cardBottom .right:has(#btnNext:not([hidden])) #btnForgot{ display: none; }
+  #btnNext{ min-height: 96px; font-size: 22px; font-weight: 800; }
+}
