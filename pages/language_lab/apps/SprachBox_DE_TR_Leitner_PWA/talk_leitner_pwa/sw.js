@@ -1,5 +1,5 @@
 // 2026-03-07 | DE/TR: Cache bump + safer update flow (skipWaiting/message).
-const CACHE = "sprachbox-de-tr-v1";
+const CACHE = "sprachbox-de-tr-v2";
 const CORE = [
   "./",
   "./index.html",

@@ -1,6 +1,6 @@
 // 2026-02-23 | RU/DE/EN: Cache bump + safer update flow (skipWaiting/message).
 // 2026-11-02: Lektionen Level 1-2, Lernen der Reihe nach.
-const CACHE = "sprachbox-v28";
+const CACHE = "sprachbox-v29";
 const CORE = [
   "./",
   "./index.html",

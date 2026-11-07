@@ -2902,9 +2902,23 @@ function effectiveMnemo(it) {
   if (typeof local === "string") return local;
   return it.mnemo || "";
 }
+function loadMnemoBild() {
+  // 2026-11-07: kleine Zeichnungen (das Bildchen) pro Karte / маленькие рисунки к карточкам
+  try {
+    const obj = JSON.parse(localStorage.getItem(MNEMO_KEY + "_bild") || "{}");
+    state.mnemoBildMap = obj && typeof obj === "object" ? obj : {};
+  } catch (_) { state.mnemoBildMap = {}; }
+}
+function saveMnemoBild() {
+  try { localStorage.setItem(MNEMO_KEY + "_bild", JSON.stringify(state.mnemoBildMap || {})); }
+  catch (e) { alert("Speicher voll – das Bild konnte nicht gespeichert werden."); }
+}
 function renderMnemo(it) {
   if (!els.mnemo) return;
+  if (!state.mnemoBildMap) loadMnemoBild();
   const text = (effectiveMnemo(it) || "").trim();
+  const bild = (state.mnemoBildMap && state.mnemoBildMap[it.id]) || "";
+  if (window.MnemoPanel) { window.MnemoPanel.render(els.mnemo, text, bild); return; }
   if (!text) {
     els.mnemo.hidden = true;
     els.mnemo.textContent = "";
@@ -2917,19 +2931,34 @@ function editCurrentMnemo() {
   const id = state.session.currentId;
   const it = state.all.find((x) => x.id === id);
   if (!it) return;
+  if (!state.mnemoBildMap) loadMnemoBild();
 
   const current = effectiveMnemo(it);
+  const apply = (text, bild) => {
+    const clean = String(text || "").trim();
+    if (clean) state.mnemoMap[it.id] = clean;
+    else if (it.mnemo) state.mnemoMap[it.id] = ""; // eingebautes Mnemo bewusst ausblenden
+    else delete state.mnemoMap[it.id];
+    if (bild) state.mnemoBildMap[it.id] = bild;
+    else delete state.mnemoBildMap[it.id];
+    saveMnemo();
+    saveMnemoBild();
+    renderMnemo(it);
+  };
+
+  // 2026-11-07: eigenes Fenster statt prompt() (prompt geht in der iPhone-App nicht)
+  if (window.MnemoPanel) {
+    window.MnemoPanel.open({
+      title: it.de,
+      text: current,
+      drawing: state.mnemoBildMap[it.id] || "",
+      onSave: apply,
+    });
+    return;
+  }
   const next = prompt("Mnemo / Merksatz für diese Karte:", current);
   if (next === null) return;
-
-  const clean = String(next).trim();
-  if (clean) {
-    state.mnemoMap[it.id] = clean;
-  } else {
-    delete state.mnemoMap[it.id];
-  }
-  saveMnemo();
-  renderMnemo(it);
+  apply(next, state.mnemoBildMap[it.id] || "");
 }
 
 // ---------- counts ----------
@@ -3149,7 +3178,12 @@ function resetCardFlip() {
 }
 
 function setRatingEnabled(on) {
-  const ids = ["btnYes", "btnNo", "btnMnemo", "btnFlip", "btnForgot"];
+  // 2026-11-07: Zurück und Mnemo bleiben nach der Bewertung aktiv / «Назад» и «Мнемо» работают и после оценки
+  const ids = ["btnYes", "btnNo", "btnForgot"];
+  for (const keep of ["btnFlip", "btnMnemo"]) {
+    const k = document.getElementById(keep);
+    if (k) k.disabled = false;
+  }
   for (const id of ids) {
     const b = document.getElementById(id);
     if (b) b.disabled = !on;

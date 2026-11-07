@@ -1,5 +1,5 @@
 // 2026-02-23 | RU/DE/EN: Cache bump + safer update flow (skipWaiting/message).
-const CACHE = "sprachbox-v12";
+const CACHE = "sprachbox-v13";
 const CORE = [
   "./",
   "./index.html",
