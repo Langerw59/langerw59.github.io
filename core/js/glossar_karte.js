@@ -64,6 +64,9 @@
     meineSpeichern(meineLaden().filter((x) => schluessel(x.w, x.lang) !== k));
   }
 
+  // 2026-11-08: Name der Seite für den Knopf „↩ …“ im Glossar
+  function seitenName() { const m = location.pathname.match(/SprachBox_DE_([A-Z]{2})/); return m ? "SprachBox DE↔" + m[1] : "Zurück"; }
+
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   // ---------------- Stil ----------------
@@ -147,7 +150,7 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
         <div class="gk-knoepfe">
           <button type="button" class="gk-merk ${gemerkt ? "ok" : ""}">${gemerkt ? "✓ Im Glossar" : "📖 Ins Glossar / в глоссарий"}</button>
           <button type="button" class="gk-hoer">🔊</button>
-          <a href="${GLOSSAR_SEITE}#w=${encodeURIComponent(e.w)}" target="_blank" rel="noopener">Glossar öffnen ↗</a>
+          <a href="${GLOSSAR_SEITE}#w=${encodeURIComponent(e.w)}&von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}" target="_blank">Glossar öffnen ↗</a>
         </div>`;
     } else {
       karte.innerHTML = `

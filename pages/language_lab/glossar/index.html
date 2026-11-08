@@ -62,6 +62,13 @@
       .gl-q { color: var(--accent, #1f6feb); border-bottom: 1px dashed currentColor; cursor: pointer; font-style: italic; }
       .gl-q:hover { background: rgba(31,111,235,.12); border-radius: 3px; }
       .gl-q::after { content: " 🔊"; font-size: .7em; font-style: normal; opacity: .7; }
+      /* 2026-11-08: schwebende Knöpfe – nach oben, nach unten, zurück / плавающие кнопки */
+      .gl-nav { position: fixed; right: 12px; bottom: calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 8px; z-index: 9000; }
+      .gl-nav button { font: inherit; font-size: 1.25rem; width: 52px; height: 52px; border-radius: 50%; cursor: pointer; border: 1px solid var(--border-subtle, #d0d7de); background: var(--bg-surface, #fff); color: var(--text-main, #1f2328); box-shadow: 0 2px 10px rgba(0,0,0,.18); display: flex; align-items: center; justify-content: center; padding: 0; }
+      .gl-nav button.zurueck { background: var(--accent, #1f6feb); border-color: var(--accent, #1f6feb); color: #fff; width: auto; min-width: 52px; border-radius: 26px; padding: 0 14px; font-size: 1rem; font-weight: 600; gap: 6px; }
+      .gl-nav button:active { transform: scale(.94); }
+      body { padding-bottom: 90px; }
+      @media (max-height: 500px) { .gl-nav { flex-direction: row; } .gl-nav button { width: 46px; height: 46px; } .gl-nav button.zurueck { min-width: 46px; } }
     </style>
   </head>
   <body>
@@ -135,6 +142,13 @@
     </main>
 
     <div data-partial="footer" data-partial-path="../../../core/partials/footer.html"></div>
+
+    <!-- 2026-11-08: schwebende Knöpfe / плавающие кнопки: ⬆ наверх · ⬇ вниз · ↩ назад -->
+    <nav class="gl-nav" aria-label="Navigation">
+      <button type="button" id="navOben" title="Nach oben / наверх">⬆</button>
+      <button type="button" id="navUnten" title="Nach unten / вниз">⬇</button>
+      <button type="button" id="navZurueck" class="zurueck" title="Zurück / назад">↩ <span id="navZurueckText">Zurück</span></button>
+    </nav>
 
     <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -604,6 +618,26 @@
         const el = document.getElementById("w-" + e.w);
         if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
       }
+      // 2026-11-08: Knöpfe ⬆ ⬇ ↩
+      // DE: „von=“ im Link (#w=retired&von=…) sagt, woher man kam (z. B. SprachBox).
+      // RU: «von=» в ссылке говорит, откуда пришёл; ↩ возвращает туда.
+      (function navKnoepfe() {
+        const p = new URLSearchParams(location.hash.replace(/^#/, ""));
+        const von = p.get("von") || "";
+        const vonName = p.get("vonName") || "";
+        if (vonName) $("navZurueckText").textContent = vonName;
+        $("navOben").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+        $("navUnten").addEventListener("click", () => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" }));
+        $("navZurueck").addEventListener("click", () => {
+          // 1) im selben Tab gekommen → einfach zurück (Seite bleibt, wie sie war)
+          if (history.length > 1 && document.referrer) { history.back(); return; }
+          // 2) eigener Tab (aus der Wortkarte) → Tab schließen, die SprachBox ist darunter noch offen
+          try { window.close(); } catch (e) {}
+          // 3) ging nicht → zur Herkunftsseite oder ins Language Lab
+          setTimeout(() => { location.href = von || "../index.html"; }, 300);
+        });
+      })();
+
       window.addEventListener("hashchange", ausHash);
       zeichneListe();
       ausHash();
