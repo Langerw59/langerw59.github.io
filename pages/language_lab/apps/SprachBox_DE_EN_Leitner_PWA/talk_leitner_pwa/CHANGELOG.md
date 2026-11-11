@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-11 – die Leseregeln
+- Neue Seite leseregeln.html: 14 Leseregeln Englisch (Erklärung auf Russisch), 141 Wörter mit Lautschrift, Sprachausgabe, „Alle anhören“, Test je Regel und gemischter Test
+- Knopf „📏 Leseregeln“ im Sprachführer und im Spickzettel; Cache sprachbox-v33
+- tools/make_audio_de_en.py vertont auch die Wörter der Leseregeln
+
 
 
 ## 2026-11-06 (Knopf Weiter auf dem iPhone)

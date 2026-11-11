@@ -1,0 +1,279 @@
+{
+  "_info": "2026-11-11: die Leseregeln (Englisch) / правила чтения. en: Buchstaben in [ ] werden hervorgehoben. lies = ungefähr auf Russisch. sag = was gesprochen wird (wenn anders). ausnahme = Ausnahme. vs = Vergleichswort. Aussprache amerikanisch wie im Spickzettel.",
+  "regeln": [
+    {
+      "id": "kurz",
+      "titel": "Die geschlossene Silbe",
+      "titel_ru": "Закрытый слог – короткий звук",
+      "formel": "Vokal + Konsonant  →  kurz",
+      "erklaerung": "Если после гласной стоит согласная и слово на этом кончается, гласная читается коротко: a [æ], e [e], i [ɪ], o [ɑ], u [ʌ]. Это самый частый случай.",
+      "hinweis": "Американцы читают o в hot, stop как «а»: [hɑt]. Британцы – как «о»: [hɒt].",
+      "woerter": [
+        { "en": "c[a]t", "ipa": "kæt", "lies": "кэт", "ru": "кошка" },
+        { "en": "m[a]n", "ipa": "mæn", "lies": "мэн", "ru": "мужчина" },
+        { "en": "b[e]d", "ipa": "bed", "lies": "бэд", "ru": "кровать" },
+        { "en": "p[e]n", "ipa": "pen", "lies": "пэн", "ru": "ручка" },
+        { "en": "s[i]t", "ipa": "sɪt", "lies": "сит", "ru": "сидеть" },
+        { "en": "b[i]g", "ipa": "bɪɡ", "lies": "биг", "ru": "большой" },
+        { "en": "h[o]t", "ipa": "hɑt", "lies": "хат", "ru": "горячий" },
+        { "en": "st[o]p", "ipa": "stɑp", "lies": "стап", "ru": "стоп" },
+        { "en": "c[u]p", "ipa": "kʌp", "lies": "кап", "ru": "чашка" },
+        { "en": "b[u]s", "ipa": "bʌs", "lies": "бас", "ru": "автобус" }
+      ]
+    },
+    {
+      "id": "stummes-e",
+      "titel": "Das stumme E",
+      "titel_ru": "Немая e в конце – гласная «говорит своё имя»",
+      "formel": "Vokal + Konsonant + e  →  wie im Alphabet",
+      "erklaerung": "Буква e в конце слова не читается, но делает гласную перед согласной длинной – она звучит так, как называется в алфавите: a → [eɪ] «эй», i → [aɪ] «ай», o → [oʊ] «оу», u → [juː] «ю», e → [iː] «и». Сравните пары: без e – коротко, с e – как в алфавите.",
+      "woerter": [
+        { "en": "n[a]m[e]", "ipa": "neɪm", "lies": "нэйм", "ru": "имя", "vs": { "en": "man", "ipa": "mæn", "lies": "мэн" } },
+        { "en": "m[a]k[e]", "ipa": "meɪk", "lies": "мэйк", "ru": "делать" },
+        { "en": "t[i]m[e]", "ipa": "taɪm", "lies": "тайм", "ru": "время", "vs": { "en": "Tim", "ipa": "tɪm", "lies": "тим" } },
+        { "en": "k[i]t[e]", "ipa": "kaɪt", "lies": "кайт", "ru": "воздушный змей", "vs": { "en": "kit", "ipa": "kɪt", "lies": "кит" } },
+        { "en": "l[i]f[e]", "ipa": "laɪf", "lies": "лайф", "ru": "жизнь" },
+        { "en": "n[i]c[e]", "ipa": "naɪs", "lies": "найс", "ru": "приятный" },
+        { "en": "n[o]t[e]", "ipa": "noʊt", "lies": "ноут", "ru": "заметка", "vs": { "en": "not", "ipa": "nɑt", "lies": "нат" } },
+        { "en": "h[o]m[e]", "ipa": "hoʊm", "lies": "хоум", "ru": "дом (родной)" },
+        { "en": "c[u]t[e]", "ipa": "kjuːt", "lies": "кьют", "ru": "милый", "vs": { "en": "cut", "ipa": "kʌt", "lies": "кат" } },
+        { "en": "th[e]s[e]", "ipa": "ðiːz", "lies": "зиз", "ru": "эти" }
+      ]
+    },
+    {
+      "id": "ee-ea",
+      "titel": "Die Doppelvokale ee und ea",
+      "titel_ru": "ee и ea – долгое «и»",
+      "formel": "ee, ea  →  [iː]",
+      "erklaerung": "Две e подряд – всегда долгое «и»: free, tree. Сочетание ea тоже чаще всего «и»: tea, eat. Правило-подсказка: «когда две гласные идут гулять, говорит первая» – e называется «и».",
+      "hinweis": "У ea есть исключения: bread, head – «э», great – «эй». Их надо запомнить.",
+      "woerter": [
+        { "en": "fr[ee]", "ipa": "friː", "lies": "фри", "ru": "свободный, бесплатный" },
+        { "en": "tr[ee]", "ipa": "triː", "lies": "три", "ru": "дерево" },
+        { "en": "s[ee]", "ipa": "siː", "lies": "си", "ru": "видеть" },
+        { "en": "gr[ee]n", "ipa": "ɡriːn", "lies": "грин", "ru": "зелёный" },
+        { "en": "t[ea]", "ipa": "tiː", "lies": "ти", "ru": "чай" },
+        { "en": "[ea]t", "ipa": "iːt", "lies": "ит", "ru": "есть (кушать)" },
+        { "en": "r[ea]d", "ipa": "riːd", "lies": "рид", "ru": "читать" },
+        { "en": "s[ea]", "ipa": "siː", "lies": "си", "ru": "море" },
+        { "en": "br[ea]d", "ipa": "bred", "lies": "брэд", "ru": "хлеб", "ausnahme": true },
+        { "en": "h[ea]d", "ipa": "hed", "lies": "хэд", "ru": "голова", "ausnahme": true },
+        { "en": "gr[ea]t", "ipa": "ɡreɪt", "lies": "грэйт", "ru": "отличный", "ausnahme": true }
+      ]
+    },
+    {
+      "id": "oo",
+      "titel": "Der Doppelvokal oo",
+      "titel_ru": "oo – длинное или короткое «у»",
+      "formel": "oo  →  [uː] lang · vor k meist [ʊ] kurz",
+      "erklaerung": "Две o подряд – это «у», а не «о»! Обычно долгое: food, moon, Google. Перед буквой k почти всегда короткое: book, look, cook. Короткие также good и foot.",
+      "woerter": [
+        { "en": "f[oo]d", "ipa": "fuːd", "lies": "фууд", "ru": "еда" },
+        { "en": "m[oo]n", "ipa": "muːn", "lies": "муун", "ru": "луна" },
+        { "en": "sch[oo]l", "ipa": "skuːl", "lies": "скуул", "ru": "школа" },
+        { "en": "t[oo]", "ipa": "tuː", "lies": "туу", "ru": "тоже, слишком" },
+        { "en": "G[oo]gle", "ipa": "ˈɡuːɡəl", "lies": "гуугл", "ru": "Гугл" },
+        { "en": "b[oo]k", "ipa": "bʊk", "lies": "бук", "ru": "книга" },
+        { "en": "l[oo]k", "ipa": "lʊk", "lies": "лук", "ru": "смотреть" },
+        { "en": "g[oo]d", "ipa": "ɡʊd", "lies": "гуд", "ru": "хороший" },
+        { "en": "f[oo]t", "ipa": "fʊt", "lies": "фут", "ru": "ступня" }
+      ]
+    },
+    {
+      "id": "ai-oa",
+      "titel": "Die Doppelvokale ai, ay, oa, ow",
+      "titel_ru": "ai, ay – «эй»; oa, ow – «оу»",
+      "formel": "ai, ay  →  [eɪ]   ·   oa, ow  →  [oʊ]",
+      "erklaerung": "Снова «говорит первая гласная»: a называется «эй», o – «оу». ai стоит внутри слова (rain), ay – в конце (day). oa – внутри (boat), ow в конце часто «оу» (snow).",
+      "hinweis": "ow бывает и «ау»: now, how – см. следующее правило.",
+      "woerter": [
+        { "en": "r[ai]n", "ipa": "reɪn", "lies": "рэйн", "ru": "дождь" },
+        { "en": "tr[ai]n", "ipa": "treɪn", "lies": "трэйн", "ru": "поезд" },
+        { "en": "d[ay]", "ipa": "deɪ", "lies": "дэй", "ru": "день" },
+        { "en": "pl[ay]", "ipa": "pleɪ", "lies": "плэй", "ru": "играть" },
+        { "en": "b[oa]t", "ipa": "boʊt", "lies": "боут", "ru": "лодка" },
+        { "en": "r[oa]d", "ipa": "roʊd", "lies": "роуд", "ru": "дорога" },
+        { "en": "sn[ow]", "ipa": "snoʊ", "lies": "сноу", "ru": "снег" },
+        { "en": "sl[ow]", "ipa": "sloʊ", "lies": "слоу", "ru": "медленный" }
+      ]
+    },
+    {
+      "id": "ou-oi",
+      "titel": "Die Doppellaute ou, ow, oi, oy",
+      "titel_ru": "ou, ow – «ау»; oi, oy – «ой»",
+      "formel": "ou, ow  →  [aʊ]   ·   oi, oy  →  [ɔɪ]",
+      "erklaerung": "ou и ow часто читаются «ау», как немецкое au в „das Haus“: house, now. oi и oy – «ой», как немецкое eu в „heute“: boy, coin.",
+      "hinweis": "У ow два чтения: now «нау», но snow «сноу». Такие слова лучше слушать.",
+      "woerter": [
+        { "en": "h[ou]se", "ipa": "haʊs", "lies": "хаус", "ru": "дом (здание)" },
+        { "en": "[ou]t", "ipa": "aʊt", "lies": "аут", "ru": "наружу" },
+        { "en": "n[ow]", "ipa": "naʊ", "lies": "нау", "ru": "сейчас" },
+        { "en": "h[ow]", "ipa": "haʊ", "lies": "хау", "ru": "как" },
+        { "en": "d[ow]n", "ipa": "daʊn", "lies": "даун", "ru": "вниз" },
+        { "en": "b[oy]", "ipa": "bɔɪ", "lies": "бой", "ru": "мальчик" },
+        { "en": "t[oy]", "ipa": "tɔɪ", "lies": "той", "ru": "игрушка" },
+        { "en": "c[oi]n", "ipa": "kɔɪn", "lies": "койн", "ru": "монета" }
+      ]
+    },
+    {
+      "id": "igh-y",
+      "titel": "Die Buchstaben igh und y",
+      "titel_ru": "igh и y – «ай»; y в конце длинного слова – «и»",
+      "formel": "igh, y (kurzes Wort)  →  [aɪ]   ·   -y (langes Wort)  →  [i]",
+      "erklaerung": "В igh буквы gh не читаются – остаётся «ай»: night, light. Буква y в конце короткого слова – тоже «ай»: my, why. В конце длинного слова (2 слога и больше) y – это короткое «и»: happy, family.",
+      "woerter": [
+        { "en": "n[igh]t", "ipa": "naɪt", "lies": "найт", "ru": "ночь" },
+        { "en": "l[igh]t", "ipa": "laɪt", "lies": "лайт", "ru": "свет" },
+        { "en": "h[igh]", "ipa": "haɪ", "lies": "хай", "ru": "высокий" },
+        { "en": "m[y]", "ipa": "maɪ", "lies": "май", "ru": "мой" },
+        { "en": "wh[y]", "ipa": "waɪ", "lies": "уай", "ru": "почему" },
+        { "en": "fl[y]", "ipa": "flaɪ", "lies": "флай", "ru": "летать" },
+        { "en": "happ[y]", "ipa": "ˈhæpi", "lies": "хэ́пи", "ru": "счастливый" },
+        { "en": "famil[y]", "ipa": "ˈfæməli", "lies": "фэ́мили", "ru": "семья" }
+      ]
+    },
+    {
+      "id": "vokal-r",
+      "titel": "Vokal + R",
+      "titel_ru": "Гласная + r – особый звук",
+      "formel": "ar → [ɑr]   ·   or → [ɔr]   ·   er, ir, ur → [ɜr]",
+      "erklaerung": "Буква r после гласной меняет её звук. ar – долгое «а»: car. or – долгое «о»: for. А er, ir, ur звучат одинаково – как немецкое ö: her, girl, turn.",
+      "hinweis": "Американцы r слегка произносят (язык загнут назад), британцы – нет: car «ка:», her «хё:».",
+      "woerter": [
+        { "en": "c[ar]", "ipa": "kɑr", "lies": "кар", "ru": "машина" },
+        { "en": "p[ar]k", "ipa": "pɑrk", "lies": "парк", "ru": "парк" },
+        { "en": "st[ar]", "ipa": "stɑr", "lies": "стар", "ru": "звезда" },
+        { "en": "f[or]", "ipa": "fɔr", "lies": "фор", "ru": "для" },
+        { "en": "sh[or]t", "ipa": "ʃɔrt", "lies": "шорт", "ru": "короткий" },
+        { "en": "m[or]ning", "ipa": "ˈmɔrnɪŋ", "lies": "мо́рнинг", "ru": "утро" },
+        { "en": "h[er]", "ipa": "hɜr", "lies": "хёр", "ru": "её" },
+        { "en": "g[ir]l", "ipa": "ɡɜrl", "lies": "гёрл", "ru": "девочка" },
+        { "en": "f[ir]st", "ipa": "fɜrst", "lies": "фёрст", "ru": "первый" },
+        { "en": "t[ur]n", "ipa": "tɜrn", "lies": "тёрн", "ru": "поворачивать" },
+        { "en": "n[ur]se", "ipa": "nɜrs", "lies": "нёрс", "ru": "медсестра" }
+      ]
+    },
+    {
+      "id": "w",
+      "titel": "Das W ändert den Vokal",
+      "titel_ru": "Буква w меняет гласную после себя",
+      "formel": "wa → [wɑ]   ·   war → [wɔr]   ·   wor → [wɜr]",
+      "erklaerung": "После w буква a читается не «э», а «а» или «о»: want, wash. Сочетание war звучит как «уор»: warm, war. А wor звучит как «уёр» (как er): work, word, world, worm. Вот почему warm «уорм», а worm «уёрм»!",
+      "woerter": [
+        { "en": "w[a]nt", "ipa": "wɑnt", "lies": "уант", "ru": "хотеть" },
+        { "en": "w[a]sh", "ipa": "wɑʃ", "lies": "уаш", "ru": "мыть" },
+        { "en": "w[a]tch", "ipa": "wɑtʃ", "lies": "уач", "ru": "часы (наручные), смотреть" },
+        { "en": "w[a]ter", "ipa": "ˈwɔtər", "lies": "уо́тэр", "ru": "вода" },
+        { "en": "w[ar]m", "ipa": "wɔrm", "lies": "уорм", "ru": "тёплый", "vs": { "en": "worm", "ipa": "wɜrm", "lies": "уёрм" } },
+        { "en": "w[ar]", "ipa": "wɔr", "lies": "уор", "ru": "война" },
+        { "en": "w[or]k", "ipa": "wɜrk", "lies": "уёрк", "ru": "работа" },
+        { "en": "w[or]d", "ipa": "wɜrd", "lies": "уёрд", "ru": "слово" },
+        { "en": "w[or]ld", "ipa": "wɜrld", "lies": "уёрлд", "ru": "мир" },
+        { "en": "w[or]m", "ipa": "wɜrm", "lies": "уёрм", "ru": "червь", "vs": { "en": "warm", "ipa": "wɔrm", "lies": "уорм" } }
+      ]
+    },
+    {
+      "id": "schwa",
+      "titel": "Das Schwa",
+      "titel_ru": "Безударная гласная – слабый звук [ə]",
+      "formel": "unbetonte Silbe  →  [ə]",
+      "erklaerung": "В безударном слоге любая гласная (a, e, o, u) превращается в слабый неясный звук [ə] – как безударное «а» в слове «машина». Это самый частый звук английского языка. Поэтому важно знать, где ударение.",
+      "woerter": [
+        { "en": "[a]bout", "ipa": "əˈbaʊt", "lies": "эба́ут", "ru": "о, около" },
+        { "en": "[a]gain", "ipa": "əˈɡen", "lies": "эге́н", "ru": "снова" },
+        { "en": "b[a]nan[a]", "ipa": "bəˈnænə", "lies": "бэнэ́нэ", "ru": "банан" },
+        { "en": "sof[a]", "ipa": "ˈsoʊfə", "lies": "со́уфэ", "ru": "диван" },
+        { "en": "probl[e]m", "ipa": "ˈprɑbləm", "lies": "пра́блэм", "ru": "проблема" },
+        { "en": "sev[e]n", "ipa": "ˈsevən", "lies": "сэ́вэн", "ru": "семь" },
+        { "en": "doct[o]r", "ipa": "ˈdɑktər", "lies": "да́ктэр", "ru": "врач" },
+        { "en": "teach[e]r", "ipa": "ˈtiːtʃər", "lies": "ти́чэр", "ru": "учитель" }
+      ]
+    },
+    {
+      "id": "c-g",
+      "titel": "Die Buchstaben C und G",
+      "titel_ru": "c и g – мягко или твёрдо",
+      "formel": "c + e, i, y → [s]  ·  sonst [k]   ·   g + e, i, y → oft [dʒ]  ·  sonst [ɡ]",
+      "erklaerung": "Перед e, i, y буква c читается «с»: city, nice. В остальных случаях – «к»: cat, clock. Буква g перед e, i, y часто читается «дж»: page, gym, а в остальных случаях – «г»: go.",
+      "hinweis": "У g много исключений: get, give – с «г». Их надо запомнить.",
+      "woerter": [
+        { "en": "[c]ity", "ipa": "ˈsɪti", "lies": "си́ти", "ru": "город" },
+        { "en": "ni[c]e", "ipa": "naɪs", "lies": "найс", "ru": "приятный" },
+        { "en": "bi[c]ycle", "ipa": "ˈbaɪsɪkəl", "lies": "ба́йсикл", "ru": "велосипед" },
+        { "en": "[c]ake", "ipa": "keɪk", "lies": "кэйк", "ru": "торт" },
+        { "en": "[c]lock", "ipa": "klɑk", "lies": "клак", "ru": "часы (настенные)" },
+        { "en": "pa[g]e", "ipa": "peɪdʒ", "lies": "пэйдж", "ru": "страница" },
+        { "en": "oran[g]e", "ipa": "ˈɔrɪndʒ", "lies": "о́риндж", "ru": "апельсин" },
+        { "en": "[g]ym", "ipa": "dʒɪm", "lies": "джим", "ru": "спортзал" },
+        { "en": "[g]o", "ipa": "ɡoʊ", "lies": "гоу", "ru": "идти" },
+        { "en": "[g]et", "ipa": "ɡet", "lies": "гэт", "ru": "получать", "ausnahme": true },
+        { "en": "[g]ive", "ipa": "ɡɪv", "lies": "гив", "ru": "давать", "ausnahme": true }
+      ]
+    },
+    {
+      "id": "paare",
+      "titel": "Die Buchstabenpaare",
+      "titel_ru": "Две согласные – один звук",
+      "formel": "th → [θ]/[ð] · sh → [ʃ] · ch → [tʃ] · ph → [f] · ck → [k] · ng → [ŋ] · wh → [w]",
+      "erklaerung": "Некоторые пары согласных дают один звук. th – язык между зубами (глухо: thank, звонко: this). sh – «ш», ch – «ч», ph – «ф», ck – «к», wh – «у». ng – один звук [ŋ]: «н», но задней частью языка, в нос; отдельного «г» нет. Как в немецком: lang, der Ring, die Zeitung. Отсюда окончание -ing: looking, morning.",
+      "hinweis": "Исключение: who читается «ху» (wh = h).",
+      "woerter": [
+        { "en": "[th]ank you", "ipa": "θæŋk ju", "lies": "сэнк ю (язык между зубами)", "ru": "спасибо" },
+        { "en": "[th]is", "ipa": "ðɪs", "lies": "зис (язык между зубами)", "ru": "этот" },
+        { "en": "[sh]ip", "ipa": "ʃɪp", "lies": "шип", "ru": "корабль" },
+        { "en": "[ch]air", "ipa": "tʃer", "lies": "чэр", "ru": "стул" },
+        { "en": "[ph]one", "ipa": "foʊn", "lies": "фоун", "ru": "телефон" },
+        { "en": "ba[ck]", "ipa": "bæk", "lies": "бэк", "ru": "назад" },
+        { "en": "si[ng]", "ipa": "sɪŋ", "lies": "син (носовое н, г не слышно)", "ru": "петь" },
+        { "en": "look[ing]", "ipa": "ˈlʊkɪŋ", "lies": "лу́кин (носовое н)", "ru": "смотрю (сейчас)" },
+        { "en": "morn[ing]", "ipa": "ˈmɔrnɪŋ", "lies": "мо́рнин (носовое н)", "ru": "утро" },
+        { "en": "thi[ng]", "ipa": "θɪŋ", "lies": "син (язык между зубами, носовое н)", "ru": "вещь" },
+        { "en": "[wh]en", "ipa": "wen", "lies": "уэн", "ru": "когда" },
+        { "en": "[wh]o", "ipa": "huː", "lies": "ху", "ru": "кто", "ausnahme": true }
+      ]
+    },
+    {
+      "id": "stumm",
+      "titel": "Die stummen Buchstaben",
+      "titel_ru": "Немые буквы – пишутся, но не читаются",
+      "formel": "kn → n · wr → r · mb → m · alk → [ɔk] · gh, h, t – oft stumm",
+      "erklaerung": "k перед n не читается: know, knife. w перед r не читается: write. b после m не читается: climb. l в walk, talk, half не читается. Иногда молчат h (hour) и t (listen).",
+      "woerter": [
+        { "en": "[k]now", "ipa": "noʊ", "lies": "ноу", "ru": "знать" },
+        { "en": "[k]nife", "ipa": "naɪf", "lies": "найф", "ru": "нож" },
+        { "en": "[w]rite", "ipa": "raɪt", "lies": "райт", "ru": "писать" },
+        { "en": "[w]rong", "ipa": "rɔŋ", "lies": "ронг", "ru": "неправильный" },
+        { "en": "clim[b]", "ipa": "klaɪm", "lies": "клайм", "ru": "лезть, подниматься" },
+        { "en": "wa[l]k", "ipa": "wɔk", "lies": "уок", "ru": "гулять, идти пешком" },
+        { "en": "ta[l]k", "ipa": "tɔk", "lies": "ток", "ru": "разговаривать" },
+        { "en": "ha[l]f", "ipa": "hæf", "lies": "хэф", "ru": "половина" },
+        { "en": "[h]our", "ipa": "ˈaʊər", "lies": "а́уэр", "ru": "час" },
+        { "en": "lis[t]en", "ipa": "ˈlɪsən", "lies": "лисн", "ru": "слушать" }
+      ]
+    },
+    {
+      "id": "ausnahmen",
+      "titel": "Die Ausnahmen",
+      "titel_ru": "Исключения – учить наизусть",
+      "formel": "nicht nach Regel  →  hören und merken",
+      "erklaerung": "Эти частые слова читаются не по правилам. Буква o перед v, m, n часто звучит как «а»: love, come, son, Monday. У have и give немая e не делает гласную длинной. А live бывает «лив» (жить) и «лайв» (живой, вживую).",
+      "woerter": [
+        { "en": "l[o]ve", "ipa": "lʌv", "lies": "лав", "ru": "любовь, любить", "ausnahme": true },
+        { "en": "c[o]me", "ipa": "kʌm", "lies": "кам", "ru": "приходить", "ausnahme": true },
+        { "en": "s[o]me", "ipa": "sʌm", "lies": "сам", "ru": "несколько", "ausnahme": true },
+        { "en": "s[o]n", "ipa": "sʌn", "lies": "сан", "ru": "сын", "ausnahme": true },
+        { "en": "m[o]ther", "ipa": "ˈmʌðər", "lies": "ма́зэр", "ru": "мать", "ausnahme": true },
+        { "en": "M[o]nday", "ipa": "ˈmʌndeɪ", "lies": "ма́ндэй", "ru": "понедельник", "ausnahme": true },
+        { "en": "[o]ne", "ipa": "wʌn", "lies": "уан", "ru": "один", "ausnahme": true },
+        { "en": "tw[o]", "ipa": "tuː", "lies": "ту", "ru": "два", "ausnahme": true },
+        { "en": "h[a]ve", "ipa": "hæv", "lies": "хэв", "ru": "иметь", "ausnahme": true },
+        { "en": "l[i]ve (жить)", "sag": "I live here.", "ipa": "lɪv", "lies": "лив", "ru": "жить (I live here – я живу здесь)", "ausnahme": true },
+        { "en": "l[i]ve (вживую)", "sag": "live music", "ipa": "laɪv", "lies": "лайв", "ru": "живой, вживую (live music – живая музыка)", "ausnahme": true },
+        { "en": "s[ai]d", "ipa": "sed", "lies": "сэд", "ru": "сказал", "ausnahme": true },
+        { "en": "fr[ie]nd", "ipa": "frend", "lies": "фрэнд", "ru": "друг", "ausnahme": true },
+        { "en": "p[eo]ple", "ipa": "ˈpiːpəl", "lies": "пипл", "ru": "люди", "ausnahme": true },
+        { "en": "w[o]men", "ipa": "ˈwɪmɪn", "lies": "уи́мин", "ru": "женщины", "ausnahme": true }
+      ]
+    }
+  ]
+}

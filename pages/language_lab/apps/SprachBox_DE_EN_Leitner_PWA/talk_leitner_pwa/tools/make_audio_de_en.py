@@ -11,7 +11,7 @@ Ergebnis:   audio/en/*.mp3, audio/de/*.mp3 und audio/index.json (Text -> Datei).
 Die App spielt diese Dateien automatisch ab; fehlt eine Datei, nimmt sie die Browser-Stimme.
 Bereits vorhandene Dateien werden uebersprungen -> das Skript kann jederzeit erneut laufen.
 """
-import argparse, asyncio, hashlib, json, os, sys, unicodedata
+import argparse, asyncio, hashlib, json, os, re, sys, unicodedata
 
 try:
     import edge_tts
@@ -52,6 +52,18 @@ def collect():
                 de.add(norm(it["de"]))
             if norm(it.get("en")):
                 en.add(norm(it["en"]))
+    # 2026-11-11: auch die Woerter der Leseregeln (nur Englisch) vertonen
+    p = os.path.join(APP, "data", "leseregeln_en.json")
+    if os.path.exists(p):
+        with open(p, encoding="utf-8-sig") as f:
+            lr = json.load(f)
+        for r in lr.get("regeln", []):
+            for w in r.get("woerter", []):
+                t = w.get("sag") or re.sub(r"\s*\(.*?\)\s*", " ", w.get("en", "").replace("[", "").replace("]", ""))
+                if norm(t):
+                    en.add(norm(t))
+                if isinstance(w.get("vs"), dict) and norm(w["vs"].get("en")):
+                    en.add(norm(w["vs"]["en"]))
     return sorted(de), sorted(en)
 
 

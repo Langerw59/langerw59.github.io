@@ -3,11 +3,14 @@
 // 2026-11-11: Spickzettel (Lautschrift) dazu.
 // 2026-11-11: Lautschrift im Wort-Fenster.
 // 2026-11-11: Zurück-Knöpfe (Glossar, Spickzettel).
-const CACHE = "sprachbox-v32";
+// 2026-11-11: die Leseregeln dazu.
+const CACHE = "sprachbox-v33";
 const CORE = [
   "./",
   "./index.html",
   "./spickzettel.html",
+  "./leseregeln.html",
+  "./data/leseregeln_en.json",
   "./styles.css",
   "./app.js",
   "./benutzer.js",

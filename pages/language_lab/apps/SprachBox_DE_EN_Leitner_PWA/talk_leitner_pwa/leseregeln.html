@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Die Leseregeln – Englisch lesen</title>
+  <link rel="icon" href="./assets/icon-192.png" />
+  <!-- 2026-11-11: die Leseregeln (Englisch) mit Sprachausgabe und Test / правила чтения -->
+  <script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
+  <style>
+    :root{ --bg:#f6f7fb; --card:#ffffff; --text:#1b2333; --muted:#5b6475; --line:#dde2ec; --sign:#1f4d99; --hl:#c2410c; --ex:#b02626; --ok:#15803d; --soft:#eef3fc; }
+    html[data-theme="dark"]{ --bg:#0f1522; --card:#182033; --text:#e8ecf4; --muted:#a3adc2; --line:#2a3550; --sign:#8db4ff; --hl:#ffb26b; --ex:#ff8f8f; --ok:#6ee7a0; --soft:#1d2840; }
+    *{ box-sizing:border-box; }
+    body{ margin:0; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+    main{ max-width:1150px; margin:0 auto; padding:14px 14px 40px; }
+    h1{ font-size:24px; margin:6px 0 2px; }
+    .sub{ color:var(--muted); margin:0 0 12px; font-size:15px; }
+    .navi{ display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 10px; }
+    .navi a, .navi button{ font:inherit; font-size:16px; font-weight:700; cursor:pointer; text-decoration:none; border-radius:999px; padding:9px 16px; border:1px solid var(--sign); background:var(--card); color:var(--text); }
+    .navi button{ background:var(--sign); color:#fff; }
+    nav.jump{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px; }
+    nav.jump a{ text-decoration:none; color:var(--text); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:5px 11px; font-weight:700; font-size:14px; }
+    nav.jump a.done{ border-color:var(--ok); }
+    nav.jump a.done::after{ content:" ✓"; color:var(--ok); }
+    section.regel{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin:0 0 14px; scroll-margin-top:70px; }
+    .kopf{ display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 12px; }
+    .nr{ background:var(--sign); color:#fff; border-radius:999px; min-width:30px; height:30px; display:inline-flex; align-items:center; justify-content:center; font-weight:800; }
+    h2{ font-size:20px; margin:0; }
+    .ru-t{ color:var(--muted); font-size:15px; }
+    .formel{ font-family:"Segoe UI","DejaVu Sans",sans-serif; font-size:18px; font-weight:700; color:var(--sign); background:var(--soft); border-radius:10px; padding:7px 11px; margin:9px 0 6px; }
+    .erkl{ font-size:16px; line-height:1.45; margin:4px 0; }
+    .hinw{ font-size:15px; color:var(--muted); border-left:3px solid var(--hl); padding-left:9px; margin:6px 0; }
+    .knoepfe{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0; }
+    .knoepfe button{ font:inherit; font-size:15px; font-weight:700; cursor:pointer; border-radius:999px; padding:7px 14px; border:1px solid var(--sign); background:var(--card); color:var(--text); }
+    .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:8px; }
+    .w{ border:1px solid var(--line); border-radius:12px; padding:8px 10px; cursor:pointer; background:var(--bg); }
+    .w:hover{ border-color:var(--sign); }
+    .w.aus{ border-color:var(--ex); }
+    .w .en{ font-size:22px; font-weight:700; }
+    .w .en b{ color:var(--hl); }
+    .w .ipa{ color:var(--muted); font-size:15px; font-family:"Segoe UI","DejaVu Sans","Lucida Sans Unicode",sans-serif; }
+    .w .lies{ font-size:15px; }
+    .w .ru{ font-size:14px; color:var(--muted); }
+    .w .tag{ font-size:12px; color:var(--ex); font-weight:700; }
+    .w .vs{ margin-top:5px; padding-top:5px; border-top:1px dashed var(--line); font-size:14px; }
+    .w .vs span{ cursor:pointer; text-decoration:underline dotted; }
+    .w.spielt{ outline:2px solid var(--sign); }
+    /* Test */
+    .test{ margin-top:10px; border:2px solid var(--sign); border-radius:12px; padding:12px; }
+    .test .frage{ font-size:15px; color:var(--muted); }
+    .test .wort{ font-size:34px; font-weight:800; margin:4px 0 10px; }
+    .test .opt{ display:flex; flex-wrap:wrap; gap:8px; }
+    .test .opt button{ font:inherit; font-size:20px; cursor:pointer; border-radius:10px; padding:9px 16px; border:1px solid var(--line); background:var(--card); color:var(--text); min-width:110px; }
+    .test .opt button.richtig{ border-color:var(--ok); background:var(--ok); color:#fff; }
+    .test .opt button.falsch{ border-color:var(--ex); background:var(--ex); color:#fff; }
+    .test .info{ margin-top:8px; font-size:16px; min-height:22px; }
+    .test .weiter{ margin-top:8px; font:inherit; font-size:16px; font-weight:700; cursor:pointer; border-radius:999px; padding:8px 18px; border:0; background:var(--sign); color:#fff; }
+    .tip{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--sign); border-radius:10px; padding:10px 12px; margin:0 0 14px; font-size:15px; }
+    .tempo{ display:inline-flex; align-items:center; gap:6px; font-size:14px; color:var(--muted); }
+    .tempo select{ font:inherit; }
+  </style>
+</head>
+<body data-lernzeit="Leseregeln Englisch">
+<main>
+  <nav class="navi">
+    <button type="button" id="lrZurueck">↩ Zurück / назад</button>
+    <a href="./index.html">📘 Sprachführer DE↔EN</a>
+    <a href="./spickzettel.html">🔤 Spickzettel (Lautschrift)</a>
+  </nav>
+  <h1>📏 Die Leseregeln – правила чтения</h1>
+  <p class="sub">Почему time – «тайм», а warm – «уорм»? 14 правил по порядку. Нажмите на слово 🔊 – оно прозвучит. В конце каждого правила – маленький тест.</p>
+
+  <div class="tip">
+    <b>Wie lernen?</b> Каждый день одно правило: 1) прочитать правило, 2) нажать «🔊 Alle anhören» и повторять вслух, 3) пройти «🧩 Test». Пройденное правило получает ✓ в списке.
+    <span class="tempo">· Tempo / скорость:
+      <select id="lrTempo">
+        <option value="0.6">langsam</option>
+        <option value="0.8" selected>normal-langsam</option>
+        <option value="1">normal</option>
+      </select>
+    </span>
+  </div>
+
+  <nav class="jump" id="lrJump"></nav>
+  <div id="lrRegeln"><p class="sub">Lädt … / загрузка …</p></div>
+
+  <div class="tip">
+    <b>Der Hinweis:</b> произношение американское, как в ваших карточках и в Spickzettel. Примерно 3/4 слов читаются по этим правилам, остальные – исключения, их надо слушать и запоминать.
+  </div>
+</main>
+
+<script>
+// 2026-11-11: die Leseregeln – Sprachausgabe (mp3 der SprachBox, sonst Browser-Stimme) und Test
+(function () {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const ERG_KEY = "leseregeln_en_ergebnis"; // { regelId: "5/6" }
+  let ergebnis = {};
+  try { ergebnis = JSON.parse(localStorage.getItem(ERG_KEY) || "{}") || {}; } catch (_) {}
+
+  // ---------- Text-Hilfen ----------
+  const plain = (s) => String(s || "").replace(/[\[\]]/g, "").replace(/\s*\(.*?\)\s*/g, " ").trim();
+  const sprechText = (w) => w.sag || plain(w.en);
+  const kurzLies = (s) => String(s || "").replace(/\s*\(.*?\)/g, "").trim();
+  function markiert(en) {
+    // "t[i]m[e]" -> t<b>i</b>m<b>e</b>
+    const box = document.createElement("span");
+    String(en).split(/(\[[^\]]*\])/).forEach((teil) => {
+      if (!teil) return;
+      if (teil[0] === "[") { const b = document.createElement("b"); b.textContent = teil.slice(1, -1); box.appendChild(b); }
+      else box.appendChild(document.createTextNode(teil));
+    });
+    return box;
+  }
+
+  // ---------- Sprachausgabe ----------
+  // Einstellungen der SprachBox mitbenutzen (gewählte englische Stimme)
+  let einst = {};
+  try { einst = JSON.parse(localStorage.getItem("sprachbox_settings_v1") || "{}") || {}; } catch (_) {}
+  let tempo = 0.8;
+  try { tempo = Number(localStorage.getItem("leseregeln_tempo")) || 0.8; } catch (_) {}
+  $("lrTempo").value = String(tempo);
+  $("lrTempo").addEventListener("change", (e) => {
+    tempo = Number(e.target.value) || 0.8;
+    try { localStorage.setItem("leseregeln_tempo", String(tempo)); } catch (_) {}
+  });
+
+  let audioIndex = null, audioEl = null;
+  fetch("./audio/index.json", { cache: "no-store" }).then((r) => r.ok ? r.json() : null).then((d) => { audioIndex = d; }).catch(() => {});
+
+  const SPASS = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|kathy|ralph|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley)\b/i;
+  function stimmen() { try { return speechSynthesis.getVoices() || []; } catch (_) { return []; } }
+  function punkte(v) {
+    const n = String(v.name || ""), l = String(v.lang || "").toLowerCase().replace("_", "-");
+    if (!l.startsWith("en")) return -1000;
+    let s = l === "en-us" ? 20 : 10;
+    if (SPASS.test(n)) s -= 500;
+    if (/natural|neural/i.test(n)) s += 60;
+    if (/premium/i.test(n)) s += 55;
+    if (/enhanced|erweitert|verbessert/i.test(n)) s += 45;
+    if (/online/i.test(n)) s += 30;
+    if (/siri/i.test(n)) s += 35;
+    if (/google/i.test(n)) s += 25;
+    if (/compact|kompakt/i.test(n)) s -= 30;
+    if (v.localService === false) s += 5;
+    return s;
+  }
+  function besteStimme() {
+    const alle = stimmen().filter((v) => punkte(v) > -1000);
+    if (einst.voiceEn) {
+      const hit = alle.find((v) => v.voiceURI === einst.voiceEn || v.name === einst.voiceEn);
+      if (hit) return hit;
+    }
+    return alle.sort((a, b) => punkte(b) - punkte(a))[0] || null;
+  }
+  if ("speechSynthesis" in window) { stimmen(); try { speechSynthesis.onvoiceschanged = stimmen; } catch (_) {} }
+
+  function stopp() {
+    if (audioEl) { try { audioEl.pause(); } catch (_) {} }
+    try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch (_) {}
+  }
+  function browserStimme(text, fertig) {
+    if (!("speechSynthesis" in window)) { if (fertig) fertig(); return; }
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US"; u.rate = tempo;
+    const v = besteStimme(); if (v) u.voice = v;
+    let erledigt = false;
+    const ende = () => { if (!erledigt) { erledigt = true; if (fertig) fertig(); } };
+    u.onend = ende; u.onerror = ende;
+    setTimeout(ende, 4000 + text.length * 150); // falls onend nie kommt
+    speechSynthesis.speak(u);
+  }
+  // spricht text; fertig() wird danach aufgerufen
+  function sag(text, fertig) {
+    stopp();
+    const key = String(text).normalize("NFC").trim().replace(/\s+/g, " ");
+    const datei = audioIndex && audioIndex.en && audioIndex.en[key];
+    if (datei) {
+      if (!audioEl) audioEl = new Audio();
+      audioEl.onended = () => { if (fertig) fertig(); };
+      audioEl.src = "./audio/" + datei;
+      try { audioEl.preservesPitch = true; audioEl.playbackRate = Math.max(0.6, tempo + 0.1); } catch (_) {}
+      const p = audioEl.play();
+      if (p && p.catch) p.catch(() => browserStimme(text, fertig));
+      return;
+    }
+    browserStimme(text, fertig);
+  }
+
+  // ---------- Seite aufbauen ----------
+  let REGELN = [];
+  let reiheLaeuft = 0; // Zähler, um "Alle anhören" abzubrechen
+
+  function wortKachel(w) {
+    const d = document.createElement("div");
+    d.className = "w" + (w.ausnahme ? " aus" : "");
+    d.title = "Anhören / послушать";
+    const en = document.createElement("div"); en.className = "en"; en.appendChild(document.createTextNode("🔊 ")); en.appendChild(markiert(w.en));
+    const ipa = document.createElement("div"); ipa.className = "ipa"; ipa.textContent = "[" + w.ipa + "]";
+    const lies = document.createElement("div"); lies.className = "lies"; lies.textContent = "≈ " + w.lies;
+    const ru = document.createElement("div"); ru.className = "ru"; ru.textContent = w.ru || "";
+    d.append(en, ipa, lies, ru);
+    if (w.ausnahme) { const t = document.createElement("div"); t.className = "tag"; t.textContent = "⚠ die Ausnahme · исключение"; d.appendChild(t); }
+    d.addEventListener("click", () => { reiheLaeuft++; sag(sprechText(w)); });
+    if (w.vs) {
+      const vs = document.createElement("div"); vs.className = "vs";
+      vs.appendChild(document.createTextNode("↔ сравните: "));
+      const s = document.createElement("span");
+      s.textContent = "🔊 " + w.vs.en + " [" + w.vs.ipa + "] ≈ " + w.vs.lies;
+      s.addEventListener("click", (e) => { e.stopPropagation(); reiheLaeuft++; sag(w.vs.en); });
+      vs.appendChild(s);
+      d.appendChild(vs);
+    }
+    return d;
+  }
+
+  function alleAnhoeren(regel, kacheln) {
+    const meine = ++reiheLaeuft;
+    let i = 0;
+    const naechstes = () => {
+      kacheln.forEach((k) => k.classList.remove("spielt"));
+      if (meine !== reiheLaeuft || i >= regel.woerter.length) return;
+      const w = regel.woerter[i];
+      kacheln[i].classList.add("spielt");
+      i++;
+      sag(sprechText(w), () => setTimeout(naechstes, 700));
+    };
+    naechstes();
+  }
+
+  function sprungListe() {
+    const nav = $("lrJump"); nav.innerHTML = "";
+    REGELN.forEach((r, i) => {
+      const a = document.createElement("a");
+      a.href = "#r-" + r.id;
+      a.textContent = (i + 1) + ". " + r.titel;
+      if (ergebnis[r.id]) a.className = "done";
+      nav.appendChild(a);
+    });
+    const t = document.createElement("a");
+    t.href = "#mix"; t.textContent = "🧩 Gemischter Test";
+    nav.appendChild(t);
+  }
+
+  function bauen() {
+    const box = $("lrRegeln"); box.innerHTML = "";
+    REGELN.forEach((r, i) => {
+      const sec = document.createElement("section");
+      sec.className = "regel"; sec.id = "r-" + r.id;
+      const kopf = document.createElement("div"); kopf.className = "kopf";
+      const nr = document.createElement("span"); nr.className = "nr"; nr.textContent = String(i + 1);
+      const h = document.createElement("h2"); h.textContent = r.titel;
+      const rt = document.createElement("span"); rt.className = "ru-t"; rt.textContent = r.titel_ru;
+      kopf.append(nr, h, rt);
+      const f = document.createElement("div"); f.className = "formel"; f.textContent = r.formel;
+      const e = document.createElement("p"); e.className = "erkl"; e.textContent = r.erklaerung;
+      sec.append(kopf, f, e);
+      if (r.hinweis) { const hw = document.createElement("p"); hw.className = "hinw"; hw.textContent = "💡 " + r.hinweis; sec.appendChild(hw); }
+      const kn = document.createElement("div"); kn.className = "knoepfe";
+      const b1 = document.createElement("button"); b1.type = "button"; b1.textContent = "🔊 Alle anhören · все слова";
+      const b2 = document.createElement("button"); b2.type = "button"; b2.textContent = "⏹ Stopp";
+      const b3 = document.createElement("button"); b3.type = "button"; b3.textContent = "🧩 Test";
+      kn.append(b1, b2, b3);
+      const grid = document.createElement("div"); grid.className = "grid";
+      const kacheln = r.woerter.map(wortKachel);
+      kacheln.forEach((k) => grid.appendChild(k));
+      const testBox = document.createElement("div");
+      sec.append(kn, grid, testBox);
+      b1.addEventListener("click", () => alleAnhoeren(r, kacheln));
+      b2.addEventListener("click", () => { reiheLaeuft++; stopp(); kacheln.forEach((k) => k.classList.remove("spielt")); });
+      b3.addEventListener("click", () => starteTest(testBox, r.woerter.map((w) => ({ w, r })), r.id));
+      box.appendChild(sec);
+    });
+    // gemischter Test über alle Regeln
+    const mix = document.createElement("section");
+    mix.className = "regel"; mix.id = "mix";
+    mix.innerHTML = '<div class="kopf"><span class="nr">🧩</span><h2>Der gemischte Test</h2><span class="ru-t">Смешанный тест – слова из всех правил</span></div><div class="knoepfe"><button type="button">🧩 Test starten (10 Wörter)</button></div><div></div>';
+    const mixBox = mix.lastElementChild;
+    mix.querySelector("button").addEventListener("click", () => {
+      const alle = []; REGELN.forEach((r) => r.woerter.forEach((w) => alle.push({ w, r })));
+      starteTest(mixBox, alle, null, 10);
+    });
+    box.appendChild(mix);
+    sprungListe();
+  }
+
+  // ---------- Test ----------
+  function mischen(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+  function starteTest(box, pool, regelId, anzahl) {
+    reiheLaeuft++; stopp();
+    const fragen = mischen(pool).slice(0, anzahl || 6);
+    let nr = 0, richtig = 0;
+    box.innerHTML = "";
+    const t = document.createElement("div"); t.className = "test"; box.appendChild(t);
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+    function frage() {
+      if (nr >= fragen.length) return ende();
+      const { w, r } = fragen[nr];
+      const loesung = kurzLies(w.lies);
+      // falsche Antworten: zuerst das Vergleichswort, dann andere Wörter derselben Regel, dann beliebige
+      const kandidaten = [];
+      if (w.vs) kandidaten.push(kurzLies(w.vs.lies));
+      mischen(r.woerter).forEach((x) => kandidaten.push(kurzLies(x.lies)));
+      mischen(pool).forEach((x) => kandidaten.push(kurzLies(x.w.lies)));
+      const falsch = [];
+      for (const k of kandidaten) { if (k !== loesung && !falsch.includes(k)) falsch.push(k); if (falsch.length === 2) break; }
+      const optionen = mischen([loesung, ...falsch]);
+
+      t.innerHTML = "";
+      const q = document.createElement("div"); q.className = "frage";
+      q.textContent = `Frage ${nr + 1} von ${fragen.length} · Как читается это слово?`;
+      const wd = document.createElement("div"); wd.className = "wort"; wd.textContent = plain(w.en) + (w.sag ? " (" + (w.ru || "").split(" (")[0] + ")" : "");
+      const opt = document.createElement("div"); opt.className = "opt";
+      const info = document.createElement("div"); info.className = "info";
+      t.append(q, wd, opt, info);
+      let beantwortet = false;
+      optionen.forEach((o) => {
+        const b = document.createElement("button"); b.type = "button"; b.textContent = "≈ " + o;
+        b.addEventListener("click", () => {
+          if (beantwortet) return;
+          beantwortet = true;
+          const ok = o === loesung;
+          if (ok) richtig++;
+          [...opt.children].forEach((c) => { if (c.textContent === "≈ " + loesung) c.classList.add("richtig"); });
+          if (!ok) b.classList.add("falsch");
+          info.textContent = (ok ? "✅ Richtig! " : "❌ Leider nicht. ") + plain(w.en) + " [" + w.ipa + "] – " + (w.ru || "") + (regelId ? "" : " · Regel: " + r.titel);
+          sag(sprechText(w));
+          const wb = document.createElement("button"); wb.type = "button"; wb.className = "weiter";
+          wb.textContent = nr + 1 < fragen.length ? "Weiter →" : "Ergebnis";
+          wb.addEventListener("click", () => { nr++; frage(); });
+          t.appendChild(wb);
+        });
+        opt.appendChild(b);
+      });
+    }
+
+    function ende() {
+      t.innerHTML = "";
+      const p = document.createElement("div"); p.className = "wort";
+      p.textContent = `${richtig} von ${fragen.length} richtig ` + (richtig === fragen.length ? "🎉" : richtig >= fragen.length * 0.7 ? "👍" : "🔁");
+      const s = document.createElement("div"); s.className = "info";
+      s.textContent = richtig >= fragen.length * 0.7
+        ? "Gut gemacht! Правило засчитано ✓"
+        : "Ещё раз послушайте слова («🔊 Alle anhören») и повторите тест.";
+      const nochmal = document.createElement("button"); nochmal.type = "button"; nochmal.className = "weiter"; nochmal.textContent = "🔁 Noch einmal";
+      nochmal.addEventListener("click", () => starteTest(box, pool, regelId, anzahl));
+      t.append(p, s, nochmal);
+      if (regelId && richtig >= fragen.length * 0.7) {
+        ergebnis[regelId] = richtig + "/" + fragen.length;
+        try { localStorage.setItem(ERG_KEY, JSON.stringify(ergebnis)); } catch (_) {}
+        sprungListe();
+      }
+    }
+    frage();
+  }
+
+  fetch("./data/leseregeln_en.json")
+    .then((r) => r.json())
+    .then((d) => { REGELN = d.regeln || []; bauen(); if (location.hash) { const z = document.querySelector(location.hash); if (z) z.scrollIntoView(); } })
+    .catch(() => { $("lrRegeln").innerHTML = '<p class="sub">Die Regeln konnten nicht geladen werden. / Не удалось загрузить правила.</p>'; });
+
+  // Zurück – dorthin, woher man kam
+  $("lrZurueck").addEventListener("click", function () {
+    let ref = "";
+    try { const r = new URL(document.referrer); if (r.origin === location.origin) ref = r.href; } catch (e) {}
+    if (ref && history.length > 1) { history.back(); return; }
+    location.href = "./index.html";
+  });
+})();
+</script>
+</body>
+</html>
