@@ -170,6 +170,47 @@ window.WORTDETEKTIV = [
   ],
   raetsel: { frage: "Почему итальянцы называют помидор «золотым яблоком» – pomodoro, – если он красный?", antwort: "Первые томаты, которые увидели в Европе, часто были **жёлтые**, золотистые. Маттиоли в 1554 году писал: у одних растений плоды золотые, у других красные." }
 }
+,
+
+// 2026-11-11: try und Trier – falsche Verwandte / ложные родственники
+{
+  id: "try-trier",
+  titel: "try und Trier – ähnlich, aber nicht verwandt",
+  ru: "try и Trier – похожи, но не родственники",
+  wort: "try / trier (FR) / Trier",
+  h: "frz",
+  thema: "woerter",
+  kurz: "Английское try пришло из французского trier «отбирать», а город Trier назван по кельтскому племени треверов. Сходство – случайность.",
+  text: [
+    "Английское **[[ton:en|try]]** («пробовать») пришло из старофранцузского **[[ton:fr|trier]]** – «отбирать, отделять, просеивать». Сначала try и значило: отделить хорошее от плохого. Отсюда «проверять», а потом – «пробовать».",
+    "Французские слова попали в английский после **1066 года**, когда [[lex:normannen1066|нормандцы]] из [[ort:rouen|Rouen]] (Нормандия) завоевали Англию. Знать в [[ort:london|London]] долго говорила по-французски, и тысячи слов остались в английском навсегда.",
+    "Откуда само trier – точно не известно. Возможно, от позднелатинского слова, но учёные спорят. Во французском оно живёт и сегодня: **[[ton:fr|le tri sélectif]]** – раздельный сбор мусора.",
+    "А **[[ort:trier|Trier]]** на Мозеле – один из старейших городов Германии. Около **16 года до н. э.** римляне при императоре [[lex:augustus|Августе]] основали здесь город **[[ton:la|Augusta Treverorum]]** – «Августа у треверов». **Die [[lex:treverer|Treverer]]** – племя, которое жило в долине [[lex:mosel|Мозеля]]; их обычно считают кельтами.",
+    "Позже от длинного римского имени осталось только **Treveris**, а из него – **Trier**. Самый известный памятник тех времён – римские ворота **die [[lex:porta_nigra|Porta Nigra]]**.",
+    "Лучшее доказательство, что это разные слова: по-французски город Trier называется **[[ton:fr|Trèves]]** – совсем не похоже на глагол trier!"
+  ],
+  spuren: [
+    ["try · trial", "Англ. trial – «проба, испытание» и «суд» (дело проверяют). Тот же корень."],
+    ["die Triage", "Нем. и франц.: сортировка раненых по тяжести – от того же trier «отбирать»."],
+    ["le tri · trier (FR)", "Франц. «сортировка, сортировать» – сегодня так говорят о мусоре и о почте."],
+    ["Trèves (FR) · Treviri (IT)", "Так называют Trier во Франции и в Италии – видно имя треверов."]
+  ],
+  orte: {
+    trier:  { name: "Trier", lat: 49.75, lng: 6.64, info: "Augusta Treverorum, основан римлянами около 16 г. до н. э. Porta Nigra.", wiki: "Trier", wikiRu: "Трир" },
+    rouen:  { name: "Rouen (Normandie)", lat: 49.44, lng: 1.10, info: "Столица Нормандии. Отсюда в 1066 году нормандцы пошли на Англию – с французским языком.", wiki: "Rouen", wikiRu: "Руан" },
+    london: { name: "London", lat: 51.51, lng: -0.13, info: "После 1066 года здесь при дворе говорили по-французски. Так trier стало английским try.", wiki: "London", wikiRu: "Лондон" }
+  },
+  wege: [
+    ["rouen", "london", "trier → try (nach 1066)"]
+  ],
+  links: [
+    { t: "„try“ – Etymonline", url: "https://www.etymonline.com/word/try", art: "woerterbuch", sp: "EN", info: "Английский этимологический словарь: от старофранцузского trier." },
+    { t: "Trier – Wikipedia", url: "https://de.wikipedia.org/wiki/Trier", art: "lexikon", sp: "DE", info: "История города, Augusta Treverorum." },
+    { t: "Трир – Википедия", url: "https://ru.wikipedia.org/wiki/Трир", art: "lexikon", sp: "RU", info: "То же по-русски." },
+    { t: "Treverer – Wikipedia", url: "https://de.wikipedia.org/wiki/Treverer", art: "lexikon", sp: "DE", info: "Племя, давшее имя городу." }
+  ],
+  raetsel: { frage: "Как по-французски называется город Trier – и почему это доказывает, что try тут ни при чём?", antwort: "**Trèves** – от имени треверов. А глагол «отбирать» по-французски – trier. Будь это одно слово, город назывался бы так же." }
+}
 
 ];
 
@@ -229,5 +270,10 @@ window.WORTDETEKTIV_LEXIKON = {
   nachtschatten:{ de: "Nachtschattengewächse", ru: "Паслёновые" },
   belladonna:   { de: "Schwarze Tollkirsche", ru: "Красавка" },
   stechapfel:   { de: "Gemeiner Stechapfel", ru: "Дурман обыкновенный" },
-  duden:        { de: "Duden", ru: "Дуден (словарь)" }
+  duden:        { de: "Duden", ru: "Дуден (словарь)" },
+  // 2026-11-11: try und Trier
+  augustus:     { de: "Augustus", ru: "Октавиан Август" },
+  treverer:     { de: "Treverer", ru: "Треверы" },
+  mosel:        { de: "Mosel", ru: "Мозель" },
+  porta_nigra:  { de: "Porta Nigra", ru: "Порта Нигра" }
 };
