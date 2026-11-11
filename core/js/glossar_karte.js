@@ -13,6 +13,9 @@
   "use strict";
   const LS_MEINE = "glossar_meine_v1";   // { items: [ { w, lang, satz, datum, gefunden } ] }
   const GLOSSAR_SEITE = (document.currentScript && document.currentScript.dataset.glossar) || "/pages/language_lab/glossar/index.html";
+  // 2026-11-11: die Lautschrift (IPA) + Link zum Spickzettel / транскрипция + ссылка на шпаргалку
+  const SPICK_SEITE = (document.currentScript && document.currentScript.dataset.spick) || "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/spickzettel.html";
+  function ipa(w) { return typeof window.lautschriftEN === "function" ? window.lautschriftEN(w) : ""; }
 
   // ---------------- Daten ----------------
   const idx = {};       // englische Wörter + Formen → Eintrag
@@ -52,11 +55,13 @@
   function meineSpeichern(items) { try { localStorage.setItem(LS_MEINE, JSON.stringify({ items })); } catch (e) {} }
   function schluessel(w, lang) { return (lang || "en") + ":" + norm(w); }
   function istGemerkt(w, lang) { const k = schluessel(w, lang); return meineLaden().some((x) => schluessel(x.w, x.lang) === k); }
-  function merken(w, lang, satz, gefunden) {
+  function merken(w, lang, satz, gefunden, form) {
     const items = meineLaden();
     const k = schluessel(w, lang);
     if (items.some((x) => schluessel(x.w, x.lang) === k)) return;
-    items.unshift({ w, lang: lang || "en", satz: satz || "", datum: new Date().toISOString().slice(0, 10), gefunden: !!gefunden });
+    const neu = { w, lang: lang || "en", satz: satz || "", datum: new Date().toISOString().slice(0, 10), gefunden: !!gefunden };
+    if (form && norm(form) !== norm(w)) neu.form = norm(form);   // 2026-11-11: angeklickte Form, z. B. „without“
+    items.unshift(neu);
     meineSpeichern(items);
   }
   function vergessen(w, lang) {
@@ -75,6 +80,11 @@
 .gk-karte{margin:8px 0 6px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);font-size:14px;line-height:1.4}
 .gk-bed{font-size:16px;font-weight:700;margin-bottom:6px}
 .gk-bed small{font-weight:400;opacity:.85}
+.gk-ipa{font-size:17px;margin:0 0 6px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.gk-ipa b{font-size:18px}
+.gk-ipa .gk-l{font-family:"Segoe UI","DejaVu Sans","Lucida Sans Unicode",sans-serif;font-size:19px;color:#1f6feb;font-weight:600}
+.gk-ipa a{font-size:13px;color:inherit;opacity:.85;border:1px solid rgba(127,127,127,.4);border-radius:999px;padding:2px 9px;text-decoration:none}
+.gk-l2{font-family:"Segoe UI","DejaVu Sans","Lucida Sans Unicode",sans-serif;font-weight:400;opacity:.85}
 .gk-her{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;color:#fff;margin-bottom:5px}
 .gk-zeile{margin:4px 0}
 .gk-zeile b{opacity:.75;font-weight:600}
@@ -138,10 +148,16 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
     const gemerkt = istGemerkt(e ? e.w : wort, e ? "en" : lang);
     const H = (window.GLOSSAR_HERKUNFT || {})[e && e.h] || null;
     mehr.open = false;
+    const ipaWort = lang === "en" ? ipa(wort) : "";
+    const ipaZeile = ipaWort
+      ? `<div class="gk-ipa"><b>${esc(norm(wort))}</b><span class="gk-l">[${esc(ipaWort)}]</span><a href="${SPICK_SEITE}" target="_blank" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a></div>`
+      : "";
+    const ipaGrund = e && norm(e.w) !== norm(wort) && ipa(e.w) ? ` <span class="gk-l2">[${esc(ipa(e.w))}]</span>` : "";
 
     if (e) {
       karte.innerHTML = `
-        <div class="gk-bed">${esc(e.w)} = ${esc(e.de)} <small>/ ${esc(e.ru)}</small></div>
+        ${ipaZeile}
+        <div class="gk-bed">${esc(e.w)}${ipaGrund} = ${esc(e.de)} <small>/ ${esc(e.ru)}</small></div>
         ${H ? `<span class="gk-her" style="background:${H.farbe}">${esc(H.de)} · ${esc(H.ru)}</span>` : ""}
         <div class="gk-zeile"><b>Herkunft:</b> ${esc(e.her)}</div>
         ${e.ver ? `<div class="gk-zeile"><b>Verwandt:</b> ${esc(e.ver)}</div>` : ""}
@@ -154,6 +170,7 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
         </div>`;
     } else {
       karte.innerHTML = `
+        ${ipaZeile}
         <div class="gk-fehlt">📭 Für „${esc(wort)}“ gibt es noch keine Erklärung.<br>
         <small>Объяснения пока нет. Нажми «Merken» – слово попадёт в список «ждут объяснения», Claude допишет происхождение.</small></div>
         <div class="gk-knoepfe">
@@ -165,7 +182,7 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
     karte.querySelector(".gk-merk").onclick = (ev) => {
       ev.stopPropagation();
       const w = e ? e.w : wort, l = e ? "en" : lang;
-      if (istGemerkt(w, l)) vergessen(w, l); else merken(w, l, satz, !!e);
+      if (istGemerkt(w, l)) vergessen(w, l); else merken(w, l, satz, !!e, wort);
       zeichnen();
     };
     karte.querySelector(".gk-hoer").onclick = (ev) => {

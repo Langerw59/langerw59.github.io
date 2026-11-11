@@ -1,7 +1,8 @@
 // 2026-02-23 | RU/DE/EN: Cache bump + safer update flow (skipWaiting/message).
 // 2026-11-02: Lektionen Level 1-2, Lernen der Reihe nach.
 // 2026-11-11: Spickzettel (Lautschrift) dazu.
-const CACHE = "sprachbox-v30";
+// 2026-11-11: Lautschrift im Wort-Fenster.
+const CACHE = "sprachbox-v31";
 const CORE = [
   "./",
   "./index.html",

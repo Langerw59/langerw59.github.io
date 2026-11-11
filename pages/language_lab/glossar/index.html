@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../../core/assets/style.css" />
     <script src="../../../core/js/core_init.js" defer></script>
     <script src="../../../datenbanken/glossar/glossar_en.js" defer></script>
+    <script src="../../../datenbanken/glossar/lautschrift_en.js" defer></script>
     <!-- 2026-11-02: Glossar EN – erstellt mit Claude
          DE: Alle Wörter alphabetisch, mit Herkunft, Suche und Filtern.
          RU: Все слова по алфавиту, с происхождением, поиском и фильтрами. -->
@@ -36,6 +37,10 @@
       .gl-her { display: inline-block; font-size: .78rem; font-weight: 700; padding: 1px 9px; border-radius: 999px; color: #fff; margin: 2px 0 6px; }
       .gl-tip { margin: 8px 0; padding: 6px 10px; border-left: 3px solid #d29922; background: rgba(210,153,34,.1); border-radius: 4px; }
       .gl-bsp { margin-top: 6px; }
+      /* 2026-11-11: die Lautschrift (IPA) / транскрипция */
+      .gl-ipa { font-family: "Segoe UI", "DejaVu Sans", "Lucida Sans Unicode", sans-serif; color: var(--accent, #1f6feb); font-weight: 600; font-size: 1.05rem; }
+      .gl-ipa-zeile { margin: 2px 0 8px; font-size: 1.05rem; line-height: 1.7; }
+      .gl-ipa-zeile a { font-size: .85rem; color: inherit; border: 1px solid var(--border-subtle, #d0d7de); border-radius: 999px; padding: 2px 10px; text-decoration: none; white-space: nowrap; }
       .gl-tags span { display: inline-block; font-size: .78rem; background: rgba(127,127,127,.14); border-radius: 999px; padding: 1px 8px; margin: 6px 4px 0 0; }
       .gl-knoepfe { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
       .gl-knoepfe button { font: inherit; font-size: .9rem; cursor: pointer; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border-subtle, #d0d7de); background: transparent; color: inherit; }
@@ -159,6 +164,19 @@
       const G = (window.GLOSSAR_EN || []).slice().sort((a, b) => a.w.localeCompare(b.w, "en", { sensitivity: "base" }));
       const H = window.GLOSSAR_HERKUNFT || {};
       const norm = (s) => String(s || "").toLowerCase().replace(/[’`´]/g, "'").trim();
+      // 2026-11-11: die Lautschrift (IPA) + der Spickzettel
+      const SPICK = "../apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/spickzettel.html";
+      const ipa = (w) => (typeof window.lautschriftEN === "function" ? window.lautschriftEN(w) : "");
+      const spickLink = `<a href="${SPICK}" target="_blank" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a>`;
+      function ipaZeile(e, form) {
+        const woerter = [e.w].concat(e.f || []);
+        if (form && !woerter.some((x) => norm(x) === norm(form))) woerter.push(form);
+        const teile = woerter.filter((x) => ipa(x)).map((x) => {
+          const fett = form && norm(x) === norm(form);
+          return `${fett ? "<b>" : ""}${esc(x)}${fett ? "</b>" : ""} <span class="gl-ipa">[${esc(ipa(x))}]</span>`;
+        });
+        return teile.length ? `<div class="gl-ipa-zeile"><b>Lautschrift / транскрипция:</b> ${teile.join(" · ")} ${spickLink}</div>` : "";
+      }
 
       // Formen-Index (für „Meine Wörter“ und #w=)
       const idx = {};
@@ -373,17 +391,18 @@
         sprechen(w, l, 0.8);
       }
 
-      function eintragHtml(e, satz) {
+      function eintragHtml(e, satz, form) {
         const h = H[e.h] || { farbe: "#999", de: "", ru: "" };
         const ist = gemerkt(e.w);
         return `<div class="gl-eintrag ${offen === e.w ? "offen" : ""}" data-w="${esc(e.w)}" id="w-${esc(e.w)}">
           <div class="gl-kopf">
             <span class="gl-punkt" style="background:${h.farbe}" title="${esc(h.de)}"></span>
-            <span class="gl-wort">${esc(e.w)} ${ist ? '<span class="gl-stern">⭐</span>' : ""}</span>
+            <span class="gl-wort">${esc(e.w)} ${ipa(e.w) ? `<span class="gl-ipa">[${esc(ipa(e.w))}]</span>` : ""} ${ist ? '<span class="gl-stern">⭐</span>' : ""}</span>
             <span class="gl-de">${esc(e.de)}</span>
             <span class="gl-ru">${esc(e.ru)}</span>
           </div>
           <div class="gl-body">
+            ${ipaZeile(e, form)}
             <span class="gl-her" style="background:${h.farbe}">${esc(h.de)} · ${esc(h.ru)}</span>
             <div><b>Herkunft / происхождение:</b> ${herkunftHtml(e)}</div>
             ${e.ver ? `<div style="margin-top:4px"><b>Verwandt / родственные:</b> ${verwandtHtml(e)}</div>` : ""}
@@ -422,10 +441,10 @@
         $("ansichtWarte").hidden = tab !== "warte";
         if (tab === "warte") return zeichneWarte(warte);
 
-        let liste = G, saetze = {};
+        let liste = G, saetze = {}, formen = {};
         if (tab === "meine") {
           liste = [];
-          m.forEach((x) => { const e = idx[norm(x.w)]; if (e && !liste.includes(e)) { liste.push(e); saetze[e.w] = x.satz; } });
+          m.forEach((x) => { const e = idx[norm(x.w)]; if (e && !liste.includes(e)) { liste.push(e); saetze[e.w] = x.satz; formen[e.w] = x.form || ""; } });
           liste.sort((a, b) => a.w.localeCompare(b.w, "en", { sensitivity: "base" }));
         }
         liste = filterListe(liste);
@@ -449,8 +468,8 @@
           const b = e.w[0].toUpperCase();
           if (b !== akt) { akt = b; h += `<div class="gl-buchstabe" id="b-${b}">${b}</div>`; }
           h += e.warte
-            ? `<div class="gl-eintrag" style="border-style:dashed"><div class="gl-kopf"><button type="button" data-hoer="${esc(e.w)}" data-l="${esc(e.lang || "en")}" style="font:inherit;cursor:pointer;border:none;background:none" title="anhören">🔊</button><span class="gl-wort">${esc(e.w)}</span><span class="gl-de" style="color:var(--text-muted,#59636e)">📭 wartet auf Erklärung / ждёт объяснения${e.satz ? " · " + esc(e.satz) : ""}</span></div></div>`
-            : eintragHtml(e, saetze[e.w]);
+            ? `<div class="gl-eintrag" style="border-style:dashed"><div class="gl-kopf"><button type="button" data-hoer="${esc(e.w)}" data-l="${esc(e.lang || "en")}" style="font:inherit;cursor:pointer;border:none;background:none" title="anhören">🔊</button><span class="gl-wort">${esc(e.w)} ${(e.lang || "en") === "en" && ipa(e.w) ? `<span class="gl-ipa">[${esc(ipa(e.w))}]</span>` : ""}</span><span class="gl-de" style="color:var(--text-muted,#59636e)">📭 wartet auf Erklärung / ждёт объяснения${e.satz ? " · " + esc(e.satz) : ""}</span></div></div>`
+            : eintragHtml(e, saetze[e.w], formen[e.w]);
         });
         $("liste").innerHTML = h;
       }
