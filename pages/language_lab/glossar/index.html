@@ -167,7 +167,7 @@
       // 2026-11-11: die Lautschrift (IPA) + der Spickzettel
       const SPICK = "../apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/spickzettel.html";
       const ipa = (w) => (typeof window.lautschriftEN === "function" ? window.lautschriftEN(w) : "");
-      const spickLink = `<a href="${SPICK}" target="_blank" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a>`;
+      const spickLink = `<a href="${SPICK}" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a>`;
       function ipaZeile(e, form) {
         const woerter = [e.w].concat(e.f || []);
         if (form && !woerter.some((x) => norm(x) === norm(form))) woerter.push(form);
@@ -642,12 +642,21 @@
       // RU: «von=» в ссылке говорит, откуда пришёл; ↩ возвращает туда.
       (function navKnoepfe() {
         const p = new URLSearchParams(location.hash.replace(/^#/, ""));
-        const von = p.get("von") || "";
-        const vonName = p.get("vonName") || "";
+        // 2026-11-11: ohne „von=“ – Herkunft aus dem Referrer (z. B. Knopf 📖 Glossar in der SprachBox)
+        let von = p.get("von") || "", vonName = p.get("vonName") || "";
+        if (!von && document.referrer) {
+          try {
+            const r = new URL(document.referrer);
+            const m = r.pathname.match(/SprachBox_DE_([A-Z]{2})/);
+            if (r.origin === location.origin && m) { von = r.pathname + r.search; vonName = "SprachBox DE↔" + m[1]; }
+          } catch (e) {}
+        }
         if (vonName) $("navZurueckText").textContent = vonName;
         $("navOben").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
         $("navUnten").addEventListener("click", () => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" }));
         $("navZurueck").addEventListener("click", () => {
+          // 2026-11-11: Herkunft bekannt (SprachBox) → direkt dorthin, auch in der App „Q“ auf dem iPhone
+          if (von) { location.href = von; return; }
           // 1) im selben Tab gekommen → einfach zurück (Seite bleibt, wie sie war)
           if (history.length > 1 && document.referrer) { history.back(); return; }
           // 2) eigener Tab (aus der Wortkarte) → Tab schließen, die SprachBox ist darunter noch offen

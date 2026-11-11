@@ -150,7 +150,7 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
     mehr.open = false;
     const ipaWort = lang === "en" ? ipa(wort) : "";
     const ipaZeile = ipaWort
-      ? `<div class="gk-ipa"><b>${esc(norm(wort))}</b><span class="gk-l">[${esc(ipaWort)}]</span><a href="${SPICK_SEITE}" target="_blank" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a></div>`
+      ? `<div class="gk-ipa"><b>${esc(norm(wort))}</b><span class="gk-l">[${esc(ipaWort)}]</span><a href="${SPICK_SEITE}${SPICK_SEITE.indexOf("?") < 0 ? "?" : "&"}von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a></div>`
       : "";
     const ipaGrund = e && norm(e.w) !== norm(wort) && ipa(e.w) ? ` <span class="gk-l2">[${esc(ipa(e.w))}]</span>` : "";
 
@@ -166,7 +166,7 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
         <div class="gk-knoepfe">
           <button type="button" class="gk-merk ${gemerkt ? "ok" : ""}">${gemerkt ? "✓ Im Glossar" : "📖 Ins Glossar / в глоссарий"}</button>
           <button type="button" class="gk-hoer">🔊</button>
-          <a href="${GLOSSAR_SEITE}#w=${encodeURIComponent(e.w)}&von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}" target="_blank">Glossar öffnen ↗</a>
+          <a href="${GLOSSAR_SEITE}#w=${encodeURIComponent(e.w)}&von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}">Glossar öffnen →</a>
         </div>`;
     } else {
       karte.innerHTML = `

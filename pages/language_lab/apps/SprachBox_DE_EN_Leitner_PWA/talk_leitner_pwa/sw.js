@@ -2,7 +2,8 @@
 // 2026-11-02: Lektionen Level 1-2, Lernen der Reihe nach.
 // 2026-11-11: Spickzettel (Lautschrift) dazu.
 // 2026-11-11: Lautschrift im Wort-Fenster.
-const CACHE = "sprachbox-v31";
+// 2026-11-11: Zurück-Knöpfe (Glossar, Spickzettel).
+const CACHE = "sprachbox-v32";
 const CORE = [
   "./",
   "./index.html",

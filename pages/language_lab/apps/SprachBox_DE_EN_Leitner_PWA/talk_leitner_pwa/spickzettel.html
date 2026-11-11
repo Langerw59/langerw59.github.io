@@ -27,10 +27,19 @@
     .e .ipa{ color:var(--muted); }
     .e:hover{ text-decoration:underline; }
     .tip{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--sign); border-radius:10px; padding:10px 12px; margin-top:14px; font-size:15px; }
+    .sz-zurueck{ display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 10px; }
+    .sz-zurueck a, .sz-zurueck button{ font:inherit; font-size:16px; font-weight:700; cursor:pointer; text-decoration:none; border-radius:999px; padding:9px 16px; border:1px solid var(--sign); }
+    .sz-zurueck button{ background:var(--sign); color:#fff; }
+    .sz-zurueck a{ background:var(--card); color:var(--text); }
   </style>
 </head>
 <body data-lernzeit="Spickzettel Lautschrift">
 <main>
+  <!-- 2026-11-11: Zurück / Sprachführer – назад / в разговорник -->
+  <nav class="sz-zurueck">
+    <button type="button" id="szZurueck">↩ Zurück / назад</button>
+    <a href="./index.html">📘 Sprachführer DE↔EN</a>
+  </nav>
   <h1>🔤 Der Spickzettel – die Lautschrift</h1>
   <p class="sub">Транскрипция (IPA) для английских фраз из SprachBox. Нажмите на пример 🔊 – он прозвучит.</p>
 
@@ -140,6 +149,19 @@ for(const [id, rows] of Object.entries(SPICK)){
     box.appendChild(d);
   }
 }
+</script>
+<script>
+// 2026-11-11: Zurück – dorthin, woher man kam (Wortkarte, Glossar, SprachBox)
+(function () {
+  const p = new URLSearchParams(location.search);
+  const von = p.get("von") || "";
+  document.getElementById("szZurueck").addEventListener("click", function () {
+    let ref = "";
+    try { const r = new URL(document.referrer); if (r.origin === location.origin) ref = r.href; } catch (e) {}
+    if (ref && history.length > 1) { history.back(); return; }
+    location.href = von || "./index.html";
+  });
+})();
 </script>
 </body>
 </html>
