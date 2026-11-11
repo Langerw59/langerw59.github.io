@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Der Spickzettel – die Lautschrift (Englisch)</title>
+  <link rel="icon" href="./assets/icon-192.png" />
+  <!-- 2026-11-11: der Spickzettel zur Lautschrift (IPA) / шпаргалка по транскрипции -->
+  <script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
+  <style>
+    :root{ --bg:#f6f7fb; --card:#ffffff; --text:#1b2333; --muted:#5b6475; --line:#dde2ec; --sign:#1f4d99; --ex:#b02626; }
+    html[data-theme="dark"]{ --bg:#0f1522; --card:#182033; --text:#e8ecf4; --muted:#a3adc2; --line:#2a3550; --sign:#8db4ff; --ex:#ff8f8f; }
+    *{ box-sizing:border-box; }
+    body{ margin:0; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+    main{ max-width:1100px; margin:0 auto; padding:14px 14px 40px; }
+    h1{ font-size:24px; margin:6px 0 2px; }
+    .sub{ color:var(--muted); margin:0 0 12px; font-size:15px; }
+    nav.jump{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px; }
+    nav.jump a{ text-decoration:none; color:var(--text); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:6px 12px; font-weight:700; font-size:14px; }
+    h2{ font-size:18px; margin:18px 0 8px; }
+    .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:8px; }
+    .k{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:9px 11px; display:grid; grid-template-columns:62px 1fr; gap:4px 10px; align-items:start; }
+    .s{ font-size:30px; font-weight:700; color:var(--sign); grid-row:span 3; text-align:center; line-height:1.15; font-family:"Segoe UI","DejaVu Sans","Lucida Sans Unicode",sans-serif; }
+    .n{ font-weight:700; font-size:14px; }
+    .r{ font-size:15px; }
+    .e{ font-size:14px; color:var(--ex); cursor:pointer; }
+    .e .ipa{ color:var(--muted); }
+    .e:hover{ text-decoration:underline; }
+    .tip{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--sign); border-radius:10px; padding:10px 12px; margin-top:14px; font-size:15px; }
+  </style>
+</head>
+<body data-lernzeit="Spickzettel Lautschrift">
+<main>
+  <h1>🔤 Der Spickzettel – die Lautschrift</h1>
+  <p class="sub">Транскрипция (IPA) для английских фраз из SprachBox. Нажмите на пример 🔊 – он прозвучит.</p>
+
+  <nav class="jump">
+    <a href="#zeichen">Die Zeichen</a>
+    <a href="#vokale">Die Vokale</a>
+    <a href="#doppel">Die Doppellaute</a>
+    <a href="#konso">Die Konsonanten</a>
+  </nav>
+
+  <h2 id="zeichen">Die Zeichen · значки</h2>
+  <div class="grid" id="g-zeichen"></div>
+
+  <h2 id="vokale">Die Vokale (die Selbstlaute) · гласные</h2>
+  <div class="grid" id="g-vokale"></div>
+
+  <h2 id="doppel">Die Doppellaute · двойные гласные</h2>
+  <div class="grid" id="g-doppel"></div>
+
+  <h2 id="konso">Die Konsonanten (die Mitlaute) · согласные</h2>
+  <div class="grid" id="g-konso"></div>
+
+  <div class="tip">
+    <b>Das Wichtigste:</b> английский читается не по буквам. Одно «ea» звучит по-разному: teacher [ˈtiːtʃər], weather [ˈweðər], great [ɡreɪt]. Поэтому смотрите на транскрипцию, а не на буквы.
+  </div>
+  <div class="tip">
+    <b>Der Hinweis:</b> произношение дано американское (как и слова в ваших карточках: restroom, check). В словарях Langenscheidt – британское: там нет «r» в конце слова (car [kɑː], teacher [ˈtiːtʃə]).
+  </div>
+</main>
+
+<script>
+// 2026-11-11: Daten des Spickzettels / данные шпаргалки
+// [Zeichen, deutscher Name, Erklärung RU, Beispiel EN, Lautschrift]
+const SPICK = {
+  "g-zeichen": [
+    ["ˈ", "die Betonung", "Ударение: следующий слог ударный.", "teacher", "ˈtiːtʃər"],
+    ["ˌ", "die Nebenbetonung", "Слабое (второе) ударение.", "understand", "ˌʌndərˈstænd"],
+    ["ː", "lang", "Звук перед двоеточием – долгий, тянется.", "please", "pliːz"],
+    ["[ ]", "die Klammern", "В квадратных скобках – как читается.", "Hello!", "həˈloʊ"]
+  ],
+  "g-vokale": [
+    ["ɪ", "kurzes i", "Короткое «и», почти «ы». Как немецкое i в „bitte“.", "this", "ðɪs"],
+    ["iː", "langes i", "Долгое «ии». Как немецкое ie in „Liebe“.", "meet", "miːt"],
+    ["i", "i am Wortende", "Короткое ясное «и» в конце слова.", "family", "ˈfæməli"],
+    ["e", "e", "Как русское «э».", "yes", "jes"],
+    ["æ", "ä (offen)", "Между «а» и «э», рот широко открыт.", "thank you", "θæŋk ju"],
+    ["ʌ", "kurzes a", "Короткое «а», как в слове «как».", "my son", "maɪ sʌn"],
+    ["ɑ", "dunkles a", "Глубокое открытое «а».", "car", "kɑr"],
+    ["ɔ", "offenes o", "Открытое «о», почти «оа».", "coffee", "ˈkɔfi"],
+    ["ʊ", "kurzes u", "Короткое «у», губы расслаблены.", "good", "ɡʊd"],
+    ["uː", "langes u", "Долгое «уу».", "food", "fuːd"],
+    ["ə", "das Schwa", "Слабый неясный звук, как безударное «а» в «машина». Самый частый звук!", "again", "əˈɡen"],
+    ["ər", "unbetontes er", "Слабый звук + мягкое американское r.", "water", "ˈwɔtər"],
+    ["ɜr", "betontes er", "Как немецкое ö + r, ударное.", "German", "ˈdʒɜrmən"]
+  ],
+  "g-doppel": [
+    ["aɪ", "ei", "«ай»", "I have time.", "aɪ hæv taɪm"],
+    ["eɪ", "ej", "«эй»", "My name is …", "maɪ neɪm ɪz"],
+    ["oʊ", "ou", "«оу», губы округляются к концу.", "No problem.", "noʊ ˈprɑbləm"],
+    ["aʊ", "au", "«ау», как немецкое au in „Haus“.", "house", "haʊs"],
+    ["ɔɪ", "eu", "«ой», как немецкое eu in „heute“.", "Enjoy your meal!", "ɪnˈdʒɔɪ jʊr miːl"]
+  ],
+  "g-konso": [
+    ["θ", "th (stimmlos)", "Глухое «с», кончик языка между зубами.", "thank you", "θæŋk ju"],
+    ["ð", "th (stimmhaft)", "Звонкое «з», кончик языка между зубами.", "this", "ðɪs"],
+    ["ŋ", "ng", "«н» в нос, как немецкое ng in „lang“. «г» не слышно!", "morning", "ˈmɔrnɪŋ"],
+    ["ʃ", "sch", "«ш»", "sugar", "ˈʃʊɡər"],
+    ["tʃ", "tsch", "«ч»", "teacher", "ˈtiːtʃər"],
+    ["dʒ", "dsch", "«дж»", "jacket", "ˈdʒækɪt"],
+    ["w", "w (englisch)", "Губы трубочкой, быстро: «уа». Не немецкое w!", "water", "ˈwɔtər"],
+    ["v", "w (deutsch)", "«в», как немецкое w in „Wasser“.", "I live …", "aɪ lɪv"],
+    ["j", "j", "«й», как немецкое j in „ja“.", "you", "ju"],
+    ["r", "r (englisch)", "Язык загнут назад, не касается нёба, не раскатывать.", "right", "raɪt"],
+    ["h", "h", "Лёгкий выдох, как немецкое h.", "help", "help"],
+    ["z", "stimmhaftes s", "«з». Буква s часто читается как [z]!", "is", "ɪz"],
+    ["s", "stimmloses s", "«с»", "Yes, please.", "jes pliːz"],
+    ["ç", "ich-Laut", "Немецкий звук из „ich“ – только в немецких словах.", "Willich", "ˈvɪlɪç"]
+  ]
+};
+
+function sag(text){
+  try{
+    if(!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US"; u.rate = 0.8;
+    const v = speechSynthesis.getVoices().find(x => /^en(-|_)US/i.test(x.lang));
+    if(v) u.voice = v;
+    speechSynthesis.speak(u);
+  }catch(_e){}
+}
+
+for(const [id, rows] of Object.entries(SPICK)){
+  const box = document.getElementById(id);
+  for(const [s, n, r, ex, ipa] of rows){
+    const d = document.createElement("div");
+    d.className = "k";
+    d.innerHTML = `<div class="s"></div><div class="n"></div><div class="r"></div><div class="e" title="Anhören"></div>`;
+    d.querySelector(".s").textContent = s;
+    d.querySelector(".n").textContent = n;
+    d.querySelector(".r").textContent = r;
+    const e = d.querySelector(".e");
+    e.innerHTML = `🔊 <b></b> <span class="ipa"></span>`;
+    e.querySelector("b").textContent = ex;
+    e.querySelector(".ipa").textContent = "[" + ipa + "]";
+    e.addEventListener("click", () => sag(ex.replace("…", "")));
+    box.appendChild(d);
+  }
+}
+</script>
+</body>
+</html>
