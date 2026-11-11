@@ -4,7 +4,8 @@
 // 2026-11-11: Lautschrift im Wort-Fenster.
 // 2026-11-11: Zurück-Knöpfe (Glossar, Spickzettel).
 // 2026-11-11: die Leseregeln dazu.
-const CACHE = "sprachbox-v33";
+// 2026-11-11: Navi-Knöpfe (core_init.js neu).
+const CACHE = "sprachbox-v34";
 const CORE = [
   "./",
   "./index.html",

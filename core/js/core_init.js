@@ -260,3 +260,18 @@
   document.head.appendChild(script);
 })();
 
+
+// ------------------------------------------------------------
+// 5) NAVI-KNÖPFE ⬆ ⬇ ← →  (2026-11-11)
+// ------------------------------------------------------------
+// DE: Rechts am Rand auf jeder Seite; fremde Links öffnen im selben Fenster.
+//     Ausschalten pro Seite: <body data-keine-navi>
+// RU: Кнопки вверх/вниз/назад/вперёд на каждой странице (файл navi_knoepfe.js).
+(function loadNaviKnoepfe() {
+  const SRC = "/core/js/navi_knoepfe.js";
+  if (window.__NAVI_KNOEPFE__ || document.querySelector('script[src$="navi_knoepfe.js"]')) return;
+  const script = document.createElement("script");
+  script.src = SRC;
+  script.defer = true;
+  document.head.appendChild(script);
+})();
