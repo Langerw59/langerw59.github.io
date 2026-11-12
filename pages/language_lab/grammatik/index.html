@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Die Grammatik – Грамматика</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <script src="../../../datenbanken/grammatik/grammatik.js" defer></script>
+    <!-- 2026-11-12: die Grammatik – erstellt mit Claude
+         DE: Alle Grammatik-Regeln an EINEM Ort (DE · EN · RU), mit Sprachausgabe.
+             Andere Programme verlinken hierher: grammatik/index.html#<id>
+         RU: Все правила грамматики в одном месте. Данные: /datenbanken/grammatik/grammatik.js -->
+    <style>
+      .gr-wrap { max-width: 1000px; margin: 0 auto; }
+      .gr-sub { color: var(--text-muted, #59636e); margin-top: 0; }
+      .gr-themen { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+      .gr-themen a { text-decoration: none; color: inherit; border: 1px solid var(--border-subtle, #d0d7de); border-radius: 999px; padding: 6px 13px; font-weight: 600; background: var(--bg-surface, #fff); }
+      .gr-thema { font-size: 1.35rem; font-weight: 700; margin: 22px 0 8px; padding-bottom: 4px; border-bottom: 2px solid var(--accent, #1f6feb); scroll-margin-top: 80px; }
+      .gr-thema small { font-weight: 400; color: var(--text-muted, #59636e); font-size: .95rem; }
+      .gr-leer { color: var(--text-muted, #59636e); font-size: .95rem; margin: 4px 0 8px; }
+      .gr-regel { border: 1px solid var(--border-subtle, #d0d7de); border-radius: 12px; margin: 8px 0; background: var(--bg-surface, #fff); scroll-margin-top: 80px; }
+      .gr-kopf { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; padding: 11px 14px; cursor: pointer; }
+      .gr-kopf h3 { margin: 0; font-size: 1.15rem; }
+      .gr-kopf .ru { color: var(--text-muted, #59636e); }
+      .gr-kopf .fl { font-size: .75rem; font-weight: 700; border-radius: 999px; padding: 1px 8px; background: rgba(127,127,127,.15); }
+      .gr-kopf .pfeil { margin-left: auto; color: var(--text-muted, #59636e); }
+      .gr-body { display: none; padding: 0 14px 14px; line-height: 1.5; }
+      .gr-regel.offen .gr-body { display: block; }
+      .gr-regel.offen { box-shadow: 0 2px 10px rgba(0,0,0,.08); border-color: var(--accent, #1f6feb); }
+      .gr-regel.offen .pfeil { transform: rotate(180deg); }
+      .gr-formel { font-weight: 700; color: var(--accent, #1f6feb); background: rgba(31,111,235,.08); border-radius: 10px; padding: 8px 12px; margin: 4px 0 10px; font-size: 1.05rem; }
+      .gr-body p { margin: 6px 0; font-size: 1.02rem; }
+      .gr-merke { margin: 12px 0 4px; padding: 8px 12px; border-left: 4px solid #d29922; background: rgba(210,153,34,.1); border-radius: 6px; font-weight: 600; }
+      .gr-tab-wrap { overflow-x: auto; margin: 10px 0; }
+      table.gr-tab { border-collapse: collapse; width: 100%; font-size: .95rem; }
+      table.gr-tab th, table.gr-tab td { border: 1px solid var(--border-subtle, #d0d7de); padding: 6px 8px; text-align: left; vertical-align: top; }
+      table.gr-tab th { background: rgba(127,127,127,.1); font-size: .85rem; }
+      table.gr-tab td b { color: var(--accent, #1f6feb); cursor: pointer; }
+      .gr-bsp { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border: 1px solid var(--border-subtle, #d0d7de); border-radius: 10px; overflow: hidden; margin: 10px 0; }
+      .gr-bsp > div { padding: 7px 10px; border-bottom: 1px solid var(--border-subtle, #d0d7de); }
+      .gr-bsp .h { font-weight: 700; font-size: .85rem; background: rgba(127,127,127,.1); }
+      .gr-bsp .en { cursor: pointer; font-weight: 600; }
+      .gr-bsp .de { cursor: pointer; }
+      .gr-bsp .en::before, .gr-bsp .de::before { content: "🔊 "; font-size: .8em; opacity: .7; }
+      .gr-bsp .ru { color: var(--text-muted, #59636e); }
+      .gr-bsp .ru i { display: block; font-size: .82rem; color: #b26a00; }
+      .gr-bsp .spielt { outline: 2px solid var(--accent, #1f6feb); outline-offset: -2px; }
+      @media (max-width: 640px) {
+        .gr-bsp { grid-template-columns: 1fr; }
+        .gr-bsp .h { display: none; }
+        .gr-bsp .de, .gr-bsp .en { border-bottom: 0; padding-bottom: 2px; }
+        .gr-bsp .ru { padding-top: 2px; margin-bottom: 4px; }
+      }
+      .gr-fuss { font-size: .82rem; color: var(--text-muted, #59636e); margin-top: 10px; }
+      .gr-links a { display: block; text-decoration: none; color: inherit; border: 1px dashed var(--border-subtle, #afb8c1); border-radius: 10px; padding: 9px 12px; margin: 6px 0; }
+      .gr-links a small { color: var(--text-muted, #59636e); }
+      .gr-tip { border: 1px solid var(--border-subtle, #d0d7de); border-left: 4px solid var(--accent, #1f6feb); border-radius: 10px; padding: 10px 12px; margin: 10px 0; font-size: .95rem; background: var(--bg-surface, #fff); }
+      .gr-knoepfe { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
+      .gr-knoepfe button { font: inherit; cursor: pointer; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--accent, #1f6feb); background: transparent; color: inherit; font-weight: 600; }
+    </style>
+  </head>
+  <body data-lernzeit="Grammatik">
+    <div data-partial="header" data-partial-path="../../../core/partials/header.html"></div>
+
+    <main class="page-wrapper">
+      <div class="card gr-wrap">
+        <h1>📐 Die Grammatik – Грамматика</h1>
+        <p class="gr-sub">
+          Alle Regeln an einem Ort: Deutsch · English · Русский. Auf ein Beispiel tippen – es wird vorgelesen.<br />
+          <small>Все правила в одном месте. Нажмите на пример – он прозвучит.</small>
+        </p>
+        <div class="gr-tip">
+          <b>Neue Regel?</b> В любом чате с Claude скажите «<b>в грамматику</b>» – правило появится здесь.
+        </div>
+        <div class="gr-knoepfe">
+          <button type="button" id="grAlleAuf">▾ Alle öffnen</button>
+          <button type="button" id="grAlleZu">▴ Alle schließen</button>
+        </div>
+        <nav class="gr-themen" id="grThemen"></nav>
+        <div id="grInhalt"><p class="gr-leer">Lädt … / загрузка …</p></div>
+        <p class="gr-fuss">Daten: /datenbanken/grammatik/grammatik.js</p>
+      </div>
+    </main>
+
+    <div data-partial="footer" data-partial-path="../../../core/partials/footer.html"></div>
+
+    <script>
+    // 2026-11-12: die Grammatik – Seite aufbauen
+    (function () {
+      "use strict";
+      const $ = (id) => document.getElementById(id);
+      const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+      function sprich(text, lang, knoten) {
+        if (!text) return;
+        document.querySelectorAll(".spielt").forEach((k) => k.classList.remove("spielt"));
+        if (knoten) knoten.classList.add("spielt");
+        const fertig = () => { if (knoten) knoten.classList.remove("spielt"); };
+        if (window.TTSManager && window.TTSManager.speak) {
+          Promise.resolve(window.TTSManager.speak(text, lang)).then(() => setTimeout(fertig, 1500)).catch(fertig);
+          return;
+        }
+        try {
+          speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = lang === "de" ? "de-DE" : "en-US"; u.rate = 0.85;
+          u.onend = fertig; u.onerror = fertig;
+          speechSynthesis.speak(u);
+        } catch (_) { fertig(); }
+      }
+
+      function regelKarte(r) {
+        const box = el("section", "gr-regel"); box.id = r.id;
+        const kopf = el("div", "gr-kopf");
+        kopf.append(el("h3", null, r.titel), el("span", "ru", r.titel_ru), el("span", "fl", (r.sprache || "").toUpperCase()), el("span", "pfeil", "▾"));
+        const body = el("div", "gr-body");
+        if (r.formel) body.appendChild(el("div", "gr-formel", r.formel));
+        (r.erklaerung || []).forEach((p) => body.appendChild(el("p", null, p)));
+
+        if (r.tabelle) {
+          const wrap = el("div", "gr-tab-wrap");
+          const t = el("table", "gr-tab");
+          const tr0 = el("tr"); r.tabelle.kopf.forEach((k) => tr0.appendChild(el("th", null, k)));
+          t.appendChild(tr0);
+          r.tabelle.zeilen.forEach((z) => {
+            const tr = el("tr");
+            z.forEach((zelle) => {
+              const td = el("td");
+              const teile = String(zelle).split(" · ");
+              const erst = teile.shift();
+              if (r.tabelle.sprechen && erst !== "—") {
+                const b = el("b", null, erst);
+                b.title = "anhören / послушать";
+                b.addEventListener("click", () => sprich(erst, r.sprache || "en", td));
+                td.appendChild(b);
+              } else td.appendChild(document.createTextNode(erst));
+              if (teile.length) td.appendChild(document.createTextNode(" · " + teile.join(" · ")));
+              tr.appendChild(td);
+            });
+            t.appendChild(tr);
+          });
+          wrap.appendChild(t); body.appendChild(wrap);
+        }
+
+        if (r.beispiele && r.beispiele.length) {
+          const g = el("div", "gr-bsp");
+          const reihenfolge = r.sprache === "en" ? ["en", "de", "ru"] : ["de", "en", "ru"];
+          const namen = { de: "Deutsch", en: "English", ru: "Русский" };
+          reihenfolge.forEach((s) => g.appendChild(el("div", "h", namen[s])));
+          r.beispiele.forEach((b) => {
+            reihenfolge.forEach((s) => {
+              const z = el("div", s, b[s] || "");
+              if (s === "ru" && b.hinweis) z.appendChild(el("i", null, "💡 " + b.hinweis));
+              if (s === "en" || s === "de") z.addEventListener("click", () => sprich(b[s], s, z));
+              g.appendChild(z);
+            });
+          });
+          body.appendChild(g);
+        }
+        if (r.merke) body.appendChild(el("div", "gr-merke", "📌 " + r.merke));
+        if (r.datum) body.appendChild(el("div", "gr-fuss", "eingetragen: " + r.datum + " · Link: #" + r.id));
+
+        kopf.addEventListener("click", () => {
+          box.classList.toggle("offen");
+          try { history.replaceState(null, "", box.classList.contains("offen") ? "#" + r.id : location.pathname); } catch (_) {}
+        });
+        box.append(kopf, body);
+        return box;
+      }
+
+      function bauen() {
+        const G = window.GRAMMATIK;
+        const inhalt = $("grInhalt");
+        if (!G) { inhalt.innerHTML = '<p class="gr-leer">Daten fehlen / нет данных.</p>'; return; }
+        inhalt.innerHTML = "";
+        const nav = $("grThemen");
+        G.themen.forEach((th) => {
+          const regeln = G.regeln.filter((r) => r.thema === th.id);
+          const links = (G.links || []).filter((l) => l.thema === th.id);
+          const a = el("a", null, th.titel + (regeln.length + links.length ? " (" + (regeln.length + links.length) + ")" : ""));
+          a.href = "#thema-" + th.id; nav.appendChild(a);
+
+          const h = el("h2", "gr-thema"); h.id = "thema-" + th.id;
+          h.append(document.createTextNode(th.titel + " "), el("small", null, "· " + th.titel_ru));
+          inhalt.appendChild(h);
+          regeln.forEach((r) => inhalt.appendChild(regelKarte(r)));
+          if (links.length) {
+            const lb = el("div", "gr-links");
+            links.forEach((l) => {
+              const a2 = el("a"); a2.href = l.href;
+              a2.append(document.createTextNode("→ " + l.titel + " "), el("small", null, "· " + l.titel_ru));
+              lb.appendChild(a2);
+            });
+            inhalt.appendChild(lb);
+          }
+          if (!regeln.length && !links.length) inhalt.appendChild(el("p", "gr-leer", "Noch leer – пока пусто."));
+        });
+
+        // Link mit #id → Regel öffnen
+        if (location.hash) {
+          const z = document.querySelector(location.hash);
+          if (z) { if (z.classList.contains("gr-regel")) z.classList.add("offen"); setTimeout(() => z.scrollIntoView({ block: "start" }), 300); }
+        }
+      }
+
+      $("grAlleAuf").addEventListener("click", () => document.querySelectorAll(".gr-regel").forEach((r) => r.classList.add("offen")));
+      $("grAlleZu").addEventListener("click", () => document.querySelectorAll(".gr-regel").forEach((r) => r.classList.remove("offen")));
+      window.addEventListener("hashchange", () => {
+        const z = document.querySelector(location.hash);
+        if (z && z.classList.contains("gr-regel")) { z.classList.add("offen"); z.scrollIntoView({ block: "start" }); }
+      });
+
+      if (window.GRAMMATIK) bauen(); else window.addEventListener("load", bauen);
+    })();
+    </script>
+  </body>
+</html>
