@@ -317,6 +317,47 @@ window.WORTDETEKTIV = [
     { t: "Videos: Was ist Etymologie?", url: "https://www.youtube.com/results?search_query=Was+ist+Etymologie+Wortherkunft", art: "video", sp: "DE", info: "Поиск видео на YouTube." }
   ],
   raetsel: { frage: "Что общего у слов Biologie, Logik, Dialog и Etymologie?", antwort: "Греческое **lógos** – «слово, учение, разум». А etymo- – «истинный»: Etymologie – «учение об истинном слове»." }
+},
+
+// 2026-11-12: Die falschen Freunde – Wörter, die täuschen
+{
+  id: "falsche_freunde",
+  titel: "Die falschen Freunde – Wörter, die täuschen",
+  ru: "Ложные друзья – слова, которые обманывают",
+  wort: "die falschen Freunde / false friends / ложные друзья переводчика",
+  h: "unklar",
+  thema: "woerter",
+  kurz: "Слово выглядит знакомо – и мы уверены, что понимаем его. А оно значит совсем другое. Лингвисты называют такие слова «ложными друзьями».",
+  text: [
+    "**die falschen Freunde** (ложные друзья переводчика) – слова двух языков, которые пишутся или звучат почти одинаково, но значат разное. Часто у них **общий предок**, но в каждом языке слово пошло своей дорогой.",
+    "**Обман глаз: electricity.** Кажется, что это «electric city» – электрический город. Но слово делится иначе: **electric + -ity**. Суффикс -ity – это латинское **-itas**, немецкое **-ität**, русское **-ость**: electricity = **die Elektrizität**, как university = **die Universität**, quality = **die Qualität**. Ударение: [[ton:en|electricity]] – «илек-ТРИ-сэти».",
+    "**Английский ↔ немецкий:** **[[ton:en|become]]** – не «bekommen», а **werden** (стать). «I become a doctor» = «Ich werde Arzt». Немецкое bekommen по-английски – **get**.",
+    "**[[ton:en|gift]]** – это **das Geschenk** (подарок). А **das Gift** по-немецки – яд! Корень один – **geben** (давать): Gift сначала значило «то, что дают» (дача лекарства), потом – «смертельная доза». Старый смысл живёт в слове **die Mitgift** – приданое.",
+    "**[[ton:en|chef]]** – это **der Koch** (повар), а **der Chef** – начальник. Оба от французского **chef** «голова» (лат. caput): шеф-повар – «голова кухни».",
+    "**[[ton:en|handy]]** – «удобный, практичный» (praktisch). А мобильный телефон, **das Handy**, англичане называют **mobile phone**: «Handy» – немецкое изобретение, англичане его не понимают.",
+    "**[[ton:en|brave]]** – **mutig** (смелый), а немецкое **brav** – «послушный, хороший» (ребёнок). **[[ton:en|sensible]]** – **vernünftig** (разумный), а **sensibel** – «чувствительный».",
+    "**Немецкий ↔ русский:** **die Familie** – семья, а **фамилия** по-немецки – **der Nachname**. Оба слова от латинского **familia** «семья, домашние».",
+    "**das Magazin** – журнал или склад, а **магазин** по-немецки – **das Geschäft**, **der Laden**. Корень арабский: **makhāzin** «склады».",
+    "**der Dom** – собор, а **дом** – **das Haus**. И тут они настоящие родственники: латинское **domus** «дом» → **Domus Dei** «дом Бога» → der Dom. А русское «дом» – из того же древнего индоевропейского корня.",
+    "**der Artist** по-немецки – артист цирка (акробат, жонглёр). А **артист** театра или кино – **der Schauspieler**.",
+    "Совет: если слово «слишком знакомое» – остановитесь и проверьте. Именно здесь делают самые смешные ошибки."
+  ],
+  spuren: [
+    ["electricity ≠ electric city", "electric + -ity (-ität, -ость) = die Elektrizität."],
+    ["become ≠ bekommen", "become = werden · bekommen = get."],
+    ["gift ≠ das Gift", "gift = das Geschenk · das Gift = яд (EN poison). Общий корень geben; die Mitgift – приданое."],
+    ["chef ≠ der Chef", "chef = der Koch · der Chef = boss. Оба от франц. chef «голова»."],
+    ["handy ≠ das Handy", "handy = praktisch · das Handy = mobile phone."],
+    ["die Familie ≠ фамилия", "die Familie = семья · фамилия = der Nachname."],
+    ["das Magazin ≠ магазин", "das Magazin = журнал, склад · магазин = das Geschäft, der Laden."],
+    ["der Dom ≠ дом", "der Dom = собор · дом = das Haus. Но корень общий: лат. domus."]
+  ],
+  links: [
+    { t: "Falscher Freund – Wikipedia", url: "https://de.wikipedia.org/wiki/Falscher_Freund", art: "lexikon", sp: "DE", info: "Что такое falsche Freunde, много примеров." },
+    { t: "Ложные друзья переводчика – Википедия", url: "https://ru.wikipedia.org/wiki/Ложные_друзья_переводчика", art: "lexikon", sp: "RU", info: "То же по-русски, примеры из многих языков." },
+    { t: "Videos: falsche Freunde Englisch", url: "https://www.youtube.com/results?search_query=falsche+Freunde+Englisch+Deutsch", art: "video", sp: "DE", info: "Поиск видео на YouTube." }
+  ],
+  raetsel: { frage: "Англичанин хочет сказать по-немецки «у меня для тебя подарок» и говорит: «Ich habe ein Gift für dich». Что услышит немец? И что значит английское «I will become a beer»?", antwort: "Немец услышит: «У меня для тебя **яд**!» Правильно: «Ich habe **ein Geschenk** für dich». А «I will become a beer» – «я **стану** пивом». Правильно: **I will get a beer** – «Ich bekomme ein Bier»." }
 }
 
 
