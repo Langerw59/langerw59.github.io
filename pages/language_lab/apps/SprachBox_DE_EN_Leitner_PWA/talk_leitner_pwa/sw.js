@@ -6,7 +6,8 @@
 // 2026-11-11: die Leseregeln dazu.
 // 2026-11-11: Navi-Knöpfe (core_init.js neu).
 // 2026-11-12: Auto-Stimme ohne Spass-Stimmen (iPhone, deutsche Namen).
-const CACHE = "sprachbox-v36";
+// 2026-11-12: Knopf „Lieder“ (Lied-Trainer).
+const CACHE = "sprachbox-v37";
 const CORE = [
   "./",
   "./index.html",
