@@ -693,7 +693,7 @@
    "stufe": "1",
    "de": "Es regnet.",
    "en": "It's raining.",
-   "mnemo": "Muster: Es ist … = It's …"
+   "mnemo": "Muster: Es regnet. = It's raining. (gerade jetzt: is + -ing)"
   },
   {
    "id": "lek-L1-12-4",
@@ -703,7 +703,7 @@
    "stufe": "1",
    "de": "Die Sonne scheint.",
    "en": "The sun is shining.",
-   "mnemo": "Muster: Es ist … = It's …"
+   "mnemo": "Muster: … scheint = … is shining (gerade jetzt: is + -ing)"
   },
   {
    "id": "lek-L1-12-5",
@@ -723,7 +723,7 @@
    "stufe": "1",
    "de": "Das Wetter ist schön.",
    "en": "The weather is nice.",
-   "mnemo": "Muster: Es ist … = It's …"
+   "mnemo": "Muster: Das Wetter ist … = The weather is …"
   },
   {
    "id": "lek-L1-13-1",

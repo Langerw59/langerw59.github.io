@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-12 – Handy hochkant, Merksätze Wetter
+- L1-12 Wetter: passende Merksätze für „Es regnet.“, „Die Sonne scheint.“, „Das Wetter ist schön.“
+- iPhone hochkant: Kopfleiste bricht um (Knöpfe zum Wischen), Knöpfe unten (Zurück / Portal) überdecken nichts mehr; Cache sprachbox-v35
+
 ## 2026-11-11 – die Leseregeln
 - Neue Seite leseregeln.html: 14 Leseregeln Englisch (Erklärung auf Russisch), 141 Wörter mit Lautschrift, Sprachausgabe, „Alle anhören“, Test je Regel und gemischter Test
 - Knopf „📏 Leseregeln“ im Sprachführer und im Spickzettel; Cache sprachbox-v33

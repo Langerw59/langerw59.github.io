@@ -5,7 +5,7 @@
 // 2026-11-11: Zurück-Knöpfe (Glossar, Spickzettel).
 // 2026-11-11: die Leseregeln dazu.
 // 2026-11-11: Navi-Knöpfe (core_init.js neu).
-const CACHE = "sprachbox-v34";
+const CACHE = "sprachbox-v35";
 const CORE = [
   "./",
   "./index.html",

@@ -1113,3 +1113,33 @@ body.mode-bg .bgPreviewThumb{
   .cardBottom .right:has(#btnNext:not([hidden])) #btnForgot{ display: none; }
   #btnNext{ min-height: 96px; font-size: 22px; font-weight: 800; }
 }
+
+/* 2026-11-12: Handy hochkant – Kopfleiste und Knöpfe unten überlappten sich.
+   телефон вертикально: шапка и нижние кнопки больше не наезжают друг на друга */
+@media (max-width: 640px) and (orientation: portrait){
+  /* Kopfleiste: Titel oben, die Knöpfe darunter in einer Zeile zum Wischen */
+  .topbar{ flex-wrap: wrap; padding: 10px 12px; gap: 8px; }
+  .brand{ width: 100%; }
+  .top-actions{
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .top-actions::-webkit-scrollbar{ display: none; }
+  .top-actions > *{ flex: 0 0 auto; }
+
+  /* Start / Boxen / Wörterbuch dürfen umbrechen */
+  .cta{ flex-wrap: wrap; }
+
+  /* Zurück / Portal: schmale Leiste ganz unten, Inhalt endet darüber */
+  body{ padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .bottom-nav{
+    left: 12px;
+    right: 12px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    justify-content: flex-end;
+  }
+  .bottom-nav .btn{ min-height: 44px; padding: 8px 16px; }
+}

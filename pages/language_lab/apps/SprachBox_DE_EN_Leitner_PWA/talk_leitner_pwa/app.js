@@ -180,7 +180,7 @@ setBtnLabels("btnInstall", "App installieren", "Install app");
 setBtnLabels("btnDebug", "Debug", "Debug");
 setBtnLabels("btnReset", "Zurücksetzen", "Reset");
 setBtnLabels("btnNavBack", "Zurück", "Back");
-setBtnLabels("btnNavHome", "Portal", "Portal");
+setBtnLabels("btnNavHome", "Portal", "Home");
 setTxt("tabModeDaily", "Daily 10 / Täglich 10");
 setTxt("tabModeLevel", "Level / Stufe");
 setTxt("tabModeReview", "Review / Wiederholen");
