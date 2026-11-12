@@ -128,13 +128,14 @@
   let audioIndex = null, audioEl = null;
   fetch("./audio/index.json", { cache: "no-store" }).then((r) => r.ok ? r.json() : null).then((d) => { audioIndex = d; }).catch(() => {});
 
-  const SPASS = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|kathy|ralph|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley)\b/i;
+  const SPASS = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|kathy|ralph|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley|gute neuigkeiten|schlechte neuigkeiten|glocken|seifenblasen|spaßvogel|orgel|pfeifenorgel|monster|flüstern|celli|wackel|hysterisch|verrückt|oma|opa)\b/i;
+  const SPASS_URI = /speech\.synthesis\.voice|eloquence/i;
   function stimmen() { try { return speechSynthesis.getVoices() || []; } catch (_) { return []; } }
   function punkte(v) {
     const n = String(v.name || ""), l = String(v.lang || "").toLowerCase().replace("_", "-");
     if (!l.startsWith("en")) return -1000;
     let s = l === "en-us" ? 20 : 10;
-    if (SPASS.test(n)) s -= 500;
+    if (SPASS.test(n) || SPASS_URI.test(String(v.voiceURI || ""))) s -= 500;
     if (/natural|neural/i.test(n)) s += 60;
     if (/premium/i.test(n)) s += 55;
     if (/enhanced|erweitert|verbessert/i.test(n)) s += 45;

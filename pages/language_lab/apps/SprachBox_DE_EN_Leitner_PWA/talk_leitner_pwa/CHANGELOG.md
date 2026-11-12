@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-12 – Stimme „Auto“ ohne Spaß-Stimmen
+- iPhone mit deutschem Menü: Spaß-Stimmen heißen dort „Gute Neuigkeiten“, „Glocken“, „Seifenblasen“ … – sie werden jetzt erkannt (auch an der voiceURI) und nicht mehr angeboten
+- „Auto“ nimmt nie eine Spaß-Stimme, auch wenn eine gute Stimme vorher als „stumm“ markiert war; Cache sprachbox-v36
+- dasselbe in leseregeln.html, DE↔IT, Satzlabor und Glossar
+
 ## 2026-11-12 – Handy hochkant, Merksätze Wetter
 - L1-12 Wetter: passende Merksätze für „Es regnet.“, „Die Sonne scheint.“, „Das Wetter ist schön.“
 - iPhone hochkant: Kopfleiste bricht um (Knöpfe zum Wischen), Knöpfe unten (Zurück / Portal) überdecken nichts mehr; Cache sprachbox-v35

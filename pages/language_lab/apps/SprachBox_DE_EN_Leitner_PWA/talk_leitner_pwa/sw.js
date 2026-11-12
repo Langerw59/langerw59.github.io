@@ -5,7 +5,8 @@
 // 2026-11-11: Zurück-Knöpfe (Glossar, Spickzettel).
 // 2026-11-11: die Leseregeln dazu.
 // 2026-11-11: Navi-Knöpfe (core_init.js neu).
-const CACHE = "sprachbox-v35";
+// 2026-11-12: Auto-Stimme ohne Spass-Stimmen (iPhone, deutsche Namen).
+const CACHE = "sprachbox-v36";
 const CORE = [
   "./",
   "./index.html",

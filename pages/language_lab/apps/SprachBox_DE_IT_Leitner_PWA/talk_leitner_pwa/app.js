@@ -3684,7 +3684,10 @@ function getVoicesSafe() {
 // iOS/macOS liefern fuer en-US oft Spass-Stimmen (Albert, Bubbles, Zarvox ...) oder
 // "Compact"-Stimmen; Windows liefert alte Desktop-Stimmen (Hedda, Zira ...).
 // Natural/Online/Neural/Premium/Enhanced/Google-Stimmen klingen deutlich besser.
-const NOVELTY_VOICES = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|pipe organ|fred|junior|kathy|ralph|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley)\b/i;
+const NOVELTY_VOICES = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|pipe organ|fred|junior|kathy|ralph|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley|gute neuigkeiten|schlechte neuigkeiten|glocken|seifenblasen|spaßvogel|orgel|pfeifenorgel|monster|flüstern|celli|wackel|hysterisch|verrückt|oma|opa)\b/i;
+// 2026-11-12: iPhone mit deutschem Menue zeigt die Spass-Stimmen mit deutschen Namen
+// ("Gute Neuigkeiten", "Glocken" ...). Sicherer: an der voiceURI erkennen.
+const NOVELTY_URI = /speech\.synthesis\.voice|eloquence/i;
 
 function voiceScore(v, want) {
   const name = String(v.name || "");
@@ -3693,7 +3696,7 @@ function voiceScore(v, want) {
   if (vl === want) s += 20;
   else if (vl.startsWith(want.slice(0, 2))) s += 10;
   else return -1000;
-  if (NOVELTY_VOICES.test(name)) s -= 500;
+  if (NOVELTY_VOICES.test(name) || NOVELTY_URI.test(String(v.voiceURI || ""))) s -= 500;
   if (/natural|neural/i.test(name)) s += 60;
   if (/premium/i.test(name)) s += 55;
   if (/enhanced|erweitert|verbessert/i.test(name)) s += 45;
@@ -3732,7 +3735,10 @@ function markVoiceBad(v) {
   refreshVoiceSelects();
 }
 function autoVoice(lang) {
-  const list = voicesFor(lang);
+  // 2026-11-12: Auto nimmt nie eine Spass-Stimme (auch nicht, wenn eine gute als "stumm" markiert war)
+  const alle = voicesFor(lang);
+  const list = alle.filter((x) => x.s > -100);
+  if (!list.length) return null;
   const ok = list.find((x) => !badVoices.has(voiceId(x.v)));
   if (ok) return ok.v;
   // Alle als stumm markiert -> wohl war Edge selbst haengen geblieben: Liste fuer diese Sprache leeren
