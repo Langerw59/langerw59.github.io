@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Der Lied-Trainer – Тренажёр песен</title>
+<!-- 2026-11-12: Lied-Trainer – erstellt mit Claude
+     DE: Englische Lieder Zeile für Zeile lesen, hören und auswendig lernen.
+         Eigene Liedtexte werden NUR auf diesem Gerät gespeichert (localStorage), nicht im Internet.
+     RU: Тренажёр песен: читать, слушать и учить наизусть по строчкам.
+         Свои тексты хранятся только на этом устройстве. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f1e7; --card:#fffdf8; --ink:#2b2620; --muted:#7a6f62; --line:#e4dccd;
+  --accent:#8a5a2b; --accent-soft:#f1e4d3; --ok:#3f7d4e; --ok-soft:#e3f0e5; --bad:#a3442f; --bad-soft:#f6e2dc;
+  --grey-soft:#eeeae3;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.45}
+.wrap{max-width:780px;margin:0 auto;padding:16px 14px 90px}
+header h1{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:26px;margin:4px 0 2px}
+header p{margin:0 0 14px;color:var(--muted);font-size:14px}
+.oben{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;margin-bottom:10px}
+.oben a{text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:var(--ink)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+select.big{font:inherit;font-size:16px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:#fff;flex:1;min-width:200px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink);text-decoration:none;display:inline-block}
+.btn.prim{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.red{color:var(--bad)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
+.tab{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 12px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink)}
+.tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab small{opacity:.75}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:5px 9px;cursor:pointer;font:inherit;font-size:13px;color:var(--muted)}
+.chip.on{background:var(--accent-soft);border-color:#d9c3a6;color:var(--ink);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 16px 12px;box-shadow:0 2px 10px rgba(80,60,30,.06);margin-bottom:12px}
+.info{font-size:15px;color:#4a4238;margin:0 0 4px}
+.info small{color:var(--muted)}
+.meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px;margin-bottom:6px}
+.progress{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:2px 0 12px}
+.progress div{height:100%;background:var(--ok);width:0;transition:width .3s}
+
+/* Lesen */
+.zeile{display:grid;grid-template-columns:1fr 40px;gap:6px;padding:7px 0;border-top:1px dashed var(--line)}
+.zeile:first-child{border-top:none}
+.zeile .en{font-family:"Source Serif 4",Georgia,serif;font-size:19px}
+.zeile .tr{font-size:14px;color:var(--muted)}
+.leer{height:14px}
+.w{cursor:pointer;border-radius:4px;padding:0 1px}
+.w:hover{background:var(--accent-soft)}
+.w.lernen{background:#fdf0c4}
+.w.unnoetig{opacity:.5}
+.say{width:38px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--accent-soft);cursor:pointer;font-size:16px}
+
+/* Lernen */
+.lern-en{font-family:"Source Serif 4",Georgia,serif;font-size:26px;line-height:1.6;margin:8px 0 10px;min-height:42px}
+.lern-en .zu{display:inline-block;min-width:2.2em;border-bottom:2px solid var(--accent);color:transparent;cursor:pointer;user-select:none}
+.lern-en .anf{border-bottom:2px solid var(--accent);cursor:pointer}
+.lern-tr{font-size:16px;color:#4a4238;margin:0 0 4px}
+.lern-tr small{color:var(--muted)}
+.stufen{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:14px;margin-bottom:10px}
+.nav{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:12px}
+.nav button{padding:12px 6px;border-radius:12px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
+.nav .ok{background:var(--ok-soft);border-color:#b9d8bf;color:var(--ok)}
+.nav .bad{background:var(--bad-soft);border-color:#e6c1b6;color:var(--bad)}
+.nav small{display:block;font-weight:400;font-size:12px;opacity:.8}
+.status{font-size:12px;padding:2px 8px;border-radius:999px}
+.status.ok{background:var(--ok-soft);color:var(--ok)}
+.status.bad{background:var(--bad-soft);color:var(--bad)}
+.hoerknoepfe{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Wörter */
+.wt{width:100%;border-collapse:collapse;font-size:15px}
+.wt td{padding:6px 4px;border-bottom:1px solid #f0e9dc;vertical-align:middle}
+.wt td.wort{font-weight:600;white-space:nowrap}
+.wt td.bed small{display:block;color:var(--muted)}
+.wt input{font:inherit;font-size:14px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;width:100%;background:#fff}
+.wt .st button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:3px 6px;cursor:pointer;font-size:13px;margin:1px}
+.wt .st button.on.k{background:var(--ok-soft);border-color:#b9d8bf}
+.wt .st button.on.l{background:#fdf0c4;border-color:#e8d48c}
+.wt .st button.on.u{background:var(--grey-soft);border-color:#d0c8bb}
+.wt tr.unnoetig td.wort,.wt tr.unnoetig td.bed{opacity:.5;font-weight:400}
+.mini{border:none;background:none;cursor:pointer;font-size:15px;padding:0 3px;text-decoration:none}
+.legende{font-size:13px;color:var(--muted);margin:4px 0 10px}
+
+/* Editor */
+.ed label{display:block;font-size:14px;font-weight:600;margin:10px 0 4px}
+.ed label small{font-weight:400;color:var(--muted)}
+.ed input,.ed textarea{width:100%;font:inherit;font-size:15px;padding:8px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.ed textarea{min-height:200px;font-family:"Source Serif 4",Georgia,serif;font-size:16px}
+.hint{font-size:13px;color:var(--muted);margin:6px 0 0}
+.schutz{background:var(--ok-soft);border:1px solid #b9d8bf;border-radius:10px;padding:8px 10px;font-size:14px;margin:8px 0}
+
+/* Wort-Fenster */
+#wortFenster{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:2px solid var(--accent);box-shadow:0 -4px 16px rgba(0,0,0,.12);padding:12px 16px 16px;display:none;z-index:50}
+#wortFenster .in{max-width:780px;margin:0 auto}
+#wortFenster .kopf{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#wortFenster .wortgross{font-family:"Source Serif 4",Georgia,serif;font-size:24px;font-weight:600}
+#wortFenster .bed{font-size:16px;margin:4px 0 8px}
+#wortFenster .bed small{color:var(--muted)}
+.settings{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 14px 12px}
+.settings summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--accent);padding:4px 0}
+.settings label{display:grid;grid-template-columns:110px 1fr;gap:8px;align-items:center;margin:8px 0;font-size:14px}
+.settings select,.settings input{font:inherit;font-size:14px;padding:5px;border-radius:8px;border:1px solid var(--line);background:#fff;width:100%}
+.empty{padding:24px 10px;text-align:center;color:var(--muted)}
+</style>
+<script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
+</head>
+<body>
+<div class="wrap">
+<nav class="oben">
+  <a href="/etagen.html">🏠 Etagenplan</a>
+  <a href="/pages/language_lab/index.html">Language Lab</a>
+  <a href="/pages/language_lab/grammatik/index.html">📐 Grammatik</a>
+</nav>
+<header>
+  <h1>🎵 Der Lied-Trainer · Тренажёр песен</h1>
+  <p>Das Lied lesen, hören und Zeile für Zeile auswendig lernen / Читать, слушать и учить песню по строчкам</p>
+</header>
+
+<div class="row">
+  <select class="big" id="liedWahl"></select>
+  <button class="btn prim" id="neuBtn">＋ Neues Lied / Новая песня</button>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div id="host"></div>
+
+<details class="settings">
+  <summary>⚙ Die Stimme, die Sicherung / Голос и сохранение</summary>
+  <div id="voiceSel"></div>
+  <label>Tempo / Скорость <input type="range" id="rate" min="0.5" max="1.1" step="0.05"></label>
+  <p class="hint">iPhone: Einstellungen → Bedienungshilfen → Gesprochene Inhalte → Stimmen → Englisch → eine „Premium“-Stimme laden. / На iPhone можно скачать хороший английский голос.</p>
+  <p class="hint"><b>Die Sicherung / Резервная копия:</b> Eigene Lieder liegen nur auf diesem Gerät. Mit der Datei kann man sie auf ein anderes Gerät bringen. / Свои песни хранятся только на этом устройстве; файлом их можно перенести на другое.</p>
+  <div class="row" style="margin-top:6px">
+    <button class="btn" id="exportBtn">💾 Lieder sichern (Datei)</button>
+    <label class="btn" style="margin:0">📂 Lieder laden<input type="file" id="importFile" accept=".json,application/json" style="display:none"></label>
+  </div>
+</details>
+</div>
+
+<div id="wortFenster"><div class="in" id="wfIn"></div></div>
+
+<script>
+/* =========================================================
+   Eingebautes Beispiel (gemeinfrei, 1884) / встроенный пример
+   ========================================================= */
+const BUILTIN = [{
+  id:"clementine", builtin:true,
+  titel:"Oh My Darling, Clementine",
+  interpret:"Volkslied aus den USA (1884)",
+  youtube:"https://www.youtube.com/results?search_query=Oh+My+Darling+Clementine+with+lyrics",
+  info:"Ein Scherzlied aus der Zeit des Goldrausches (1849): Ein alter Goldsucher wohnt mit seiner Tochter Clementine in einer Höhle. Sie fällt ins Wasser, der Erzähler kann nicht schwimmen … und küsst am Ende ihre kleine Schwester.",
+  info_ru:"Шуточная песня времён золотой лихорадки (1849). Старатель живёт с дочерью Клементиной в пещере; она падает в воду, рассказчик не умеет плавать… а в конце целует её младшую сестру. Серые слова – старинные или шуточные, их можно не учить.",
+  text:
+`In a cavern, in a canyon,
+Excavating for a mine,
+Dwelt a miner, forty-niner,
+And his daughter, Clementine.
+
+Oh my darling, oh my darling,
+Oh my darling, Clementine,
+You are lost and gone forever,
+Dreadful sorry, Clementine.
+
+Light she was and like a fairy,
+And her shoes were number nine,
+Herring boxes, without topses,
+Sandals were for Clementine.
+
+Oh my darling, oh my darling,
+Oh my darling, Clementine,
+You are lost and gone forever,
+Dreadful sorry, Clementine.
+
+Drove she ducklings to the water
+Every morning just at nine,
+Hit her foot against a splinter,
+Fell into the foaming brine.
+
+Oh my darling, oh my darling,
+Oh my darling, Clementine,
+You are lost and gone forever,
+Dreadful sorry, Clementine.
+
+Ruby lips above the water,
+Blowing bubbles soft and fine,
+But, alas, I was no swimmer,
+So I lost my Clementine.
+
+Oh my darling, oh my darling,
+Oh my darling, Clementine,
+You are lost and gone forever,
+Dreadful sorry, Clementine.
+
+How I missed her, how I missed her,
+How I missed my Clementine,
+But I kissed her little sister,
+And forgot my Clementine.`,
+  tr:{
+    "in a cavern in a canyon":["In einer Höhle, in einer Schlucht,","В пещере, в каньоне,"],
+    "excavating for a mine":["wo man nach einer Mine grub,","где копали шахту,"],
+    "dwelt a miner fortyniner":["wohnte ein Goldsucher, ein „Neunundvierziger“,","жил старатель, «сорок девятый»,"],
+    "and his daughter clementine":["und seine Tochter Clementine.","и его дочь Клементина."],
+    "oh my darling oh my darling":["Oh mein Liebling, oh mein Liebling,","О моя милая, о моя милая,"],
+    "oh my darling clementine":["oh mein Liebling Clementine,","о моя милая Клементина,"],
+    "you are lost and gone forever":["du bist verloren und für immer fort –","ты пропала и ушла навсегда –"],
+    "dreadful sorry clementine":["es tut mir furchtbar leid, Clementine.","ужасно жаль, Клементина."],
+    "light she was and like a fairy":["Leicht war sie, wie eine Fee,","Лёгкой была она, как фея,"],
+    "and her shoes were number nine":["und ihre Schuhe hatten Größe neun (Witz: riesig),","а туфли – девятый номер (шутка: огромные),"],
+    "herring boxes without topses":["Heringskisten ohne Deckel","ящики из-под селёдки без крышек"],
+    "sandals were for clementine":["waren die Sandalen für Clementine.","были сандалиями для Клементины."],
+    "drove she ducklings to the water":["Sie trieb die Entenküken zum Wasser","Гнала она утят к воде"],
+    "every morning just at nine":["jeden Morgen genau um neun,","каждое утро ровно в девять,"],
+    "hit her foot against a splinter":["stieß mit dem Fuß an einen Splitter,","ударилась ногой о щепку,"],
+    "fell into the foaming brine":["fiel ins schäumende Salzwasser.","упала в пенистую солёную воду."],
+    "ruby lips above the water":["Rubinrote Lippen über dem Wasser","Алые губы над водой"],
+    "blowing bubbles soft and fine":["bliesen Bläschen, leise und fein,","пускали пузыри, тихо и мелко,"],
+    "but alas i was no swimmer":["doch ach, ich war kein Schwimmer,","но увы, я не умел плавать,"],
+    "so i lost my clementine":["und so verlor ich meine Clementine.","и так я потерял мою Клементину."],
+    "how i missed her how i missed her":["Wie habe ich sie vermisst, wie habe ich sie vermisst,","Как я скучал по ней, как скучал,"],
+    "how i missed my clementine":["wie habe ich meine Clementine vermisst –","как я скучал по моей Клементине –"],
+    "but i kissed her little sister":["aber ich küsste ihre kleine Schwester","но я поцеловал её младшую сестрёнку"],
+    "and forgot my clementine":["und vergaß meine Clementine.","и забыл мою Клементину."]
+  },
+  /* Wort: [Deutsch, Русский, n = nützlich / x = nicht nötig] */
+  glos:{
+    "in":["in","в","n"], "a":["ein, eine","(неопред. артикль)","n"], "cavern":["die Höhle (alt)","пещера","x"],
+    "canyon":["die Schlucht, der Canyon","каньон","x"], "excavating":["ausgraben","копая, раскапывая","x"],
+    "for":["für; nach","для; за","n"], "mine":["die Mine, das Bergwerk; auch: meins","шахта, рудник; также: мой","n"],
+    "dwelt":["wohnte (alt)","жил (устар.)","x"], "miner":["der Bergmann, der Goldsucher","шахтёр, старатель","n"],
+    "forty":["vierzig","сорок","n"], "niner":["(Goldsucher von 1849)","«сорок девятый» – старатель 1849 г.","x"],
+    "and":["und","и","n"], "his":["sein, seine","его","n"], "daughter":["die Tochter","дочь","n"],
+    "clementine":["Clementine (Name)","Клементина (имя)","n"], "oh":["oh, ach","о, ах","n"], "my":["mein, meine","мой, моя","n"],
+    "darling":["der Liebling, die Liebste","милая, дорогая","n"], "you":["du; Sie","ты; вы","n"], "are":["bist, sind","есть (быть)","n"],
+    "lost":["verloren","потерянный; потерял","n"], "gone":["weg, fort","ушедший, пропавший","n"], "forever":["für immer","навсегда","n"],
+    "dreadful":["furchtbar (hier als Witz falsch benutzt)","ужасный (здесь шутливо и неправильно)","x"],
+    "sorry":["Entschuldigung; es tut mir leid","извините; жаль","n"], "light":["leicht; das Licht","лёгкий; свет","n"],
+    "she":["sie","она","n"], "was":["war","был, была","n"], "like":["wie; mögen","как; нравиться","n"],
+    "fairy":["die Fee","фея","x"], "her":["ihr, ihre; sie","её","n"], "shoes":["die Schuhe","туфли, обувь","n"],
+    "were":["waren","были","n"], "number":["die Nummer, die Zahl","номер, число","n"], "nine":["neun","девять","n"],
+    "herring":["der Hering","селёдка","x"], "boxes":["die Kisten, die Schachteln","ящики, коробки","n"],
+    "without":["ohne","без","n"], "topses":["(Witzwort: tops = die Deckel)","(шутка: tops = крышки)","x"],
+    "sandals":["die Sandalen","сандалии","n"], "drove":["trieb; fuhr (drive)","гнала; ехал (drive)","n"],
+    "ducklings":["die Entenküken","утята","x"], "to":["zu, nach","к, в","n"], "the":["der, die, das","(опред. артикль)","n"],
+    "water":["das Wasser","вода","n"], "every":["jeder, jede, jedes","каждый","n"], "morning":["der Morgen","утро","n"],
+    "just":["genau; gerade; nur","ровно; только что; только","n"], "at":["um (Uhrzeit); an, bei","в (о времени); у, при","n"],
+    "hit":["stieß, schlug","ударила(сь)","n"], "foot":["der Fuß","ступня, нога","n"], "against":["gegen","о, против","n"],
+    "splinter":["der Splitter","щепка, заноза","x"], "fell":["fiel","упала","n"], "into":["in … hinein","в (внутрь)","n"],
+    "foaming":["schäumend","пенистый","x"], "brine":["das Salzwasser, die Sole","солёная вода, рассол","x"],
+    "ruby":["der Rubin; rubinrot","рубин; алый","x"], "lips":["die Lippen","губы","n"], "above":["über, oberhalb","над","n"],
+    "blowing":["blasen, pusten","дуть, выдувать","n"], "bubbles":["die Blasen","пузыри","n"], "soft":["weich, leise","мягкий, тихий","n"],
+    "fine":["fein; gut","тонкий, мелкий; хорошо","n"], "but":["aber, doch","но","n"], "alas":["ach, leider (alt)","увы (устар.)","x"],
+    "i":["ich","я","n"], "no":["kein; nein","не, никакой; нет","n"], "swimmer":["der Schwimmer","пловец","n"],
+    "so":["so, also","так, поэтому","n"], "how":["wie","как","n"], "missed":["vermisste; verpasste","скучал; пропустил","n"],
+    "kissed":["küsste","поцеловал","n"], "little":["klein","маленький","n"], "sister":["die Schwester","сестра","n"],
+    "forgot":["vergaß","забыл","n"]
+  }
+}];
+
+/* =========================================================
+   Zustand / состояние  (localStorage mit try/catch)
+   ========================================================= */
+const KEY = "lied-trainer-v1";
+let S = {lieder:[], aktiv:"clementine", modus:"lesen", idx:{}, status:{}, stufe:{}, woerter:{}, rate:0.8, voice:{}, filter:"alle", zeigeTr:true};
+try{ const s = JSON.parse(localStorage.getItem(KEY)||"null"); if(s) S = Object.assign(S, s); }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+function alleLieder(){ return BUILTIN.concat(S.lieder||[]); }
+function lied(){ return alleLieder().find(l=>l.id===S.aktiv) || BUILTIN[0]; }
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
+function norm(z){ return z.toLowerCase().replace(/[’`]/g,"'").replace(/[^a-z0-9' ]/g,"").replace(/'/g,"").replace(/\s+/g," ").trim(); }
+function tokens(z){ return (z.replace(/[’`]/g,"'").match(/[A-Za-z0-9]+(?:'[A-Za-z]+)?/g)||[]); }
+
+/* Zeilen des Liedes: alle (zum Lesen) und ohne Wiederholungen (zum Lernen) */
+function zeilenAlle(L){ return (L.text||"").replace(/\r/g,"").split("\n").map(z=>z.trim()); }
+function zeilenLernen(L){
+  const seen = new Set(), out = [];
+  zeilenAlle(L).forEach(z=>{ if(!z) return; const n = norm(z); if(!n || seen.has(n)) return; seen.add(n); out.push(z); });
+  return out;
+}
+/* Übersetzung einer Zeile: eingebaut (DE+RU) oder eigene (Zeile für Zeile) */
+function trMap(L){
+  if(L.builtin) return L.tr || {};
+  const m = {};
+  const en = zeilenAlle(L).filter(z=>z), tr = (L.uebers||"").replace(/\r/g,"").split("\n").map(z=>z.trim()).filter(z=>z);
+  en.forEach((z,i)=>{ if(tr[i] && !m[norm(z)]) m[norm(z)] = [tr[i], ""]; });
+  return m;
+}
+/* Bedeutung eines Wortes: eigene Eingabe geht vor, sonst eingebautes Glossar */
+function wortInfo(w){
+  w = w.toLowerCase();
+  const own = S.woerter[w] || {};
+  let g = null;
+  BUILTIN.forEach(B=>{ if(!g && B.glos && B.glos[w]) g = B.glos[w]; });
+  return {
+    de: own.m || (g ? g[0] : ""),
+    ru: own.m ? "" : (g ? g[1] : ""),
+    st: own.k || (g && g[2]==="x" ? "u" : ""),   // k = kenne, l = lernen, u = unnötig
+  };
+}
+function setWortStatus(w, k){
+  w = w.toLowerCase(); S.woerter[w] = S.woerter[w] || {};
+  S.woerter[w].k = (S.woerter[w].k===k) ? "" : k; save();
+}
+
+/* =========================================================
+   Sprachausgabe / озвучка
+   ========================================================= */
+const TTS_LANG = {en:"en-GB", de:"de-DE"};
+let voices = [];
+function loadVoices(){ voices = (window.speechSynthesis && speechSynthesis.getVoices()) || []; buildVoiceSel(); }
+if(window.speechSynthesis){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function score(v){
+  const n = v.name.toLowerCase(); let s = 0;
+  if(/premium|enhanced|natural|neural|online/.test(n)) s += 5;
+  if(/google/.test(n)) s += 3;
+  if(/daniel|kate|arthur|serena|samantha|anna|petra/.test(n)) s += 1;
+  if(v.localService) s += 1;
+  return s;
+}
+function voicesFor(code){ return voices.filter(v=>v.lang && v.lang.toLowerCase().replace("_","-").startsWith(code)).sort((a,b)=>score(b)-score(a)); }
+function pickVoice(code){
+  const vs = voicesFor(code);
+  if(S.voice[code]){ const v = vs.find(x=>x.name===S.voice[code]); if(v) return v; }
+  return vs[0] || null;
+}
+function speak(text, code, langsam){
+  if(!window.speechSynthesis || !text) return;
+  code = code || "en";
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = TTS_LANG[code]; u.rate = langsam ? Math.max(0.45, S.rate-0.25) : S.rate;
+    const v = pickVoice(code); if(v) u.voice = v;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function buildVoiceSel(){
+  const host = document.getElementById("voiceSel"); if(!host) return;
+  host.innerHTML = "";
+  [["en","English"],["de","Deutsch"]].forEach(([c,name])=>{
+    const vs = voicesFor(c);
+    const lab = document.createElement("label");
+    lab.innerHTML = `<span>${name}</span>`;
+    const sel = document.createElement("select");
+    if(!vs.length){ sel.innerHTML = "<option>keine Stimme / нет голоса</option>"; sel.disabled = true; }
+    vs.forEach(v=>{ const o=document.createElement("option"); o.value=v.name; o.textContent=v.name+" ("+v.lang+")"; sel.appendChild(o); });
+    const p = pickVoice(c); if(p) sel.value = p.name;
+    sel.onchange = ()=>{ S.voice[c] = sel.value; save(); speak(c==="en"?"Good morning":"Guten Morgen", c); };
+    lab.appendChild(sel); host.appendChild(lab);
+  });
+}
+
+/* =========================================================
+   Anzeige / отображение
+   ========================================================= */
+const MODI = [
+  {k:"lesen",  de:"📖 Lesen",  ru:"Читать"},
+  {k:"lernen", de:"🧠 Lernen", ru:"Учить"},
+  {k:"woerter",de:"🔤 Die Wörter", ru:"Слова"},
+  {k:"bearbeiten", de:"✏️ Bearbeiten", ru:"Изменить"}
+];
+function renderWahl(){
+  const sel = document.getElementById("liedWahl"); sel.innerHTML = "";
+  alleLieder().forEach(L=>{
+    const o = document.createElement("option"); o.value = L.id;
+    o.textContent = (L.builtin?"⭐ ":"🎵 ") + L.titel + (L.interpret?" – "+L.interpret:"");
+    sel.appendChild(o);
+  });
+  sel.value = lied().id;
+  sel.onchange = ()=>{ S.aktiv = sel.value; if(S.modus==="neu") S.modus="lesen"; save(); render(); };
+}
+function render(){
+  renderWahl();
+  const L = lied();
+  const tabs = document.getElementById("tabs"); tabs.innerHTML = "";
+  if(S.modus!=="neu"){
+    MODI.forEach(M=>{
+      if(M.k==="bearbeiten" && L.builtin) return;
+      const b = document.createElement("button");
+      b.className = "tab"+(S.modus===M.k?" on":"");
+      let extra = "";
+      if(M.k==="lernen"){ const z = zeilenLernen(L), st = S.status[L.id]||{}; extra = ` <small>${z.filter((_,i)=>st[i]==="ok").length}/${z.length}</small>`; }
+      b.innerHTML = `${M.de} / ${M.ru}${extra}`;
+      b.onclick = ()=>{ S.modus = M.k; save(); render(); };
+      tabs.appendChild(b);
+    });
+  }
+  schliesseWort();
+  if(S.modus==="neu") return renderEditor(null);
+  if(S.modus==="bearbeiten" && !L.builtin) return renderEditor(L);
+  if(S.modus==="lernen") return renderLernen(L);
+  if(S.modus==="woerter") return renderWoerter(L);
+  S.modus = "lesen"; renderLesen(L);
+}
+
+function kopfKarte(L){
+  const yt = L.youtube ? `<a class="btn" href="${esc(L.youtube)}" target="_blank" rel="noopener">▶ Anhören (YouTube) / Послушать</a>` : "";
+  const info = (L.info && S.modus==="lesen") ? `<p class="info">${esc(L.info)}<br><small>${esc(L.info_ru||"")}</small></p>` : "";
+  return `<div class="card">${info}<div class="row" style="margin:8px 0 0">${yt}
+    <button class="btn" id="trToggle">${S.zeigeTr?"🙈 Übersetzung aus / скрыть перевод":"👁 Übersetzung an / показать перевод"}</button></div></div>`;
+}
+function bindKopf(){
+  const t = document.getElementById("trToggle");
+  if(t) t.onclick = ()=>{ S.zeigeTr = !S.zeigeTr; save(); render(); };
+}
+function wortSpan(t){
+  const i = wortInfo(t);
+  const cls = i.st==="l" ? " lernen" : i.st==="u" ? " unnoetig" : "";
+  return `<span class="w${cls}" data-w="${esc(t)}">${esc(t)}</span>`;
+}
+/* Zeile in Teile zerlegen: Wörter und Zwischenräume (roh, noch nicht escaped) */
+const WORT_RE = /[A-Za-z0-9]+(?:['’][A-Za-z]+)?/g;
+function teile(z){
+  const out = []; let last = 0, m;
+  WORT_RE.lastIndex = 0;
+  while((m = WORT_RE.exec(z))){
+    if(m.index>last) out.push({t:z.slice(last,m.index)});
+    out.push({w:m[0].replace(/’/g,"'")});
+    last = m.index + m[0].length;
+  }
+  if(last<z.length) out.push({t:z.slice(last)});
+  return out;
+}
+function zeileMitWoertern(z){
+  // Wörter anklickbar machen, Satzzeichen bleiben
+  return teile(z).map(p=>p.w ? wortSpan(p.w) : esc(p.t)).join("");
+}
+
+/* ---------- Lesen ---------- */
+function renderLesen(L){
+  const tm = trMap(L);
+  let html = "";
+  zeilenAlle(L).forEach((z,i)=>{
+    if(!z){ html += '<div class="leer"></div>'; return; }
+    const t = tm[norm(z)];
+    const trTxt = (S.zeigeTr && t) ? `<div class="tr">${esc(t[0])}${t[1]?" · "+esc(t[1]):""}</div>` : "";
+    html += `<div class="zeile"><div><div class="en">${zeileMitWoertern(z)}</div>${trTxt}</div>
+      <button class="say" data-z="${i}" title="Vorlesen / Прочитать">🔊</button></div>`;
+  });
+  document.getElementById("host").innerHTML = kopfKarte(L) +
+    `<div class="card"><p class="hint" style="margin:0 0 6px">Auf ein Wort tippen → Bedeutung und Aussprache. / Нажмите на слово – значение и произношение.</p>${html||'<div class="empty">Kein Text / Нет текста</div>'}</div>`;
+  bindKopf();
+  const alle = zeilenAlle(L);
+  document.querySelectorAll(".say[data-z]").forEach(b=>b.onclick=()=>speak(alle[+b.dataset.z],"en"));
+  document.querySelectorAll(".w[data-w]").forEach(s=>s.onclick=()=>zeigeWort(s.dataset.w));
+}
+
+/* ---------- Lernen ---------- */
+const STUFEN = [
+  {n:1, de:"alles sehen", ru:"всё видно"},
+  {n:2, de:"jedes 3. Wort weg", ru:"каждое 3-е скрыто"},
+  {n:3, de:"jedes 2. Wort weg", ru:"каждое 2-е скрыто"},
+  {n:4, de:"nur Anfangsbuchstaben", ru:"только первые буквы"},
+  {n:5, de:"alles weg", ru:"всё скрыто"}
+];
+let offen = new Set();
+function renderLernen(L){
+  const z = zeilenLernen(L);
+  const host = document.getElementById("host");
+  if(!z.length){ host.innerHTML = '<div class="card empty">Kein Text / Нет текста</div>'; return; }
+  let i = S.idx[L.id]||0; if(i>=z.length) i = 0; S.idx[L.id] = i;
+  const stufe = S.stufe[L.id]||1;
+  const st = (S.status[L.id]||{});
+  const okCount = z.filter((_,k)=>st[k]==="ok").length;
+  const zeile = z[i];
+  const tm = trMap(L), t = tm[norm(zeile)];
+  // Wörter verstecken je nach Stufe
+  let n = 0;
+  const en = teile(zeile).map(p=>{
+    if(!p.w) return esc(p.t);
+    const k = n++; const w = p.w;
+    let weg = false;
+    if(stufe===2) weg = (k%3===2);
+    if(stufe===3) weg = (k%2===1);
+    if(stufe===5) weg = true;
+    if(offen.has(k)) return `<span class="w" data-w="${esc(w)}">${esc(w)}</span>`;
+    if(stufe===4) return `<span class="anf" data-k="${k}">${esc(w[0])}${"_".repeat(Math.max(1,w.length-1))}</span>`;
+    if(weg) return `<span class="zu" data-k="${k}">${"_".repeat(w.length)}</span>`;
+    return `<span class="w" data-w="${esc(w)}">${esc(w)}</span>`;
+  }).join("");
+  const s = st[i];
+  const stHtml = s==="ok" ? '<span class="status ok">✓ gewusst</span>' : s==="bad" ? '<span class="status bad">✗ wiederholen</span>' : "";
+  const stufenHtml = STUFEN.map(x=>`<button class="chip${stufe===x.n?" on":""}" data-s="${x.n}" title="${esc(x.ru)}">${x.n} · ${esc(x.de)}</button>`).join("");
+  host.innerHTML = kopfKarte(L) + `<div class="card">
+    <div class="stufen"><span style="color:var(--muted)">Die Stufe / Ступень:</span>${stufenHtml}</div>
+    <div class="progress"><div style="width:${100*okCount/z.length}%"></div></div>
+    <div class="meta"><span>Zeile ${i+1} / ${z.length}</span>${stHtml}</div>
+    <div class="lern-en" id="lernEn">${en}</div>
+    ${S.zeigeTr && t ? `<p class="lern-tr">${esc(t[0])}${t[1]?`<br><small>${esc(t[1])}</small>`:""}</p>` : ""}
+    <div class="hoerknoepfe">
+      <button class="btn" id="hoer">🔊 Hören / Слушать</button>
+      <button class="btn" id="hoerL">🐢 Langsam / Медленно</button>
+      <button class="btn" id="zeig">👁 Alles zeigen / Показать всё</button>
+    </div>
+    <p class="hint">Versteckte Wörter: zuerst laut sagen, dann antippen. / Скрытое слово: сначала скажите вслух, потом нажмите.</p>
+    <div class="nav">
+      <button id="prev">◀<small>Zurück / Назад</small></button>
+      <button class="bad" id="no">✗<small>Nicht gewusst / Не знал</small></button>
+      <button class="ok" id="yes">✓<small>Gewusst / Знал</small></button>
+      <button id="next">▶<small>Weiter / Дальше</small></button>
+    </div></div>`;
+  bindKopf();
+  host.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{ S.stufe[L.id]=+b.dataset.s; offen.clear(); save(); render(); });
+  host.querySelectorAll("#lernEn [data-k]").forEach(b=>b.onclick=()=>{ offen.add(+b.dataset.k); render(); });
+  host.querySelectorAll("#lernEn .w[data-w]").forEach(b=>b.onclick=()=>zeigeWort(b.dataset.w));
+  document.getElementById("hoer").onclick = ()=>speak(zeile,"en");
+  document.getElementById("hoerL").onclick = ()=>speak(zeile,"en",true);
+  document.getElementById("zeig").onclick = ()=>{ for(let k=0;k<n;k++) offen.add(k); render(); };
+  const geh = step=>{ S.idx[L.id] = (i+step+z.length)%z.length; offen.clear(); save(); render(); };
+  const mark = v=>{ S.status[L.id] = S.status[L.id]||{}; S.status[L.id][i] = v; save(); geh(1); };
+  document.getElementById("prev").onclick = ()=>geh(-1);
+  document.getElementById("next").onclick = ()=>geh(1);
+  document.getElementById("yes").onclick = ()=>mark("ok");
+  document.getElementById("no").onclick = ()=>mark("bad");
+}
+
+/* ---------- Wörter ---------- */
+function renderWoerter(L){
+  const reihen = []; const seen = new Set();
+  zeilenAlle(L).forEach(z=>tokens(z).forEach(t=>{ const w = t.toLowerCase(); if(!seen.has(w)){ seen.add(w); reihen.push(w); } }));
+  const F = [
+    {k:"alle", de:"Alle", ru:"Все"},
+    {k:"lernen", de:"📌 Zu lernen", ru:"Учить"},
+    {k:"nuetzlich", de:"Ohne Unnötige", ru:"Без ненужных"}
+  ];
+  const liste = reihen.filter(w=>{
+    const st = wortInfo(w).st;
+    if(S.filter==="lernen") return st==="l";
+    if(S.filter==="nuetzlich") return st!=="u";
+    return true;
+  });
+  const rows = liste.map(w=>{
+    const i = wortInfo(w); const own = (S.woerter[w]||{}).m||"";
+    const bedeutung = L.builtin && !own
+      ? `${esc(i.de)}${i.ru?`<small>${esc(i.ru)}</small>`:""}`
+      : `<input data-m="${esc(w)}" value="${esc(own)}" placeholder="${esc(i.de||"Bedeutung / значение")}">`;
+    return `<tr class="${i.st==="u"?"unnoetig":""}">
+      <td class="wort">${esc(w)} <button class="mini" data-say="${esc(w)}" title="Vorlesen">🔊</button></td>
+      <td class="bed">${bedeutung}</td>
+      <td><a class="mini" href="https://dict.leo.org/englisch-deutsch/${encodeURIComponent(w)}" target="_blank" rel="noopener" title="LEO Wörterbuch">🔎</a></td>
+      <td class="st" style="white-space:nowrap">
+        <button class="k${i.st==="k"?" on":""}" data-st="k" data-w="${esc(w)}" title="kenne ich / знаю">✓</button><button class="l${i.st==="l"?" on":""}" data-st="l" data-w="${esc(w)}" title="lernen / учить">📌</button><button class="u${i.st==="u"?" on":""}" data-st="u" data-w="${esc(w)}" title="nicht nötig / не нужно">✗</button>
+      </td></tr>`;
+  }).join("");
+  document.getElementById("host").innerHTML = kopfKarte(L) + `<div class="card">
+    <div class="row">${F.map(f=>`<button class="chip${S.filter===f.k?" on":""}" data-f="${f.k}">${f.de} / ${f.ru}</button>`).join("")}</div>
+    <p class="legende">✓ kenne ich / знаю · 📌 lernen / учить · ✗ nicht nötig / не нужно · 🔎 das Wörterbuch LEO / словарь<br>
+    ${L.builtin?"Graue Wörter sind alt oder ein Witz – nicht nötig. / Серые слова – старинные или шуточные.":"Bedeutung selbst eintragen (wird gespeichert). / Значение можно вписать самому – оно сохраняется."}</p>
+    <p class="hint">${reihen.length} Wörter / слов · ${liste.length} angezeigt</p>
+    <table class="wt">${rows||'<tr><td class="empty">Keine Wörter / Нет слов</td></tr>'}</table></div>`;
+  bindKopf();
+  const host = document.getElementById("host");
+  host.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{ S.filter=b.dataset.f; save(); render(); });
+  host.querySelectorAll("[data-say]").forEach(b=>b.onclick=()=>speak(b.dataset.say,"en"));
+  host.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{ setWortStatus(b.dataset.w, b.dataset.st); render(); });
+  host.querySelectorAll("input[data-m]").forEach(inp=>inp.onchange=()=>{ const w = inp.dataset.m; S.woerter[w] = S.woerter[w]||{}; S.woerter[w].m = inp.value.trim(); save(); });
+}
+
+/* ---------- Wort-Fenster ---------- */
+function zeigeWort(t){
+  const w = t.toLowerCase(), i = wortInfo(w), own = (S.woerter[w]||{}).m||"";
+  const box = document.getElementById("wortFenster");
+  document.getElementById("wfIn").innerHTML = `
+    <div class="kopf"><span class="wortgross">${esc(t)}</span>
+      <span><button class="btn" id="wfSay">🔊</button> <button class="btn" id="wfZu">✕</button></span></div>
+    <div class="bed">${i.de?esc(i.de):"<small>Noch keine Bedeutung / Значение ещё не записано</small>"}${i.ru?`<br><small>${esc(i.ru)}</small>`:""}</div>
+    <div class="row" style="margin:0">
+      <input id="wfM" value="${esc(own)}" placeholder="Eigene Bedeutung / своё значение" style="flex:1;min-width:160px;font:inherit;padding:7px;border:1px solid var(--line);border-radius:8px">
+      <a class="btn" href="https://dict.leo.org/englisch-deutsch/${encodeURIComponent(w)}" target="_blank" rel="noopener">🔎 LEO</a>
+      <button class="btn${i.st==="l"?" prim":""}" id="wfL">📌 Lernen / Учить</button>
+    </div>`;
+  box.style.display = "block";
+  speak(t,"en");
+  document.getElementById("wfSay").onclick = ()=>speak(t,"en");
+  document.getElementById("wfZu").onclick = schliesseWort;
+  document.getElementById("wfM").onchange = e=>{ S.woerter[w] = S.woerter[w]||{}; S.woerter[w].m = e.target.value.trim(); save(); };
+  document.getElementById("wfL").onclick = ()=>{ setWortStatus(w,"l"); render(); zeigeWort(t); };
+}
+function schliesseWort(){ const b = document.getElementById("wortFenster"); if(b) b.style.display = "none"; }
+
+/* ---------- Editor: eigenes Lied ---------- */
+function renderEditor(L){
+  const neu = !L;
+  L = L || {titel:"", interpret:"", youtube:"", text:"", uebers:""};
+  document.getElementById("host").innerHTML = `<div class="card ed">
+    <h2 style="margin:0 0 4px;font-family:'Source Serif 4',Georgia,serif">${neu?"Neues Lied / Новая песня":"Lied bearbeiten / Изменить песню"}</h2>
+    <div class="schutz">🔒 Der Text bleibt nur auf diesem Gerät – er wird nicht ins Internet hochgeladen. / Текст остаётся только на этом устройстве и не попадает в интернет.</div>
+    <label>Der Titel / Название</label><input id="eT" value="${esc(L.titel)}" placeholder="z. B. Yesterday">
+    <label>Der Sänger, die Band / Исполнитель</label><input id="eI" value="${esc(L.interpret)}">
+    <label>YouTube-Link <small>(optional – zum Anhören / чтобы послушать)</small></label><input id="eY" value="${esc(L.youtube)}" placeholder="https://www.youtube.com/...">
+    <label>Der Liedtext (Englisch) / Текст песни <small>– eine Zeile = eine Zeile im Lied; Leerzeile = neue Strophe</small></label>
+    <textarea id="eX" placeholder="Text von einer Liedtext-Seite kopieren und hier einfügen / Скопируйте текст и вставьте сюда">${esc(L.text)}</textarea>
+    <label>Die Übersetzung <small>(optional, Zeile für Zeile in derselben Reihenfolge / перевод по строчкам, в том же порядке)</small></label>
+    <textarea id="eU" style="min-height:120px">${esc(L.uebers)}</textarea>
+    <div class="row" style="margin-top:12px">
+      <button class="btn prim" id="eSave">💾 Speichern / Сохранить</button>
+      <button class="btn" id="eCancel">Abbrechen / Отмена</button>
+      ${neu?"":'<button class="btn red" id="eDel">🗑 Löschen / Удалить</button>'}
+    </div></div>`;
+  document.getElementById("eSave").onclick = ()=>{
+    const titel = document.getElementById("eT").value.trim();
+    const text = document.getElementById("eX").value.replace(/\r/g,"").replace(/\n{3,}/g,"\n\n").trim();
+    if(!titel || !text){ document.getElementById(titel?"eX":"eT").focus(); return; }
+    const obj = {
+      id: neu ? "lied-"+Date.now() : L.id,
+      titel, text,
+      interpret: document.getElementById("eI").value.trim(),
+      youtube: document.getElementById("eY").value.trim(),
+      uebers: document.getElementById("eU").value.trim()
+    };
+    if(obj.youtube && !/^https?:\/\//i.test(obj.youtube)) obj.youtube = "https://"+obj.youtube;
+    if(neu) S.lieder.push(obj); else S.lieder = S.lieder.map(x=>x.id===obj.id?obj:x);
+    S.aktiv = obj.id; S.modus = "lesen"; save(); render(); window.scrollTo(0,0);
+  };
+  document.getElementById("eCancel").onclick = ()=>{ S.modus = "lesen"; save(); render(); };
+  const del = document.getElementById("eDel");
+  if(del) del.onclick = ()=>{
+    if(del.dataset.sicher!=="1"){ del.dataset.sicher="1"; del.textContent="🗑 Wirklich löschen? / Точно удалить?"; return; }
+    S.lieder = S.lieder.filter(x=>x.id!==L.id); delete S.status[L.id]; delete S.idx[L.id]; delete S.stufe[L.id];
+    S.aktiv = "clementine"; S.modus = "lesen"; save(); render();
+  };
+}
+
+/* ---------- Sicherung / резервная копия ---------- */
+document.getElementById("exportBtn").onclick = ()=>{
+  try{
+    const blob = new Blob([JSON.stringify({typ:"lied-trainer", version:1, lieder:S.lieder, woerter:S.woerter, status:S.status}, null, 1)], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "lied-trainer-sicherung.json";
+    document.body.appendChild(a); a.click(); a.remove();
+  }catch(e){}
+};
+document.getElementById("importFile").onchange = e=>{
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const d = JSON.parse(r.result);
+      if(!d || d.typ!=="lied-trainer") return;
+      (d.lieder||[]).forEach(l=>{ if(l && l.id && l.text && !S.lieder.some(x=>x.id===l.id)) S.lieder.push(l); });
+      Object.keys(d.woerter||{}).forEach(w=>{ if(!S.woerter[w]) S.woerter[w] = d.woerter[w]; });
+      Object.keys(d.status||{}).forEach(id=>{ if(!S.status[id]) S.status[id] = d.status[id]; });
+      save(); render();
+    }catch(err){}
+  };
+  r.readAsText(f);
+};
+
+/* ---------- Start ---------- */
+document.getElementById("neuBtn").onclick = ()=>{ S.modus = "neu"; render(); };
+const rate = document.getElementById("rate"); rate.value = S.rate;
+rate.oninput = ()=>{ S.rate = parseFloat(rate.value); save(); };
+rate.onchange = ()=>speak("Oh my darling, Clementine","en");
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") schliesseWort(); });
+render();
+</script>
+</body>
+</html>
