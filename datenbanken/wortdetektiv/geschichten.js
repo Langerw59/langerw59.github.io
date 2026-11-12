@@ -210,7 +210,115 @@ window.WORTDETEKTIV = [
     { t: "Treverer – Wikipedia", url: "https://de.wikipedia.org/wiki/Treverer", art: "lexikon", sp: "DE", info: "Племя, давшее имя городу." }
   ],
   raetsel: { frage: "Как по-французски называется город Trier – и почему это доказывает, что try тут ни при чём?", antwort: "**Trèves** – от имени треверов. А глагол «отбирать» по-французски – trier. Будь это одно слово, город назывался бы так же." }
+},
+
+// 2026-11-12: Caravan / die Karawane – vom Kamelzug zum Wohnwagen
+{
+  id: "caravan",
+  titel: "Caravan – vom Kamelzug in der Wüste zum Wohnwagen",
+  ru: "Караван – от верблюдов в пустыне до жилого прицепа",
+  wort: "die Karawane / caravan / van / караван",
+  h: "orient",
+  thema: "woerter",
+  kurz: "Персидское слово «караван» прошло по Шёлковому пути, через крестоносцев, Италию и Францию – и в Англии стало жилым прицепом, а потом коротким словом van.",
+  text: [
+    "Начало – в [[ort:persien|Persien]] ([[lex:persien|Персии]]). На [[lex:persisch|персидском]] языке **kārwān** (کاروان) – группа людей, которые идут через пустыню вместе: купцы, паломники, верблюды. Вместе – значит безопаснее. Слово есть уже в среднеперсидском, то есть ему больше 1500 лет.",
+    "Откуда само kārwān – точно не известно. Одна версия (словарь Klein) связывает его с [[lex:sanskrit|санскритским]] **karabha** «верблюд». Другая – с древнеиранскими «дело, торговля» + «идти». Это гипотезы.",
+    "По [[lex:seidenstrasse|Шёлковому пути]] (**die Seidenstraße**) караваны ходили от [[ort:samarkand|Samarkand]] через Персию до [[ort:aleppo|Aleppo]] и Средиземного моря. Торговый язык этих дорог был во многом персидский – поэтому слово ушло так далеко. В арабском оно стало **qairawān** – и, по распространённому объяснению, дало имя городу **[[ort:kairouan|Kairouan]]** в Тунисе: «лагерь, стоянка».",
+    "В Европу слово принесли **[[lex:kreuzzuege|крестоносцы]]** и купцы. В **XIII веке** старофранцузское **carvane, carevane**, средневековая латынь **caravana**. Итальянские купцы из [[ort:venedig|Venedig]] и Генуи торговали с Востоком – итальянское **[[ton:it|carovana]]**. Французское – **[[ton:fr|caravane]]**.",
+    "В немецком **die [[ton:de|Karawane]]** известно с **XVI века** – через итальянский carovana. Интересно: ещё раньше в средневерхненемецком было слово **karabane** – «армейский обоз». В английском **[[ton:en|caravan]]** – с **1590-х годов**, из французского.",
+    "А дальше англичане сделали неожиданное. В **1670-х** caravan – уже большая крытая повозка для пассажиров. В XIX веке – фургоны бродячих циркачей и цыган. В **1885 году** шотландский врач и писатель **[[lex:gordon_stables|Gordon Stables]]** заказал в [[ort:bristol|Bristol]] повозку «The Wanderer» – одну из первых, построенных **для отдыха**. В **1907 году** в Британии основан клуб караванщиков – **[[lex:caravan_club|The Caravan Club]]**. Так караван стал **жилым прицепом** – **der Wohnwagen**!",
+    "А в **1829 году** англичане укоротили caravan до **[[ton:en|van]]** – крытый фургон для перевозки мебели. Отсюда и сегодняшний **der Van** (минивэн) и **[[ton:en|the camper van]]**. В последнем слоге «van» – персидский след!",
+    "В немецком сегодня – оба слова рядом: **die Karawane** (верблюды, пустыня, длинная колонна машин) и **der [[ton:en|Caravan]]** (жилой прицеп). Самая большая в мире выставка жилых прицепов и автодомов – **der [[lex:caravan_salon|Caravan Salon]]** в [[ort:duesseldorf|Düsseldorf]]. Персидское слово – совсем рядом с Willich.",
+    "В русском **[[ton:ru|караван]]** – с Востока; учёные спорят, пришло оно прямо через тюркские языки (тур. **kervan**) или через западные. А вот родственник, о котором мало кто знает, – **[[ton:ru|сарай]]**! См. «улики» ниже."
+  ],
+  spuren: [
+    ["die Karawanserei · караван-сарай", "Перс. kārwān-sarāy: «караван» + **sarāy** «дворец, большой дом, постоялый двор». Здание с большим двором на дороге, где ночевали караваны."],
+    ["сарай · Sarai · Бахчисарай", "То же персидское **sarāy** «дворец» через тюркские языки → русское **сарай**. Столица Золотой Орды на Волге называлась **Сарай** – «дворец»! Бахчисарай (Крым) – «дворец-сад». Так «дворец» в русском стал сараем."],
+    ["das Serail · seraglio", "Тот же sarāy через турецкий и итальянский (serraglio) → немецкое **das Serail** – дворец султана."],
+    ["der Van · camper van", "Англ. van (1829) – сокращение от caravan. Немецкое der Van – минивэн."],
+    ["die Hunde bellen, aber die Karawane zieht weiter", "Пословица – «собака лает, а караван идёт». Есть и в немецком, и в русском, родом с Востока."]
+  ],
+  orte: {
+    persien:   { name: "Persien (Isfahan)", lat: 32.65, lng: 51.67, info: "Родина слова kārwān. В Персии стояли сотни караван-сараев.", wiki: "Karawanserei", wikiRu: "Караван-сарай" },
+    samarkand: { name: "Samarkand", lat: 39.65, lng: 66.96, info: "Большой город Шёлкового пути. Отсюда караваны шли на запад.", wiki: "Samarkand", wikiRu: "Самарканд" },
+    aleppo:    { name: "Aleppo", lat: 36.20, lng: 37.16, info: "Конец караванных дорог у Средиземного моря. Здесь европейские купцы встречали караваны.", wiki: "Aleppo", wikiRu: "Алеппо" },
+    kairouan:  { name: "Kairouan (Tunesien)", lat: 35.68, lng: 10.10, info: "Араб. qairawān – «лагерь, стоянка каравана». Город назван так, по распространённому объяснению, от персидского kārwān.", wiki: "Kairouan", wikiRu: "Кайруан" },
+    akkon:     { name: "Akkon", lat: 32.92, lng: 35.07, info: "Крепость крестоносцев. Отсюда в XIII веке слово carvane пришло во французский.", wiki: "Akkon", wikiRu: "Акко" },
+    venedig:   { name: "Venedig", lat: 45.44, lng: 12.33, info: "Купцы Венеции торговали с Востоком. Итал. carovana → нем. Karawane (XVI век).", wiki: "Venedig", wikiRu: "Венеция" },
+    sarai:     { name: "Sarai (an der Wolga)", lat: 47.20, lng: 47.30, info: "Сарай-Бату – столица Золотой Орды (XIII век). Имя – персидское sarāy «дворец» → русское «сарай».", wiki: "Sarai (Stadt)", wikiRu: "Сарай-Бату" },
+    bristol:   { name: "Bristol", lat: 51.45, lng: -2.59, info: "1885: здесь построили «The Wanderer» Гордона Стейблса – один из первых караванов для отдыха.", wiki: "Bristol", wikiRu: "Бристоль" },
+    london:    { name: "London", lat: 51.51, lng: -0.13, info: "Caravan в английском – с 1590-х; в 1829 году сокращение van.", wiki: "London", wikiRu: "Лондон" },
+    duesseldorf:{ name: "Düsseldorf", lat: 51.26, lng: 6.74, info: "Caravan Salon – самая большая выставка жилых прицепов и автодомов в мире.", wiki: "Caravan Salon", wikiRu: "Дюссельдорф" }
+  },
+  wege: [
+    ["samarkand", "persien", "kārwān"],
+    ["persien", "aleppo", "Seidenstraße"],
+    ["persien", "kairouan", "arab. qairawān"],
+    ["akkon", "venedig", "Kreuzzüge, 13. Jh."],
+    ["venedig", "london", "caravan, 1590er"],
+    ["persien", "sarai", "sarāy → сарай"],
+    ["bristol", "duesseldorf", "der Caravan (Wohnwagen)"]
+  ],
+  links: [
+    { t: "„caravan“ – Etymonline", url: "https://www.etymonline.com/word/caravan", art: "woerterbuch", sp: "EN", info: "Английский этимологический словарь: 1590-е, Persian karwan, крестоносцы." },
+    { t: "„van“ – Etymonline", url: "https://www.etymonline.com/word/van", art: "woerterbuch", sp: "EN", info: "1829: van – сокращение от caravan." },
+    { t: "„Karawane“ im DWDS", url: "https://www.dwds.de/wb/Karawane", art: "woerterbuch", sp: "DE", info: "Немецкий словарь с историей слова." },
+    { t: "Karawane – Wiktionary", url: "https://de.wiktionary.org/wiki/Karawane", art: "woerterbuch", sp: "DE", info: "С XVI века, через итал. carovana; mhd. karabane." },
+    { t: "Karawanserei – Wikipedia", url: "https://de.wikipedia.org/wiki/Karawanserei", art: "lexikon", sp: "DE", info: "Постоялые дворы для караванов, с фотографиями." },
+    { t: "Караван – Википедия", url: "https://ru.wikipedia.org/wiki/Караван", art: "lexikon", sp: "RU", info: "По-русски." },
+    { t: "Seidenstraße – Wikipedia", url: "https://de.wikipedia.org/wiki/Seidenstraße", art: "lexikon", sp: "DE", info: "Дороги караванов от Китая до Средиземного моря." },
+    { t: "Videos: Karawanen und Seidenstraße", url: "https://www.youtube.com/results?search_query=Seidenstraße+Karawanen+Doku", art: "video", sp: "DE", info: "Поиск документальных фильмов на YouTube." },
+    { t: "Видео: Великий шёлковый путь", url: "https://www.youtube.com/results?search_query=Великий+шёлковый+путь+караваны+документальный", art: "video", sp: "RU", info: "Поиск видео на YouTube по-русски." }
+  ],
+  raetsel: { frage: "Какое простое русское слово – «двоюродный брат» каравана и когда-то значило «дворец»?", antwort: "**сарай**! Персидское sarāy «дворец» (как в караван-сарай) → через тюркские языки → русское «сарай». Столица Золотой Орды так и называлась – Сарай." }
+},
+
+// 2026-11-12: Etymologie – die Lehre vom „wahren Wort“
+{
+  id: "etymologie",
+  titel: "Etymologie – die Lehre vom „wahren Wort“",
+  ru: "Этимология – наука об «истинном значении» слова",
+  wort: "die Etymologie / etymology / этимология",
+  h: "griech",
+  thema: "woerter",
+  kurz: "То, чем занимается Wortdetektiv, по-научному называется Etymologie. Слово греческое: «истинное» + «слово, учение».",
+  text: [
+    "**die [[ton:de|Etymologie]]** (этимология) – наука о происхождении слов: откуда слово пришло, что значило сначала и как менялось. Именно этим и занимается наш **der Wortdetektiv**.",
+    "Слово – [[lex:altgriechisch|древнегреческое]]: **[[ton:el|ἐτυμολογία]]** (etymología) = **étymon** «истинное (значение слова)» + **lógos** «слово, учение». От прилагательного **étymos** «истинный, настоящий». Буквально: **учение об истинном смысле слова**.",
+    "Греки верили: в каждом слове спрятан его «настоящий» смысл, и его можно найти. Об этом спорит уже **[[lex:platon|Платон]]** в диалоге **«[[lex:kratylos|Кратил]]»** (около **IV века до н. э.**, [[ort:athen|Athen]]): даны ли имена вещам «по природе» или по договорённости людей? Слово etymologia особенно любили философы-**[[lex:stoiker|стоики]]**.",
+    "[[lex:roemer|Римляне]] взяли слово в [[lex:latein|латынь]]: **[[ton:la|etymologia]]**. **[[lex:cicero|Цицерон]]** в [[ort:rom|Rom]] даже пытался перевести его по-латински – **veriloquium**, «истинноречие». Не прижилось. Учёный **[[lex:varro|Варрон]]** написал целую книгу о происхождении латинских слов – «De lingua Latina».",
+    "Самая знаменитая книга с этим словом в названии – **«Etymologiae»** епископа **[[lex:isidor|Исидора Севильского]]** ([[ort:sevilla|Sevilla]], около **630 года**). Это энциклопедия всего знания того времени, объяснённого через слова. Её переписывали и читали всё Средневековье. Многие его объяснения сегодня кажутся смешными – тогда этимология была больше игрой ума, чем наукой.",
+    "Настоящей наукой этимология стала только в **XIX веке**. Немецкие учёные – **[[lex:grimm|братья Гримм]]**, **[[lex:bopp|Франц Бопп]]** – сравнили много языков и нашли законы: как звуки меняются правильно, по правилам. Например, лат. **pater** – нем. **Vater** – англ. **father** ([[lex:grimmsches_gesetz|закон Гримма]]). С тех пор этимолог – действительно **детектив**: он не угадывает, а доказывает по уликам.",
+    "Так что Wortdetektiv и Etymologie – одно и то же: «Wortdetektiv» – название для игры и для внуков, а «Etymologie» – название науки."
+  ],
+  spuren: [
+    ["das Etymon", "Лингвисты и сегодня так называют «исходное слово», от которого произошло другое: etymon от Karawane – перс. kārwān."],
+    ["-logie · -логия", "Греч. lógos «слово, учение»: die Biologie (bíos «жизнь»), die Geologie (gē «земля»), die Zoologie, die Psychologie – биология, геология и т. д."],
+    ["die Logik · der Dialog · das Logo", "Тоже от lógos: Logik – «наука о правильной мысли», Dialog – «разговор двоих», Logo – «знак-слово»."],
+    ["der Prolog · der Epilog", "pro- «перед» + lógos – слово перед (пьесой); epi- «после» – слово после."]
+  ],
+  orte: {
+    athen:   { name: "Athen", lat: 37.98, lng: 23.73, info: "Платон, диалог «Кратил»: откуда у вещей имена? Здесь же – стоики (Stoa – «портик»).", wiki: "Kratylos", wikiRu: "Кратил (диалог)" },
+    rom:     { name: "Rom", lat: 41.90, lng: 12.50, info: "Варрон «De lingua Latina», Цицерон: etymologia → veriloquium.", wiki: "Marcus Terentius Varro", wikiRu: "Марк Теренций Варрон" },
+    sevilla: { name: "Sevilla", lat: 37.39, lng: -5.99, info: "Исидор Севильский, «Etymologiae» (около 630 г.) – энциклопедия Средневековья.", wiki: "Isidor von Sevilla", wikiRu: "Исидор Севильский" },
+    kassel:  { name: "Kassel", lat: 51.31, lng: 9.48, info: "Здесь долго жили и работали братья Гримм. Закон Гримма (1822) – начало научной этимологии.", wiki: "Brüder Grimm", wikiRu: "Братья Гримм" }
+  },
+  wege: [
+    ["athen", "rom", "etymologia"],
+    ["rom", "sevilla", "Etymologiae, ~630"],
+    ["sevilla", "kassel", "Wissenschaft, 19. Jh."]
+  ],
+  links: [
+    { t: "Etymologie – Wikipedia", url: "https://de.wikipedia.org/wiki/Etymologie", art: "lexikon", sp: "DE", info: "Что такое этимология, история науки." },
+    { t: "Этимология – Википедия", url: "https://ru.wikipedia.org/wiki/Этимология", art: "lexikon", sp: "RU", info: "То же по-русски." },
+    { t: "„Etymologie“ im DWDS", url: "https://www.dwds.de/wb/Etymologie", art: "woerterbuch", sp: "DE", info: "Немецкий словарь – и там же этимологический словарь Пфайфера." },
+    { t: "„etymology“ – Etymonline", url: "https://www.etymonline.com/word/etymology", art: "woerterbuch", sp: "EN", info: "Английский этимологический словарь о самом слове." },
+    { t: "Videos: Was ist Etymologie?", url: "https://www.youtube.com/results?search_query=Was+ist+Etymologie+Wortherkunft", art: "video", sp: "DE", info: "Поиск видео на YouTube." }
+  ],
+  raetsel: { frage: "Что общего у слов Biologie, Logik, Dialog и Etymologie?", antwort: "Греческое **lógos** – «слово, учение, разум». А etymo- – «истинный»: Etymologie – «учение об истинном слове»." }
 }
+
 
 ];
 
@@ -275,5 +383,25 @@ window.WORTDETEKTIV_LEXIKON = {
   augustus:     { de: "Augustus", ru: "Октавиан Август" },
   treverer:     { de: "Treverer", ru: "Треверы" },
   mosel:        { de: "Mosel", ru: "Мозель" },
-  porta_nigra:  { de: "Porta Nigra", ru: "Порта Нигра" }
+  porta_nigra:  { de: "Porta Nigra", ru: "Порта Нигра" },
+  // 2026-11-12: Caravan
+  persien:      { de: "Persien", ru: "Персия" },
+  persisch:     { de: "Persische Sprache", ru: "Персидский язык" },
+  sanskrit:     { de: "Sanskrit", ru: "Санскрит" },
+  seidenstrasse:{ de: "Seidenstraße", ru: "Великий шёлковый путь" },
+  kreuzzuege:   { de: "Kreuzzug", ru: "Крестовые походы" },
+  gordon_stables:{ de: "William Gordon Stables", ru: "Стейблс, Уильям Гордон" },
+  caravan_club: { de: "The Caravan and Motorhome Club", ru: "Караван (прицеп)" },
+  caravan_salon:{ de: "Caravan Salon", ru: "Дом на колёсах" },
+  // 2026-11-12: Etymologie
+  altgriechisch:{ de: "Altgriechische Sprache", ru: "Древнегреческий язык" },
+  platon:       { de: "Platon", ru: "Платон" },
+  kratylos:     { de: "Kratylos", ru: "Кратил (диалог)" },
+  stoiker:      { de: "Stoa", ru: "Стоицизм" },
+  cicero:       { de: "Marcus Tullius Cicero", ru: "Цицерон" },
+  varro:        { de: "Marcus Terentius Varro", ru: "Марк Теренций Варрон" },
+  isidor:       { de: "Isidor von Sevilla", ru: "Исидор Севильский" },
+  grimm:        { de: "Brüder Grimm", ru: "Братья Гримм" },
+  bopp:         { de: "Franz Bopp", ru: "Бопп, Франц" },
+  grimmsches_gesetz:{ de: "Erste Lautverschiebung", ru: "Закон Гримма" }
 };
