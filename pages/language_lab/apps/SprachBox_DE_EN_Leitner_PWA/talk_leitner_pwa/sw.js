@@ -7,7 +7,8 @@
 // 2026-11-11: Navi-Knöpfe (core_init.js neu).
 // 2026-11-12: Auto-Stimme ohne Spass-Stimmen (iPhone, deutsche Namen).
 // 2026-11-12: Knopf „Lieder“ (Lied-Trainer).
-const CACHE = "sprachbox-v37";
+// 2026-11-12: Lieder aus dem Lied-Trainer als Karteikarten.
+const CACHE = "sprachbox-v38";
 const CORE = [
   "./",
   "./index.html",

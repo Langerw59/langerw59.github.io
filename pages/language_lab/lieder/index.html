@@ -442,7 +442,8 @@ function render(){
 function kopfKarte(L){
   const yt = L.youtube ? `<a class="btn" href="${esc(L.youtube)}" target="_blank" rel="noopener">▶ Anhören (YouTube) / Послушать</a>` : "";
   const info = (L.info && S.modus==="lesen") ? `<p class="info">${esc(L.info)}<br><small>${esc(L.info_ru||"")}</small></p>` : "";
-  return `<div class="card">${info}<div class="row" style="margin:8px 0 0">${yt}
+  const sf = L.builtin ? "" : `<p class="info">🗂 Dieses Lied ist auch im <a href="/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html">Sprachführer DE↔EN</a> als Karteikarten (Boxen 1–8): dort bei <b>Thema</b> „🎵 ${esc(L.titel)}“ wählen.<br><small>Эта песня есть и в Sprachführer DE↔EN карточками: в поле «Thema» выберите «🎵 ${esc(L.titel)}».</small></p>`;
+  return `<div class="card">${info}${sf}<div class="row" style="margin:8px 0 0">${yt}
     <button class="btn" id="trToggle">${S.zeigeTr?"🙈 Übersetzung aus / скрыть перевод":"👁 Übersetzung an / показать перевод"}</button></div></div>`;
 }
 function bindKopf(){

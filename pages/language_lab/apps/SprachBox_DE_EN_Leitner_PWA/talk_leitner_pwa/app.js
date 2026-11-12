@@ -4042,7 +4042,59 @@ async function tryLoadSharedDeck() {
   }
 }
 
+// 2026-11-12: Lieder aus dem Lied-Trainer als Karteikarten (Thema „🎵 Titel“).
+// Die Liedtexte liegen NUR auf diesem Gerät (localStorage des Lied-Trainers),
+// sie stehen nicht in den Dateien auf GitHub. Jede Zeile = eine Karte (Wiederholungen nur einmal),
+// der Reihe nach, je 6 Zeilen = eine Lektion. Boxen 1–8 wie bei allen Karten.
+const LIED_TRAINER_KEY = "lied-trainer-v1";
+function loadSongCards() {
+  let S = null;
+  try { S = JSON.parse(localStorage.getItem(LIED_TRAINER_KEY) || "null"); } catch (_) { S = null; }
+  const lieder = (S && Array.isArray(S.lieder)) ? S.lieder : [];
+  const norm = (z) => String(z || "").toLowerCase().replace(/[’`]/g, "'").replace(/[^a-z0-9' ]/g, "").replace(/'/g, "").replace(/\s+/g, " ").trim();
+  const out = [];
+  lieder.forEach((L, liedNr) => {
+    if (!L || !L.id || !L.text) return;
+    const titel = String(L.titel || "Lied").trim();
+    const en = String(L.text).replace(/\r/g, "").split("\n").map((z) => z.trim()).filter(Boolean);
+    const tr = String(L.uebers || "").replace(/\r/g, "").split("\n").map((z) => z.trim()).filter(Boolean);
+    const seen = new Set();
+    let k = 0;
+    en.forEach((zeile, i) => {
+      const n = norm(zeile);
+      if (!n || seen.has(n)) return;
+      seen.add(n);
+      const de = tr[i] && tr[i].length >= 2 ? tr[i] : "(noch keine Übersetzung)";
+      out.push(normalizeItem({
+        id: `lied::${L.id}::${strHash(n)}`,
+        de, en: zeile,
+        topic: `🎵 ${titel}`,
+        stufe: "Lied",
+        order: 500000 + liedNr * 1000 + k,
+        lesson: `🎵 ${titel} · Teil ${Math.floor(k / 6) + 1}`,
+      }, k));
+      k++;
+    });
+  });
+  return out.filter(isUsableCard);
+}
+
 async function loadDeck() {
+  const r = await loadDeckOhneLieder();
+  try {
+    const lieder = loadSongCards();
+    if (r && Array.isArray(r.normalized) && lieder.length) {
+      const ids = new Set(r.normalized.map((x) => x.id));
+      r.normalized = r.normalized.concat(lieder.filter((x) => !ids.has(x.id)));
+      r.used = `${r.used} + Lieder (${lieder.length})`;
+    }
+  } catch (e) {
+    console.warn("[SprachBox] Lieder nicht geladen", e);
+  }
+  return r;
+}
+
+async function loadDeckOhneLieder() {
   const tried = [];
   state.ui.loaderTried = tried;
 
