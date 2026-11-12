@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wortdetektiv – Geschichten der Wörter</title>
-<!-- 2026-11-04: Wortdetektiv – erstellt mit Claude
+<title>Die Etymologie – Wortgeschichte</title>
+<!-- 2026-11-12: umbenannt in „Die Etymologie – Wortgeschichte“ (früher: der Wortdetektiv; Ordnername bleibt wortdetektiv)
+     2026-11-04: Wortdetektiv – erstellt mit Claude
      DE: Geschichten der Wörter mit Karte, Wort-Spuren und „Mehr erfahren“-Links.
      RU: Истории слов: карта, «улики» (родственные слова), ссылки «узнать больше».
      Daten: /datenbanken/wortdetektiv/geschichten.js
@@ -219,8 +220,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (ohne.length) inhalt += `<h3 class="themakopf">📁 Sonstiges / разное</h3><div class="karten">${ohne.map(karteHtml).join("")}</div>`;
     if (!inhalt) inhalt = `<p class="leer">Nichts gefunden. / Ничего не найдено.</p>`;
     app.innerHTML = `
-      <h1>🔍 Wortdetektiv</h1>
-      <p class="lead"><span class="ru">Словодетектив – истории слов: откуда пришло слово, кто его принёс, где это на карте.</span></p>
+      <h1>📜 Die Etymologie – Wortgeschichte</h1>
+      <p class="lead"><span class="ru">Этимология (греч. étymon «истинное значение» + lógos «учение») – история слов: откуда пришло слово, кто его принёс, где это на карте.</span></p>
       <div class="filter" id="themen">
         <button type="button" data-t="" class="${filterThema ? "" : "an"}">Alle / все <span class="n">(${G.length})</span></button>
         ${THEMEN.map((t) => `<button type="button" data-t="${t.id}" class="${filterThema === t.id ? "an" : ""}">${t.icon} ${esc(t.de)} <span class="n">(${G.filter((g) => g.thema === t.id).length})</span></button>`).join("")}
@@ -234,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
       filterThema = b.dataset.t; liste();
     });
     app.querySelector("#selHer").addEventListener("change", (ev) => { filterHer = ev.target.value; liste(); });
-    document.title = "Wortdetektiv – Geschichten der Wörter";
+    document.title = "Die Etymologie – Wortgeschichte";
   }
 
   function geschichte(g) {
@@ -253,7 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <a class="lk" href="${esc(l.url)}" target="_blank" rel="noopener"><span>${ART[l.art] || "🔗"}</span> <span class="t">${esc(l.t)}</span><span class="sp">${esc(l.sp)}</span><span class="i">${esc(l.info)}</span></a>`).join("")}
           <p class="hinweisext">Ссылки ведут на чужие сайты и открываются в новой вкладке.</p></div>` : ""}
       </article>`;
-    document.title = g.titel + " – Wortdetektiv";
+    document.title = g.titel + " – Etymologie";
     window.scrollTo(0, 0);
     lexbox.style.display = "none";
 
@@ -345,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
     app.querySelector("#tverd").addEventListener("click", (ev) => { const b = ev.target.closest("button[data-v]"); if (b) { tierVerdeckt = b.dataset.v; tierLexikon(art); } });
     app.querySelectorAll(".sag").forEach((b) => b.addEventListener("click", (ev) => { ev.stopPropagation(); sprich(b.dataset.txt, b.dataset.l); }));
     app.querySelectorAll(".versteckt").forEach((f) => f.addEventListener("click", () => f.classList.remove("versteckt")));
-    document.title = L.titel + " – Wortdetektiv";
+    document.title = L.titel + " – Etymologie";
   }
 
   let aktLex = "";
