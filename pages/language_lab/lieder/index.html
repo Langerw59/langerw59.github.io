@@ -261,6 +261,47 @@ And forgot my Clementine.`,
 }];
 
 /* =========================================================
+   2026-11-12: Der Wortschatz / общий словарь
+   Einzelne Wörter (kein Liedtext) – gilt für ALLE Lieder.
+   Zuerst Wörter aus „Shape of My Heart“ (Sting).
+   Wort: [Deutsch, Русский, n = nützlich / x = nicht nötig]
+   ========================================================= */
+const WORTSCHATZ = {
+  "he":["er","он","n"], "deals":["teilt aus, gibt (die Karten)","сдаёт (карты)","n"], "deal":["austeilen; das Geschäft","сдавать карты; сделка","n"],
+  "cards":["die Karten","карты","n"], "card":["die Karte","карта","n"], "as":["als; wie","как; в качестве","n"],
+  "meditation":["die Meditation","медитация","n"], "those":["diejenigen, jene","те","n"], "plays":["spielt","играет","n"], "play":["spielen; das Spiel","играть; игра","n"],
+  "never":["nie, niemals","никогда","n"], "suspect":["ahnen, vermuten","подозревать","n"], "doesn't":["(er/sie) … nicht","не (он/она)","n"],
+  "money":["das Geld","деньги","n"], "wins":["gewinnt","выигрывает","n"], "win":["gewinnen","выигрывать","n"],
+  "respect":["der Respekt","уважение","n"], "find":["finden","находить","n"], "answer":["die Antwort","ответ","n"],
+  "sacred":["heilig","священный","x"], "geometry":["die Geometrie","геометрия","n"], "of":["von (Genitiv: des/der)","(родительный падеж)","n"],
+  "chance":["der Zufall; die Chance","случай; шанс","n"], "hidden":["verborgen, versteckt","скрытый","n"], "law":["das Gesetz","закон","n"],
+  "probable":["wahrscheinlich","вероятный","n"], "outcome":["das Ergebnis","исход, результат","n"], "numbers":["die Zahlen","числа","n"],
+  "lead":["führen, anführen","вести","n"], "dance":["der Tanz; tanzen","танец; танцевать","n"], "know":["wissen; kennen","знать","n"],
+  "that":["dass; das, jenes","что; тот","n"], "spades":["das Pik ♠ (wörtlich: die Spaten)","пики ♠ (букв.: лопаты)","n"],
+  "swords":["die Schwerter","мечи","n"], "sword":["das Schwert","меч","n"], "soldier":["der Soldat","солдат","n"],
+  "clubs":["das Kreuz ♣ (wörtlich: die Keulen)","трефы ♣ (букв.: дубинки)","n"], "weapons":["die Waffen","оружие","n"], "weapon":["die Waffe","оружие","n"],
+  "war":["der Krieg","война","n"], "diamonds":["das Karo ♦ (wörtlich: die Diamanten)","бубны ♦ (букв.: бриллианты)","n"],
+  "hearts":["das Herz ♥ (Kartenfarbe)","черви ♥","n"], "mean":["bedeuten","означать","n"], "this":["dies, dieser, diese","этот","n"],
+  "art":["die Kunst","искусство","n"], "that's":["das ist","это (есть)","n"], "not":["nicht","не","n"],
+  "shape":["die Form","форма","n"], "heart":["das Herz","сердце","n"], "may":["darf; kann (vielleicht)","может (быть)","n"],
+  "jack":["der Bube (Spielkarte)","валет","n"], "queen":["die Dame; die Königin","дама; королева","n"], "lay":["legen","класть","n"],
+  "conceal":["verbergen","скрывать","x"], "king":["der König","король","n"], "hand":["die Hand; das Blatt (Karten)","рука; карты на руках","n"],
+  "while":["während","пока, в то время как","n"], "memory":["die Erinnerung; das Gedächtnis","память, воспоминание","n"], "it":["es","оно, это","n"],
+  "fades":["verblasst","тускнеет, угасает","n"], "fade":["verblassen","тускнеть","n"], "if":["wenn, falls","если","n"],
+  "told":["sagte, erzählte (tell)","сказал (tell)","n"], "loved":["liebte, geliebt (love)","любил (love)","n"], "love":["lieben; die Liebe","любить; любовь","n"],
+  "you'd":["du würdest (you would)","ты бы (you would)","n"], "maybe":["vielleicht","может быть","n"], "think":["denken, meinen","думать","n"],
+  "there's":["es gibt (there is)","есть, имеется (there is)","n"], "something":["etwas","что-то","n"], "wrong":["falsch","неправильный","n"],
+  "i'm":["ich bin (I am)","я (есть) (I am)","n"], "man":["der Mann","мужчина","n"], "too":["zu; auch","слишком; тоже","n"],
+  "many":["viele","много","n"], "faces":["die Gesichter","лица","n"], "face":["das Gesicht","лицо","n"],
+  "mask":["die Maske","маска","n"], "wear":["tragen (Kleidung)","носить (одежду)","n"], "is":["ist","есть (быть)","n"],
+  "one":["eins; eine","один, одна","n"], "who":["wer; die (welche)","кто; который","n"], "speak":["sprechen","говорить","n"],
+  "nothing":["nichts","ничего","n"], "out":["heraus, aus","наружу, вне","n"], "their":["ihr, ihre (Mehrzahl)","их","n"],
+  "cost":["die Kosten; kosten","цена, стоимость","n"], "curse":["verfluchen; der Fluch","проклинать; проклятие","n"],
+  "luck":["das Glück (im Spiel)","удача","n"], "places":["die Orte","места","n"], "place":["der Ort, der Platz","место","n"],
+  "fear":["fürchten; die Angst","бояться; страх","n"], "now":["jetzt","сейчас","n"], "we":["wir","мы","n"], "me":["mich, mir","меня, мне","n"]
+};
+
+/* =========================================================
    Zustand / состояние  (localStorage mit try/catch)
    ========================================================= */
 const KEY = "lied-trainer-v1";
@@ -295,6 +336,7 @@ function wortInfo(w){
   const own = S.woerter[w] || {};
   let g = null;
   BUILTIN.forEach(B=>{ if(!g && B.glos && B.glos[w]) g = B.glos[w]; });
+  if(!g && WORTSCHATZ[w]) g = WORTSCHATZ[w];
   return {
     de: own.m || (g ? g[0] : ""),
     ru: own.m ? "" : (g ? g[1] : ""),
@@ -537,7 +579,8 @@ function renderWoerter(L){
     const i = wortInfo(w); const own = (S.woerter[w]||{}).m||"";
     const bedeutung = L.builtin && !own
       ? `${esc(i.de)}${i.ru?`<small>${esc(i.ru)}</small>`:""}`
-      : `<input data-m="${esc(w)}" value="${esc(own)}" placeholder="${esc(i.de||"Bedeutung / значение")}">`;
+      : (!own && i.de ? `${esc(i.de)}${i.ru?`<small>${esc(i.ru)}</small>`:""}` : "") +
+        `<input data-m="${esc(w)}" value="${esc(own)}" placeholder="${esc(i.de?"eigene Bedeutung / своё значение":"Bedeutung / значение")}">`;
     return `<tr class="${i.st==="u"?"unnoetig":""}">
       <td class="wort">${esc(w)} <button class="mini" data-say="${esc(w)}" title="Vorlesen">🔊</button></td>
       <td class="bed">${bedeutung}</td>
@@ -582,6 +625,38 @@ function zeigeWort(t){
 }
 function schliesseWort(){ const b = document.getElementById("wortFenster"); if(b) b.style.display = "none"; }
 
+/* ---------- 2026-11-12: gemischten Text (Deutsch + Englisch abwechselnd) trennen ----------
+   Beispiel:  Er verteilt die Karten …   (Deutsch)
+              He deals the cards …       (Englisch)
+   → englische Zeilen ins Feld „Liedtext“, deutsche ins Feld „Übersetzung“. */
+const DE_W = new Set("der die das den dem des ein eine einen einem einer und ist nicht ich du er sie es wir ihr mich mir dich dir sich sein seine meines meine mein dass mit von zu um für auf aus bei nach wenn aber auch sind war hat haben wird würde kann darf man wie was wer nur noch schon so denn oder doch kein keine diejenigen eines".split(" "));
+const EN_W = new Set("the a an and is are not i you he she it we they me my his her their that this those with of to for on in at by from if but also was were has have will would can may who what only so or no never there that's i'm you'd there's doesn't don't".split(" "));
+function spracheZeile(z){
+  if(/[äöüßÄÖÜ]/.test(z)) return "de";
+  let d = 0, e = 0;
+  z.toLowerCase().replace(/[’`]/g,"'").split(/[^a-z']+/).forEach(w=>{ if(DE_W.has(w)) d++; if(EN_W.has(w)) e++; });
+  return d>e ? "de" : e>d ? "en" : "";
+}
+function trenneGemischt(text){
+  const zeilen = text.replace(/\r/g,"").split("\n").map(z=>z.trim());
+  const voll = zeilen.filter(z=>z);
+  if(voll.length < 4) return null;
+  let spr = voll.map(spracheZeile);
+  const nDe = spr.filter(s=>s==="de").length, nEn = spr.filter(s=>s==="en").length;
+  if(nDe < voll.length*0.25 || nEn < voll.length*0.25) return null;   // nicht gemischt
+  // unklare Zeilen: Gegenteil der vorigen Zeile (Text wechselt sich ab)
+  let vorher = "";
+  spr = spr.map(s=>{ if(!s) s = vorher==="de" ? "en" : "de"; vorher = s; return s; });
+  const en = [], de = []; let k = 0, letzteDe = null;
+  zeilen.forEach(z=>{
+    if(!z){ if(en.length && en[en.length-1]!=="") en.push(""); return; }
+    const s = spr[k++];
+    if(s==="de"){ letzteDe = (letzteDe!==null ? letzteDe+" " : "") + z; }   // zwei deutsche Zeilen hintereinander → zusammen
+    else { en.push(z); de.push(letzteDe!==null ? letzteDe : "—"); letzteDe = null; }
+  });
+  return {en: en.join("\n").replace(/\n{3,}/g,"\n\n").trim(), de: de.join("\n")};
+}
+
 /* ---------- Editor: eigenes Lied ---------- */
 function renderEditor(L){
   const neu = !L;
@@ -594,6 +669,10 @@ function renderEditor(L){
     <label>YouTube-Link <small>(optional – zum Anhören / чтобы послушать)</small></label><input id="eY" value="${esc(L.youtube)}" placeholder="https://www.youtube.com/...">
     <label>Der Liedtext (Englisch) / Текст песни <small>– eine Zeile = eine Zeile im Lied; Leerzeile = neue Strophe</small></label>
     <textarea id="eX" placeholder="Text von einer Liedtext-Seite kopieren und hier einfügen / Скопируйте текст и вставьте сюда">${esc(L.text)}</textarea>
+    <div class="row" style="margin:6px 0 0">
+      <button class="btn" id="eMix">🔀 Deutsch und Englisch trennen / Разделить немецкий и английский</button>
+    </div>
+    <p class="hint" id="eMixHint">Wenn der Text gemischt ist (eine Zeile Deutsch, eine Zeile Englisch), einfach alles oben einfügen – beim Speichern wird er automatisch getrennt. / Если текст смешанный (строка по-немецки, строка по-английски), вставьте всё сверху – при сохранении он разделится сам.</p>
     <label>Die Übersetzung <small>(optional, Zeile für Zeile in derselben Reihenfolge / перевод по строчкам, в том же порядке)</small></label>
     <textarea id="eU" style="min-height:120px">${esc(L.uebers)}</textarea>
     <div class="row" style="margin-top:12px">
@@ -601,7 +680,17 @@ function renderEditor(L){
       <button class="btn" id="eCancel">Abbrechen / Отмена</button>
       ${neu?"":'<button class="btn red" id="eDel">🗑 Löschen / Удалить</button>'}
     </div></div>`;
+  const mischen = ()=>{
+    const x = document.getElementById("eX"), u = document.getElementById("eU");
+    const r = trenneGemischt(x.value);
+    if(!r){ document.getElementById("eMixHint").textContent = "Der Text ist nicht gemischt – nichts zu trennen. / Текст не смешанный – разделять нечего."; return false; }
+    x.value = r.en; if(!u.value.trim()) u.value = r.de;
+    document.getElementById("eMixHint").textContent = "✓ Getrennt: oben Englisch, unten Deutsch. Bitte kurz prüfen. / ✓ Разделено: сверху английский, снизу немецкий.";
+    return true;
+  };
+  document.getElementById("eMix").onclick = mischen;
   document.getElementById("eSave").onclick = ()=>{
+    if(!document.getElementById("eU").value.trim()) mischen();
     const titel = document.getElementById("eT").value.trim();
     const text = document.getElementById("eX").value.replace(/\r/g,"").replace(/\n{3,}/g,"\n\n").trim();
     if(!titel || !text){ document.getElementById(titel?"eX":"eT").focus(); return; }
