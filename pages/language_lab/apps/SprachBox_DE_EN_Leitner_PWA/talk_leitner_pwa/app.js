@@ -3063,8 +3063,11 @@ function applyFilter() {
   }
 
   state.filtered = state.all.filter((it) => {
-    const okT = topic === "all" || it.topic === topic;
     const itemStufe = it.stufe || it.level || "A1";
+    // 2026-11-13: Lieder-Karten nicht unter "Alle" Themen zeigen – nur wenn das Lied
+    // (Thema „🎵 Titel“) oder die Stufe „Lied“ ausdruecklich gewaehlt ist.
+    const istLied = String(it.id || "").startsWith("lied::");
+    const okT = topic === "all" ? (!istLied || level === "Lied") : it.topic === topic;
     const okL = level === "all" || itemStufe === level;
     const okStar = starFilter !== "starred" || isStarredCard(it.id);
     return okT && okL && okStar;

@@ -8,7 +8,7 @@
 // 2026-11-12: Auto-Stimme ohne Spass-Stimmen (iPhone, deutsche Namen).
 // 2026-11-12: Knopf „Lieder“ (Lied-Trainer).
 // 2026-11-12: Lieder aus dem Lied-Trainer als Karteikarten.
-const CACHE = "sprachbox-v39";
+const CACHE = "sprachbox-v40";
 const CORE = [
   "./",
   "./index.html",
