@@ -3874,14 +3874,21 @@ function speakSynth(text, lang, versuch = 0) {
   const mySeq = ++ttsSeq;
   const istAuto = !state.settings[userVoiceKey(lang)];
   let gestartet = false;
+  // 2026-11-13: Fix – manche Browser melden onstart nicht; dann wurde der Satz bis zu 5x wiederholt.
+  // Jetzt: laeuft/lief die Stimme (speaking, onend, onboundary) -> kein Neustart; hoechstens 1 Wechsel.
   const wechsle = () => {
-    if (gestartet || mySeq !== ttsSeq || !istAuto || !v || versuch >= 4) return;
+    if (!gestartet) {
+      try { if (speechSynthesis.speaking) gestartet = true; } catch (_) {}
+    }
+    if (gestartet || mySeq !== ttsSeq || !istAuto || !v || versuch >= 1) return;
     gestartet = true; // nur einmal wechseln
     markVoiceBad(v);
     try { speechSynthesis.cancel(); } catch (_) {}
     setTimeout(() => speakSynth(clean, lang, versuch + 1), 150);
   };
   u.onstart = () => { gestartet = true; };
+  u.onboundary = () => { gestartet = true; };
+  u.onend = () => { gestartet = true; };
   u.onerror = (e) => {
     if (e && (e.error === "interrupted" || e.error === "canceled")) return;
     wechsle();
