@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Level 1 – die Grundlagen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <script src="../../../datenbanken/grundlagen/grundlagen.js" defer></script>
+    <!-- 2026-11-14: Level 1 – die Grundlagen – erstellt mit Claude
+         DE: Pronomen, sein, haben, ähnliche Wörter – Tabelle zum Lernen + schnelle Übung (5 Minuten).
+         RU: Основы: местоимения, sein/haben, похожие слова – таблица + быстрая тренировка.
+         Daten: /datenbanken/grundlagen/grundlagen.js -->
+    <style>
+      .gl-wrap { max-width: 900px; margin: 0 auto; }
+      .gl-sub { color: var(--text-muted, #59636e); margin-top: 0; }
+      .gl-liste { display: grid; gap: 10px; margin: 12px 0; }
+      .gl-liste a { display: block; text-decoration: none; color: inherit; border: 1px solid var(--border-subtle, #d0d7de); border-left: 6px solid #1a7f37; border-radius: 12px; padding: 12px 14px; }
+      .gl-liste a b { font-size: 19px; }
+      .gl-liste .ru, .gl-klein { color: var(--text-muted, #59636e); font-size: 14px; }
+      .gl-chip { display: inline-block; font-size: 12px; border-radius: 999px; padding: 1px 9px; margin-left: 6px; background: #1a7f37; color: #fff; }
+      .gl-info { background: rgba(176,116,42,.12); border-left: 4px solid #b0742a; padding: 8px 12px; border-radius: 6px; margin: 6px 0 12px; }
+      .gl-tab { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: 18px; }
+      .gl-tab th, .gl-tab td { border: 1px solid var(--border-subtle, #d0d7de); padding: 7px 9px; text-align: left; }
+      .gl-tab td.s { cursor: pointer; font-weight: 700; }
+      .gl-tab td.s::after { content: " 🔊"; font-size: 12px; opacity: .6; }
+      .gl-h { font-size: 12px; color: var(--text-muted, #59636e); font-weight: 400; }
+      .gl-knopf { font: inherit; font-size: 16px; cursor: pointer; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--accent, #1f6feb); background: transparent; color: inherit; font-weight: 600; margin: 3px 2px; touch-action: manipulation; }
+      .gl-knopf.an { background: var(--accent, #1f6feb); color: #fff; }
+      .gl-frage { font-size: 34px; font-weight: 800; text-align: center; margin: 14px 0 4px; cursor: pointer; }
+      .gl-frage .gl-h { display: block; font-size: 14px; }
+      .gl-richt { text-align: center; color: var(--text-muted, #59636e); }
+      .gl-wahl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+      .gl-wahl button { font: inherit; font-size: 22px; font-weight: 700; padding: 16px 8px; border-radius: 14px; border: 2px solid var(--border-subtle, #d0d7de); background: var(--bg-surface, #fff); color: inherit; cursor: pointer; touch-action: manipulation; }
+      .gl-wahl button.richtig { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+      .gl-wahl button.falsch { background: #cf222e; border-color: #cf222e; color: #fff; }
+      .gl-stand { text-align: center; font-weight: 700; }
+      .gl-erg { text-align: center; font-size: 22px; margin: 18px 0; }
+      @media (orientation: landscape) and (max-height: 560px) {
+        .gl-frage { font-size: 28px; margin: 4px 0; }
+        .gl-wahl { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        .gl-wahl button { padding: 10px 6px; font-size: 19px; }
+      }
+    </style>
+  </head>
+  <body data-lernzeit="Grundlagen">
+    <div data-partial="header" data-partial-path="../../../core/partials/header.html"></div>
+    <main class="page-wrapper">
+      <div class="card gl-wrap" id="glApp"><p>Lädt …</p></div>
+    </main>
+    <script>
+    (function () {
+      const KEY = "grundlagen_v1";
+      let st = {}; try { st = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) {}
+      st.best = st.best || {}; st.richt = st.richt || "de-en";
+      const speichern = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (_) {} };
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      const RICHT = { "de-en": ["de", "en", "Deutsch → English"], "en-de": ["en", "de", "English → Deutsch"], "ru-de": ["ru", "de", "русский → Deutsch"], "ru-en": ["ru", "en", "русский → English"] };
+
+      const SPASS = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|kathy|ralph|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley|gute neuigkeiten|schlechte neuigkeiten|glocken|seifenblasen|spaßvogel|orgel|pfeifenorgel|monster|flüstern|celli|wackel|hysterisch|verrückt|oma|opa)\b/i;
+      function stimme(lang) {
+        const want = lang.slice(0, 2); let best = null, bs = -1e9;
+        ((window.speechSynthesis && speechSynthesis.getVoices()) || []).forEach((v) => {
+          const l = String(v.lang || "").toLowerCase().replace("_", "-"); if (!l.startsWith(want)) return;
+          let s = (l === "en-us" || l === "de-de") ? 20 : 10;
+          if (SPASS.test(v.name) || /speech\.synthesis\.voice|eloquence/i.test(v.voiceURI || "")) s -= 500;
+          if (/natural|neural/i.test(v.name)) s += 60; if (/premium/i.test(v.name)) s += 55;
+          if (/enhanced|erweitert|verbessert/i.test(v.name)) s += 45; if (/siri/i.test(v.name)) s += 35;
+          if (/google/i.test(v.name)) s += 25; if (/compact|kompakt/i.test(v.name)) s -= 30;
+          if (s > bs) { bs = s; best = v; }
+        });
+        return best;
+      }
+      function sprich(text, sp) {
+        if (!window.speechSynthesis || sp === "ru") return;
+        try { speechSynthesis.cancel(); } catch (_) {}
+        const u = new SpeechSynthesisUtterance(String(text).replace(/→/g, ",").replace(/\(.*?\)/g, ""));
+        u.lang = sp === "de" ? "de-DE" : "en-US"; u.rate = 0.85;
+        const v = stimme(u.lang.toLowerCase()); if (v) u.voice = v;
+        speechSynthesis.speak(u);
+      }
+      const zeig = (k, sp) => esc(k[sp]) + (k["h_" + sp] ? ` <span class="gl-h">(${esc(k["h_" + sp])})</span>` : "");
+
+      function liste() {
+        let h = `<h1>🧱 Level 1 – die Grundlagen</h1>
+          <p class="gl-sub">Die einfachsten Dinge – bis sie „wie aus der Pistole“ kommen. 5 Minuten am Anfang jeder Lernzeit.<br>
+          <small>Самое простое – пока не будет отскакивать от зубов. 5 минут в начале каждого занятия.</small></p><div class="gl-liste">`;
+        window.GRUNDLAGEN.forEach((m) => {
+          const b = st.best[m.id];
+          h += `<a href="#${m.id}"><b>${esc(m.titel)}</b> <span class="ru">· ${esc(m.ru)}</span>${b ? `<span class="gl-chip">bestes: ${b}/10</span>` : ""}</a>`;
+        });
+        h += `</div><p class="gl-klein">Mehr zur Regel: <a href="/pages/language_lab/grammatik/index.html">→ die Grammatik</a></p>`;
+        document.getElementById("glApp").innerHTML = h;
+      }
+
+      function lernen(m) {
+        let h = `<a href="#">← alle Übungen</a><h1>${esc(m.titel)}</h1><p class="gl-sub">${esc(m.ru)}</p>
+          <div class="gl-info">💡 ${esc(m.info)}</div>
+          <table class="gl-tab"><tr><th>Deutsch</th><th>English</th><th>Русский</th></tr>`;
+        m.karten.forEach((k, i) => {
+          h += `<tr><td class="s" data-sp="de" data-i="${i}">${zeig(k, "de")}</td><td class="s" data-sp="en" data-i="${i}">${zeig(k, "en")}</td><td>${esc(k.ru)}</td></tr>`;
+        });
+        h += `</table><p><b>Üben / тренировка:</b><br>`;
+        Object.entries(RICHT).forEach(([r, x]) => { h += `<button type="button" class="gl-knopf${st.richt === r ? " an" : ""}" data-richt="${r}">${x[2]}</button>`; });
+        h += `</p><p><button type="button" class="gl-knopf an" id="glStart" style="font-size:19px">▶ Los! (10 Fragen)</button></p>`;
+        document.getElementById("glApp").innerHTML = h;
+        document.querySelectorAll("td.s").forEach((td) => td.onclick = () => sprich(m.karten[+td.dataset.i][td.dataset.sp], td.dataset.sp));
+        document.querySelectorAll("[data-richt]").forEach((b) => b.onclick = () => {
+          st.richt = b.dataset.richt; speichern();
+          document.querySelectorAll("[data-richt]").forEach((x) => x.classList.toggle("an", x === b));
+        });
+        document.getElementById("glStart").onclick = () => ueben(m);
+      }
+
+      function ueben(m) {
+        const [von, nach] = RICHT[st.richt];
+        // 10 Fragen: alle Karten gemischt, bei Bedarf wiederholt
+        let fragen = [];
+        while (fragen.length < 10) fragen = fragen.concat(m.karten.map((_, i) => i).sort(() => Math.random() - 0.5));
+        fragen = fragen.slice(0, 10);
+        let n = 0, ok = 0;
+        function frage() {
+          if (n >= fragen.length) return ende();
+          const k = m.karten[fragen[n]];
+          // Antworten: richtige + 3 andere (ohne gleiche Anzeige)
+          const richtigTxt = zeig(k, nach);
+          const andere = m.karten.filter((x) => zeig(x, nach) !== richtigTxt).sort(() => Math.random() - 0.5).slice(0, 3);
+          const wahl = [k, ...andere].sort(() => Math.random() - 0.5);
+          let h = `<a href="#${m.id}">← zurück</a>
+            <p class="gl-stand">${esc(m.titel)} · Frage ${n + 1} / ${fragen.length} · ✓ ${ok}</p>
+            <p class="gl-richt">${RICHT[st.richt][2]}</p>
+            <div class="gl-frage" id="glFrage">${zeig(k, von)}</div>
+            <div class="gl-wahl">${wahl.map((w, i) => `<button type="button" data-w="${i}">${zeig(w, nach)}</button>`).join("")}</div>`;
+          document.getElementById("glApp").innerHTML = h;
+          sprich(k[von], von);
+          document.getElementById("glFrage").onclick = () => sprich(k[von], von);
+          let fertig = false;
+          document.querySelectorAll("[data-w]").forEach((b) => b.onclick = () => {
+            if (fertig) return; fertig = true;
+            const w = wahl[+b.dataset.w];
+            const istRichtig = zeig(w, nach) === richtigTxt;
+            if (istRichtig) ok++;
+            b.classList.add(istRichtig ? "richtig" : "falsch");
+            document.querySelectorAll("[data-w]").forEach((x) => { if (zeig(wahl[+x.dataset.w], nach) === richtigTxt) x.classList.add("richtig"); });
+            sprich(k[nach], nach);
+            n++; setTimeout(frage, istRichtig ? 1100 : 2300);
+          });
+        }
+        function ende() {
+          if (!st.best[m.id] || ok > st.best[m.id]) { st.best[m.id] = ok; speichern(); }
+          const lob = ok === 10 ? "🏆 Super! Alles richtig!" : ok >= 8 ? "👍 Sehr gut!" : ok >= 5 ? "🙂 Gut – noch einmal?" : "💪 Noch einmal üben!";
+          document.getElementById("glApp").innerHTML = `<a href="#${m.id}">← zurück zur Tabelle</a>
+            <p class="gl-erg"><b>${ok} von 10</b><br>${lob}</p>
+            <p style="text-align:center"><button type="button" class="gl-knopf an" id="glNochmal">↻ Noch einmal</button>
+            <a class="gl-knopf" href="#">alle Übungen</a></p>`;
+          document.getElementById("glNochmal").onclick = () => ueben(m);
+        }
+        frage();
+      }
+
+      function route() {
+        if (!window.GRUNDLAGEN) { setTimeout(route, 100); return; }
+        try { speechSynthesis.cancel(); } catch (_) {}
+        const m = window.GRUNDLAGEN.find((x) => x.id === decodeURIComponent(location.hash.slice(1)));
+        if (m) lernen(m); else liste();
+        window.scrollTo(0, 0);
+      }
+      window.addEventListener("hashchange", route);
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", route); else route();
+    })();
+    </script>
+  </body>
+</html>

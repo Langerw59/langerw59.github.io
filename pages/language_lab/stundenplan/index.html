@@ -41,7 +41,7 @@
     <main class="page-wrapper">
       <div class="card sp-wrap">
         <h1>🗓️ Der Stundenplan</h1>
-        <p class="sp-sub">30 Minuten am Tag – lieber jeden Tag ein bisschen als einmal viel.<br />
+        <p class="sp-sub">35 Minuten am Tag (5 Min. die Grundlagen + 30) – lieber jeden Tag ein bisschen als einmal viel.<br />
           <small>План занятий: 30 минут в день – лучше каждый день понемногу.</small></p>
 
         <section class="sp-heute" id="spHeute"></section>
@@ -83,16 +83,17 @@
         etym:   { t: "die Etymologie – Wortgeschichte", u: "/pages/language_lab/wortdetektiv/index.html" },
         lied:   { t: "der Lied-Trainer", u: "/pages/language_lab/lieder/index.html" },
         weis:   { t: "die Weisheiten", u: "/pages/language_lab/weisheiten/index.html" },
+        grund:  { t: "die Grundlagen (Pronomen, sein, haben)", u: "/pages/language_lab/grundlagen/index.html" },
         lesen:  { t: "der Lese-Trainer", u: "/pages/language_lab/lesetrainer/index.html" },
         wdh:    { t: "die Wiederholung: der Sprachführer, Box 1–2", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html" }
       };
       // Index 0 = Montag
       const PLAN = [
-        { tag: "Montag",     a: [["sfEN", 20], ["slDE", 10]] },
-        { tag: "Dienstag",   a: [["lesen", 20], ["lese", 10]] },
-        { tag: "Mittwoch",   a: [["slDE", 15], ["diktat", 10]] },
-        { tag: "Donnerstag", a: [["sfEN", 15], ["lesen", 15]] },
-        { tag: "Freitag",    a: [["slEN", 15], ["sfEN", 15]] },
+        { tag: "Montag",     a: [["grund", 5], ["sfEN", 20], ["slDE", 10]] },
+        { tag: "Dienstag",   a: [["grund", 5], ["lesen", 20], ["lese", 10]] },
+        { tag: "Mittwoch",   a: [["grund", 5], ["slDE", 15], ["diktat", 10]] },
+        { tag: "Donnerstag", a: [["grund", 5], ["sfEN", 15], ["lesen", 15]] },
+        { tag: "Freitag",    a: [["grund", 5], ["slEN", 15], ["sfEN", 15]] },
         { tag: "Samstag",    a: [["lied", 20], ["weis", 10]] },
         { tag: "Sonntag",    a: [["wdh", 15]], frei: true }
       ];
