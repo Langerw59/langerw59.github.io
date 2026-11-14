@@ -102,7 +102,7 @@
           <p class="lt-sub">Kurze englische Texte, Zeile für Zeile – mit Sprachausgabe, дословно, по-русски und Deutsch.<br>
           <small>Короткие тексты: читать вслух, слушать, сравнивать. Как Шлиман – только начиная с простого.</small></p>
           <div class="lt-liste">`;
-        window.LESETEXTE.forEach((t) => {
+        window.LESETEXTE.filter((t) => !t.versteckt).forEach((t) => {
           h += `<a href="#${t.id}"><b>${esc(t.titel)}</b> <span class="en">· ${esc(t.titel_en)}</span>
                 <span class="lt-chip">${t.stufe}</span>${st.gelesen[t.id] ? '<span class="lt-chip ok">✓ gelesen</span>' : ""}</a>`;
         });

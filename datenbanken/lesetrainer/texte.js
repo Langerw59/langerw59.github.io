@@ -78,8 +78,9 @@ window.LESETEXTE = [
 
 // 2026-11-14: Lafontaine – Der Hahn und der Fuchs (dt. Text: Projekt Gutenberg, gemeinfrei)
 {
- "id": "hahn_fuchs",
- "titel": "Der Hahn und der Fuchs",
+ "id": "hahn_fuchs_gutenberg",
+ "versteckt": true,
+ "titel": "Der Hahn und der Fuchs (Gutenberg-Übersetzung)",
  "titel_en": "The Rooster and the Fox",
  "stufe": "B1",
  "info": "Лафонтен, «Le Coq et le Renard». Немецкий – старый перевод (Projekt Gutenberg), не тот, что вы учили. Английский – простой построчный перевод для учёбы. Старые слова: das Windspiel = борзая; «hast du nicht gesehn» = в мгновение ока; der Strolch = бродяга, негодяй. Нажмите на немецкую строку – она тоже прозвучит.",
@@ -276,6 +277,198 @@ window.LESETEXTE = [
    "",
    "вдвойне приятно обмануть обманщика.",
    "'s macht doppelt Spaß, wenn den Betrüger man betrügt."
+  ]
+ ]
+},
+
+// 2026-11-14: Der Hahn und der Fuchs – die Fassung, die Wladimir auswendig gelernt hat
+{
+ "id": "hahn_fuchs",
+ "titel": "Der Hahn und der Fuchs",
+ "titel_en": "The Rooster and the Fox",
+ "stufe": "B1",
+ "haupt": "de",
+ "info": "Лафонтен, «Le Coq et le Renard» – ваш вариант, который вы учили наизусть. Английский – простой построчный перевод. Выражения: dämpfte sein Organ = приглушил голос (das Organ – шутливо «голос»); auf beschwingten Sohlen = на крылатых ногах; Reißaus nehmen = удрать; sich vor Vergnügen biegen = корчиться от удовольствия. Нажмите на немецкую строку – она тоже прозвучит.",
+ "zeilen": [
+  [
+   "In a tree there sat an old rooster,",
+   "",
+   "На дереве сидел старый петух,",
+   "Auf einem Baume saß ein alter Hahn,"
+  ],
+  [
+   "a clever head in every situation of life.",
+   "",
+   "умная голова в любых жизненных положениях.",
+   "Ein schlauer Kopf in allen Lebenslagen."
+  ],
+  [
+   "\"Friend,\" said a fox and made his voice soft,",
+   "",
+   "«Друг, — сказал Лис, приглушив свой голос, —",
+   "»Freund,« sprach ein Fuchs und dämpfte sein Organ,"
+  ],
+  [
+   "\"from today on we will get along,",
+   "",
+   "давай с сегодняшнего дня жить в ладу,",
+   "»Wir wollen uns von heute an vertragen,"
+  ],
+  [
+   "a general peace has been ordered.",
+   "",
+   "объявлен всеобщий мир.",
+   "Ein allgemeiner Friede ist befohlen."
+  ],
+  [
+   "I come to tell you; climb down",
+   "",
+   "Я пришёл тебе это возвестить; спускайся",
+   "Ich komme, dir’s zu künden; steige nieder"
+  ],
+  [
+   "and kiss me, from now on we are brothers.",
+   "",
+   "и поцелуй меня, отныне мы братья.",
+   "Und küsse mich, von nun an sind wir Brüder."
+  ],
+  [
+   "Soon I must hurry on with winged feet",
+   "",
+   "Сейчас мне спешить дальше на крылатых ногах,",
+   "Gleich muß ich weiter auf beschwingten Sohlen,"
+  ],
+  [
+   "to visit twenty other people.",
+   "",
+   "чтобы навестить ещё двадцать других.",
+   "Noch zwanzig andre Leute aufzusuchen."
+  ],
+  [
+   "Just come down – over there under those beech trees",
+   "",
+   "Спускайся же, там, под теми буками,",
+   "Komm nur herab, dort unter jenen Buchen"
+  ],
+  [
+   "you can peck beetles with your children.",
+   "",
+   "сможешь с детьми клевать жуков.",
+   "Kannst du mit deinen Kindern Käfer picken."
+  ],
+  [
+   "Come quickly, so that we look each other in the eyes",
+   "",
+   "Иди скорей, чтобы мы посмотрели друг другу в глаза",
+   "Komm schnell, daß wir uns in die Augen blicken"
+  ],
+  [
+   "and kiss warmly, because now there is peace.\"",
+   "",
+   "и сердечно поцеловались, ведь теперь мир».",
+   "Und herzlich küssen, weil nun Friede ist.«"
+  ],
+  [
+   "\"Friend,\" said the rooster, \"never",
+   "",
+   "«Друг, — сказал петух, — никогда",
+   "»Freund,« sprach der Hahn, »es hätte nie"
+  ],
+  [
+   "could I have received sweeter news",
+   "",
+   "не могло быть для меня вести слаще,",
+   "Mir süßre Botschaft werden können"
+  ],
+  [
+   "than this melody of peace.",
+   "",
+   "чем эта мелодия мира.",
+   "Als diese Friedensmelodie."
+  ],
+  [
+   "How nice that you are the one who brings it!",
+   "",
+   "Как прекрасно, что принёс её именно ты!",
+   "Wie schön, daß du ihr Überbringer bist!"
+  ],
+  [
+   "Over there I see two more dogs running,",
+   "",
+   "Вон я вижу, бегут ещё две собаки,",
+   "Dort seh ich noch zwei Hunde rennen,"
+  ],
+  [
+   "probably the fast animals were chosen",
+   "",
+   "наверное, этих быстрых зверей выбрали",
+   "Vermutlich wählte man die schnellen Tiere"
+  ],
+  [
+   "as couriers for the message of peace.",
+   "",
+   "гонцами для вести о мире.",
+   "Zur Friedensbotschaft als Kuriere."
+  ],
+  [
+   "They almost fly, they will be here soon;",
+   "",
+   "Они почти летят, сейчас будут здесь;",
+   "Sie fliegen fast, gleich sind sie hier;"
+  ],
+  [
+   "then all four of us will kiss!\"",
+   "",
+   "тогда расцелуемся все вчетвером!»",
+   "Dann küssen wir uns alle vier!«"
+  ],
+  [
+   "\"Farewell,\" cried the fox, \"my way is long;",
+   "",
+   "«Прощай, — крикнул тут Лис, — путь мой далёк;",
+   "»Lebwohl,« rief da der Fuchs, »mein Weg ist weit;"
+  ],
+  [
+   "let us at a better time",
+   "",
+   "давай в более подходящее время",
+   "Wir wollen zu gelegenerer Zeit"
+  ],
+  [
+   "celebrate the joy.\" And the fellow",
+   "",
+   "отпразднуем радость». И малый",
+   "Die Freude feiern.« Und der Bursche nahm"
+  ],
+  [
+   "ran away so fast, you can hardly believe it,",
+   "",
+   "удрал так быстро, что трудно поверить,",
+   "Reißaus so schnell, man glaubt es kaum,"
+  ],
+  [
+   "sad that he had lost his prey.",
+   "",
+   "огорчённый, что лишился добычи.",
+   "Betrübt, daß er um seine Beute kam."
+  ],
+  [
+   "The old rooster sat in the tree for a long time",
+   "",
+   "Старый петух ещё долго сидел на дереве",
+   "Der alte Hahn saß lange noch im Baum"
+  ],
+  [
+   "and bent over, crowing with delight.",
+   "",
+   "и, кукарекая, корчился от удовольствия.",
+   "Und bog sich krähend vor Vergnügen."
+  ],
+  [
+   "What double pleasure – to cheat the cheaters!",
+   "",
+   "Какое двойное удовольствие — обмануть обманщиков!",
+   "Welch doppelter Genuß, Betrüger zu betrügen!"
   ]
  ]
 }
