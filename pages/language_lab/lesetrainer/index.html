@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Der Lese-Trainer – Чтение</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <script src="../../../datenbanken/lesetrainer/texte.js" defer></script>
+    <!-- 2026-11-14: der Lese-Trainer – erstellt mit Claude
+         DE: Kurze englische Texte Zeile für Zeile: Englisch, дословно, по-русски, Deutsch – mit Sprachausgabe.
+         RU: Короткие тексты строка за строкой: английский, дословно, по-русски, по-немецки, с озвучкой.
+         Daten: /datenbanken/lesetrainer/texte.js -->
+    <style>
+      .lt-wrap { max-width: 900px; margin: 0 auto; }
+      .lt-sub { color: var(--text-muted, #59636e); margin-top: 0; }
+      .lt-liste { display: grid; gap: 10px; margin: 12px 0; }
+      .lt-liste a { display: block; text-decoration: none; color: inherit; border: 1px solid var(--border-subtle, #d0d7de); border-left: 6px solid #1f6feb; border-radius: 12px; padding: 12px 14px; }
+      .lt-liste a b { font-size: 19px; }
+      .lt-liste .en { color: var(--text-muted, #59636e); }
+      .lt-chip { display: inline-block; font-size: 12px; border-radius: 999px; padding: 1px 9px; margin-left: 6px; background: var(--border-subtle, #d0d7de); }
+      .lt-chip.ok { background: #1a7f37; color: #fff; }
+      .lt-leiste { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 10px 0; position: sticky; top: 0; z-index: 5; background: var(--bg-surface, #fff); padding: 6px 0; }
+      .lt-knopf { font: inherit; font-size: 15px; cursor: pointer; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--accent, #1f6feb); background: transparent; color: inherit; font-weight: 600; }
+      .lt-knopf.an { background: var(--accent, #1f6feb); color: #fff; }
+      .lt-info { background: rgba(176,116,42,.12); border-left: 4px solid #b0742a; padding: 8px 12px; border-radius: 6px; margin: 6px 0 12px; }
+      .lt-zeile { border-top: 1px solid var(--border-subtle, #d0d7de); padding: 10px 4px; border-radius: 8px; }
+      .lt-zeile.aktiv { background: rgba(31,111,235,.12); }
+      .lt-en { font-size: 22px; font-weight: 700; line-height: 1.3; cursor: pointer; }
+      .lt-en .nr { font-size: 13px; color: var(--text-muted, #59636e); font-weight: 400; margin-right: 6px; }
+      .lt-mehr { font-size: 14px; cursor: pointer; border: 0; background: none; color: var(--accent, #1f6feb); padding: 2px 0; }
+      .lt-z { margin: 3px 0 0 4px; font-size: 16px; display: none; }
+      .lt-z .l { display: inline-block; min-width: 72px; font-size: 12px; font-weight: 700; color: var(--text-muted, #59636e); }
+      .lt-z.wort { font-style: italic; color: var(--text-muted, #59636e); }
+      .lt-z.ru { font-weight: 600; }
+      body.zeige-wort .lt-z.wort, body.zeige-ru .lt-z.ru, body.zeige-de .lt-z.de, .lt-zeile.offen .lt-z { display: block; }
+      .lt-fuss { font-size: 13px; color: var(--text-muted, #59636e); margin-top: 16px; }
+    </style>
+  </head>
+  <body data-lernzeit="Lese-Trainer">
+    <div data-partial="header" data-partial-path="../../../core/partials/header.html"></div>
+    <main class="page-wrapper">
+      <div class="card lt-wrap" id="ltApp"><p>Lädt … / загрузка …</p></div>
+    </main>
+
+    <script>
+    (function () {
+      const KEY = "lesetrainer_v1";
+      let st = {};
+      try { st = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) {}
+      st.gelesen = st.gelesen || {};
+      st.zeige = st.zeige || { wort: false, ru: false, de: false };
+      if (typeof st.tempo !== "number") st.tempo = 0.85;
+      function speichern() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (_) {} }
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+      // ---- Stimme: beste englische Stimme, keine Spaß-Stimmen (wie im Sprachführer) ----
+      const SPASS = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|kathy|ralph|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley|gute neuigkeiten|schlechte neuigkeiten|glocken|seifenblasen|spaßvogel|orgel|pfeifenorgel|monster|flüstern|celli|wackel|hysterisch|verrückt|oma|opa)\b/i;
+      function stimme() {
+        const vs = (window.speechSynthesis && speechSynthesis.getVoices()) || [];
+        let best = null, bs = -1e9;
+        vs.forEach((v) => {
+          const l = String(v.lang || "").toLowerCase().replace("_", "-");
+          if (!l.startsWith("en")) return;
+          let s = l === "en-us" ? 20 : 10;
+          if (SPASS.test(v.name) || /speech\.synthesis\.voice|eloquence/i.test(v.voiceURI || "")) s -= 500;
+          if (/natural|neural/i.test(v.name)) s += 60;
+          if (/premium/i.test(v.name)) s += 55;
+          if (/enhanced|erweitert|verbessert/i.test(v.name)) s += 45;
+          if (/siri/i.test(v.name)) s += 35;
+          if (/google/i.test(v.name)) s += 25;
+          if (/compact|kompakt/i.test(v.name)) s -= 30;
+          if (s > bs) { bs = s; best = v; }
+        });
+        return best;
+      }
+      if (window.speechSynthesis) speechSynthesis.onvoiceschanged = () => {};
+      let kette = null; // laufendes "Alles vorlesen"
+      function sprich(text, fertig) {
+        if (!window.speechSynthesis) { if (fertig) fertig(); return; }
+        const u = new SpeechSynthesisUtterance(text.replace(/[„“"«»]/g, ""));
+        u.lang = "en-US"; u.rate = st.tempo;
+        const v = stimme(); if (v) u.voice = v;
+        u.onend = () => fertig && fertig();
+        u.onerror = () => fertig && fertig();
+        speechSynthesis.speak(u);
+      }
+      function stopp() { kette = null; try { speechSynthesis.cancel(); } catch (_) {} markiere(-1); }
+      function markiere(i) {
+        document.querySelectorAll(".lt-zeile").forEach((z, k) => z.classList.toggle("aktiv", k === i));
+        if (i >= 0) { const z = document.querySelectorAll(".lt-zeile")[i]; if (z) z.scrollIntoView({ block: "center", behavior: "smooth" }); }
+      }
+
+      function koerperKlassen() {
+        ["wort", "ru", "de"].forEach((k) => document.body.classList.toggle("zeige-" + k, !!st.zeige[k]));
+      }
+
+      function liste() {
+        stopp();
+        let h = `<h1>📖 Der Lese-Trainer</h1>
+          <p class="lt-sub">Kurze englische Texte, Zeile für Zeile – mit Sprachausgabe, дословно, по-русски und Deutsch.<br>
+          <small>Короткие тексты: читать вслух, слушать, сравнивать. Как Шлиман – только начиная с простого.</small></p>
+          <div class="lt-liste">`;
+        window.LESETEXTE.forEach((t) => {
+          h += `<a href="#${t.id}"><b>${esc(t.titel)}</b> <span class="en">· ${esc(t.titel_en)}</span>
+                <span class="lt-chip">${t.stufe}</span>${st.gelesen[t.id] ? '<span class="lt-chip ok">✓ gelesen</span>' : ""}</a>`;
+        });
+        h += `</div><p class="lt-fuss">Daten: /datenbanken/lesetrainer/texte.js · Neue Texte: im Chat mit Claude sagen «в лезетрейнер».</p>`;
+        document.getElementById("ltApp").innerHTML = h;
+      }
+
+      function text(t) {
+        stopp();
+        const kn = (k, label) => `<button type="button" class="lt-knopf${st.zeige[k] ? " an" : ""}" data-zeige="${k}">${label}</button>`;
+        let h = `<a href="#">← alle Texte</a>
+          <h1>${esc(t.titel_en)}</h1>
+          <p class="lt-sub">${esc(t.titel)} · Stufe ${t.stufe}</p>
+          ${t.info ? `<div class="lt-info">💡 ${esc(t.info)}</div>` : ""}
+          <div class="lt-leiste">
+            <button type="button" class="lt-knopf" id="ltAlle">▶ Alles vorlesen</button>
+            <button type="button" class="lt-knopf" id="ltStopp">■ Stopp</button>
+            <button type="button" class="lt-knopf${st.tempo < 0.8 ? " an" : ""}" id="ltTempo">🐢 Langsam</button>
+            ${kn("wort", "дословно")}${kn("ru", "по-русски")}${kn("de", "Deutsch")}
+          </div>`;
+        t.zeilen.forEach(([en, wort, ru, de], i) => {
+          h += `<div class="lt-zeile" data-i="${i}">
+            <div class="lt-en" data-sag="${i}"><span class="nr">${i + 1}</span>${esc(en)} 🔊</div>
+            ${wort ? `<div class="lt-z wort"><span class="l">дословно</span>${esc(wort)}</div>` : ""}
+            <div class="lt-z ru"><span class="l">по-русски</span>${esc(ru)}</div>
+            <div class="lt-z de"><span class="l">Deutsch</span>${esc(de)}</div>
+            <button type="button" class="lt-mehr" data-auf="${i}">👁 Übersetzung zeigen / показать</button>
+          </div>`;
+        });
+        h += `<p style="margin-top:16px"><button type="button" class="lt-knopf${st.gelesen[t.id] ? " an" : ""}" id="ltGelesen">✓ Gelesen / прочитано</button></p>
+          <p class="lt-fuss">Tipp: zuerst nur Englisch lesen und laut nachsprechen, dann die Übersetzung aufdecken.<br>
+          Совет: сначала читать только английский и повторять вслух, потом открывать перевод.</p>`;
+        document.getElementById("ltApp").innerHTML = h;
+
+        const zeilen = t.zeilen.map((z) => z[0]);
+        document.getElementById("ltAlle").onclick = () => {
+          stopp(); const mein = {}; kette = mein; let i = 0;
+          const weiter = () => { if (kette !== mein || i >= zeilen.length) { if (kette === mein) markiere(-1); return; }
+            markiere(i); sprich(zeilen[i], () => { i++; setTimeout(weiter, 500); }); };
+          weiter();
+        };
+        document.getElementById("ltStopp").onclick = stopp;
+        document.getElementById("ltTempo").onclick = (e) => {
+          st.tempo = st.tempo < 0.8 ? 0.85 : 0.6; speichern(); e.target.classList.toggle("an", st.tempo < 0.8);
+        };
+        document.getElementById("ltGelesen").onclick = (e) => {
+          st.gelesen[t.id] = !st.gelesen[t.id]; speichern(); e.target.classList.toggle("an", st.gelesen[t.id]);
+        };
+        document.querySelectorAll("[data-zeige]").forEach((b) => b.onclick = () => {
+          const k = b.dataset.zeige; st.zeige[k] = !st.zeige[k]; speichern(); b.classList.toggle("an", st.zeige[k]); koerperKlassen();
+        });
+        document.querySelectorAll("[data-sag]").forEach((el) => el.onclick = () => {
+          stopp(); const i = +el.dataset.sag; markiere(i); sprich(zeilen[i], () => markiere(-1));
+        });
+        document.querySelectorAll("[data-auf]").forEach((b) => b.onclick = () => {
+          const z = b.closest(".lt-zeile"); const offen = z.classList.toggle("offen");
+          b.textContent = offen ? "🙈 verstecken / скрыть" : "👁 Übersetzung zeigen / показать";
+        });
+      }
+
+      function route() {
+        if (!window.LESETEXTE) { setTimeout(route, 100); return; }
+        koerperKlassen();
+        const id = decodeURIComponent(location.hash.slice(1));
+        const t = window.LESETEXTE.find((x) => x.id === id);
+        if (t) text(t); else liste();
+        window.scrollTo(0, 0);
+      }
+      window.addEventListener("hashchange", route);
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", route); else route();
+    })();
+    </script>
+  </body>
+</html>

@@ -83,14 +83,15 @@
         etym:   { t: "die Etymologie – Wortgeschichte", u: "/pages/language_lab/wortdetektiv/index.html" },
         lied:   { t: "der Lied-Trainer", u: "/pages/language_lab/lieder/index.html" },
         weis:   { t: "die Weisheiten", u: "/pages/language_lab/weisheiten/index.html" },
+        lesen:  { t: "der Lese-Trainer", u: "/pages/language_lab/lesetrainer/index.html" },
         wdh:    { t: "die Wiederholung: der Sprachführer, Box 1–2", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html" }
       };
       // Index 0 = Montag
       const PLAN = [
         { tag: "Montag",     a: [["sfEN", 20], ["slDE", 10]] },
-        { tag: "Dienstag",   a: [["sfEN", 20], ["lese", 10]] },
+        { tag: "Dienstag",   a: [["lesen", 20], ["lese", 10]] },
         { tag: "Mittwoch",   a: [["slDE", 15], ["diktat", 10]] },
-        { tag: "Donnerstag", a: [["sfEN", 20], ["etym", 10]] },
+        { tag: "Donnerstag", a: [["sfEN", 15], ["lesen", 15]] },
         { tag: "Freitag",    a: [["slEN", 15], ["sfEN", 15]] },
         { tag: "Samstag",    a: [["lied", 20], ["weis", 10]] },
         { tag: "Sonntag",    a: [["wdh", 15]], frei: true }
