@@ -56,13 +56,14 @@
 
       // ---- Stimme: beste englische Stimme, keine Spaß-Stimmen (wie im Sprachführer) ----
       const SPASS = /\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|kathy|ralph|grandma|grandpa|eddy|flo|reed|rocko|sandy|shelley|gute neuigkeiten|schlechte neuigkeiten|glocken|seifenblasen|spaßvogel|orgel|pfeifenorgel|monster|flüstern|celli|wackel|hysterisch|verrückt|oma|opa)\b/i;
-      function stimme() {
+      function stimme(lang) {
+        const want = String(lang || "en-US").toLowerCase().slice(0, 2);
         const vs = (window.speechSynthesis && speechSynthesis.getVoices()) || [];
         let best = null, bs = -1e9;
         vs.forEach((v) => {
           const l = String(v.lang || "").toLowerCase().replace("_", "-");
-          if (!l.startsWith("en")) return;
-          let s = l === "en-us" ? 20 : 10;
+          if (!l.startsWith(want)) return;
+          let s = (l === "en-us" || l === "de-de") ? 20 : 10;
           if (SPASS.test(v.name) || /speech\.synthesis\.voice|eloquence/i.test(v.voiceURI || "")) s -= 500;
           if (/natural|neural/i.test(v.name)) s += 60;
           if (/premium/i.test(v.name)) s += 55;
@@ -76,11 +77,11 @@
       }
       if (window.speechSynthesis) speechSynthesis.onvoiceschanged = () => {};
       let kette = null; // laufendes "Alles vorlesen"
-      function sprich(text, fertig) {
+      function sprich(text, fertig, lang) {
         if (!window.speechSynthesis) { if (fertig) fertig(); return; }
         const u = new SpeechSynthesisUtterance(text.replace(/[„“"«»]/g, ""));
-        u.lang = "en-US"; u.rate = st.tempo;
-        const v = stimme(); if (v) u.voice = v;
+        u.lang = lang || "en-US"; u.rate = st.tempo;
+        const v = stimme(u.lang); if (v) u.voice = v;
         u.onend = () => fertig && fertig();
         u.onerror = () => fertig && fertig();
         speechSynthesis.speak(u);
@@ -111,6 +112,7 @@
 
       function text(t) {
         stopp();
+        if (t.haupt === "de" && !st.zeige.de) { st.zeige.de = true; speichern(); koerperKlassen(); }
         const kn = (k, label) => `<button type="button" class="lt-knopf${st.zeige[k] ? " an" : ""}" data-zeige="${k}">${label}</button>`;
         let h = `<a href="#">← alle Texte</a>
           <h1>${esc(t.titel_en)}</h1>
@@ -127,7 +129,7 @@
             <div class="lt-en" data-sag="${i}"><span class="nr">${i + 1}</span>${esc(en)} 🔊</div>
             ${wort ? `<div class="lt-z wort"><span class="l">дословно</span>${esc(wort)}</div>` : ""}
             <div class="lt-z ru"><span class="l">по-русски</span>${esc(ru)}</div>
-            <div class="lt-z de"><span class="l">Deutsch</span>${esc(de)}</div>
+            <div class="lt-z de" data-sagde="${i}" style="cursor:pointer"><span class="l">Deutsch</span>${esc(de)} 🔊</div>
             <button type="button" class="lt-mehr" data-auf="${i}">👁 Übersetzung zeigen / показать</button>
           </div>`;
         });
@@ -155,6 +157,9 @@
         });
         document.querySelectorAll("[data-sag]").forEach((el) => el.onclick = () => {
           stopp(); const i = +el.dataset.sag; markiere(i); sprich(zeilen[i], () => markiere(-1));
+        });
+        document.querySelectorAll("[data-sagde]").forEach((el) => el.onclick = () => {
+          stopp(); const i = +el.dataset.sagde; markiere(i); sprich(t.zeilen[i][3], () => markiere(-1), "de-DE");
         });
         document.querySelectorAll("[data-auf]").forEach((b) => b.onclick = () => {
           const z = b.closest(".lt-zeile"); const offen = z.classList.toggle("offen");

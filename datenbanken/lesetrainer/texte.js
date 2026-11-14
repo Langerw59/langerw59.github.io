@@ -74,6 +74,210 @@ window.LESETEXTE = [
   ["as we forgive those who trespass against us.", "как мы прощаем тех, кто проступает против нас.", "как и мы прощаем должникам нашим;", "wie auch wir vergeben unseren Schuldigern."],
   ["And lead us not into temptation,", "И веди нас не внутрь искушения,", "и не введи нас в искушение,", "Und führe uns nicht in Versuchung,"],
   ["but deliver us from evil.", "но избавь нас от зла.", "но избавь нас от лукавого.", "sondern erlöse uns von dem Bösen."]
-]}
+]},
+
+// 2026-11-14: Lafontaine – Der Hahn und der Fuchs (dt. Text: Projekt Gutenberg, gemeinfrei)
+{
+ "id": "hahn_fuchs",
+ "titel": "Der Hahn und der Fuchs",
+ "titel_en": "The Rooster and the Fox",
+ "stufe": "B1",
+ "info": "Лафонтен, «Le Coq et le Renard». Немецкий – старый перевод (Projekt Gutenberg), не тот, что вы учили. Английский – простой построчный перевод для учёбы. Старые слова: das Windspiel = борзая; «hast du nicht gesehn» = в мгновение ока; der Strolch = бродяга, негодяй. Нажмите на немецкую строку – она тоже прозвучит.",
+ "haupt": "de",
+ "zeilen": [
+  [
+   "On a branch, to guard the hens, there sat",
+   "",
+   "На ветке, чтобы стеречь кур, сидел",
+   "Auf einem Aste saß, die Hühner zu bewachen,"
+  ],
+  [
+   "an old and very clever rooster.",
+   "",
+   "старый, очень хитрый петух.",
+   "Ein alter sehr gewitzter Hahn."
+  ],
+  [
+   "\"Little brother,\" said the fox, all gentle and kind,",
+   "",
+   "«Братец, — сказал Лис, сама кротость, —",
+   "»Brüderchen« sprach der Fuchs, mit Sanftmut angetan"
+  ],
+  [
+   "\"let us finally make peace today,",
+   "",
+   "давай сегодня наконец помиримся,",
+   "»Laß heut uns endlich Frieden machen,"
+  ],
+  [
+   "no more fighting between us from now on!",
+   "",
+   "отныне никаких ссор между нами!",
+   "Kein Streit sei zwischen uns fortan!"
+  ],
+  [
+   "I bring you the news. Come down, let me kiss you,",
+   "",
+   "Я несу тебе эту весть. Спускайся, дай тебя поцеловать,",
+   "Ich bring' die Botschaft dir. Komm 'runter, laß dich küssen,"
+  ],
+  [
+   "but quickly, please, because you must know,",
+   "",
+   "только, пожалуйста, быстро: ведь знай,",
+   "Doch, bitte, schnell; denn du mußt wissen,"
+  ],
+  [
+   "I still have twenty messages to bring today.",
+   "",
+   "мне сегодня ещё двадцать вестей разнести.",
+   "An zwanzig Meldungen hab' ich heut noch zu tun."
+  ],
+  [
+   "You chickens can now, without any worry,",
+   "",
+   "Вы, куриный народ, теперь можете без забот",
+   "Ihr Hühnervolk könnt sorglos nun"
+  ],
+  [
+   "go back to your business;",
+   "",
+   "снова заниматься своими делами;",
+   "Nachgehen wieder den Geschäften;"
+  ],
+  [
+   "if you like, we will help you all we can.",
+   "",
+   "захотите – мы вам поможем, чем сможем.",
+   "Wollt ihr's, wir helfen euch nach Kräften."
+  ],
+  [
+   "That is how it will be from today;",
+   "",
+   "Так будет отныне;",
+   "So soll es sein von heute ab;"
+  ],
+  [
+   "but you – come down quickly now,",
+   "",
+   "а ты спускайся скорее,",
+   "Du aber komm' jetzt schnell herab,"
+  ],
+  [
+   "so that we can give each other a brother's kiss.\"",
+   "",
+   "чтобы нам обменяться братским поцелуем».",
+   "Daß wir den Bruderkuß uns geben.«"
+  ],
+  [
+   "\"Friend,\" the rooster answered, \"with greater joy",
+   "",
+   "«Друг, — ответил петух, — с бо́льшим удовольствием",
+   "»»Freund«« sagte drauf der Hahn »»mit größerem Genuß"
+  ],
+  [
+   "I have never heard any news in my life",
+   "",
+   "я ещё никогда в жизни не слышал вести,",
+   "hab' eine Botschaft ich noch nie gehört im Leben,"
+  ],
+  [
+   "than this one –",
+   "",
+   "чем эта —",
+   "Als eben"
+  ],
+  [
+   "the peace treaty;",
+   "",
+   "заключение мира;",
+   "Den Friedensschluß;"
+  ],
+  [
+   "and that it comes to me",
+   "",
+   "а то, что она пришла",
+   "Und daß sie grad' aus deinem Munde"
+  ],
+  [
+   "from your mouth makes me twice as happy. As I just saw,",
+   "",
+   "именно из твоих уст, радует меня вдвойне. Я как раз вижу:",
+   "Mir kommt, freut doppelt mich. Wie eben ich erblickt,"
+  ],
+  [
+   "also sent as messengers",
+   "",
+   "сюда, тоже посланные гонцами",
+   "Nahn, auch als Boten abgeschickt"
+  ],
+  [
+   "for the same purpose, two dogs are coming over there,",
+   "",
+   "с той же целью, бегут две собаки —",
+   "Zu gleichem Zwecke, dort zwei Hunde,"
+  ],
+  [
+   "greyhounds – just wait, they will be here in a moment,",
+   "",
+   "это борзые. Подожди, они сейчас будут здесь,",
+   "Windspiele sind's – wart nur, sie sind gleich hier am Ort,"
+  ],
+  [
+   "I'll come down, and we will all kiss at once.\"",
+   "",
+   "я спущусь, и мы сразу расцелуемся».",
+   "Ich komm' herunter, und wir küssen uns sofort.««"
+  ],
+  [
+   "\"Really?\" said the fox. \"Goodbye! I still have a long way",
+   "",
+   "«Вот как? — сказал Лис. — Прощай! Мне ещё далёкий путь",
+   "»So?« sprach der Fuchs »Leb' wohl! Noch weiten Weg zu machen"
+  ],
+  [
+   "to go. See you! And, friend, about our matters –",
+   "",
+   "предстоит. До свидания! А о наших делах, друг, —",
+   "Hab' ich. Auf Wiedersehn! Und, Freund, von unsern Sachen"
+  ],
+  [
+   "another time!\" And before you could blink,",
+   "",
+   "в другой раз!» И не успел ты оглянуться,",
+   "Ein ander Mal!« Und, hast du nicht gesehn,"
+  ],
+  [
+   "the rascal runs away – he could almost die",
+   "",
+   "как негодяй удрал — он готов был лопнуть",
+   "Reißt aus der Strolch – er möcht' vergehn"
+  ],
+  [
+   "of anger that his trick had failed",
+   "",
+   "от злости, что его хитрость не удалась",
+   "Vor Wut, daß seine List mißlungen"
+  ],
+  [
+   "with our rooster, the old boy.",
+   "",
+   "с нашим петухом, старым молодцом.",
+   "Mit unsrem Hahn, dem alten Jungen."
+  ],
+  [
+   "But the rooster laughed, very pleased:",
+   "",
+   "А тот смеялся, очень довольный:",
+   "Der aber lachte höchst vergnügt:"
+  ],
+  [
+   "It is twice the fun to cheat a cheater.",
+   "",
+   "вдвойне приятно обмануть обманщика.",
+   "'s macht doppelt Spaß, wenn den Betrüger man betrügt."
+  ]
+ ]
+}
 
 ];
