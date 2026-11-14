@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Der Stundenplan – План занятий</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <!-- 2026-11-14: der Stundenplan – erstellt mit Claude
+         DE: Wochenplan fürs Sprachenlernen: 30 Minuten am Tag, Häkchen pro Woche, Thema der Woche.
+         RU: План занятий на неделю: 30 минут в день, галочки, тема недели.
+         Häkchen werden pro Gerät gespeichert (localStorage). -->
+    <style>
+      .sp-wrap { max-width: 900px; margin: 0 auto; }
+      .sp-sub { color: var(--text-muted, #59636e); margin-top: 0; }
+      .sp-heute { border: 2px solid var(--accent, #1f6feb); border-radius: 14px; padding: 12px 14px; margin: 12px 0 16px; }
+      .sp-heute h2 { margin: 0 0 8px; font-size: 22px; }
+      .sp-auf { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px dashed var(--border-subtle, #d0d7de); }
+      .sp-auf:first-of-type { border-top: 0; }
+      .sp-auf input { width: 26px; height: 26px; flex: 0 0 auto; cursor: pointer; }
+      .sp-auf .min { font-size: 13px; color: var(--text-muted, #59636e); min-width: 48px; }
+      .sp-auf a { font-weight: 600; font-size: 17px; }
+      .sp-auf.fertig a { text-decoration: line-through; opacity: .6; }
+      .sp-woche { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: 15px; }
+      .sp-woche th, .sp-woche td { border: 1px solid var(--border-subtle, #d0d7de); padding: 6px 8px; text-align: left; vertical-align: top; }
+      .sp-woche tr.heute { outline: 2px solid var(--accent, #1f6feb); }
+      .sp-woche .ok { font-size: 18px; text-align: center; width: 44px; }
+      .sp-stand { font-weight: 700; margin: 4px 0 10px; }
+      .sp-balken { height: 10px; border-radius: 6px; background: var(--border-subtle, #d0d7de); overflow: hidden; margin-bottom: 14px; }
+      .sp-balken div { height: 100%; background: #1a7f37; width: 0; transition: width .3s; }
+      .sp-thema select { font: inherit; padding: 6px 10px; border-radius: 8px; margin: 4px 0; max-width: 100%; }
+      .sp-thema .bsp { margin: 6px 0 0; }
+      .sp-regeln li { margin: 4px 0; }
+      .sp-klein { font-size: 13px; color: var(--text-muted, #59636e); }
+      .sp-knopf { font: inherit; cursor: pointer; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--accent, #1f6feb); background: transparent; color: inherit; font-weight: 600; }
+    </style>
+  </head>
+  <body data-lernzeit="Stundenplan">
+    <div data-partial="header" data-partial-path="../../../core/partials/header.html"></div>
+
+    <main class="page-wrapper">
+      <div class="card sp-wrap">
+        <h1>🗓️ Der Stundenplan</h1>
+        <p class="sp-sub">30 Minuten am Tag – lieber jeden Tag ein bisschen als einmal viel.<br />
+          <small>План занятий: 30 минут в день – лучше каждый день понемногу.</small></p>
+
+        <section class="sp-heute" id="spHeute"></section>
+
+        <div class="sp-stand" id="spStand"></div>
+        <div class="sp-balken"><div id="spBalken"></div></div>
+
+        <section class="sp-thema">
+          <h2>📌 Das Thema der Woche</h2>
+          <select id="spThema"></select>
+          <p class="bsp" id="spThemaBsp"></p>
+          <p class="sp-klein">Montag und Mittwoch auf Deutsch, Freitag dasselbe auf Englisch.
+            <a href="/pages/language_lab/grammatik/index.html">→ die Grammatik</a></p>
+        </section>
+
+        <h2>Die Woche</h2>
+        <table class="sp-woche" id="spWoche"></table>
+        <button type="button" class="sp-knopf" id="spNeu">↺ Häkchen dieser Woche löschen</button>
+
+        <h2>Die Regeln</h2>
+        <ul class="sp-regeln">
+          <li><b>Die Grammatik – höchstens ein Drittel der Zeit.</b> Den Namen einer Regel nur lernen, wenn man ihn für einen Satz braucht.<br /><small>Грамматика – не больше трети времени.</small></li>
+          <li><b>Ein Thema pro Woche.</b> Erst Deutsch, dann dasselbe auf Englisch.<br /><small>Одна тема на неделю: сначала немецкий, потом английский.</small></li>
+          <li><b>Jeden Tag 30 Minuten</b> sind besser als 3 Stunden am Sonntag.<br /><small>Лучше 30 минут каждый день, чем 3 часа в воскресенье.</small></li>
+        </ul>
+        <p class="sp-klein">Die Häkchen werden auf jedem Gerät (der Computer, das iPhone, das Tablet) getrennt gespeichert.<br />
+          Галочки хранятся отдельно на каждом устройстве.</p>
+      </div>
+    </main>
+
+    <script>
+    (function () {
+      const L = {
+        sfEN:   { t: "der Sprachführer EN", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html" },
+        slDE:   { t: "das Satzlabor DE – Thema der Woche", u: "/pages/language_lab/apps/generator/de/index_de.html" },
+        slEN:   { t: "das Satzlabor EN – dasselbe Thema auf Englisch", u: "/pages/language_lab/apps/generator/en/index_en.html" },
+        lese:   { t: "die Leseregeln", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/leseregeln.html" },
+        diktat: { t: "der Diktat-Trainer", u: "/pages/language_lab/diktat-trainer.html#de" },
+        etym:   { t: "die Etymologie – Wortgeschichte", u: "/pages/language_lab/wortdetektiv/index.html" },
+        lied:   { t: "der Lied-Trainer", u: "/pages/language_lab/lieder/index.html" },
+        weis:   { t: "die Weisheiten", u: "/pages/language_lab/weisheiten/index.html" },
+        wdh:    { t: "die Wiederholung: der Sprachführer, Box 1–2", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html" }
+      };
+      // Index 0 = Montag
+      const PLAN = [
+        { tag: "Montag",     a: [["sfEN", 20], ["slDE", 10]] },
+        { tag: "Dienstag",   a: [["sfEN", 20], ["lese", 10]] },
+        { tag: "Mittwoch",   a: [["slDE", 15], ["diktat", 10]] },
+        { tag: "Donnerstag", a: [["sfEN", 20], ["etym", 10]] },
+        { tag: "Freitag",    a: [["slEN", 15], ["sfEN", 15]] },
+        { tag: "Samstag",    a: [["lied", 20], ["weis", 10]] },
+        { tag: "Sonntag",    a: [["wdh", 15]], frei: true }
+      ];
+      const THEMEN = [
+        { t: "die trennbaren und untrennbaren Verben", b: "Ich <b>probiere</b> die Jacke <b>an</b>. · Ich <b>verstehe</b> dich. — EN: <i>Can I try this <b>on</b>?</i>" },
+        { t: "das Perfekt: haben oder sein", b: "Ich <b>habe</b> gegessen. · Ich <b>bin</b> gefahren. — EN: <i>I <b>have</b> eaten.</i>" },
+        { t: "die Präpositionen und der Kasus", b: "mit <b>dem</b> Bus · für <b>den</b> Sohn · in <b>die</b> Stadt / in <b>der</b> Stadt" },
+        { t: "der Nebensatz (weil, dass)", b: "…, weil ich keine Zeit <b>habe</b>. — EN: <i>…, because I <b>have</b> no time.</i>" },
+        { t: "die Adjektivendungen", b: "ein schön<b>es</b> Haus · das schön<b>e</b> Haus · mit dem schön<b>en</b> Haus" },
+        { t: "der Konjunktiv II", b: "Ich <b>würde</b> gern … · Ich <b>hätte</b> gern … · Wenn ich Zeit <b>hätte</b> … — EN: <i>I <b>would</b> like …</i>" }
+      ];
+
+      // ISO-Woche als Schlüssel
+      function wocheKey(d) {
+        const x = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        const n = x.getUTCDay() || 7; x.setUTCDate(x.getUTCDate() + 4 - n);
+        const j = new Date(Date.UTC(x.getUTCFullYear(), 0, 1));
+        return x.getUTCFullYear() + "-KW" + Math.ceil(((x - j) / 86400000 + 1) / 7);
+      }
+      const KEY = "stundenplan_v1";
+      function laden() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) { return {}; } }
+      function speichern(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (_) {} }
+
+      const jetzt = new Date();
+      const heute = (jetzt.getDay() + 6) % 7;
+      const wk = wocheKey(jetzt);
+      let st = laden();
+      st.wochen = st.wochen || {};
+      st.wochen[wk] = st.wochen[wk] || {};
+      if (typeof st.thema !== "number") st.thema = 0;
+
+      function istFertig(t, i) { return !!st.wochen[wk][t + "-" + i]; }
+      function setze(t, i, v) { st.wochen[wk][t + "-" + i] = v; speichern(st); zeichnen(); }
+
+      function zeichnen() {
+        // heute
+        const p = PLAN[heute];
+        let h = `<h2>Heute: ${p.tag}${p.frei ? " – frei oder Wiederholung" : ""}</h2>`;
+        p.a.forEach(([k, min], i) => {
+          const f = istFertig(heute, i);
+          h += `<label class="sp-auf${f ? " fertig" : ""}"><input type="checkbox" data-t="${heute}" data-i="${i}"${f ? " checked" : ""}>
+                <span class="min">${min} Min.</span><a href="${L[k].u}">${L[k].t}</a></label>`;
+        });
+        document.getElementById("spHeute").innerHTML = h;
+
+        // Woche
+        let alle = 0, ok = 0;
+        let w = "<tr><th>der Tag</th><th>die Aufgaben</th><th>✓</th></tr>";
+        PLAN.forEach((d, t) => {
+          const teile = d.a.map(([k, min], i) => {
+            alle++; if (istFertig(t, i)) ok++;
+            return `${istFertig(t, i) ? "✅" : "▫️"} <a href="${L[k].u}">${L[k].t}</a> <span class="sp-klein">(${min} Min.)</span>`;
+          });
+          const voll = d.a.every((_, i) => istFertig(t, i));
+          w += `<tr class="${t === heute ? "heute" : ""}"><td><b>${d.tag}</b></td><td>${teile.join("<br>")}</td><td class="ok">${voll ? "✅" : ""}</td></tr>`;
+        });
+        document.getElementById("spWoche").innerHTML = w;
+        document.getElementById("spStand").textContent = `Diese Woche (${wk}): ${ok} von ${alle} erledigt`;
+        document.getElementById("spBalken").style.width = Math.round(ok / alle * 100) + "%";
+
+        // Thema
+        const sel = document.getElementById("spThema");
+        sel.innerHTML = THEMEN.map((x, i) => `<option value="${i}"${i === st.thema ? " selected" : ""}>${i + 1}. ${x.t}</option>`).join("");
+        document.getElementById("spThemaBsp").innerHTML = THEMEN[st.thema].b;
+      }
+
+      document.addEventListener("change", (e) => {
+        const el = e.target;
+        if (el.matches("#spHeute input[type=checkbox]")) setze(+el.dataset.t, +el.dataset.i, el.checked);
+        if (el.id === "spThema") { st.thema = +el.value; speichern(st); zeichnen(); }
+      });
+      document.getElementById("spNeu").addEventListener("click", () => {
+        if (!window.confirm("Alle Häkchen dieser Woche löschen?")) return;
+        st.wochen[wk] = {}; speichern(st); zeichnen();
+      });
+      zeichnen();
+    })();
+    </script>
+  </body>
+</html>
