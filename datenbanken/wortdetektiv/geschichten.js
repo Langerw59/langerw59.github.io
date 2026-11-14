@@ -360,6 +360,50 @@ window.WORTDETEKTIV = [
   raetsel: { frage: "Англичанин хочет сказать по-немецки «у меня для тебя подарок» и говорит: «Ich habe ein Gift für dich». Что услышит немец? И что значит английское «I will become a beer»?", antwort: "Немец услышит: «У меня для тебя **яд**!» Правильно: «Ich habe **ein Geschenk** für dich». А «I will become a beer» – «я **стану** пивом». Правильно: **I will get a beer** – «Ich bekomme ein Bier»." }
 }
 
+// 2026-11-14: die Lehnübersetzung – Wort für Wort übersetzt (калька)
+,{
+  id: "lehnuebersetzung",
+  titel: "Die Lehnübersetzung – Wort für Wort übersetzt",
+  ru: "Калька – когда переводят слово в слово",
+  wort: "die Lehnübersetzung / calque / калька",
+  h: "frz",
+  thema: "woerter",
+  kurz: "Выражение переводят из чужого языка слово в слово – и оно приживается. Так в русский пришли многие «старинные» вежливые обороты, а в немецкий – Wolkenkratzer и Fernsehen.",
+  text: [
+    "**die Lehnübersetzung** (калька) – слово или выражение, переведённое из чужого языка **по частям, слово в слово**. Чужого слова не видно, а «скелет» у него чужой. Само слово «калька» – французское **[[ton:fr|calque]]**: прозрачная бумага, через которую копируют рисунок.",
+    "В **XVIII–XIX веках** русское дворянство в [[ort:petersburg|Sankt Petersburg]] и Москве говорило по-французски лучше, чем по-русски. Вежливые обороты переводили прямо с французского, и они вошли в русский язык. Поэтому старый вежливый русский так похож на подстрочник.",
+    "**«Имею честь»** – франц. **[[ton:fr|j'ai l'honneur]]**, по-немецки **Ich habe die Ehre**. **«Иметь место»** – франц. **[[ton:fr|avoir lieu]]** (буквально «иметь место») – по-немецки **stattfinden**. **«Произвести впечатление»** – франц. **faire impression**, по-немецки **einen Eindruck machen**. **«Смею спросить»** – как английское **[[ton:en|May I ask?]]** и немецкое **Darf ich fragen?**",
+    "**«Не в своей тарелке»** – знаменитая ошибка. Французское **ne pas être dans son assiette** значило «быть не в своём положении, не в духе»: **assiette** – и «тарелка», и «положение, посадка (в седле)». Перевели как «тарелка» – и ошибка прижилась навсегда.",
+    "**Немецкий тоже полон калек.** **der Wolkenkratzer** = англ. **[[ton:en|skyscraper]]** (sky – небо, scrape – скрести) = русское **небоскрёб**: одно слово, три кальки! **das Fernsehen** = греч. tele «далеко» + лат. visio «зрение» – **television**. **die Halbinsel** = лат. **paen-insula** «почти-остров» = русское **полуостров**. **das Wochenende** = англ. **[[ton:en|weekend]]**.",
+    "**И из немецкого – в русский:** **die Weltanschauung** → **мировоззрение** (Welt – мир, Anschauung – воззрение); **der Übermensch** (Ницше) → **сверхчеловек**. Даже **«насекомое»** – калька с латинского **insectum** «насечённое» (у насекомых тело как бы разрезано на части).",
+    "**Калька в обратную сторону.** Дети, которые выросли в Германии, думают уже по-немецки и переводят на русский дословно: **«Почему ты двигаешь вину на меня?»** – это **Warum schiebst du die Schuld auf mich?** (по-русски: «Почему ты меня обвиняешь? / сваливаешь вину на меня?»). **«Я позвоню тебе назад»** – **Ich rufe dich zurück** (по-русски: «я перезвоню»). **«Я имею день рождения»** – **Ich habe Geburtstag** («у меня день рождения»). **«Поедем с автобусом»** – **mit dem Bus fahren** («поедем на автобусе»). Лингвисты называют это **die Interferenz** – один язык «просвечивает» сквозь другой.",
+    "**Совет для учёбы:** подстрочник (дословный перевод) помогает понять, **как устроена** чужая фраза – как на карточках в SprachBox: «Я есть смотрящий для одна куртка» = **I'm looking for a jacket**. Но запоминать надо нормальный перевод: «Я ищу куртку»."
+  ],
+  spuren: [
+    ["имею честь ← j'ai l'honneur", "DE: Ich habe die Ehre. Вежливость XIX века – из французского."],
+    ["иметь место ← avoir lieu", "DE: stattfinden (statt – место, finden – находить)."],
+    ["не в своей тарелке ← dans son assiette", "assiette – «тарелка» и «положение»: ошибка перевода прижилась."],
+    ["der Wolkenkratzer = skyscraper = небоскрёб", "Одна идея в трёх языках: «скребущий небо (облака)»."],
+    ["die Halbinsel = paeninsula = полуостров", "Латинское paene «почти» + insula «остров»."],
+    ["die Weltanschauung → мировоззрение", "Немецкое слово, переведённое на русский по частям."],
+    ["Schuld schieben → «двигать вину»", "Калька наоборот: немецкий «просвечивает» в русской речи (die Interferenz)."]
+  ],
+  orte: {
+    paris:      { name: "Paris", lat: 48.86, lng: 2.35, info: "Отсюда шла мода на французский язык при всех дворах Европы.", wiki: "Französische Sprache", wikiRu: "Французский язык" },
+    petersburg: { name: "Sankt Petersburg", lat: 59.94, lng: 30.31, info: "Дворянство говорило по-французски; вежливые обороты переводили на русский дословно.", wiki: "Gallomanie", wikiRu: "Галломания" }
+  },
+  wege: [
+    ["paris", "petersburg", "j'ai l'honneur → имею честь"]
+  ],
+  links: [
+    { t: "Lehnübersetzung – Wikipedia", url: "https://de.wikipedia.org/wiki/Lehnübersetzung", art: "lexikon", sp: "DE", info: "Что такое Lehnübersetzung, много немецких примеров." },
+    { t: "Калька (лингвистика) – Википедия", url: "https://ru.wikipedia.org/wiki/Калька_(лингвистика)", art: "lexikon", sp: "RU", info: "Кальки в русском языке, примеры." },
+    { t: "Interferenz (Linguistik) – Wikipedia", url: "https://de.wikipedia.org/wiki/Interferenz_(Linguistik)", art: "lexikon", sp: "DE", info: "Когда один язык «просвечивает» в другом." },
+    { t: "Videos: Lehnübersetzung", url: "https://www.youtube.com/results?search_query=Lehnübersetzung+Beispiele", art: "video", sp: "DE", info: "Поиск видео на YouTube." }
+  ],
+  raetsel: { frage: "Внук говорит: «Бабушка, я завтра имею день рождения, мы поедем с автобусом в Krefeld». Какие две немецкие фразы «просвечивают» в этой речи? Как сказать по-русски?", antwort: "**Ich habe morgen Geburtstag** и **mit dem Bus fahren**. По-русски: «**У меня** завтра день рождения, мы поедем **на автобусе** в Krefeld»." }
+}
+
 
 ];
 
