@@ -156,4 +156,17 @@ window.WORTDETEKTIV_PFLANZEN = [
 { id:"kuerbis", gr:"gemuese", emo:"🎃", de:"der Kürbis", pl:"die Kürbisse", la:"Cucurbita pepo", laRu:"cucurbita – тыква, pepo – «спелая, сваренная солнцем» (греч.)",
   ru:"тыква", en:"pumpkin", wiki:"Gartenkürbis", wikiRu:"Тыква обыкновенная",
   her:"Kürbis – от латинского cucurbita: древненемецкое kurbiz → Kürbis. Английское pumpkin – от греческого pepon (спелый), как и латинское pepo. Садовая тыква родом из Америки; в Европе её узнали после Колумба." }
+// 2026-11-14: scharfe Sachen – der Meerrettich, der Rettich, die Paprika, der Pfeffer
+,{ id:"meerrettich", gr:"gemuese", emo:"🌱", de:"der Meerrettich", pl:"–", la:"Armoracia rusticana", laRu:"armoracia – хрен (греч./лат.), rusticana – деревенская",
+  ru:"хрен", en:"horseradish", wiki:"Meerrettich", wikiRu:"Хрен обыкновенный",
+  her:"«Хрен» – не сленг, а старое общеславянское слово (польск. chrzan, чеш. křen). Из славянских языков оно перешло в немецкий: в Баварии и Австрии хрен и сегодня называют der Kren! Meerrettich – скорее всего «mehr Rettich», «большая редька» (а не «морская»). Английское horseradish – «лошадиная редька»: horse здесь значит «большой, грубый». Острота – от горчичного масла (das Senföl): оно появляется, когда корень трут, и быстро улетучивается." },
+{ id:"rettich", gr:"gemuese", emo:"🌱", de:"der Rettich", pl:"die Rettiche", la:"Raphanus sativus", laRu:"raphanus – редька (греч.), sativus – посевной",
+  ru:"редька", en:"radish", wiki:"Rettich", wikiRu:"Редька посевная",
+  her:"Целая семья слов от латинского radix – «корень»: der Rettich, das Radieschen (редиска), английское radish и русские «редька» и «редиска». Даже слово radikal – «до корня», коренной." },
+{ id:"paprika", gr:"gemuese", emo:"🫑", de:"die Paprika", pl:"die Paprikas, die Paprika", la:"Capsicum annuum", laRu:"capsicum – «коробочка» (лат. capsa), annuum – однолетний",
+  ru:"перец (сладкий и острый), паприка", en:"bell pepper, paprika", wiki:"Paprika", wikiRu:"Перец однолетний",
+  her:"Родом из Америки (Мексика) – в Европу попала после Колумба. Слово – венгерское paprika, а венгры взяли его у сербов: papar – «перец», от латинского piper. Колумб искал Индию с её перцем, нашёл Америку – и назвал новый острый плод тоже «перцем». Отсюда путаница: и чёрный перец, и болгарский – «перец»." },
+{ id:"pfeffer", gr:"gemuese", emo:"⚫", de:"der Pfeffer", pl:"–", la:"Piper nigrum", laRu:"piper – перец, nigrum – чёрный",
+  ru:"перец (чёрный)", en:"pepper", wiki:"Schwarzer Pfeffer", wikiRu:"Перец чёрный",
+  her:"Длинная дорога слова: санскрит pippali (Индия) → греческое peperi → латинское piper → Pfeffer, pepper и русское «перец» (древнее «пьпьрь»). Перец был так дорог, что богатого купца звали der Pfeffersack. А «Geh hin, wo der Pfeffer wächst!» – «иди туда, где растёт перец», т. е. как можно дальше, в далёкую Индию!" }
 ];
