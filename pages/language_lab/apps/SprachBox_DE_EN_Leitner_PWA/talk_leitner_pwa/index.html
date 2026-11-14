@@ -9,7 +9,7 @@
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./assets/icon-192.png" />
   <link rel="apple-touch-icon" href="./assets/icon-192.png" />
-  <link rel="stylesheet" href="./styles.css?v=20261112a" />
+  <link rel="stylesheet" href="./styles.css?v=20261114a" />
   <!-- 2026-11-05: der Benutzer – eigener Fortschritt pro Name / у каждого пользователя свой прогресс (vor app.js laden!) -->
   <script src="./benutzer.js?v=20261106d"></script>
   <script src="../../../shared_data/sprachfuehrer_phrase_adapter.js" defer></script>
@@ -419,6 +419,8 @@
         <div class="cardFace cardBack">
           <div class="lang">EN</div>
           <div class="text" id="txtBack">…</div>
+          <!-- 2026-11-14: дословно + по-русски -->
+          <div class="ruLines" id="txtRu" hidden></div>
         </div>
         </div>
       </div>
@@ -538,6 +540,6 @@
   </div>
 
   <script src="../../../shared_data/mnemo_panel.js?v=20261107"></script>
-  <script src="./app.js?v=20261113b" type="module"></script>
+  <script src="./app.js?v=20261114a" type="module"></script>
 </body>
 </html>

@@ -1331,7 +1331,10 @@ function normalizeItem(raw, idx) {
   const lesson = String(pick(raw, ["lesson", "lektion"]) || "").trim();
 
   // keep `level` as alias for backward-compatible code paths / old decks
-  return { id, de, en, topic, stufe, level: stufe, mnemo, order, lesson };
+  // 2026-11-14: дословно (подстрочник) + нормальный русский перевод
+  const wort = String(pick(raw, ["wort", "woertlich", "literal"]) || "").trim();
+  const ru = String(pick(raw, ["ru", "russisch"]) || "").trim();
+  return { id, de, en, topic, stufe, level: stufe, mnemo, order, lesson, wort, ru };
 }
 
 // Better shuffle than sort(Math.random()-0.5)
@@ -2938,6 +2941,29 @@ function stopLearningTimer() {
   recordLearningSeconds((Date.now() - started) / 1000);
 }
 
+// ---------- 2026-11-14: дословно + по-русски (на обороте карточки) ----------
+function renderRuLines(it) {
+  const box = document.getElementById("txtRu");
+  if (!box) return;
+  const wort = (it.wort || "").trim();
+  const ru = (it.ru || "").trim();
+  box.textContent = "";
+  if (!wort && !ru) { box.hidden = true; return; }
+  if (wort && wort !== ru) {
+    const a = document.createElement("div");
+    a.className = "ruWort";
+    a.textContent = "дословно: " + wort;
+    box.appendChild(a);
+  }
+  if (ru) {
+    const b = document.createElement("div");
+    b.className = "ruNorm";
+    b.textContent = "по-русски: " + ru;
+    box.appendChild(b);
+  }
+  box.hidden = false;
+}
+
 // ---------- mnemo ----------
 function effectiveMnemo(it) {
   const local = state.mnemoMap?.[it.id];
@@ -3348,6 +3374,7 @@ function nextCard() {
 
   if (els.front) els.front.textContent = it.de;
   if (els.back) els.back.textContent = it.en;
+  renderRuLines(it);
 
   renderMnemo(it);
   updateStarButton();

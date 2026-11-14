@@ -2,7 +2,8 @@
  "meta": {
   "title": "SprachBox DE→EN – Lektionen Level 1–2",
   "created": "2026-11-02",
-  "info": "Je Lektion 6 Sätze. Die App zeigt die Lektionen der Reihe nach."
+  "info": "Je Lektion 6 Sätze. Die App zeigt die Lektionen der Reihe nach.",
+  "info_ru": "2026-11-14: wort = дословный перевод (подстрочник) с английского, ru = нормальный русский перевод."
  },
  "items": [
   {
@@ -13,7 +14,9 @@
    "stufe": "1",
    "de": "Hallo!",
    "en": "Hello!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Привет!",
+   "ru": "Здравствуйте! / Привет!"
   },
   {
    "id": "lek-L1-01-2",
@@ -23,7 +26,9 @@
    "stufe": "1",
    "de": "Guten Morgen!",
    "en": "Good morning!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Хорошее утро!",
+   "ru": "Доброе утро!"
   },
   {
    "id": "lek-L1-01-3",
@@ -33,7 +38,9 @@
    "stufe": "1",
    "de": "Wie geht es Ihnen?",
    "en": "How are you?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Как есть вы?",
+   "ru": "Как дела? / Как поживаете?"
   },
   {
    "id": "lek-L1-01-4",
@@ -43,7 +50,9 @@
    "stufe": "1",
    "de": "Mir geht es gut.",
    "en": "I'm fine.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я есть в порядке.",
+   "ru": "У меня всё хорошо."
   },
   {
    "id": "lek-L1-01-5",
@@ -53,7 +62,9 @@
    "stufe": "1",
    "de": "Danke!",
    "en": "Thank you!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Благодарю тебя!",
+   "ru": "Спасибо!"
   },
   {
    "id": "lek-L1-01-6",
@@ -63,7 +74,9 @@
    "stufe": "1",
    "de": "Tschüss!",
    "en": "Bye!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Пока!"
   },
   {
    "id": "lek-L1-02-1",
@@ -73,7 +86,9 @@
    "stufe": "1",
    "de": "Ich heiße Wladimir.",
    "en": "My name is Wladimir.",
-   "mnemo": "Muster: Ich bin … = I'm …"
+   "mnemo": "Muster: Ich bin … = I'm …",
+   "wort": "Моё имя есть Владимир.",
+   "ru": "Меня зовут Владимир."
   },
   {
    "id": "lek-L1-02-2",
@@ -83,7 +98,9 @@
    "stufe": "1",
    "de": "Ich bin aus Deutschland.",
    "en": "I'm from Germany.",
-   "mnemo": "Muster: Ich bin … = I'm …"
+   "mnemo": "Muster: Ich bin … = I'm …",
+   "wort": "Я есть из Германии.",
+   "ru": "Я из Германии."
   },
   {
    "id": "lek-L1-02-3",
@@ -93,7 +110,9 @@
    "stufe": "1",
    "de": "Ich wohne in Willich.",
    "en": "I live in Willich.",
-   "mnemo": "Muster: Ich bin … = I'm …"
+   "mnemo": "Muster: Ich bin … = I'm …",
+   "wort": "",
+   "ru": "Я живу в Willich."
   },
   {
    "id": "lek-L1-02-4",
@@ -103,7 +122,9 @@
    "stufe": "1",
    "de": "Ich bin Rentner.",
    "en": "I'm retired.",
-   "mnemo": "Muster: Ich bin … = I'm …"
+   "mnemo": "Muster: Ich bin … = I'm …",
+   "wort": "Я есть ушедший на покой.",
+   "ru": "Я на пенсии."
   },
   {
    "id": "lek-L1-02-5",
@@ -113,7 +134,9 @@
    "stufe": "1",
    "de": "Ich war Lehrer.",
    "en": "I was a teacher.",
-   "mnemo": "Muster: Ich bin … = I'm …"
+   "mnemo": "Muster: Ich bin … = I'm …",
+   "wort": "Я был один учитель.",
+   "ru": "Я был учителем."
   },
   {
    "id": "lek-L1-02-6",
@@ -123,7 +146,9 @@
    "stufe": "1",
    "de": "Freut mich!",
    "en": "Nice to meet you!",
-   "mnemo": "Muster: Ich bin … = I'm …"
+   "mnemo": "Muster: Ich bin … = I'm …",
+   "wort": "Приятно встретить тебя!",
+   "ru": "Очень приятно!"
   },
   {
    "id": "lek-L1-03-1",
@@ -133,7 +158,9 @@
    "stufe": "1",
    "de": "Ja, bitte.",
    "en": "Yes, please.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Да, пожалуйста."
   },
   {
    "id": "lek-L1-03-2",
@@ -143,7 +170,9 @@
    "stufe": "1",
    "de": "Nein, danke.",
    "en": "No, thank you.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Нет, благодарю тебя.",
+   "ru": "Нет, спасибо."
   },
   {
    "id": "lek-L1-03-3",
@@ -153,7 +182,9 @@
    "stufe": "1",
    "de": "Bitte schön.",
    "en": "You're welcome.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Ты есть желанный.",
+   "ru": "Пожалуйста. / Не за что."
   },
   {
    "id": "lek-L1-03-4",
@@ -163,7 +194,9 @@
    "stufe": "1",
    "de": "Entschuldigung!",
    "en": "Excuse me!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Извини меня!",
+   "ru": "Извините!"
   },
   {
    "id": "lek-L1-03-5",
@@ -173,7 +206,9 @@
    "stufe": "1",
    "de": "Kein Problem.",
    "en": "No problem.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Нет проблема.",
+   "ru": "Без проблем."
   },
   {
    "id": "lek-L1-03-6",
@@ -183,7 +218,9 @@
    "stufe": "1",
    "de": "Einen Moment, bitte.",
    "en": "One moment, please.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Один момент, пожалуйста.",
+   "ru": "Минутку, пожалуйста."
   },
   {
    "id": "lek-L1-04-1",
@@ -193,7 +230,9 @@
    "stufe": "1",
    "de": "Ich verstehe nicht.",
    "en": "I don't understand.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я не делаю понимать.",
+   "ru": "Я не понимаю."
   },
   {
    "id": "lek-L1-04-2",
@@ -203,7 +242,9 @@
    "stufe": "1",
    "de": "Langsam, bitte.",
    "en": "Slowly, please.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Медленно, пожалуйста."
   },
   {
    "id": "lek-L1-04-3",
@@ -213,7 +254,9 @@
    "stufe": "1",
    "de": "Noch einmal, bitte.",
    "en": "Again, please.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Снова, пожалуйста.",
+   "ru": "Ещё раз, пожалуйста."
   },
   {
    "id": "lek-L1-04-4",
@@ -223,7 +266,9 @@
    "stufe": "1",
    "de": "Sprechen Sie Deutsch?",
    "en": "Do you speak German?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Делаете вы говорить немецкий?",
+   "ru": "Вы говорите по-немецки?"
   },
   {
    "id": "lek-L1-04-5",
@@ -233,7 +278,9 @@
    "stufe": "1",
    "de": "Ich spreche ein bisschen Englisch.",
    "en": "I speak a little English.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я говорю немного английский.",
+   "ru": "Я немного говорю по-английски."
   },
   {
    "id": "lek-L1-04-6",
@@ -243,7 +290,9 @@
    "stufe": "1",
    "de": "Was bedeutet das?",
    "en": "What does that mean?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Что делает то значить?",
+   "ru": "Что это значит?"
   },
   {
    "id": "lek-L1-05-1",
@@ -253,7 +302,9 @@
    "stufe": "1",
    "de": "Das ist meine Frau.",
    "en": "This is my wife.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Это есть моя жена.",
+   "ru": "Это моя жена."
   },
   {
    "id": "lek-L1-05-2",
@@ -263,7 +314,9 @@
    "stufe": "1",
    "de": "Ich habe zwei Söhne.",
    "en": "I have two sons.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я имею два сына.",
+   "ru": "У меня два сына."
   },
   {
    "id": "lek-L1-05-3",
@@ -273,7 +326,9 @@
    "stufe": "1",
    "de": "Ich habe Enkelkinder.",
    "en": "I have grandchildren.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я имею внуков.",
+   "ru": "У меня есть внуки."
   },
   {
    "id": "lek-L1-05-4",
@@ -283,7 +338,9 @@
    "stufe": "1",
    "de": "Das ist mein Enkel.",
    "en": "This is my grandson.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Это есть мой внук.",
+   "ru": "Это мой внук."
   },
   {
    "id": "lek-L1-05-5",
@@ -293,7 +350,9 @@
    "stufe": "1",
    "de": "Mein Sohn ist Programmierer.",
    "en": "My son is a programmer.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Мой сын есть один программист.",
+   "ru": "Мой сын — программист."
   },
   {
    "id": "lek-L1-05-6",
@@ -303,7 +362,9 @@
    "stufe": "1",
    "de": "Meine Familie ist groß.",
    "en": "My family is big.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Моя семья есть большая.",
+   "ru": "У меня большая семья."
   },
   {
    "id": "lek-L1-06-1",
@@ -313,7 +374,9 @@
    "stufe": "1",
    "de": "Ich habe ein Auto.",
    "en": "I have a car.",
-   "mnemo": "Muster: Ich habe … = I have …"
+   "mnemo": "Muster: Ich habe … = I have …",
+   "wort": "Я имею одну машину.",
+   "ru": "У меня есть машина."
   },
   {
    "id": "lek-L1-06-2",
@@ -323,7 +386,9 @@
    "stufe": "1",
    "de": "Ich habe ein Haus.",
    "en": "I have a house.",
-   "mnemo": "Muster: Ich habe … = I have …"
+   "mnemo": "Muster: Ich habe … = I have …",
+   "wort": "Я имею один дом.",
+   "ru": "У меня есть дом."
   },
   {
    "id": "lek-L1-06-3",
@@ -333,7 +398,9 @@
    "stufe": "1",
    "de": "Ich habe einen Garten.",
    "en": "I have a garden.",
-   "mnemo": "Muster: Ich habe … = I have …"
+   "mnemo": "Muster: Ich habe … = I have …",
+   "wort": "Я имею один сад.",
+   "ru": "У меня есть сад."
   },
   {
    "id": "lek-L1-06-4",
@@ -343,7 +410,9 @@
    "stufe": "1",
    "de": "Ich habe einen Wohnwagen.",
    "en": "I have a caravan.",
-   "mnemo": "Muster: Ich habe … = I have …"
+   "mnemo": "Muster: Ich habe … = I have …",
+   "wort": "Я имею один жилой прицеп.",
+   "ru": "У меня есть жилой прицеп."
   },
   {
    "id": "lek-L1-06-5",
@@ -353,7 +422,9 @@
    "stufe": "1",
    "de": "Ich habe keine Zeit.",
    "en": "I have no time.",
-   "mnemo": "Muster: Ich habe … = I have …"
+   "mnemo": "Muster: Ich habe … = I have …",
+   "wort": "Я имею никакое время.",
+   "ru": "У меня нет времени."
   },
   {
    "id": "lek-L1-06-6",
@@ -363,7 +434,9 @@
    "stufe": "1",
    "de": "Hast du Zeit?",
    "en": "Do you have time?",
-   "mnemo": "Muster: Ich habe … = I have …"
+   "mnemo": "Muster: Ich habe … = I have …",
+   "wort": "Делаешь ты иметь время?",
+   "ru": "У тебя есть время?"
   },
   {
    "id": "lek-L1-07-1",
@@ -373,7 +446,9 @@
    "stufe": "1",
    "de": "Ich brauche Hilfe.",
    "en": "I need help.",
-   "mnemo": "Muster: Ich brauche … = I need …"
+   "mnemo": "Muster: Ich brauche … = I need …",
+   "wort": "Я нуждаюсь помощь.",
+   "ru": "Мне нужна помощь."
   },
   {
    "id": "lek-L1-07-2",
@@ -383,7 +458,9 @@
    "stufe": "1",
    "de": "Ich brauche Wasser.",
    "en": "I need water.",
-   "mnemo": "Muster: Ich brauche … = I need …"
+   "mnemo": "Muster: Ich brauche … = I need …",
+   "wort": "Я нуждаюсь вода.",
+   "ru": "Мне нужна вода."
   },
   {
    "id": "lek-L1-07-3",
@@ -393,7 +470,9 @@
    "stufe": "1",
    "de": "Ich brauche einen Arzt.",
    "en": "I need a doctor.",
-   "mnemo": "Muster: Ich brauche … = I need …"
+   "mnemo": "Muster: Ich brauche … = I need …",
+   "wort": "Я нуждаюсь один врач.",
+   "ru": "Мне нужен врач."
   },
   {
    "id": "lek-L1-07-4",
@@ -403,7 +482,9 @@
    "stufe": "1",
    "de": "Ich brauche das nicht.",
    "en": "I don't need that.",
-   "mnemo": "Muster: Ich brauche … = I need …"
+   "mnemo": "Muster: Ich brauche … = I need …",
+   "wort": "Я не делаю нуждаться то.",
+   "ru": "Мне это не нужно."
   },
   {
    "id": "lek-L1-07-5",
@@ -413,7 +494,9 @@
    "stufe": "1",
    "de": "Brauchen Sie Hilfe?",
    "en": "Do you need help?",
-   "mnemo": "Muster: Ich brauche … = I need …"
+   "mnemo": "Muster: Ich brauche … = I need …",
+   "wort": "Делаете вы нуждаться помощь?",
+   "ru": "Вам нужна помощь?"
   },
   {
    "id": "lek-L1-07-6",
@@ -423,7 +506,9 @@
    "stufe": "1",
    "de": "Was brauchst du?",
    "en": "What do you need?",
-   "mnemo": "Muster: Ich brauche … = I need …"
+   "mnemo": "Muster: Ich brauche … = I need …",
+   "wort": "Что делаешь ты нуждаться?",
+   "ru": "Что тебе нужно?"
   },
   {
    "id": "lek-L1-08-1",
@@ -433,7 +518,9 @@
    "stufe": "1",
    "de": "Wo ist die Toilette?",
    "en": "Where is the restroom?",
-   "mnemo": "Muster: Wo ist …? = Where is …?"
+   "mnemo": "Muster: Wo ist …? = Where is …?",
+   "wort": "Где есть та комната отдыха?",
+   "ru": "Где туалет?"
   },
   {
    "id": "lek-L1-08-2",
@@ -443,7 +530,9 @@
    "stufe": "1",
    "de": "Wo ist der Bahnhof?",
    "en": "Where is the train station?",
-   "mnemo": "Muster: Wo ist …? = Where is …?"
+   "mnemo": "Muster: Wo ist …? = Where is …?",
+   "wort": "Где есть та поезд-станция?",
+   "ru": "Где вокзал?"
   },
   {
    "id": "lek-L1-08-3",
@@ -453,7 +542,9 @@
    "stufe": "1",
    "de": "Wo ist mein Auto?",
    "en": "Where is my car?",
-   "mnemo": "Muster: Wo ist …? = Where is …?"
+   "mnemo": "Muster: Wo ist …? = Where is …?",
+   "wort": "Где есть моя машина?",
+   "ru": "Где моя машина?"
   },
   {
    "id": "lek-L1-08-4",
@@ -463,7 +554,9 @@
    "stufe": "1",
    "de": "Es ist hier.",
    "en": "It's here.",
-   "mnemo": "Muster: Wo ist …? = Where is …?"
+   "mnemo": "Muster: Wo ist …? = Where is …?",
+   "wort": "Оно есть здесь.",
+   "ru": "Это здесь."
   },
   {
    "id": "lek-L1-08-5",
@@ -473,7 +566,9 @@
    "stufe": "1",
    "de": "Es ist dort drüben.",
    "en": "It's over there.",
-   "mnemo": "Muster: Wo ist …? = Where is …?"
+   "mnemo": "Muster: Wo ist …? = Where is …?",
+   "wort": "Оно есть над там.",
+   "ru": "Это вон там."
   },
   {
    "id": "lek-L1-08-6",
@@ -483,7 +578,9 @@
    "stufe": "1",
    "de": "Links oder rechts?",
    "en": "Left or right?",
-   "mnemo": "Muster: Wo ist …? = Where is …?"
+   "mnemo": "Muster: Wo ist …? = Where is …?",
+   "wort": "Лево или право?",
+   "ru": "Налево или направо?"
   },
   {
    "id": "lek-L1-09-1",
@@ -493,7 +590,9 @@
    "stufe": "1",
    "de": "Ich möchte einen Kaffee.",
    "en": "I'd like a coffee.",
-   "mnemo": "Muster: Ich möchte … = I'd like …"
+   "mnemo": "Muster: Ich möchte … = I'd like …",
+   "wort": "Я бы любил один кофе.",
+   "ru": "Я бы хотел кофе."
   },
   {
    "id": "lek-L1-09-2",
@@ -503,7 +602,9 @@
    "stufe": "1",
    "de": "Ein Wasser, bitte.",
    "en": "A water, please.",
-   "mnemo": "Muster: Ich möchte … = I'd like …"
+   "mnemo": "Muster: Ich möchte … = I'd like …",
+   "wort": "Одна вода, пожалуйста.",
+   "ru": "Воду, пожалуйста."
   },
   {
    "id": "lek-L1-09-3",
@@ -513,7 +614,9 @@
    "stufe": "1",
    "de": "Ich möchte das hier.",
    "en": "I'd like this one.",
-   "mnemo": "Muster: Ich möchte … = I'd like …"
+   "mnemo": "Muster: Ich möchte … = I'd like …",
+   "wort": "Я бы любил этот один.",
+   "ru": "Я бы хотел вот этот."
   },
   {
    "id": "lek-L1-09-4",
@@ -523,7 +626,9 @@
    "stufe": "1",
    "de": "Ich möchte bezahlen.",
    "en": "I'd like to pay.",
-   "mnemo": "Muster: Ich möchte … = I'd like …"
+   "mnemo": "Muster: Ich möchte … = I'd like …",
+   "wort": "Я бы любил платить.",
+   "ru": "Я хотел бы заплатить."
   },
   {
    "id": "lek-L1-09-5",
@@ -533,7 +638,9 @@
    "stufe": "1",
    "de": "Was möchten Sie?",
    "en": "What would you like?",
-   "mnemo": "Muster: Ich möchte … = I'd like …"
+   "mnemo": "Muster: Ich möchte … = I'd like …",
+   "wort": "Что бы вы любили?",
+   "ru": "Что вы желаете?"
   },
   {
    "id": "lek-L1-09-6",
@@ -543,7 +650,9 @@
    "stufe": "1",
    "de": "Ich möchte nach Hause.",
    "en": "I want to go home.",
-   "mnemo": "Muster: Ich möchte … = I'd like …"
+   "mnemo": "Muster: Ich möchte … = I'd like …",
+   "wort": "Я хочу идти домой.",
+   "ru": "Я хочу домой."
   },
   {
    "id": "lek-L1-10-1",
@@ -553,7 +662,9 @@
    "stufe": "1",
    "de": "Wie viel kostet das?",
    "en": "How much is this?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Как много есть это?",
+   "ru": "Сколько это стоит?"
   },
   {
    "id": "lek-L1-10-2",
@@ -563,7 +674,9 @@
    "stufe": "1",
    "de": "Zehn Euro.",
    "en": "Ten euros.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Десять евро."
   },
   {
    "id": "lek-L1-10-3",
@@ -573,7 +686,9 @@
    "stufe": "1",
    "de": "Das ist teuer.",
    "en": "That's expensive.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "То есть дорогое.",
+   "ru": "Это дорого."
   },
   {
    "id": "lek-L1-10-4",
@@ -583,7 +698,9 @@
    "stufe": "1",
    "de": "Das ist billig.",
    "en": "That's cheap.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "То есть дешёвое.",
+   "ru": "Это дёшево."
   },
   {
    "id": "lek-L1-10-5",
@@ -593,7 +710,9 @@
    "stufe": "1",
    "de": "Kann ich mit Karte zahlen?",
    "en": "Can I pay by card?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Могу я платить через карту?",
+   "ru": "Можно оплатить картой?"
   },
   {
    "id": "lek-L1-10-6",
@@ -603,7 +722,9 @@
    "stufe": "1",
    "de": "Die Rechnung, bitte.",
    "en": "The check, please.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Тот чек, пожалуйста.",
+   "ru": "Счёт, пожалуйста."
   },
   {
    "id": "lek-L1-11-1",
@@ -613,7 +734,9 @@
    "stufe": "1",
    "de": "Wie spät ist es?",
    "en": "What time is it?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Какое время есть оно?",
+   "ru": "Который час?"
   },
   {
    "id": "lek-L1-11-2",
@@ -623,7 +746,9 @@
    "stufe": "1",
    "de": "Es ist acht Uhr.",
    "en": "It's eight o'clock.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Оно есть восемь от часов.",
+   "ru": "Сейчас восемь часов."
   },
   {
    "id": "lek-L1-11-3",
@@ -633,7 +758,9 @@
    "stufe": "1",
    "de": "Heute habe ich Zeit.",
    "en": "Today I have time.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Сегодня я имею время.",
+   "ru": "Сегодня у меня есть время."
   },
   {
    "id": "lek-L1-11-4",
@@ -643,7 +770,9 @@
    "stufe": "1",
    "de": "Jetzt nicht.",
    "en": "Not now.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Не сейчас."
   },
   {
    "id": "lek-L1-11-5",
@@ -653,7 +782,9 @@
    "stufe": "1",
    "de": "Später.",
    "en": "Later.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Позже."
   },
   {
    "id": "lek-L1-11-6",
@@ -663,7 +794,9 @@
    "stufe": "1",
    "de": "Bis morgen!",
    "en": "See you tomorrow!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Увижу тебя завтра!",
+   "ru": "До завтра!"
   },
   {
    "id": "lek-L1-12-1",
@@ -673,7 +806,9 @@
    "stufe": "1",
    "de": "Es ist kalt.",
    "en": "It's cold.",
-   "mnemo": "Muster: Es ist … = It's …"
+   "mnemo": "Muster: Es ist … = It's …",
+   "wort": "Оно есть холодно.",
+   "ru": "Холодно."
   },
   {
    "id": "lek-L1-12-2",
@@ -683,7 +818,9 @@
    "stufe": "1",
    "de": "Es ist warm.",
    "en": "It's warm.",
-   "mnemo": "Muster: Es ist … = It's …"
+   "mnemo": "Muster: Es ist … = It's …",
+   "wort": "Оно есть тепло.",
+   "ru": "Тепло."
   },
   {
    "id": "lek-L1-12-3",
@@ -693,7 +830,9 @@
    "stufe": "1",
    "de": "Es regnet.",
    "en": "It's raining.",
-   "mnemo": "Muster: Es regnet. = It's raining. (gerade jetzt: is + -ing)"
+   "mnemo": "Muster: Es regnet. = It's raining. (gerade jetzt: is + -ing)",
+   "wort": "Оно есть дождящее.",
+   "ru": "Идёт дождь."
   },
   {
    "id": "lek-L1-12-4",
@@ -703,7 +842,9 @@
    "stufe": "1",
    "de": "Die Sonne scheint.",
    "en": "The sun is shining.",
-   "mnemo": "Muster: … scheint = … is shining (gerade jetzt: is + -ing)"
+   "mnemo": "Muster: … scheint = … is shining (gerade jetzt: is + -ing)",
+   "wort": "То солнце есть светящее.",
+   "ru": "Светит солнце."
   },
   {
    "id": "lek-L1-12-5",
@@ -713,7 +854,9 @@
    "stufe": "1",
    "de": "Es ist windig.",
    "en": "It's windy.",
-   "mnemo": "Muster: Es ist … = It's …"
+   "mnemo": "Muster: Es ist … = It's …",
+   "wort": "Оно есть ветрено.",
+   "ru": "Ветрено."
   },
   {
    "id": "lek-L1-12-6",
@@ -723,7 +866,9 @@
    "stufe": "1",
    "de": "Das Wetter ist schön.",
    "en": "The weather is nice.",
-   "mnemo": "Muster: Das Wetter ist … = The weather is …"
+   "mnemo": "Muster: Das Wetter ist … = The weather is …",
+   "wort": "Та погода есть приятная.",
+   "ru": "Погода хорошая."
   },
   {
    "id": "lek-L1-13-1",
@@ -733,7 +878,9 @@
    "stufe": "1",
    "de": "Ich mag Kaffee.",
    "en": "I like coffee.",
-   "mnemo": "Muster: Ich mag … = I like …"
+   "mnemo": "Muster: Ich mag … = I like …",
+   "wort": "Я нравлю кофе.",
+   "ru": "Мне нравится кофе."
   },
   {
    "id": "lek-L1-13-2",
@@ -743,7 +890,9 @@
    "stufe": "1",
    "de": "Ich mag Schach.",
    "en": "I like chess.",
-   "mnemo": "Muster: Ich mag … = I like …"
+   "mnemo": "Muster: Ich mag … = I like …",
+   "wort": "Я нравлю шахматы.",
+   "ru": "Мне нравятся шахматы."
   },
   {
    "id": "lek-L1-13-3",
@@ -753,7 +902,9 @@
    "stufe": "1",
    "de": "Ich mag das nicht.",
    "en": "I don't like that.",
-   "mnemo": "Muster: Ich mag … = I like …"
+   "mnemo": "Muster: Ich mag … = I like …",
+   "wort": "Я не делаю нравить то.",
+   "ru": "Мне это не нравится."
   },
   {
    "id": "lek-L1-13-4",
@@ -763,7 +914,9 @@
    "stufe": "1",
    "de": "Magst du Tee?",
    "en": "Do you like tea?",
-   "mnemo": "Muster: Ich mag … = I like …"
+   "mnemo": "Muster: Ich mag … = I like …",
+   "wort": "Делаешь ты нравить чай?",
+   "ru": "Тебе нравится чай?"
   },
   {
    "id": "lek-L1-13-5",
@@ -773,7 +926,9 @@
    "stufe": "1",
    "de": "Das ist gut.",
    "en": "That's good.",
-   "mnemo": "Muster: Ich mag … = I like …"
+   "mnemo": "Muster: Ich mag … = I like …",
+   "wort": "То есть хорошее.",
+   "ru": "Это хорошо."
   },
   {
    "id": "lek-L1-13-6",
@@ -783,7 +938,9 @@
    "stufe": "1",
    "de": "Das ist sehr gut!",
    "en": "That's very good!",
-   "mnemo": "Muster: Ich mag … = I like …"
+   "mnemo": "Muster: Ich mag … = I like …",
+   "wort": "То есть очень хорошее!",
+   "ru": "Это очень хорошо!"
   },
   {
    "id": "lek-L1-14-1",
@@ -793,7 +950,9 @@
    "stufe": "1",
    "de": "Komm rein!",
    "en": "Come in!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Приходи внутрь!",
+   "ru": "Заходи!"
   },
   {
    "id": "lek-L1-14-2",
@@ -803,7 +962,9 @@
    "stufe": "1",
    "de": "Setz dich, bitte.",
    "en": "Please sit down.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Пожалуйста, садись вниз.",
+   "ru": "Садись, пожалуйста."
   },
   {
    "id": "lek-L1-14-3",
@@ -813,7 +974,9 @@
    "stufe": "1",
    "de": "Möchtest du etwas trinken?",
    "en": "Would you like something to drink?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Бы ты любил что-то чтобы пить?",
+   "ru": "Хочешь что-нибудь выпить?"
   },
   {
    "id": "lek-L1-14-4",
@@ -823,7 +986,9 @@
    "stufe": "1",
    "de": "Das Essen ist fertig.",
    "en": "The food is ready.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Та еда есть готова.",
+   "ru": "Еда готова."
   },
   {
    "id": "lek-L1-14-5",
@@ -833,7 +998,9 @@
    "stufe": "1",
    "de": "Guten Appetit!",
    "en": "Enjoy your meal!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Наслаждайся твоей едой!",
+   "ru": "Приятного аппетита!"
   },
   {
    "id": "lek-L1-14-6",
@@ -843,7 +1010,9 @@
    "stufe": "1",
    "de": "Gute Nacht!",
    "en": "Good night!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Хорошая ночь!",
+   "ru": "Спокойной ночи!"
   },
   {
    "id": "lek-L1-15-1",
@@ -853,7 +1022,9 @@
    "stufe": "1",
    "de": "Das Auto ist kaputt.",
    "en": "The car is broken.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Та машина есть сломанная.",
+   "ru": "Машина сломалась."
   },
   {
    "id": "lek-L1-15-2",
@@ -863,7 +1034,9 @@
    "stufe": "1",
    "de": "Der Motor ist laut.",
    "en": "The engine is loud.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Тот мотор есть громкий.",
+   "ru": "Мотор шумит."
   },
   {
    "id": "lek-L1-15-3",
@@ -873,7 +1046,9 @@
    "stufe": "1",
    "de": "Ich brauche neue Reifen.",
    "en": "I need new tires.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я нуждаюсь новые шины.",
+   "ru": "Мне нужны новые шины."
   },
   {
    "id": "lek-L1-15-4",
@@ -883,7 +1058,9 @@
    "stufe": "1",
    "de": "Wo ist die Werkstatt?",
    "en": "Where is the repair shop?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Где есть та ремонт-мастерская?",
+   "ru": "Где автомастерская?"
   },
   {
    "id": "lek-L1-15-5",
@@ -893,7 +1070,9 @@
    "stufe": "1",
    "de": "Volltanken, bitte.",
    "en": "Fill it up, please.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Наполни его вверх, пожалуйста.",
+   "ru": "Полный бак, пожалуйста."
   },
   {
    "id": "lek-L1-15-6",
@@ -903,7 +1082,9 @@
    "stufe": "1",
    "de": "Wann ist es fertig?",
    "en": "When will it be ready?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Когда будет оно быть готово?",
+   "ru": "Когда будет готово?"
   },
   {
    "id": "lek-L1-16-1",
@@ -913,7 +1094,9 @@
    "stufe": "1",
    "de": "Hilfe!",
    "en": "Help!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Помощь!",
+   "ru": "Помогите!"
   },
   {
    "id": "lek-L1-16-2",
@@ -923,7 +1106,9 @@
    "stufe": "1",
    "de": "Ich bin krank.",
    "en": "I'm sick.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я есть больной.",
+   "ru": "Я болен."
   },
   {
    "id": "lek-L1-16-3",
@@ -933,7 +1118,9 @@
    "stufe": "1",
    "de": "Es tut weh.",
    "en": "It hurts.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Оно болит.",
+   "ru": "Болит."
   },
   {
    "id": "lek-L1-16-4",
@@ -943,7 +1130,9 @@
    "stufe": "1",
    "de": "Rufen Sie einen Krankenwagen!",
    "en": "Call an ambulance!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Позовите одну скорую!",
+   "ru": "Вызовите скорую помощь!"
   },
   {
    "id": "lek-L1-16-5",
@@ -953,7 +1142,9 @@
    "stufe": "1",
    "de": "Wo ist das Krankenhaus?",
    "en": "Where is the hospital?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Где есть та больница?",
+   "ru": "Где больница?"
   },
   {
    "id": "lek-L1-16-6",
@@ -963,7 +1154,9 @@
    "stufe": "1",
    "de": "Bitte schnell!",
    "en": "Quickly, please!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Быстро, пожалуйста!"
   },
   {
    "id": "lek-L2-01-1",
@@ -973,7 +1166,9 @@
    "stufe": "2",
    "de": "Können Sie mir helfen?",
    "en": "Can you help me?",
-   "mnemo": "Muster: Can you …? / Where can I …?"
+   "mnemo": "Muster: Can you …? / Where can I …?",
+   "wort": "Можете вы помочь мне?",
+   "ru": "Вы можете мне помочь?"
   },
   {
    "id": "lek-L2-01-2",
@@ -983,7 +1178,9 @@
    "stufe": "2",
    "de": "Darf ich etwas fragen?",
    "en": "May I ask something?",
-   "mnemo": "Muster: Can you …? / Where can I …?"
+   "mnemo": "Muster: Can you …? / Where can I …?",
+   "wort": "Смею я спросить что-то?",
+   "ru": "Можно спросить?"
   },
   {
    "id": "lek-L2-01-3",
@@ -993,7 +1190,9 @@
    "stufe": "2",
    "de": "Wo kann ich parken?",
    "en": "Where can I park?",
-   "mnemo": "Muster: Can you …? / Where can I …?"
+   "mnemo": "Muster: Can you …? / Where can I …?",
+   "wort": "Где могу я парковать?",
+   "ru": "Где можно припарковаться?"
   },
   {
    "id": "lek-L2-01-4",
@@ -1003,7 +1202,9 @@
    "stufe": "2",
    "de": "Gibt es hier ein Café?",
    "en": "Is there a café here?",
-   "mnemo": "Muster: Can you …? / Where can I …?"
+   "mnemo": "Muster: Can you …? / Where can I …?",
+   "wort": "Есть там одно кафе здесь?",
+   "ru": "Здесь есть кафе?"
   },
   {
    "id": "lek-L2-01-5",
@@ -1013,7 +1214,9 @@
    "stufe": "2",
    "de": "Wann öffnet der Laden?",
    "en": "When does the store open?",
-   "mnemo": "Muster: Can you …? / Where can I …?"
+   "mnemo": "Muster: Can you …? / Where can I …?",
+   "wort": "Когда делает тот магазин открывать?",
+   "ru": "Когда открывается магазин?"
   },
   {
    "id": "lek-L2-01-6",
@@ -1023,7 +1226,9 @@
    "stufe": "2",
    "de": "Wie komme ich zum Bahnhof?",
    "en": "How do I get to the train station?",
-   "mnemo": "Muster: Can you …? / Where can I …?"
+   "mnemo": "Muster: Can you …? / Where can I …?",
+   "wort": "Как делаю я добраться к той поезд-станции?",
+   "ru": "Как пройти к вокзалу?"
   },
   {
    "id": "lek-L2-02-1",
@@ -1033,7 +1238,9 @@
    "stufe": "2",
    "de": "Einen Tisch für zwei, bitte.",
    "en": "A table for two, please.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Один стол для двух, пожалуйста.",
+   "ru": "Столик на двоих, пожалуйста."
   },
   {
    "id": "lek-L2-02-2",
@@ -1043,7 +1250,9 @@
    "stufe": "2",
    "de": "Die Speisekarte, bitte.",
    "en": "The menu, please.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "То меню, пожалуйста.",
+   "ru": "Меню, пожалуйста."
   },
   {
    "id": "lek-L2-02-3",
@@ -1053,7 +1262,9 @@
    "stufe": "2",
    "de": "Was empfehlen Sie?",
    "en": "What do you recommend?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Что делаете вы рекомендовать?",
+   "ru": "Что вы посоветуете?"
   },
   {
    "id": "lek-L2-02-4",
@@ -1063,7 +1274,9 @@
    "stufe": "2",
    "de": "Ich nehme die Suppe.",
    "en": "I'll have the soup.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я буду иметь тот суп.",
+   "ru": "Я возьму суп."
   },
   {
    "id": "lek-L2-02-5",
@@ -1073,7 +1286,9 @@
    "stufe": "2",
    "de": "Ohne Zucker, bitte.",
    "en": "Without sugar, please.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Без сахара, пожалуйста."
   },
   {
    "id": "lek-L2-02-6",
@@ -1083,7 +1298,9 @@
    "stufe": "2",
    "de": "Es hat sehr gut geschmeckt.",
    "en": "It was delicious.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Оно было вкусное.",
+   "ru": "Было очень вкусно."
   },
   {
    "id": "lek-L2-03-1",
@@ -1093,7 +1310,9 @@
    "stufe": "2",
    "de": "Ich suche eine Jacke.",
    "en": "I'm looking for a jacket.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я есть смотрящий для одна куртка.",
+   "ru": "Я ищу куртку."
   },
   {
    "id": "lek-L2-03-2",
@@ -1103,7 +1322,9 @@
    "stufe": "2",
    "de": "Haben Sie das in Größe L?",
    "en": "Do you have this in size L?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Делаете вы иметь это в размере L?",
+   "ru": "У вас есть это в размере L?"
   },
   {
    "id": "lek-L2-03-3",
@@ -1113,7 +1334,9 @@
    "stufe": "2",
    "de": "Kann ich das anprobieren?",
    "en": "Can I try this on?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Могу я пробовать это на?",
+   "ru": "Можно это примерить?"
   },
   {
    "id": "lek-L2-03-4",
@@ -1123,7 +1346,9 @@
    "stufe": "2",
    "de": "Ich schaue nur.",
    "en": "I'm just looking.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я есть просто смотрящий.",
+   "ru": "Я просто смотрю."
   },
   {
    "id": "lek-L2-03-5",
@@ -1133,7 +1358,9 @@
    "stufe": "2",
    "de": "Das nehme ich.",
    "en": "I'll take it.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я буду брать его.",
+   "ru": "Я это беру."
   },
   {
    "id": "lek-L2-03-6",
@@ -1143,7 +1370,9 @@
    "stufe": "2",
    "de": "Kann ich eine Tüte haben?",
    "en": "Can I have a bag?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Могу я иметь один пакет?",
+   "ru": "Можно мне пакет?"
   },
   {
    "id": "lek-L2-04-1",
@@ -1153,7 +1382,9 @@
    "stufe": "2",
    "de": "Wir sind mit dem Wohnwagen unterwegs.",
    "en": "We're traveling with our caravan.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Мы есть путешествующие с нашим жилым прицепом.",
+   "ru": "Мы путешествуем с жилым прицепом."
   },
   {
    "id": "lek-L2-04-2",
@@ -1163,7 +1394,9 @@
    "stufe": "2",
    "de": "Gibt es hier einen Campingplatz?",
    "en": "Is there a campsite here?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Есть там один кемпинг здесь?",
+   "ru": "Здесь есть кемпинг?"
   },
   {
    "id": "lek-L2-04-3",
@@ -1173,7 +1406,9 @@
    "stufe": "2",
    "de": "Wir bleiben zwei Nächte.",
    "en": "We're staying two nights.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Мы есть остающиеся две ночи.",
+   "ru": "Мы останемся на две ночи."
   },
   {
    "id": "lek-L2-04-4",
@@ -1183,7 +1418,9 @@
    "stufe": "2",
    "de": "Wie viel kostet eine Nacht?",
    "en": "How much is one night?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Как много есть одна ночь?",
+   "ru": "Сколько стоит одна ночь?"
   },
   {
    "id": "lek-L2-04-5",
@@ -1193,7 +1430,9 @@
    "stufe": "2",
    "de": "Gibt es hier Strom?",
    "en": "Is there electricity here?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Есть там электричество здесь?",
+   "ru": "Здесь есть электричество?"
   },
   {
    "id": "lek-L2-04-6",
@@ -1203,7 +1442,9 @@
    "stufe": "2",
    "de": "Wo kann ich Wasser auffüllen?",
    "en": "Where can I fill up water?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Где могу я наполнить вверх воду?",
+   "ru": "Где можно набрать воды?"
   },
   {
    "id": "lek-L2-05-1",
@@ -1213,7 +1454,9 @@
    "stufe": "2",
    "de": "Gestern war ich im Garten.",
    "en": "Yesterday I was in the garden.",
-   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …",
+   "wort": "Вчера я был в том саду.",
+   "ru": "Вчера я был в саду."
   },
   {
    "id": "lek-L2-05-2",
@@ -1223,7 +1466,9 @@
    "stufe": "2",
    "de": "Ich habe gut geschlafen.",
    "en": "I slept well.",
-   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …",
+   "wort": "Я спал хорошо.",
+   "ru": "Я хорошо выспался."
   },
   {
    "id": "lek-L2-05-3",
@@ -1233,7 +1478,9 @@
    "stufe": "2",
    "de": "Wir haben Freunde besucht.",
    "en": "We visited friends.",
-   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …",
+   "wort": "Мы посетили друзей.",
+   "ru": "Мы были в гостях у друзей."
   },
   {
    "id": "lek-L2-05-4",
@@ -1243,7 +1490,9 @@
    "stufe": "2",
    "de": "Ich habe das vergessen.",
    "en": "I forgot that.",
-   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …",
+   "wort": "Я забыл то.",
+   "ru": "Я это забыл."
   },
   {
    "id": "lek-L2-05-5",
@@ -1253,7 +1502,9 @@
    "stufe": "2",
    "de": "Was hast du gemacht?",
    "en": "What did you do?",
-   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …",
+   "wort": "Что делал ты делать?",
+   "ru": "Что ты делал?"
   },
   {
    "id": "lek-L2-05-6",
@@ -1263,7 +1514,9 @@
    "stufe": "2",
    "de": "Es war ein schöner Tag.",
    "en": "It was a nice day.",
-   "mnemo": "Muster: Vergangenheit – was, visited, slept …"
+   "mnemo": "Muster: Vergangenheit – was, visited, slept …",
+   "wort": "Оно было один приятный день.",
+   "ru": "Был хороший день."
   },
   {
    "id": "lek-L2-06-1",
@@ -1273,7 +1526,9 @@
    "stufe": "2",
    "de": "Morgen fahre ich nach Hannover.",
    "en": "Tomorrow I'm driving to Hanover.",
-   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …",
+   "wort": "Завтра я есть едущий к Hannover.",
+   "ru": "Завтра я еду в Hannover."
   },
   {
    "id": "lek-L2-06-2",
@@ -1283,7 +1538,9 @@
    "stufe": "2",
    "de": "Ich besuche meinen Sohn.",
    "en": "I'm visiting my son.",
-   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …",
+   "wort": "Я есть посещающий моего сына.",
+   "ru": "Я еду в гости к сыну."
   },
   {
    "id": "lek-L2-06-3",
@@ -1293,7 +1550,9 @@
    "stufe": "2",
    "de": "Wir fahren am Wochenende weg.",
    "en": "We're going away for the weekend.",
-   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …",
+   "wort": "Мы есть идущие прочь для тех выходных.",
+   "ru": "Мы уезжаем на выходные."
   },
   {
    "id": "lek-L2-06-4",
@@ -1303,7 +1562,9 @@
    "stufe": "2",
    "de": "Was machst du morgen?",
    "en": "What are you doing tomorrow?",
-   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …",
+   "wort": "Что есть ты делающий завтра?",
+   "ru": "Что ты делаешь завтра?"
   },
   {
    "id": "lek-L2-06-5",
@@ -1313,7 +1574,9 @@
    "stufe": "2",
    "de": "Ich rufe dich später an.",
    "en": "I'll call you later.",
-   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …",
+   "wort": "Я буду звать тебя позже.",
+   "ru": "Я тебе позже позвоню."
   },
   {
    "id": "lek-L2-06-6",
@@ -1323,7 +1586,9 @@
    "stufe": "2",
    "de": "Ich komme um sechs Uhr.",
    "en": "I'll come at six o'clock.",
-   "mnemo": "Muster: Zukunft – I'm going … / I'll …"
+   "mnemo": "Muster: Zukunft – I'm going … / I'll …",
+   "wort": "Я буду приходить в шесть от часов.",
+   "ru": "Я приду в шесть часов."
   },
   {
    "id": "lek-L2-07-1",
@@ -1333,7 +1598,9 @@
    "stufe": "2",
    "de": "Ich habe einen Termin.",
    "en": "I have an appointment.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я имею одну назначенную встречу.",
+   "ru": "Я записан на приём."
   },
   {
    "id": "lek-L2-07-2",
@@ -1343,7 +1610,9 @@
    "stufe": "2",
    "de": "Ich habe Kopfschmerzen.",
    "en": "I have a headache.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я имею одну головную боль.",
+   "ru": "У меня болит голова."
   },
   {
    "id": "lek-L2-07-3",
@@ -1353,7 +1622,9 @@
    "stufe": "2",
    "de": "Mein Rücken tut weh.",
    "en": "My back hurts.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Моя спина болит.",
+   "ru": "У меня болит спина."
   },
   {
    "id": "lek-L2-07-4",
@@ -1363,7 +1634,9 @@
    "stufe": "2",
    "de": "Seit zwei Tagen.",
    "en": "For two days.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Для двух дней.",
+   "ru": "Уже два дня."
   },
   {
    "id": "lek-L2-07-5",
@@ -1373,7 +1646,9 @@
    "stufe": "2",
    "de": "Brauche ich ein Rezept?",
    "en": "Do I need a prescription?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Делаю я нуждаться один рецепт?",
+   "ru": "Мне нужен рецепт?"
   },
   {
    "id": "lek-L2-07-6",
@@ -1383,7 +1658,9 @@
    "stufe": "2",
    "de": "Wo ist die nächste Apotheke?",
    "en": "Where is the nearest pharmacy?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Где есть та ближайшая аптека?",
+   "ru": "Где ближайшая аптека?"
   },
   {
    "id": "lek-L2-08-1",
@@ -1393,7 +1670,9 @@
    "stufe": "2",
    "de": "Wollen wir Schach spielen?",
    "en": "Shall we play chess?",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Должны мы играть шахматы?",
+   "ru": "Сыграем в шахматы?"
   },
   {
    "id": "lek-L2-08-2",
@@ -1403,7 +1682,9 @@
    "stufe": "2",
    "de": "Du hast gewonnen!",
    "en": "You won!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Ты выиграл!"
   },
   {
    "id": "lek-L2-08-3",
@@ -1413,7 +1694,9 @@
    "stufe": "2",
    "de": "Das hast du toll gemacht!",
    "en": "You did a great job!",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Ты сделал одну великую работу!",
+   "ru": "Ты отлично справился!"
   },
   {
    "id": "lek-L2-08-4",
@@ -1423,7 +1706,9 @@
    "stufe": "2",
    "de": "Ich bin stolz auf dich.",
    "en": "I'm proud of you.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Я есть гордый от тебя.",
+   "ru": "Я тобой горжусь."
   },
   {
    "id": "lek-L2-08-5",
@@ -1433,7 +1718,9 @@
    "stufe": "2",
    "de": "Mach deine Hausaufgaben.",
    "en": "Do your homework.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "Делай твою домашнюю работу.",
+   "ru": "Сделай домашнее задание."
   },
   {
    "id": "lek-L2-08-6",
@@ -1443,7 +1730,9 @@
    "stufe": "2",
    "de": "Ich hab dich lieb.",
    "en": "I love you.",
-   "mnemo": ""
+   "mnemo": "",
+   "wort": "",
+   "ru": "Я тебя люблю."
   }
  ]
 }

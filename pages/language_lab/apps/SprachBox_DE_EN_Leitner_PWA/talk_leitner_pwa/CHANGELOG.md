@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-14 – дословно + по-русски
+- Rückseite jeder Karte (144 Lektionssätze): zwei Zeilen – „дословно“ (Wort für Wort aus dem Englischen, z. B. „Я есть смотрящий для одна куртка.“) und „по-русски“ (normaler Satz: „Я ищу куртку.“)
+- neue Felder wort / ru in data/lektionen_de_en.json; Cache sprachbox-v41
+
 ## 2026-11-12 – Stimme „Auto“ ohne Spaß-Stimmen
 - iPhone mit deutschem Menü: Spaß-Stimmen heißen dort „Gute Neuigkeiten“, „Glocken“, „Seifenblasen“ … – sie werden jetzt erkannt (auch an der voiceURI) und nicht mehr angeboten
 - „Auto“ nimmt nie eine Spaß-Stimme, auch wenn eine gute Stimme vorher als „stumm“ markiert war; Cache sprachbox-v36

@@ -1143,3 +1143,20 @@ body.mode-bg .bgPreviewThumb{
   }
   .bottom-nav .btn{ min-height: 44px; padding: 8px 16px; }
 }
+
+/* 2026-11-14: дословно + по-русски auf der Rückseite */
+.ruLines{
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  background: rgba(8,14,28,.30);
+  font-size: 16px;
+  line-height: 1.3;
+}
+.ruLines .ruWort{ color: var(--muted); font-style: italic; }
+.ruLines .ruNorm{ font-weight: 700; margin-top: 4px; }
+.ruLines .ruWort:only-child, .ruLines .ruNorm:only-child{ margin-top: 0; }
+@media (orientation: landscape) and (max-height: 560px){
+  .ruLines{ margin-top: 4px; padding: 5px 8px; font-size: 14px; }
+}
