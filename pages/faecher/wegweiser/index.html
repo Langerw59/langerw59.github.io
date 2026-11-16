@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Der Wegweiser – Simulationen und Videos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-16: Wegweiser für alle Fächer – erstellt mit Claude.
+         Neue Links: unten in der Liste QUELLEN ergänzen (f = Fächer, s = Sprachen). -->
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../elektrotechnik/et.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <style>
+      .ww-filter { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+      .ww-filter button { border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main);
+        border-radius: 999px; padding: 4px 12px; cursor: pointer; font-size: .95em; }
+      .ww-filter button.an { background: var(--accent); color: #fff; border-color: var(--accent); }
+      .ww-karte { border: 1px solid var(--border-subtle); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; background: var(--bg-surface); }
+      .ww-karte h3 { margin: 0 0 4px; font-size: 1.05em; }
+      .ww-karte p { margin: 4px 0; }
+      .ww-tags { font-size: .8em; color: var(--text-muted); }
+      .ww-spr { display: inline-block; font-size: .75em; font-weight: 700; border-radius: 6px; padding: 0 6px; margin-right: 4px; border: 1px solid var(--border-subtle); }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="../../../sections/faecher.html">Fächer</a> › der Wegweiser</p>
+        <h1>🧭 Der Wegweiser – Simulationen, Videos, Nachschlagen</h1>
+        <p class="hint-text">
+          Nicht das Fahrrad neu erfinden: Hier stehen gute fertige Seiten für alle Fächer. Не изобретать велосипед –
+          здесь собраны готовые хорошие ресурсы. Язык отмечен: <b>DE</b>, <b>EN</b>, <b>RU</b>.
+        </p>
+
+        <div><b>das Fach:</b></div>
+        <div class="ww-filter" id="fFach"></div>
+        <div><b>die Sprache:</b></div>
+        <div class="ww-filter" id="fSprache"></div>
+
+        <div id="liste" style="margin-top:12px"></div>
+
+        <div class="et-box">
+          <h3>💡 Tipp: Videos in einer anderen Sprache</h3>
+          <p>Bei YouTube kann man unter ⚙ → <b>die Untertitel</b> → <b>automatisch übersetzen</b> → Deutsch wählen.
+            So kann man auch russische Videos (z. B. Pavel Viktor) mit deutschen Untertiteln ansehen – nicht perfekt, aber gut zum Lernen der Fachwörter.</p>
+          <p class="ru">Субтитры → автоматический перевод → немецкий: русское видео с немецкими субтитрами – заодно учим термины.</p>
+        </div>
+        <div class="et-box">
+          <h3>ℹ️ Multisim Live</h3>
+          <p>Multisim Live (online) wurde am 15.09.2026 abgeschaltet. Als kostenlosen Ersatz im Browser nehmen wir
+            <b>den Falstad-Simulator (CircuitJS)</b> – er kann auch Deutsch.</p>
+        </div>
+
+        <div class="et-nav"><a href="../../../sections/faecher.html">← Fächer</a></div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        // t = Titel, u = Link, f = Fächer, s = Sprachen, b = Beschreibung
+        const QUELLEN = [
+          { t: "PhET – interaktive Simulationen (Universität Colorado)", u: "https://phet.colorado.edu/de/",
+            f: ["Physik", "Elektrotechnik", "Chemie", "Mathematik"], s: ["DE", "EN", "RU"],
+            b: "Hunderte Simulationen, kostenlos, auf Deutsch und Russisch. Stromkreise, Atome, Moleküle, Brüche …" },
+          { t: "PhET – der Stromkreis-Baukasten (Gleichstrom)", u: "https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_de.html",
+            f: ["Elektrotechnik", "Physik"], s: ["DE"],
+            b: "Batterie, Lampe, Widerstand, Schalter, Multimeter – man sieht die Elektronen fließen." },
+          { t: "Walter Fendt – Physik-Apps (HTML5)", u: "https://www.walter-fendt.de/html5/phde/",
+            f: ["Physik", "Elektrotechnik"], s: ["DE", "EN", "RU"],
+            b: "Klassiker aus dem Unterricht: das ohmsche Gesetz, die Lorentzkraft, der Wechselstrom, der Generator … Auch auf Russisch." },
+          { t: "Walter Fendt – das ohmsche Gesetz", u: "https://www.walter-fendt.de/html5/phde/ohmslaw_de.htm",
+            f: ["Elektrotechnik", "Physik"], s: ["DE"],
+            b: "Spannung und Stromstärke messen, den Messbereich wählen." },
+          { t: "Falstad – der Schaltungssimulator (CircuitJS)", u: "https://www.falstad.com/circuit/circuitjs.html",
+            f: ["Elektrotechnik"], s: ["DE", "EN", "RU"],
+            b: "Schaltungen selbst bauen und laufen lassen: Widerstände, Kondensatoren, Transistoren, Logik, Oszilloskop. Menü auch auf Deutsch und Russisch. Ersatz für Multisim Live." },
+          { t: "LEIFIphysik", u: "https://www.leifiphysik.de",
+            f: ["Physik", "Elektrotechnik"], s: ["DE"],
+            b: "Grundwissen, Versuche, Aufgaben mit Lösungen – die Schulphysik auf Deutsch." },
+          { t: "Elektronik-Kompendium", u: "https://www.elektronik-kompendium.de",
+            f: ["Elektrotechnik"], s: ["DE"],
+            b: "Nachschlagewerk: Bauteile, Grundschaltungen, Formeln – sehr ausführlich." },
+          { t: "Das Elektronik-Labor (Burkhard Kainka)", u: "https://www.elektronik-labor.de/Labortagebuch/Labortagebuch.html",
+            f: ["Elektrotechnik"], s: ["DE"],
+            b: "Versuche zum Nachbauen, Labortagebuch – Vorbild für „Mein Labortagebuch“." },
+          { t: "Elektrizitätslehre mit Potenzial (kostenloses Schulbuch)", u: "http://www.einfache-elehre.de/",
+            f: ["Physik", "Elektrotechnik"], s: ["DE"],
+            b: "Ein modernes Lehrwerk zur Elektrizitätslehre mit Alltagsbeispielen, von Physikdidaktikern." },
+          { t: "Pavel Viktor – Physik-Unterricht (YouTube, Suche)", u: "https://www.youtube.com/results?search_query=%D0%9F%D0%B0%D0%B2%D0%B5%D0%BB+%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80+%D1%84%D0%B8%D0%B7%D0%B8%D0%BA%D0%B0",
+            f: ["Physik", "Elektrotechnik"], s: ["RU"],
+            b: "Physiklehrer aus Odessa: der ganze Schulkurs Klasse 7–11 mit Versuchen. Gute Videos später hier einzeln eintragen." },
+          { t: "Pavel Viktor – English lessons (YouTube, Suche)", u: "https://www.youtube.com/results?search_query=Pavel+Viktor+physics+lesson",
+            f: ["Physik"], s: ["EN"],
+            b: "Einige Lektionen gibt es auch auf Englisch." },
+          { t: "Schülerlexikon (Lernhelfer)", u: "https://www.lernhelfer.de/schuelerlexikon",
+            f: ["Physik", "Chemie", "Mathematik", "Elektrotechnik"], s: ["DE"],
+            b: "Kurze Lexikon-Artikel zu allen Schulfächern." },
+          { t: "Serlo – die freie Lernplattform", u: "https://de.serlo.org",
+            f: ["Mathematik", "Chemie"], s: ["DE"],
+            b: "Kostenlose Erklärungen und Aufgaben mit Lösungen, besonders Mathematik." },
+          { t: "Wikipedia – das Periodensystem", u: "https://de.wikipedia.org/wiki/Periodensystem",
+            f: ["Chemie"], s: ["DE", "EN", "RU"],
+            b: "Das Periodensystem der Elemente; links die anderen Sprachen." },
+        ];
+
+        const FAECHER = ["Alle", "Elektrotechnik", "Physik", "Mathematik", "Chemie"];
+        const SPRACHEN = ["Alle", "DE", "EN", "RU"];
+        let fach = "Alle", sprache = "Alle";
+        try { fach = localStorage.getItem("ww_fach") || "Alle"; sprache = localStorage.getItem("ww_sprache") || "Alle"; } catch (e) {}
+        const $ = (id) => document.getElementById(id);
+        const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+        function knoepfe(id, werte, aktiv) {
+          $(id).innerHTML = werte.map((w) => '<button data-w="' + w + '" class="' + (w === aktiv ? "an" : "") + '">' + w + "</button>").join("");
+        }
+        function zeigen() {
+          knoepfe("fFach", FAECHER, fach); knoepfe("fSprache", SPRACHEN, sprache);
+          const l = QUELLEN.filter((q) => (fach === "Alle" || q.f.includes(fach)) && (sprache === "Alle" || q.s.includes(sprache)));
+          $("liste").innerHTML = l.length ? l.map((q) =>
+            '<div class="ww-karte"><h3><a href="' + esc(q.u) + '" target="_blank" rel="noopener">' + esc(q.t) + "</a></h3>" +
+            "<p>" + q.s.map((s) => '<span class="ww-spr">' + s + "</span>").join("") + esc(q.b) + "</p>" +
+            '<div class="ww-tags">' + q.f.join(" · ") + "</div></div>").join("") : "<p>Nichts gefunden.</p>";
+        }
+        $("fFach").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; fach = b.dataset.w; try { localStorage.setItem("ww_fach", fach); } catch (x) {} zeigen(); });
+        $("fSprache").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; sprache = b.dataset.w; try { localStorage.setItem("ww_sprache", sprache); } catch (x) {} zeigen(); });
+        zeigen();
+      })();
+    </script>
+  </body>
+</html>
