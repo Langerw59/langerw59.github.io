@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Der Kursplan – Elektrotechnik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <link rel="stylesheet" href="et.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <style>
+      .kp-modul { margin-top: 22px; }
+      .kp-modul h2 { margin-bottom: 2px; }
+      .kp-modul .ru { color: var(--text-muted); font-style: italic; margin-bottom: 6px; }
+      .kp-thema { display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: center;
+        padding: 8px 12px; border: 1px solid var(--border-subtle); border-radius: 10px; margin-bottom: 6px; background: var(--bg-surface); }
+      .kp-thema input { width: 20px; height: 20px; }
+      .kp-thema.erledigt { opacity: .65; }
+      .kp-thema.erledigt .kp-titel { text-decoration: line-through; }
+      .kp-buch { font-size: .8em; color: var(--text-muted); white-space: nowrap; }
+      .kp-opt { font-size: .75em; color: var(--text-muted); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 0 5px; margin-left: 6px; }
+      .kp-fort { height: 10px; border-radius: 5px; background: var(--border-subtle); overflow: hidden; margin: 6px 0 2px; }
+      .kp-fort div { height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="index.html">Elektrotechnik</a> › der Kursplan</p>
+        <h1>📚 Der Kursplan – Wiederholung und Kurs</h1>
+        <p class="hint-text">
+          План повторения и будущего курса. Порядок тем – по учебнику; задачи и объяснения – свои.<br />
+          Das Lehrbuch: <b>Frielingsdorf, Lintermann, Bach – „Mathematik für Ausbildungsberufe der Kommunikationstechnik“</b>,
+          8. Auflage, Stam Verlag 1995 (ISBN 3-8237-0212-2). Die Angaben „Buch S. …“ zeigen, wo das Thema im Buch steht.
+        </p>
+
+        <div class="et-box">
+          <h3>Der Weg / порядок работы</h3>
+          <ol>
+            <li>Thema im Buch lesen und die Aufgaben selbst rechnen. <span class="ru">Читаю тему в книге, сам решаю задачи.</span></li>
+            <li>Mit Claude die Lektion für Quantura bauen: die Theorie, das Beispiel, eigene Aufgaben, der Versuch, die Links.</li>
+            <li>Häkchen setzen ✓ = wiederholt. <span class="ru">Галочка = повторено.</span></li>
+            <li>Später: aus den fertigen Modulen den Kurs anbieten.</li>
+          </ol>
+          <div>Fortschritt: <b id="fortText">0</b></div>
+          <div class="kp-fort"><div id="fortBalken"></div></div>
+        </div>
+
+        <div id="plan"></div>
+
+        <div class="et-nav">
+          <a href="index.html">← Übersicht Elektrotechnik</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        // [Titel, Buch-Kapitel, Buch-Seite, Link zur Lektion (oder ""), optional?]
+        const MODULE = [
+          { titel: "Modul 0 – das Rechnen für Elektriker", ru: "математика – инструмент: степени, уравнения, единицы", themen: [
+            ["die Potenzen und die Zehnerpotenzen (kilo, milli, mikro)", "A 5, H 3", "14", ""],
+            ["das Rechnen mit physikalischen Größen und Einheiten", "A 7", "19", ""],
+            ["die Gleichungen – Formeln umstellen", "A 8–9", "22", ""],
+            ["die Winkelfunktionen (sin, cos, tan) – für den Wechselstrom", "A 12", "32", ""],
+            ["die Exponentialfunktionen – für Kondensator und Spule", "A 13", "35", ""],
+          ]},
+          { titel: "Modul 1 – die Grundgrößen des Gleichstromkreises", ru: "основные величины цепи постоянного тока", themen: [
+            ["die Ladung, der Strom, die Spannung", "—", "", "etage-1/01-ladung-strom-spannung.html"],
+            ["das ohmsche Gesetz", "C 1.1", "46", ""],
+            ["der Widerstand und der Leitwert elektrischer Leiter", "C 1.2", "48", "etage-1/02-leiter-widerstand.html"],
+            ["die Wicklungen und die Spulen (Drahtlänge)", "C 1.3", "50", ""],
+            ["die Stromdichte", "C 1.4", "51", ""],
+            ["das Drahtgewicht", "C 1.5", "52", "", true],
+            ["der Widerstand und die Temperatur", "C 1.6", "53", "etage-1/02-leiter-widerstand.html"],
+          ]},
+          { titel: "Modul 2 – die Zusammenschaltung von Widerständen", ru: "соединение сопротивлений", themen: [
+            ["die Reihenschaltung, Spannungen und Potentiale", "C 2.1–2.3", "55", ""],
+            ["der Spannungsverlust auf Leitungen", "C 2.4", "59", ""],
+            ["die Parallelschaltung", "C 2.5", "60", ""],
+            ["die gemischte Schaltung", "C 2.6", "62", ""],
+            ["der Spannungsteiler (das Potentiometer)", "C 2.7.1", "65", ""],
+            ["die Brückenschaltung (die Wheatstonesche Brücke)", "C 2.7.2", "65", ""],
+            ["die Strom- und Spannungsmessung, die Messbereichserweiterung", "C 2.7.3–2.7.4", "66", ""],
+          ]},
+          { titel: "Modul 3 – die Leistung, die Arbeit, die Spannungsquellen", ru: "мощность, работа, источники", themen: [
+            ["die elektrische Leistung", "C 3", "69", ""],
+            ["die elektrische Arbeit (die Stromrechnung)", "C 4", "70", ""],
+            ["die Urspannung und die Klemmenspannung, der Innenwiderstand", "C 5.1", "74", ""],
+            ["die Batterien: Schaltung und Kapazität", "C 5.2–5.3", "76", ""],
+          ]},
+          { titel: "Modul 4 – die Widerstandsnetzwerke", ru: "сложные цепи", themen: [
+            ["die Kirchhoffschen Sätze (die Knotenregel, die Maschenregel)", "C 6.1", "80", ""],
+            ["das Überlagerungsprinzip", "C 6.2", "82", ""],
+            ["die Stern-Dreieck-Umrechnung", "C 6.3", "83", "", true],
+          ]},
+          { titel: "Modul 5 – der Kondensator und die Spule", ru: "конденсатор и катушка", themen: [
+            ["die Kapazität und die Ladung, die Schaltung von Kondensatoren", "C 7.1–7.2", "84", ""],
+            ["das Laden und Entladen (die Zeitkonstante τ = R·C)", "C 7.3–7.4", "86", ""],
+            ["der magnetische Kreis", "C 8.1–8.3", "88", ""],
+            ["die Induktion, die Induktivität", "C 8.4–8.5", "92", ""],
+            ["das Ein- und Ausschalten einer Spule", "C 8.6–8.7", "95", ""],
+          ]},
+          { titel: "Modul 6 – der Wechselstrom", ru: "переменный ток", themen: [
+            ["der Augenblickswert, der Scheitelwert, die Frequenz, der Effektivwert", "D 1.1–1.3", "97", ""],
+            ["die Phasenverschiebung", "D 1.4", "100", ""],
+            ["die Spule im Wechselstromkreis (X<sub>L</sub>)", "D 2", "102", ""],
+            ["der Transformator", "D 3", "114", ""],
+            ["der Kondensator im Wechselstromkreis (X<sub>C</sub>)", "D 4", "116", ""],
+            ["die RLC-Schaltungen, der Schwingkreis", "D 5–6", "126", ""],
+            ["der Tiefpass, der Hochpass, der Bandpass", "D 7", "133", ""],
+            ["die Übertragungssysteme (der Pegel, die Dämpfung)", "D 8", "137", "", true],
+          ]},
+          { titel: "Modul 7 – die Elektronik", ru: "электроника", themen: [
+            ["die Diode, der Gleichrichter, die Glättung", "E 1.1–1.3", "144", ""],
+            ["die Diodenkennlinie, die Diode mit Vorwiderstand (auch die LED)", "E 1.4–1.5", "149", ""],
+            ["die Z-Diode – die Stabilisierung", "E 1.6", "151", ""],
+            ["der Transistor: Kennwerte, Basisvorspannung, Arbeitspunkt", "E 2.1–2.5", "153", ""],
+            ["die Verstärkerstufe in Emitterschaltung", "E 2.6", "162", ""],
+            ["der Transistor als Schalter, die Kippstufen (der Multivibrator!)", "E 2.8", "172", ""],
+            ["der Feldeffekttransistor", "E 2.9", "180", "", true],
+            ["der Operationsverstärker", "E 3", "184", ""],
+            ["die Sinus-Generatoren", "E 4", "195", "", true],
+          ]},
+          { titel: "Modul 8 – die Digitaltechnik", ru: "цифровая техника (→ информатика)", themen: [
+            ["die Zahlensysteme: dual, dezimal, hexadezimal", "F 1", "200", ""],
+            ["die Logik-Funktionen (UND, ODER, NICHT)", "F 2.1", "209", ""],
+            ["die Gesetze von De Morgan, die Schaltalgebra", "F 2.2–2.4", "211", ""],
+            ["der Entwurf von Digitalschaltungen", "F 2.5", "217", ""],
+          ]},
+          { titel: "Modul 9 – die Praxis", ru: "практика", themen: [
+            ["die Leitungen", "G 1", "219", ""],
+            ["das Relais und die Relaisschaltungen", "G 2", "222", ""],
+            ["die Signalanlagen", "G 4", "237", ""],
+            ["die Stromversorgung", "G 5", "241", ""],
+            ["die Messtechnik (das Multimeter, das Oszilloskop)", "G 6", "", ""],
+            ["der Arduino – vom Relais zum Mikrocontroller", "—", "", ""],
+          ]},
+        ];
+
+        const KEY = "quantura_et_kursplan";
+        let stand = {};
+        try { stand = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { stand = {}; }
+        const speichern = () => { try { localStorage.setItem(KEY, JSON.stringify(stand)); } catch (e) {} };
+
+        const plan = document.getElementById("plan");
+        let html = "";
+        MODULE.forEach((m, mi) => {
+          html += '<section class="kp-modul"><h2>' + m.titel + '</h2><div class="ru">' + m.ru + "</div>";
+          m.themen.forEach((t, ti) => {
+            const id = mi + "-" + ti;
+            const [titel, kap, seite, link, opt] = t;
+            const name = link ? '<a href="' + link + '">' + titel + "</a>" : titel;
+            const buch = kap === "—" ? "eigene Lektion" : "Buch " + kap + (seite ? ", S. " + seite : "");
+            html += '<label class="kp-thema" data-id="' + id + '"><input type="checkbox" data-id="' + id + '">' +
+              '<span class="kp-titel">' + name + (link ? " ✅" : "") + (opt ? '<span class="kp-opt">optional</span>' : "") + "</span>" +
+              '<span class="kp-buch">' + buch + "</span></label>";
+          });
+          html += "</section>";
+        });
+        plan.innerHTML = html;
+
+        function aktualisieren() {
+          const boxen = plan.querySelectorAll("input[type=checkbox]");
+          let n = 0;
+          boxen.forEach((b) => {
+            const an = !!stand[b.dataset.id];
+            b.checked = an;
+            b.closest(".kp-thema").classList.toggle("erledigt", an);
+            if (an) n++;
+          });
+          document.getElementById("fortText").textContent = n + " von " + boxen.length + " Themen wiederholt";
+          document.getElementById("fortBalken").style.width = (100 * n / boxen.length) + "%";
+        }
+        plan.addEventListener("change", (e) => {
+          if (e.target.type !== "checkbox") return;
+          stand[e.target.dataset.id] = e.target.checked;
+          speichern();
+          aktualisieren();
+        });
+        aktualisieren();
+      })();
+    </script>
+  </body>
+</html>
