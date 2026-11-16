@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Der Grundkurs Rechnen – Mathematik auffrischen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-16: Grundkurs Rechnen – erstellt mit Claude.
+         DE: kleiner Mathe-Kurs für Erwachsene und Azubis (nach Teil A des Lehrbuchs
+             Frielingsdorf/Lintermann/Bach). Aufgaben und Erklärungen sind eigene.
+         RU: короткий курс математики (повторение) – по части A учебника; задачи свои. -->
+    <link rel="stylesheet" href="../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../../elektrotechnik/et.css" />
+    <script src="../../../../core/js/core_init.js" defer></script>
+    <style>
+      .gk-thema { display: grid; grid-template-columns: 28px 1fr auto; gap: 8px; align-items: center;
+        padding: 8px 12px; border: 1px solid var(--border-subtle); border-radius: 10px; margin-bottom: 6px; background: var(--bg-surface); }
+      .gk-thema input { width: 20px; height: 20px; }
+      .gk-thema.erledigt { opacity: .65; }
+      .gk-buch { font-size: .8em; color: var(--text-muted); white-space: nowrap; }
+      .gk-fort { height: 10px; border-radius: 5px; background: var(--border-subtle); overflow: hidden; margin: 6px 0 2px; }
+      .gk-fort div { height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="../index.html">Mathematik</a> › der Grundkurs Rechnen</p>
+        <h1>🧮 Der Grundkurs Rechnen – Mathematik auffrischen</h1>
+        <p class="hint-text">
+          Для тех, кто много лет не занимался математикой: взрослые, ученики на производстве (die Azubis), будущие электрики.
+          Und für mich selbst – zum Wiederholen.<br />
+          Порядок тем – по части A учебника <b>Frielingsdorf, Lintermann, Bach – „Mathematik für Ausbildungsberufe der Kommunikationstechnik“</b>
+          (Stam Verlag). Erklärungen und Aufgaben hier sind eigene.
+        </p>
+
+        <div class="et-box">
+          <h3>Jede Lektion / каждый урок</h3>
+          <p>die Wörter (mit Artikel, → <a href="../../../language_lab/apps/generator/de/glossar.html">das Glossar</a>) ·
+            die Regel · das Beispiel · der Trainer · die Aufgaben mit Lösung · die Anwendung in der Elektrotechnik</p>
+          <div>Fortschritt: <b id="fortText">0</b></div>
+          <div class="gk-fort"><div id="fortBalken"></div></div>
+        </div>
+
+        <div id="plan"></div>
+
+        <div class="et-nav">
+          <a href="../index.html">← Mathematik</a>
+          <a href="../../elektrotechnik/kursplan.html">→ weiter: der Kursplan Elektrotechnik</a>
+        </div>
+      </div>
+    </main>
+    <script>
+      (function () {
+        // [Titel, Buch-Kapitel, Link]
+        const T = [
+          ["1. die Rechenarten, die Rechengesetze, die Reihenfolge", "A 1, A 3", "01-rechenarten.html"],
+          ["2. die Zahlenarten: ganze, gebrochene und relative Zahlen", "A 2", ""],
+          ["3. das Rechnen mit Brüchen", "A 4", ""],
+          ["4. das Rechnen mit Potenzen, die Zehnerpotenzen (kilo, milli …)", "A 5", ""],
+          ["5. der Dreisatz und die Prozentrechnung", "A 6", ""],
+          ["6. das Rechnen mit physikalischen Größen und Einheiten", "A 7", ""],
+          ["7. das Rechnen mit allgemeinen Zahlen: Terme, Klammern auflösen", "A 8", ""],
+          ["8. die Gleichungen – Formeln umstellen", "A 9", ""],
+          ["9. die Funktion: die Funktionsgleichung, die Steigung, die Kurve", "A 9", ""],
+          ["10. die Berechnung von Längen und Flächen", "A 10", ""],
+          ["11. die Berechnung von Körpern und Gewichtskräften", "A 11", ""],
+          ["12. die Winkelfunktionen (sin, cos, tan)", "A 12", ""],
+          ["13. die Exponentialfunktionen", "A 13", ""],
+        ];
+        const KEY = "quantura_mathe_grundkurs";
+        let st = {}; try { st = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+        const plan = document.getElementById("plan");
+        plan.innerHTML = T.map((t, i) => '<label class="gk-thema"><input type="checkbox" data-i="' + i + '"><span>' +
+          (t[2] ? '<a href="' + t[2] + '">' + t[0] + "</a> ✅" : '<span style="opacity:.7">' + t[0] + " (in Vorbereitung)</span>") +
+          '</span><span class="gk-buch">Buch ' + t[1] + "</span></label>").join("");
+        function upd() {
+          const b = plan.querySelectorAll("input"); let n = 0;
+          b.forEach((x) => { x.checked = !!st[x.dataset.i]; x.closest(".gk-thema").classList.toggle("erledigt", x.checked); if (x.checked) n++; });
+          document.getElementById("fortText").textContent = n + " von " + b.length + " Lektionen wiederholt";
+          document.getElementById("fortBalken").style.width = (100 * n / b.length) + "%";
+        }
+        plan.addEventListener("change", (e) => { st[e.target.dataset.i] = e.target.checked; try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (x) {} upd(); });
+        upd();
+      })();
+    </script>
+  </body>
+</html>

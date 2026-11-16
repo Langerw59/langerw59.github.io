@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Die Rechenarten und die Rechengesetze – Grundkurs Rechnen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../../elektrotechnik/et.css" />
+    <script src="../../../../core/js/core_init.js" defer></script>
+    <style>
+      .ra-tab { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: .95em; }
+      .ra-tab th, .ra-tab td { border: 1px solid var(--border-subtle); padding: 6px 8px; text-align: center; vertical-align: middle; }
+      .ra-tab th { background: var(--accent-soft); }
+      .ra-tab .stufe { font-weight: 700; }
+      .ra-tab .bsp { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.15em; white-space: nowrap; }
+      .ra-tab small { color: var(--text-muted); display: block; }
+      .tr-aufgabe { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.6em; text-align: center; margin: 10px 0; }
+      .tr-zeile { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+      .tr-zeile input { width: 120px; font-size: 1.2em; padding: 6px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); text-align: center; }
+      .tr-zeile button { font-size: 1em; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+      .tr-zeile button.zweit { background: transparent; color: var(--accent); }
+      .tr-meldung { text-align: center; margin-top: 10px; min-height: 1.5em; }
+      .tr-weg { text-align: center; color: var(--text-muted); font-family: "Cambria Math", "Times New Roman", serif; }
+      .tr-stand { text-align: center; font-size: .9em; color: var(--text-muted); margin-top: 6px; }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="index.html">Grundkurs Rechnen</a> › Lektion 1 · Buch A 1, A 3</p>
+        <h1>Die Rechenarten, die Rechengesetze, die Reihenfolge</h1>
+        <p class="hint-text">Действия, их названия, законы арифметики и порядок действий – фундамент для всех формул электротехники.</p>
+
+        <!-- ===== 1. Die Rechenarten ===== -->
+        <h2>1. Die Rechenarten und ihre Namen</h2>
+        <p>Es gibt <b>drei Stufen</b>. Jede Stufe entsteht aus der vorigen: Multiplizieren ist wiederholtes Addieren,
+          Potenzieren ist wiederholtes Multiplizieren. Zu jeder Rechenart gibt es die <b>Umkehrung</b> (обратное действие).</p>
+        <table class="ra-tab">
+          <tr><th>die Stufe</th><th>die Rechenart</th><th>das Beispiel und die Namen</th></tr>
+          <tr><td class="stufe" rowspan="2">1.</td><td>das Addieren<small>сложение</small></td>
+            <td class="bsp">7 + 5 = 12<small>der Summand + der Summand = die Summe</small></td></tr>
+          <tr><td>das Subtrahieren<small>вычитание (Umkehrung)</small></td>
+            <td class="bsp">12 − 5 = 7<small>der Minuend − der Subtrahend = die Differenz</small></td></tr>
+          <tr><td class="stufe" rowspan="2">2.</td><td>das Multiplizieren<small>умножение</small></td>
+            <td class="bsp">3 · 6 = 18<small>der Faktor · der Faktor = das Produkt</small></td></tr>
+          <tr><td>das Dividieren<small>деление (Umkehrung)</small></td>
+            <td class="bsp">18 : 6 = 3<small>der Dividend : der Divisor = der Quotient</small></td></tr>
+          <tr><td class="stufe" rowspan="3">3.</td><td>das Potenzieren<small>возведение в степень</small></td>
+            <td class="bsp">3² = 9<small>die Basis, der Exponent → der Potenzwert</small></td></tr>
+          <tr><td>das Radizieren<small>извлечение корня (1. Umkehrung)</small></td>
+            <td class="bsp">√9 = 3<small>der Wurzelexponent, der Radikand → die Wurzel</small></td></tr>
+          <tr><td>das Logarithmieren<small>логарифмирование (2. Umkehrung)</small></td>
+            <td class="bsp">³log 9 = 2<small>die Basis, der Numerus → der Logarithmus</small></td></tr>
+        </table>
+        <p class="hint-text">💡 Окончание <b>-and / -end</b> значит «то, с чем <i>надо</i> что-то сделать» (Summand – надо сложить, Radikand – надо извлечь корень).
+          Происхождение каждого слова – в <a href="../../../language_lab/apps/generator/de/glossar.html">das Glossar</a> (Kategorie „Mathematik“).</p>
+
+        <!-- ===== 2. Die Rechengesetze ===== -->
+        <h2>2. Die Rechengesetze</h2>
+        <div class="et-box">
+          <h3>das Kommutativgesetz – переместительный закон</h3>
+          <div class="et-formel">a + b = b + a &nbsp;&nbsp;&nbsp; a · b = b · a</div>
+          <p>Vertauschen erlaubt – aber <b>nur</b> beim Addieren und Multiplizieren! &nbsp; 8 − 3 ≠ 3 − 8, &nbsp; 8 : 2 ≠ 2 : 8.</p>
+        </div>
+        <div class="et-box">
+          <h3>das Assoziativgesetz – сочетательный закон</h3>
+          <div class="et-formel">(a + b) + c = a + (b + c) &nbsp;&nbsp;&nbsp; (a · b) · c = a · (b · c)</div>
+          <p>Bei <i>nur</i> Plus oder <i>nur</i> Mal darf man die Klammern beliebig setzen. Praktisch beim Kopfrechnen:
+            17 + 38 + 3 = (17 + 3) + 38 = 20 + 38 = 58.</p>
+        </div>
+        <div class="et-box">
+          <h3>das Distributivgesetz – распределительный закон</h3>
+          <div class="et-formel">a · (b + c) = a · b + a · c</div>
+          <p>Von links nach rechts: <b>die Klammer auflösen</b> (раскрыть скобки).
+            Von rechts nach links: <b>ausklammern</b> (вынести за скобку): 6x + 9 = 3 · (2x + 3).</p>
+          <p><b>Der Kopfrechen-Trick:</b> 7 · 98 = 7 · (100 − 2) = 700 − 14 = <b>686</b>.</p>
+        </div>
+
+        <!-- ===== 3. Die Reihenfolge ===== -->
+        <h2>3. Die Reihenfolge der Rechenoperationen</h2>
+        <div class="et-box">
+          <h3>Klammer vor Potenz vor Punkt vor Strich</h3>
+          <ol>
+            <li><b>die Klammer</b> ( ) – zuerst, von innen nach außen</li>
+            <li><b>die Potenz</b> und <b>die Wurzel</b></li>
+            <li><b>die Punktrechnung</b> · und : (точка)</li>
+            <li><b>die Strichrechnung</b> + und − (черта)</li>
+          </ol>
+          <p>Bei <b>gleicher Stufe</b> rechnet man <b>von links nach rechts</b>: 20 − 5 + 3 = 18 (nicht 12!); 24 : 4 · 2 = 12 (nicht 3!).</p>
+          <p class="hint-text">Немецкие названия «Punkt» и «Strich» – по виду знаков: · и : – точки, + и − – черточки.</p>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Das Beispiel</h4>
+          <p class="tr-weg" style="font-size:1.15em">
+            3 + 2 · (8 − 2²) = 3 + 2 · (8 − 4) = 3 + 2 · 4 = 3 + 8 = <b>11</b>
+          </p>
+        </div>
+
+        <!-- ===== 4. Trainer ===== -->
+        <h2>4. Der Trainer – die Reihenfolge</h2>
+        <p class="hint-text">Тренажёр: каждый раз новый пример. Считать в уме, ответ ввести, Enter.</p>
+        <div class="et-aufgabe">
+          <div class="tr-aufgabe" id="trAufgabe"></div>
+          <div class="tr-zeile">
+            <input id="trEingabe" type="text" inputmode="numeric" autocomplete="off" placeholder="=" />
+            <button id="trPruefen">Prüfen</button>
+            <button id="trNeu" class="zweit">Neue Aufgabe</button>
+          </div>
+          <div class="tr-meldung" id="trMeldung"></div>
+          <div class="tr-weg" id="trWeg"></div>
+          <div class="tr-stand" id="trStand"></div>
+        </div>
+
+        <!-- ===== 5. Aufgaben ===== -->
+        <h2>5. Die Aufgaben</h2>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – die Namen</h4>
+          <p>Bei 45 : 9 = 5: Wie heißen die drei Zahlen (mit Artikel)? Und bei 4³ = 64?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">45 – der Dividend, 9 – der Divisor, 5 – der Quotient.<br />
+              4 – die Basis, 3 – der Exponent, 64 – der Potenzwert.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – die Reihenfolge</h4>
+          <p>a) 18 − 3 · 4 &nbsp; b) (18 − 3) · 4 &nbsp; c) 36 : 6 · 3 &nbsp; d) 2 · 3² &nbsp; e) (2 · 3)²</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) 18 − 12 = <b>6</b> &nbsp; b) 15 · 4 = <b>60</b> &nbsp; c) 6 · 3 = <b>18</b> (von links!) &nbsp;
+              d) 2 · 9 = <b>18</b> &nbsp; e) 6² = <b>36</b></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – die Klammer auflösen</h4>
+          <p>a) 5 · (x + 4) &nbsp; b) 3 · (2a − 7) &nbsp; c) −2 · (x − 6)</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) 5x + 20 &nbsp; b) 6a − 21 &nbsp; c) −2x + 12 (minus mal minus = plus!)</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – ausklammern</h4>
+          <p>a) 4x + 12 &nbsp; b) 15a − 10b &nbsp; c) R₁ · I + R₂ · I</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) 4 · (x + 3) &nbsp; b) 5 · (3a − 2b) &nbsp; c) I · (R₁ + R₂) – das ist schon die Reihenschaltung aus der Elektrotechnik!</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – Kopfrechnen mit den Gesetzen</h4>
+          <p>a) 25 · 17 · 4 &nbsp; b) 9 · 102 &nbsp; c) 46 + 79 + 54</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) (25 · 4) · 17 = 100 · 17 = <b>1700</b> (Kommutativ- und Assoziativgesetz)<br />
+              b) 9 · (100 + 2) = 900 + 18 = <b>918</b> (Distributivgesetz)<br />
+              c) (46 + 54) + 79 = 100 + 79 = <b>179</b></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 6 – der Fehler</h4>
+          <p>Ein Schüler rechnet: 10 − 4 + 2 = 10 − 6 = 4. Was ist falsch?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Plus und Minus sind gleiche Stufe → von links nach rechts: 10 − 4 = 6, dann 6 + 2 = <b>8</b>.
+              Wer zuerst 4 + 2 rechnet, setzt in Gedanken eine Klammer, die nicht da ist.</div>
+          </details>
+        </div>
+
+        <!-- ===== 6. Elektrotechnik ===== -->
+        <h2>6. Die Anwendung in der Elektrotechnik</h2>
+        <div class="et-aufgabe">
+          <p>Zwei Widerstände in Reihe, R₁ = 120 Ω und R₂ = 80 Ω, der Strom I = 0,05 A. Die Spannung:
+            U = I · (R₁ + R₂). Rechne zuerst die Klammer!</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">U = 0,05 · (120 + 80) = 0,05 · 200 = <b>10 V</b><br />
+              Falsch wäre 0,05 · 120 + 80 = 86 – ohne Klammer kommt Unsinn heraus.<br />
+              Mit dem Distributivgesetz: U = 0,05 · 120 + 0,05 · 80 = 6 V + 4 V = 10 V – das sind die beiden Teilspannungen.</div>
+          </details>
+        </div>
+
+        <!-- ===== 7. Links ===== -->
+        <h2>7. Zum Ansehen</h2>
+        <ul class="et-list">
+          <li><a href="https://de.wikipedia.org/wiki/Distributivgesetz" target="_blank" rel="noopener">📖 Wikipedia – das Distributivgesetz</a>
+            · <a href="https://de.wikipedia.org/wiki/Kommutativgesetz" target="_blank" rel="noopener">das Kommutativgesetz</a>
+            · <a href="https://de.wikipedia.org/wiki/Assoziativgesetz" target="_blank" rel="noopener">das Assoziativgesetz</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=Punkt+vor+Strich+Klammer+Reihenfolge+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Punkt vor Strich, Klammern“</a>
+            <span class="tag">Suche; gute Videos später fest eintragen</span></li>
+          <li><a href="https://www.youtube.com/results?search_query=Distributivgesetz+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Distributivgesetz einfach erklärt“</a>
+            <span class="tag">Suche</span></li>
+        </ul>
+
+        <div class="et-nav">
+          <a href="index.html">← Grundkurs Rechnen</a>
+          <span class="hint-text">Nächste Lektion: die Zahlenarten (in Vorbereitung)</span>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        const z = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+        let aktuell = null, richtig = 0, gesamt = 0;
+
+        // Jede Vorlage liefert: [Aufgabe, Ergebnis, Rechenweg]
+        const VORLAGEN = [
+          () => { const a = z(2, 20), b = z(2, 9), c = z(2, 9);
+            return [`${a} + ${b} · ${c}`, a + b * c, `${a} + ${b * c} = ${a + b * c}`]; },
+          () => { const a = z(2, 12), b = z(2, 9), c = z(2, 9);
+            return [`(${a} + ${b}) · ${c}`, (a + b) * c, `${a + b} · ${c} = ${(a + b) * c}`]; },
+          () => { const a = z(2, 9), b = z(2, 9), c = z(2, 9), d = z(2, 9);
+            return [`${a} · ${b} − ${c} · ${d}`, a * b - c * d, `${a * b} − ${c * d} = ${a * b - c * d}`]; },
+          () => { const a = z(15, 40), b = z(2, 14), c = z(2, 14);
+            return [`${a} − ${b} + ${c}`, a - b + c, `${a - b} + ${c} = ${a - b + c}  (von links!)`]; },
+          () => { const b = z(2, 6), q = z(2, 9), c = z(2, 5), a = b * q;
+            return [`${a} : ${b} · ${c}`, q * c, `${q} · ${c} = ${q * c}  (von links!)`]; },
+          () => { const a = z(1, 10), b = z(2, 5), c = z(2, 4);
+            return [`${a} + ${b}² · ${c}`, a + b * b * c, `${a} + ${b * b} · ${c} = ${a} + ${b * b * c} = ${a + b * b * c}`]; },
+          () => { const a = z(2, 6), b = z(3, 9), c = z(1, b - 1), d = z(2, 9);
+            return [`${a} · (${b} − ${c}) + ${d}`, a * (b - c) + d, `${a} · ${b - c} + ${d} = ${a * (b - c)} + ${d} = ${a * (b - c) + d}`]; },
+          () => { const b = z(2, 5), c = z(1, 4), d = z(2, 9), e = z(1, d), a = (b + c) * d;
+            return [`${a} : (${b} + ${c}) − ${e}`, d - e, `${a} : ${b + c} − ${e} = ${d} − ${e} = ${d - e}`]; },
+        ];
+        const zeige = (t) => t.replace(/-/g, "−");
+        function neu() {
+          aktuell = VORLAGEN[z(0, VORLAGEN.length - 1)]();
+          $("trAufgabe").textContent = zeige(aktuell[0]) + " = ?";
+          $("trEingabe").value = ""; $("trMeldung").textContent = ""; $("trWeg").textContent = "";
+          $("trEingabe").focus();
+        }
+        function pruefen() {
+          const v = parseFloat($("trEingabe").value.replace("−", "-").replace(",", "."));
+          if (isNaN(v)) { $("trMeldung").textContent = "Bitte eine Zahl eingeben."; return; }
+          gesamt++;
+          if (v === aktuell[1]) { richtig++; $("trMeldung").innerHTML = "✅ <b>Richtig!</b> Верно!"; }
+          else { $("trMeldung").innerHTML = "❌ Leider falsch. Richtig: <b>" + zeige(String(aktuell[1])) + "</b>"; }
+          $("trWeg").textContent = zeige(aktuell[0]) + " = " + zeige(aktuell[2]);
+          $("trStand").textContent = richtig + " von " + gesamt + " richtig";
+        }
+        $("trPruefen").addEventListener("click", pruefen);
+        $("trNeu").addEventListener("click", neu);
+        $("trEingabe").addEventListener("keydown", (e) => {
+          if (e.key !== "Enter") return;
+          if ($("trWeg").textContent) neu(); else pruefen();
+        });
+        neu();
+      })();
+    </script>
+  </body>
+</html>

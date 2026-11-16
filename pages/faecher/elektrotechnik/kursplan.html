@@ -58,6 +58,7 @@
         // [Titel, Buch-Kapitel, Buch-Seite, Link zur Lektion (oder ""), optional?]
         const MODULE = [
           { titel: "Modul 0 – das Rechnen für Elektriker", ru: "математика – инструмент: степени, уравнения, единицы", themen: [
+            ["die Rechenarten, die Rechengesetze, die Reihenfolge", "A 1, A 3", "5", "../mathematik/grundkurs/01-rechenarten.html"],
             ["die Potenzen und die Zehnerpotenzen (kilo, milli, mikro)", "A 5, H 3", "14", ""],
             ["das Rechnen mit physikalischen Größen und Einheiten", "A 7", "19", ""],
             ["die Gleichungen – Formeln umstellen", "A 8–9", "22", ""],
@@ -145,7 +146,7 @@
         const plan = document.getElementById("plan");
         let html = "";
         MODULE.forEach((m, mi) => {
-          html += '<section class="kp-modul"><h2>' + m.titel + '</h2><div class="ru">' + m.ru + "</div>";
+          html += '<section class="kp-modul"><h2>' + m.titel + '</h2><div class="ru">' + m.ru + "</div>" + (mi === 0 ? '<p class="hint-text">→ ausführlich im <a href="../mathematik/grundkurs/index.html">Grundkurs Rechnen</a> (Mathematik)</p>' : "");
           m.themen.forEach((t, ti) => {
             const id = mi + "-" + ti;
             const [titel, kap, seite, link, opt] = t;
