@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Die Ladung, der Strom, die Spannung – Elektrotechnik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../et.css" />
+    <script src="../../../../core/js/core_init.js" defer></script>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="../index.html">Elektrotechnik</a> › Etage 1 – die Grundlagen › Lektion 1</p>
+        <h1>Die Ladung, der Strom, die Spannung</h1>
+        <p class="hint-text">Заряд, ток, напряжение – три главных понятия, с которых начинается вся электротехника.</p>
+
+        <!-- ===== Theorie ===== -->
+        <h2>1. Die Theorie</h2>
+
+        <h3>Die Ladung <i>Q</i></h3>
+        <p>
+          Alles besteht aus Atomen. Im Atom gibt es <b>den Kern</b> (positiv, +) und <b>die Elektronen</b> (negativ, −).
+          Gleiche Ladungen stoßen sich ab, ungleiche ziehen sich an.
+          Die Ladung hat das Formelzeichen <i>Q</i>, die Einheit ist <b>das Coulomb</b> (C).
+        </p>
+        <p>
+          Ein einzelnes Elektron trägt die kleinste Ladung, <b>die Elementarladung</b>:
+          e = 1,6 · 10<sup>−19</sup> C. Für 1 C braucht man also etwa <b>6 Trillionen</b> (6,24 · 10<sup>18</sup>) Elektronen.
+        </p>
+        <p class="hint-text">Заряд Q, единица – кулон (C). Один электрон – элементарный заряд.</p>
+
+        <h3>Der Strom <i>I</i></h3>
+        <p>
+          Wenn sich Ladungen <b>bewegen</b>, fließt <b>der elektrische Strom</b>. Im Metalldraht sind es die freien Elektronen.
+          <b>Die Stromstärke</b> sagt, wie viel Ladung in einer Sekunde durch den Draht fließt.
+          Die Einheit ist <b>das Ampere</b> (A).
+        </p>
+        <div class="et-box">
+          <h3>Die Formel</h3>
+          <div class="et-formel">I = Q / t &nbsp;&nbsp;⇔&nbsp;&nbsp; Q = I · t</div>
+          <p><i>I</i> in A, <i>Q</i> in C, <i>t</i> in s. &nbsp; 1 A = 1 C pro Sekunde.<br />
+            Auf dem Akku steht oft <b>mAh</b> (Milliamperestunden) – das ist auch eine Ladung: 1 Ah = 3600 C.</p>
+        </div>
+
+        <h3>Die Spannung <i>U</i></h3>
+        <p>
+          Damit die Elektronen fließen, braucht man einen <b>Antrieb</b> – das ist <b>die Spannung</b>.
+          Die Batterie hat zwei Pole: am Minuspol sind zu viele Elektronen, am Pluspol zu wenige.
+          Dieser Unterschied „drückt“ die Elektronen durch den Stromkreis. Die Einheit ist <b>das Volt</b> (V).
+        </p>
+        <p>
+          <b>Merke:</b> Die Spannung liegt <i>zwischen zwei Punkten</i> an (wie ein Höhenunterschied).
+          Der Strom fließt <i>durch</i> einen Leiter. Ohne geschlossenen Stromkreis – kein Strom, auch wenn Spannung da ist!
+        </p>
+
+        <!-- Wassermodell -->
+        <div class="et-box">
+          <h3>Das Wassermodell / водяная модель</h3>
+          <svg class="et-bild" viewBox="0 0 560 210" width="560" aria-label="Wassermodell: Pumpe, Rohr, Turbine">
+            <rect x="40" y="40" width="480" height="130" rx="20" fill="none" stroke="#3a86c8" stroke-width="14" />
+            <circle cx="40" cy="105" r="30" fill="#3a86c8" />
+            <text x="22" y="111" font-size="16" style="fill:#fff">P</text>
+            <rect x="505" y="80" width="30" height="50" fill="#e0a030" />
+            <text x="440" y="160" font-size="13">die Turbine</text>
+            <text x="80" y="110" font-size="13">die Pumpe</text>
+            <text x="200" y="30" font-size="14">das Rohr → das Wasser fließt</text>
+            <text x="60" y="200" font-size="13">Pumpe = Batterie (U) · Wasserstrom = Strom (I) · Turbine = Lampe · enges Rohr = Widerstand (R)</text>
+            <path d="M260 40 l14 -6 l0 12 z" fill="#3a86c8" />
+            <path d="M300 170 l-14 6 l0 -12 z" fill="#3a86c8" />
+          </svg>
+          <p class="hint-text">Насос = батарея (напряжение), поток воды = ток, турбина = лампа, узкая труба = сопротивление.
+            Насос сам воду не «производит» – он её только гонит по кругу. Так и батарея не «делает» электроны.</p>
+        </div>
+
+        <table class="et-woerter">
+          <tr><th>die Spannungsquelle</th><th>die Spannung</th><th>Bemerkung</th></tr>
+          <tr><td>die Batterie (AA, Mignon)</td><td>1,5 V</td><td>harmlos</td></tr>
+          <tr><td>der 9-V-Block</td><td>9 V</td><td>harmlos (Zunge: kribbelt)</td></tr>
+          <tr><td>die Autobatterie</td><td>12 V</td><td>Kurzschluss: sehr großer Strom, Brandgefahr!</td></tr>
+          <tr><td>die Steckdose</td><td>230 V ~</td><td>LEBENSGEFAHR</td></tr>
+          <tr><td>der Drehstrom (Herd, Wallbox)</td><td>400 V ~</td><td>LEBENSGEFAHR</td></tr>
+        </table>
+        <div class="et-box" style="border-left-color:#d9534f">
+          <h3>⚠ Die Sicherheit</h3>
+          <p>Als ungefährlich gilt nur die <b>Kleinspannung</b>: bis 50 V Wechselspannung bzw. 120 V Gleichspannung.
+            Alle Versuche hier nur mit Batterien! <span class="ru">Опыты – только с батарейками. Розетку не трогаем!</span></p>
+        </div>
+
+        <!-- ===== Beispiel ===== -->
+        <h2>2. Das Beispiel</h2>
+        <div class="et-aufgabe">
+          <p>Durch eine Taschenlampe fließt 10 Minuten lang ein Strom von 0,3 A. Wie viel Ladung ist geflossen?</p>
+          <p>
+            Gegeben: I = 0,3 A; t = 10 min = 600 s<br />
+            Gesucht: Q<br />
+            Q = I · t = 0,3 A · 600 s = <b>180 C</b><br />
+            Das sind 180 · 6,24 · 10<sup>18</sup> ≈ 1,1 · 10<sup>21</sup> Elektronen!
+          </p>
+        </div>
+
+        <!-- ===== Rechner ===== -->
+        <h2>3. Der Rechner – wie lange hält der Akku?</h2>
+        <p class="hint-text">Как долго проработает аккумулятор? Ёмкость (mAh) и потребляемый ток.</p>
+        <div class="et-rechner">
+          <label>die Kapazität (mAh)<input id="kap" type="number" value="3000" min="0" step="any" /></label>
+          <label>der Strom (mA)<input id="str" type="number" value="500" min="0" step="any" /></label>
+        </div>
+        <div class="et-ergebnis" id="erg"></div>
+        <div class="hint-text" id="weg"></div>
+
+        <!-- ===== Versuch ===== -->
+        <h2>4. Der Versuch</h2>
+        <div class="et-box">
+          <h3>Der erste Stromkreis und das Multimeter</h3>
+          <p><b>Material:</b> die Batterie (4,5 V oder 9 V), das Lämpchen mit Fassung, zwei Kabel mit Krokodilklemmen, das Multimeter
+            (oder der Elektronik-Baukasten).</p>
+          <ol>
+            <li>Lämpchen an die Batterie anschließen – es leuchtet. Ein Kabel lösen – es ist aus. <i>Warum?</i></li>
+            <li><b>Die Spannung messen:</b> Multimeter auf „V ⎓“ (Gleichspannung), Bereich 20 V. Die Messspitzen an die beiden Pole
+              der Batterie halten – <b>parallel</b>. Was zeigt es? Spitzen vertauschen – was ändert sich?</li>
+            <li><b>Den Strom messen:</b> rotes Kabel in die Buchse „mA“ oder „A“ stecken, Drehschalter auf „A ⎓“.
+              Das Multimeter wird <b>in den Stromkreis</b> geschaltet – <b>in Reihe</b>, statt eines Kabels.</li>
+            <li>Eine neue und eine alte Batterie vergleichen: Spannung? Helligkeit?</li>
+          </ol>
+          <p style="color:#d9534f"><b>Achtung:</b> Im Strommessbereich das Multimeter <b>nie</b> direkt an die Batterie halten –
+            das ist ein Kurzschluss, die Sicherung im Multimeter brennt durch!</p>
+          <p class="hint-text">Вольтметр – параллельно, амперметр – последовательно. Амперметр напрямую к батарее не подключать!</p>
+          <p>📸 Ergebnis mit Foto ins <a href="../labortagebuch.html">Labortagebuch</a> eintragen.</p>
+        </div>
+
+        <!-- ===== Aufgaben ===== -->
+        <h2>5. Die Aufgaben</h2>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – die Einheiten</h4>
+          <p>Ordne zu: die Ladung, der Strom, die Spannung ↔ das Volt, das Coulomb, das Ampere. Wie heißen die Formelzeichen?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">die Ladung <i>Q</i> – das Coulomb (C)<br />der Strom <i>I</i> – das Ampere (A)<br />die Spannung <i>U</i> – das Volt (V)</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – das Handy laden</h4>
+          <p>Ein Handy-Akku hat 3000 mAh. Das Ladegerät liefert 1,5 A. Wie lange dauert das Laden (ohne Verluste)?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">3000 mAh = 3 Ah<br />t = Q / I = 3 Ah / 1,5 A = <b>2 h</b><br />
+              <i>In Wirklichkeit etwas länger:</i> Am Ende lädt das Handy langsamer, und ein Teil wird zu Wärme.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – die Autobatterie</h4>
+          <p>Eine Autobatterie hat 60 Ah. Jemand hat das Licht angelassen, es fließen 5 A. Nach wie vielen Stunden ist die Batterie leer?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">t = Q / I = 60 Ah / 5 A = <b>12 h</b> – über Nacht ist die Batterie leer.<br />
+              Schon bei halber Ladung springt der Motor im Winter oft nicht mehr an.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – Ah in Coulomb</h4>
+          <p>Wie viel Coulomb sind 2 Ah?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">1 h = 3600 s → Q = 2 A · 3600 s = <b>7200 C</b></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – die Stromstärke berechnen</h4>
+          <p>In 4 Sekunden fließen 2 C durch einen Draht. Wie groß ist die Stromstärke?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">I = Q / t = 2 C / 4 s = <b>0,5 A</b> = 500 mA</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 6 – zum Nachdenken</h4>
+          <p>Der Vogel sitzt auf einer Hochspannungsleitung und passiert nichts. Warum?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Beide Füße sitzen auf <b>demselben</b> Draht. Zwischen den Füßen gibt es (fast) keine Spannung –
+              also fließt kein Strom durch den Vogel. Gefährlich wird es, wenn er gleichzeitig einen zweiten Draht oder den Mast berührt.<br />
+              <span class="ru">Напряжение – всегда <i>между двумя точками</i>. Между лапками птицы его почти нет.</span></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 7 – zum Nachdenken</h4>
+          <p>Die Elektronen kriechen im Draht nur wenige Millimeter pro Sekunde. Warum geht das Licht trotzdem sofort an?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Der Draht ist schon <b>voll</b> mit Elektronen. Beim Einschalten setzen sich alle gleichzeitig in Bewegung –
+              wie Wasser in einem vollen Gartenschlauch: Vorne kommt sofort Wasser heraus, obwohl das „neue“ Wasser erst später ankommt.</div>
+          </details>
+        </div>
+
+        <!-- ===== Zum Ansehen ===== -->
+        <h2>6. Zum Ansehen und Ausprobieren</h2>
+        <p class="hint-text">Der Wegweiser: nicht nachbauen, was es schon gut gibt. / Указатель на готовые симуляции и видео.</p>
+        <ul class="et-list">
+          <li><a href="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_de.html" target="_blank" rel="noopener">⚡ PhET – Stromkreis-Baukasten (Gleichstrom)</a>
+            <span class="tag">Batterie, Lampe, Schalter, Multimeter am Bildschirm; man sieht die Elektronen fließen</span></li>
+          <li><a href="https://www.walter-fendt.de/html5/phde/ohmslaw_de.htm" target="_blank" rel="noopener">🔧 Walter Fendt – das ohmsche Gesetz</a>
+            <span class="tag">Spannung und Strom messen, Messbereich wählen (schon für Lektion 3)</span></li>
+          <li><a href="https://www.leifiphysik.de/elektrizitaetslehre" target="_blank" rel="noopener">📘 LEIFIphysik – die Elektrizitätslehre</a>
+            <span class="tag">Grundwissen, Versuche, Aufgaben – Schulniveau</span></li>
+          <li><a href="https://de.wikipedia.org/wiki/Elektrische_Spannung" target="_blank" rel="noopener">📖 Wikipedia – die elektrische Spannung</a>
+            · <a href="https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke" target="_blank" rel="noopener">die Stromstärke</a>
+            · <a href="https://de.wikipedia.org/wiki/Elektrische_Ladung" target="_blank" rel="noopener">die Ladung</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=elektrische+Spannung+Stromst%C3%A4rke+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Spannung und Stromstärke einfach erklärt“</a>
+            <span class="tag">Suche; gute Videos später hier fest eintragen</span></li>
+          <li><a href="https://www.youtube.com/results?search_query=Multimeter+Spannung+Strom+messen+Anf%C3%A4nger" target="_blank" rel="noopener">▶ YouTube – „Multimeter für Anfänger“</a>
+            <span class="tag">Suche</span></li>
+        </ul>
+
+        <!-- ===== Wörter ===== -->
+        <h2>7. Die Wörter</h2>
+        <table class="et-woerter">
+          <tr><td>die Ladung</td><td>заряд</td></tr>
+          <tr><td>das Elektron</td><td>электрон</td></tr>
+          <tr><td>der Atomkern</td><td>ядро атома</td></tr>
+          <tr><td>der Strom / die Stromstärke</td><td>ток / сила тока</td></tr>
+          <tr><td>die Spannung</td><td>напряжение</td></tr>
+          <tr><td>die Spannungsquelle</td><td>источник напряжения</td></tr>
+          <tr><td>der Pol (der Pluspol, der Minuspol)</td><td>полюс (плюс, минус)</td></tr>
+          <tr><td>der Stromkreis</td><td>электрическая цепь</td></tr>
+          <tr><td>das Multimeter / das Messgerät</td><td>мультиметр / измерительный прибор</td></tr>
+          <tr><td>der Messbereich</td><td>диапазон измерения</td></tr>
+          <tr><td>der Kurzschluss</td><td>короткое замыкание</td></tr>
+          <tr><td>die Kleinspannung</td><td>безопасное (малое) напряжение</td></tr>
+          <tr><td>der Akku (der Akkumulator)</td><td>аккумулятор</td></tr>
+        </table>
+        <p class="hint-text">Wortgeschichte: <b>die Elektrizität</b> kommt von griechisch <i>ēlektron</i> = der Bernstein (янтарь) –
+          geriebener Bernstein zieht Papierschnipsel an. <b>Das Volt</b> ist nach Alessandro Volta benannt, <b>das Ampere</b> nach
+          André-Marie Ampère, <b>das Coulomb</b> nach Charles-Augustin de Coulomb.</p>
+
+        <div class="et-nav">
+          <a href="../index.html">← Übersicht Elektrotechnik</a>
+          <a href="02-leiter-widerstand.html">Nächste Lektion: der Leiter und der Widerstand →</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        const fmt = (x, n) => x.toLocaleString("de-DE", { maximumFractionDigits: n });
+        function rechne() {
+          const k = parseFloat($("kap").value), s = parseFloat($("str").value);
+          if (!(k > 0) || !(s > 0)) { $("erg").textContent = "Bitte Werte eingeben."; $("weg").textContent = ""; return; }
+          const h = k / s, gesMin = Math.round(h * 60), std = Math.floor(gesMin / 60), min = gesMin % 60;
+          $("erg").textContent = "t ≈ " + std + " h " + min + " min";
+          $("weg").textContent = "t = Q / I = " + fmt(k, 0) + " mAh / " + fmt(s, 1) + " mA = " + fmt(h, 2) + " h; Q = " + fmt(k * 3.6, 0) + " C";
+        }
+        ["kap", "str"].forEach((id) => $(id).addEventListener("input", rechne));
+        rechne();
+      })();
+    </script>
+  </body>
+</html>
