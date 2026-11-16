@@ -491,20 +491,23 @@
     const f = r.felder;
     const zelle = (titel, liste, klasse) =>
       `<div class="sg-feld ${klasse}"><div class="sg-feld-t">${titel}</div><div>${liste.length ? liste.map((s) => chip(s, false)).join(" ") : "<span class='sg-leer'>—</span>"}</div></div>`;
+    const RUF = (k) => (window.DE_RU_FELD ? `<br><small class="sg-ru-f">${window.DE_RU_FELD[k]}</small>` : "");
     html += `<div class="sg-klammer">
-      ${zelle("Vorfeld<br><small>Pos. 1</small>", f.vorfeld, "")}
-      ${zelle("Verb<br><small>Pos. 2 · linke Klammer</small>", f.links, "sg-k")}
-      ${zelle("Mittelfeld", f.mittel, "sg-mf")}
-      ${zelle("Satzende<br><small>rechte Klammer</small>", f.rechts, "sg-k")}
+      ${zelle(`Vorfeld<br><small>Pos. 1</small>${RUF("vorfeld")}`, f.vorfeld, "")}
+      ${zelle(`Verb<br><small>Pos. 2 · linke Klammer</small>${RUF("verb")}`, f.links, "sg-k")}
+      ${zelle(`Mittelfeld${RUF("mittel")}`, f.mittel, "sg-mf")}
+      ${zelle(`Satzende<br><small>rechte Klammer</small>${RUF("ende")}`, f.rechts, "sg-k")}
     </div>`;
+    if (typeof window.DE_RU_KLAMMER === "function") html += window.DE_RU_KLAMMER();
 
     // 3) Tabelle
     const zeilen = r.segmente.map((s) => {
       const d = SG[s.rolle];
-      return `<tr><td><span class="sg-dot" style="background:${d.farbe}"></span>${esc(d.name)}<br><small>${esc(d.ru)}</small></td><td>${esc(d.frage)}</td><td><b>${esc(s.text)}</b></td><td>${esc(s.info)}</td></tr>`;
+      return `<tr><td><span class="sg-dot" style="background:${d.farbe}"></span>${esc(d.name)}<br><small>${esc(d.ru)}</small></td><td>${esc(d.frage)}</td><td><b>${esc(s.text)}</b></td><td>${esc(s.info)}${window.DE_RU_INFO ? window.DE_RU_INFO(s.info) : ""}</td></tr>`;
     });
     html += `<table class="sg-tab"><thead><tr><th>Satzglied</th><th>Frage</th><th>Wörter</th><th>Info</th></tr></thead><tbody>${zeilen.join("")}</tbody></table>`;
     html += `<div class="sg-meta">Zeitform: <b>${esc(r.zeitform)}</b>${r.aux ? ` · Hilfsverb: <b>${esc(r.aux.aux)}</b> (${esc(r.aux.grund)})${r.aux.falsch ? ` · <b style="color:#d1242f">richtig wäre: ${esc(r.aux.falsch)}</b>` : ""}` : ""}</div>`;
+    if (window.DE_RU_ZEITFORM) html += window.DE_RU_ZEITFORM(r.zeitform, !!r.aux);
     // 4) Ausführliche Erklärungen auf Russisch (de_erklaerung.js)
     if (typeof window.DE_ERKLAERUNG === "function") {
       try { html += window.DE_ERKLAERUNG(cfg, r); } catch (e) { console.warn("Erklärung:", e); }
