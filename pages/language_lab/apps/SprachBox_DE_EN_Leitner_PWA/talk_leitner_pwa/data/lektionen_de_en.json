@@ -649,10 +649,13 @@
    "topic": "L1-09 Ich möchte …",
    "stufe": "1",
    "de": "Ich möchte nach Hause.",
-   "en": "I want to go home.",
-   "mnemo": "Muster: Ich möchte … = I'd like …",
-   "wort": "Я хочу идти домой.",
-   "ru": "Я хочу домой."
+   "en": "I'd like to go home.",
+   "mnemo": "Muster: Ich möchte … = I'd like … (= I would like) · direkter: I want to … = ich will …",
+   "wort": "Я бы любил идти домой.",
+   "ru": "Я хотел бы домой.",
+   "alt": [
+    "I want to go home."
+   ]
   },
   {
    "id": "lek-L1-10-1",

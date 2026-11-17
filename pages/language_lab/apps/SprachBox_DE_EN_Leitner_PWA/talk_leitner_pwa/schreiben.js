@@ -394,7 +394,18 @@ function doCheck() {
     }
     return;
   }
-  const r = pruefe(current.en || "", typed);
+  // 2026-11-17: auch andere richtige Varianten (alt) zulassen – die beste zählt
+  // RU: если у карточки несколько верных вариантов – засчитывается лучший
+  const RANG = { richtig: 0, zeichen: 1, fast: 2, falsch: 3 };
+  const ziele = [current.en || ""].concat(current.alt || []);
+  let r = null, zielText = ziele[0];
+  for (const z of ziele) {
+    const x = pruefe(z, typed);
+    if (!r || RANG[x.urteil] < RANG[r.urteil] || (RANG[x.urteil] === RANG[r.urteil] && x.fehler < r.fehler)) { r = x; zielText = z; }
+  }
+  if (zielText !== ziele[0]) {
+    r.html += `<div class="sbInfo">ℹ️ Auch richtig! Auf der Karte steht: „${esc(ziele[0])}“ / тоже верно, на карточке: «${esc(ziele[0])}»</div>`;
+  }
   checked = r;
   const ok = r.urteil === "richtig";
   karte.versuche += 1;

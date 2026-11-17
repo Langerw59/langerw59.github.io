@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-17 – mehrere richtige Antworten (alt) + Ich möchte nach Hause
+- Karten können weitere richtige englische Antworten haben (Feld "alt"); beim Schreiben zählt die beste, mit Hinweis „Auch richtig!“
+- L1-09-6: „Ich möchte nach Hause.“ = „I'd like to go home.“ (passt zum Muster), „I want to go home.“ auch richtig
+- Glossar: want (Beispiel Ich will nach Hause, Ловушка will/will), neu: would; Grammatik: „ich möchte / ich will – I'd like / I want“; Cache sprachbox-v52
+
 ## 2026-11-17 – Schreiben „DE → EN übersetzen“: erst Deutsch, Englisch erst nach dem Prüfen
 - Modus „Lesen“ heißt jetzt „DE → EN übersetzen“: neue Karte → deutscher Satz wird gezeigt und vorgelesen; Englisch erst nach Enter/Prüfen (Karte dreht sich + englische Stimme)
 - Modus „Diktat“ heißt „Diktat (EN hören)“ – dort wird absichtlich zuerst Englisch vorgelesen; Cache sprachbox-v51

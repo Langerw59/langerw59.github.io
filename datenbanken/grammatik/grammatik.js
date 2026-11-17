@@ -360,6 +360,42 @@ window.GRAMMATIK = {
         { en: "Can you help me, please?", de: "Können Sie mir bitte helfen?", ru: "Вы можете мне помочь?", hinweis: "Sie (höflich) – groß" }
       ],
       merke: "EN: большая буква только в начале, в именах (и English, Monday) и в I · DE: большая буква у всех существительных и у вежливого Sie, ich – маленькое"
+    },
+    {
+      id: "moechte-would-like",
+      thema: "verb",
+      sprache: "en",
+      datum: "2026-11-17",
+      titel: "ich möchte / ich will – I'd like / I want (die Modalverben)",
+      titel_ru: "хочу и хотел бы: would like и want",
+      formel: "ich möchte = I'd like (= I would like) + to + Infinitiv  ·  ich will = I want + to + Infinitiv",
+      erklaerung: [
+        "ЧТО ТАКОЕ «MÖCHTE». möchte – это не отдельный глагол, а форма der Konjunktiv II (сослагательное наклонение, «бы») от глагола mögen (любить, нравиться). Буквально: «мне бы нравилось» → «я хотел бы». Это вежливая форма. Ваша догадка верная: это действительно вопрос формы глагола, только не времени (die Zeitform), а наклонения (der Modus).",
+        "АНГЛИЙСКИЙ ДЕЛАЕТ ТО ЖЕ САМОЕ. Конъюнктив II в английском строится через would + глагол. Значит, möchte = would + like: I would like (буквально «я бы любил»). Коротко: I'd like. Поэтому: Ich möchte nach Hause. = I'd like to go home.",
+        "ПОЧЕМУ «I WOULD TO GO HOME» – ОШИБКА. would – вспомогательный глагол (das Hilfsverb), он сам по себе ничего не значит, только «бы». После него обязательно нужен смысловой глагол (das Vollverb) – и без to: I would like, I would go. «I would to go» – смыслового глагола нет (пропущено like), а to после would не ставится. Правильно: I would like to go home. или I'd like to go home.",
+        "WANT = WOLLEN. want – обычный смысловой глагол «хотеть», прямо и без вежливости: I want to go home. = Ich will nach Hause. После want – to + Infinitiv (I want to pay). В разговоре «I want to go home» тоже часто переводят как «Ich möchte nach Hause» – поэтому программа принимает оба варианта.",
+        "ЛОВУШКА: ENGLISCH WILL ≠ DEUTSCH WILL. Немецкое ich will = I want (хочу). Английское I will = ich werde (будущее время, das Futur): I will go home. = Ich werde nach Hause gehen. Слова-родственники (оба от древнего «хотеть»), но значение в языках разошлось – это ложный друг (der falsche Freund).",
+        "ВЕЖЛИВОСТЬ. В магазине, кафе, у врача лучше I'd like …: I'd like a coffee, please. – Ich möchte einen Kaffee, bitte. «I want a coffee» звучит грубовато, как «Ich will einen Kaffee»."
+      ],
+      tabelle: {
+        kopf: ["Deutsch", "English", "die Form", "Русский"],
+        sprechen: 1,
+        zeilen: [
+          ["Ich möchte nach Hause.",      "I'd like to go home.",        "would like (Konjunktiv II) – höflich", "Я хотел бы домой."],
+          ["Ich will nach Hause.",        "I want to go home.",          "want – direkt",                      "Я хочу домой."],
+          ["Ich werde nach Hause gehen.", "I will go home.",             "will – das Futur",                   "Я пойду домой."],
+          ["Ich würde nach Hause gehen.", "I would go home.",            "would + Verb – der Konjunktiv II",   "Я бы пошёл домой."],
+          ["Was möchten Sie?",            "What would you like?",        "die Frage, höflich",                 "Что вы желаете?"],
+          ["Ich möchte bezahlen.",        "I'd like to pay.",            "would like + to + Infinitiv",        "Я хотел бы заплатить."]
+        ]
+      },
+      beispiele: [
+        { de: "Ich möchte nach Hause.", en: "I'd like to go home.", ru: "Я хотел бы домой.", hinweis: "möchte = would like" },
+        { de: "Ich will nach Hause.", en: "I want to go home.", ru: "Я хочу домой.", hinweis: "will (DE) = want (EN)" },
+        { de: "Ich werde morgen kommen.", en: "I will come tomorrow.", ru: "Я приду завтра.", hinweis: "will (EN) = werden (DE)!" },
+        { de: "Ich möchte einen Kaffee, bitte.", en: "I'd like a coffee, please.", ru: "Мне кофе, пожалуйста.", hinweis: "höflich" }
+      ],
+      merke: "möchte = would like (I'd like) · will (DE) = want · will (EN) = werden · после would – глагол без to: I would like / I would go, НЕ I would to go"
     }
   ]
 };

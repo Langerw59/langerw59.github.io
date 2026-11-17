@@ -1,5 +1,5 @@
 // 2026-11-17: der Schreib-Modus (Karte auf Englisch schreiben) / режим письма
-import { initSchreiben, schreibenNeueKarte, schreibenNeueSitzung, schreibenSitzungEnde, getSchreibModus } from "./schreiben.js?v=20261117g";
+import { initSchreiben, schreibenNeueKarte, schreibenNeueSitzung, schreibenSitzungEnde, getSchreibModus } from "./schreiben.js?v=20261117h";
 // 2026-02-23 | RU: Pochtinka stabilnosti + 3 rezhima (Daily/Level/Review).
 // 2026-02-23 | DE: Stabilisierung + 3 Modi (Daily/Level/Review), minimal-invasiv.
 // 2026-02-23 | EN: Stability fixes + 3 modes (Daily/Level/Review), minimal changes.
@@ -1336,7 +1336,9 @@ function normalizeItem(raw, idx) {
   // 2026-11-14: дословно (подстрочник) + нормальный русский перевод
   const wort = String(pick(raw, ["wort", "woertlich", "literal"]) || "").trim();
   const ru = String(pick(raw, ["ru", "russisch"]) || "").trim();
-  return { id, de, en, topic, stufe, level: stufe, mnemo, order, lesson, wort, ru };
+  // 2026-11-17: weitere richtige englische Antworten (für das Schreiben) / другие верные варианты
+  const alt = [].concat(raw.alt || raw.auch || []).map((x) => String(x).trim()).filter(Boolean);
+  return { id, de, en, topic, stufe, level: stufe, mnemo, order, lesson, wort, ru, alt };
 }
 
 // Better shuffle than sort(Math.random()-0.5)
