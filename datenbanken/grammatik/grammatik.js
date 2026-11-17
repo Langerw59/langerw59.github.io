@@ -323,6 +323,43 @@ window.GRAMMATIK = {
         { en: "I stay at home because I am tired.", de: "Ich bleibe zu Hause, weil ich müde bin.", ru: "Я остаюсь дома, потому что устал.", hinweis: "Komma nur im Deutschen" }
       ],
       merke: "? – всегда в вопросе · ! – в английском по желанию (срочно, эмоция), в немецком обычно после просьбы · запятая перед dass / weil – только в немецком"
+    },
+    {
+      id: "gross-klein",
+      thema: "satz",
+      sprache: "de",
+      datum: "2026-11-17",
+      titel: "die Groß- und Kleinschreibung (Deutsch und Englisch)",
+      titel_ru: "большие и маленькие буквы: немецкий и английский",
+      formel: "EN: groß nur Satzanfang · Namen · I  ·  DE: groß Satzanfang · alle Substantive · Sie (höflich)",
+      erklaerung: [
+        "ТЕРМИНЫ. der Großbuchstabe – большая (заглавная) буква, der Kleinbuchstabe – маленькая (строчная) буква, die Groß- und Kleinschreibung – правила, где писать большую, а где маленькую. der Eigenname – имя собственное (имя, город, страна).",
+        "АНГЛИЙСКИЙ: БОЛЬШАЯ БУКВА ТОЛЬКО В ТРЁХ СЛУЧАЯХ. 1) начало предложения: May I ask something? 2) имена и названия (der Eigenname): Anna, London, Germany, а также дни недели, месяцы, языки и народы – Monday, November, English, German (в немецком они с маленькой: montags, englisch, но der Montag – как существительное с большой). 3) местоимение I (я) – всегда, в любом месте предложения: Yes, I can. Всё остальное – с маленькой буквы, и существительные тоже: the table, the hospital, help.",
+        "ПОЧЕМУ «I» БОЛЬШОЕ. В древнеанглийском «я» было ic (родня немецкого ich), в среднеанглийском – ich / ik, потом сократилось до одной буквы i. Одиночная маленькая буква в рукописях терялась и сливалась с соседними словами, поэтому писцы стали писать её высокой – I. Так закрепилось. Только I: me (меня/мне), my (мой), mine – с маленькой буквы.",
+        "НЕМЕЦКИЙ: БОЛЬШАЯ БУКВА – У ВСЕХ СУЩЕСТВИТЕЛЬНЫХ. 1) начало предложения; 2) все существительные (die Substantive): der Tisch, die Hilfe, das Krankenhaus; 3) слова, ставшие существительными (die Substantivierung): das Lesen, das Gute, beim Essen; 4) вежливое обращение Sie / Ihnen / Ihr: Können Sie mir helfen? – а sie (она, они) с маленькой: Sie kommt – в начале предложения не различить, тогда по смыслу. ich – с маленькой буквы (в отличие от английского I).",
+        "ЛОВУШКИ ДЛЯ НАС. По-немецки привыкаешь писать существительные с большой буквы – а в английском нельзя: the Hospital – ошибка, правильно the hospital. И наоборот: английское english / monday с маленькой – ошибка, правильно English, Monday. Немецкое englisch (прилагательное) – с маленькой.",
+        "КАК ПРОВЕРЯЕТ SPRACHBOX. Галочка «Groß-/Kleinschreibung prüfen» в режиме «✍️ Schreiben»: маленькое начало предложения, маленькое i и лишняя большая буква считаются ошибкой (слово подчёркнуто красной волной)."
+      ],
+      tabelle: {
+        kopf: ["die Regel · правило", "English", "Deutsch", "Русский"],
+        sprechen: 1,
+        zeilen: [
+          ["der Satzanfang · начало предложения",   "May I ask something?",      "Darf ich etwas fragen?",     "Можно спросить?"],
+          ["das Pronomen „ich“ · я",               "Yes, I can.",               "Ja, ich kann.",              "EN большое I, DE маленькое ich"],
+          ["das Substantiv · существительное",      "Where is the hospital?",    "Wo ist das Krankenhaus?",    "EN маленькая, DE большая"],
+          ["die Sprache · язык",                    "I speak German.",           "Ich spreche Deutsch.",       "оба большие (DE: das Deutsch)"],
+          ["das Adjektiv der Sprache",              "an English book",           "ein englisches Buch",        "EN большая, DE маленькая"],
+          ["der Wochentag · день недели",           "on Monday",                 "am Montag",                  "оба большие"],
+          ["die höfliche Anrede · вежливое Вы",     "Can you help me?",          "Können Sie mir helfen?",     "EN you маленькое, DE Sie большое"]
+        ]
+      },
+      beispiele: [
+        { en: "May I ask something?", de: "Darf ich etwas fragen?", ru: "Можно кое-что спросить?", hinweis: "I – immer groß, ich – klein" },
+        { en: "Where is the hospital?", de: "Wo ist das Krankenhaus?", ru: "Где больница?", hinweis: "hospital klein, das Krankenhaus groß" },
+        { en: "I speak a little English.", de: "Ich spreche ein bisschen Englisch.", ru: "Я немного говорю по-английски.", hinweis: "English – immer groß" },
+        { en: "Can you help me, please?", de: "Können Sie mir bitte helfen?", ru: "Вы можете мне помочь?", hinweis: "Sie (höflich) – groß" }
+      ],
+      merke: "EN: большая буква только в начале, в именах (и English, Monday) и в I · DE: большая буква у всех существительных и у вежливого Sie, ich – маленькое"
     }
   ]
 };
