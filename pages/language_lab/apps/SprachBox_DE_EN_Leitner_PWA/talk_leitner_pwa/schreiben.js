@@ -67,8 +67,14 @@ function basicNorm(s) {
 }
 
 // Wörter ohne Satzzeichen, Kurzformen ausgeschrieben / слова без знаков, сокращения раскрыты
+// 2026-11-17: Akzente (é, è, ê) sind freiwillig – café = cafe. Umlaute ä ö ü bleiben.
+// RU: значки над буквой (é) необязательны: café = cafe. Умлауты ä ö ü сохраняются.
+function ohneAkzent(s) {
+  return String(s).normalize("NFD").replace(/[\u0300-\u0302\u0327]/g, "").normalize("NFC");
+}
+
 function compareWords(s) {
-  let t = basicNorm(s);
+  let t = ohneAkzent(basicNorm(s));
   for (const [re, rep] of CONTRACTIONS) t = t.replace(re, rep);
   t = t.replace(/[^a-z0-9'äöüß\s-]/g, " ").replace(/-/g, " ").replace(/'/g, "");
   return t.split(/\s+/).filter(Boolean);
@@ -174,7 +180,7 @@ let zeichenPruefen = true;
 try { zeichenPruefen = localStorage.getItem(LS_ZEICHEN) !== "aus"; } catch (_) {}
 
 function nurZeichen(s) {
-  return String(s || "").replace(/…/g, ".").replace(/[^.,!?;:]/g, "").replace(/\.{2,}/g, ".");
+  return String(s || "").replace(/…/g, ".").replace(/[’‘`´]/g, "'").replace(/[^.,!?;:']/g, "").replace(/\.{2,}/g, ".");
 }
 // Satzzeichen hinter jedem Vergleichswort / знаки после каждого слова
 function zeichenProWort(text) {
@@ -251,8 +257,14 @@ function pruefe(targetText, typedText) {
   const zAnzahl = Object.keys(zFehler).length;
   if (urteil === "richtig" && (zAnzahl || gAnzahl)) urteil = "zeichen";
 
+  // Hinweis auf é / подсказка про é
+  const akzentWort = displayTokens(targetText).find((w) => /[\u00e0-\u00e2\u00e7-\u00ea\u00ee\u00f4\u00fb]/i.test(w) && !String(typedText).includes(w.replace(/[^\p{L}]/gu, "")));
+  const akzentHinweis = akzentWort
+    ? `<div class="sbInfo">ℹ️ ${esc(akzentWort.replace(/[^\p{L}]/gu, ""))} – der Akzent (é) ist freiwillig, ohne ist es auch richtig. Tippen: Taste ´ (rechts neben ß), dann e / значок необязателен; набрать: клавиша ´ рядом с ß, потом e</div>`
+    : "";
+
   if (urteil === "richtig") {
-    let html = `<span class="sbOk">${esc(String(targetText).trim())}</span>`;
+    let html = `<span class="sbOk">${esc(String(targetText).trim())}</span>` + akzentHinweis;
     if (zHinweis.length) html += `<div class="sbInfo">ℹ️ Im Original steht „${esc(zHinweis[0].soll)}“, du hast „${esc(zHinweis[0].ist)}“ – im Englischen ist beides richtig / в английском оба варианта верны</div>`;
     return { urteil, html, fehler: 0 };
   }
@@ -284,7 +296,7 @@ function pruefe(targetText, typedText) {
     }
     parts.push(wort + zeichen);
   }
-  let html = parts.join(" ").replace(/ ([.,!?;:])/g, "$1");
+  let html = parts.join(" ").replace(/ ([.,!?;:])/g, "$1") + akzentHinweis;
   if (zAnzahl) html += `<div class="sbInfo">🔴 rot umrandet = das Satzzeichen (знак препинания) fehlt oder ist falsch</div>`;
   if (gAnzahl) html += `<div class="sbInfo">🔴 rot unterstrichen = die Groß-/Kleinschreibung (большая/маленькая буква) ist falsch</div>`;
   return { urteil, html, fehler: fehler.length + zAnzahl + gAnzahl };

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-17 – Schreiben: der Akzent (é) ist freiwillig
+- café = cafe (é, è, ê, ç ohne Strich gelten als richtig), mit Hinweis, wie man é tippt (´ neben ß, dann e); Umlaute ä ö ü zählen weiter
+- ein falsches Häkchen ' hinter dem Wort zählt als Satzzeichen-Fehler; Cache sprachbox-v50
+
 ## 2026-11-17 – Schreiben: die Groß- und Kleinschreibung wird geprüft
 - kleiner Satzanfang, kleines „I“ oder unnötiger Großbuchstabe = Fehler (Wort rot unterstrichen, daneben deine Schreibweise)
 - Häkchen „Groß-/Kleinschreibung prüfen“ zum Ausschalten; Kurzformen (I'm = I am) weiter erlaubt; Cache sprachbox-v49
