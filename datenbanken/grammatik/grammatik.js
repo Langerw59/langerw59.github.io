@@ -247,6 +247,45 @@ window.GRAMMATIK = {
         { en: "I stay at home because I am tired.", de: "Ich bleibe zu Hause, weil ich müde bin.", ru: "Я остаюсь дома, потому что устал.", hinweis: "DE – глагол в конце" }
       ],
       merke: "Английский – как русский. Немецкий переворачивает. Только часы: five past five = fünf nach fünf. Осторожно с half!"
+    },
+    {
+      id: "de-laute",
+      thema: "lesen",
+      sprache: "de",
+      datum: "2026-11-17",
+      titel: "der Laut und der Buchstabe (der Vokal, der Konsonant, der Doppellaut, der Umlaut)",
+      titel_ru: "звук и буква: гласные, согласные, дифтонги, умлауты",
+      formel: "der Laut = звук (то, что слышно) · der Buchstabe = буква (то, что написано) · laut (Adjektiv) = громкий",
+      erklaerung: [
+        "ДВА СЛОВА – ОДИН КОРЕНЬ. laut с маленькой буквы – прилагательное (das Adjektiv): «громкий» (leise und laut – тихо и громко). der Laut с большой буквы и с артиклем – существительное (das Substantiv): «звук речи», любой звук – и гласный, и согласный. Корень общий: древневерхненемецкое hlūt – «звучащий». Отличить легко: у существительного есть артикль и большая буква.",
+        "ЗВУК И БУКВА – НЕ ОДНО И ТО ЖЕ. der Buchstabe – буква, её видно. der Laut – звук, его слышно. В английском shine 5 букв (s-h-i-n-e), но только 3 звука: [ʃ] [aɪ] [n]. Поэтому и нужна die Lautschrift (транскрипция, буквально «звукопись») – она записывает звуки, а не буквы.",
+        "ГЛАСНЫЕ. der Vokal (латинское слово) = der Selbstlaut (немецкое слово): звучит сам (selbst), без помощи других звуков. Немецкие гласные буквы: a, e, i, o, u (и умлауты ä, ö, ü).",
+        "СОГЛАСНЫЕ. der Konsonant (лат. con-sonare – «звучать вместе») = der Mitlaut: звучит вместе (mit) с гласным. Попробуйте сказать «б» без гласного – получится «бэ» или «бы». Это все остальные буквы: b, c, d, f, g, h, k …",
+        "ДИФТОНГИ. der Diphthong (греч. di- «два» + phthongos «звук») = der Doppellaut: два гласных звука сливаются в один слог. Немецкие: ei/ai «ай» (das Ei, der Mai), au «ау» (das Haus), eu/äu «ой» (heute, die Häuser). В английском те же: [aɪ] time, [aʊ] house, [ɔɪ] boy, плюс [eɪ] name и [oʊ] home. Doppellaut – это всегда двойной ГЛАСНЫЙ, а не согласный.",
+        "УМЛАУТЫ. der Umlaut (um- «из-, пере-» + der Laut): гласный «изменён». a → ä, o → ö, u → ü. Часто появляется во множественном числе и в степенях сравнения: das Haus → die Häuser, alt → älter, der Fuß → die Füße.",
+        "ДЛИННЫЙ И КОРОТКИЙ. Немецкие гласные бывают lang (долгие) и kurz (краткие). Правило: перед одним согласным – обычно долго (der Tag, die Rose), перед двумя согласными – кратко (die Stadt, kommen). Долготу показывают h (fahren), удвоение (das Boot, der See) и ie (die Liebe)."
+      ],
+      tabelle: {
+        kopf: ["Deutsch", "das Fachwort", "Русский", "warum so · почему так", "Beispiele"],
+        sprechen: false,
+        zeilen: [
+          ["der Laut",       "—",              "звук",        "то, что слышно",                         "[ʃ] [aɪ] [n]"],
+          ["der Buchstabe",  "—",              "буква",       "то, что написано",                       "s, h, i, n, e"],
+          ["der Selbstlaut", "der Vokal",      "гласный",     "звучит сам (selbst)",                    "a, e, i, o, u"],
+          ["der Mitlaut",    "der Konsonant",  "согласный",   "звучит вместе (mit) с гласным",          "b, d, k, s, t"],
+          ["der Doppellaut", "der Diphthong",  "дифтонг",     "два гласных в одном слоге",              "ei, au, eu, äu"],
+          ["der Umlaut",     "—",              "умлаут",      "гласный изменён (um-)",                  "ä, ö, ü"],
+          ["die Lautschrift","die Transkription","транскрипция","записывает звуки, а не буквы",          "[ˈʃaɪnɪŋ]"],
+          ["die Silbe",      "—",              "слог",        "гласный + согласные вокруг",             "Haus (1), Häu-ser (2)"]
+        ]
+      },
+      beispiele: [
+        { de: "Das Radio ist zu laut.", en: "The radio is too loud.", ru: "Радио слишком громкое.", hinweis: "laut – Adjektiv: громкий" },
+        { de: "Der Laut [ʃ] klingt wie „sch“.", en: "The sound [ʃ] sounds like “sh”.", ru: "Звук [ʃ] звучит как «ш».", hinweis: "der Laut – Substantiv: звук" },
+        { de: "Das Wort „Haus“ hat einen Doppellaut: au.", en: "The word “house” has a diphthong: [aʊ].", ru: "В слове «Haus» дифтонг: au.", hinweis: "der Doppellaut" },
+        { de: "Im Wort „shine“ sind fünf Buchstaben, aber nur drei Laute.", en: "The word “shine” has five letters but only three sounds.", ru: "В слове «shine» пять букв, но только три звука.", hinweis: "der Buchstabe ≠ der Laut" }
+      ],
+      merke: "laut = громкий · der Laut = звук · der Selbstlaut (Vokal) – гласный, звучит сам · der Mitlaut (Konsonant) – согласный, звучит вместе · der Doppellaut (Diphthong) – два гласных в одном слоге"
     }
   ]
 };
