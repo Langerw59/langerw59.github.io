@@ -74,9 +74,10 @@ window.GLOSSAR_EN = [
   her:"Сокращение от goodbye, а это – от «God be with ye» (Gott sei mit euch). Как и немецкое «Adieu» (à Dieu – с Богом).",
   ver:"DE Adieu, der Gott befohlen", bsp:["Bye!","Tschüss!"], t:["Begrüßung"] },
 // ---------------- C ----------------
-{ w:"café", f:["cafe"], de:"Café", ru:"кафе", h:"frz",
+{ w:"café", f:["cafe"], de:"das Café", ru:"кафе", h:"frz",
   her:"Франц. café «кофе» → «кофейня». Само слово пришло через турецкий kahve из арабского qahwa.",
-  ver:"DE Café, der Kaffee · RU кафе, кофе", bsp:["Is there a café here?","Gibt es hier ein Café?"], t:["Essen & Trinken"] },
+  ver:"DE das Café, der Kaffee · RU кафе, кофе",
+  tip:"é – это der Akzent (der Akut): французское слово сохранило своё написание. В английском можно и café, и cafe. В немецком два разных слова: das Café (кафе, ударение на é: ка-ФЕ) и der Kaffee (напиток кофе, ударение на первом слоге: КА-фе). Набрать é: клавиша ´ рядом с ß, потом e.", bsp:["Is there a café here?","Gibt es hier ein Café?"], t:["Essen & Trinken"] },
 { w:"call", de:"rufen, anrufen", ru:"звать, звонить", h:"nord",
   her:"От викингов: древнескандинавское kalla «кричать, звать».",
   ver:"EN call back = zurückrufen", bsp:["I'll call you later.","Ich rufe dich später an."], t:["Grundwörter"] },
