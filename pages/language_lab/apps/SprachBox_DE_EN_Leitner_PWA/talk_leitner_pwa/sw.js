@@ -8,7 +8,8 @@
 // 2026-11-12: Auto-Stimme ohne Spass-Stimmen (iPhone, deutsche Namen).
 // 2026-11-12: Knopf „Lieder“ (Lied-Trainer).
 // 2026-11-12: Lieder aus dem Lied-Trainer als Karteikarten.
-const CACHE = "sprachbox-v41";
+// 2026-11-17: der Schreib-Modus (schreiben.js).
+const CACHE = "sprachbox-v42";
 const CORE = [
   "./",
   "./index.html",
@@ -17,6 +18,7 @@ const CORE = [
   "./data/leseregeln_en.json",
   "./styles.css",
   "./app.js",
+  "./schreiben.js",
   "./benutzer.js",
   "./manifest.webmanifest",
   "./assets/icon-192.png",

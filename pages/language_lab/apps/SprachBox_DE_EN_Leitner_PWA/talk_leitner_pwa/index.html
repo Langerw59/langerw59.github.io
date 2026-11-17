@@ -9,7 +9,7 @@
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./assets/icon-192.png" />
   <link rel="apple-touch-icon" href="./assets/icon-192.png" />
-  <link rel="stylesheet" href="./styles.css?v=20261114a" />
+  <link rel="stylesheet" href="./styles.css?v=20261117a" />
   <!-- 2026-11-05: der Benutzer – eigener Fortschritt pro Name / у каждого пользователя свой прогресс (vor app.js laden!) -->
   <script src="./benutzer.js?v=20261106d"></script>
   <script src="../../../shared_data/sprachfuehrer_phrase_adapter.js" defer></script>
@@ -27,7 +27,7 @@
       <div class="logo">SB</div>
       <div class="titles">
         <div class="h1">SprachBox</div>
-        <div class="h2">Deutsch ↔ English · Leitner (8 Boxen) · <span class="mini">Stand 12.11. 10:40</span></div>
+        <div class="h2">Deutsch ↔ English · Leitner (8 Boxen) · <span class="mini">Stand 17.11. 11:00</span></div>
       </div>
     </div>
 
@@ -185,6 +185,15 @@
           <span>Voice English</span>
           <select id="selVoiceEn"><option value="">Auto (best voice)</option></select>
           <button id="btnVoiceTestEn" class="btn ghost" type="button">▶ Test</button>
+        </label>
+        <!-- 2026-11-17: der Schreib-Modus / режим письма -->
+        <label class="field">
+          <span>✍️ Schreiben</span>
+          <select id="selSchreiben">
+            <option value="aus">Aus (nur umdrehen)</option>
+            <option value="lesen">Lesen + Englisch schreiben</option>
+            <option value="diktat">Diktat: hören + schreiben</option>
+          </select>
         </label>
         <label class="field">
           <span>⭐ Filter / Starred</span>
@@ -407,6 +416,8 @@
       <div class="cardTop">
         <div class="pill" id="pillMeta">–</div>
         <div class="pill" id="pillBox">Box 1</div>
+        <!-- 2026-11-17: der Schreib-Modus – Aus / Lesen / Diktat (режим письма) -->
+        <button id="btnSchreibModus" class="btn ghost schreibModusBtn" type="button" title="Schreib-Modus umschalten: Aus → Lesen → Diktat">✍️ Schreiben: Aus</button>
       </div>
 
       <div id="card" class="card3d">
@@ -423,6 +434,18 @@
           <div class="ruLines" id="txtRu" hidden></div>
         </div>
         </div>
+      </div>
+
+      <!-- 2026-11-17: Englisch schreiben (Sprachführer + Diktat zusammen) / написать английский вариант -->
+      <div id="schreibBox" class="schreibBox" hidden>
+        <div class="schreibZeile">
+          <input id="inpSchreiben" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" lang="en" placeholder="English schreiben … (Enter = prüfen)" />
+          <button id="btnSchreibHoeren" class="btn ghost" type="button" title="Englisch noch einmal hören">🔊</button>
+          <button id="btnSchreibHinweis" class="btn ghost" type="button" title="Deutschen Satz zeigen" hidden>👁 DE</button>
+          <button id="btnSchreibPruefen" class="btn primary" type="button">✔ Prüfen</button>
+        </div>
+        <div id="schreibErgebnis" class="schreibErgebnis"></div>
+        <div class="mini" id="lblSchreibStats">✅ 0 · 🟡 0 · ❌ 0</div>
       </div>
 
       <!-- 2026-11-02: Tempo direkt in der Karte / темп прямо в карточке -->
@@ -540,6 +563,6 @@
   </div>
 
   <script src="../../../shared_data/mnemo_panel.js?v=20261107"></script>
-  <script src="./app.js?v=20261114a" type="module"></script>
+  <script src="./app.js?v=20261117a" type="module"></script>
 </body>
 </html>

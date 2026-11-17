@@ -1,3 +1,5 @@
+// 2026-11-17: der Schreib-Modus (Karte auf Englisch schreiben) / режим письма
+import { initSchreiben, schreibenNeueKarte, schreibenNeueSitzung, getSchreibModus } from "./schreiben.js?v=20261117a";
 // 2026-02-23 | RU: Pochtinka stabilnosti + 3 rezhima (Daily/Level/Review).
 // 2026-02-23 | DE: Stabilisierung + 3 Modi (Daily/Level/Review), minimal-invasiv.
 // 2026-02-23 | EN: Stability fixes + 3 modes (Daily/Level/Review), minimal changes.
@@ -3375,6 +3377,7 @@ function nextCard() {
   if (els.front) els.front.textContent = it.de;
   if (els.back) els.back.textContent = it.en;
   renderRuLines(it);
+  schreibenNeueKarte(it); // 2026-11-17
 
   renderMnemo(it);
   updateStarButton();
@@ -3387,7 +3390,10 @@ function nextCard() {
   openModal();
 
   // Optional auto TTS on open
-  if (state.settings.tts === "de" || state.settings.tts === "both") {
+  // 2026-11-17: im Diktat-Modus immer Englisch vorlesen / в режиме диктанта всегда читать английский
+  if (getSchreibModus() === "diktat") {
+    speakBack(it);
+  } else if (state.settings.tts === "de" || state.settings.tts === "both") {
     speak(it.de, "de-DE");
   }
 }
@@ -3415,6 +3421,7 @@ function startSession({ onlyBox = null, focusBoxes = null, kind = "level", dueOn
   state.session.kind = kind;
   state.session.stats = { right: 0, wrong: 0, moved: 0 };
   state.session.retries = {};
+  schreibenNeueSitzung(); // 2026-11-17
 
   if (queue.length === 0) {
     if (kind === "review") {
@@ -4655,9 +4662,22 @@ async function init() {
   on(els.yes, "click", () => grade(true));
   on(els.no, "click", () => grade(false));
 
+  // 2026-11-17: der Schreib-Modus / режим письма
+  initSchreiben({
+    grade: (known) => grade(known),
+    next: () => onNextCard(),
+    flipToAnswer: () => flipToAnswer(),
+    speakBack: (it) => speakBack(it),
+    isAwaitingNext: () => !!state.session.awaitingNext,
+  });
+
   // keyboard
   window.addEventListener("keydown", (e) => {
     if (!els.modal || els.modal.hidden) return;
+    // 2026-11-17: beim Tippen im Eingabefeld keine Tastenkürzel (Leertaste, Pfeile, Enter)
+    // RU: когда печатаешь в поле – пробел/стрелки/Enter не переворачивают и не оценивают карточку
+    const tg = e.target;
+    if (e.key !== "Escape" && tg && (tg.tagName === "INPUT" || tg.tagName === "TEXTAREA" || tg.isContentEditable)) return;
     if (e.key === "Escape") {
       if (els.wordQuickSaveWrap && !els.wordQuickSaveWrap.hidden) {
         cancelWordQuickForm();

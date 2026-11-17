@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-17 – der Schreib-Modus (Sprachführer + Diktat zusammen)
+- neuer Knopf in der Karte „✍️ Schreiben“: Aus → Lesen → Diktat (auch als Auswahl „✍️ Schreiben“ in den Einstellungen)
+- Lesen: deutscher Satz sichtbar, englischen Satz eintippen; Diktat: deutscher Satz verschwommen (👁 DE zeigt ihn), Englisch wird vorgelesen
+- Prüfung: Groß-/Kleinschreibung, Satzzeichen und Kurzformen (I'm = I am) zählen nicht als Fehler; Fehler pro Wort (rot) und Tippfehler pro Buchstabe (gelb)
+- Enter: 1× prüfen, 2× bewerten (Vorschlag gelb umrandet) und nächste Karte; Leertaste/Pfeile im Eingabefeld drehen die Karte nicht mehr
+- neue Datei schreiben.js; Cache sprachbox-v42
+
 ## 2026-11-14 – дословно + по-русски
 - Rückseite jeder Karte (144 Lektionssätze): zwei Zeilen – „дословно“ (Wort für Wort aus dem Englischen, z. B. „Я есть смотрящий для одна куртка.“) und „по-русски“ (normaler Satz: „Я ищу куртку.“)
 - neue Felder wort / ru in data/lektionen_de_en.json; Cache sprachbox-v41

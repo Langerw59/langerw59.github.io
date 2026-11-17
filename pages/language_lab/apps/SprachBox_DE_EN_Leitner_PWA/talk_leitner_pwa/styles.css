@@ -1160,3 +1160,51 @@ body.mode-bg .bgPreviewThumb{
 @media (orientation: landscape) and (max-height: 560px){
   .ruLines{ margin-top: 4px; padding: 5px 8px; font-size: 14px; }
 }
+
+/* 2026-11-17: der Schreib-Modus – Karte auf Englisch schreiben
+   режим письма: поле ввода под карточкой, проверка по словам и буквам */
+.schreibModusBtn{ padding: 6px 10px; font-size: 13px; border-radius: 999px; }
+.schreibModusBtn.isActive{ border-color: #60a5fa; background: rgba(96,165,250,.28); font-weight: 700; }
+.schreibBox{ margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.schreibBox[hidden]{ display: none; }
+.schreibZeile{ display: flex; gap: 6px; align-items: center; }
+#inpSchreiben{
+  flex: 1 1 auto; min-width: 0;
+  font-size: 20px; /* ≥16px: iPhone zoomt sonst / иначе iPhone увеличивает */
+  padding: 10px 12px; border-radius: 12px;
+  border: 1px solid var(--stroke); background: rgba(8,14,28,.55); color: var(--text);
+}
+#inpSchreiben:focus{ outline: 2px solid #60a5fa; }
+.schreibZeile .btn{ padding: 10px 12px; white-space: nowrap; }
+.schreibErgebnis{ font-size: 18px; line-height: 1.5; min-height: 0; }
+.schreibErgebnis:empty{ display: none; }
+.schreibErgebnis .sbTitel{ font-weight: 800; margin-bottom: 2px; }
+.schreibErgebnis.is-richtig .sbTitel{ color: var(--good); }
+.schreibErgebnis.is-fast .sbTitel{ color: #facc15; }
+.schreibErgebnis.is-falsch .sbTitel{ color: var(--bad); }
+.sbOk{ color: var(--good); font-weight: 700; }
+.sbTypo{ color: #facc15; font-weight: 700; }
+.sbLetterBad{ color: #0b1220; background: #facc15; border-radius: 3px; padding: 0 1px; }
+.sbBad{ color: var(--bad); font-weight: 800; text-decoration: underline; }
+.sbMiss{ color: var(--bad); font-weight: 800; border-bottom: 2px dashed var(--bad); }
+.sbYou{ color: var(--muted); font-size: 14px; margin-left: 2px; }
+.btn.sbVorschlag{ outline: 3px solid #facc15; outline-offset: 2px; }
+
+/* Diktat: deutscher Satz verschwommen, Tipp auf „👁 DE“ zeigt ihn
+   диктант: немецкий текст размыт, кнопка «👁 DE» показывает его */
+.card3d.schreibDiktat .cardFront .text,
+.card3d.schreibDiktat .cardFront .mnemo{ filter: blur(9px); user-select: none; transition: filter .2s; }
+.card3d.schreibDiktat.hinweisAn .cardFront .text,
+.card3d.schreibDiktat.hinweisAn .cardFront .mnemo{ filter: none; }
+
+/* Handy/Tablet quer: Schreibfeld unter der Karte in der linken Spalte */
+@media (orientation: landscape) and (max-height: 560px){
+  body.schreibAn .cardShell{ grid-template-rows: auto minmax(0, 1fr) auto; }
+  body.schreibAn .cardBottom{ grid-row: 2 / span 2; }
+  .schreibBox{ grid-column: 1; grid-row: 3; margin-top: 0; gap: 4px; }
+  #inpSchreiben{ font-size: 17px; padding: 6px 10px; }
+  .schreibZeile .btn{ padding: 6px 8px; }
+  .schreibErgebnis{ font-size: 15px; line-height: 1.35; }
+  #lblSchreibStats{ display: none; }
+  body.schreibAn .card3d{ min-height: 110px; }
+}
