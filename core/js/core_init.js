@@ -151,6 +151,10 @@
       window.history.back();
       return;
     }
+    // 2026-11-17: eigener Tab (z. B. Grammatik aus der SprachBox) → Tab schließen, SprachBox ist darunter
+    try {
+      if (window.opener && !window.opener.closed) { window.opener.focus(); window.close(); return; }
+    } catch (_) {}
     const portal = "/index.html";
     if (typeof window.LL_NAVIGATE === "function") {
       window.LL_NAVIGATE(portal);

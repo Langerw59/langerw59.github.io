@@ -192,6 +192,8 @@ for(const [id, rows] of Object.entries(SPICK)){
   }
   document.querySelectorAll('.sz-zurueck a[href="./index.html"]').forEach((a) => a.addEventListener("click", (ev) => { if (alsTabSchliessen()) ev.preventDefault(); }));
   document.getElementById("szZurueck").addEventListener("click", function () {
+    // 2026-11-17: aus der Grammatik gekommen → zurück dorthin; frisch als Tab geöffnet → Tab schließen
+    if (history.length > 1) { history.back(); return; }
     if (alsTabSchliessen()) return;
     let ref = "";
     try { const r = new URL(document.referrer); if (r.origin === location.origin) ref = r.href; } catch (e) {}

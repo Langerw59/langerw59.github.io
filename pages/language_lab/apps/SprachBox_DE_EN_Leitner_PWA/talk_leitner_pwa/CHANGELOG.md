@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-17 – Ordnung: Grammatik statt Spickzettel/Leseregeln
+- oben nur noch: Lieder · Glossar · Grammatik; Spickzettel und Leseregeln sind in der Grammatik (Thema „das Lesen“) – die alten Knöpfe sind nur versteckt
+- Zurück im Spickzettel/den Leseregeln führt zur Grammatik zurück; frisch geöffneter Tab wird geschlossen; Cache sprachbox-v47
+
 ## 2026-11-17 – Glossar, Spickzettel, Leseregeln im eigenen Tab
 - aus der SprachBox (Knöpfe oben und Wortkarte) öffnen Glossar, Spickzettel und Leseregeln jeweils in einem eigenen Tab – die Karteikarten-Sitzung bleibt offen und fängt nicht von vorn an
 - immer derselbe Tab pro Seite (kein Tab-Chaos); „↩ Zurück“ schließt den Tab und zeigt wieder die SprachBox; Cache sprachbox-v46

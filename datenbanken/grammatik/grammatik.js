@@ -31,9 +31,9 @@ window.GRAMMATIK = {
 
   // fertige Seiten, die zur Grammatik gehören (nur Links)
   links: [
-    { thema: "lesen", titel: "📏 die Leseregeln (Englisch)", titel_ru: "правила чтения: почему time – «тайм»",
+    { thema: "lesen", titel: "📏 die Leseregeln (Englisch)", titel_ru: "правила чтения: почему time – «тайм», night – «найт»",
       href: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/leseregeln.html" },
-    { thema: "lesen", titel: "🔤 der Spickzettel (die Lautschrift)", titel_ru: "шпаргалка по транскрипции [ ]",
+    { thema: "lesen", titel: "🔤 der Spickzettel (die Lautschrift)", titel_ru: "все значки транскрипции [ ] в одной таблице – для отдельного слова см. «Wie liest man das?» в глоссарии",
       href: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/spickzettel.html" }
   ],
 
