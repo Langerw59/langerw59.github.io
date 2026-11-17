@@ -8,6 +8,8 @@
     <script src="../../../core/js/core_init.js" defer></script>
     <script src="../../../datenbanken/glossar/glossar_en.js" defer></script>
     <script src="../../../datenbanken/glossar/lautschrift_en.js" defer></script>
+    <!-- 2026-11-17: „Wie liest man das?“ – Laute und Leseregel direkt beim Wort / как читается – прямо у слова -->
+    <script src="../../../datenbanken/glossar/lauthilfe_en.js" defer></script>
     <!-- 2026-11-02: Glossar EN – erstellt mit Claude
          DE: Alle Wörter alphabetisch, mit Herkunft, Suche und Filtern.
          RU: Все слова по алфавиту, с происхождением, поиском и фильтрами. -->
@@ -167,15 +169,31 @@
       // 2026-11-11: die Lautschrift (IPA) + der Spickzettel
       const SPICK = "../apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/spickzettel.html";
       const ipa = (w) => (typeof window.lautschriftEN === "function" ? window.lautschriftEN(w) : "");
-      const spickLink = `<a href="${SPICK}" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a>`;
+      const LESE = "../apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/leseregeln.html";
+      // 2026-11-17: die Lautschrift anklickbar (Wort anhören) / транскрипция – нажать и услышать
+      const ipaKnopf = (x) => `<button type="button" class="gl-ipa gl-ipa-btn" data-hoer="${esc(x)}" data-l="en" title="anhören / послушать">[${esc(ipa(x))}]</button>`;
       function ipaZeile(e, form) {
         const woerter = [e.w].concat(e.f || []);
         if (form && !woerter.some((x) => norm(x) === norm(form))) woerter.push(form);
         const teile = woerter.filter((x) => ipa(x)).map((x) => {
           const fett = form && norm(x) === norm(form);
-          return `${fett ? "<b>" : ""}${esc(x)}${fett ? "</b>" : ""} <span class="gl-ipa">[${esc(ipa(x))}]</span>`;
+          return `${fett ? "<b>" : ""}${esc(x)}${fett ? "</b>" : ""} ${ipaKnopf(x)}`;
         });
-        return teile.length ? `<div class="gl-ipa-zeile"><b>Lautschrift / транскрипция:</b> ${teile.join(" · ")} ${spickLink}</div>` : "";
+        if (!teile.length) return "";
+        // 2026-11-17: „Wie liest man das?“ – Laute + passende Leseregel / звуки + нужное правило чтения
+        const hilfeWort = ipa(e.w) ? e.w : woerter.find((x) => ipa(x));
+        const LH = window.LAUTHILFE_EN;
+        const opt = { spick: SPICK, lese: LESE, von: location.pathname + location.search + location.hash };
+        let hilfe = LH ? LH.html(hilfeWort, ipa(hilfeWort), opt) : "";
+        // gesuchte Form (z. B. shining) bekommt einen eigenen Block / для найденной формы – свой блок
+        if (LH && form && norm(form) !== norm(hilfeWort) && ipa(form)) hilfe = LH.html(form, ipa(form), opt) + hilfe;
+        // andere Formen: Hinweis „e ist weggefallen“ (shine → shining) / подсказка про выпавшую e
+        else if (LH) {
+          const extra = woerter.filter((x) => norm(x) !== norm(hilfeWort) && ipa(x))
+            .flatMap((x) => LH.regeln(x, ipa(x)).filter((g) => g.id === "stummes-e").map((g) => `<div class="gl-tip">💡 ${g.text} <a href="${LESE}#r-stummes-e">📏</a></div>`));
+          hilfe += extra.join("");
+        }
+        return `<div class="gl-ipa-zeile"><b>Lautschrift / транскрипция:</b> ${teile.join(" · ")} <small>(🔊 auf [ ] tippen)</small></div>${hilfe}`;
       }
 
       // Formen-Index (für „Meine Wörter“ und #w=)
@@ -397,7 +415,7 @@
         return `<div class="gl-eintrag ${offen === e.w ? "offen" : ""}" data-w="${esc(e.w)}" id="w-${esc(e.w)}">
           <div class="gl-kopf">
             <span class="gl-punkt" style="background:${h.farbe}" title="${esc(h.de)}"></span>
-            <span class="gl-wort">${esc(e.w)} ${ipa(e.w) ? `<span class="gl-ipa">[${esc(ipa(e.w))}]</span>` : ""} ${ist ? '<span class="gl-stern">⭐</span>' : ""}</span>
+            <span class="gl-wort">${esc(e.w)} ${ipa(e.w) ? ipaKnopf(e.w) : ""} ${ist ? '<span class="gl-stern">⭐</span>' : ""}</span>
             <span class="gl-de">${esc(e.de)}</span>
             <span class="gl-ru">${esc(e.ru)}</span>
           </div>
@@ -468,7 +486,7 @@
           const b = e.w[0].toUpperCase();
           if (b !== akt) { akt = b; h += `<div class="gl-buchstabe" id="b-${b}">${b}</div>`; }
           h += e.warte
-            ? `<div class="gl-eintrag" style="border-style:dashed"><div class="gl-kopf"><button type="button" data-hoer="${esc(e.w)}" data-l="${esc(e.lang || "en")}" style="font:inherit;cursor:pointer;border:none;background:none" title="anhören">🔊</button><span class="gl-wort">${esc(e.w)} ${(e.lang || "en") === "en" && ipa(e.w) ? `<span class="gl-ipa">[${esc(ipa(e.w))}]</span>` : ""}</span><span class="gl-de" style="color:var(--text-muted,#59636e)">📭 wartet auf Erklärung / ждёт объяснения${e.satz ? " · " + esc(e.satz) : ""}</span></div></div>`
+            ? `<div class="gl-eintrag" style="border-style:dashed"><div class="gl-kopf"><button type="button" data-hoer="${esc(e.w)}" data-l="${esc(e.lang || "en")}" style="font:inherit;cursor:pointer;border:none;background:none" title="anhören">🔊</button><span class="gl-wort">${esc(e.w)} ${(e.lang || "en") === "en" && ipa(e.w) ? ipaKnopf(e.w) : ""}</span><span class="gl-de" style="color:var(--text-muted,#59636e)">📭 wartet auf Erklärung / ждёт объяснения${e.satz ? " · " + esc(e.satz) : ""}</span></div></div>`
             : eintragHtml(e, saetze[e.w], formen[e.w]);
         });
         $("liste").innerHTML = h;

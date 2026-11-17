@@ -16,6 +16,28 @@
   // 2026-11-11: die Lautschrift (IPA) + Link zum Spickzettel / транскрипция + ссылка на шпаргалку
   const SPICK_SEITE = (document.currentScript && document.currentScript.dataset.spick) || "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/spickzettel.html";
   function ipa(w) { return typeof window.lautschriftEN === "function" ? window.lautschriftEN(w) : ""; }
+  // 2026-11-17: „Wie liest man das?“ (Laute + Leseregel) – Datei selbst nachladen / подгрузить помощник чтения
+  const LESE_SEITE = SPICK_SEITE.replace(/spickzettel\.html.*$/, "leseregeln.html");
+  (function lauthilfeLaden() {
+    if (window.LAUTHILFE_EN) return;
+    try {
+      const eigen = document.currentScript && document.currentScript.src;
+      const sc = document.createElement("script");
+      sc.src = new URL("../../datenbanken/glossar/lauthilfe_en.js", eigen || location.href).href;
+      document.head.appendChild(sc);
+    } catch (_) {}
+  })();
+  function sagEN(text) {
+    try {
+      if (!("speechSynthesis" in window)) return;
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US"; u.rate = 0.8;
+      const v = speechSynthesis.getVoices().find((x) => /^en(-|_)US/i.test(x.lang));
+      if (v) u.voice = v;
+      speechSynthesis.speak(u);
+    } catch (_) {}
+  }
 
   // ---------------- Daten ----------------
   const idx = {};       // englische Wörter + Formen → Eintrag
@@ -150,13 +172,19 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
     mehr.open = false;
     const ipaWort = lang === "en" ? ipa(wort) : "";
     const ipaZeile = ipaWort
-      ? `<div class="gk-ipa"><b>${esc(norm(wort))}</b><span class="gk-l">[${esc(ipaWort)}]</span><a href="${SPICK_SEITE}${SPICK_SEITE.indexOf("?") < 0 ? "?" : "&"}von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a></div>`
+      ? `<div class="gk-ipa"><b>${esc(norm(wort))}</b><button type="button" class="gk-l gk-ipa-btn" title="anhören / послушать">[${esc(ipaWort)}] 🔊</button><a href="${SPICK_SEITE}${SPICK_SEITE.indexOf("?") < 0 ? "?" : "&"}von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a></div>`
       : "";
     const ipaGrund = e && norm(e.w) !== norm(wort) && ipa(e.w) ? ` <span class="gk-l2">[${esc(ipa(e.w))}]</span>` : "";
+    // 2026-11-17: „Wie liest man das?“ – aufklappbar / раскрывается
+    const lhWort = ipaWort ? norm(wort) : (e && ipa(e.w) ? e.w : "");
+    const lhHtml = lhWort && window.LAUTHILFE_EN
+      ? `<details class="gk-lh"><summary>📏 Wie liest man das? / как читается?</summary>${window.LAUTHILFE_EN.html(lhWort, ipa(lhWort), { spick: SPICK_SEITE, lese: LESE_SEITE, hoerAttr: "data-gk-sag", von: location.pathname + location.search })}</details>`
+      : "";
 
     if (e) {
       karte.innerHTML = `
         ${ipaZeile}
+        ${lhHtml}
         <div class="gk-bed">${esc(e.w)}${ipaGrund} = ${esc(e.de)} <small>/ ${esc(e.ru)}</small></div>
         ${H ? `<span class="gk-her" style="background:${H.farbe}">${esc(H.de)} · ${esc(H.ru)}</span>` : ""}
         <div class="gk-zeile"><b>Herkunft:</b> ${esc(e.her)}</div>
@@ -171,6 +199,7 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
     } else {
       karte.innerHTML = `
         ${ipaZeile}
+        ${lhHtml}
         <div class="gk-fehlt">📭 Für „${esc(wort)}“ gibt es noch keine Erklärung.<br>
         <small>Объяснения пока нет. Нажми «Merken» – слово попадёт в список «ждут объяснения», Claude допишет происхождение.</small></div>
         <div class="gk-knoepfe">
@@ -185,6 +214,12 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
       if (istGemerkt(w, l)) vergessen(w, l); else merken(w, l, satz, !!e, wort);
       zeichnen();
     };
+    // 2026-11-17: [Lautschrift] antippen = Wort hören; Laut antippen = Beispiel hören
+    const ipaBtn = karte.querySelector(".gk-ipa-btn");
+    if (ipaBtn) ipaBtn.onclick = (ev) => { ev.stopPropagation(); sagEN(norm(wort)); };
+    karte.querySelectorAll("[data-gk-sag]").forEach((b) => {
+      b.onclick = (ev) => { ev.preventDefault(); ev.stopPropagation(); sagEN(b.dataset.gkSag); };
+    });
     karte.querySelector(".gk-hoer").onclick = (ev) => {
       ev.stopPropagation();
       const b = document.getElementById("btnWordSpeak");

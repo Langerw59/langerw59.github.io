@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-17 – „Wie liest man das?“ direkt beim Wort
+- Glossar und Wortkarte: [Lautschrift] antippen = Wort anhören
+- neuer Block „Wie liest man das?“: jeder Laut einzeln (ʃ = das sch «ш», aɪ «ай» …, mit Beispiel zum Anhören) und die passende Leseregel mit Link (z. B. shine: das stumme E)
+- Formen mit -ing/-ed: Hinweis, dass das stumme E weggefallen ist (shine → shining [aɪ]); Leseregel „Das stumme E“ um diesen Hinweis + shine/shining/making/writing ergänzt
+- Spickzettel: Link aus dem Wort zeigt oben nur die Laute dieses Wortes (?z=…) und hebt sie hervor
+- neue Datei datenbanken/glossar/lauthilfe_en.js; Cache sprachbox-v45
+
 ## 2026-11-17 – Fix: Stimmen überlagern sich im Diktat
 - Enter (weiter) im Schreib-Modus liest den alten Satz nicht mehr vor – nur noch der neue Satz ist zu hören
 - beim Wechsel zur nächsten Karte und beim Schließen wird jede laufende Sprachausgabe gestoppt (auch kein Wiederholen nach dem Ergebnis); Cache sprachbox-v44
