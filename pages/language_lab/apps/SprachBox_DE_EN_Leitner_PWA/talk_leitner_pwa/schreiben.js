@@ -17,7 +17,12 @@ let api = null; // { grade(known), next(), flipToAnswer(), speakBack(it), isAwai
 let current = null; // aktuelle Karte / текущая карточка
 let checked = null; // Ergebnis der Prüfung / результат проверки
 let mode = "aus";
-let stats = { richtig: 0, fast: 0, falsch: 0 };
+// 2026-11-17: Zählung pro Sitzung – richtig zählt nur ein Satz, der beim 1. Versuch ganz richtig war
+// RU: счёт за сессию – правильным считается только предложение, написанное полностью верно с первой попытки
+const LS_HIST = "sprachbox_de_en_schreiben_verlauf_v1";
+const leereStats = () => ({ saetze: 0, richtig: 0, versuche: 0, fehler: 0 });
+let stats = leereStats();
+let karte = { versuche: 0, ersterOk: null }; // aktuelle Karte / текущая карточка
 
 const $ = (id) => document.getElementById(id);
 
@@ -215,6 +220,7 @@ function applyModeUi() {
 
 function resetBox() {
   checked = null;
+  karte = { versuche: 0, ersterOk: null };
   const inp = $("inpSchreiben");
   const res = $("schreibErgebnis");
   if (inp) {
@@ -240,9 +246,14 @@ function focusInput() {
   if (!touch) setTimeout(() => inp.focus(), 60);
 }
 
+function prozent(st) {
+  return st.saetze ? Math.round((st.richtig / st.saetze) * 100) : 0;
+}
+
 function updateStats() {
   const el = $("lblSchreibStats");
-  if (el) el.textContent = `✅ ${stats.richtig} · 🟡 ${stats.fast} · ❌ ${stats.falsch}`;
+  if (el) el.textContent =
+    `Sätze ${stats.saetze} · ganz richtig ${stats.richtig} · Versuche ${stats.versuche} · Fehler ${stats.fehler} · ${prozent(stats)} %`;
 }
 
 function doCheck() {
@@ -259,36 +270,104 @@ function doCheck() {
   }
   const r = pruefe(current.en || "", typed);
   checked = r;
-  stats[r.urteil] += 1;
+  const ok = r.urteil === "richtig";
+  karte.versuche += 1;
+  stats.versuche += 1;
+  if (!ok) stats.fehler += 1;
+  if (karte.versuche === 1) {
+    karte.ersterOk = ok;
+    stats.saetze += 1;
+    if (ok) stats.richtig += 1;
+  }
   updateStats();
 
-  const titel = {
-    richtig: "✅ Richtig! / Правильно!",
-    fast: "🟡 Fast richtig! / Почти правильно – маленькая опечатка",
-    falsch: "❌ Noch nicht richtig / Пока неправильно",
-  }[r.urteil];
+  let titel;
+  if (ok && karte.versuche === 1) titel = "✅ Richtig! / Правильно с первой попытки!";
+  else if (ok) titel = `✅ Jetzt richtig! (${karte.versuche}. Versuch) – zählt als Fehler, die Karte kommt noch einmal / теперь правильно, но карточка вернётся на повторение`;
+  else if (r.urteil === "fast") titel = "🟡 Fast richtig – Tippfehler korrigieren und noch einmal Enter / опечатка: исправьте и снова Enter";
+  else titel = "❌ Noch nicht richtig – Fehler korrigieren und noch einmal Enter / исправьте ошибку и снова Enter";
   if (res) {
-    res.className = "schreibErgebnis is-" + r.urteil;
+    res.className = "schreibErgebnis is-" + (ok ? "richtig" : r.urteil);
     res.innerHTML = `<div class="sbTitel">${titel}</div><div class="sbZeile">${r.html}</div>`;
   }
-  if (inp) inp.disabled = false;
+  if (inp) {
+    inp.disabled = false;
+    if (!ok) inp.focus();
+  }
   const pr = $("btnSchreibPruefen");
-  if (pr) pr.textContent = r.urteil === "falsch" ? "↵ Weiter (nicht gewusst)" : "↵ Weiter (gewusst)";
+  if (pr) pr.textContent = ok ? "↵ Weiter" : "↵ Aufgeben / Weiter";
 
   // Antwort zeigen und Bewertung vorschlagen / показать ответ и подсказать оценку
   api?.flipToAnswer?.();
-  const gut = r.urteil !== "falsch";
+  const gut = karte.ersterOk === true;
   $("btnYes")?.classList.toggle("sbVorschlag", gut);
   $("btnNo")?.classList.toggle("sbVorschlag", !gut);
 }
 
-// Enter: 1× prüfen · 2× bewerten (nach Vorschlag) und nächste Karte
-// RU: Enter: 1-й раз – проверить, 2-й – оценить (как подсказано) и следующая карточка.
-//     Если хотите оценить иначе – нажмите «Gewusst»/«Nicht gewusst» мышкой.
+// Enter: prüfen · nach einem Fehler: Text korrigieren → Enter prüft noch einmal
+//        ohne Änderung Enter → weiter (Karte gilt als „nicht gewusst“ und kommt wieder)
+// RU: Enter – проверить; после ошибки исправьте текст → Enter проверит снова;
+//     Enter без исправления – дальше (карточка «не знал» и вернётся на повторение).
+//     «Gewusst» засчитывается, только если с первой попытки всё правильно.
 function onEnter() {
   if (!checked) return doCheck();
-  if (!api?.isAwaitingNext?.()) api?.grade?.(checked.urteil !== "falsch");
+  if (!api?.isAwaitingNext?.()) api?.grade?.(karte.ersterOk === true);
   api?.next?.();
+}
+
+// ---------- Ergebnis am Ende / итог в конце ----------
+function ladeVerlauf() {
+  try {
+    const v = JSON.parse(localStorage.getItem(LS_HIST) || "[]");
+    return Array.isArray(v) ? v : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+function zeigeErgebnis(st, verlauf) {
+  document.getElementById("schreibBilanz")?.remove();
+  const p = prozent(st);
+  const farbe = p >= 80 ? "var(--good)" : p >= 50 ? "#facc15" : "var(--bad)";
+  const zeilen = verlauf.slice(1, 6).map((h) =>
+    `<tr><td>${esc(h.datum)}</td><td>${h.richtig} / ${h.saetze}</td><td>${h.fehler}</td><td><b>${h.prozent} %</b></td></tr>`).join("");
+  const box = document.createElement("div");
+  box.id = "schreibBilanz";
+  box.className = "schreibBilanz";
+  box.innerHTML = `
+    <div class="schreibBilanzKarte" role="dialog" aria-label="Ergebnis">
+      <div class="sbTitel">✍️ Das Ergebnis / Итог</div>
+      <div class="sbProzent" style="color:${farbe}">${p} %</div>
+      <div class="mini">ganz richtig beim 1. Versuch / полностью правильно с первой попытки</div>
+      <table class="sbTabelle">
+        <tr><td>Sätze geschrieben</td><td><b>${st.saetze}</b></td></tr>
+        <tr><td>davon ganz richtig</td><td><b>${st.richtig}</b></td></tr>
+        <tr><td>mit Fehlern</td><td><b>${st.saetze - st.richtig}</b></td></tr>
+        <tr><td>Versuche insgesamt</td><td><b>${st.versuche}</b></td></tr>
+        <tr><td>Fehler insgesamt</td><td><b>${st.fehler}</b></td></tr>
+      </table>
+      ${zeilen ? `<div class="mini" style="margin-top:10px">Frühere Ergebnisse / прошлые результаты</div>
+      <table class="sbTabelle sbVerlauf"><tr><th>Datum</th><th>richtig</th><th>Fehler</th><th>%</th></tr>${zeilen}</table>` : ""}
+      <button class="btn primary" type="button" id="btnSchreibBilanzOk">OK</button>
+    </div>`;
+  document.body.appendChild(box);
+  const ok = box.querySelector("#btnSchreibBilanzOk");
+  ok.addEventListener("click", () => box.remove());
+  setTimeout(() => ok.focus(), 50);
+}
+
+// Lern-Sitzung beendet (Karte geschlossen oder alle Karten fertig)
+// RU: сессия закончилась – показать итог и сохранить его
+export function schreibenSitzungEnde() {
+  if (!stats.saetze) return;
+  const d = new Date();
+  const datum = d.toLocaleDateString("de-DE") + " " + d.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+  const verlauf = ladeVerlauf();
+  verlauf.unshift({ datum, modus: mode, ...stats, prozent: prozent(stats) });
+  try { localStorage.setItem(LS_HIST, JSON.stringify(verlauf.slice(0, 50))); } catch (_) {}
+  zeigeErgebnis(stats, verlauf);
+  stats = leereStats();
+  updateStats();
 }
 
 export function initSchreiben(appApi) {
@@ -357,6 +436,6 @@ export function schreibenNeueKarte(it) {
 
 // neue Lern-Sitzung / новая сессия
 export function schreibenNeueSitzung() {
-  stats = { richtig: 0, fast: 0, falsch: 0 };
+  stats = leereStats();
   updateStats();
 }

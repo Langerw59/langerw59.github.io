@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-17 – Schreiben: Fehler korrigieren + Ergebnis in Prozent
+- nach einem Fehler: Text korrigieren und noch einmal Enter (beliebig oft); Enter ohne Änderung = weiter
+- „gewusst“ nur, wenn der Satz beim 1. Versuch ganz richtig war; sonst „nicht gewusst“ → Box 1, die Karte kommt in derselben Sitzung noch einmal
+- Zähler in der Karte: Sätze · ganz richtig · Versuche · Fehler · Prozent
+- am Ende (Karte schließen oder alle Karten fertig): Fenster „Das Ergebnis“ mit Prozent und früheren Ergebnissen; Cache sprachbox-v43
+
 ## 2026-11-17 – der Schreib-Modus (Sprachführer + Diktat zusammen)
 - neuer Knopf in der Karte „✍️ Schreiben“: Aus → Lesen → Diktat (auch als Auswahl „✍️ Schreiben“ in den Einstellungen)
 - Lesen: deutscher Satz sichtbar, englischen Satz eintippen; Diktat: deutscher Satz verschwommen (👁 DE zeigt ihn), Englisch wird vorgelesen

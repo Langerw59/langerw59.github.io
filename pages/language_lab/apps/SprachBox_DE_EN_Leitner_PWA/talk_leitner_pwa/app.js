@@ -1,5 +1,5 @@
 // 2026-11-17: der Schreib-Modus (Karte auf Englisch schreiben) / режим письма
-import { initSchreiben, schreibenNeueKarte, schreibenNeueSitzung, getSchreibModus } from "./schreiben.js?v=20261117a";
+import { initSchreiben, schreibenNeueKarte, schreibenNeueSitzung, schreibenSitzungEnde, getSchreibModus } from "./schreiben.js?v=20261117b";
 // 2026-02-23 | RU: Pochtinka stabilnosti + 3 rezhima (Daily/Level/Review).
 // 2026-02-23 | DE: Stabilisierung + 3 Modi (Daily/Level/Review), minimal-invasiv.
 // 2026-02-23 | EN: Stability fixes + 3 modes (Daily/Level/Review), minimal changes.
@@ -3314,6 +3314,7 @@ function closeModal() {
   state.session.gradedCurrent = false;
   setNextVisible(false);
   setRatingEnabled(true);
+  schreibenSitzungEnde(); // 2026-11-17: Ergebnis Schreiben (Prozent) / итог письма
 }
 
 function finishSessionSummary() {

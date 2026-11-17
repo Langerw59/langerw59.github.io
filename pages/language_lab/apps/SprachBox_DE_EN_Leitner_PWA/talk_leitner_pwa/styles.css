@@ -1208,3 +1208,14 @@ body.mode-bg .bgPreviewThumb{
   #lblSchreibStats{ display: none; }
   body.schreibAn .card3d{ min-height: 110px; }
 }
+
+/* 2026-11-17: das Ergebnis am Ende (Prozent) / итог в конце */
+.schreibBilanz{ position: fixed; inset: 0; z-index: 10100; display: grid; place-items: center; background: rgba(4,8,18,.7); padding: 12px; }
+.schreibBilanzKarte{ width: min(440px, 94vw); max-height: 94dvh; overflow-y: auto; border-radius: 22px; padding: 18px; background: #111c33; color: #eaf0ff; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 20px 70px rgba(0,0,0,.6); text-align: center; }
+.schreibBilanzKarte .sbTitel{ font-size: 20px; font-weight: 800; }
+.sbProzent{ font-size: 56px; font-weight: 900; line-height: 1.1; margin: 6px 0 2px; }
+.sbTabelle{ width: 100%; margin: 10px 0; border-collapse: collapse; font-size: 16px; text-align: left; }
+.sbTabelle td, .sbTabelle th{ padding: 4px 6px; border-bottom: 1px solid rgba(255,255,255,.1); }
+.sbTabelle td:last-child{ text-align: right; }
+.sbVerlauf{ font-size: 14px; }
+.schreibBilanzKarte .btn{ min-width: 120px; margin-top: 6px; }

@@ -9,7 +9,7 @@
 // 2026-11-12: Knopf „Lieder“ (Lied-Trainer).
 // 2026-11-12: Lieder aus dem Lied-Trainer als Karteikarten.
 // 2026-11-17: der Schreib-Modus (schreiben.js).
-const CACHE = "sprachbox-v42";
+const CACHE = "sprachbox-v43";
 const CORE = [
   "./",
   "./index.html",
