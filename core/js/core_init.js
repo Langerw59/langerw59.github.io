@@ -279,3 +279,18 @@
   script.defer = true;
   document.head.appendChild(script);
 })();
+
+// ------------------------------------------------------------
+// 6) WORT-MARKIERER „📖 Glossar“  (2026-11-17)
+// ------------------------------------------------------------
+// DE: Englisches Wort markieren → Knopf „📖 Glossar“ → Karte mit Aussprache,
+//     Bedeutung, Herkunft; unbekannte Wörter vormerken. Aus: <body data-kein-markierer>
+// RU: выдели слово → «📖 Glossar» → карточка; неизвестные – в список ожидания.
+(function loadWortMarkierer() {
+  const SRC = "/core/js/wort_markierer.js";
+  if (window.__WORT_MARKIERER__ || document.querySelector('script[src$="wort_markierer.js"]')) return;
+  const script = document.createElement("script");
+  script.src = SRC + "?v=20261117b";
+  script.defer = true;
+  document.head.appendChild(script);
+})();

@@ -647,6 +647,9 @@
 
       // #w=retired → Wort öffnen
       function ausHash() {
+        // 2026-11-17: #tab=warte → gleich die Warteliste zeigen (aus dem Wort-Markierer)
+        const tb = location.hash.match(/tab=(alle|meine|warte)/);
+        if (tb) { const k = document.querySelector(`#tabs button[data-tab="${tb[1]}"]`); if (k) k.click(); }
         const m = location.hash.match(/w=([^&]+)/);
         if (!m) return;
         const e = idx[norm(decodeURIComponent(m[1]))];

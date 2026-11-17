@@ -155,7 +155,9 @@ window.LAUTSCHRIFT_EN = {
 "won't":"woʊnt","work":"wɜrk","working":"ˈwɜrkɪŋ","works":"wɜrks","would":"wʊd","write":"raɪt",
 "writing":"ˈraɪtɪŋ","written":"ˈrɪtən","wrong":"rɔŋ",
 "yes":"jes","yesterday":"ˈjestərdeɪ","you":"juː","you're":"jʊr","your":"jʊr",
-"zone":"zoʊn"
+"zone":"zoʊn",
+// 2026-11-17: Satzlabor-Wörter
+"build":"bɪld","type":"taɪp","analyse":"ˈænəlaɪz","sentence":"ˈsentəns","statement":"ˈsteɪtmənt","negative":"ˈneɡətɪv","positive":"ˈpɑzətɪv","subject":"ˈsʌbdʒɪkt","verb":"vɜrb","object":"ˈɑbdʒɪkt","indirect":"ˌɪndəˈrekt","output":"ˈaʊtpʊt","result":"rɪˈzʌlt","read":"riːd","aloud":"əˈlaʊd","automatically":"ˌɔtəˈmætɪkli","speed":"spiːd","normal":"ˈnɔrməl","clear":"klɪr","reset":"ˌriːˈset","plural":"ˈplʊrəl","article":"ˈɑrtɪkəl","adjective":"ˈædʒɪktɪv","whom":"huːm","often":"ˈɔfən","manner":"ˈmænər","frequency":"ˈfriːkwənsi","explanation":"ˌekspləˈneɪʃən","word":"wɜrd","personal":"ˈpɜrsənəl","pronoun":"ˈproʊnaʊn","modal":"ˈmoʊdəl","imperative":"ɪmˈperətɪv","example":"ɪɡˈzæmpəl","typical":"ˈtɪpɪkəl","mistake":"mɪˈsteɪk","tense":"tens","tenses":"ˈtensɪz","simple":"ˈsɪmpəl","past":"pæst","future":"ˈfjuːtʃər","perfect":"ˈpɜrfɪkt","progressive":"prəˈɡresɪv","continuous":"kənˈtɪnjuəs","built":"bɪlt","analyze":"ˈænəlaɪz","analysis":"əˈnæləsɪs","explain":"ɪkˈspleɪn","automatic":"ˌɔtəˈmætɪk","words":"wɜrdz","sentences":"ˈsentənsɪz","types":"taɪps","typing":"ˈtaɪpɪŋ","reading":"ˈriːdɪŋ","building":"ˈbɪldɪŋ","mistakes":"mɪˈsteɪks","examples":"ɪɡˈzæmpəlz"
 };
 // Hilfsfunktion: Lautschrift für ein Wort (auch „Without“, „sugar,“ …) / транскрипция слова
 window.lautschriftEN = function (wort) {
