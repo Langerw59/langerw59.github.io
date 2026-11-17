@@ -364,7 +364,14 @@
     .catch(() => { $("lrRegeln").innerHTML = '<p class="sub">Die Regeln konnten nicht geladen werden. / Не удалось загрузить правила.</p>'; });
 
   // Zurück – dorthin, woher man kam
+  // 2026-11-17: eigener Tab → schließen, SprachBox bleibt offen / своя вкладка – закрыть
+  function alsTabSchliessen() {
+    try { if (window.opener && !window.opener.closed) { window.opener.focus(); window.close(); return true; } } catch (e) {}
+    return false;
+  }
+  document.querySelectorAll('a[href="./index.html"]').forEach((a) => a.addEventListener("click", (ev) => { if (alsTabSchliessen()) ev.preventDefault(); }));
   $("lrZurueck").addEventListener("click", function () {
+    if (alsTabSchliessen()) return;
     let ref = "";
     try { const r = new URL(document.referrer); if (r.origin === location.origin) ref = r.href; } catch (e) {}
     if (ref && history.length > 1) { history.back(); return; }

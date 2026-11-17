@@ -10,7 +10,7 @@
 // 2026-11-12: Lieder aus dem Lied-Trainer als Karteikarten.
 // 2026-11-17: der Schreib-Modus (schreiben.js).
 // 2026-11-17: Spickzettel ?z=, Leseregel stummes E (shining).
-const CACHE = "sprachbox-v45";
+const CACHE = "sprachbox-v46";
 const CORE = [
   "./",
   "./index.html",

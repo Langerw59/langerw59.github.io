@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-17 – Glossar, Spickzettel, Leseregeln im eigenen Tab
+- aus der SprachBox (Knöpfe oben und Wortkarte) öffnen Glossar, Spickzettel und Leseregeln jeweils in einem eigenen Tab – die Karteikarten-Sitzung bleibt offen und fängt nicht von vorn an
+- immer derselbe Tab pro Seite (kein Tab-Chaos); „↩ Zurück“ schließt den Tab und zeigt wieder die SprachBox; Cache sprachbox-v46
+
 ## 2026-11-17 – „Wie liest man das?“ direkt beim Wort
 - Glossar und Wortkarte: [Lautschrift] antippen = Wort anhören
 - neuer Block „Wie liest man das?“: jeder Laut einzeln (ʃ = das sch «ш», aɪ «ай» …, mit Beispiel zum Anhören) und die passende Leseregel mit Link (z. B. shine: das stumme E)

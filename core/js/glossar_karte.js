@@ -172,7 +172,7 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
     mehr.open = false;
     const ipaWort = lang === "en" ? ipa(wort) : "";
     const ipaZeile = ipaWort
-      ? `<div class="gk-ipa"><b>${esc(norm(wort))}</b><button type="button" class="gk-l gk-ipa-btn" title="anhören / послушать">[${esc(ipaWort)}] 🔊</button><a href="${SPICK_SEITE}${SPICK_SEITE.indexOf("?") < 0 ? "?" : "&"}von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}" title="Spickzettel – die Lautschrift">🔤 Spickzettel / шпаргалка</a></div>`
+      ? `<div class="gk-ipa"><b>${esc(norm(wort))}</b><button type="button" class="gk-l gk-ipa-btn" title="anhören / послушать">[${esc(ipaWort)}] 🔊</button><a href="${SPICK_SEITE}${SPICK_SEITE.indexOf("?") < 0 ? "?" : "&"}von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}" target="quantura_spick" title="Spickzettel – die Lautschrift (eigener Tab)">🔤 Spickzettel / шпаргалка</a></div>`
       : "";
     const ipaGrund = e && norm(e.w) !== norm(wort) && ipa(e.w) ? ` <span class="gk-l2">[${esc(ipa(e.w))}]</span>` : "";
     // 2026-11-17: „Wie liest man das?“ – aufklappbar / раскрывается
@@ -194,7 +194,7 @@ details.gk-mehr[open]>summary::before{content:"▾ "}
         <div class="gk-knoepfe">
           <button type="button" class="gk-merk ${gemerkt ? "ok" : ""}">${gemerkt ? "✓ Im Glossar" : "📖 Ins Glossar / в глоссарий"}</button>
           <button type="button" class="gk-hoer">🔊</button>
-          <a href="${GLOSSAR_SEITE}#w=${encodeURIComponent(e.w)}&von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}">Glossar öffnen →</a>
+          <a href="${GLOSSAR_SEITE}#w=${encodeURIComponent(e.w)}&von=${encodeURIComponent(location.pathname + location.search)}&vonName=${encodeURIComponent(seitenName())}" target="quantura_glossar" title="im eigenen Tab – die Karteikarten bleiben offen">Glossar öffnen ↗</a>
         </div>`;
     } else {
       karte.innerHTML = `

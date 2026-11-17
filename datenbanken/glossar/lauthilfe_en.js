@@ -160,7 +160,7 @@
     const rg = regeln(wort, ipa);
     const lese = opt.lese || "";
     const regelnHtml = rg.length
-      ? `<ul class="lh-regeln">${rg.map((x) => `<li>${lese ? `<a href="${lese}#r-${x.id}">📏 ${esc(x.titel)}</a>` : `<b>📏 ${esc(x.titel)}</b>`}: ${x.text}</li>`).join("")}</ul>`
+      ? `<ul class="lh-regeln">${rg.map((x) => `<li>${lese ? `<a href="${lese}#r-${x.id}" target="quantura_lese">📏 ${esc(x.titel)}</a>` : `<b>📏 ${esc(x.titel)}</b>`}: ${x.text}</li>`).join("")}</ul>`
       : "";
     const spick = opt.spick
       ? `${opt.spick}${opt.spick.indexOf("?") < 0 ? "?" : "&"}z=${encodeURIComponent(laute.join(","))}${opt.von ? "&von=" + encodeURIComponent(opt.von) : ""}`
@@ -169,7 +169,7 @@
       <div class="lh-titel">Wie liest man das? / как читается <b>${esc(wort)}</b> [${esc(ipa)}]</div>
       <div class="lh-laute">${chips}</div>
       ${regelnHtml}
-      <div class="lh-links">${spick ? `<a href="${spick}">🔤 diese Laute im Spickzettel</a>` : ""}${lese ? `<a href="${lese}">📏 alle Leseregeln</a>` : ""}</div>
+      <div class="lh-links">${spick ? `<a href="${spick}" target="quantura_spick">🔤 diese Laute im Spickzettel ↗</a>` : ""}${lese ? `<a href="${lese}" target="quantura_lese">📏 alle Leseregeln ↗</a>` : ""}</div>
     </div>`;
   }
 
