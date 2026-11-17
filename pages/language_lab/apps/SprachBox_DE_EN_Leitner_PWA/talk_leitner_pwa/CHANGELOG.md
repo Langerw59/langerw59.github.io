@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-17 – Schreiben: die Groß- und Kleinschreibung wird geprüft
+- kleiner Satzanfang, kleines „I“ oder unnötiger Großbuchstabe = Fehler (Wort rot unterstrichen, daneben deine Schreibweise)
+- Häkchen „Groß-/Kleinschreibung prüfen“ zum Ausschalten; Kurzformen (I'm = I am) weiter erlaubt; Cache sprachbox-v49
+
 ## 2026-11-17 – Schreiben: die Satzzeichen werden mitgeprüft
 - . , ? ! werden geprüft (Groß-/Kleinschreibung weiterhin nicht); fehlendes/falsches Zeichen rot umrandet; „ganz richtig“ nur mit richtigen Satzzeichen
 - „!“ und „.“ am Satzende gelten als gleich (im Englischen ist „!“ freiwillig) – nur ein Hinweis; „?“ muss stimmen

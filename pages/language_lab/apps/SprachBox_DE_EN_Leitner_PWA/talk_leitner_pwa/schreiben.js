@@ -3,7 +3,7 @@
 //   Aus     – как раньше (только переворачивать)
 //   Lesen   – видишь немецкий текст, пишешь английский
 //   Diktat  – немецкий текст скрыт, английский звучит, пишешь услышанное
-// Проверка: регистр и знаки препинания не считаются ошибкой; ошибки показываются по словам и буквам.
+// Проверка: знаки препинания и большие/маленькие буквы проверяются (можно выключить); ошибки показываются по словам и буквам.
 
 const LS_KEY = "sprachbox_de_en_schreiben_v1";
 const MODES = ["aus", "lesen", "diktat"];
@@ -190,6 +190,28 @@ function zeichenProWort(text) {
 }
 const gleichZeichen = (a, b) => a.replace(/!/g, ".") === b.replace(/!/g, ".");
 
+// 2026-11-17: die Groß- und Kleinschreibung wird geprüft / проверка больших и маленьких букв
+const LS_GROSS = "sprachbox_de_en_schreiben_gross_v1";
+let grossPruefen = true;
+try { grossPruefen = localStorage.getItem(LS_GROSS) !== "aus"; } catch (_) {}
+// Originalwort (ohne Satzzeichen) zu jedem Vergleichswort / исходное слово для каждого слова сравнения
+function wortRoh(text) {
+  const arr = [];
+  for (const tok of displayTokens(text)) {
+    const n = compareWords(tok).length;
+    const kern = tok.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "");
+    for (let k = 0; k < n; k++) arr.push({ kern, erstes: k === 0, einzeln: n === 1 });
+  }
+  return arr;
+}
+function grossFehler(t, u) {
+  if (!t || !u || !t.kern || !u.kern) return false;
+  if (t.einzeln && u.einzeln && t.kern.toLowerCase() === u.kern.toLowerCase()) return t.kern !== u.kern;
+  if (!t.erstes || !u.erstes) return false;
+  const a = t.kern[0], b = u.kern[0];
+  return a.toLowerCase() === b.toLowerCase() && a !== b;
+}
+
 function pruefe(targetText, typedText) {
   const tWords = compareWords(targetText);
   const uWords = compareWords(typedText);
@@ -216,8 +238,18 @@ function pruefe(targetText, typedText) {
       zFehler[o.ti] = { soll, ist };
     }
   }
+  // Groß-/Kleinschreibung / большие и маленькие буквы
+  const gFehler = {}; // ti → getippt
+  if (grossPruefen) {
+    const tR = wortRoh(targetText), uR = wortRoh(typedText);
+    for (const o of ops) {
+      if ((o.t !== "ok" && o.t !== "typo") || o.ti == null) continue;
+      if (grossFehler(tR[o.ti], uR[o.tj])) gFehler[o.ti] = (uR[o.tj] || {}).kern || o.typed;
+    }
+  }
+  const gAnzahl = Object.keys(gFehler).length;
   const zAnzahl = Object.keys(zFehler).length;
-  if (urteil === "richtig" && zAnzahl) urteil = "zeichen";
+  if (urteil === "richtig" && (zAnzahl || gAnzahl)) urteil = "zeichen";
 
   if (urteil === "richtig") {
     let html = `<span class="sbOk">${esc(String(targetText).trim())}</span>`;
@@ -231,9 +263,11 @@ function pruefe(targetText, typedText) {
     const tz = tZ[o.ti] || { roh: "", z: "" };
     // Wort ohne Satzzeichen hinten / слово без знаков в конце
     const roh = disp(targetText, tWords, o);
-    const kern = roh.slice(0, roh.length - tz.roh.length) || o.target;
+    const kern = roh.slice(0, roh.length - tz.roh.length);
+    if (!kern && o.t === "ok" && gFehler[o.ti] == null) { if (tz.roh) parts.push(esc(tz.roh)); continue; } // 2. Teil einer Kurzform
     let wort;
-    if (o.t === "ok") wort = `<span class="sbOk">${esc(kern)}</span>`;
+    if (o.t === "ok" && gFehler[o.ti] != null) wort = `<span class="sbGross" title="Groß-/Kleinschreibung – du: ${esc(gFehler[o.ti])}">${esc(kern)}</span><span class="sbYou">(${esc(gFehler[o.ti])})</span>`;
+    else if (o.t === "ok") wort = `<span class="sbOk">${esc(kern)}</span>`;
     else if (o.t === "typo") {
       const core = compareWords(kern).join("") === o.target ? kern.replace(/^[^\p{L}\p{N}]+/u, "") : o.target;
       const vorn = (kern.match(/^[^\p{L}\p{N}]*/u) || [""])[0];
@@ -250,16 +284,22 @@ function pruefe(targetText, typedText) {
     }
     parts.push(wort + zeichen);
   }
-  let html = parts.join(" ");
+  let html = parts.join(" ").replace(/ ([.,!?;:])/g, "$1");
   if (zAnzahl) html += `<div class="sbInfo">🔴 rot umrandet = das Satzzeichen (знак препинания) fehlt oder ist falsch</div>`;
-  return { urteil, html, fehler: fehler.length + zAnzahl };
+  if (gAnzahl) html += `<div class="sbInfo">🔴 rot unterstrichen = die Groß-/Kleinschreibung (большая/маленькая буква) ist falsch</div>`;
+  return { urteil, html, fehler: fehler.length + zAnzahl + gAnzahl };
 }
 
 // Anzeigewort zum Vergleichswort / слово в оригинальном виде
 function disp(targetText, tWords, o) {
   const d = displayTokens(targetText);
   if (d.length === tWords.length && o.ti != null) return d[o.ti];
-  return o.target + ((zeichenProWort(targetText)[o.ti] || {}).roh || "");
+  // Kurzformen (I'm = I am): das ganze Originalwort beim ersten Teil zeigen / сокращение показать целиком
+  const r = wortRoh(targetText)[o.ti];
+  const z = (zeichenProWort(targetText)[o.ti] || {}).roh || "";
+  if (r && r.einzeln) return r.kern + z;
+  if (r && r.erstes) return r.kern + z;
+  return z;
 }
 
 export function setZeichenPruefen(an) {
@@ -268,6 +308,10 @@ export function setZeichenPruefen(an) {
 }
 export function getZeichenPruefen() {
   return zeichenPruefen;
+}
+export function setGrossPruefen(an) {
+  grossPruefen = !!an;
+  try { localStorage.setItem(LS_GROSS, an ? "an" : "aus"); } catch (_) {}
 }
 
 // ---------- Oberfläche / интерфейс ----------
@@ -354,7 +398,7 @@ function doCheck() {
   let titel;
   if (ok && karte.versuche === 1) titel = "✅ Richtig! / Правильно с первой попытки!";
   else if (ok) titel = `✅ Jetzt richtig! (${karte.versuche}. Versuch) – zählt als Fehler, die Karte kommt noch einmal / теперь правильно, но карточка вернётся на повторение`;
-  else if (r.urteil === "zeichen") titel = "🟡 Die Wörter sind richtig – aber die Satzzeichen nicht. Korrigieren und noch einmal Enter / слова верны, но знаки препинания нет";
+  else if (r.urteil === "zeichen") titel = "🟡 Die Wörter sind richtig – aber die Schreibung nicht (Satzzeichen / Groß-Kleinschreibung). Korrigieren und noch einmal Enter / слова верны, но знаки или большие буквы – нет";
   else if (r.urteil === "fast") titel = "🟡 Fast richtig – Tippfehler korrigieren und noch einmal Enter / опечатка: исправьте и снова Enter";
   else titel = "❌ Noch nicht richtig – Fehler korrigieren und noch einmal Enter / исправьте ошибку и снова Enter";
   if (res) {
@@ -495,6 +539,11 @@ export function initSchreiben(appApi) {
     });
   }
   // 2026-11-17: Satzzeichen prüfen an/aus
+  const chkG = $("chkSchreibGross");
+  if (chkG) {
+    chkG.checked = grossPruefen;
+    chkG.addEventListener("change", () => setGrossPruefen(chkG.checked));
+  }
   const chk = $("chkSchreibZeichen");
   if (chk) {
     chk.checked = getZeichenPruefen();

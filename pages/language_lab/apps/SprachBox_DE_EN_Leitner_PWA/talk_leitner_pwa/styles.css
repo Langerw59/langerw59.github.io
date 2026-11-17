@@ -1226,3 +1226,4 @@ body.mode-bg .bgPreviewThumb{
 .schreibFuss{ display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
 .sbZeichenWahl{ cursor: pointer; white-space: nowrap; }
 @media (orientation: landscape) and (max-height: 560px){ .schreibFuss{ display: none; } }
+.sbGross{ color: var(--good); font-weight: 700; text-decoration: underline wavy var(--bad); text-decoration-thickness: 2px; text-underline-offset: 3px; }
