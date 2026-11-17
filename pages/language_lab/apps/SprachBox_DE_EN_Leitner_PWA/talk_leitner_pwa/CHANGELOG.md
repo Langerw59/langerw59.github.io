@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-17 – Schreiben „DE → EN übersetzen“: erst Deutsch, Englisch erst nach dem Prüfen
+- Modus „Lesen“ heißt jetzt „DE → EN übersetzen“: neue Karte → deutscher Satz wird gezeigt und vorgelesen; Englisch erst nach Enter/Prüfen (Karte dreht sich + englische Stimme)
+- Modus „Diktat“ heißt „Diktat (EN hören)“ – dort wird absichtlich zuerst Englisch vorgelesen; Cache sprachbox-v51
+
 ## 2026-11-17 – Schreiben: der Akzent (é) ist freiwillig
 - café = cafe (é, è, ê, ç ohne Strich gelten als richtig), mit Hinweis, wie man é tippt (´ neben ß, dann e); Umlaute ä ö ü zählen weiter
 - ein falsches Häkchen ' hinter dem Wort zählt als Satzzeichen-Fehler; Cache sprachbox-v50

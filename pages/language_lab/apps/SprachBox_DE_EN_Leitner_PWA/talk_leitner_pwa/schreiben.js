@@ -9,8 +9,8 @@ const LS_KEY = "sprachbox_de_en_schreiben_v1";
 const MODES = ["aus", "lesen", "diktat"];
 const MODE_LABEL = {
   aus: "✍️ Schreiben: Aus",
-  lesen: "✍️ Schreiben: Lesen",
-  diktat: "✍️ Schreiben: Diktat 🎧",
+  lesen: "✍️ Schreiben: DE → EN übersetzen",
+  diktat: "✍️ Schreiben: Diktat (EN hören) 🎧",
 };
 
 let api = null; // { grade(known), next(), flipToAnswer(), speakBack(it), isAwaitingNext() }
@@ -424,8 +424,10 @@ function doCheck() {
   const pr = $("btnSchreibPruefen");
   if (pr) pr.textContent = ok ? "↵ Weiter" : "↵ Aufgeben / Weiter";
 
-  // Antwort zeigen und Bewertung vorschlagen / показать ответ и подсказать оценку
+  // Antwort zeigen, Englisch vorlesen und Bewertung vorschlagen
+  // RU: показать ответ, озвучить английский (только после проверки) и подсказать оценку
   api?.flipToAnswer?.();
+  if (karte.versuche === 1 || ok) api?.speakBack?.(current);
   const gut = karte.ersterOk === true;
   $("btnYes")?.classList.toggle("sbVorschlag", gut);
   $("btnNo")?.classList.toggle("sbVorschlag", !gut);

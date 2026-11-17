@@ -1,5 +1,5 @@
 // 2026-11-17: der Schreib-Modus (Karte auf Englisch schreiben) / режим письма
-import { initSchreiben, schreibenNeueKarte, schreibenNeueSitzung, schreibenSitzungEnde, getSchreibModus } from "./schreiben.js?v=20261117f";
+import { initSchreiben, schreibenNeueKarte, schreibenNeueSitzung, schreibenSitzungEnde, getSchreibModus } from "./schreiben.js?v=20261117g";
 // 2026-02-23 | RU: Pochtinka stabilnosti + 3 rezhima (Daily/Level/Review).
 // 2026-02-23 | DE: Stabilisierung + 3 Modi (Daily/Level/Review), minimal-invasiv.
 // 2026-02-23 | EN: Stability fixes + 3 modes (Daily/Level/Review), minimal changes.
@@ -3395,9 +3395,11 @@ function nextCard() {
   // 2026-11-17: zuerst alles Alte stoppen, dann im Diktat-Modus immer Englisch vorlesen
   // RU: сначала остановить старую озвучку, потом в режиме диктанта читать английский
   stopAllSpeech();
+  // 2026-11-17: Übersetzen-Modus: zuerst nur Deutsch hören, Englisch erst nach dem Prüfen
+  // RU: режим перевода – сначала только немецкий, английский – после проверки
   if (getSchreibModus() === "diktat") {
     speakBack(it);
-  } else if (state.settings.tts === "de" || state.settings.tts === "both") {
+  } else if (getSchreibModus() === "lesen" ? state.settings.tts !== "off" : (state.settings.tts === "de" || state.settings.tts === "both")) {
     speak(it.de, "de-DE");
   }
 }
