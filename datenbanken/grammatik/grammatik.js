@@ -42,24 +42,77 @@ window.GRAMMATIK = {
       id: "en-ing",
       thema: "verb",
       sprache: "en",
-      datum: "2026-11-12",
-      titel: "die Endung -ing",
-      titel_ru: "окончание -ing (stay → staying)",
-      formel: "am / is / are + Verb-ing = gerade jetzt  ·  Verb-ing allein = das Bleiben (как существительное)",
+      datum: "2026-11-12, überarbeitet 2026-11-17",
+      titel: "die Endung -ing (das Partizip I und das Gerundium)",
+      titel_ru: "окончание -ing: go → going, visit → visiting",
+      formel: "Verb + -ing = das Verb «im Gang»  ·  going ≈ gehend ≈ идущий / идя / хождение",
       erklaerung: [
-        "-ing НЕ имеет отношения к частице «-ся». «Ся» есть только в русском слове «оставаться». Английское stay само уже значит «оставаться» (по-немецки bleiben – тоже без «sich»).",
-        "1) Действие идёт прямо сейчас или временно (Present Continuous): am / is / are + глагол + -ing. В немецком и русском отдельной формы нет – немцы добавляют слово gerade, русские понимают по смыслу. Англичане обязаны менять сам глагол.",
-        "2) Действие как предмет (das Gerundium): глагол + -ing без am/is/are. Это как немецкое das Lesen, das Schwimmen, das Bleiben – из глагола сделали существительное."
+        "-ING – ЭТО ОДНА ИЗ ФОРМ ГЛАГОЛА. Как немецкий глагол имеет формы gehen – geht – ging – gegangen, так и у английского глагола есть свои формы: go – goes – went – gone – going. Каждая форма нужна для своего времени (die Zeitform). Смотрите первую таблицу.",
+        "КАЖДОЕ ВРЕМЯ ИМЕЕТ ПАРУ: простое (Simple) и «в процессе» (Continuous). Формула Continuous: глагол be в нужном времени + форма на -ing. Меняется только be (am → was → will be), а going остаётся всегда одинаковым. Смотрите вторую таблицу – она построена на предложении «Ich gehe nach Hause».",
+        "ГЛАВНАЯ МЫСЛЬ. Простая форма (go, visit) называет действие вообще – как в словаре: «ходить», «посещать». Форма с -ing (going, visiting) показывает действие изнутри: оно идёт, длится, ещё не закончено. Ближе всего по-немецки окончание -end: gehen → gehend, besuchen → besuchend (das Partizip I). По-русски: идущий / идя, посещающий / посещая.",
+        "Форма с -ing сама по себе – не сказуемое. Нельзя сказать I going или we visiting. Ей всегда нужен помощник перед ней или своё место в предложении. Таких ролей четыре.",
+        "РОЛЬ 1 – «сейчас в процессе» (das Present Continuous): am / is / are + -ing. Дословно I am going = «я есть идущий», по-немецки «ich bin gehend». Так по-немецки не говорят, говорят Ich gehe gerade. А в английском am going обязательно, если действие идёт в эту минуту или временно (сегодня, на этой неделе).",
+        "То же в прошлом (das Past Continuous): was / were + -ing = «был в процессе». I was reading when you called – я как раз читал, когда ты позвонил. Обычно так описывают фон, на котором что-то случилось.",
+        "РОЛЬ 2 – план (going to): am / is / are going to + простой глагол = «собираюсь». Здесь going уже не значит «иду», это готовое выражение, как немецкое Ich habe vor … или Ich werde …. После to глагол стоит без -ing: going to visit, а не going to visiting.",
+        "РОЛЬ 3 – действие как предмет (das Gerundium). Перед ним нет am / is / are. Это как немецкое das Besuchen, das Lesen, das Reisen: из глагола сделали существительное. Где его ставят: в начале предложения (Visiting museums is interesting); после глаголов like, love, enjoy, stop, finish (I like reading); после предлогов before, after, without (before going – vor dem Gehen, перед тем как идти).",
+        "РОЛЬ 4 – признак, как прилагательное (das Partizip I). Стоит перед существительным: a sleeping child – ein schlafendes Kind – спящий ребёнок; boiling water – kochendes Wasser – кипящая вода. Здесь английский и немецкий совпадают полностью: -ing = -end.",
+        "КАК УЗНАТЬ РОЛЬ – посмотрите, что стоит слева. am / is / are / was / were → процесс (роль 1). going to → план (роль 2). like, stop, before … или -ing в начале предложения → действие как предмет (роль 3). Сразу после -ing идёт существительное (a sleeping child) → признак (роль 4).",
+        "ИСКЛЮЧЕНИЯ для роли 1. Глаголы состояния обычно без -ing, потому что это не процесс: know, like, want, need, understand, have (= иметь). Правильно I know, I want – а не I am knowing.",
+        "ПРОИЗНОШЕНИЕ: -ing [ɪŋ] – короткое «и» и носовое «н», как в немецком der Ring, lang. Звук «г» в конце не произносится: going ≈ «гоуин», не «гоуинг».",
+        "ПРАВОПИСАНИЕ – смотрите третью таблицу."
+      ],
+      tabellen: [
+      {
+        titel: "1) die Formen des Verbs · формы глагола (go = gehen)",
+        kopf: ["English", "Deutsch", "Русский", "wofür · для чего"],
+        sprechen: 0,
+        zeilen: [
+          ["go",    "gehen (der Infinitiv)",     "идти / ходить",   "вообще; I go, we go"],
+          ["goes",  "er geht",                   "он идёт",         "только he / she / it в настоящем"],
+          ["went",  "ging (das Präteritum)",     "шёл / пошёл",     "прошлое: I went"],
+          ["gone",  "gegangen (das Partizip II)", "ушёл / ушедший", "с have: I have gone"],
+          ["going", "gehend (das Partizip I)",   "идущий / идя",    "с am / is / are / was / were: I am going"]
+        ]
+      },
+      {
+        titel: "2) die Zeitformen: einfach und mit -ing · времена: простое и с -ing",
+        kopf: ["English", "der Name", "Deutsch", "Русский"],
+        sprechen: 0,
+        zeilen: [
+          ["I go home.",             "Present Simple",     "Ich gehe nach Hause. (oft, immer)",       "Я хожу домой (обычно)."],
+          ["I am going home.",       "Present Continuous", "Ich gehe gerade nach Hause.",              "Я сейчас иду домой."],
+          ["I went home.",           "Past Simple",        "Ich ging nach Hause.",                     "Я пошёл домой."],
+          ["I was going home.",      "Past Continuous",    "Ich war gerade auf dem Weg nach Hause.",   "Я как раз шёл домой."],
+          ["I have gone home.",      "Present Perfect",    "Ich bin nach Hause gegangen.",             "Я ушёл домой (и теперь дома)."],
+          ["I will go home.",        "Future Simple",      "Ich werde nach Hause gehen.",              "Я пойду домой."],
+          ["I will be going home.",  "Future Continuous",  "Ich werde gerade nach Hause gehen.",       "Я буду (в тот момент) идти домой."],
+          ["I am going to go home.", "going to",           "Ich habe vor, nach Hause zu gehen.",       "Я собираюсь пойти домой."]
+        ]
+      },
+      {
+        titel: "3) die Rechtschreibung · правописание",
+        kopf: ["die Regel · правило", "das Verb", "+ -ing"],
+        sprechen: false,
+        zeilen: [
+          ["normal · обычно просто + ing", "go · visit · read", "going · visiting · reading"],
+          ["stummes e fällt weg · немая e на конце выпадает", "make · come · write", "making · coming · writing"],
+          ["kurze betonte Silbe · короткий ударный слог: согласная удваивается", "sit · run · stop · swim", "sitting · running · stopping · swimming (aber: visit → visiting, ударение не на конце)"],
+          ["ie → y", "lie · die", "lying · dying"]
+        ]
+      }
       ],
       beispiele: [
-        { en: "I stay at home on Sundays.", de: "Ich bleibe sonntags zu Hause.", ru: "По воскресеньям я сижу дома.", hinweis: "привычка – просто stay" },
-        { en: "I am staying at home today.", de: "Ich bleibe heute (gerade) zu Hause.", ru: "Сегодня я остаюсь дома.", hinweis: "сейчас / временно – am staying" },
-        { en: "I work.", de: "Ich arbeite.", ru: "Я работаю (вообще).", hinweis: "" },
-        { en: "I am working.", de: "Ich arbeite gerade.", ru: "Я сейчас работаю (занят).", hinweis: "" },
-        { en: "Staying here is nice.", de: "Das Bleiben hier ist schön.", ru: "Оставаться здесь приятно.", hinweis: "das Gerundium" },
-        { en: "I like reading.", de: "Ich mag das Lesen.", ru: "Я люблю чтение.", hinweis: "das Gerundium" }
+        { en: "I go home at five.", de: "Ich gehe um fünf nach Hause.", ru: "Я иду (хожу) домой в пять.", hinweis: "вообще, по привычке – просто go" },
+        { en: "I am going home now.", de: "Ich gehe jetzt (gerade) nach Hause.", ru: "Я сейчас иду домой.", hinweis: "роль 1 · дословно: я есть идущий домой сейчас" },
+        { en: "We are visiting our son this week.", de: "Wir besuchen diese Woche unseren Sohn.", ru: "На этой неделе мы в гостях у сына.", hinweis: "роль 1 · временно, на этой неделе" },
+        { en: "I was reading when you called.", de: "Ich habe gerade gelesen, als du angerufen hast.", ru: "Я как раз читал, когда ты позвонил.", hinweis: "роль 1 в прошлом · was + -ing" },
+        { en: "I am going to visit Venice.", de: "Ich habe vor, Venedig zu besuchen.", ru: "Я собираюсь посетить Венецию.", hinweis: "роль 2 · going to = собираюсь" },
+        { en: "Visiting museums is interesting.", de: "Das Besuchen von Museen ist interessant.", ru: "Посещать музеи интересно.", hinweis: "роль 3 · visiting = das Besuchen" },
+        { en: "I like going to the sea.", de: "Ich fahre gern ans Meer.", ru: "Я люблю ездить на море.", hinweis: "роль 3 · после like" },
+        { en: "Close the door before going out.", de: "Schließ die Tür, bevor du hinausgehst.", ru: "Закрой дверь перед тем, как выйти.", hinweis: "роль 3 · после before" },
+        { en: "Look at the sleeping child.", de: "Sieh das schlafende Kind an.", ru: "Посмотри на спящего ребёнка.", hinweis: "роль 4 · -ing = -end = -ящий" }
       ],
-      merke: "stay = bleiben (вообще) · am staying = gerade bleiben (сейчас) · staying = das Bleiben (предмет)"
+      merke: "go = gehen (вообще) · am going = ich gehe gerade (процесс) · going to = ich habe vor (план) · going = das Gehen (предмет) · a sleeping child = ein schlafendes Kind (признак)"
     },
     {
       id: "en-pronomen",

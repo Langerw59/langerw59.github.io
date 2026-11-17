@@ -118,18 +118,22 @@
         if (r.formel) body.appendChild(el("div", "gr-formel", r.formel));
         (r.erklaerung || []).forEach((p) => body.appendChild(el("p", null, p)));
 
-        if (r.tabelle) {
+        // 2026-11-17: mehrere Tabellen (tabellen: [...]) und sprechen = Spaltennummer
+        const tabListe = r.tabellen || (r.tabelle ? [r.tabelle] : []);
+        tabListe.forEach((tab) => {
+          if (tab.titel) body.appendChild(el("h4", null, tab.titel));
+          const sprichSpalte = (i) => tab.sprechen === true || tab.sprechen === i || (Array.isArray(tab.sprechen) && tab.sprechen.includes(i));
           const wrap = el("div", "gr-tab-wrap");
           const t = el("table", "gr-tab");
-          const tr0 = el("tr"); r.tabelle.kopf.forEach((k) => tr0.appendChild(el("th", null, k)));
+          const tr0 = el("tr"); tab.kopf.forEach((k) => tr0.appendChild(el("th", null, k)));
           t.appendChild(tr0);
-          r.tabelle.zeilen.forEach((z) => {
+          tab.zeilen.forEach((z) => {
             const tr = el("tr");
-            z.forEach((zelle) => {
+            z.forEach((zelle, i) => {
               const td = el("td");
               const teile = String(zelle).split(" · ");
               const erst = teile.shift();
-              if (r.tabelle.sprechen && erst !== "—") {
+              if (sprichSpalte(i) && erst !== "—") {
                 const b = el("b", null, erst);
                 b.title = "anhören / послушать";
                 b.addEventListener("click", () => sprich(erst, r.sprache || "en", td));
@@ -141,7 +145,7 @@
             t.appendChild(tr);
           });
           wrap.appendChild(t); body.appendChild(wrap);
-        }
+        });
 
         if (r.beispiele && r.beispiele.length) {
           const g = el("div", "gr-bsp");
