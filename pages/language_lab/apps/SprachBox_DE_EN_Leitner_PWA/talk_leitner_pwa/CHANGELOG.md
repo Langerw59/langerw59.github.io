@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-17 – Fix: Stimmen überlagern sich im Diktat
+- Enter (weiter) im Schreib-Modus liest den alten Satz nicht mehr vor – nur noch der neue Satz ist zu hören
+- beim Wechsel zur nächsten Karte und beim Schließen wird jede laufende Sprachausgabe gestoppt (auch kein Wiederholen nach dem Ergebnis); Cache sprachbox-v44
+
 ## 2026-11-17 – Schreiben: Fehler korrigieren + Ergebnis in Prozent
 - nach einem Fehler: Text korrigieren und noch einmal Enter (beliebig oft); Enter ohne Änderung = weiter
 - „gewusst“ nur, wenn der Satz beim 1. Versuch ganz richtig war; sonst „nicht gewusst“ → Box 1, die Karte kommt in derselben Sitzung noch einmal

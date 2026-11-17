@@ -1,5 +1,5 @@
 // 2026-11-17: der Schreib-Modus (Karte auf Englisch schreiben) / режим письма
-import { initSchreiben, schreibenNeueKarte, schreibenNeueSitzung, schreibenSitzungEnde, getSchreibModus } from "./schreiben.js?v=20261117b";
+import { initSchreiben, schreibenNeueKarte, schreibenNeueSitzung, schreibenSitzungEnde, getSchreibModus } from "./schreiben.js?v=20261117c";
 // 2026-02-23 | RU: Pochtinka stabilnosti + 3 rezhima (Daily/Level/Review).
 // 2026-02-23 | DE: Stabilisierung + 3 Modi (Daily/Level/Review), minimal-invasiv.
 // 2026-02-23 | EN: Stability fixes + 3 modes (Daily/Level/Review), minimal changes.
@@ -3308,6 +3308,7 @@ function openModal() {
 }
 function closeModal() {
   stopLearningTimer();
+  stopAllSpeech(); // 2026-11-17: beim Schließen nichts mehr vorlesen / при закрытии замолчать
   if (els.modal) els.modal.hidden = true;
   hideWordPopup();
   state.session.awaitingNext = false;
@@ -3391,7 +3392,9 @@ function nextCard() {
   openModal();
 
   // Optional auto TTS on open
-  // 2026-11-17: im Diktat-Modus immer Englisch vorlesen / в режиме диктанта всегда читать английский
+  // 2026-11-17: zuerst alles Alte stoppen, dann im Diktat-Modus immer Englisch vorlesen
+  // RU: сначала остановить старую озвучку, потом в режиме диктанта читать английский
+  stopAllSpeech();
   if (getSchreibModus() === "diktat") {
     speakBack(it);
   } else if (state.settings.tts === "de" || state.settings.tts === "both") {
@@ -3503,7 +3506,7 @@ function requeueForRetry(it) {
   q.splice(Math.min(RETRY_GAP, q.length), 0, it);
 }
 
-function grade(known) {
+function grade(known, opts = {}) {
   if (state.session.awaitingNext || state.session.gradedCurrent) return;
   const id = state.session.currentId;
   const it = state.all.find((x) => x.id === id);
@@ -3516,7 +3519,9 @@ function grade(known) {
   const revealedNow = flipToAnswer();
 
   // Speak back side after grading (best for confirmation)
-  if ((revealedNow || isAnswerVisible()) && state.settings.tts !== "off") {
+  // 2026-11-17: nicht, wenn der Schreib-Modus gleich zur nächsten Karte springt (sonst überlagern sich die Stimmen)
+  // RU: не озвучивать, если режим письма сразу переходит к следующей карточке – иначе голоса накладываются
+  if (!opts.silent && (revealedNow || isAnswerVisible()) && state.settings.tts !== "off") {
     speakBack(it);
   }
 
@@ -3848,6 +3853,7 @@ async function loadAudioIndex() {
 
 function stopAllSpeech() {
   clearTimeout(ttsTimer);
+  ttsSeq++; // 2026-11-17: alte Wächter dürfen den alten Satz nicht neu starten / старый сторож не повторяет старую фразу
   if (audioEl) {
     try { audioEl.pause(); } catch (_) {}
   }
@@ -4665,7 +4671,8 @@ async function init() {
 
   // 2026-11-17: der Schreib-Modus / режим письма
   initSchreiben({
-    grade: (known) => grade(known),
+    grade: (known, opts) => grade(known, opts),
+    stopSpeech: () => stopAllSpeech(),
     next: () => onNextCard(),
     flipToAnswer: () => flipToAnswer(),
     speakBack: (it) => speakBack(it),

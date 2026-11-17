@@ -311,7 +311,8 @@ function doCheck() {
 //     «Gewusst» засчитывается, только если с первой попытки всё правильно.
 function onEnter() {
   if (!checked) return doCheck();
-  if (!api?.isAwaitingNext?.()) api?.grade?.(karte.ersterOk === true);
+  api?.stopSpeech?.();
+  if (!api?.isAwaitingNext?.()) api?.grade?.(karte.ersterOk === true, { silent: true });
   api?.next?.();
 }
 
