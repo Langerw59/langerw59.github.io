@@ -47,8 +47,11 @@ window.GRAMMATIK = {
       titel_ru: "окончание -ing: go → going, visit → visiting",
       formel: "Verb + -ing = das Verb «im Gang»  ·  going ≈ gehend ≈ идущий / идя / хождение",
       erklaerung: [
-        "-ING – ЭТО ОДНА ИЗ ФОРМ ГЛАГОЛА. Как немецкий глагол имеет формы gehen – geht – ging – gegangen, так и у английского глагола есть свои формы: go – goes – went – gone – going. Каждая форма нужна для своего времени (die Zeitform). Смотрите первую таблицу.",
-        "КАЖДОЕ ВРЕМЯ ИМЕЕТ ПАРУ: простое (Simple) и «в процессе» (Continuous). Формула Continuous: глагол be в нужном времени + форма на -ing. Меняется только be (am → was → will be), а going остаётся всегда одинаковым. Смотрите вторую таблицу – она построена на предложении «Ich gehe nach Hause».",
+        "ТЕРМИНЫ (таблица 0). У английского глагола 4 основные формы: V1 (der Infinitiv: go), V2 (das Präteritum: went), V3 (das Partizip II: gone) и V-ing. У формы V-ing два грамматических названия – по её работе в предложении: present participle (das Partizip I) – когда она описывает процесс или признак, и gerund (das Gerundium) – когда она работает как существительное. Форма одна, названия два.",
+        "ВРЕМЯ И ВИД. В английской грамматике у глагола два «измерения»: die Zeitform (das Tempus) – КОГДА (Present, Past, Future) и der Aspekt – КАК (Simple – просто факт, Continuous/Progressive – в процессе, die Verlaufsform; Perfect – завершено). Название времени всегда складывается из двух слов: Past + Continuous = Past Continuous. В немецком языке нет грамматической Verlaufsform – её заменяют словом gerade. В русском похожая идея – несовершенный вид (шёл, а не пошёл), но точно совпадает не всегда.",
+        "ФОРМУЛЫ (das Hilfsverb be + V-ing): Present Continuous = am / is / are + V-ing. Past Continuous = was / were + V-ing. Future Continuous = will be + V-ing. Отрицание: not после Hilfsverb (I am not going). Вопрос: Hilfsverb вперёд (Are you going?).",
+        "-ING – ЭТО ОДНА ИЗ ФОРМ ГЛАГОЛА. Как немецкий глагол имеет формы gehen – geht – ging – gegangen, так и у английского глагола есть свои формы: go – goes – went – gone – going. Каждая форма нужна для своего времени (die Zeitform). Смотрите таблицу 1.",
+        "КАЖДОЕ ВРЕМЯ ИМЕЕТ ПАРУ: простое (Simple) и «в процессе» (Continuous). Формула Continuous: глагол be в нужном времени + форма на -ing. Меняется только be (am → was → will be), а going остаётся всегда одинаковым. Смотрите таблицу 2 – она построена на предложении «Ich gehe nach Hause».",
         "ГЛАВНАЯ МЫСЛЬ. Простая форма (go, visit) называет действие вообще – как в словаре: «ходить», «посещать». Форма с -ing (going, visiting) показывает действие изнутри: оно идёт, длится, ещё не закончено. Ближе всего по-немецки окончание -end: gehen → gehend, besuchen → besuchend (das Partizip I). По-русски: идущий / идя, посещающий / посещая.",
         "Форма с -ing сама по себе – не сказуемое. Нельзя сказать I going или we visiting. Ей всегда нужен помощник перед ней или своё место в предложении. Таких ролей четыре.",
         "РОЛЬ 1 – «сейчас в процессе» (das Present Continuous): am / is / are + -ing. Дословно I am going = «я есть идущий», по-немецки «ich bin gehend». Так по-немецки не говорят, говорят Ich gehe gerade. А в английском am going обязательно, если действие идёт в эту минуту или временно (сегодня, на этой неделе).",
@@ -59,9 +62,24 @@ window.GRAMMATIK = {
         "КАК УЗНАТЬ РОЛЬ – посмотрите, что стоит слева. am / is / are / was / were → процесс (роль 1). going to → план (роль 2). like, stop, before … или -ing в начале предложения → действие как предмет (роль 3). Сразу после -ing идёт существительное (a sleeping child) → признак (роль 4).",
         "ИСКЛЮЧЕНИЯ для роли 1. Глаголы состояния обычно без -ing, потому что это не процесс: know, like, want, need, understand, have (= иметь). Правильно I know, I want – а не I am knowing.",
         "ПРОИЗНОШЕНИЕ: -ing [ɪŋ] – короткое «и» и носовое «н», как в немецком der Ring, lang. Звук «г» в конце не произносится: going ≈ «гоуин», не «гоуинг».",
-        "ПРАВОПИСАНИЕ – смотрите третью таблицу."
+        "ПРАВОПИСАНИЕ – смотрите таблицу 3."
       ],
       tabellen: [
+      {
+        titel: "0) die Fachbegriffe · грамматические термины (выучить!)",
+        kopf: ["der Begriff (English)", "Deutsch", "Русский", "das Beispiel · пример"],
+        sprechen: false,
+        zeilen: [
+          ["base form / infinitive (V1)",   "der Infinitiv, die Grundform",            "инфинитив, начальная форма",          "go, visit"],
+          ["past simple (V2)",              "das Präteritum",                          "простое прошедшее",                   "went, visited"],
+          ["past participle (V3)",          "das Partizip II (das Partizip Perfekt)",  "причастие прошедшего времени",        "gone, visited"],
+          ["present participle (V-ing)",    "das Partizip I (das Partizip Präsens)",   "причастие настоящего времени / деепричастие", "going = gehend = идущий / идя"],
+          ["gerund (V-ing)",                "das Gerundium, das substantivierte Verb", "герундий, отглагольное существительное", "going = das Gehen = хождение"],
+          ["auxiliary verb",                "das Hilfsverb",                           "вспомогательный глагол",              "be, have, will"],
+          ["tense",                         "die Zeitform, das Tempus",                "время глагола",                       "Present, Past, Future"],
+          ["aspect: simple – continuous (progressive) – perfect", "der Aspekt: einfach – Verlaufsform – vollendet", "вид действия: простой – длительный – завершённый", "I go – I am going – I have gone"]
+        ]
+      },
       {
         titel: "1) die Formen des Verbs · формы глагола (go = gehen)",
         kopf: ["English", "Deutsch", "Русский", "wofür · для чего"],
