@@ -4,7 +4,7 @@
 // window.EN_ANALYSE(text) → { cfg, r }  (gleiches Format wie EN_ENGINE.bauen)
 // Erkennt auch typische Fehler: he go, does he goes, did he went,
 // I have went, he are, have gone yesterday, not … never.
-// Version 1 (2026-11-02)
+// Version 1 (2026-11-02) · 2026-11-17: Fehler „Modalverb + to“ (I would to go)
 // =============================================================
 
 (() => {
@@ -376,6 +376,14 @@
     if ((tense === "pres_perf" || tense === "pres_perf_prog") && VERGANGEN_ZEIT.test(textKlein)) alarme.push(`⚠ Present Perfect нельзя употреблять с конкретным прошлым временем (yesterday, last week, … ago, in 2020)! Нужен Past Simple${F ? ": «" + subjText + " " + F.past + " …»" : ""}. В немецком «Ich bin gestern gegangen» — нормально, в английском «I have gone yesterday» — ошибка.`);
     if (tense && /^past/.test(tense) && ZUKUNFT_ZEIT.test(textKlein)) alarme.push(`⚠ Время прошедшее, а слово времени указывает на будущее (tomorrow, next …).`);
     if (neg && /\b(never|nothing|nobody|no one)\b/.test(textKlein)) alarme.push(`⚠ Двойное отрицание! В английском нельзя «not … never / nothing / nobody» (как по-русски «никогда не», «ничего не»). Правильно: «I never go» или «I don't ever go»; «I see nothing» или «I don't see anything».`);
+    // 2026-11-17: Modalverb + to (I would to go, I can to swim) / модальный глагол + to – ошибка
+    const mTo = textKlein.match(/ (would|could|can|must|should|may|might|will|shall) (not )?to ([a-z]+) /);
+    if (mTo && !/ ought to /.test(textKlein)) {
+      const m = mTo[1];
+      alarme.push(m === "would"
+        ? `⚠ «would to ${mTo[3]}» — так нельзя. would – вспомогательный глагол (das Hilfsverb, «бы»), после него нужен смысловой глагол без to. Скорее всего вы хотели сказать «хотел бы» (ich möchte): «would like to ${mTo[3]}» = «I'd like to ${mTo[3]}». Или просто «I want to ${mTo[3]}» (ich will).`
+        : `⚠ «${m} to ${mTo[3]}» — после модального глагола (das Modalverb) ${m} глагол стоит без to: «${m} ${mTo[3]}». Сравни по-немецки: «ich kann schwimmen» – тоже без zu.`);
+    }
     if (/ to home /.test(textKlein)) alarme.push(`⚠ «to home» — ошибка. После go/come — просто «home»: «go home», «come home».`);
     if (/ since /.test(textKlein) && tense && !/perf/.test(tense)) alarme.push(`⚠ С «since» нужен Present Perfect: «I have lived here since 2020», а не «I live here since 2020».`);
     if (/ (in|at) (yesterday|tomorrow|today|last|next)\b/.test(textKlein)) alarme.push(`⚠ Перед yesterday / tomorrow / today / last … / next … предлог не нужен: «yesterday», а не «in yesterday».`);
