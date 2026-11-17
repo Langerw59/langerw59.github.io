@@ -1219,3 +1219,10 @@ body.mode-bg .bgPreviewThumb{
 .sbTabelle td:last-child{ text-align: right; }
 .sbVerlauf{ font-size: 14px; }
 .schreibBilanzKarte .btn{ min-width: 120px; margin-top: 6px; }
+
+/* 2026-11-17: die Satzzeichen / знаки препинания */
+.sbPunkt{ color: var(--bad); font-weight: 900; border: 2px solid var(--bad); border-radius: 5px; padding: 0 3px; margin-left: 1px; }
+.sbInfo{ font-size: 14px; color: var(--muted); margin-top: 2px; }
+.schreibFuss{ display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+.sbZeichenWahl{ cursor: pointer; white-space: nowrap; }
+@media (orientation: landscape) and (max-height: 560px){ .schreibFuss{ display: none; } }

@@ -120,7 +120,7 @@ function align(target, typed) {
       const a = target[i - 1], b = typed[j - 1];
       const sub = a === b ? 0 : (isTypo(a, b) ? 0.6 : 1.6);
       if (Math.abs(cost[i][j] - (cost[i - 1][j - 1] + sub)) < 1e-9) {
-        ops.push({ t: a === b ? "ok" : (sub < 1 ? "typo" : "wrong"), target: a, typed: b, ti: i - 1 });
+        ops.push({ t: a === b ? "ok" : (sub < 1 ? "typo" : "wrong"), target: a, typed: b, ti: i - 1, tj: j - 1 });
         i--; j--; continue;
       }
     }
@@ -165,6 +165,31 @@ function letterDiff(target, typed) {
   return out.reverse().join("");
 }
 
+// ---------- die Satzzeichen / знаки препинания ----------
+// 2026-11-17: Satzzeichen werden mitgeprüft (Groß-/Kleinschreibung weiterhin nicht).
+//   „!“ und „.“ am Ende gelten als gleich (im Englischen ist „!“ freiwillig), „?“ muss stimmen.
+// RU: знаки препинания проверяются (большие буквы – нет). «!» и «.» считаются равными, «?» – обязателен.
+const LS_ZEICHEN = "sprachbox_de_en_schreiben_zeichen_v1";
+let zeichenPruefen = true;
+try { zeichenPruefen = localStorage.getItem(LS_ZEICHEN) !== "aus"; } catch (_) {}
+
+function nurZeichen(s) {
+  return String(s || "").replace(/…/g, ".").replace(/[^.,!?;:]/g, "").replace(/\.{2,}/g, ".");
+}
+// Satzzeichen hinter jedem Vergleichswort / знаки после каждого слова
+function zeichenProWort(text) {
+  const arr = [];
+  for (const tok of displayTokens(text)) {
+    const n = compareWords(tok).length;
+    const hinten = (tok.match(/[^\p{L}\p{N}]*$/u) || [""])[0];
+    if (n === 0) { if (arr.length) arr[arr.length - 1].roh += tok; continue; }
+    for (let k = 0; k < n - 1; k++) arr.push({ roh: "" });
+    arr.push({ roh: hinten });
+  }
+  return arr.map((x) => ({ roh: x.roh, z: nurZeichen(x.roh) }));
+}
+const gleichZeichen = (a, b) => a.replace(/!/g, ".") === b.replace(/!/g, ".");
+
 function pruefe(targetText, typedText) {
   const tWords = compareWords(targetText);
   const uWords = compareWords(typedText);
@@ -176,28 +201,73 @@ function pruefe(targetText, typedText) {
   if (fehler.length === 0) urteil = "richtig";
   else if (grob === 0 && typos <= Math.max(1, Math.floor(tWords.length / 5))) urteil = "fast";
 
-  // Zuordnung Vergleichswort → Anzeigewort (gleiche Anzahl, wenn keine Kurzformen)
-  const disp = displayTokens(targetText);
-  const sameCount = disp.length === tWords.length;
+  // Satzzeichen vergleichen / сравнить знаки
+  const tZ = zeichenProWort(targetText);
+  const uZ = zeichenProWort(typedText);
+  const zFehler = {};   // ti → { soll, ist }
+  const zHinweis = [];  // „!“ statt „.“ – kein Fehler
+  if (zeichenPruefen) {
+    for (const o of ops) {
+      if ((o.t !== "ok" && o.t !== "typo") || o.ti == null) continue;
+      const soll = (tZ[o.ti] || {}).z || "";
+      const ist = (uZ[o.tj] || {}).z || "";
+      if (soll === ist) continue;
+      if (gleichZeichen(soll, ist)) { zHinweis.push({ soll, ist }); continue; }
+      zFehler[o.ti] = { soll, ist };
+    }
+  }
+  const zAnzahl = Object.keys(zFehler).length;
+  if (urteil === "richtig" && zAnzahl) urteil = "zeichen";
+
+  if (urteil === "richtig") {
+    let html = `<span class="sbOk">${esc(String(targetText).trim())}</span>`;
+    if (zHinweis.length) html += `<div class="sbInfo">ℹ️ Im Original steht „${esc(zHinweis[0].soll)}“, du hast „${esc(zHinweis[0].ist)}“ – im Englischen ist beides richtig / в английском оба варианта верны</div>`;
+    return { urteil, html, fehler: 0 };
+  }
 
   const parts = [];
-  if (urteil === "richtig") {
-    return { urteil, html: `<span class="sbOk">${esc(String(targetText).trim())}</span>`, fehler: 0 };
-  }
   for (const o of ops) {
-    const shown = sameCount && o.ti != null ? disp[o.ti] : o.target;
-    if (o.t === "ok") parts.push(`<span class="sbOk">${esc(shown)}</span>`);
+    if (o.t === "extra") { parts.push(`<span class="sbYou"><s>${esc(o.typed)}</s></span>`); continue; }
+    const tz = tZ[o.ti] || { roh: "", z: "" };
+    // Wort ohne Satzzeichen hinten / слово без знаков в конце
+    const roh = disp(targetText, tWords, o);
+    const kern = roh.slice(0, roh.length - tz.roh.length) || o.target;
+    let wort;
+    if (o.t === "ok") wort = `<span class="sbOk">${esc(kern)}</span>`;
     else if (o.t === "typo") {
-      // Satzzeichen vorn/hinten behalten, Buchstaben vergleichen / знаки препинания оставить, буквы сравнить
-      const mm = String(shown).match(/^([^\p{L}\p{N}]*)(.*?)([^\p{L}\p{N}]*)$/u) || ["", "", shown, ""];
-      const core = compareWords(mm[2]).join("") === o.target ? mm[2] : o.target;
-      parts.push(`<span class="sbTypo" title="Du: ${esc(o.typed)}">${esc(mm[1])}${letterDiff(core, o.typed)}${esc(mm[3])}</span><span class="sbYou">(${esc(o.typed)})</span>`);
+      const core = compareWords(kern).join("") === o.target ? kern.replace(/^[^\p{L}\p{N}]+/u, "") : o.target;
+      const vorn = (kern.match(/^[^\p{L}\p{N}]*/u) || [""])[0];
+      wort = `<span class="sbTypo" title="Du: ${esc(o.typed)}">${esc(vorn)}${letterDiff(core, o.typed)}</span><span class="sbYou">(${esc(o.typed)})</span>`;
     }
-    else if (o.t === "wrong") parts.push(`<span class="sbBad">${esc(shown)}</span><span class="sbYou"><s>${esc(o.typed)}</s></span>`);
-    else if (o.t === "missing") parts.push(`<span class="sbMiss" title="fehlt">${esc(shown)}</span>`);
-    else if (o.t === "extra") parts.push(`<span class="sbYou"><s>${esc(o.typed)}</s></span>`);
+    else if (o.t === "wrong") wort = `<span class="sbBad">${esc(kern)}</span><span class="sbYou"><s>${esc(o.typed)}</s></span>`;
+    else wort = `<span class="sbMiss" title="fehlt">${esc(kern)}</span>`;
+    const zf = zFehler[o.ti];
+    let zeichen = esc(tz.roh);
+    if (zf) {
+      zeichen = zf.soll
+        ? `<span class="sbPunkt" title="Satzzeichen fehlt / знак пропущен${zf.ist ? ": du hast " + esc(zf.ist) : ""}">${esc(tz.roh || zf.soll)}</span>`
+        : `<span class="sbYou" title="hier kein Satzzeichen / здесь знак не нужен"><s>${esc(zf.ist)}</s></span>`;
+    }
+    parts.push(wort + zeichen);
   }
-  return { urteil, html: parts.join(" "), fehler: fehler.length };
+  let html = parts.join(" ");
+  if (zAnzahl) html += `<div class="sbInfo">🔴 rot umrandet = das Satzzeichen (знак препинания) fehlt oder ist falsch</div>`;
+  return { urteil, html, fehler: fehler.length + zAnzahl };
+}
+
+// Anzeigewort zum Vergleichswort / слово в оригинальном виде
+function disp(targetText, tWords, o) {
+  const d = displayTokens(targetText);
+  if (d.length === tWords.length && o.ti != null) return d[o.ti];
+  return o.target + ((zeichenProWort(targetText)[o.ti] || {}).roh || "");
+}
+
+export function setZeichenPruefen(an) {
+  zeichenPruefen = !!an;
+  try { localStorage.setItem(LS_ZEICHEN, an ? "an" : "aus"); } catch (_) {}
+}
+export function getZeichenPruefen() {
+  return zeichenPruefen;
 }
 
 // ---------- Oberfläche / интерфейс ----------
@@ -284,6 +354,7 @@ function doCheck() {
   let titel;
   if (ok && karte.versuche === 1) titel = "✅ Richtig! / Правильно с первой попытки!";
   else if (ok) titel = `✅ Jetzt richtig! (${karte.versuche}. Versuch) – zählt als Fehler, die Karte kommt noch einmal / теперь правильно, но карточка вернётся на повторение`;
+  else if (r.urteil === "zeichen") titel = "🟡 Die Wörter sind richtig – aber die Satzzeichen nicht. Korrigieren und noch einmal Enter / слова верны, но знаки препинания нет";
   else if (r.urteil === "fast") titel = "🟡 Fast richtig – Tippfehler korrigieren und noch einmal Enter / опечатка: исправьте и снова Enter";
   else titel = "❌ Noch nicht richtig – Fehler korrigieren und noch einmal Enter / исправьте ошибку и снова Enter";
   if (res) {
@@ -422,6 +493,12 @@ export function initSchreiben(appApi) {
         if (pr) pr.textContent = "✔ Prüfen";
       }
     });
+  }
+  // 2026-11-17: Satzzeichen prüfen an/aus
+  const chk = $("chkSchreibZeichen");
+  if (chk) {
+    chk.checked = getZeichenPruefen();
+    chk.addEventListener("change", () => setZeichenPruefen(chk.checked));
   }
   applyModeUi();
   updateStats();

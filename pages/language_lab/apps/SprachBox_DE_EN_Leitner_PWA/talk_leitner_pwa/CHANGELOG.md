@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-17 – Schreiben: die Satzzeichen werden mitgeprüft
+- . , ? ! werden geprüft (Groß-/Kleinschreibung weiterhin nicht); fehlendes/falsches Zeichen rot umrandet; „ganz richtig“ nur mit richtigen Satzzeichen
+- „!“ und „.“ am Satzende gelten als gleich (im Englischen ist „!“ freiwillig) – nur ein Hinweis; „?“ muss stimmen
+- Häkchen „Satzzeichen prüfen“ zum Ausschalten; Grammatik: neue Regel „die Satzarten und die Satzzeichen“; Cache sprachbox-v48
+
 ## 2026-11-17 – Ordnung: Grammatik statt Spickzettel/Leseregeln
 - oben nur noch: Lieder · Glossar · Grammatik; Spickzettel und Leseregeln sind in der Grammatik (Thema „das Lesen“) – die alten Knöpfe sind nur versteckt
 - Zurück im Spickzettel/den Leseregeln führt zur Grammatik zurück; frisch geöffneter Tab wird geschlossen; Cache sprachbox-v47

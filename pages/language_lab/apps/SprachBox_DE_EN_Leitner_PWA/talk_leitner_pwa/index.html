@@ -9,7 +9,7 @@
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./assets/icon-192.png" />
   <link rel="apple-touch-icon" href="./assets/icon-192.png" />
-  <link rel="stylesheet" href="./styles.css?v=20261117b" />
+  <link rel="stylesheet" href="./styles.css?v=20261117d" />
   <!-- 2026-11-05: der Benutzer – eigener Fortschritt pro Name / у каждого пользователя свой прогресс (vor app.js laden!) -->
   <script src="./benutzer.js?v=20261106d"></script>
   <script src="../../../shared_data/sprachfuehrer_phrase_adapter.js" defer></script>
@@ -452,7 +452,11 @@
           <button id="btnSchreibPruefen" class="btn primary" type="button">✔ Prüfen</button>
         </div>
         <div id="schreibErgebnis" class="schreibErgebnis"></div>
-        <div class="mini" id="lblSchreibStats">✅ 0 · 🟡 0 · ❌ 0</div>
+        <div class="schreibFuss">
+          <span class="mini" id="lblSchreibStats">Sätze 0</span>
+          <!-- 2026-11-17: die Satzzeichen mitprüfen / проверять знаки препинания -->
+          <label class="mini sbZeichenWahl"><input type="checkbox" id="chkSchreibZeichen" checked /> Satzzeichen prüfen (. , ? !)</label>
+        </div>
       </div>
 
       <!-- 2026-11-02: Tempo direkt in der Karte / темп прямо в карточке -->
@@ -570,6 +574,6 @@
   </div>
 
   <script src="../../../shared_data/mnemo_panel.js?v=20261107"></script>
-  <script src="./app.js?v=20261117c" type="module"></script>
+  <script src="./app.js?v=20261117d" type="module"></script>
 </body>
 </html>

@@ -286,6 +286,43 @@ window.GRAMMATIK = {
         { de: "Im Wort „shine“ sind fünf Buchstaben, aber nur drei Laute.", en: "The word “shine” has five letters but only three sounds.", ru: "В слове «shine» пять букв, но только три звука.", hinweis: "der Buchstabe ≠ der Laut" }
       ],
       merke: "laut = громкий · der Laut = звук · der Selbstlaut (Vokal) – гласный, звучит сам · der Mitlaut (Konsonant) – согласный, звучит вместе · der Doppellaut (Diphthong) – два гласных в одном слоге"
+    },
+    {
+      id: "satzzeichen",
+      thema: "satz",
+      sprache: "de",
+      datum: "2026-11-17",
+      titel: "die Satzarten und die Satzzeichen (der Punkt, das Fragezeichen, das Ausrufezeichen, das Komma)",
+      titel_ru: "типы предложений и знаки препинания – немецкий и английский",
+      formel: "der Aussagesatz → .  ·  der Fragesatz → ?  ·  der Aufforderungssatz / der Ausrufesatz → !",
+      erklaerung: [
+        "НАЗВАНИЯ ЗНАКОВ. das Satzzeichen – знак препинания (буквально «знак предложения»). der Punkt (.) – точка, das Fragezeichen (?) – вопросительный знак (die Frage – вопрос), das Ausrufezeichen (!) – восклицательный знак (ausrufen – восклицать), das Komma (,) – запятая, der Doppelpunkt (:) – двоеточие, das Semikolon (;) – точка с запятой, die Anführungszeichen („ “) – кавычки.",
+        "ЗНАК ЗАВИСИТ ОТ ТИПА ПРЕДЛОЖЕНИЯ (die Satzart). der Aussagesatz – повествовательное: сообщает факт, в конце точка (It hurts. – Es tut weh.). der Fragesatz – вопросительное: в конце всегда «?» (Where is the hospital? – Wo ist das Krankenhaus?). der Aufforderungssatz – побудительное: просьба или приказ, обычно «!» (Call an ambulance! – Rufen Sie einen Krankenwagen!). der Ausrufesatz – восклицательное: эмоция, «!» (How nice! – Wie schön!).",
+        "DER IMPERATIV И DIE ELLIPSE. der Imperativ (повелительное наклонение) – это форма ГЛАГОЛА: Call! Come! Komm! Rufen Sie! «Quickly, please!» – тоже просьба (der Aufforderungssatz), но глагола в нём нет. Полностью было бы «Come quickly, please!». Предложение с пропущенной частью называется die Ellipse (эллипсис). quickly – das Adverb (наречие): das Adjektiv quick + окончание -ly. По-немецки окончания нет: schnell – и прилагательное, и наречие.",
+        "ВОСКЛИЦАТЕЛЬНЫЙ ЗНАК: НЕМЕЦКИЙ И АНГЛИЙСКИЙ. В немецком после просьбы и приказа «!» ставят обычно; при спокойной вежливой просьбе можно и точку (Bitte schließen Sie die Tür.). В английском «!» ставят реже – только когда срочно или с эмоцией. Спокойно: Please call an ambulance. Срочно: Call an ambulance! Поэтому в английском «.» вместо «!» – не ошибка. А «?» в вопросе обязателен в обоих языках.",
+        "ЗАПЯТАЯ: НЕМЕЦКИЙ СТРОЖЕ. В немецком перед придаточным предложением (der Nebensatz) запятая обязательна: Ich glaube, dass er kommt. / Ich bleibe zu Hause, weil ich müde bin. В английском перед that запятую не ставят: I think that he is coming. Перед because – обычно тоже нет: I stay at home because I am tired. Обращение и вежливые слова отделяются запятой в обоих языках: Quickly, please! – Schnell, bitte! / Thank you, Anna. – Danke, Anna.",
+        "КАК ПРОВЕРЯЕТ SPRACHBOX. В режиме «✍️ Schreiben» знаки препинания проверяются (галочка «Satzzeichen prüfen»), большие и маленькие буквы – нет. «!» и «.» в конце считаются одинаковыми (в английском оба верны), «?» должен стоять. Пропущенный или лишний знак обводится красным."
+      ],
+      tabelle: {
+        kopf: ["die Satzart", "Русский", "das Zeichen", "English", "Deutsch"],
+        sprechen: 3,
+        zeilen: [
+          ["der Aussagesatz",       "повествовательное", ".",      "It hurts.",                "Es tut weh."],
+          ["der Fragesatz",         "вопросительное",    "?",      "Where is the hospital?",   "Wo ist das Krankenhaus?"],
+          ["der Aufforderungssatz", "побудительное",     "! (.)",  "Call an ambulance!",       "Rufen Sie einen Krankenwagen!"],
+          ["die Ellipse (Bitte)",   "неполное (просьба)", "!",     "Quickly, please!",         "Schnell, bitte!"],
+          ["der Ausrufesatz",       "восклицательное",   "!",      "How nice!",                "Wie schön!"],
+          ["der Nebensatz (dass)",  "придаточное",       ", nur DE", "I think that he is coming.", "Ich glaube, dass er kommt."]
+        ]
+      },
+      beispiele: [
+        { en: "It hurts.", de: "Es tut weh.", ru: "Больно.", hinweis: "der Aussagesatz → ." },
+        { en: "Where is the hospital?", de: "Wo ist das Krankenhaus?", ru: "Где больница?", hinweis: "der Fragesatz → ? (обязательно)" },
+        { en: "Call an ambulance!", de: "Rufen Sie einen Krankenwagen!", ru: "Вызовите скорую!", hinweis: "der Imperativ → !" },
+        { en: "Quickly, please!", de: "Schnell, bitte!", ru: "Быстрее, пожалуйста!", hinweis: "die Ellipse, quickly = das Adverb" },
+        { en: "I stay at home because I am tired.", de: "Ich bleibe zu Hause, weil ich müde bin.", ru: "Я остаюсь дома, потому что устал.", hinweis: "Komma nur im Deutschen" }
+      ],
+      merke: "? – всегда в вопросе · ! – в английском по желанию (срочно, эмоция), в немецком обычно после просьбы · запятая перед dass / weil – только в немецком"
     }
   ]
 };
