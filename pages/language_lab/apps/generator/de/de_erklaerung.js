@@ -107,10 +107,21 @@
     const bau = (aend) => { try { return S.bauen(Object.assign({}, cfg, aend)); } catch (e) { return { fehler: "–" }; } };
     const zelle = (x) => (x.fehler ? `<span class="ek-klein">${esc(x.fehler)}</span>` : `<b>${esc(x.text)}</b>`);
 
+    // 2026-11-18: Tabelle nach Petrow – Zeilen: Zeitformen, Spalten: die Frage · die Behauptung · die Verneinung
+    const SPALTEN = [
+      ["die Frage", "вопрос (Ja/Nein)", { satzart: "frage", verneinung: false }],
+      ["die Behauptung", "утверждение", { satzart: "aussage", verneinung: false }],
+      ["die Verneinung", "отрицание", { satzart: "aussage", verneinung: true }],
+    ];
+    const kopfP = `<tr><th>die Zeitform<br><small>время</small></th>${SPALTEN.map(([n, ru]) => `<th>${n}<br><small>${ru}</small></th>`).join("")}</tr>`;
     const zf = Object.keys(ZF_RU).map((t) => {
-      const x = bau({ tense: t });
-      const aktiv = t === cfg.tense;
-      return `<tr class="${aktiv ? "ek-aktiv" : ""}"><td><b>${ZF_RU[t][0]}</b><br><small>${ZF_RU[t][1]}</small></td><td>${zelle(x)}</td></tr>`;
+      const zeileAktiv = t === cfg.tense;
+      const zellen = SPALTEN.map(([, , aend]) => {
+        const x = bau(Object.assign({ tense: t }, aend));
+        const aktiv = zeileAktiv && aend.satzart === cfg.satzart && aend.verneinung === !!cfg.verneinung;
+        return `<td class="${aktiv ? "ek-aktiv" : ""}">${zelle(x)}</td>`;
+      }).join("");
+      return `<tr><td class="${zeileAktiv ? "ek-aktiv" : ""}"><b>${ZF_RU[t][0]}</b><br><small>${ZF_RU[t][1]}</small></td>${zellen}</tr>`;
     });
 
     // W-Frage: nach dem ersten vorhandenen Satzglied fragen
@@ -126,11 +137,12 @@
       return `<tr class="${aktiv ? "ek-aktiv" : ""}"><td><b>${n}</b><br><small>${ru}</small></td><td>${zelle(x)}</td></tr>`;
     });
 
-    return `<p>Твоё предложение сразу <b>во всех временах</b> (Zeitformen) — жёлтым выбранное:</p>
-      <table class="ek-tab"><tbody>${zf.join("")}</tbody></table>
-      <p>И <b>во всех типах предложения</b> (Satzarten) — в выбранном времени «${esc(r.zeitform)}»:</p>
+    return `<p>Твоё предложение <b>в таблице Петрова</b>: по строкам — все Zeitformen, по столбцам — <b>die Frage · die Behauptung · die Verneinung</b>. Жёлтым — выбранное:</p>
+      <div style="overflow-x:auto"><table class="ek-tab"><thead>${kopfP}</thead><tbody>${zf.join("")}</tbody></table></div>
+      <p class="ek-klein">die Satzart (Aussage / Frage) и die Verneinung (bejaht / verneint) — два разных переключателя. Подробно: <a href="/pages/language_lab/grammatik/index.html#satzart-verneinung" target="_blank" rel="noopener">die Grammatik → die Satzart und die Verneinung</a></p>
+      <p>И <b>во всех типах предложения</b> (Satzarten, вместе с W-Frage) — в выбранном времени «${esc(r.zeitform)}»:</p>
       <table class="ek-tab"><tbody>${sa.join("")}</tbody></table>
-      <p class="ek-klein">Время и тип предложения выбираются в самом верху левой панели (серый блок «Satzart / Zeitform»).</p>`;
+      <p class="ek-klein">Время и тип предложения выбираются в самом верху левой панели (серый блок «Satzart &amp; Zeitform»); отрицание — галочка «Verneinung (nicht / kein)».</p>`;
   }
 
   // 1) Konjugation
