@@ -989,6 +989,156 @@ window.GRAMMATIK = {
         { de: "Er ist Pilot geworden.", en: "He has become a pilot.", ru: "Он стал пилотом.", hinweis: "ist – das Hilfsverb (Perfekt) · geworden – Partizip II von werden (Kopulaverb)" }
       ],
       merke: "sein ≠ Modalverb. sein + gegangen = das Hilfsverb; sein + Pilot / alt = das Kopulaverb (связка, лат. copula)."
+    },
+    {
+      // 2026-11-18: mit Claude – die Bausteine des Satzes (DE · EN), „Ich schaue aus dem Fenster“
+      id: "satzglieder-bausteine",
+      thema: "satz",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "die Satzglieder – die Bausteine des Satzes (Deutsch · English)",
+      titel_ru: "блоки предложения: Subjekt – Prädikat – Objekt – Orts- und Zeitangabe",
+      formel: "DE: das Prädikat (finit) immer an 2. Stelle · die Zeit vor dem Ort (Ich schaue heute aus dem Fenster.) · EN: Subject – Verb – Object – Place – Time (I met him at the station yesterday.)",
+      definitionen: [
+        { wort: "die Ortsangabe", de: "Die Ortsangabe sagt, wo, wohin oder woher etwas passiert. Frage: Wo? Wohin? Woher? Beispiel: aus dem Fenster, im Garten, hier. Langer Fachbegriff: die Adverbialbestimmung des Ortes.", ru: "Обстоятельство места: где? куда? откуда? Например: aus dem Fenster (из окна), im Garten (в саду), hier (здесь). Длинное научное название – die Adverbialbestimmung des Ortes, в учебниках короче: die Ortsangabe (die Angabe – указание; не «Eingabe» – это «ввод»)." },
+        { wort: "die Zeitangabe", de: "Die Zeitangabe sagt, wann oder wie oft etwas passiert. Frage: Wann? Wie oft? Beispiel: heute, morgens, am Montag.", ru: "Обстоятельство времени: когда? как часто? Например: heute (сегодня), morgens (по утрам), am Montag (в понедельник)." }
+      ],
+      erklaerung: [
+        "ПЯТЬ БЛОКОВ (die Satzglieder). Для начала хватает пяти: das Subjekt (подлежащее: Wer? Was?), das Prädikat (сказуемое: Was tut …?), das Objekt (дополнение: Wen? Was? Wem?), die Ortsangabe (Wo? Wohin? Woher?) и die Zeitangabe (Wann?). Самые главные – три: Subjekt – Prädikat – Objekt.",
+        "der Artikel – НЕ БЛОК. der Artikel – это часть речи (die Wortart), а не член предложения (das Satzglied). Он входит в блок вместе с существительным: den Garten = der Artikel + das Nomen = один блок (das Objekt). aus dem Fenster = die Präposition + der Artikel + das Nomen = один блок (die Ortsangabe). Поэтому каждое существительное учим сразу с артиклем – иначе нельзя его просклонять.",
+        "НЕМЕЦКИЙ: ГЛАГОЛ НА 2-м МЕСТЕ (die Verbzweitstellung). В повествовательном предложении das Prädikat (спрягаемый глагол) всегда стоит вторым блоком. Остальные блоки можно переставлять: Ich schaue heute aus dem Fenster. → Heute schaue ich aus dem Fenster. → Aus dem Fenster schaue ich heute. Глагол остаётся вторым.",
+        "НЕМЕЦКИЙ: ВРЕМЯ ПЕРЕД МЕСТОМ. Если в предложении есть и Zeitangabe, и Ortsangabe, то обычно сначала время, потом место: Ich habe ihn gestern am Bahnhof getroffen. Правило-подсказка: TeKaMoLo – temporal (когда?) – kausal (почему?) – modal (как?) – lokal (где?).",
+        "АНГЛИЙСКИЙ: ПОРЯДОК ЖЁСТКИЙ (S – V – O). Subject – Verb – Object стоят всегда в этом порядке, подлежащее всегда перед глаголом (кроме вопросов). Глагол не «прыгает» на второе место: Today I look out of the window (а не «Today look I»). Обстоятельства – наоборот, чем в немецком: сначала место, потом время (Place – Time): I met him at the station yesterday.",
+        "РУССКИЙ: порядок слов свободный, нейтральный вариант: подлежащее → сказуемое → остальное (Я смотрю из окна). Английский в этом очень похож на русский, немецкий – из-за глагола на 2-м месте – нет.",
+        "ДВА ПРОСТЫХ СЛУЧАЯ ДЛЯ ПАДЕЖА. Нет предлога → падеж по роли блока: das Subjekt = der Nominativ, das Objekt = обычно der Akkusativ (den Garten). Есть предлог → падеж определяет сам предлог: aus → der Dativ (aus dem Fenster). См. правило «die Präposition bestimmt den Kasus»."
+      ],
+      tabelle: {
+        kopf: ["der Baustein · блок", "die Frage", "Deutsch", "English", "Русский"],
+        sprechen: 2,
+        sprache: "de",
+        zeilen: [
+          ["das Subjekt · подлежащее", "Wer? Was?", "Ich", "I", "я"],
+          ["das Prädikat · сказуемое", "Was tut …?", "schaue", "look", "смотрю"],
+          ["die Zeitangabe · обст. времени", "Wann?", "heute", "today", "сегодня"],
+          ["die Ortsangabe · обст. места", "Wo? Woher?", "aus dem Fenster", "out of the window", "из окна"],
+          ["das Objekt · дополнение", "Wen? Was?", "den Garten", "the garden", "сад"],
+          ["der ganze Satz · DE: Zeit vor Ort · EN: Place before Time", "—", "Ich schaue heute aus dem Fenster.", "I look out of the window today.", "Я сегодня смотрю из окна."]
+        ]
+      },
+      beispiele: [
+        { de: "Ich schaue aus dem Fenster.", en: "I look out of the window.", ru: "Я смотрю из окна.", hinweis: "Subjekt – Prädikat – Ortsangabe" },
+        { de: "Heute schaue ich aus dem Fenster.", en: "Today I look out of the window.", ru: "Сегодня я смотрю из окна.", hinweis: "DE: глагол остаётся на 2-м месте · EN: I всегда перед look" },
+        { de: "Ich sehe den Garten.", en: "I see the garden.", ru: "Я вижу сад.", hinweis: "den Garten – das Objekt (Wen? Was?) → Akkusativ: der → den" },
+        { de: "Ich habe ihn gestern am Bahnhof getroffen.", en: "I met him at the station yesterday.", ru: "Я встретил его вчера на вокзале.", hinweis: "DE: Zeit → Ort · EN: Place → Time" }
+      ],
+      merke: "Drei Hauptblöcke: Subjekt – Prädikat – Objekt. DE: das Prädikat immer an 2. Stelle, Zeit vor Ort. EN: S – V – O fest, Place vor Time. Der Artikel ist kein Block – er gehört zum Nomen."
+    },
+    {
+      // 2026-11-18: mit Claude – aus/von, nach Hause/zu Hause, auf die Toilette
+      id: "praeposition-als-block",
+      thema: "praeposition",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "die Präposition lernt man im Block (nach Hause, zu Hause, auf die Toilette)",
+      titel_ru: "предлог не выводится логикой – учим готовыми блоками (DE · EN)",
+      formel: "die Präposition + der Artikel + das Nomen = EIN Block zum Auswendiglernen: nach Hause gehen · zu Hause sein · auf die Toilette gehen · aus dem Fenster schauen",
+      definitionen: [
+        { wort: "die feste Verbindung", de: "Eine feste Verbindung (auch: die Wendung, der Chunk) ist eine Wortgruppe, die man immer genau so sagt. Man lernt sie als Ganzes, nicht Wort für Wort.", ru: "Устойчивое сочетание – группа слов, которую всегда говорят именно так. Её учат целиком, как одно слово, а не по отдельности." }
+      ],
+      erklaerung: [
+        "ПОЧЕМУ НЕЛЬЗЯ ВЫВЕСТИ ЛОГИКОЙ. Какой предлог стоит – часто дело привычки языка (die Idiomatik), а не логики. Если предлог известен, дальше всё просто: предлог → падеж → артикль (aus → Dativ → dem). Трудность в том, чтобы выбрать сам предлог. Поэтому его учат вместе с выражением – так же, как существительное учат с артиклем.",
+        "В РУССКОМ ТОЧНО ТАК ЖЕ – мы просто не замечаем: «НА почту», но «В банк»; «НА работу», но «В школу». Иностранец тоже спросил бы: почему?",
+        "aus ИЛИ von? aus = изнутри наружу: Ich schaue aus dem Fenster (смотрю наружу). von = от / с какого-то места: Ich gehe vom Fenster weg (отхожу от окна); Vom Fenster aus sehe ich den Garten (от окна, с этого места я вижу сад). Оба требуют Dativ, но смысл разный. vom = von + dem.",
+        "nach Hause ИЛИ zu Hause? nach Hause = домой (Wohin? куда?): Ich gehe nach Hause. zu Hause = дома (Wo? где?): Ich bin zu Hause. «Ich gehe zu Hause» – неправильно. «К дому» в смысле здания: Ich gehe zum Haus (zum = zu + dem).",
+        "auf die Toilette ИЛИ in die Toilette? Правильно: Ich gehe auf die Toilette (так же: auf die Bank, auf die Post, aufs Amt). «Ich gehe in die Toilette» буквально значит «лезу в унитаз» – поэтому дети смеются.",
+        "die Wechselpräposition (in, an, auf, über, unter, vor, hinter, neben, zwischen): Wo? → Dativ (Ich bin auf der Toilette), Wohin? → Akkusativ (Ich gehe auf die Toilette). Как в русском: «в доме» (где?) – «в дом» (куда?).",
+        "АНГЛИЙСКИЙ – ТО ЖЕ САМОЕ, НО ПРОЩЕ. Предлоги тоже учат блоками: at home (дома), go home (домой – БЕЗ предлога!), on the bus (в автобусе), in the car (в машине), go to the toilet. Но в английском нет падежей и артикль the никогда не меняется – учить нужно только предлог, склонять ничего не надо."
+      ],
+      tabellen: [
+        {
+          titel: "1 · Deutsch – feste Blöcke (aufs Wort tippen – vorlesen)",
+          kopf: ["der Block", "Русский", "💡"],
+          sprechen: 0,
+          sprache: "de",
+          zeilen: [
+            ["nach Hause gehen", "идти домой (куда?)", "nicht: zu Hause gehen"],
+            ["zu Hause sein", "быть дома (где?)", "Wo? → zu Hause"],
+            ["zum Haus gehen", "идти к дому (к зданию)", "zum = zu + dem"],
+            ["aus dem Fenster schauen", "смотреть в окно / из окна (наружу)", "aus = изнутри наружу"],
+            ["vom Fenster weggehen", "отойти от окна", "vom = von + dem"],
+            ["auf die Toilette gehen", "пойти в туалет", "nicht: in die Toilette (= в унитаз)"],
+            ["auf die Bank gehen", "пойти в банк", "auch: zur Bank gehen"],
+            ["mit dem Auto fahren", "ехать на машине", "mit + Dativ"]
+          ]
+        },
+        {
+          titel: "2 · English – feste Blöcke (ohne Kasus)",
+          kopf: ["the chunk", "Deutsch", "Русский"],
+          sprechen: 0,
+          sprache: "en",
+          zeilen: [
+            ["go home", "nach Hause gehen", "идти домой (без предлога!)"],
+            ["at home", "zu Hause", "дома"],
+            ["look out of the window", "aus dem Fenster schauen", "смотреть в окно"],
+            ["on the bus", "im Bus", "в автобусе"],
+            ["in the car", "im Auto", "в машине"],
+            ["go to the toilet", "auf die Toilette gehen", "пойти в туалет"],
+            ["by car", "mit dem Auto", "на машине"]
+          ]
+        }
+      ],
+      beispiele: [
+        { de: "Ich gehe nach Hause.", en: "I am going home.", ru: "Я иду домой.", hinweis: "Wohin? → nach Hause · EN: go home без предлога" },
+        { de: "Ich bin zu Hause.", en: "I am at home.", ru: "Я дома.", hinweis: "Wo? → zu Hause" },
+        { de: "Ich gehe auf die Toilette.", en: "I am going to the toilet.", ru: "Я иду в туалет.", hinweis: "auf + Akkusativ (Wohin?)" },
+        { de: "Vom Fenster aus sehe ich den Garten.", en: "From the window I can see the garden.", ru: "От окна я вижу сад.", hinweis: "von = от; aus = изнутри наружу" }
+      ],
+      merke: "Präpositionen nicht ausrechnen, sondern als Block lernen: nach Hause gehen · zu Hause sein · auf die Toilette gehen. EN genauso (go home, at home), aber ohne Kasus."
+    },
+    {
+      // 2026-11-18: mit Claude – „он является кем?“ → Nominativ; 6 russische, 4 deutsche Fälle
+      id: "kasus-vergleich-gleichsetzung",
+      thema: "grundbegriffe",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "die Fälle im Vergleich (RU 6 · DE 4 · EN 0) und der Gleichsetzungsnominativ",
+      titel_ru: "падежи: русский творительный «кем?» → в немецком Nominativ",
+      formel: "sein · werden · bleiben · heißen + der Nominativ (Er ist Pilot. = Er = Pilot) · творительный «чем? с кем?» → mit + Dativ (mit dem Stift)",
+      definitionen: [
+        { wort: "der Kasus (der Fall)", de: "Der Kasus zeigt die Rolle eines Nomens im Satz. Das Deutsche hat vier Fälle: der Nominativ, der Genitiv, der Dativ, der Akkusativ.", ru: "Падеж показывает роль существительного в предложении. В немецком четыре падежа, в русском – шесть, в английском у существительных падежей нет." },
+        { wort: "der Gleichsetzungsnominativ", de: "Nach sein, werden, bleiben und heißen steht ein zweiter Nominativ. Er ist mit dem Subjekt gleich: Er ist Pilot. (er = Pilot)", ru: "«Именительный приравнивания»: после sein, werden, bleiben, heißen второе слово тоже в Nominativ, потому что оно равно подлежащему: он = пилот. Глагол работает как знак «=»." }
+      ],
+      erklaerung: [
+        "ШЕСТЬ РУССКИХ ПАДЕЖЕЙ: именительный (кто? что?), родительный (кого? чего?), дательный (кому? чему?), винительный (кого? что?), творительный (кем? чем?), предложный (о ком? о чём?).",
+        "ЧЕТЫРЕ НЕМЕЦКИХ: der Nominativ, der Genitiv, der Dativ, der Akkusativ. Творительного (der Instrumental) и предложного (der Präpositiv) падежа в немецком НЕТ. Поэтому русский вопрос «кем? чем?» нельзя переносить в немецкий – нужно смотреть по смыслу.",
+        "СЛУЧАЙ 1: «является кем?» → der Nominativ. По-русски: он является пилотОМ, он стал пилотОМ (творительный). По-немецки после sein, werden, bleiben, heißen – всегда Nominativ: Er ist Pilot. Er wurde Pilot. Er bleibt Pilot. Er heißt Jewgeni. Это der Gleichsetzungsnominativ, а слово после глагола – das Prädikativ (именная часть сказуемого).",
+        "КАК ЗАПОМНИТЬ – ТРИ СПОСОБА. 1) Глаголы-«знаки равенства»: sein, werden, bleiben, heißen → сразу Nominativ, думать не нужно. 2) Замените «является» на старое «есть»: он есть КТО? – пилот → кто? = именительный = Nominativ. Немецкий «думает» именно так: Er ist wer? – Pilot. 3) Если между подлежащим и словом можно поставить «=» (он = пилот), это Nominativ.",
+        "СРАВНИТЕ С ДОПОЛНЕНИЕМ. Er ist Pilot: er = Pilot (один человек) → das Prädikativ, Nominativ. Er fliegt ein Flugzeug: er ≠ Flugzeug (два разных предмета) → das Objekt, Akkusativ.",
+        "СЛУЧАЙ 2: творительный «чем? с кем?» (орудие, вместе с) → mit + der Dativ: пишу ручкой → Ich schreibe mit dem Stift; еду с сыном → Ich fahre mit dem Sohn.",
+        "ПРЕДЛОЖНЫЙ ПАДЕЖ в русском всегда с предлогом – в немецком падеж задаёт немецкий предлог: в доме → im Haus (Dativ), о сыне → über den Sohn (Akkusativ) или von dem Sohn (Dativ).",
+        "АНГЛИЙСКИЙ: у существительных падежей нет (the pilot всегда одинаково). Падежи остались только у местоимений: I – me, he – him, she – her, we – us, they – them. После be тоже «знак равно», но артикль нужен обязательно: He is a pilot (а по-немецки профессия без артикля: Er ist Pilot)."
+      ],
+      tabelle: {
+        kopf: ["русский падеж", "вопрос", "Beispiel RU", "auf Deutsch", "Beispiel DE"],
+        sprechen: 4,
+        sprache: "de",
+        zeilen: [
+          ["именительный", "кто? что?", "пилот", "der Nominativ", "der Pilot"],
+          ["родительный", "кого? чего?", "пилота", "der Genitiv", "des Piloten"],
+          ["дательный", "кому? чему?", "пилоту", "der Dativ", "dem Piloten"],
+          ["винительный", "кого? что?", "пилота", "der Akkusativ", "den Piloten"],
+          ["творительный", "кем? чем?", "(является) пилотом · пишу ручкой", "nach sein: der Nominativ · sonst: mit + Dativ", "Er ist Pilot. · Ich schreibe mit dem Stift."],
+          ["предложный", "о ком? о чём? где?", "о пилоте · в доме", "die Präposition entscheidet", "im Haus · über den Piloten"]
+        ]
+      },
+      beispiele: [
+        { de: "Er ist Pilot.", en: "He is a pilot.", ru: "Он является пилотом.", hinweis: "является кем? → Nominativ · EN: обязательно a" },
+        { de: "Er wurde Pilot.", en: "He became a pilot.", ru: "Он стал пилотом.", hinweis: "werden + Nominativ" },
+        { de: "Er heißt Jewgeni.", en: "His name is Jewgeni.", ru: "Его зовут Евгений.", hinweis: "heißen + Nominativ" },
+        { de: "Ich schreibe mit dem Stift.", en: "I write with a pen.", ru: "Я пишу ручкой.", hinweis: "творительный «чем?» → mit + Dativ" },
+        { de: "Ich fahre mit dem Sohn.", en: "I am going with my son.", ru: "Я еду с сыном.", hinweis: "«с кем?» → mit + Dativ" }
+      ],
+      merke: "sein, werden, bleiben, heißen = знак «=» → immer der Nominativ (Er ist Pilot). Русский творительный «кем?» после «быть/являться» = Nominativ; «чем? с кем?» = mit + Dativ."
     }
   ]
 };
