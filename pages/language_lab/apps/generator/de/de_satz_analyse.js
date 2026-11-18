@@ -557,6 +557,17 @@
     }
     const mitteSeg = mitte.map(toSeg);
     const finitSeg = seg(fin.token, "pred", geraten ? "finites Verb (geraten – nicht in der Datenbank)" : satzart === "frage" || satzart === "imperativ" ? "finites Verb (1. Stelle)" : "finites Verb (2. Stelle)");
+    // 2026-11-18: beim finiten Verb immer auch den Infinitiv und die Person zeigen
+    //   (Ich sehe → Infinitiv: sehen · 1. Person Singular · Präsens)
+    if (bevorzugt && bevorzugt.inf && !geraten) {
+      const PERS = { ich: "1. Person Singular", du: "2. Person Singular", er: "3. Person Singular", wir: "1. Person Plural", ihr: "2. Person Plural", sie: "3. Person Plural / Sie" };
+      const TMP = { praesens: "Präsens", praeteritum: "Präteritum" };
+      const teile = ["Infinitiv: " + bevorzugt.inf];
+      if (!fin.imperativ && PERS[key]) teile.push(PERS[key]);
+      if (fin.imperativ) teile.push("Imperativ");
+      else if (TMP[bevorzugt.tempus]) teile.push(TMP[bevorzugt.tempus]);
+      finitSeg.info += " · " + teile.join(" · ");
+    }
     const rechtsSeg = rk.teile.map((x) => seg(x.text, "pred", x.typ === "part" ? "Partizip II" : x.typ === "inf" ? "Infinitiv" : x.typ === "auxinf" ? "Hilfsverb im Infinitiv" : "abgetrennte Vorsilbe (trennbares Verb)"));
 
     // Satz-Anfang klein speichern wie im Generator (außer Nomen/Sie)

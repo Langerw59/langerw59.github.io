@@ -562,6 +562,59 @@ window.GRAMMATIK = {
         { de: "Ich gehe ins Haus.", en: "I go into the house.", ru: "Я иду в дом.", hinweis: "Wohin? → Akkusativ: in das = ins" }
       ],
       merke: "Падеж задаёт предлог: aus, bei, mit, nach, seit, von, zu → Dativ · durch, für, gegen, ohne, um → Akkusativ · in/an/auf…: Wo? Dativ, Wohin? Akkusativ · русский вопрос «из чего?» не переносить!"
+    },
+    {
+      id: "de-finit-infinit",
+      thema: "verb",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "das finite Verb und der Infinitiv (finite und infinite Verbformen)",
+      titel_ru: "спрягаемый глагол и инфинитив: sehe ← sehen",
+      formel: "das finite Verb = mit Person, Numerus, Tempus, Modus (ich sehe)  ·  der Infinitiv = die Grundform ohne Person (sehen)",
+      erklaerung: [
+        "ПРОИСХОЖДЕНИЕ И ПРОИЗНОШЕНИЕ. finit – латинское слово: finitus «ограниченный, определённый» ← finis «граница, конец» (отсюда же das Finale, англ. finish). По-немецки читается «фи-НИТ» [fiˈniːt]. «Файнайт» – это английское чтение того же слова (finite verb). Термины одни и те же, произношение разное – поэтому у немецких терминов свой глоссарий и немецкий голос.",
+        "DAS FINITE VERB (спрягаемый, личный глагол; auch: die Personalform, das Finitum) – форма, по которой видно четыре вещи: die Person (лицо: ich / du / er), der Numerus (число: Singular / Plural), das Tempus (время: Präsens, Präteritum …) и der Modus (наклонение: Indikativ, Konjunktiv, Imperativ). Форма «определена» – отсюда название.",
+        "DER INFINITIV (неопределённая форма, die Grundform) – лат. in- «не» + finitus = «НЕопределённый». Русское название «неопределённая форма» – буквальный перевод. Лицо и число не видны: sehen, gehen, arbeiten. Так глагол стоит в словаре. Почти всегда оканчивается на -en (sehen) или -n (wandern, sein).",
+        "DIE INFINITEN VERBFORMEN – формы без лица: der Infinitiv (sehen), das Partizip I (sehend – видящий), das Partizip II (gesehen – увиденный, нужен для Perfekt). Сами по себе они не могут быть сказуемым: нельзя сказать «Ich gesehen».",
+        "ПРИМЕР «Ich sehe aus dem Fenster». sehe – das finite Verb: 1. Person, Singular, Präsens, Indikativ. Der Infinitiv: sehen. У sehen в du и er/sie/es корневая гласная e меняется на ie (du siehst, er sieht) – это der Vokalwechsel, признак сильного глагола (das starke Verb). Таблица 1 – вся die Konjugation.",
+        "ГДЕ СТОИТ (die Satzklammer). В повествовательном предложении (der Aussagesatz) finite Verb всегда на 2-м месте (die Verbzweitstellung) – это левая скобка (die linke Klammer). Infinite Teile уходят в самый конец – правая скобка (die rechte Klammer): Ich HABE aus dem Fenster GESEHEN. Ich WILL aus dem Fenster SEHEN. В вопросе без вопросительного слова (die Ja/Nein-Frage) и в повелительном (der Imperativ) finite Verb – на 1-м месте: Siehst du …? Sieh!",
+        "КАК НАЙТИ finite Verb: (1) поменяйте лицо подлежащего – какое слово изменилось, то и finit: ich sehe → du siehst. (2) Поставьте предложение в другое время – finit тоже изменится: ich sehe → ich sah. Infinite Formen при смене лица не меняются: ich habe gesehen → du hast gesehen.",
+        "РУССКАЯ ПАРАЛЛЕЛЬ: «я вижу» – личная форма (= finit), «видеть» – инфинитив. АНГЛИЙСКАЯ: I see – finite verb, (to) see – infinitive [ɪnˈfɪnətɪv]; см. также формы V1/V2/V3 в правиле про -ing."
+      ],
+      tabellen: [
+        {
+          titel: "1 · die Konjugation von «sehen» (der Infinitiv) – das finite Verb im Präsens und Präteritum",
+          kopf: ["die Person", "das Präsens · сейчас", "das Präteritum · было"],
+          sprechen: [1, 2],
+          zeilen: [
+            ["1. Person Singular", "ich sehe · я вижу", "ich sah · я видел"],
+            ["2. Person Singular", "du siehst · ты видишь (e → ie)", "du sahst · ты видел"],
+            ["3. Person Singular", "er sieht · он видит (e → ie)", "er sah · он видел"],
+            ["1. Person Plural", "wir sehen · мы видим (= Infinitiv)", "wir sahen · мы видели"],
+            ["2. Person Plural", "ihr seht · вы видите", "ihr saht · вы видели"],
+            ["3. Person Plural / Sie", "sie sehen · они видят", "sie sahen · они видели"]
+          ]
+        },
+        {
+          titel: "2 · finit oder infinit? – Beispiele aus dem Satzlabor",
+          kopf: ["der Satz", "das finite Verb (2. / 1. Stelle)", "infinite Teile (am Ende)"],
+          sprechen: 0,
+          zeilen: [
+            ["Ich sehe aus dem Fenster. · я смотрю в окно", "sehe · ← sehen", "—"],
+            ["Ich habe aus dem Fenster gesehen. · Perfekt", "habe · ← haben", "gesehen · das Partizip II"],
+            ["Ich will heute nicht arbeiten. · Modalverb", "will · ← wollen", "arbeiten · der Infinitiv"],
+            ["Wir werden morgen Fußball spielen. · Futur I", "werden · ← werden", "spielen · der Infinitiv"],
+            ["Siehst du das Haus? · Ja/Nein-Frage", "siehst · 1. Stelle", "—"]
+          ]
+        }
+      ],
+      beispiele: [
+        { de: "Ich sehe aus dem Fenster.", en: "I look out of the window.", ru: "Я смотрю в окно.", hinweis: "sehe – finit (1. Person Singular), Infinitiv: sehen" },
+        { de: "Du siehst müde aus.", en: "You look tired.", ru: "Ты выглядишь усталым.", hinweis: "siehst … aus – finit + abgetrennte Vorsilbe; Infinitiv: aussehen" },
+        { de: "Ich habe ihn gestern gesehen.", en: "I saw him yesterday.", ru: "Я видел его вчера.", hinweis: "habe – finit · gesehen – infinit (Partizip II)" },
+        { de: "Ich möchte das Meer sehen.", en: "I would like to see the sea.", ru: "Я хотел бы увидеть море.", hinweis: "möchte – finit · sehen – Infinitiv (в англ. с to)" }
+      ],
+      merke: "finit [fi-NIT] = с лицом: ich sehe, du siehst – стоит на 2-м месте. Infinitiv = основная форма без лица: sehen – стоит в словаре и в конце предложения. Найти finit: поменяй ich на du – изменившийся глагол и есть finit."
     }
   ]
 };

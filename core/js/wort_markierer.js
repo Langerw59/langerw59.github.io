@@ -9,6 +9,11 @@
 // RU: Выдели слово → кнопка «📖 Glossar» → карточка прямо на странице.
 //     Нет в глоссарии → «📥 Vormerken» – слово ждёт объяснения в глоссарии.
 // 2026-11-17 (2): Maus ruhig über einem Wort → deutsche Bedeutung; Rechtsklick → Karte.
+// 2026-11-18: ZWEI Glossare – Englisch (glossar_en.js) und Deutsch (glossar_de.js).
+//   Deutsche Fachwörter (finite, Infinitiv …) werden jetzt erkannt und mit DEUTSCHER Stimme
+//   gelesen (vorher: immer englische Stimme → „finite“ klang wie „файнайт“).
+//   Seite kann ihre Sprache angeben: <body data-wm-sprache="de">
+// RU: два глоссария – английский и немецкий; немецкие слова читает немецкий голос.
 // Ausschalten pro Seite: <body data-kein-markierer>
 // ============================================================
 (function () {
@@ -21,7 +26,9 @@
   const GLOSSAR = "/pages/language_lab/glossar/index.html";
   const SPICK = "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/spickzettel.html";
   const LESE = "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/leseregeln.html";
-  const DATEN = ["/datenbanken/glossar/glossar_en.js", "/datenbanken/glossar/lautschrift_en.js", "/datenbanken/glossar/lauthilfe_en.js"];
+  const GLOSSAR_DE_SEITE = "/pages/language_lab/glossar/de.html";
+  const GRAMMATIK = "/pages/language_lab/grammatik/index.html";
+  const DATEN = ["/datenbanken/glossar/glossar_en.js", "/datenbanken/glossar/lautschrift_en.js", "/datenbanken/glossar/lauthilfe_en.js", "/datenbanken/glossar/glossar_de.js"];
 
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const norm = (s) => String(s || "").toLowerCase().replace(/[’`´]/g, "'").replace(/^[^a-zäöüßé']+|[^a-zäöüßé']+$/gi, "").trim();
@@ -32,7 +39,7 @@
     if (ladenP) return ladenP;
     ladenP = Promise.all(DATEN.map((src) => new Promise((ok) => {
       if (document.querySelector(`script[src$="${src.split("/").pop()}"]`) &&
-          (src.includes("glossar_en") ? window.GLOSSAR_EN : src.includes("lautschrift") ? window.lautschriftEN : window.LAUTHILFE_EN)) return ok();
+          (src.includes("glossar_en") ? window.GLOSSAR_EN : src.includes("glossar_de") ? window.GLOSSAR_DE : src.includes("lautschrift") ? window.lautschriftEN : window.LAUTHILFE_EN)) return ok();
       const s = document.createElement("script");
       s.src = src; s.onload = ok; s.onerror = ok;
       document.head.appendChild(s);
@@ -59,24 +66,47 @@
     for (const x of v) if (idx[x]) return idx[x];
     return null;
   }
+  // ---------- Deutsches Glossar / немецкий глоссарий ----------
+  const ohneArt = (s) => String(s || "").toLowerCase().replace(/[’`´]/g, "'").replace(/^(der|die|das|den|dem|des)\s+/, "").replace(/^[^a-zäöüß0-9]+|[^a-zäöüß0-9]+$/gi, "").trim();
+  let idxDE = null;
+  function findenDE(wort) {
+    if (!idxDE) {
+      idxDE = {};
+      (window.GLOSSAR_DE || []).forEach((e) => {
+        const ks = [e.w, ohneArt(e.w).split(" ").pop()].concat(e.k || []);
+        ks.forEach((x) => { const k = ohneArt(x); if (k && !idxDE[k]) idxDE[k] = e; });
+      });
+    }
+    const w = ohneArt(wort);
+    return w ? idxDE[w] || null : null;
+  }
+  // Sprache eines unbekannten Wortes raten / угадать язык незнакомого слова
+  function spracheVon(text, el) {
+    if (/[äöüÄÖÜß]/.test(text)) return "de";
+    const mitLang = el && el.closest && el.closest("[lang]");
+    if (mitLang && mitLang !== document.documentElement) return /^de/i.test(mitLang.getAttribute("lang")) ? "de" : "en";
+    const seite = document.body && document.body.getAttribute("data-wm-sprache");
+    return seite === "de" ? "de" : "en";
+  }
   const ipa = (w) => (typeof window.lautschriftEN === "function" ? window.lautschriftEN(w) : "");
 
   // ---------- Meine Wörter (gemeinsam mit Glossar und SprachBox) ----------
   function meine() { try { const d = JSON.parse(localStorage.getItem(LS_MEINE) || "{}"); return Array.isArray(d.items) ? d.items : []; } catch (_) { return []; } }
   function gemerkt(w) { const k = norm(w); return meine().some((x) => norm(x.w) === k); }
-  function merken(w, satz, gefunden) {
+  function merken(w, satz, gefunden, lang) {
     const items = meine();
     if (items.some((x) => norm(x.w) === norm(w))) return;
-    items.unshift({ w, lang: "en", satz: satz || "", datum: new Date().toISOString().slice(0, 10), gefunden: !!gefunden, seite: document.title || location.pathname });
+    items.unshift({ w, lang: lang || "en", satz: satz || "", datum: new Date().toISOString().slice(0, 10), gefunden: !!gefunden, seite: document.title || location.pathname });
     try { localStorage.setItem(LS_MEINE, JSON.stringify({ items })); } catch (_) {}
   }
 
   // ---------- Sprechen ----------
-  function sag(text) {
-    if (window.TTSManager && window.TTSManager.speak) { window.TTSManager.speak(text, "en"); return; }
+  function sag(text, lang) {
+    lang = lang === "de" ? "de" : "en";
+    if (window.TTSManager && window.TTSManager.speak) { window.TTSManager.speak(text, lang); return; }
     try {
       speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = 0.85;
+      const u = new SpeechSynthesisUtterance(text); u.lang = lang === "de" ? "de-DE" : "en-US"; u.rate = 0.85;
       speechSynthesis.speak(u);
     } catch (_) {}
   }
@@ -113,7 +143,7 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
   knopf.innerHTML = `<button type="button" data-a="glossar" title="Wort im Glossar nachschlagen / посмотреть в глоссарии">📖 Glossar</button><button type="button" data-a="hoer" title="anhören / послушать">🔊</button>`;
   document.body.appendChild(knopf);
   let karte = null;
-  let auswahl = { text: "", satz: "" };
+  let auswahl = { text: "", satz: "", el: null };
 
   // ---------- Markierung erkennen ----------
   function satzUm(sel) {
@@ -130,7 +160,7 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
     const ok = text && text.length <= 40 && /^[A-Za-zÄÖÜäöüßéè'’\- ]+$/.test(text) && text.split(" ").length <= 3 &&
       /[A-Za-z]/.test(text) && !(ziel && ziel.closest && ziel.closest("input,textarea,[contenteditable],#wmKarte,#wmKnopf,#wordPopup"));
     if (!ok) { knopf.style.display = "none"; return; }
-    auswahl = { text: text.replace(/[’]/g, "'").replace(/^[^A-Za-zÄÖÜäöüß]+|[^A-Za-zÄÖÜäöüß]+$/g, ""), satz: satzUm(sel) };
+    auswahl = { text: text.replace(/[’]/g, "'").replace(/^[^A-Za-zÄÖÜäöüß]+|[^A-Za-zÄÖÜäöüß]+$/g, ""), satz: satzUm(sel), el: ziel };
     const r = sel.getRangeAt(0).getBoundingClientRect();
     knopf.style.display = "flex";
     const kb = knopf.offsetWidth || 150;
@@ -143,8 +173,8 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
   knopf.addEventListener("click", (e) => {
     const b = e.target.closest("button");
     if (!b) return;
-    if (b.dataset.a === "hoer") { sag(auswahl.text); return; }
-    zeigen(auswahl.text, auswahl.satz);
+    if (b.dataset.a === "hoer") { sag(auswahl.text, findenDE(auswahl.text) ? "de" : spracheVon(auswahl.text, auswahl.el)); return; }
+    zeigen(auswahl.text, auswahl.satz, auswahl.el);
   });
 
   // ---------- Wort unter der Maus / слово под мышкой ----------
@@ -156,7 +186,7 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
     const el = node.parentElement;
     if (!el || el.closest("input,textarea,select,[contenteditable],#wmKarte,#wmKnopf,#wmTipp,#wordPopup,script,style")) return null;
     const t = node.textContent;
-    const ist = (c) => /[A-Za-z'’]/.test(c || "");
+    const ist = (c) => /[A-Za-zÄÖÜäöüß'’]/.test(c || "");
     let a = off, b = off;
     while (a > 0 && ist(t[a - 1])) a--;
     while (b < t.length && ist(t[b])) b++;
@@ -186,6 +216,16 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
         const f = wortBei(ev.clientX, ev.clientY);
         if (!f) return;
         await laden(); if (!idx) finden("");
+        const d = findenDE(f.w);
+        if (d) {
+          tipp.innerHTML = `<b>${esc(d.w)}</b> <span class="i">${esc(d.aus || "")}</span><br>${esc(d.ru)}<br><small>🇩🇪 Glossar Deutsch · Rechtsklick: mehr</small>`;
+          tipp.hidden = false; hLetzt = f.w;
+          tipp.dataset.x = ev.clientX; tipp.dataset.y = ev.clientY;
+          tipp.style.left = Math.max(6, Math.min(window.scrollX + f.rect.left, window.scrollX + document.documentElement.clientWidth - tipp.offsetWidth - 6)) + "px";
+          tipp.style.top = (window.scrollY + f.rect.bottom + 6) + "px";
+          return;
+        }
+        if (spracheVon(f.w, f.el) === "de") return; // deutsches Wort ohne Eintrag → kein englischer Hinweis
         const e = finden(f.w);
         if (!e || norm(e.de).replace(/^(der|die|das) /, "") === norm(e.w)) return; // gleich im Deutschen → kein Hinweis
         const i = ipa(f.w) || ipa(e.w);
@@ -211,14 +251,14 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
     if (!f) return;
     ev.preventDefault();
     tipp.hidden = true;
-    zeigen(f.w, (f.el.closest("p,li,td,div,label,h1,h2,h3,button") || f.el).textContent.replace(/\s+/g, " ").trim().slice(0, 200));
+    zeigen(f.w, (f.el.closest("p,li,td,div,label,h1,h2,h3,button") || f.el).textContent.replace(/\s+/g, " ").trim().slice(0, 200), f.el);
   });
 
   // ---------- Karte ----------
-  async function zeigen(text, satz) {
+  async function zeigen(text, satz, el) {
     knopf.style.display = "none";
     await laden();
-    idx = null;
+    idx = null; idxDE = null;
     if (!karte) {
       karte = document.createElement("div");
       karte.id = "wmKarte";
@@ -226,6 +266,11 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
       document.addEventListener("keydown", (e) => { if (e.key === "Escape" && karte) karte.hidden = true; });
     }
     karte.hidden = false;
+    // 2026-11-18: zuerst im deutschen Glossar suchen / сначала ищем в немецком глоссарии
+    const d = findenDE(text);
+    if (d) return zeigenDE(d, text);
+    const sprache = spracheVon(text, el);
+    if (sprache === "de") return zeigenUnbekanntDE(text, satz);
     const einzel = !/\s/.test(text);
     const e = einzel ? finden(text) : null;
     const wort = einzel ? norm(text) : text.toLowerCase();
@@ -279,5 +324,52 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
       m.textContent = e ? "✓ In „Meine Wörter“" : "✓ Vorgemerkt";
     };
     sag(text);
+  }
+
+  // ---------- Karte für deutsche Fachwörter / карточка немецкого термина ----------
+  function karteFertig(lang, sagText) {
+    karte.querySelector(".wm-zu").onclick = () => { karte.hidden = true; };
+    karte.querySelectorAll("[data-wm-sag]").forEach((b) => { b.onclick = (ev) => { ev.preventDefault(); sag(b.dataset.wmSag, b.dataset.wmLang || lang); }; });
+    sag(sagText, lang);
+  }
+  function zeigenDE(d, text) {
+    const key = ohneArt(d.w).split(" ").pop();
+    const von = encodeURIComponent(location.pathname + location.search);
+    karte.innerHTML = `
+      <button type="button" class="wm-zu" title="schließen (Esc)">✕</button>
+      <div class="wm-kopf"><span class="wm-wort">${esc(d.w)}</span>
+        <button type="button" class="wm-ipa" data-wm-sag="${esc(d.sag || d.w)}" data-wm-lang="de" title="anhören – deutsche Stimme">${esc(d.aus || "")} 🔊</button>
+        ${ohneArt(text) !== ohneArt(d.w) ? `<small>← ${esc(text)}</small>` : ""}
+      </div>
+      <div class="wm-bed">${esc(d.ru)}</div>
+      <div><small>🇩🇪 ${esc(d.de)}</small></div>
+      <div style="margin-top:4px"><b>Herkunft:</b> ${esc(d.her)}</div>
+      ${d.en ? `<div><b>Englisch:</b> ${esc(d.en)}</div>` : ""}
+      ${d.tip ? `<div class="wm-tip">💡 ${esc(d.tip)}</div>` : ""}
+      ${(d.bsp || []).slice(0, 1).map((b) => `<div style="margin-top:4px">„${esc(b[0])}“ – <i>${esc(b[1])}</i></div>`).join("")}
+      <div class="wm-knoepfe">
+        <a class="wm-haupt" href="${GLOSSAR_DE_SEITE}#w=${encodeURIComponent(key)}&von=${von}" target="quantura_glossar_de">🇩🇪 Im Glossar Deutsch ↗</a>
+        ${d.gr ? `<a href="${GRAMMATIK}#${encodeURIComponent(d.gr)}" target="quantura_grammatik">📐 Regel ↗</a>` : ""}
+      </div>`;
+    karteFertig("de", d.sag || d.w);
+  }
+  function zeigenUnbekanntDE(text, satz) {
+    const istGemerkt = gemerkt(text);
+    karte.innerHTML = `
+      <button type="button" class="wm-zu" title="schließen (Esc)">✕</button>
+      <div class="wm-kopf"><span class="wm-wort">${esc(text)}</span>
+        <button type="button" class="wm-ipa" data-wm-sag="${esc(text)}" data-wm-lang="de" title="deutsche Stimme">🔊 DE</button>
+        <button type="button" class="wm-ipa" data-wm-sag="${esc(text)}" data-wm-lang="en" title="englische Stimme">🔊 EN</button>
+      </div>
+      <div class="wm-fehlt">📭 <b>Noch nicht im Glossar Deutsch.</b> Vormerken – dann trägt Claude den Begriff mit Artikel, Bedeutung, Herkunft und Aussprache ein.<br>
+        <small>Ещё нет в немецком глоссарии. «Vormerken» – и потом в чате: «в немецкий глоссарий».</small></div>
+      <div class="wm-knoepfe">
+        <button type="button" class="wm-merk ${istGemerkt ? "ok" : "wm-haupt"}">${istGemerkt ? "✓ Vorgemerkt" : "📥 Vormerken"}</button>
+        <a href="https://translate.google.com/?sl=de&tl=ru&text=${encodeURIComponent(text)}&op=translate" target="quantura_google" rel="noopener">Google Übersetzer ↗</a>
+        <a href="${GLOSSAR_DE_SEITE}" target="quantura_glossar_de">🇩🇪 Glossar Deutsch ↗</a>
+      </div>`;
+    const m = karte.querySelector(".wm-merk");
+    m.onclick = () => { merken(text, satz, false, "de"); m.classList.remove("wm-haupt"); m.classList.add("ok"); m.textContent = "✓ Vorgemerkt"; };
+    karteFertig("de", text);
   }
 })();
