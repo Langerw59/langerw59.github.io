@@ -256,7 +256,8 @@ window.GLOSSAR_EN = [
   ver:"DE (keine)", bsp:["It hurts.","Es tut weh."], t:["Gesundheit"] },
 // ---------------- I ----------------
 { w:"I", f:["i'm","i'd","i'll","me"], de:"ich", ru:"я", h:"germ",
-  her:"Древнеангл. ic – немецкое «ich». Тот же древний корень, что старорусское «азъ». I всегда пишется с большой буквы. I'm = I am, I'd = I would, I'll = I will.",
+  her:"Древнеангл. ic – немецкое «ich». Тот же древний корень, что старорусское «азъ». I всегда пишется с большой буквы.",
+  tip:"Краткие формы: I'm = I am = ich bin = я (есть) · I'll = I will = ich werde = я буду (das Futur I) · I'd = I would = ich würde = я бы (der Konjunktiv II); но I'd + V3 = I had = ich hatte · me = mich / mir = меня / мне. Ловушка: will (EN) = werden, а не wollen. Подробно – в Grammatik: «I'm · I'll · I'd».",
   ver:"DE ich · RU азъ, я", bsp:["I'm retired.","Ich bin Rentner."], t:["Grundwörter"] },
 { w:"in", de:"in", ru:"в", h:"germ", her:"Одинаково в английском, немецком и латыни.",
   ver:"DE in · LAT in", bsp:["I live in Willich.","Ich wohne in Willich."], t:["Grundwörter"] },

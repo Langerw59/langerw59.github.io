@@ -455,6 +455,43 @@ window.GRAMMATIK = {
         { de: "Wo ist die Umkleidekabine?", en: "Where is the fitting room?", ru: "Где примерочная?", hinweis: "die Umkleidekabine = fitting room" }
       ],
       merke: "anprobieren = try on · anziehen = put on · ausziehen = take off · местоимение в середину: try it on · an – это артикль (an apple), а не частица"
+    },
+    {
+      id: "en-will-would",
+      thema: "verb",
+      sprache: "en",
+      datum: "2026-11-18",
+      titel: "I'm · I'll · I'd – die Kurzformen; will (das Futur) und would (der Konjunktiv II)",
+      titel_ru: "I'm – я есть, I'll – я буду, I'd – я бы: will и would",
+      formel: "I'm = I am = ich bin  ·  I'll = I will = ich werde (das Futur I)  ·  I'd = I would = ich würde (der Konjunktiv II, «бы»)",
+      erklaerung: [
+        "КРАТКИЕ ФОРМЫ (die Kurzform, die Kontraktion). В разговорном английском вспомогательный глагол сливается с местоимением, а пропущенные буквы заменяет апостроф (der Apostroph): I am → I'm, I will → I'll, I would → I'd. Значение от этого не меняется – это только сокращение, как в немецком «Wie geht's?» = «Wie geht es?».",
+        "I'M = I AM = ICH BIN. am – форма глагола be (sein) в настоящем времени (das Präsens) для I. По-русски «есть» обычно пропускаем: I'm retired. – Ich bin Rentner. – Я на пенсии. Подробно: правило «das Verb to be».",
+        "I'LL = I WILL = ICH WERDE. will – вспомогательный глагол (das Hilfsverb) будущего времени (das Futur I), по-немецки werden, по-русски «буду / -у»: I'll take it. – Ich nehme es. / Ich werde es nehmen. – Я возьму это. После will – глагол в начальной форме (der Infinitiv) без to. ЛОВУШКА (der falsche Freund): немецкое ich will = I want (хочу), а английское I will = ich werde (буду).",
+        "I'D = I WOULD = ICH WÜRDE. would – тоже вспомогательный глагол; он образует сослагательное наклонение (der Konjunktiv II, англ. conditional), то есть русскую частицу «бы». Ваша догадка верная: would = «бы». По-немецки würde + Infinitiv: I would go. – Ich würde gehen. – Я бы пошёл. Историческая справка: would – это прошедшее время (das Präteritum) от will (древнеангл. willan – wolde, ср. немецкое wollen – wollte). Поэтому will и would – одна семья: «буду» и «бы».",
+        "ГДЕ ВСТРЕЧАЕТСЯ WOULD. 1) Вежливость (die Höflichkeit): I'd like a coffee. – Ich möchte einen Kaffee. – Я хотел бы кофе. Would you help me? – Würden Sie mir helfen? – Вы не помогли бы мне? 2) Условие (der Bedingungssatz, der Konditionalsatz): If I had time, I would go. – Wenn ich Zeit hätte, würde ich gehen. – Если бы у меня было время, я бы пошёл. 3) Будущее в прошлом (в косвенной речи, die indirekte Rede): He said he would come. – Er sagte, er würde kommen. – Он сказал, что придёт.",
+        "ОСТОРОЖНО: I'D БЫВАЕТ ДВУХ ВИДОВ. I'd = I would, если после него стоит начальная форма (V1): I'd go, I'd like. Но I'd = I had (ich hatte), если после него стоит третья форма (V3, das Partizip II): I'd seen it. – Ich hatte es gesehen. – Я (уже) видел это. Различаем по следующему глаголу.",
+        "ME = MICH / MIR. me – это не глагол, а объектный падеж (der Objektfall) местоимения I: Help me! – Hilf mir! – Помоги мне! Can you see me? – Siehst du mich? – Ты меня видишь? В английском одна форма me на месте немецких mich (Akkusativ) и mir (Dativ)."
+      ],
+      tabelle: {
+        kopf: ["English", "lang", "Deutsch", "Русский", "die Form"],
+        sprechen: 0,
+        zeilen: [
+          ["I'm retired.",       "I am retired.",       "Ich bin Rentner.",               "Я на пенсии.",              "am – das Präsens von be"],
+          ["I'll take it.",      "I will take it.",     "Ich nehme es. / Ich werde es nehmen.", "Я возьму это.",      "will – das Futur I (werden)"],
+          ["I'd take it.",       "I would take it.",    "Ich würde es nehmen.",           "Я бы взял это.",            "would – der Konjunktiv II (würde, «бы»)"],
+          ["I'd like a coffee.", "I would like a coffee.", "Ich möchte einen Kaffee.",    "Я хотел бы кофе.",          "would like = möchte (höflich)"],
+          ["I'd seen it.",       "I had seen it.",      "Ich hatte es gesehen.",          "Я (уже) видел это.",        "had + V3 – das Plusquamperfekt"],
+          ["Help me!",           "Help me!",            "Hilf mir!",                      "Помоги мне!",               "me – der Objektfall von I"]
+        ]
+      },
+      beispiele: [
+        { en: "I'll call you tomorrow.", de: "Ich rufe dich morgen an.", ru: "Я позвоню тебе завтра.", hinweis: "I'll = I will = ich werde" },
+        { en: "I'd call you, but I have no phone.", de: "Ich würde dich anrufen, aber ich habe kein Telefon.", ru: "Я бы тебе позвонил, но у меня нет телефона.", hinweis: "I'd = I would = ich würde (бы)" },
+        { en: "If I had time, I would go.", de: "Wenn ich Zeit hätte, würde ich gehen.", ru: "Если бы у меня было время, я бы пошёл.", hinweis: "der Bedingungssatz" },
+        { en: "Would you help me, please?", de: "Würden Sie mir bitte helfen?", ru: "Вы не помогли бы мне?", hinweis: "höflich" }
+      ],
+      merke: "I'm = ich bin (я есть) · I'll = ich werde (я буду) · I'd = ich würde (я бы) · will (EN) = werden, НЕ wollen · I'd + V3 = I had"
     }
   ]
 };
