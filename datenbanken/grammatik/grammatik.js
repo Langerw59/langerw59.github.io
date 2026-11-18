@@ -374,6 +374,8 @@ window.GRAMMATIK = {
             ["die Satzart", "тип предложения (по цели)", "Aussagesatz / Fragesatz"],
             ["der Aussagesatz", "повествовательное предложение", "Du gehst nach Hause."],
             ["der Fragesatz", "вопросительное предложение", "Gehst du nach Hause?"],
+            ["die Entscheidungsfrage (die Ja/Nein-Frage)", "вопрос «да/нет»: глагол на 1-м месте", "Gehst du nach Hause?"],
+            ["die W-Frage (die Ergänzungsfrage)", "вопрос с вопросительным словом на W- (wer, was, wo, wohin, wann, wie, warum); W – не «Wort», а буква W", "Wohin gehst du?"],
             ["die Behauptung / die Bejahung", "утверждение (bejaht)", "Du gehst."],
             ["die Verneinung", "отрицание (verneint)", "Du gehst nicht."],
             ["die Polarität", "полярность: да или нет", "bejaht ↔ verneint"],
