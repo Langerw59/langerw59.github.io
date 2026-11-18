@@ -413,7 +413,30 @@ window.GRAMMATIK = {
         "ОДНО СЛОВО ИЗ ДВУХ. try on – это одно слово по смыслу (одна лексема, das Lexem), хотя пишется раздельно. Три языка – три ступени: по-русски приставка всегда приклеена (при-мерить); по-немецки приклеена только в инфинитиве (anprobieren), а в предложении отрывается (Ich probiere es an); по-английски частица стоит отдельно всегда (try it on). Когда-то в древнеанглийском приставки были, как в немецком, но почти все исчезли, и их место заняли отдельные частицы. Следы старых приставок: understand, overcome, upset. А существительные от фразовых глаголов пишутся слитно: take off → the takeoff (взлёт), check out → the checkout (касса).",
         "ПРОТИВОПОЛОЖНОСТЬ. on – «на себя», off – «с себя»: put on – надеть, take off – снять. Ich ziehe die Jacke an / aus = I put the jacket on / take the jacket off."
       ],
-      tabelle: {
+      tabellen: [
+      {
+        titel: "Drei Sprachen – drei Stufen / три языка – три ступени",
+        kopf: ["die Sprache", "Vorsilbe / Partikel", "die Grundform", "im Satz"],
+        zeilen: [
+          ["Russisch", "immer angeklebt (die Vorsilbe)", "примерить", "я примеряю"],
+          ["Deutsch", "angeklebt nur im Infinitiv, im Satz getrennt (das trennbare Verb)", "anprobieren", "Ich probiere es an."],
+          ["Englisch", "immer getrennt (das Phrasal Verb)", "try on", "I try it on."]
+        ]
+      },
+      {
+        titel: "Reste alter Vorsilben und Substantive / следы приставок и существительные",
+        kopf: ["das Thema", "English", "Deutsch", "die Erklärung"],
+        sprechen: 1,
+        zeilen: [
+          ["alte Vorsilbe (Rest)", "understand", "verstehen", "Vorsilbe noch angeklebt"],
+          ["alte Vorsilbe (Rest)", "overcome", "überwinden", "Vorsilbe noch angeklebt"],
+          ["alte Vorsilbe (Rest)", "upset", "verärgern", "Vorsilbe noch angeklebt"],
+          ["das Substantiv aus dem Phrasal Verb", "the takeoff", "der Start (← abheben = take off)", "zusammengeschrieben"],
+          ["das Substantiv aus dem Phrasal Verb", "the checkout", "die Kasse (← auschecken = check out)", "zusammengeschrieben"]
+        ]
+      },
+      {
+        titel: "Beispiele / примеры",
         kopf: ["Deutsch", "English", "Русский"],
         sprechen: 1,
         zeilen: [
@@ -424,7 +447,8 @@ window.GRAMMATIK = {
           ["Mach das Licht an.",         "Turn the light on.",       "Включи свет."],
           ["Mach das Licht aus.",        "Turn the light off.",      "Выключи свет."]
         ]
-      },
+      }
+      ],
       beispiele: [
         { de: "Kann ich das anprobieren?", en: "Can I try this on?", ru: "Можно это примерить?", hinweis: "an- (DE) = on (EN)" },
         { de: "Ich probiere es an.", en: "I try it on.", ru: "Я примеряю это.", hinweis: "it – в середину, НЕ try on it" },
