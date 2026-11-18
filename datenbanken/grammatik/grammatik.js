@@ -396,6 +396,40 @@ window.GRAMMATIK = {
         { de: "Ich möchte einen Kaffee, bitte.", en: "I'd like a coffee, please.", ru: "Мне кофе, пожалуйста.", hinweis: "höflich" }
       ],
       merke: "möchte = would like (I'd like) · will (DE) = want · will (EN) = werden · после would – глагол без to: I would like / I would go, НЕ I would to go"
+    },
+    {
+      id: "en-phrasal-verb",
+      thema: "verb",
+      sprache: "en",
+      datum: "2026-11-18",
+      titel: "das Phrasal Verb – try on = anprobieren (wie das trennbare Verb)",
+      titel_ru: "фразовый глагол: try on – примерить; почему on, а не an",
+      formel: "Verb + Partikel: try on · put on · take off  ·  Pronomen in die Mitte: try it on (NICHT try on it)",
+      erklaerung: [
+        "ЧТО ЭТО. В английском есть фразовые глаголы (das Phrasal Verb): глагол + маленькое слово-частица (die Partikel) – on, off, up, out, in. Вместе они дают новое значение: try – пробовать, а try on – примерять (одежду, обувь). Это прямой родственник немецкого отделяемого глагола (das trennbare Verb): anprobieren → Ich probiere es an.",
+        "ПОЧЕМУ ON, А НЕ AN. Ваше чувство верное, только оно немецкое: немецкое an + probieren = anprobieren. В английском эту роль играет частица on. Немецкой приставке an- в английском очень часто соответствует on: anziehen = put on (надеть), anmachen/einschalten = turn on (включить), anprobieren = try on. Английского слова «an» в этом значении нет: an – это неопределённый артикль (der unbestimmte Artikel) перед гласным звуком: an apple, an hour.",
+        "ПОЧЕМУ СЛЫШИТСЯ «АН». Слово on читается /ɒn/ (британский вариант, короткое «он») или /ɑːn/ (американский вариант, ближе к «ан»). Голос в программе часто американский – поэтому on звучит почти как «ан». Пишется всё равно on.",
+        "ПОРЯДОК СЛОВ. Если дополнение – местоимение (das Pronomen: it, this, them), оно стоит МЕЖДУ глаголом и частицей: try it on, try this on, try them on. Неправильно: try on it. Если дополнение – существительное, можно и так, и так: try on the jacket = try the jacket on. Сравните с немецким: Ich probiere die Jacke an – частица тоже уходит в конец.",
+        "ПРОТИВОПОЛОЖНОСТЬ. on – «на себя», off – «с себя»: put on – надеть, take off – снять. Ich ziehe die Jacke an / aus = I put the jacket on / take the jacket off."
+      ],
+      tabelle: {
+        kopf: ["Deutsch", "English", "Русский"],
+        sprechen: 1,
+        zeilen: [
+          ["Kann ich das anprobieren?", "Can I try this on?",        "Можно это примерить?"],
+          ["Ich probiere die Jacke an.", "I try the jacket on.",     "Я примеряю куртку."],
+          ["Zieh die Jacke an!",         "Put the jacket on!",       "Надень куртку!"],
+          ["Zieh die Schuhe aus!",       "Take your shoes off!",     "Сними обувь!"],
+          ["Mach das Licht an.",         "Turn the light on.",       "Включи свет."],
+          ["Mach das Licht aus.",        "Turn the light off.",      "Выключи свет."]
+        ]
+      },
+      beispiele: [
+        { de: "Kann ich das anprobieren?", en: "Can I try this on?", ru: "Можно это примерить?", hinweis: "an- (DE) = on (EN)" },
+        { de: "Ich probiere es an.", en: "I try it on.", ru: "Я примеряю это.", hinweis: "it – в середину, НЕ try on it" },
+        { de: "Wo ist die Umkleidekabine?", en: "Where is the fitting room?", ru: "Где примерочная?", hinweis: "die Umkleidekabine = fitting room" }
+      ],
+      merke: "anprobieren = try on · anziehen = put on · ausziehen = take off · местоимение в середину: try it on · an – это артикль (an apple), а не частица"
     }
   ]
 };
