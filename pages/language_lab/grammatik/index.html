@@ -52,6 +52,12 @@
         .gr-bsp .de, .gr-bsp .en { border-bottom: 0; padding-bottom: 2px; }
         .gr-bsp .ru { padding-top: 2px; margin-bottom: 4px; }
       }
+      .gr-def { border: 1px solid var(--border-subtle, #d0d7de); border-left: 4px solid #2da44e; border-radius: 10px; padding: 8px 12px; margin: 8px 0; }
+      .gr-def-kopf { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      .gr-def-kopf button { font: inherit; font-size: .85rem; cursor: pointer; padding: 3px 10px; border-radius: 999px; border: 1px solid #2da44e; background: transparent; color: inherit; margin-left: auto; }
+      .gr-def-de { cursor: pointer; }
+      .gr-def-ru { display: none; color: var(--text-muted, #59636e); border-top: 1px dashed var(--border-subtle, #d0d7de); padding-top: 6px; }
+      .gr-def.ru-auf .gr-def-ru { display: block; }
       .gr-fuss { font-size: .82rem; color: var(--text-muted, #59636e); margin-top: 10px; }
       .gr-links a { display: block; text-decoration: none; color: inherit; border: 1px dashed var(--border-subtle, #afb8c1); border-radius: 10px; padding: 9px 12px; margin: 6px 0; }
       .gr-links a small { color: var(--text-muted, #59636e); }
@@ -116,6 +122,26 @@
         kopf.append(el("h3", null, r.titel), el("span", "ru", r.titel_ru), el("span", "fl", (r.sprache || "").toUpperCase()), el("span", "pfeil", "▾"));
         const body = el("div", "gr-body");
         if (r.formel) body.appendChild(el("div", "gr-formel", r.formel));
+        // 2026-11-18: deutsche Definition + Knopf „по-русски“ (Übersetzung ein-/ausblenden)
+        (r.definitionen || []).forEach((d) => {
+          const box2 = el("div", "gr-def");
+          const zeile = el("div", "gr-def-kopf");
+          zeile.appendChild(el("b", null, d.wort));
+          const knopf = el("button", null, "🇷🇺 по-русски");
+          knopf.type = "button";
+          zeile.appendChild(knopf);
+          const pde = el("p", "gr-def-de", d.de);
+          pde.title = "anhören / послушать";
+          pde.addEventListener("click", () => sprich(d.de, "de", pde));
+          const pru = el("p", "gr-def-ru", d.ru);
+          knopf.addEventListener("click", (ev) => {
+            ev.stopPropagation();
+            const auf = box2.classList.toggle("ru-auf");
+            knopf.textContent = auf ? "🇷🇺 скрыть" : "🇷🇺 по-русски";
+          });
+          box2.append(zeile, pde, pru);
+          body.appendChild(box2);
+        });
         (r.erklaerung || []).forEach((p) => body.appendChild(el("p", null, p)));
 
         // 2026-11-17: mehrere Tabellen (tabellen: [...]) und sprechen = Spaltennummer

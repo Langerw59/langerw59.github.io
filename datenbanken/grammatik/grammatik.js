@@ -22,6 +22,7 @@
 // ============================================================
 window.GRAMMATIK = {
   themen: [
+    { id: "grundbegriffe", titel: "die Grundbegriffe", titel_ru: "основные понятия" },
     { id: "verb",    titel: "das Verb",          titel_ru: "глагол" },
     { id: "pronomen", titel: "das Pronomen",     titel_ru: "местоимение" },
     { id: "praeposition", titel: "die Präposition",   titel_ru: "предлог" },
@@ -39,6 +40,52 @@ window.GRAMMATIK = {
   ],
 
   regeln: [
+    {
+      // 2026-11-18: mit Claude – konjugieren / deklinieren
+      id: "de-konjugieren-deklinieren",
+      thema: "grundbegriffe",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "konjugieren und deklinieren",
+      titel_ru: "спрягать и склонять – в чём разница",
+      formel: "das Verb → konjugieren (спрягать)  ·  das Nomen, der Artikel, das Adjektiv, das Pronomen → deklinieren (склонять)",
+      // definitionen: deutscher Text + Knopf „по-русски“ zum Aufklappen der Übersetzung
+      definitionen: [
+        { wort: "konjugieren (die Konjugation)",
+          de: "Konjugieren bedeutet, ein Verb (Tuwort) an verschiedene grammatische Merkmale anzupassen: an die Person (ich, du, er …), die Zahl (der Numerus), die Zeit (das Tempus) und die Aussageweise (der Modus).",
+          ru: "Спрягать – значит изменять глагол в соответствии с грамматическими признаками: по лицам (я, ты, он …), по числам (число), по временам (время) и по наклонениям (наклонение)." },
+        { wort: "deklinieren (die Deklination)",
+          de: "Deklinieren bedeutet, ein Nomen (Namenwort), einen Artikel, ein Adjektiv (Wiewort) oder ein Pronomen (Fürwort) an den Fall (der Kasus), die Zahl (der Numerus) und das Geschlecht (das Genus) anzupassen.",
+          ru: "Склонять – значит изменять существительное, артикль, прилагательное или местоимение по падежам, по числам и по родам." }
+      ],
+      erklaerung: [
+        "Konjugieren (спрягать) – это только про глагол (das Verb). Глагол меняется по лицу, числу, времени и наклонению: ich gehe, du gehst, er geht, wir gehen; ich ging; ich würde gehen.",
+        "Deklinieren (склонять) – это про всё, что меняется по падежам: das Nomen (существительное), der Artikel, das Adjektiv, das Pronomen. Они меняются по падежу (der Kasus), числу (der Numerus) и роду (das Genus): der Mann, des Mannes, dem Mann, den Mann.",
+        "Значит, «ich gehe, du gehst, er geht» – это die Konjugation (спряжение), а не die Deklination. В русском точно так же: «я иду, ты идёшь» – спряжение; «стол, стола, столу» – склонение.",
+        "Die Etymologie: konjugieren ← лат. coniugare «запрягать вместе» (con- «вместе» + iugum «ярмо», нем. das Joch). Русское «спрягать» – та же картинка: «впрягать, упряжь». deklinieren ← лат. declinare «отклонять, наклонять» (de- «от» + clinare «наклонять»). Русское «склонять» – тот же образ. Оба русских слова – кальки (Lehnübersetzungen) с латыни.",
+        "По-английски: to conjugate (спрягать), to decline (склонять)."
+      ],
+      tabelle: {
+        kopf: ["konjugieren · спрягать (das Verb)", "deklinieren · склонять (das Nomen)"],
+        sprechen: true,
+        zeilen: [
+          ["ich gehe · я иду · 1. Person Singular",      "der Mann · der Nominativ · кто?"],
+          ["du gehst · ты идёшь · 2. Person Singular",   "des Mannes · der Genitiv · чей?"],
+          ["er geht · он идёт · 3. Person Singular",     "dem Mann · der Dativ · кому?"],
+          ["wir gehen · мы идём · 1. Person Plural",     "den Mann · der Akkusativ · кого?"],
+          ["ihr geht · вы идёте · 2. Person Plural",     "die Männer · der Plural · мужчины"],
+          ["sie gehen · они идут · 3. Person Plural",    "den Männern · der Dativ Plural · мужчинам"],
+          ["ich ging · я шёл · das Präteritum",          "—"]
+        ]
+      },
+      beispiele: [
+        { de: "Ich gehe nach Hause.", en: "I go home.", ru: "Я иду домой.", hinweis: "gehe – глагол спрягается (konjugiert)" },
+        { de: "Du gehst nach Hause.", en: "You go home.", ru: "Ты идёшь домой.", hinweis: "gehst – другое лицо" },
+        { de: "Das Auto des Mannes ist neu.", en: "The man's car is new.", ru: "Машина мужчины новая.", hinweis: "des Mannes – склоняется (dekliniert), der Genitiv" },
+        { de: "Ich helfe dem Mann.", en: "I help the man.", ru: "Я помогаю мужчине.", hinweis: "dem Mann – der Dativ" }
+      ],
+      merke: "Глагол – konjugieren (спрягать): ich gehe, du gehst. Существительное, артикль, прилагательное, местоимение – deklinieren (склонять): der Mann, des Mannes, dem Mann."
+    },
     {
       id: "en-ing",
       thema: "verb",
