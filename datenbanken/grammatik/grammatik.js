@@ -496,6 +496,38 @@ window.GRAMMATIK = {
         { en: "Would you help me, please?", de: "Würden Sie mir bitte helfen?", ru: "Вы не помогли бы мне?", hinweis: "höflich" }
       ],
       merke: "I'll take it = решение сейчас (DE: Ich nehme es, RU: Я возьму) · I'm = ich bin (я есть) · I'll = ich werde (я буду) · I'd = ich würde (я бы) · will (EN) = werden, НЕ wollen · I'd + V3 = I had"
+    },
+    {
+      id: "zeitform-zeitbezug",
+      thema: "verb",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "die Zeitform ≠ die wirkliche Zeit – der Algorithmus für die Umgangssprache",
+      titel_ru: "грамматическое время ≠ реальное время: как говорят на самом деле",
+      formel: "Eingabe: die wirkliche Zeit + die Situation (Plan, Entscheidung, Vermutung) → Ausgabe: die Zeitform je Sprache",
+      erklaerung: [
+        "ДВА РАЗНЫХ ПОНЯТИЯ. die Zeitform (грамматическое время: das Präsens, das Futur I, das Futur II …) – это форма глагола. der Zeitbezug (реальное время) – когда действие происходит на самом деле. Это не одно и то же. Ошибка алгоритма «будущее → das Futur I» в том, что на входе только одна переменная.",
+        "АЛГОРИТМ ОСТАЁТСЯ МАТЕМАТИЧЕСКИМ – нужна вторая переменная: die Situation. Функция: Zeitform = f(die Sprache, der Zeitbezug, die Situation).",
+        "DEUTSCH. Будущее + понятно из контекста (morgen, gleich, решение) → das Präsens: Ich gehe nach Hause. Ich komme morgen. das Futur I – для обещания, прогноза или подчёркивания: Es wird regnen. Ich werde das schaffen! das Futur II почти всегда означает предположение о прошлом (die Vermutung): Er wird schon nach Hause gegangen sein. = Он, наверное, уже ушёл домой. Как «будущее» его в разговоре почти не используют.",
+        "ENGLISCH. Решение сейчас → will (I'll take it). План, уже решено → be going to (I'm going to visit my son). Договорённость → das Present Progressive (I'm meeting him tomorrow). Привычка → das Present Simple (I go home at six).",
+        "RUSSISCH. Будущее совершенного вида (возьму, пойду) или разговорно настоящее (иду, беру)."
+      ],
+      tabelle: {
+        kopf: ["die Situation", "Deutsch (Umgangssprache)", "English", "Русский"],
+        sprechen: 2,
+        zeilen: [
+          ["jetzt, gerade",                  "Ich gehe nach Hause.",              "I'm going home.",             "Я иду домой."],
+          ["Entscheidung jetzt",             "Ich gehe jetzt nach Hause.",        "I'll go home now.",           "Пойду-ка я домой."],
+          ["Plan (schon entschieden)",        "Ich gehe morgen nach Hause.",       "I'm going to go home tomorrow.", "Завтра я пойду домой."],
+          ["Gewohnheit",                     "Ich gehe um sechs nach Hause.",     "I go home at six.",           "Я хожу домой в шесть."],
+          ["Vermutung (Vergangenheit)",      "Er wird schon nach Hause gegangen sein.", "He'll have gone home already.", "Он, наверное, уже ушёл домой."]
+        ]
+      },
+      beispiele: [
+        { de: "Ich gehe nach Hause.", en: "I'm going home.", ru: "Я иду домой.", hinweis: "so spricht man" },
+        { de: "Ich werde nach Hause gegangen sein.", en: "I will have gone home.", ru: "Я уже уйду домой (к тому моменту).", hinweis: "grammatisch richtig, aber im Alltag fast nie" }
+      ],
+      merke: "Zeitform = f(Sprache, wirkliche Zeit, Situation) · DE: Zukunft meist im Präsens · Futur II = meist Vermutung · EN: Entscheidung → will, Plan → going to"
     }
   ]
 };
