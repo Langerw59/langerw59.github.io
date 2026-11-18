@@ -157,6 +157,7 @@
     const grenze = wort.length <= 4 ? 1 : wort.length <= 8 ? 2 : 3;
     return [...kand]
       .filter((w) => w && w !== wort && !/\s/.test(w))
+      .filter((w) => (w.charAt(0) === w.charAt(0).toUpperCase()) === (wort.charAt(0) === wort.charAt(0).toUpperCase()))
       .map((w) => [w, abstand(w, wort)])
       .filter(([, d]) => d <= grenze)
       .sort((x, y) => x[1] - y[1])

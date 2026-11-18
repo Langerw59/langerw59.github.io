@@ -41,6 +41,45 @@ window.GRAMMATIK = {
 
   regeln: [
     {
+      // 2026-11-18: mit Claude – die Wortarten; das Adjektiv oder das Adverb?
+      id: "de-wortarten",
+      thema: "grundbegriffe",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "die Wortarten – das Adjektiv oder das Adverb?",
+      titel_ru: "части речи – прилагательное или наречие?",
+      formel: "das Adjektiv kann eine Endung bekommen (das schnelle Auto) · das Adverb bekommt NIE eine Endung (morgens, gern, hier)",
+      erklaerung: [
+        "ЧАСТИ РЕЧИ. die Wortart (мн. die Wortarten) – часть речи. Изменяемые: das Nomen / das Substantiv (существительное), das Verb (глагол), das Adjektiv (прилагательное), das Pronomen (местоимение), der Artikel (артикль). Неизменяемые: das Adverb (наречие), die Präposition (предлог), die Konjunktion (союз), die Partikel (частица). Неизменяемые слова никогда не получают окончаний.",
+        "ПРИЛАГАТЕЛЬНОЕ. das Adjektiv (лат. adiectivum – «приложенное, добавленное» к существительному) описывает предмет: какой? Перед существительным оно склоняется (wird dekliniert) – получает окончание: das schnelle Auto, ein schneller Zug, mit dem schnellen Zug. Его можно сравнивать: schnell – schneller – am schnellsten (die Steigerung).",
+        "НАРЕЧИЕ. das Adverb (лат. ad verbum – «при глаголе») описывает действие или всё предложение: когда? где? как? как часто? – morgens, heute, hier, dort, gern, oft. Оно неизменяемое: окончаний не бывает никогда. Нельзя сказать „das gerne Auto“ или „der hiere Mann“.",
+        "ГЛАВНАЯ ПУТАНИЦА. В немецком многие прилагательные можно поставить к глаголу БЕЗ окончания: Er fährt schnell. Sie singt schön. По-русски тут наречие («быстро», «красиво»), а по-немецки слово остаётся прилагательным – это называется adverbial gebraucht (употреблено как обстоятельство). Отличие от русского: в русском меняется само слово (быстрый → быстро), в немецком – нет (schnell → schnell).",
+        "ТЕСТ. Можно ли поставить слово между артиклем и существительным с окончанием? das schnelle Auto – да → das Adjektiv. das morgense Auto – нет → das Adverb. Второй тест: можно ли образовать сравнение? schnell – schneller → Adjektiv; hier – „hierer“ – нет → Adverb. (Исключения: gern – lieber – am liebsten, oft – öfter.)",
+        "В АНГЛИЙСКОМ – НАОБОРОТ ПРОЩЕ. Там наречие обычно получает -ly: quick (adjective) → quickly (adverb): a quick car, he drives quickly. Немецкое schnell = и quick, и quickly. Исключения: good → well, fast → fast, hard → hard.",
+        "КАК ЭТО РАБОТАЕТ В SATZLABOR. Вверху «Satz bauen» есть 🔎 der Wortart-Erkenner: введите слово – программа найдёт в словаре Wiktionary его часть речи, объяснит её и кнопкой «→ in die Liste» занесёт слово в нужное поле (Verb, Adjektiv, Wann?, Wie?, Wo? или Nomen)."
+      ],
+      tabelle: {
+        kopf: ["die Wortart", "по-русски", "veränderlich? · изменяется?", "die Frage", "Beispiele"],
+        sprechen: false,
+        zeilen: [
+          ["das Nomen (das Substantiv)", "существительное", "ja – der Kasus, der Plural", "Wer? Was?", "der Garten, die Sonne, das Haus"],
+          ["das Verb", "глагол", "ja – wird konjugiert", "Was tut …?", "gehen, schwimmen, arbeiten"],
+          ["das Adjektiv", "прилагательное", "ja – wird dekliniert, Steigerung", "Wie ist …? Was für ein …?", "schnell, schön, alt – das schnelle Auto"],
+          ["das Adverb", "наречие", "nein – nie eine Endung", "Wann? Wo? Wie? Wie oft?", "morgens, heute, hier, gern, oft"],
+          ["das Pronomen", "местоимение", "ja", "–", "ich, du, mein, dieser"],
+          ["die Präposition", "предлог", "nein", "–", "in, mit, nach, auf"],
+          ["die Konjunktion", "союз", "nein", "–", "und, aber, weil, dass"]
+        ]
+      },
+      beispiele: [
+        { de: "Das schnelle Auto steht im Garten.", en: "The fast car is in the garden.", ru: "Быстрая машина стоит в саду.", hinweis: "schnelle – das Adjektiv mit Endung (vor dem Nomen)" },
+        { de: "Mein Sohn fährt schnell.", en: "My son drives fast.", ru: "Мой сын ездит быстро.", hinweis: "schnell – das Adjektiv, adverbial gebraucht (ohne Endung); по-русски наречие" },
+        { de: "Morgens trinke ich gern Kaffee.", en: "In the morning I like to drink coffee.", ru: "По утрам я охотно пью кофе.", hinweis: "morgens, gern – zwei Adverbien: unveränderlich" },
+        { de: "Wir wohnen hier.", en: "We live here.", ru: "Мы живём здесь.", hinweis: "hier – das Adverb (Wo?)" }
+      ],
+      merke: "Bekommt das Wort vor einem Nomen eine Endung (das schnelle Auto)? → das Adjektiv. Nie eine Endung möglich (morgens, hier, gern)? → das Adverb."
+    },
+    {
       // 2026-11-18: mit Claude – Einteilung der Verben (wie in der Datenbank)
       id: "de-verbarten",
       thema: "verb",
