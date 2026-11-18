@@ -238,9 +238,10 @@
               <div class="form-row">
                 <label for="sgSatzart">Satzart <small>тип предложения</small></label>
                 <select id="sgSatzart">
-                  <option value="aussage">Aussagesatz (Ich gehe …)</option>
-                  <option value="frage">Ja/Nein-Frage (Gehst du …?)</option>
-                  <option value="wfrage">W-Frage (Wohin gehst du?)</option>
+                  <option value="frage">die Frage – Ja/Nein (Gehst du …?)</option>
+                  <option value="aussage" selected>die Behauptung (Ich gehe …)</option>
+                  <option value="verneinung">die Verneinung (Ich gehe nicht …)</option>
+                  <option value="wfrage">die W-Frage (Wohin gehst du?)</option>
                 </select>
               </div>
               <div class="form-row" id="sgFragNachRow" style="display:none">
@@ -248,7 +249,7 @@
                 <select id="sgFragNach"></select>
               </div>
               <div class="form-row">
-                <label class="sg-check"><input type="checkbox" id="sgNeg" /> Verneinung (nicht / kein) <small>отрицание</small></label>
+                <label class="sg-check" style="display:none" title="2026-11-18 versteckt: Verneinung jetzt in der Satzart"><input type="checkbox" id="sgNeg" /> Verneinung (nicht / kein) <small>отрицание</small></label>
               </div>
               <div class="form-row">
                 <label for="sgZeitform">Zeitform <small>время</small></label>

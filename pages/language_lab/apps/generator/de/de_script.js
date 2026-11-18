@@ -440,8 +440,8 @@
     const datListe = personen.map((p) => Object.assign({}, p, { istPerson: true }));
 
     return {
-      satzart: $("sgSatzart").value,
-      verneinung: $("sgNeg").checked,
+      satzart: $("sgSatzart").value === "verneinung" ? "aussage" : $("sgSatzart").value,
+      verneinung: $("sgSatzart").value === "verneinung" || $("sgNeg").checked,
       tense: $("sgZeitform").value,
       subj,
       verb: verbs[Number($("sgVerb").value)] || null,

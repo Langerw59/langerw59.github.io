@@ -127,10 +127,10 @@
     // W-Frage: nach dem ersten vorhandenen Satzglied fragen
     const fn = ["ort", "zeit", "akk", "dat", "art", "subj"].find((k) => (k === "subj" ? cfg.subj : cfg[k]));
     const sa = [
-      ["Aussagesatz", "утверждение", { satzart: "aussage", verneinung: false }],
-      ["Verneinung", "отрицание", { satzart: "aussage", verneinung: true }],
-      ["Ja/Nein-Frage", "вопрос «да/нет»", { satzart: "frage", verneinung: false }],
-      ["W-Frage", "вопрос с вопросительным словом", { satzart: "wfrage", verneinung: false, fragNach: fn }],
+      ["die Behauptung", "утверждение (der Aussagesatz)", { satzart: "aussage", verneinung: false }],
+      ["die Verneinung", "отрицание (verneinter Aussagesatz)", { satzart: "aussage", verneinung: true }],
+      ["die Frage (Ja/Nein)", "вопрос «да/нет» (die Entscheidungsfrage)", { satzart: "frage", verneinung: false }],
+      ["die W-Frage", "вопрос с вопросительным словом на W- (die Ergänzungsfrage)", { satzart: "wfrage", verneinung: false, fragNach: fn }],
     ].map(([n, ru, aend]) => {
       const x = bau(aend);
       const aktiv = aend.satzart === cfg.satzart && aend.verneinung === !!cfg.verneinung;
@@ -142,7 +142,7 @@
       <p class="ek-klein">die Satzart (Aussage / Frage) и die Verneinung (bejaht / verneint) — два разных переключателя. Подробно: <a href="/pages/language_lab/grammatik/index.html#satzart-verneinung" target="_blank" rel="noopener">die Grammatik → die Satzart und die Verneinung</a></p>
       <p>И <b>во всех типах предложения</b> (Satzarten, вместе с W-Frage) — в выбранном времени «${esc(r.zeitform)}»:</p>
       <table class="ek-tab"><tbody>${sa.join("")}</tbody></table>
-      <p class="ek-klein">Время и тип предложения выбираются в самом верху левой панели (серый блок «Satzart &amp; Zeitform»); отрицание — галочка «Verneinung (nicht / kein)».</p>`;
+      <p class="ek-klein">Время и тип предложения выбираются в самом верху левой панели (серый блок «Satzart &amp; Zeitform»); отрицание — пункт «die Verneinung» в том же списке.</p>`;
   }
 
   // 1) Konjugation
