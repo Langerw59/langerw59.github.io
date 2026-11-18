@@ -949,6 +949,46 @@ window.GRAMMATIK = {
         { de: "Er war ein guter Pilot.", en: "He was a good pilot.", ru: "Он был хорошим пилотом.", hinweis: "mit Adjektiv → mit Artikel, Nominativ (nicht „einen“)" }
       ],
       merke: "После sein – Nominativ, а не Akkusativ: Er war Pilot (профессия без артикля). Чей? чего? = Wessen? → der Genitiv: eines/des + Nomen-s (m/n), einer/der + Nomen (f/Pl)."
+    },
+    {
+      // 2026-11-18: mit Claude – ist „sein“ ein Modalverb? Nein: Vollverb, Hilfsverb, Kopulaverb
+      id: "de-sein-kopula",
+      thema: "verb",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "das Verb „sein“: das Hilfsverb, das Kopulaverb – aber kein Modalverb",
+      titel_ru: "глагол sein: вспомогательный глагол и глагол-связка – но не модальный",
+      formel: "sein + Partizip II = das Hilfsverb (Er ist gegangen) · sein + Nomen/Adjektiv = das Kopulaverb (Er war Pilot. Er ist alt.)",
+      definitionen: [
+        { wort: "das Modalverb", de: "Ein Modalverb sagt, wie man zu einer Handlung steht (können, müssen, wollen, dürfen, sollen, mögen/möchten). Danach kommt ein Infinitiv: Ich will schlafen.", ru: "Модальный глагол выражает отношение к действию: мочь, должен, хотеть, сметь, следует, нравиться. После него – инфинитив: Ich will schlafen. sein сюда НЕ относится." },
+        { wort: "das Hilfsverb", de: "Ein Hilfsverb hilft, eine Zeitform oder das Passiv zu bilden: haben, sein, werden. Ich bin nach Hause gegangen (das Perfekt).", ru: "Вспомогательный глагол помогает построить время или пассив: haben, sein, werden. Сам по себе смысла не несёт." },
+        { wort: "das Kopulaverb", de: "Ein Kopulaverb verbindet das Subjekt mit einem Nomen oder Adjektiv (dem Prädikativ): sein, werden, bleiben. Er war Pilot. Sie wird Lehrerin. Es bleibt kalt.", ru: "Глагол-связка соединяет подлежащее с существительным или прилагательным (das Prädikativ): быть, становиться, оставаться. Он был пилотом. Она станет учительницей." }
+      ],
+      erklaerung: [
+        "sein – НЕ МОДАЛЬНЫЙ ГЛАГОЛ. Модальных глаголов шесть: können, müssen, wollen, dürfen, sollen, mögen (möchten). После них стоит инфинитив: Ich kann schwimmen.",
+        "У sein ТРИ РОЛИ. 1) das Hilfsverb (вспомогательный): Er ist nach Hause gegangen – sein строит das Perfekt. 2) das Kopulaverb (глагол-связка): Er war Pilot. Er ist alt. – sein связывает подлежащее с das Prädikativ. 3) das Vollverb (полнозначный, «существовать», редко): Ich denke, also bin ich. – Я мыслю, следовательно, существую.",
+        "ОТКУДА СЛОВО (die Etymologie). die Kopula ← лат. copula – «связка, узы, верёвка» (отсюда же das Kopulieren, англ. couple – пара). Глагол-связка ничего не делает сам – он только «связывает» er и Pilot.",
+        "В РУССКОМ ТО ЖЕ САМОЕ. «Он был пилотом» – «был» тоже связка. В настоящем времени русский связку опускает («Он – пилот»), а немецкий и английский – никогда: Er ist Pilot. He is a pilot.",
+        "das Prädikat И das Prädikativ – РАЗНЫЕ ВЕЩИ. das Prädikat (сказуемое) = спрягаемый глагол: war. das Prädikativ (именная часть сказуемого) = то, что стоит после связки: Pilot, alt.",
+        "НЕ ПУТАТЬ: das Genus (род: Maskulinum, Femininum, Neutrum) и der Genitiv (родительный падеж). Оба от лат. genus – «род, происхождение»."
+      ],
+      tabelle: {
+        kopf: ["die Rolle von „sein“", "das Beispiel", "Русский"],
+        sprechen: 1,
+        sprache: "de",
+        zeilen: [
+          ["das Hilfsverb (+ Partizip II)", "Er ist nach Hause gegangen.", "Он пошёл домой."],
+          ["das Kopulaverb (+ Nomen)", "Er war Pilot.", "Он был пилотом."],
+          ["das Kopulaverb (+ Adjektiv)", "Das Auto ist alt.", "Машина старая."],
+          ["das Vollverb (existieren)", "Ich denke, also bin ich.", "Я мыслю, следовательно, существую."],
+          ["zum Vergleich: das Modalverb", "Ich kann schwimmen.", "Я умею плавать."]
+        ]
+      },
+      beispiele: [
+        { de: "Er war Pilot eines Passagierflugzeugs.", en: "He was the pilot of a passenger plane.", ru: "Он был пилотом пассажирского самолёта.", hinweis: "war – das Kopulaverb (Präteritum von sein)" },
+        { de: "Er ist Pilot geworden.", en: "He has become a pilot.", ru: "Он стал пилотом.", hinweis: "ist – das Hilfsverb (Perfekt) · geworden – Partizip II von werden (Kopulaverb)" }
+      ],
+      merke: "sein ≠ Modalverb. sein + gegangen = das Hilfsverb; sein + Pilot / alt = das Kopulaverb (связка, лат. copula)."
     }
   ]
 };
