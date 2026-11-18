@@ -412,6 +412,7 @@
       function eintragHtml(e, satz, form) {
         const h = H[e.h] || { farbe: "#999", de: "", ru: "" };
         const ist = gemerkt(e.w);
+        zusatz[e.w] = { satz, form };
         return `<div class="gl-eintrag ${offen === e.w ? "offen" : ""}" data-w="${esc(e.w)}" id="w-${esc(e.w)}">
           <div class="gl-kopf">
             <span class="gl-punkt" style="background:${h.farbe}" title="${esc(h.de)}"></span>
@@ -419,7 +420,18 @@
             <span class="gl-de">${esc(e.de)}</span>
             <span class="gl-ru">${esc(e.ru)}</span>
           </div>
-          <div class="gl-body">
+          <div class="gl-body">${offen === e.w ? koerperHtml(e, satz, form) : ""}</div>
+        </div>`;
+      }
+
+      // 2026-11-18: Details (Herkunft, „Wie liest man das?“ …) erst beim Aufklappen bauen –
+      // vorher wurden alle ~700 Karten auf einmal gebaut → „Seite reagiert nicht“.
+      // RU: подробности строятся только при раскрытии слова – страница больше не зависает.
+      const zusatz = {};
+      function koerperHtml(e, satz, form) {
+        const h = H[e.h] || { farbe: "#999", de: "", ru: "" };
+        const ist = gemerkt(e.w);
+        return `
             ${ipaZeile(e, form)}
             <span class="gl-her" style="background:${h.farbe}">${esc(h.de)} · ${esc(h.ru)}</span>
             <div><b>Herkunft / происхождение:</b> ${herkunftHtml(e)}</div>
@@ -433,9 +445,7 @@
               <button type="button" data-a="hoer">🔊 ${esc(e.w)}</button>
               ${e.bsp ? `<button type="button" data-a="satz">🔊 Satz</button>` : ""}
               <button type="button" data-a="merk" class="${ist ? "ok" : ""}">${ist ? "⭐ Gemerkt" : "☆ Merken / в мои"}</button>
-            </div>
-          </div>
-        </div>`;
+            </div>`;
       }
 
       // Suche: zuerst im Wort, den Formen und der Übersetzung; nur wenn dort nichts – auch im Herkunftstext
@@ -567,7 +577,10 @@
           if (a.dataset.a === "merk") { umschalten(e); zeichneListe(); }
           return;
         }
-        if (ev.target.closest(".gl-kopf")) { offen = offen === e.w ? null : e.w; ein.classList.toggle("offen", offen === e.w); document.querySelectorAll(".gl-eintrag.offen").forEach((x) => { if (x !== ein) x.classList.remove("offen"); }); }
+        if (ev.target.closest(".gl-kopf")) { offen = offen === e.w ? null : e.w;
+          const k = ein.querySelector(".gl-body");
+          if (offen === e.w && k && !k.innerHTML.trim()) { const z = zusatz[e.w] || {}; k.innerHTML = koerperHtml(e, z.satz, z.form); }
+          ein.classList.toggle("offen", offen === e.w); document.querySelectorAll(".gl-eintrag.offen").forEach((x) => { if (x !== ein) x.classList.remove("offen"); }); }
       });
       $("warteListe").addEventListener("click", (ev) => {
         const h = ev.target.closest("button[data-hoer]");
