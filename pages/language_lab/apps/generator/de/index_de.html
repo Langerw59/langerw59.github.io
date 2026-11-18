@@ -174,7 +174,15 @@
 
     <main class="page-wrapper">
       <div class="card">
-        <h1>Satzlabor – Satz bauen &amp; analysieren</h1>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <h1 style="margin:0">Satzlabor – Satz bauen &amp; analysieren</h1>
+          <!-- 2026-11-18: Glossar direkt von hier – wie im Sprachführer / глоссарий прямо отсюда -->
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-primary" type="button" data-glossar-schnell data-glossar-feld="slEingabe" title="Wort eintippen, Glossar wählen (Deutsch / Englisch) – занести слово">📖 Ins Glossar</button>
+            <a class="btn" href="../../../glossar/de.html" target="quantura_glossar_de" title="Glossar Deutsch im eigenen Tab">🇩🇪 Glossar</a>
+            <a class="btn" href="../../../glossar/index.html" target="quantura_glossar" title="Glossar Englisch im eigenen Tab">🇬🇧 Glossar</a>
+          </div>
+        </div>
         <p class="hint-text">
           <!-- DE -->
           <b>Zwei Wege:</b> 🔧 <b>Satz bauen</b> – aus Satzgliedern zusammenstellen, oder 🔍 <b>Satz eingeben</b> – einen Satz aus einem Buch eintippen und zerlegen lassen.
@@ -206,6 +214,8 @@
               <div class="btn-row">
                 <button id="slAnalyseBtn" class="btn btn-primary" type="button">Analysieren</button>
                 <button id="slEingabeLeeren" class="btn" type="button">Leeren</button>
+                <!-- 2026-11-18: markiertes Wort aus dem Satz direkt ins Glossar (Deutsch oder Englisch wählen) -->
+                <button class="btn" type="button" data-glossar-schnell data-glossar-feld="slEingabe" title="Wort im Satz markieren → ins Glossar / выдели слово → в глоссарий">📖 Ins Glossar</button>
               </div>
               <div class="sg-info">Ctrl + Enter = analysieren. Beispiele / примеры:</div>
               <div class="sl-beispiele" id="slBeispiele"></div>

@@ -290,7 +290,7 @@
   const SRC = "/core/js/wort_markierer.js";
   if (window.__WORT_MARKIERER__ || document.querySelector('script[src$="wort_markierer.js"]')) return;
   const script = document.createElement("script");
-  script.src = SRC + "?v=20261117b";
+  script.src = SRC + "?v=20261118a";
   script.defer = true;
   document.head.appendChild(script);
 })();

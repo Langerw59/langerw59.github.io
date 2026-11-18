@@ -51,7 +51,10 @@
         </nav>
         <input type="search" id="gdSuche" placeholder="🔍 Begriff suchen: finit / Infinitiv / спряжение …" autocomplete="off" />
         <div id="gdListe"></div>
-        <p class="gd-sub" style="margin-top:14px"><small>Neuer Begriff? Im Text markieren → «📖 Glossar» → «📥 Vormerken», потом в чате: «в немецкий глоссарий».</small></p>
+        <!-- 2026-11-18: vorgemerkte deutsche Wörter (z. B. aus dem Satzlabor) / слова, ждущие объяснения -->
+        <div id="gdWarte" style="margin-top:14px"></div>
+        <p class="gd-sub" style="margin-top:14px"><button type="button" data-glossar-schnell style="font:600 14px system-ui,sans-serif;cursor:pointer;border-radius:999px;padding:6px 14px;border:1px solid #1f6feb;background:#1f6feb;color:#fff">📖 Ins Glossar</button>
+          <small>Neuer Begriff? Hier eintippen oder im Text markieren → «📖 Glossar» → «📥 Vormerken», потом в чате: «в немецкий глоссарий».</small></p>
       </div>
     </main>
 
@@ -133,5 +136,30 @@
       window.addEventListener("hashchange", ausHash);
     });
     </script>
+    <script>
+    // 2026-11-18: Warteliste Deutsch – Wörter, die auf Erklärung warten / немецкие слова в ожидании
+    (function () {
+      function zeigeWarte() {
+        const box = document.getElementById("gdWarte"); if (!box) return;
+        let items = [];
+        try { items = (JSON.parse(localStorage.getItem("glossar_meine_v1") || "{}").items || []).filter((x) => x.lang === "de" && !x.gefunden); } catch (_) {}
+        const esc = (t) => String(t || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+        if (!items.length) { box.innerHTML = ""; return; }
+        box.innerHTML = `<div style="border:1px dashed rgba(127,127,127,.6);border-radius:12px;padding:10px 12px">
+          <b>📭 Warten auf Erklärung</b> <small>(${items.length}) – ждут объяснения. В чате: «в немецкий глоссарий».</small>
+          <ul style="margin:6px 0 0 18px;padding:0">${items.map((x) => `<li><b>${esc(x.w)}</b>${x.satz ? ` – <small>„${esc(x.satz)}“</small>` : ""} <small style="opacity:.7">${esc(x.datum)}</small>
+            <button type="button" data-weg="${esc(x.w)}" title="entfernen" style="border:0;background:none;cursor:pointer;color:inherit">✕</button></li>`).join("")}</ul></div>`;
+        box.querySelectorAll("[data-weg]").forEach((b) => b.onclick = () => {
+          try { const d = JSON.parse(localStorage.getItem("glossar_meine_v1") || "{}"); d.items = (d.items || []).filter((x) => !(x.lang === "de" && x.w === b.dataset.weg)); localStorage.setItem("glossar_meine_v1", JSON.stringify(d)); } catch (_) {}
+          zeigeWarte();
+        });
+      }
+      document.addEventListener("DOMContentLoaded", zeigeWarte);
+      window.addEventListener("storage", zeigeWarte);
+      window.addEventListener("focus", zeigeWarte);
+      window.addEventListener("glossar-geaendert", zeigeWarte);
+    })();
+    </script>
+
   </body>
 </html>

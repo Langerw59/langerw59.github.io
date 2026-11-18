@@ -14,6 +14,8 @@
 //   gelesen (vorher: immer englische Stimme → „finite“ klang wie „файнайт“).
 //   Seite kann ihre Sprache angeben: <body data-wm-sprache="de">
 // RU: два глоссария – английский и немецкий; немецкие слова читает немецкий голос.
+// 2026-11-18 (2): Schnelleingabe – Knopf mit data-glossar-schnell öffnet „📖 Ins Glossar“ (Wort tippen, 🇩🇪/🇬🇧 wählen).
+//   RU: кнопка data-glossar-schnell – ввести слово и выбрать немецкий или английский глоссарий.
 // Ausschalten pro Seite: <body data-kein-markierer>
 // ============================================================
 (function () {
@@ -98,6 +100,7 @@
     if (items.some((x) => norm(x.w) === norm(w))) return;
     items.unshift({ w, lang: lang || "en", satz: satz || "", datum: new Date().toISOString().slice(0, 10), gefunden: !!gefunden, seite: document.title || location.pathname });
     try { localStorage.setItem(LS_MEINE, JSON.stringify({ items })); } catch (_) {}
+    try { window.dispatchEvent(new CustomEvent("glossar-geaendert")); } catch (_) {} // Seite kann Liste neu zeichnen
   }
 
   // ---------- Sprechen ----------
@@ -255,10 +258,7 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
   });
 
   // ---------- Karte ----------
-  async function zeigen(text, satz, el) {
-    knopf.style.display = "none";
-    await laden();
-    idx = null; idxDE = null;
+  function karteHer() {
     if (!karte) {
       karte = document.createElement("div");
       karte.id = "wmKarte";
@@ -266,10 +266,18 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
       document.addEventListener("keydown", (e) => { if (e.key === "Escape" && karte) karte.hidden = true; });
     }
     karte.hidden = false;
+    return karte;
+  }
+  // zwang: "de" | "en" | undefined – Glossar fest vorgeben / принудительно выбрать глоссарий
+  async function zeigen(text, satz, el, zwang) {
+    knopf.style.display = "none";
+    await laden();
+    idx = null; idxDE = null;
+    karteHer();
     // 2026-11-18: zuerst im deutschen Glossar suchen / сначала ищем в немецком глоссарии
-    const d = findenDE(text);
+    const d = zwang === "en" ? null : findenDE(text);
     if (d) return zeigenDE(d, text);
-    const sprache = spracheVon(text, el);
+    const sprache = zwang || spracheVon(text, el);
     if (sprache === "de") return zeigenUnbekanntDE(text, satz);
     const einzel = !/\s/.test(text);
     const e = einzel ? finden(text) : null;
@@ -372,4 +380,91 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
     m.onclick = () => { merken(text, satz, false, "de"); m.classList.remove("wm-haupt"); m.classList.add("ok"); m.textContent = "✓ Vorgemerkt"; };
     karteFertig("de", text);
   }
+
+  // ============================================================
+  // 2026-11-18: Schnelleingabe – Wort eintippen, Glossar wählen (Deutsch / Englisch), ins Glossar
+  // RU: быстрый ввод – написать слово, выбрать глоссарий (немецкий / английский) и занести.
+  // Auf jeder Seite: ein Knopf mit dem Attribut  data-glossar-schnell  öffnet die Karte.
+  //   data-glossar-feld="slEingabe"  → das markierte Wort aus diesem Textfeld wird übernommen.
+  // ============================================================
+  let schnellSprache = null;
+  function schnell(vorgabe, satz) {
+    knopf.style.display = "none";
+    laden();
+    karteHer();
+    if (!schnellSprache) schnellSprache = (document.body && document.body.getAttribute("data-wm-sprache")) === "de" ? "de" : "en";
+    const LS = (l) => (l === "de" ? "🇩🇪 Glossar Deutsch" : "🇬🇧 Glossar Englisch");
+    karte.innerHTML = `
+      <button type="button" class="wm-zu" title="schließen (Esc)">✕</button>
+      <div class="wm-kopf"><span class="wm-wort">📖 Ins Glossar</span><small>занести слово в глоссарий</small></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin:8px 0" role="radiogroup" aria-label="Welches Glossar?">
+        <button type="button" class="wm-spr" data-l="de">🇩🇪 Deutsch</button>
+        <button type="button" class="wm-spr" data-l="en">🇬🇧 Englisch</button>
+      </div>
+      <input type="text" class="wm-feld" placeholder="das Wort, z. B. die Deklination" autocomplete="off" autocapitalize="off" spellcheck="false"
+        style="width:100%;box-sizing:border-box;font:600 18px system-ui,sans-serif;padding:8px 10px;border-radius:10px;border:1px solid rgba(127,127,127,.6);background:transparent;color:inherit" />
+      <div class="wm-msg" style="min-height:1.4em;margin-top:6px;font-size:14px"></div>
+      <div class="wm-knoepfe">
+        <button type="button" class="wm-haupt wm-los">📥 Ins Glossar</button>
+        <button type="button" class="wm-hoer">🔊 Anhören</button>
+        <a class="wm-oeffnen" target="quantura_glossar">Glossar öffnen ↗</a>
+      </div>
+      <div style="margin-top:6px"><small>Enter = ins Glossar. Steht das Wort schon drin, siehst du sofort die Erklärung. Sonst wird es vorgemerkt – потом в чате: «в глоссарий».</small></div>`;
+    const feld = karte.querySelector(".wm-feld");
+    const msg = karte.querySelector(".wm-msg");
+    const auf = karte.querySelector(".wm-oeffnen");
+    function sprSetzen(l) {
+      schnellSprache = l;
+      karte.querySelectorAll(".wm-spr").forEach((b) => {
+        const an = b.dataset.l === l;
+        b.style.cssText = `font:600 15px system-ui,sans-serif;cursor:pointer;border-radius:999px;padding:7px 16px;border:2px solid ${an ? "#1f6feb" : "rgba(127,127,127,.45)"};background:${an ? "#1f6feb" : "transparent"};color:${an ? "#fff" : "inherit"}`;
+        b.setAttribute("aria-checked", an ? "true" : "false");
+      });
+      feld.placeholder = l === "de" ? "das Wort, z. B. die Deklination" : "the word, z. B. retired";
+      auf.href = l === "de" ? GLOSSAR_DE_SEITE : GLOSSAR;
+      auf.target = l === "de" ? "quantura_glossar_de" : "quantura_glossar";
+      auf.textContent = (l === "de" ? "🇩🇪" : "🇬🇧") + " Glossar öffnen ↗";
+      msg.textContent = "";
+    }
+    karte.querySelectorAll(".wm-spr").forEach((b) => { b.onclick = () => { sprSetzen(b.dataset.l); feld.focus(); }; });
+    karte.querySelector(".wm-zu").onclick = () => { karte.hidden = true; };
+    karte.querySelector(".wm-hoer").onclick = () => { const w = feld.value.trim(); if (w) sag(w, schnellSprache); };
+    async function los() {
+      const w = feld.value.replace(/\s+/g, " ").trim();
+      if (!w) { msg.textContent = "Bitte ein Wort eingeben / введи слово"; feld.focus(); return; }
+      await laden();
+      idx = null; idxDE = null;
+      const l = schnellSprache;
+      const da = l === "de" ? findenDE(w) : finden(w);
+      if (da) { zeigen(w, satz || "", null, l); return; } // steht schon drin → Erklärung zeigen
+      if (gemerkt(w)) { msg.innerHTML = `✓ <b>${esc(w)}</b> ist schon vorgemerkt (${LS(l)}) / уже в списке ожидания`; return; }
+      merken(w, satz || "", false, l);
+      msg.innerHTML = `✓ <b>${esc(w)}</b> vorgemerkt im ${LS(l)} – 📭 wartet auf Erklärung. <small>Скажи в чате «в глоссарий».</small>`;
+      sag(w, l);
+      feld.select();
+    }
+    karte.querySelector(".wm-los").onclick = los;
+    feld.addEventListener("keydown", (ev) => { if (ev.key === "Enter") { ev.preventDefault(); los(); } });
+    sprSetzen(schnellSprache);
+    if (vorgabe) {
+      feld.value = vorgabe;
+      // Sprache raten: Umlaut → Deutsch / угадать язык
+      if (/[äöüÄÖÜß]/.test(vorgabe)) sprSetzen("de");
+    }
+    setTimeout(() => { feld.focus(); feld.select(); }, 30);
+  }
+  document.addEventListener("click", (ev) => {
+    const b = ev.target.closest && ev.target.closest("[data-glossar-schnell]");
+    if (!b) return;
+    ev.preventDefault();
+    let vorgabe = "", satz = "";
+    const f = b.getAttribute("data-glossar-feld") && document.getElementById(b.getAttribute("data-glossar-feld"));
+    if (f && typeof f.value === "string") {
+      satz = f.value.replace(/\s+/g, " ").trim().slice(0, 200);
+      if (f.selectionEnd > f.selectionStart) vorgabe = f.value.slice(f.selectionStart, f.selectionEnd);
+    }
+    if (!vorgabe) { const s = window.getSelection && String(window.getSelection()).trim(); if (s && s.length <= 40) vorgabe = s; }
+    schnell(vorgabe.replace(/^[^A-Za-zÄÖÜäöüß]+|[^A-Za-zÄÖÜäöüß]+$/g, ""), satz);
+  });
+  window.WortMarkierer = { zeigen: (text, lang) => zeigen(text, "", null, lang), schnell };
 })();
