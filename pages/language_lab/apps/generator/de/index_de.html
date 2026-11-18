@@ -106,6 +106,15 @@
       .en-mt { color: #57606a; }
       .en-chip { background: #eaeef2; color: #24292f; border-radius: 9px; padding: 1px 2px 1px 7px; }
       .en-meine .en-senden { font-size: .78rem; padding: 2px 7px; }
+      .en-box input.en-falsch { border: 2px solid #cf222e; color: #cf222e; text-decoration: underline wavy #cf222e; text-underline-offset: 3px; }
+      .en-box input.en-richtig { border: 2px solid #1a7f37; }
+      .en-rot { color: #cf222e; font-weight: bold; margin-bottom: 3px; }
+      .en-gruen { color: #1a7f37; margin-bottom: 3px; }
+      .en-vorschlag { margin: 4px 0; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+      .en-vorschlag button { font-weight: bold; }
+      .en-wahl .en-trotzdem { font-size: .78rem; opacity: .8; }
+      .en-wahl .en-trotzdem[hidden] { display: none; }
+      .en-chip-q { background: #fff1e5; color: #bc4c00; }
       .en-regel { display: inline-block; margin-top: 6px; font-size: .8rem; }
       .en-chip button { border: 0; background: none; padding: 0 4px; font-size: .85rem; color: #57606a; }
       .sg-tab { width: 100%; border-collapse: collapse; font-size: .88rem; margin-top: 8px; }
@@ -231,7 +240,7 @@
             <div id="slModeEingabe" style="display:none">
               <div class="language-panel__title">Satz eingeben / Ввести предложение</div>
               <div class="language-panel__subtitle">Tippe oder kopiere einen deutschen Satz (z. B. aus einem Buch) und klicke auf „Analysieren“.</div>
-              <textarea id="slEingabe" rows="3" placeholder="z. B. Gestern ist mein Sohn mit dem Auto nach Hannover gefahren."></textarea>
+              <textarea id="slEingabe" rows="3" spellcheck="true" lang="de" placeholder="z. B. Gestern ist mein Sohn mit dem Auto nach Hannover gefahren."></textarea>
               <div class="btn-row">
                 <button id="slAnalyseBtn" class="btn btn-primary" type="button">Analysieren</button>
                 <button id="slEingabeLeeren" class="btn" type="button">Leeren</button>

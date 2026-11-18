@@ -154,14 +154,20 @@
       if (!r.ok) throw new Error("HTTP " + r.status);
       const j = await r.json();
       const daten = {};
+      let keinNomen = null;
       arr(j.query && j.query.pages).forEach((p) => {
         if (p.missing || !p.revisions) return;
         const rev = p.revisions[0];
         const text = (rev.slots && rev.slots.main && rev.slots.main.content) || rev.content || "";
         const info = parseWiktionary(text);
         if (info) daten[p.title] = info;
+        else if (p.title === lemma && text.includes("({{Sprache|Deutsch}})")) {
+          const wa = text.match(/\{\{Wortart\|([^|}]+)\|Deutsch\}\}/);
+          keinNomen = wa ? wa[1] : "anderes Wort";
+        }
       });
       if (daten[lemma]) return { teil: null, info: daten[lemma] };
+      if (keinNomen) return { teil: null, info: null, keinNomen };
       for (let i = 1; i < titel.length; i++) {
         if (daten[titel[i]]) return { teil: titel[i], info: daten[titel[i]] };
       }
@@ -169,6 +175,45 @@
     } finally {
       if (timer) clearTimeout(timer);
     }
+  }
+
+  // ------------------------------------------------------------
+  // Rechtschreibung: Vorschläge bei Tippfehlern („Meinten Sie …?“)
+  // ------------------------------------------------------------
+  function abstand(a, b) {
+    a = a.toLowerCase(); b = b.toLowerCase();
+    const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+    for (let j = 1; j <= b.length; j++) d[0][j] = j;
+    for (let i = 1; i <= a.length; i++)
+      for (let j = 1; j <= b.length; j++)
+        d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[a.length][b.length];
+  }
+  const grenze = (w) => (w.length <= 4 ? 1 : w.length <= 8 ? 2 : 3);
+
+  async function vorschlaege(lemma, mitInternet) {
+    const kand = new Set();
+    arr(g("DE_NOUNS")).concat(arr(g("DE_PERSONEN")), laden()).forEach((n) => kand.add(n.lemma));
+    if (mitInternet) {
+      const basis = "https://de.wiktionary.org/w/api.php?action=query&list=search&srnamespace=0&srlimit=8&srprop=&format=json&formatversion=2&origin=*&srinfo=suggestion&srsearch=";
+      const holen = async (q) => {
+        try {
+          const r = await fetch(basis + encodeURIComponent(q));
+          const j = await r.json();
+          const qq = j.query || {};
+          arr(qq.search).forEach((x) => kand.add(x.title));
+          if (qq.searchinfo && qq.searchinfo.suggestion) kand.add(gross(qq.searchinfo.suggestion));
+        } catch (e) { /* egal */ }
+      };
+      await Promise.all([holen(lemma), holen("intitle:" + lemma + "~")]);
+    }
+    return [...kand]
+      .filter((w) => w !== lemma && /^[A-ZÄÖÜ][a-zäöüß]+$/.test(w))
+      .map((w) => [w, abstand(w, lemma)])
+      .filter(([w, d]) => d <= grenze(lemma))
+      .sort((a, b) => a[1] - b[1])
+      .slice(0, 5)
+      .map(([w]) => w);
   }
 
   // ------------------------------------------------------------
@@ -200,8 +245,10 @@
     let erg = null;
     let offline = false;
     const l = lokal(lemma);
+    let keinNomen = null;
     if (l) {
       erg = Object.assign({}, l, {
+        geprueft: true,
         erklaerung: l.quelle === "eigen" ? "Steht schon in „Meine Wörter“." : "Steht im Wörterbuch von Quantura.",
       });
     }
@@ -209,11 +256,13 @@
     if (!erg) {
       try {
         const w = await wiktionary(lemma);
+        keinNomen = w.keinNomen || null;
         if (w.info) {
           const i = w.info;
           erg = { lemma, gender: i.gender, sicher: true, plural: i.plural, quelle: "wiktionary" };
           if (!w.teil) {
             erg.erklaerung = "Gefunden im Wörterbuch Wiktionary.";
+            erg.geprueft = true;
             if (i.gender === "m" && i.akkSg && i.akkSg !== lemma) erg.weak = i.akkSg;
             if (i.datPl) erg.datPl = i.datPl;
           } else {
@@ -257,6 +306,15 @@
     }
     if (!erg.sicher && erg.gender) erg.erklaerung += " Bitte prüfen!";
 
+    // Rechtschreibung: nur ein Wort, das genau so im Wörterbuch steht, gilt als geprüft
+    erg.geprueft = !!erg.geprueft;
+    erg.offline = offline && !erg.geprueft;
+    erg.keinNomen = keinNomen;
+    if (keinNomen) {
+      erg.gender = null;
+      erg.erklaerung = "";
+    } else if (!erg.geprueft) erg.vorschlaege = await vorschlaege(lemma, !offline);
+
     if (vorgabe) {
       if (!erg.gender || !erg.sicher) {
         erg.gender = vorgabe;
@@ -283,7 +341,7 @@
   function box(opts) {
     const b = el("div", { class: "en-box", hidden: "" });
     const zeile = el("div", { class: "sg-zeile" });
-    const inp = el("input", { type: "text", placeholder: "Nomen eingeben, z. B. Sonne", autocomplete: "off", autocapitalize: "words", spellcheck: "false" });
+    const inp = el("input", { type: "text", placeholder: "Nomen eingeben, z. B. Sonne", autocomplete: "off", autocapitalize: "words", spellcheck: "true", lang: "de" });
     const such = el("button", { type: "button", class: "en-btn" }, "🔍 Artikel finden");
     zeile.append(inp, such);
     const erg = el("div", { class: "en-erg" });
@@ -295,9 +353,11 @@
       wahl.appendChild(k);
     });
     const ok = el("button", { type: "button", class: "en-ok" }, "✔ übernehmen");
+    const trotzdem = el("button", { type: "button", class: "en-trotzdem", hidden: "" }, "trotzdem übernehmen");
+    trotzdem.title = "Nur wenn Sie sicher sind, dass das Wort richtig geschrieben ist";
     const ab = el("button", { type: "button", class: "en-ab" }, "✖");
     ab.title = "abbrechen";
-    wahl.append(ok, ab);
+    wahl.append(ok, trotzdem, ab);
     const meine = el("div", { class: "en-meine" });
     const regelLink = el("a", { href: "/pages/language_lab/grammatik/index.html#de-artikel-finden", target: "_blank", rel: "noopener", class: "en-regel" }, "📘 die Regel: der, die oder das? (das Grundwort, die Endungen)");
     b.append(zeile, erg, wahl, meine, regelLink);
@@ -309,7 +369,7 @@
     function markiere(gd) {
       gewaehlt = gd;
       Object.entries(knoepfe).forEach(([k, btn]) => btn.classList.toggle("en-an", k === gd));
-      ok.disabled = !gd;
+      ok.disabled = !gd || !(aktuell && aktuell.geprueft);
       if (aktuell && gd) {
         const wort = gd === "pl" ? aktuell.plural || aktuell.lemma : aktuell.lemma;
         ok.textContent = `✔ übernehmen: ${ART[gd].split(" ")[0]} ${wort}`;
@@ -325,7 +385,8 @@
       senden.addEventListener("click", () => kopieren(l));
       meine.appendChild(senden);
       l.forEach((n) => {
-        const c = el("span", { class: "en-chip" }, `${ART[n.gender].split(" ")[0]} ${n.lemma}`);
+        const c = el("span", { class: "en-chip" + (n.ungeprueft ? " en-chip-q" : "") }, `${ART[n.gender].split(" ")[0]} ${n.lemma}${n.ungeprueft ? " ?" : ""}`);
+        if (n.ungeprueft) c.title = "nicht im Wörterbuch gefunden – Rechtschreibung nicht geprüft";
         const x = el("button", { type: "button", title: "aus „Meine Wörter“ löschen" }, "×");
         x.addEventListener("click", () => {
           if (!confirmLoeschen(n.lemma)) return;
@@ -339,7 +400,7 @@
     }
     // „в базу: der Sonnenschein, der Arbeitskollege …“ in die Zwischenablage
     function kopieren(l) {
-      const text = "в базу: " + l.map((n) => `${ART[n.gender].split(" ")[0]} ${n.lemma}${n.gender === "pl" ? " (Plural)" : ""}`).join(", ");
+      const text = "в базу: " + l.map((n) => `${ART[n.gender].split(" ")[0]} ${n.lemma}${n.gender === "pl" ? " (Plural)" : ""}${n.ungeprueft ? " (?)" : ""}`).join(", ");
       const fertig = () => { erg.textContent = "✓ Kopiert. Jetzt im Chat mit Claude einfügen (Strg+V bzw. lange drücken → Einsetzen)."; };
       const zeigen = () => {
         erg.innerHTML = "";
@@ -373,25 +434,52 @@
       aktuell = r;
       inp.value = r.lemma;
       erg.innerHTML = "";
+      // 1) Rechtschreibung
+      inp.classList.toggle("en-falsch", !r.geprueft && !r.offline);
+      inp.classList.toggle("en-richtig", !!r.geprueft);
+      if (r.keinNomen) {
+        erg.appendChild(el("div", { class: "en-rot" }, `✖ „${r.lemma}“ steht im Wörterbuch, ist aber kein Nomen (die Wortart: ${r.keinNomen}). Hier nur Nomen eingeben.`));
+      } else if (r.geprueft) {
+        erg.appendChild(el("div", { class: "en-gruen" }, "✓ richtig geschrieben – steht im Wörterbuch"));
+      } else if (r.offline) {
+        erg.appendChild(el("div", { class: "en-warn" }, "⚠ Die Rechtschreibung konnte nicht geprüft werden (kein Internet). Bitte genau ansehen!"));
+      } else {
+        erg.appendChild(el("div", { class: "en-rot" }, `✖ „${r.lemma}“ steht nicht im Wörterbuch – vielleicht ein Tippfehler (ein Buchstabe fehlt oder ist vertauscht)?`));
+      }
+      if (r.vorschlaege && r.vorschlaege.length) {
+        const v = el("div", { class: "en-vorschlag" });
+        v.appendChild(el("span", {}, "Meinten Sie: "));
+        r.vorschlaege.forEach((w) => {
+          const k = el("button", { type: "button" }, w);
+          k.addEventListener("click", () => { inp.value = w; suchen(); });
+          v.appendChild(k);
+        });
+        erg.appendChild(v);
+      }
       if (r.gender) {
         const t = el("div", { class: "en-treffer" });
         t.appendChild(el("b", {}, `${ART[r.gender].split(" ")[0]} ${r.gender === "pl" ? r.plural || r.lemma : r.lemma}`));
-        t.appendChild(document.createTextNode(` – ${GENUS[r.gender]}` + (r.sicher ? " ✓" : " ?")));
+        t.appendChild(document.createTextNode(` – ${GENUS[r.gender]}` + (r.sicher && r.geprueft ? " ✓" : " ?")));
         erg.appendChild(t);
       }
-      erg.appendChild(el("div", { class: "en-erkl" }, r.erklaerung));
+      if (r.erklaerung) erg.appendChild(el("div", { class: "en-erkl" }, r.erklaerung));
       if (r.warnung) erg.appendChild(el("div", { class: "en-warn" }, "⚠ " + r.warnung));
       const extra = [];
       if (r.weak) extra.push(`n-Deklination: den/dem ${r.weak}`);
       if (r.plural && r.gender !== "pl") extra.push(`Plural: die ${r.plural}`);
       if (extra.length) erg.appendChild(el("div", { class: "en-erkl" }, extra.join(" · ")));
       wahl.hidden = false;
+      trotzdem.hidden = r.geprueft || !!r.keinNomen;
+      if (!r.geprueft && r.gender) erg.lastChild.after(el("div", { class: "en-erkl" }, "Wenn das Wort wirklich richtig geschrieben ist: Artikel prüfen und „trotzdem übernehmen“ (wird mit ? gespeichert, Claude prüft es)."));
       markiere(r.gender);
+      if (r.keinNomen) { wahl.hidden = true; }
     }
 
-    function uebernehmen() {
+    function uebernehmen(ungeprueft) {
       if (!aktuell || !gewaehlt) return;
+      if (!aktuell.geprueft && ungeprueft !== true) return;
       const n = { lemma: aktuell.lemma, gender: gewaehlt };
+      if (!aktuell.geprueft) n.ungeprueft = true;
       if (gewaehlt === "pl") {
         n.lemma = aktuell.plural || aktuell.lemma;
         n.datPl = aktuell.datPl || datPlural(n.lemma);
@@ -426,9 +514,13 @@
         else suchen();
       }
     });
-    inp.addEventListener("input", () => { if (aktuell && inp.value.trim() !== aktuell.lemma) wahl.hidden = true; });
+    inp.addEventListener("input", () => {
+      inp.classList.remove("en-falsch", "en-richtig");
+      if (aktuell && inp.value.trim() !== aktuell.lemma) wahl.hidden = true;
+    });
     Object.entries(knoepfe).forEach(([gd, k]) => k.addEventListener("click", () => markiere(gd)));
     ok.addEventListener("click", uebernehmen);
+    trotzdem.addEventListener("click", () => { if (gewaehlt) uebernehmen(true); else erg.lastChild.after(el("div", { class: "en-warn" }, "Bitte zuerst der, die, das oder Plural wählen.")); });
     ab.addEventListener("click", () => { schliessen(); if (opts.onAbbruch) opts.onAbbruch(); });
 
     return { oeffnen, schliessen };
