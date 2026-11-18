@@ -912,17 +912,35 @@ window.GRAMMATIK = {
         "4) das Genitivattribut (определение в родительном падеже) – это НЕ отдельный член предложения (kein eigenes Satzglied). Оно «висит» на существительном перед ним и вместе с ним образует один член предложения. В Satzlabor вся группа „Pilot eines Passagierflugzeugs“ поэтому одного цвета (das Prädikativ).",
         "5) ОКОНЧАНИЯ В ГЕНИТИВЕ. Мужской и средний род (m/n): артикль des / eines / meines …, а само существительное получает -s или -es: des Vaters, eines Passagierflugzeugs, seines Sohnes (-es чаще у коротких слов и после s, ß, z, sch). Слабые существительные (die n-Deklination) получают -(e)n: des Piloten, des Kunden, des Studenten. Женский род и множественное число (f/Plural): артикль der / einer / meiner …, существительное без окончания: der Küche, einer Frau, der Kinder.",
         "6) der unbestimmte Artikel (неопределённый артикль ein) склоняется так: см. таблицу. В разговорной речи Genitiv часто заменяют на von + Dativ: der Pilot von einem Passagierflugzeug, das Auto von meinem Vater. Это понятно, но в письме лучше Genitiv.",
+        "ЧАСТЬ РЕЧИ ≠ ЧЛЕН ПРЕДЛОЖЕНИЯ. Pilot по части речи – das Nomen (das Substantiv), а по роли в предложении – das Prädikativ: отвечает на вопрос «кем он был?» (Was war er?). Passagierflugzeugs – тоже das Nomen, но по роли это das Genitivattribut (Wessen Pilot? – пилот чего?). Это НЕ das Objekt (дополнение): дополнение зависит от глагола (Ich sehe den Piloten – Wen sehe ich?), а глагол sein дополнения не имеет. Атрибут зависит не от глагола, а от существительного перед ним. См. также правило «die Wortart und das Satzglied».",
+        "eines – ЭТО НЕ DATIV. Dativ от ein: einem (m/n), einer (f). eines – это Genitiv (m/n). Проверка вопросом: Wem? (кому?) → Dativ; Wessen? (чей? чего?) → Genitiv.",
         "7) СЛОЖНОЕ СЛОВО (das Kompositum). der Passagier + das Flugzeug = das Passagierflugzeug. Род определяет ПОСЛЕДНЕЕ слово (das Grundwort): das Flugzeug → das Passagierflugzeug, поэтому в Genitiv: eines Passagierflugzeugs."
       ],
-      tabelle: {
-        kopf: ["der Kasus", "Maskulinum (der Pilot)", "Neutrum (das Flugzeug)", "Femininum (die Frau)", "Русский"],
+      tabellen: [
+        {
+          titel: "1 · Wort für Wort: die Wortart und das Satzglied (Er war Pilot eines Passagierflugzeugs.)",
+          kopf: ["das Wort", "die Wortart · часть речи", "die Form · форма", "die Frage", "das Satzglied · член предложения"],
+          sprechen: 0,
+          sprache: "de",
+          zeilen: [
+            ["er", "das Personalpronomen · личное местоимение", "3. Person Singular, Nominativ", "Wer?", "das Subjekt · подлежащее"],
+            ["war", "das Verb „sein“ (das Kopulaverb · глагол-связка)", "finit: 3. Person Singular, Präteritum", "Was tut er?", "das Prädikat · сказуемое"],
+            ["Pilot", "das Nomen (das Substantiv) · существительное", "Nominativ Singular, ohne Artikel (der Beruf)", "Was war er? (кем был?)", "das Prädikativ (das Prädikatsnomen) · именная часть сказуемого"],
+            ["eines", "der unbestimmte Artikel · неопределённый артикль", "Genitiv Singular, Neutrum (NICHT Dativ – Dativ wäre „einem“)", "—", "gehört zum Attribut"],
+            ["Passagierflugzeugs", "das Nomen (das Kompositum) · сложное существительное", "Genitiv Singular, Neutrum: Endung -s", "Wessen Pilot? (пилот чего?)", "das Genitivattribut · определение (KEIN Objekt, kein eigenes Satzglied)"]
+          ]
+        },
+        {
+          titel: "2 · der unbestimmte Artikel (ein) und der bestimmte Artikel – alle vier Fälle",
+          kopf: ["der Kasus", "Maskulinum (der Pilot)", "Neutrum (das Flugzeug)", "Femininum (die Frau)", "Русский"],
         zeilen: [
           ["der Nominativ (Wer? Was?)",  "ein Pilot · der Pilot",          "ein Flugzeug · das Flugzeug",          "eine Frau · die Frau",   "кто? что?"],
           ["der Akkusativ (Wen? Was?)",  "einen Piloten · den Piloten",    "ein Flugzeug · das Flugzeug",          "eine Frau · die Frau",   "кого? что?"],
           ["der Dativ (Wem?)",           "einem Piloten · dem Piloten",    "einem Flugzeug · dem Flugzeug",        "einer Frau · der Frau",  "кому? чему?"],
           ["der Genitiv (Wessen?)",      "eines Piloten · des Piloten",    "eines Flugzeugs · des Flugzeugs",      "einer Frau · der Frau",  "чей? чего?"]
-        ]
-      },
+          ]
+        }
+      ],
       beispiele: [
         { de: "Er war Pilot eines Passagierflugzeugs.", en: "He was the pilot of a passenger plane.", ru: "Он был пилотом пассажирского самолёта.", hinweis: "Pilot – Beruf ohne Artikel · eines …flugzeugs – Genitiv (n): eines + -s" },
         { de: "Er war Pilot bei einer Fluggesellschaft.", en: "He was a pilot with an airline.", ru: "Он был пилотом в авиакомпании.", hinweis: "bei + Dativ: die → einer" },
