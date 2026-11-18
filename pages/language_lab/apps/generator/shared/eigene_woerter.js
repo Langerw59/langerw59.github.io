@@ -39,6 +39,11 @@
   .ew-chip-q{background:rgba(245,158,11,.2)}
   input.ew-falsch{border-color:#dc2626!important;background:rgba(220,38,38,.06)}
   input.ew-richtig{border-color:#16a34a!important}
+  .ew-wortart{margin:.3rem 0;padding:.3rem .55rem;border-left:4px solid #bf8700;border-radius:6px;background:rgba(191,135,0,.09)}
+  .ew-wortart b{font-size:1.02rem}
+  .ew-wortart a{margin-left:.35rem;text-decoration:none}
+  .ew-wa{opacity:.75;font-size:.78rem}
+  .ew-umzug{margin:.3rem 0;padding:.35rem .55rem;border-left:4px solid #d97706;border-radius:6px;background:rgba(245,158,11,.12)}
   `;
   function css() {
     if (document.getElementById("ew-css")) return;
@@ -216,6 +221,78 @@
   }
 
   // ------------------------------------------------------------
+  // 2026-11-18: die Wortart sofort anzeigen (das Adverb, das Verb …)
+  // und prüfen, ob das Wort zum Feld (Satzglied) passt
+  // Regel: /pages/language_lab/grammatik/index.html#de-wortart-satzglied
+  // ------------------------------------------------------------
+  const REGEL_WA = "/pages/language_lab/grammatik/index.html#de-wortart-satzglied";
+  const escWa = (x) => String(x).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const WA_NAMEN = [
+    [/^(Substantiv|Eigenname|Toponym|Vorname|Nachname)$/, "das Nomen", "существительное"],
+    [/^(Verb|Hilfsverb|Modalverb)$/, "das Verb", "глагол"],
+    [/^Adjektiv$/, "das Adjektiv", "прилагательное"],
+    [/^Lokaladverb$/, "das Adverb (des Ortes)", "наречие места"],
+    [/^Temporaladverb$/, "das Adverb (der Zeit)", "наречие времени"],
+    [/^Modaladverb$/, "das Adverb (der Art und Weise)", "наречие образа действия"],
+    [/adverb$/i, "das Adverb", "наречие"],
+    [/^Präposition$/, "die Präposition", "предлог"],
+    [/^(Konjunktion|Subjunktion)$/, "die Konjunktion", "союз"],
+    [/pronomen$/i, "das Pronomen", "местоимение"],
+    [/artikel$/i, "der Artikel", "артикль"],
+    [/^Partizip/, "das Partizip", "причастие"],
+    [/^(Kardinalzahl|Ordinalzahl|Numerale)$/, "das Zahlwort", "числительное"],
+    [/partikel$/i, "die Partikel", "частица"],
+    [/^Interjektion$/, "die Interjektion", "междометие"],
+  ];
+  const ORT_ADV = /^(hier|dort|da|irgendwo|überall|nirgends|nirgendwo|oben|unten|draußen|drinnen|außen|innen|links|rechts|vorn|vorne|hinten|hierher|dorthin|daheim|weg|fort|nebenan|woanders|anderswo|hinein|heraus|herein|hinaus|hinauf|herunter|zurück)$/i;
+  const ZEIT_ADV = /^(heute|gestern|vorgestern|übermorgen|morgens|abends|mittags|nachts|vormittags|nachmittags|jetzt|nun|bald|später|früher|damals|sofort|gleich|schon|noch|immer|nie|niemals|oft|öfter|manchmal|selten|täglich|wöchentlich|monatlich|jährlich|stets|meistens|irgendwann|neulich|vorhin|zuerst|dann|danach|endlich|montags|dienstags|mittwochs|donnerstags|freitags|samstags|sonntags|wochentags)$/i;
+  // Wiktionary-Wortarten → Namen mit Artikel (das Spezielle zuerst: Lokaladverb statt Adverb)
+  function wortartNamen(waListe) {
+    const aus = [];
+    const l = arr(waListe).filter((w) => !/^(Konjugierte Form|Deklinierte Form|Komparativ|Superlativ|Erweiterter Infinitiv|Abkürzung|Wortverbindung|Redewendung|Sprichwort|Affix|Suffix|Präfix)$/.test(w));
+    const speziell = l.some((w) => /^(Lokal|Temporal|Modal|Kausal|Pronominal)adverb$/.test(w));
+    l.forEach((w) => {
+      if (speziell && w === "Adverb") return;
+      const t = WA_NAMEN.find((x) => x[0].test(w));
+      const n = t ? { name: t[1], ru: t[2] } : { name: w, ru: "" };
+      if (!aus.some((a) => a.name === n.name)) aus.push(n);
+    });
+    return aus;
+  }
+  // Welche Frage passt zum Wort? „ort“ (Wo?), „zeit“ (Wann?), „art“ (Wie?), „verb“, „nomen“ oder null
+  function wortKategorie(wort, waListe) {
+    const w = String(wort || "").toLowerCase();
+    const l = arr(waListe);
+    const adv = l.some((x) => /adverb$/i.test(x));
+    if (l.includes("Lokaladverb") || ORT_ADV.test(w)) return "ort";
+    if (l.includes("Temporaladverb") || ZEIT_ADV.test(w)) return "zeit";
+    if (l.includes("Modaladverb")) return "art";
+    if (l.includes("Adjektiv") && !adv) return "art";
+    if (l.some((x) => /^(Verb|Hilfsverb|Modalverb)$/.test(x)) && !adv && !l.includes("Adjektiv")) return "verb";
+    if (l.some((x) => /^(Substantiv|Eigenname|Toponym)$/.test(x)) && !adv && !l.includes("Adjektiv")) return "nomen";
+    return null;
+  }
+  // Schild: „📗 „irgendwo“ – die Wortart: das Adverb (des Ortes) · наречие места ❓“
+  function wortartHtml(wort, waListe) {
+    const n = wortartNamen(waListe);
+    if (!n.length) return "";
+    return `<div class="ew-wortart">📗 „${escWa(wort)}“ – die Wortart: ` +
+      n.map((x) => `<b>${escWa(x.name)}</b>${x.ru ? " · " + escWa(x.ru) : ""}`).join(" / ") +
+      ` <a href="${REGEL_WA}" target="_blank" rel="noopener" title="die Wortart und das Satzglied – открыть правило">❓</a></div>`;
+  }
+  // Wortgruppe (mit dem Auto): jedes Wort mit seiner Wortart
+  function wortartGruppeHtml(teile) {
+    const z = teile.filter((t) => t.namen && t.namen.length).map((t) => `${escWa(t.wort)} = <b>${escWa(t.namen[0].name)}</b>`);
+    if (!z.length) return "";
+    return `<div class="ew-wortart">📗 die Wortarten: ${z.join(" · ")} <a href="${REGEL_WA}" target="_blank" rel="noopener" title="открыть правило">❓</a></div>`;
+  }
+  // Kurzname für die Chips „Meine Wörter“
+  function wortartKurz(waListe) {
+    const n = wortartNamen(waListe);
+    return n.length ? n[0].name : "";
+  }
+
+  // ------------------------------------------------------------
   // Eingabe-Box
   // opts = {
   //   sel, titel, placeholder, hinweis,
@@ -280,6 +357,7 @@
       meine.appendChild(kop);
       l.forEach((x) => {
         const c = el("span", { class: "ew-chip" + (x.q ? " ew-chip-q" : "") }, x.label + (x.q ? " ?" : ""));
+        if (x.wa) c.appendChild(el("span", { class: "ew-wa" }, " · " + x.wa));
         if (x.q) c.title = "nicht im Wörterbuch gefunden – Rechtschreibung nicht geprüft";
         const del = el("button", { type: "button", title: "aus „Meine Wörter“ löschen (zweimal klicken)" }, "×");
         let einmal = false;
@@ -308,6 +386,17 @@
       else zeigen();
     }
 
+    // 2026-11-18: Wort passt besser in ein anderes Feld → Hinweis + Knopf
+    function zeigeUmzug(r) {
+      if (!r || !r.umzug) return;
+      const u = el("div", { class: "ew-umzug" }, "⚠ " + r.umzug.text + " ");
+      if (r.umzug.klick) {
+        const k = el("button", { type: "button" }, r.umzug.knopf || "→ dorthin");
+        k.addEventListener("click", () => { schliessen(); r.umzug.klick(); });
+        u.appendChild(k);
+      }
+      erg.appendChild(u);
+    }
     async function suchen() {
       const wert = inp.value.trim().replace(/\s+/g, " ");
       if (!wert) { inp.focus(); return; }
@@ -320,7 +409,7 @@
       such.disabled = false;
       erg.innerHTML = "";
       inp.classList.remove("ew-falsch", "ew-richtig");
-      if (r.fehler) { erg.appendChild(el("div", { class: "ew-rot" }, "✖ " + r.fehler)); return; }
+      if (r.fehler) { erg.appendChild(el("div", { class: "ew-rot" }, "✖ " + r.fehler)); zeigeUmzug(r); return; }
       aktuell = r;
       if (r.text) inp.value = r.text;
       inp.classList.toggle("ew-richtig", !!r.geprueft);
@@ -339,6 +428,7 @@
         erg.appendChild(v);
       }
       if (r.html) { const d = el("div"); d.innerHTML = r.html; erg.appendChild(d); }
+      zeigeUmzug(r);
       if (r.eintrag && !r.geprueft) erg.appendChild(el("div", { class: "ew-klein" }, "Wenn das Wort wirklich richtig ist: „trotzdem übernehmen“ – es wird mit ? gespeichert, Claude prüft es später."));
       if (r.wahlVorschlag && opts.wahl && !wahlKey) setzeWahl(r.wahlVorschlag);
       knoepfe();
@@ -389,5 +479,5 @@
     return { oeffnen, schliessen, zeigeMeine };
   }
 
-  window.EIGENE_WOERTER = { laden, speichern, seiten, sektion, wortarten, feld, bedeutung, vorschlaege, vorbereiten, inGruppe, ausGruppe, box, istEw, el };
+  window.EIGENE_WOERTER = { wortartNamen, wortKategorie, wortartHtml, wortartGruppeHtml, wortartKurz, laden, speichern, seiten, sektion, wortarten, feld, bedeutung, vorschlaege, vorbereiten, inGruppe, ausGruppe, box, istEw, el };
 })();

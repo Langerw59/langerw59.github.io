@@ -446,6 +446,33 @@
       } else {
         erg.appendChild(el("div", { class: "en-rot" }, `✖ „${r.lemma}“ steht nicht im Wörterbuch – vielleicht ein Tippfehler (ein Buchstabe fehlt oder ist vertauscht)?`));
       }
+      // 2026-11-18: die Wortart anzeigen; kein Nomen? → klein geschrieben suchen und das richtige Feld zeigen
+      const EW = window.EIGENE_WOERTER;
+      if (EW && r.geprueft && !r.keinNomen) {
+        const d = el("div"); d.innerHTML = EW.wortartHtml(r.lemma, ["Substantiv"]); erg.appendChild(d);
+      } else if (EW && !r.offline && (r.keinNomen || !r.geprueft)) {
+        const kl = r.lemma.charAt(0).toLowerCase() + r.lemma.slice(1);
+        EW.seiten([...new Set([kl, r.lemma])]).then((sx) => {
+          const sec = EW.sektion(sx[kl] || sx[r.lemma] || "", "Deutsch");
+          if (!sec || aktuell !== r) return;
+          const wa = EW.wortarten(sec);
+          if (!wa.length) return;
+          const d = el("div"); d.innerHTML = EW.wortartHtml(kl, wa);
+          const kat = EW.wortKategorie(kl, wa);
+          const Z = { ort: ["Wo?", "die Ortsangabe"], zeit: ["Wann?", "die Zeitangabe"], art: ["Wie?", "die Art und Weise"], verb: ["Was tut …?", "das Prädikat"] }[kat];
+          if (Z) {
+            const u = el("div", { class: "en-warn" }, `⚠ Das ist kein Nomen. „${kl}“ antwortet auf die Frage ${Z[0]} – das Satzglied: ${Z[1]}. `);
+            const D = window.DE_EIGENE_WOERTER;
+            if (D && D.umziehen) {
+              const k = el("button", { type: "button" }, "→ ins Feld " + Z[0]);
+              k.addEventListener("click", () => D.umziehen(kat, kl));
+              u.appendChild(k);
+            }
+            d.appendChild(u);
+          }
+          erg.insertBefore(d, erg.children[1] || null);
+        }).catch(() => {});
+      }
       if (r.vorschlaege && r.vorschlaege.length) {
         const v = el("div", { class: "en-vorschlag" });
         v.appendChild(el("span", {}, "Meinten Sie: "));

@@ -116,7 +116,8 @@
     let pr, prt, part, aux = null, geprueft = false;
     if (sec) {
       const wa = EW.wortarten(sec);
-      if (!wa.includes("Verb")) return { fehler: `„${inf}“ steht im Wörterbuch, ist aber kein Verb (die Wortart: ${wa.join(", ") || "?"}).` };
+      if (!wa.includes("Verb")) return { fehler: `„${inf}“ steht im Wörterbuch, ist aber kein Verb (die Wortart: ${EW.wortartNamen(wa).map((x) => x.name).join(", ") || "?"}).` };
+      html.push(EW.wortartHtml(inf, ["Verb"]));
       const er = EW.feld(sec, "Präsens_er, sie, es");
       if (/\s/.test(er)) return { fehler: `„${inf}“ ist ein trennbares Verb (er ${er}). Trennbare Verben kann das Satzlabor noch nicht – kommt später.` };
       pr = { ich: EW.feld(sec, "Präsens_ich"), du: EW.feld(sec, "Präsens_du"), er };
@@ -150,8 +151,8 @@
     try { sec = (await wikiDe([w]))[w] || null; } catch (e) { offline = true; }
     if (sec) {
       const wa = EW.wortarten(sec);
-      if (!wa.some(wortartTest)) return { fehler: `„${w}“ steht im Wörterbuch, ist aber kein ${wortartName} (die Wortart: ${wa.join(", ") || "?"}).` };
-      return { text: w, geprueft: true, eintrag: { base: w } };
+      if (!wa.some(wortartTest)) return { fehler: `„${w}“ steht im Wörterbuch, ist aber kein ${wortartName} (die Wortart: ${EW.wortartNamen(wa).map((x) => x.name).join(", ") || "?"}).` };
+      return { text: w, geprueft: true, eintrag: { base: w, wa: EW.wortartKurz(wa) }, html: EW.wortartHtml(w, wa) };
     }
     const vor = offline ? [] : await EW.vorschlaege(w, lokaleWoerter());
     return { text: w, geprueft: false, offline, eintrag: { base: w }, vorschlaege: vor };
@@ -167,8 +168,9 @@
       try { const s = await wikiDe([w, gross(w)]); sec = s[w] || s[gross(w)] || null; } catch (e) { offline = true; }
       if (sec) {
         const wa = EW.wortarten(sec);
-        if (einzelTest && !wa.some(einzelTest)) return { fehler: `„${w}“ passt hier nicht (die Wortart: ${wa.join(", ") || "?"}). Hier ein Adverb oder eine Wortgruppe eingeben (z. B. „am Morgen“).` };
-        return { text: w, geprueft: true, eintrag: { text: w } };
+        const namen = EW.wortartNamen(wa).map((x) => x.name).join(", ") || "?";
+        if (einzelTest && !wa.some(einzelTest)) return { fehler: `„${w}“ passt hier nicht – die Wortart: ${namen}. Hier ein Adverb oder eine Wortgruppe eingeben (z. B. „am Morgen“).`, waListe: wa, kat: EW.wortKategorie(w, wa), text: w };
+        return { text: w, geprueft: true, eintrag: { text: w, wa: EW.wortartKurz(wa) }, html: EW.wortartHtml(w, wa), waListe: wa, kat: EW.wortKategorie(w, wa) };
       }
       const vor = offline ? [] : await EW.vorschlaege(w, lokaleWoerter());
       return { text: w, geprueft: false, offline, eintrag: { text: w }, vorschlaege: vor };
@@ -179,8 +181,57 @@
     try { s = await wikiDe(titel); } catch (e) { offline = true; }
     // großgeschriebene Wörter, die nicht gefunden werden, gelten als Name (Willich, Berlin)
     const fehlt = woerter.filter((w, i) => !(s[w] || s[klein(w)] || s[gross(w)]) && !(i > 0 && /^[A-ZÄÖÜ]/.test(w)));
-    const html = fehlt.length && !offline ? `<div class="ew-rot">Nicht gefunden: ${fehlt.map(esc).join(", ")}</div>` : "";
-    return { text: t, geprueft: !offline && !fehlt.length, offline, nichtGefunden: fehlt.length ? undefined : false, eintrag: { text: t }, html };
+    let html = fehlt.length && !offline ? `<div class="ew-rot">Nicht gefunden: ${fehlt.map(esc).join(", ")}</div>` : "";
+    if (!offline) {
+      html += EW.wortartGruppeHtml(woerter.map((w) => {
+        const sec = s[w] || s[klein(w)] || s[gross(w)];
+        return { wort: w, namen: sec ? EW.wortartNamen(EW.wortarten(sec)) : [] };
+      }));
+    }
+    return { text: t, geprueft: !offline && !fehlt.length, offline, nichtGefunden: fehlt.length ? undefined : false, eintrag: { text: t, wa: "die Wortgruppe" }, html };
+  }
+
+  // ------------------------------------------------------------
+  // 2026-11-18: Passt das Wort zum Feld (Satzglied)? Sonst Hinweis + Knopf
+  // Regel: /pages/language_lab/grammatik/index.html#de-wortart-satzglied
+  // ------------------------------------------------------------
+  const ZIEL = {
+    ort:  { sel: "sgOrt",  wahl: "Wo?",   frage: "Wo?",        glied: "die Ortsangabe" },
+    zeit: { sel: "sgZeit", wahl: "Wann?", frage: "Wann?",      glied: "die Zeitangabe" },
+    art:  { sel: "sgWie",  wahl: null,    frage: "Wie?",       glied: "die Art und Weise" },
+    verb: { sel: "sgVerb", wahl: null,    frage: "Was tut …?", glied: "das Prädikat (das Verb)" },
+  };
+  function umziehen(kat, wort) {
+    const z = ZIEL[kat];
+    const sel = z && document.getElementById(z.sel);
+    if (!sel) return;
+    const ew = [...sel.options].find((o) => o.dataset.ew === "1");
+    if (!ew) return;
+    ew.selected = true;
+    sel.dispatchEvent(new Event("change"));
+    const box = sel.nextElementSibling;
+    if (!box || !box.classList.contains("ew-box")) return;
+    box.querySelector("input").value = wort;
+    if (z.wahl) {
+      const kn = [...box.querySelectorAll(".ew-wahl button")].find((b) => b.textContent === z.wahl);
+      if (kn) kn.click();
+    }
+    box.querySelector("button").click(); // 🔍 prüfen
+    sel.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  // feld = das Feld, in dem man gerade ist: "zeit" | "art" | "ort"
+  function feldPruefen(r, feld) {
+    if (!r || !r.kat || r.kat === feld || !ZIEL[r.kat]) return r;
+    if (r.kat === "nomen") return r;
+    if (feld === "zeit" && r.kat === "art") return r; // z. B. „früh“: Adjektiv, oft auch Zeit – nicht stören
+    const z = ZIEL[r.kat];
+    const wort = r.text;
+    r.umzug = {
+      text: `„${wort}“ antwortet auf die Frage ${z.frage} – das Satzglied: ${z.glied}. Es gehört in das Feld ${z.frage}`,
+      knopf: "→ ins Feld " + z.frage,
+      klick: () => umziehen(r.kat, wort),
+    };
+    return r;
   }
 
   // ------------------------------------------------------------
@@ -230,7 +281,7 @@
     if (d.verben.length) teile.push("Verben: " + d.verben.map((v) => `${v.inf} – ${v.praeteritum.ich} – ${v.partizip} (${v.perfektAux})${q(v)}`).join(", "));
     if (d.adjektive.length) teile.push("Adjektive: " + d.adjektive.map((a) => a.base + q(a)).join(", "));
     if (d.zeit.length) teile.push("Wann?/Wie oft?: " + d.zeit.map((a) => `${a.base} (${a.group === "frequency" ? "Wie oft?" : "Wann?"})${q(a)}`).join(", "));
-    if (d.wie.length) teile.push("Wie?: " + d.wie.map((a) => a.base + q(a)).join(", "));
+    if (d.wie.length) teile.push("Wie?: " + d.wie.map((a) => a.base + (a.wa ? " [" + a.wa + "]" : "") + q(a)).join(", "));
     if (d.orte.length) teile.push("Ort: " + d.orte.map((o) => `${o.phrase} (${o.question})${q(o)}`).join(", "));
     return "в базу (Satzlabor Deutsch): " + (teile.join("; ") || "–");
   }
@@ -246,12 +297,12 @@
     };
     d.verben.forEach((v) => {
       const i = arr(g("DE_VERBS_MAIN")).findIndex((x) => x.inf === v.inf);
-      l.push({ label: v.inf, q: v.ungeprueft, del: loesche("verben", (x) => x.inf === v.inf, ["sgVerb"], String(i)) });
+      l.push({ label: v.inf, wa: "das Verb", q: v.ungeprueft, del: loesche("verben", (x) => x.inf === v.inf, ["sgVerb"], String(i)) });
     });
-    d.adjektive.forEach((a) => l.push({ label: a.base, q: a.ungeprueft, del: loesche("adjektive", (x) => x.base === a.base, ADJ_SELS, a.base) }));
-    d.zeit.forEach((a) => l.push({ label: a.base, q: a.ungeprueft, del: loesche("zeit", (x) => x.base === a.base && x.group === a.group, ["sgZeit"], idVon(a.group + "_" + a.base)) }));
-    d.wie.forEach((a) => l.push({ label: a.base, q: a.ungeprueft, del: loesche("wie", (x) => x.base === a.base, ["sgWie"], idVon("manner_" + a.base)) }));
-    d.orte.forEach((o) => l.push({ label: o.phrase, q: o.ungeprueft, del: loesche("orte", (x) => x.phrase === o.phrase && x.question === o.question, ["sgOrt"], "p:" + idVon("ort_" + o.question + "_" + o.phrase)) }));
+    d.adjektive.forEach((a) => l.push({ label: a.base, wa: "das Adjektiv", q: a.ungeprueft, del: loesche("adjektive", (x) => x.base === a.base, ADJ_SELS, a.base) }));
+    d.zeit.forEach((a) => l.push({ label: a.base, wa: (a.wa ? a.wa + ", " : "") + (a.group === "frequency" ? "Wie oft?" : "Wann?"), q: a.ungeprueft, del: loesche("zeit", (x) => x.base === a.base && x.group === a.group, ["sgZeit"], idVon(a.group + "_" + a.base)) }));
+    d.wie.forEach((a) => l.push({ label: a.base, wa: (a.wa ? a.wa + ", " : "") + "Wie?", q: a.ungeprueft, del: loesche("wie", (x) => x.base === a.base, ["sgWie"], idVon("manner_" + a.base)) }));
+    d.orte.forEach((o) => l.push({ label: o.phrase, wa: (o.wa ? o.wa + ", " : "") + o.question, q: o.ungeprueft, del: loesche("orte", (x) => x.phrase === o.phrase && x.question === o.question, ["sgOrt"], "p:" + idVon("ort_" + o.question + "_" + o.phrase)) }));
     return l;
   }
 
@@ -315,9 +366,9 @@
         sel: sZeit, titel: "Eigene Zeitangabe (Wann? / Wie oft?)", placeholder: "z. B. morgens, am Montag, jeden Tag",
         hinweis: "Ein Adverb (morgens) oder eine Wortgruppe (am Montag, jeden Tag).",
         wahl: [{ key: "time", label: "Wann?" }, { key: "frequency", label: "Wie oft?" }], wahlText: "die Frage:",
-        pruefen: (t) => pruefeGruppe(t, (w) => /adverb|adjektiv/i.test(w)),
+        pruefen: async (t) => feldPruefen(await pruefeGruppe(t, (w) => /adverb|adjektiv/i.test(w)), "zeit"),
         onFertig: (e, ungeprueft, grp) => {
-          const d = daten(); d.zeit = d.zeit.filter((x) => !(x.base === e.text && x.group === grp)).concat([{ base: e.text, group: grp, ungeprueft: ungeprueft || undefined }]); sichern(d);
+          const d = daten(); d.zeit = d.zeit.filter((x) => !(x.base === e.text && x.group === grp)).concat([{ base: e.text, group: grp, wa: e.wa || undefined, ungeprueft: ungeprueft || undefined }]); sichern(d);
           const id = advInListe(e.text, grp);
           EW.inGruppe(sZeit, id, `${e.text} (${grp === "time" ? "Wann?" : "Wie oft?"})`);
           sZeit.value = id;
@@ -335,9 +386,9 @@
       EW.box({
         sel: sWie, titel: "Eigene Angabe: Wie? (die Art und Weise)", placeholder: "z. B. gemeinsam, mit dem Auto",
         hinweis: "Ein Adverb (gemeinsam) oder eine Wortgruppe (mit dem Auto, zu Fuß).",
-        pruefen: (t) => pruefeGruppe(t, (w) => /adverb|adjektiv/i.test(w)),
+        pruefen: async (t) => feldPruefen(await pruefeGruppe(t, (w) => /adverb|adjektiv/i.test(w)), "art"),
         onFertig: (e, ungeprueft) => {
-          const d = daten(); d.wie = d.wie.filter((x) => x.base !== e.text).concat([{ base: e.text, ungeprueft: ungeprueft || undefined }]); sichern(d);
+          const d = daten(); d.wie = d.wie.filter((x) => x.base !== e.text).concat([{ base: e.text, wa: e.wa || undefined, ungeprueft: ungeprueft || undefined }]); sichern(d);
           const id = advInListe(e.text, "manner");
           EW.inGruppe(sWie, id, e.text);
           sWie.value = id;
@@ -357,7 +408,7 @@
         hinweis: "Eine Wortgruppe mit Präposition (in den Garten, im Garten, aus Krefeld) oder ein Adverb (draußen). Achtung: Wohin? → Akkusativ (in den Garten), Wo? → Dativ (im Garten).",
         wahl: [{ key: "Wo?", label: "Wo?" }, { key: "Wohin?", label: "Wohin?" }, { key: "Woher?", label: "Woher?" }], wahlText: "die Frage:",
         pruefen: async (t) => {
-          const r = await pruefeGruppe(t, null);
+          const r = feldPruefen(await pruefeGruppe(t, null), "ort");
           if (r.text && !r.fehler) {
             const w = r.text.split(" ")[0].toLowerCase();
             r.wahlVorschlag = /^(nach|zu|zum|zur|ins)$/.test(w) ? "Wohin?" : /^(aus|von|vom)$/.test(w) ? "Woher?" : /^(im|am|bei|beim)$/.test(w) ? "Wo?" : null;
@@ -365,7 +416,7 @@
           return r;
         },
         onFertig: (e, ungeprueft, frage) => {
-          const d = daten(); d.orte = d.orte.filter((x) => !(x.phrase === e.text && x.question === frage)).concat([{ phrase: e.text, question: frage, ungeprueft: ungeprueft || undefined }]); sichern(d);
+          const d = daten(); d.orte = d.orte.filter((x) => !(x.phrase === e.text && x.question === frage)).concat([{ phrase: e.text, question: frage, wa: e.wa || undefined, ungeprueft: ungeprueft || undefined }]); sichern(d);
           const id = ortInListe(e.text, frage);
           EW.inGruppe(sOrt, "p:" + id, `${e.text}  (${frage})`);
           sOrt.value = "p:" + id;
@@ -382,5 +433,5 @@
   // nach de_script.js (dessen init läuft ebenfalls bei DOMContentLoaded, vorher registriert)
   document.addEventListener("DOMContentLoaded", () => setTimeout(aufbauen, 0));
 
-  window.DE_EIGENE_WOERTER = { daten, pruefeVerb, verbEintrag, regelVerb, praeteritumVoll, praesensVoll };
+  window.DE_EIGENE_WOERTER = { umziehen, daten, pruefeVerb, verbEintrag, regelVerb, praeteritumVoll, praesensVoll };
 })();
