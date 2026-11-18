@@ -317,7 +317,7 @@
     const persSet = new Set(pers.map((p) => p.lemma + "|" + p.gender));
     const dinge = arr(g("DE_NOUNS"))
       .map((n) => {
-        const o = { lemma: n.lemma, gender: n.gender, istPerson: persLemmas.includes(n.lemma) };
+        const o = { lemma: n.lemma, gender: n.gender, istPerson: persLemmas.includes(n.lemma), eigen: !!n.eigen };
         if (weak[n.lemma]) o.weak = weak[n.lemma];
         if (plural[n.lemma]) { o.gender = "pl"; o.datPl = plural[n.lemma]; }
         return o;
@@ -327,24 +327,52 @@
   }
   const genLabel = (n) => (n.gender === "pl" ? "Pl." : { m: "der", f: "die", n: "das" }[n.gender]);
 
-  function fillNomenSelect(sel, liste, mitDingen) {
-    sel.innerHTML = "";
-    opt(sel, "", "— (keins) —");
+  // Optionen: ✏️ eigenes Nomen · Meine Wörter · Personen · Dinge
+  // prefix: "" (Dativ/Akkusativ) oder "n:" (Subjekt)
+  function fillNomenOptionen(sel, liste, mitDingen, prefix) {
+    prefix = prefix || "";
+    if (g("DE_EIGENE_NOMEN")) opt(sel, "eigen", "✏️ eigenes Nomen eingeben … (der/die/das wird gesucht)");
+    const meine = liste.map((n, i) => [n, i]).filter(([n]) => n.eigen);
+    if (meine.length) {
+      const gm = group(sel, "Meine Wörter");
+      meine.forEach(([n, i]) => optIn(gm, prefix + i, `${n.lemma} (${genLabel(n)})`));
+    }
     const gp = group(sel, "Personen");
     liste.forEach((n, i) => {
-      if (n.istPerson) optIn(gp, String(i), `${n.label || n.lemma} (${genLabel(n)})`);
+      if (n.istPerson && !n.eigen) optIn(gp, prefix + i, `${n.label || n.lemma} (${genLabel(n)})`);
     });
     if (mitDingen) {
       const gd = group(sel, "Dinge");
       liste.forEach((n, i) => {
-        if (n.istPerson === false) optIn(gd, String(i), `${n.lemma} (${genLabel(n)})`);
+        if (n.istPerson === false && !n.eigen) optIn(gd, prefix + i, `${n.lemma} (${genLabel(n)})`);
       });
     }
+  }
+  function fillNomenSelect(sel, liste, mitDingen) {
+    sel.innerHTML = "";
+    opt(sel, "", "— (keins) —");
+    fillNomenOptionen(sel, liste, mitDingen, "");
+  }
+  function fillSubjekt() {
+    const sSubj = $("sgSubj");
+    sSubj.innerHTML = "";
+    opt(sSubj, "", "— bitte wählen —");
+    const gp = group(sSubj, "Pronomen");
+    arr(g("DE_PRONOUNS")).forEach((p, i) => {
+      const lbl = p.id === "sie_pl" ? "sie (Plural)" : p.id === "Sie_formal" ? "Sie (Höflichkeit)" : p.id === "sie" ? "sie (Singular)" : p.form;
+      optIn(gp, "p:" + i, lbl);
+    });
+    fillNomenOptionen(sSubj, AKK_LISTE, true, "n:");
+  }
+  function fillAlleNomen() {
+    fillSubjekt();
+    fillNomenSelect($("sgDatNomen"), AKK_LISTE, false);
+    fillNomenSelect($("sgAkkNomen"), AKK_LISTE, true);
   }
 
   function readNomenGruppe(prefix, liste) {
     const v = $(prefix + "Nomen").value;
-    if (v === "") return null;
+    if (v === "" || v === "eigen") return null;
     const nomen = liste[Number(v)];
     const art = artikelById($(prefix + "Art").value);
     return { nomen, art, adj: $(prefix + "Adj").value || "", istPerson: !!nomen.istPerson };
@@ -380,7 +408,7 @@
 
   function updateSubjektArt() {
     const v = $("sgSubj").value;
-    const istNomen = v.startsWith("n:");
+    const istNomen = v.startsWith("n:") || v === "eigen";
     $("sgSubjExtra").style.display = istNomen ? "" : "none";
   }
 
@@ -419,7 +447,7 @@
     const sv = $("sgSubj").value;
     if (sv.startsWith("p:")) subj = { pronomen: pronomen[Number(sv.slice(2))] };
     else if (sv.startsWith("n:")) {
-      subj = { nomen: personen[Number(sv.slice(2))], art: artikelById($("sgSubjArt").value), adj: $("sgSubjAdj").value || "" };
+      subj = { nomen: AKK_LISTE[Number(sv.slice(2))], art: artikelById($("sgSubjArt").value), adj: $("sgSubjAdj").value || "" };
     }
 
     const zv = $("sgZeit").value;
@@ -437,8 +465,6 @@
       if (a) ort = { text: a.base, frage: "Wo?" };
     }
 
-    const datListe = personen.map((p) => Object.assign({}, p, { istPerson: true }));
-
     return {
       satzart: $("sgSatzart").value === "verneinung" ? "aussage" : $("sgSatzart").value,
       verneinung: $("sgSatzart").value === "verneinung" || $("sgNeg").checked,
@@ -446,7 +472,7 @@
       subj,
       verb: verbs[Number($("sgVerb").value)] || null,
       auxOverride: $("sgAux").value,
-      dat: readNomenGruppe("sgDat", datListe),
+      dat: readNomenGruppe("sgDat", AKK_LISTE),
       akk: readNomenGruppe("sgAkk", AKK_LISTE),
       zeit: zeit ? { wort: zeit.base, gruppe: zeit.group } : null,
       art: wie ? { wort: wie.base } : null,
@@ -621,21 +647,71 @@
   }
 
   // ------------------------------------------------------------
+  // Eigene Nomen: Eingabe-Box unter Wer? / Wem? / Wen-Was?
+  // ------------------------------------------------------------
+  const nomenSchluessel = (n) => (n ? n.lemma + "|" + n.gender : "");
+  function initEigeneNomen() {
+    const EN = g("DE_EIGENE_NOMEN");
+    if (!EN) return;
+    const slots = [
+      { sel: "sgSubj", prefix: "n:", art: "sgSubjArt" },
+      { sel: "sgDatNomen", prefix: "", art: "sgDatArt" },
+      { sel: "sgAkkNomen", prefix: "", art: "sgAkkArt" },
+    ];
+    // Liste neu bauen, Auswahl in allen Feldern behalten
+    function neuFuellen() {
+      const merken = slots.map((sl) => {
+        const v = $(sl.sel).value;
+        if (sl.prefix && !v.startsWith(sl.prefix)) return { roh: v };
+        if (v === "" || v === "eigen") return { roh: v };
+        return { key: nomenSchluessel(AKK_LISTE[Number(v.slice(sl.prefix.length))]) };
+      });
+      bauAkkListe();
+      fillAlleNomen();
+      slots.forEach((sl, i) => {
+        const m = merken[i];
+        if (m.key) waehle(sl, m.key);
+        else $(sl.sel).value = m.roh;
+      });
+    }
+    function waehle(sl, key) {
+      const i = AKK_LISTE.findIndex((n) => nomenSchluessel(n) === key);
+      $(sl.sel).value = i >= 0 ? sl.prefix + i : "";
+    }
+    slots.forEach((sl) => {
+      const sel = $(sl.sel);
+      let vorher = sel.value;
+      const bx = EN.box({
+        nachSelect: sel,
+        onFertig: (n) => {
+          neuFuellen();
+          waehle(sl, nomenSchluessel(n));
+          vorher = sel.value;
+          // Subjekt: statt „mein“ den bestimmten Artikel nehmen (die Sonne)
+          if (sl.sel === "sgSubj" && $(sl.art).value === "mein") $(sl.art).value = "def";
+          sel.dispatchEvent(new Event("change"));
+        },
+        onAbbruch: () => {
+          sel.value = vorher === "eigen" ? "" : vorher;
+          sel.dispatchEvent(new Event("change"));
+        },
+        onListe: neuFuellen,
+      });
+      sel.addEventListener("change", () => {
+        if (sel.value === "eigen") bx.oeffnen();
+        else { bx.schliessen(); vorher = sel.value; }
+      });
+    });
+  }
+
+  // ------------------------------------------------------------
   // Init
   // ------------------------------------------------------------
   function init() {
     bauAkkListe();
 
-    // Subjekt: Pronomen + Personen
-    const sSubj = $("sgSubj");
-    opt(sSubj, "", "— bitte wählen —");
-    const gp = group(sSubj, "Pronomen");
-    arr(g("DE_PRONOUNS")).forEach((p, i) => {
-      const lbl = p.id === "sie_pl" ? "sie (Plural)" : p.id === "Sie_formal" ? "Sie (Höflichkeit)" : p.id === "sie" ? "sie (Singular)" : p.form;
-      optIn(gp, "p:" + i, lbl);
-    });
-    const gn = group(sSubj, "Personen");
-    arr(g("DE_PERSONEN")).forEach((p, i) => optIn(gn, "n:" + i, `${p.label || p.lemma} (${genLabel(p)})`));
+    // Subjekt: Pronomen + eigenes Nomen + Meine Wörter + Personen + Dinge
+    fillSubjekt();
 
     // Verb
     const sVerb = $("sgVerb");
@@ -651,11 +727,10 @@
     $("sgSubjArt").value = "mein";
     ["sgSubjAdj", "sgDatAdj", "sgAkkAdj"].forEach((id) => fillAdjektiv($(id)));
 
-    // Dativ: nur Personen
-    const datListe = arr(g("DE_PERSONEN")).map((p) => Object.assign({}, p, { istPerson: true }));
-    fillNomenSelect($("sgDatNomen"), datListe, false);
-    // Akkusativ: Personen + Dinge
+    // Dativ: Personen + Meine Wörter; Akkusativ: Personen + Dinge + Meine Wörter
+    fillNomenSelect($("sgDatNomen"), AKK_LISTE, false);
     fillNomenSelect($("sgAkkNomen"), AKK_LISTE, true);
+    initEigeneNomen();
 
     // Zeit (Wann? / Wie oft?), Art (Wie?), Ort
     const adverbs = arr(g("DE_ADVERBS"));
@@ -688,6 +763,7 @@
     $("deClearBtn").addEventListener("click", () => {
       ["sgSubj", "sgVerb", "sgDatNomen", "sgAkkNomen", "sgZeit", "sgWie", "sgOrt", "sgAux", "sgSubjAdj", "sgDatAdj", "sgAkkAdj"].forEach((id) => ($(id).selectedIndex = 0));
       $("sgNeg").checked = false;
+      document.querySelectorAll(".en-box").forEach((b) => (b.hidden = true));
       $("deSentenceOutput").textContent = "Noch kein Satz erzeugt …";
       $("sgAnalyse").innerHTML = "";
       $("de_generator_message").textContent = "";

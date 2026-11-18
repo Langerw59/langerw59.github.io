@@ -59,6 +59,8 @@
          RU: Логика немецкого генератора
          ========================================================= -->
     <script src="de_begriffe_ru.js" defer></script>
+    <!-- Eigene Nomen + Artikel-Finder (Wiktionary, Grundwort, Regeln) -->
+    <script src="de_eigene_nomen.js" defer></script>
     <script src="de_script.js" defer></script>
     <!-- DE: Grammatik-Erklärungen / RU: грамматические объяснения на русском -->
     <script src="de_erklaerung.js" defer></script>
@@ -87,6 +89,24 @@
       .sg-feld-t { font-size: .75rem; color: #57606a; margin-bottom: 4px; }
       .sg-feld .sg-chip { display: inline-block; margin: 2px 0; }
       .sg-leer { color: #afb8c1; }
+      /* Eigene Nomen / Artikel-Finder */
+      .en-box { margin-top: 6px; padding: 8px; border: 1px dashed var(--c, #8c959f); border-radius: 8px; background: color-mix(in srgb, var(--c, #8c959f) 5%, transparent); }
+      .en-box[hidden], .en-wahl[hidden] { display: none; }
+      .en-box input { flex: 1; min-width: 0; font-size: 1rem; padding: 6px 8px; border: 1px solid #afb8c1; border-radius: 6px; background: inherit; color: inherit; }
+      .en-box button { font-size: .9rem; padding: 5px 9px; border-radius: 6px; border: 1px solid #afb8c1; background: color-mix(in srgb, var(--c, #8c959f) 10%, transparent); color: inherit; cursor: pointer; }
+      .en-erg { font-size: .88rem; margin: 6px 0 2px; }
+      .en-treffer b { font-size: 1.15rem; }
+      .en-erkl { color: #57606a; margin-top: 2px; }
+      .en-warn { color: #bc4c00; margin-top: 3px; }
+      .en-wahl { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+      .en-wahl button.en-an { background: var(--c, #1f6feb); color: #fff; border-color: var(--c, #1f6feb); font-weight: bold; }
+      .en-wahl .en-ok { margin-left: auto; font-weight: bold; }
+      .en-wahl .en-ok:disabled { opacity: .5; cursor: default; }
+      .en-meine { margin-top: 6px; font-size: .8rem; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+      .en-mt { color: #57606a; }
+      .en-chip { background: #eaeef2; color: #24292f; border-radius: 9px; padding: 1px 2px 1px 7px; }
+      .en-regel { display: inline-block; margin-top: 6px; font-size: .8rem; }
+      .en-chip button { border: 0; background: none; padding: 0 4px; font-size: .85rem; color: #57606a; }
       .sg-tab { width: 100%; border-collapse: collapse; font-size: .88rem; margin-top: 8px; }
       .sg-tab th, .sg-tab td { border-bottom: 1px solid #d0d7de; padding: 5px 6px; text-align: left; vertical-align: top; }
       .sg-tab small { color: #6e7781; }

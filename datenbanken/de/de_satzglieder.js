@@ -129,6 +129,14 @@ const DE_VERB_VALENZ = {
   warten: { akk: false, dat: false },
   wohnen: { akk: false, dat: false, ort: "wo" },
   putzen: { akk: "pflicht", dat: false },
+  scheinen: { akk: false, dat: false },
+  blühen: { akk: false, dat: false },
+  wachsen: { akk: false, dat: false },
+  fliegen: { akk: false, dat: false, ort: "wohin" },
+  fallen: { akk: false, dat: false, ort: "wohin" },
+  liegen: { akk: false, dat: false, ort: "wo" },
+  stehen: { akk: false, dat: false, ort: "wo" },
+  leuchten: { akk: false, dat: false },
 };
 
 // Bewegungsverben: Perfekt mit „sein“ – aber mit Akkusativobjekt „haben“

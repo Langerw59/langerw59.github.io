@@ -41,6 +41,45 @@ window.GRAMMATIK = {
 
   regeln: [
     {
+      // 2026-11-18: mit Claude – Artikel-Finder im Satzlabor
+      id: "de-artikel-finden",
+      thema: "artikel",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "der, die oder das? – das Genus erkennen (das Grundwort und die Endungen)",
+      titel_ru: "как узнать артикль существительного: основное слово и окончания",
+      formel: "das Kompositum: Bestimmungswort + Grundwort → der Artikel kommt vom Grundwort (die Sonne + der Schein = der Sonnenschein)",
+      erklaerung: [
+        "ЧТО ТАКОЕ GENUS. das Genus (лат. genus – «род, порода») – грамматический род: das Maskulinum (мужской) → der, das Femininum (женский) → die, das Neutrum (средний, лат. neuter – «ни тот, ни другой») → das. Во множественном числе (der Plural) у всех один артикль: die. Род в немецком часто не совпадает с русским: die Sonne – но «солнце» среднего рода; der Mond – но «луна» женского.",
+        "ГЛАВНОЕ ПРАВИЛО: ОСНОВНОЕ СЛОВО. das Kompositum (лат. compositum – «составленное») – сложное слово. Первая часть – das Bestimmungswort («определяющее слово»: какой?), последняя – das Grundwort («основное слово»: что?). Артикль ВСЕГДА берётся от последнего слова: die Sonne + der Schein = der Sonnenschein; das Haus + die Tür = die Haustür; die Arbeit + der Kollege = der Arbeitskollege. Поэтому длинные слова не страшны – смотрите на конец.",
+        "ОКОНЧАНИЯ – ВСЕГДА (100 %). -ung, -heit, -keit, -schaft, -ion, -tät → die (die Zeitung, die Freiheit, die Station). -chen, -lein (уменьшительные) → das (das Mädchen, das Fräulein – поэтому «девочка» среднего рода!). -ismus, -ling → der (der Tourismus, der Frühling).",
+        "ОКОНЧАНИЯ – ОБЫЧНО (есть исключения). -e → чаще die (die Lampe, но der Junge, das Auge). -ei, -ie, -ik, -ur, -anz, -enz → die (die Bäckerei, die Musik). -ment, -um → das (das Dokument, das Zentrum). -or, -ant, -ig, -ich → der (der Motor, der Honig).",
+        "N-СКЛОНЕНИЕ. die n-Deklination (слабое склонение): некоторые существительные мужского рода получают -n/-en во всех падежах, кроме именительного: der Kollege → den Kollegen, dem Kollegen. Satzlabor показывает это сразу при поиске артикля.",
+        "КАК ЭТО РАБОТАЕТ В SATZLABOR. В полях Wer? / Wem? / Wen? выберите «✏️ eigenes Nomen eingeben», напишите слово и нажмите «🔍 Artikel finden». Программа ищет: 1) в своём словаре, 2) в Wiktionary (сначала всё слово, потом основное слово), 3) без интернета – по правилам окончаний. Артикль можно исправить кнопками der / die / das / Plural; слово сохраняется в «Meine Wörter»."
+      ],
+      tabelle: {
+        kopf: ["die Endung", "der Artikel", "wie sicher · насколько точно", "Beispiele"],
+        sprechen: false,
+        zeilen: [
+          ["-ung, -heit, -keit, -schaft", "die", "immer · всегда", "die Zeitung, die Freiheit, die Möglichkeit, die Freundschaft"],
+          ["-ion, -tät", "die", "immer · всегда", "die Station, die Universität"],
+          ["-chen, -lein", "das", "immer · всегда", "das Mädchen, das Brötchen, das Fräulein"],
+          ["-ismus, -ling", "der", "immer · всегда", "der Tourismus, der Frühling"],
+          ["-e", "die", "meistens · обычно", "die Lampe, die Sonne – aber: der Junge, das Auge"],
+          ["-ei, -ie, -ik, -ur, -anz, -enz", "die", "meistens · обычно", "die Bäckerei, die Familie, die Musik, die Natur"],
+          ["-ment, -um", "das", "meistens · обычно", "das Dokument, das Zentrum – aber: der Reichtum"],
+          ["-or, -ant, -ig, -ich", "der", "meistens · обычно", "der Motor, der Elefant, der Honig, der Teppich"]
+        ]
+      },
+      beispiele: [
+        { de: "Die Sonne scheint.", en: "The sun is shining.", ru: "Солнце светит.", hinweis: "die Sonne – Femininum (по-русски средний род!)" },
+        { de: "Der Sonnenschein ist warm.", en: "The sunshine is warm.", ru: "Солнечный свет тёплый.", hinweis: "das Grundwort: der Schein → der Sonnenschein" },
+        { de: "Ich sehe einen Arbeitskollegen.", en: "I see a colleague.", ru: "Я вижу коллегу.", hinweis: "n-Deklination: der Kollege → den Kollegen" },
+        { de: "Die Zeitung liegt auf dem Tisch.", en: "The newspaper is on the table.", ru: "Газета лежит на столе.", hinweis: "-ung → immer die" }
+      ],
+      merke: "Bei langen Wörtern zählt das LETZTE Wort: der Schein → der Sonnenschein. -ung, -heit, -keit, -schaft, -ion, -tät → immer die · -chen, -lein → immer das"
+    },
+    {
       // 2026-11-18: mit Claude – konjugieren / deklinieren
       id: "de-konjugieren-deklinieren",
       thema: "grundbegriffe",
