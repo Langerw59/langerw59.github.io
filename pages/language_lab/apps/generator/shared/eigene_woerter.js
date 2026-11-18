@@ -129,8 +129,11 @@
       .replace(/''+/g, "")
       .replace(/<[^>]+>/g, "")
       .replace(/\s+/g, " ")
+      .replace(/\([^)]*\)/g, "")
+      .split(/[;,]/)[0]
+      .replace(/\s+/g, " ")
       .replace(/^[\s,;:]+|[\s,;:]+$/g, "")
-      .slice(0, 60);
+      .replace(/^(.{40}\S*).*$/, "$1 …");
   }
 
   // Tippfehler-Vorschläge („Meinten Sie …?“)
