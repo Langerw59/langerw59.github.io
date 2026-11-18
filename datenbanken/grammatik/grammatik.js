@@ -468,6 +468,9 @@ window.GRAMMATIK = {
         "КРАТКИЕ ФОРМЫ (die Kurzform, die Kontraktion). В разговорном английском вспомогательный глагол сливается с местоимением, а пропущенные буквы заменяет апостроф (der Apostroph): I am → I'm, I will → I'll, I would → I'd. Значение от этого не меняется – это только сокращение, как в немецком «Wie geht's?» = «Wie geht es?».",
         "I'M = I AM = ICH BIN. am – форма глагола be (sein) в настоящем времени (das Präsens) для I. По-русски «есть» обычно пропускаем: I'm retired. – Ich bin Rentner. – Я на пенсии. Подробно: правило «das Verb to be».",
         "I'LL = I WILL = ICH WERDE. will – вспомогательный глагол (das Hilfsverb) будущего времени (das Futur I), по-немецки werden, по-русски «буду / -у»: I'll take it. – Ich nehme es. / Ich werde es nehmen. – Я возьму это. После will – глагол в начальной форме (der Infinitiv) без to. ЛОВУШКА (der falsche Freund): немецкое ich will = I want (хочу), а английское I will = ich werde (буду).",
+        "ПОЧЕМУ «I'LL TAKE IT» – ЭТО «Я ВОЗЬМУ», А НЕ «Я БЕРУ». Грамматически это действительно будущее время: will + Infinitiv. Но will у англичан – это не только «буду», а ещё и решение, принятое в момент речи (die spontane Entscheidung): в магазине посмотрел, подумал – «Беру!». Решение сейчас, а действие (заплатить, забрать) – чуть позже. Поэтому английский ставит будущее. По-русски точный перевод тоже будущее: «Я возьму это» (совершенный вид, der vollendete Aspekt, будущее время). А «беру» – это разговорная замена, как и немецкое «Ich nehme es».",
+        "ПОЧЕМУ НЕМЕЦКИЙ ГОВОРИТ «ICH NEHME ES» (DAS PRÄSENS). В немецком настоящее время (das Präsens) очень часто заменяет будущее (das Futur I), если из ситуации ясно, что действие ещё впереди: Ich komme morgen. – I'll come tomorrow. Ich rufe dich an. – I'll call you. Немецкое «Ich werde es nehmen» грамматически верно, но в магазине звучит тяжеловато. В английском так нельзя: «I take it» (das Present Simple) означает привычку, повторение – «я (обычно) это беру». Для решения нужен will.",
+        "ИТОГ (die Faustregel): EN – решение сейчас → will (I'll take it). DE – чаще das Präsens (Ich nehme es). RU – будущее совершенного вида (Я возьму это) или разговорно «беру».",
         "I'D = I WOULD = ICH WÜRDE. would – тоже вспомогательный глагол; он образует сослагательное наклонение (der Konjunktiv II, англ. conditional), то есть русскую частицу «бы». Ваша догадка верная: would = «бы». По-немецки würde + Infinitiv: I would go. – Ich würde gehen. – Я бы пошёл. Историческая справка: would – это прошедшее время (das Präteritum) от will (древнеангл. willan – wolde, ср. немецкое wollen – wollte). Поэтому will и would – одна семья: «буду» и «бы».",
         "ГДЕ ВСТРЕЧАЕТСЯ WOULD. 1) Вежливость (die Höflichkeit): I'd like a coffee. – Ich möchte einen Kaffee. – Я хотел бы кофе. Would you help me? – Würden Sie mir helfen? – Вы не помогли бы мне? 2) Условие (der Bedingungssatz, der Konditionalsatz): If I had time, I would go. – Wenn ich Zeit hätte, würde ich gehen. – Если бы у меня было время, я бы пошёл. 3) Будущее в прошлом (в косвенной речи, die indirekte Rede): He said he would come. – Er sagte, er würde kommen. – Он сказал, что придёт.",
         "ОСТОРОЖНО: I'D БЫВАЕТ ДВУХ ВИДОВ. I'd = I would, если после него стоит начальная форма (V1): I'd go, I'd like. Но I'd = I had (ich hatte), если после него стоит третья форма (V3, das Partizip II): I'd seen it. – Ich hatte es gesehen. – Я (уже) видел это. Различаем по следующему глаголу.",
@@ -486,12 +489,13 @@ window.GRAMMATIK = {
         ]
       },
       beispiele: [
+        { en: "I'll take it.", de: "Ich nehme es. (Ich werde es nehmen.)", ru: "Я возьму это. (разг.: Беру.)", hinweis: "will = Entscheidung jetzt; DE: das Präsens statt Futur" },
         { en: "I'll call you tomorrow.", de: "Ich rufe dich morgen an.", ru: "Я позвоню тебе завтра.", hinweis: "I'll = I will = ich werde" },
         { en: "I'd call you, but I have no phone.", de: "Ich würde dich anrufen, aber ich habe kein Telefon.", ru: "Я бы тебе позвонил, но у меня нет телефона.", hinweis: "I'd = I would = ich würde (бы)" },
         { en: "If I had time, I would go.", de: "Wenn ich Zeit hätte, würde ich gehen.", ru: "Если бы у меня было время, я бы пошёл.", hinweis: "der Bedingungssatz" },
         { en: "Would you help me, please?", de: "Würden Sie mir bitte helfen?", ru: "Вы не помогли бы мне?", hinweis: "höflich" }
       ],
-      merke: "I'm = ich bin (я есть) · I'll = ich werde (я буду) · I'd = ich würde (я бы) · will (EN) = werden, НЕ wollen · I'd + V3 = I had"
+      merke: "I'll take it = решение сейчас (DE: Ich nehme es, RU: Я возьму) · I'm = ich bin (я есть) · I'll = ich werde (я буду) · I'd = ich würde (я бы) · will (EN) = werden, НЕ wollen · I'd + V3 = I had"
     }
   ]
 };
