@@ -419,28 +419,50 @@
       sel.dispatchEvent(new Event("change"));
       vorher = sel.value;
     }
-    function zeigeTipps() {
+    // ähnliche Wörter (Tippfehler: scheinenn → scheinen, shceinen → scheinen)
+    function aehnlich(l, q, ohne) {
+      if (q.length < 4) return [];
+      const grenze = q.length > 6 ? 2 : 1;
+      return l.filter((t) => !ohne.includes(t) &&
+          (abstand(t.wort, q) <= grenze || (t.wort.length > q.length && abstand(t.wort.slice(0, q.length), q) <= 1)))
+        .sort((a, b) => abstand(a.wort, q) - abstand(b.wort, q));
+    }
+    function zeigeTipps(ueberschrift) {
       const q = normal(inp.value);
       tipps.innerHTML = "";
-      if (q.length < 2) { tipps.hidden = true; return; }
+      if (q.length < 2) { tipps.hidden = true; return 0; }
       const l = listeDesFeldes();
       const anfang = l.filter((t) => t.wort.startsWith(q));
       const drin = l.filter((t) => !t.wort.startsWith(q) && t.wort.includes(q));
-      const treffer = anfang.sort((a, b) => a.wort.localeCompare(b.wort, "de")).concat(drin).slice(0, 8);
-      if (!treffer.length) { tipps.hidden = true; return; }
-      tipps.appendChild(el("span", { class: "ew-klein" }, "schon in der Liste – antippen:"));
+      let treffer = anfang.sort((a, b) => a.wort.localeCompare(b.wort, "de")).concat(drin);
+      treffer = treffer.concat(aehnlich(l, q, treffer)).slice(0, 8);
+      if (!treffer.length) { tipps.hidden = true; return 0; }
+      tipps.appendChild(el("span", { class: "ew-klein" }, ueberschrift || "schon in der Liste – antippen:"));
       treffer.forEach((t) => {
         const k = el("button", { type: "button", title: "auswählen" }, t.text);
         k.addEventListener("click", () => waehlen(t));
         tipps.appendChild(k);
       });
       tipps.hidden = false;
+      return treffer.length;
     }
     async function suchen() {
       const wert = inp.value.trim().replace(/\s+/g, " ");
       if (!wert) { inp.focus(); return; }
       const schon = listeDesFeldes().find((t) => t.wort === normal(wert));
       if (schon) { waehlen(schon); return; }
+      // Tippfehler eines Wortes, das schon in der Liste steht → sofort anbieten, ohne Internet
+      if (!suchen.trotzdem) {
+        const l = listeDesFeldes();
+        const nah = aehnlich(l, normal(wert), []);
+        if (nah.length && zeigeTipps("✖ Tippfehler? Meinten Sie (schon in der Liste):")) {
+          erg.innerHTML = "";
+          const neu = el("button", { type: "button" }, "nein – neues Wort prüfen");
+          neu.addEventListener("click", () => { suchen.trotzdem = true; suchen().finally(() => { suchen.trotzdem = false; }); });
+          erg.appendChild(neu);
+          return;
+        }
+      }
       tipps.hidden = true;
       erg.textContent = "⏳ prüfe …";
       aktuell = null;
