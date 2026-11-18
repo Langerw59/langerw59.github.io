@@ -402,7 +402,16 @@
       if (val.akk) teile.push("Wen/Was?" + (val.akk === "optional" ? " (optional)" : ""));
       if (val.ort) teile.push(val.ort.charAt(0).toUpperCase() + val.ort.slice(1) + "?");
     }
-    info.textContent = `${verbInf(v)} · Perfekt mit „${v.perfektAux || "haben"}“` + (teile.length ? " · fragt: " + teile.join(", ") : " · ohne Objekt");
+    const KA = { stark: "das starke Verb", schwach: "das schwache Verb", gemischt: "das gemischte Verb" };
+    const typ = [];
+    if (KA[v.konjugation]) typ.push(KA[v.konjugation]);
+    if (v.untrennbar) typ.push(`untrennbar (${v.untrennbar}-)`);
+    if (v.trennbar) typ.push(`trennbar (${v.prefix}-)`);
+    if (v.reflexiv) typ.push("reflexiv (sich)");
+    if (v.vokalwechsel) typ.push(`Vokalwechsel: du ${formen(v.praesens, "du")}`);
+    const prt = formen(v.praeteritum, "er");
+    const stammformen = prt && (v.partizip2 || v.partizip) ? ` · ${verbInf(v)} – ${prt} – ${v.partizip2 || v.partizip}` : "";
+    info.textContent = (typ.length ? typ.join(" · ") : verbInf(v)) + stammformen + ` · Perfekt mit „${v.perfektAux || "haben"}“` + (teile.length ? " · fragt: " + teile.join(", ") : " · ohne Objekt");
     updateFragNach();
   }
 

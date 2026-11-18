@@ -321,6 +321,9 @@
       meine.innerHTML = "";
       if (!l.length) return;
       meine.appendChild(el("span", { class: "en-mt" }, "Meine Wörter:"));
+      const senden = el("button", { type: "button", class: "en-senden", title: "Liste kopieren und im Chat an Claude schicken" }, "📋 für die Datenbank kopieren");
+      senden.addEventListener("click", () => kopieren(l));
+      meine.appendChild(senden);
       l.forEach((n) => {
         const c = el("span", { class: "en-chip" }, `${ART[n.gender].split(" ")[0]} ${n.lemma}`);
         const x = el("button", { type: "button", title: "aus „Meine Wörter“ löschen" }, "×");
@@ -333,6 +336,21 @@
         c.appendChild(x);
         meine.appendChild(c);
       });
+    }
+    // „в базу: der Sonnenschein, der Arbeitskollege …“ in die Zwischenablage
+    function kopieren(l) {
+      const text = "в базу: " + l.map((n) => `${ART[n.gender].split(" ")[0]} ${n.lemma}${n.gender === "pl" ? " (Plural)" : ""}`).join(", ");
+      const fertig = () => { erg.textContent = "✓ Kopiert. Jetzt im Chat mit Claude einfügen (Strg+V bzw. lange drücken → Einsetzen)."; };
+      const zeigen = () => {
+        erg.innerHTML = "";
+        erg.appendChild(el("div", { class: "en-erkl" }, "Bitte markieren und kopieren:"));
+        const ta = el("textarea", { rows: "3", style: "width:100%" });
+        ta.value = text;
+        erg.appendChild(ta);
+        ta.select();
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(fertig, zeigen);
+      else zeigen();
     }
     // kein Browser-Dialog: zweimal klicken zum Löschen
     let loeschKandidat = null;

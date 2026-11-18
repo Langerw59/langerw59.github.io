@@ -1173,6 +1173,69 @@ function normalizePraesens(p) {
   };
 }
 
+// ------------------------------------------------------------
+// 2026-11-18: die Konjugationsart – das starke, das schwache, das gemischte Verb
+// stark    = Ablaut (Vokalwechsel) im Präteritum, Partizip II auf -en (gehen – ging – gegangen)
+// schwach  = regelmäßig: -te im Präteritum, Partizip II auf -t (machen – machte – gemacht)
+// gemischt = Vokalwechsel UND -te / -t (bringen – brachte – gebracht)
+// ------------------------------------------------------------
+const DE_VERB_KONJUGATION = {
+  gehen: "stark",
+  kommen: "stark",
+  fahren: "stark",
+  laufen: "stark",
+  bleiben: "stark",
+  steigen: "stark",
+  essen: "stark",
+  trinken: "stark",
+  schlafen: "stark",
+  geben: "stark",
+  nehmen: "stark",
+  sprechen: "stark",
+  sehen: "stark",
+  helfen: "stark",
+  beginnen: "stark",
+  scheinen: "stark",
+  wachsen: "stark",
+  fliegen: "stark",
+  fallen: "stark",
+  liegen: "stark",
+  stehen: "stark",
+  machen: "schwach",
+  arbeiten: "schwach",
+  lernen: "schwach",
+  spielen: "schwach",
+  kaufen: "schwach",
+  bezahlen: "schwach",
+  verkaufen: "schwach",
+  holen: "schwach",
+  sagen: "schwach",
+  hören: "schwach",
+  fragen: "schwach",
+  glauben: "schwach",
+  fühlen: "schwach",
+  brauchen: "schwach",
+  enden: "schwach",
+  warten: "schwach",
+  wohnen: "schwach",
+  putzen: "schwach",
+  blühen: "schwach",
+  leuchten: "schwach",
+  bringen: "gemischt",
+  denken: "gemischt",
+  wissen: "gemischt",
+};
+
+// untrennbare Vorsilben (be-, ver-, er-, ge-, zer-, ent-, emp-, miss-): ohne ge- im Partizip II
+const DE_UNTRENNBAR = { bezahlen: "be", verkaufen: "ver", beginnen: "be" };
+
+// Vokalwechsel im Präsens (du fährst, er sieht)
+function vokalwechsel(verb) {
+  const p = verb.praesens || {};
+  const stamm = (verb.inf || "").replace(/e?n$/, "");
+  return !!p.du && !p.du.startsWith(stamm);
+}
+
 // DE: Felder ergänzen und DE_VERBS-Objekt aufbauen
 // EN: Enrich fields and build DE_VERBS object
 // RU: Дополняем поля и строим объект DE_VERBS
@@ -1184,6 +1247,9 @@ DE_VERBS_MAIN.forEach((verb) => {
   verb.partizip2 = verb.partizip2 || verb.partizip;
   verb.usesSein = typeof verb.usesSein === "boolean" ? verb.usesSein : verb.perfektAux === "sein";
   verb.aux = verb.aux || verb.perfektAux;
+  verb.konjugation = verb.konjugation || DE_VERB_KONJUGATION[verb.inf] || "";
+  if (DE_UNTRENNBAR[verb.inf]) verb.untrennbar = DE_UNTRENNBAR[verb.inf];
+  verb.vokalwechsel = vokalwechsel(verb);
 
   if (!verb.praeteritum && PRAETERITUM_FORMS[verb.inf]) {
     verb.praeteritum = PRAETERITUM_FORMS[verb.inf];
@@ -1196,4 +1262,5 @@ DE_VERBS_MAIN.forEach((verb) => {
 if (typeof window !== "undefined") {
   window.DE_VERBS_MAIN = DE_VERBS_MAIN;
   window.DE_VERBS = DE_VERBS;
+  window.DE_VERB_KONJUGATION = DE_VERB_KONJUGATION;
 }

@@ -41,6 +41,46 @@ window.GRAMMATIK = {
 
   regeln: [
     {
+      // 2026-11-18: mit Claude – Einteilung der Verben (wie in der Datenbank)
+      id: "de-verbarten",
+      thema: "verb",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "das starke, das schwache und das gemischte Verb; trennbar und untrennbar; reflexiv",
+      titel_ru: "сильные, слабые и смешанные глаголы; отделяемые и неотделяемые приставки; возвратные",
+      formel: "die Stammformen: der Infinitiv – das Präteritum – das Partizip II (gehen – ging – gegangen · machen – machte – gemacht · bringen – brachte – gebracht)",
+      erklaerung: [
+        "ТРИ ОСНОВНЫЕ ФОРМЫ. die Stammformen – три формы, по которым строятся все времена: der Infinitiv (gehen), das Präteritum (ging), das Partizip II (gegangen). По ним глаголы и делятся на типы. Satzlabor показывает их под выбранным глаголом.",
+        "СЛАБЫЙ ГЛАГОЛ. das schwache Verb (= regelmäßig, правильный): корень не меняется, в Präteritum добавляется -te, Partizip II: ge- … -t. machen – machte – gemacht, spielen – spielte – gespielt. Таких глаголов большинство, и все новые слова (googeln – googelte – gegoogelt) – слабые.",
+        "СИЛЬНЫЙ ГЛАГОЛ. das starke Verb (≈ unregelmäßig, неправильный): в Präteritum меняется корневая гласная – der Ablaut (чередование гласной), Partizip II: ge- … -en. gehen – ging – gegangen, sehen – sah – gesehen, fliegen – flog – geflogen. Их около 200, их учат наизусть – как английские irregular verbs (go – went – gone).",
+        "СМЕШАННЫЙ ГЛАГОЛ. das gemischte Verb: гласная меняется (как у сильного), но окончания -te и -t (как у слабого). bringen – brachte – gebracht, denken – dachte – gedacht, wissen – wusste – gewusst. Их всего около десяти.",
+        "СМЕНА ГЛАСНОЙ В НАСТОЯЩЕМ. der Vokalwechsel im Präsens: у многих сильных глаголов гласная меняется уже в du и er/sie/es: fahren → du fährst, er fährt; sehen → du siehst; geben → du gibst. В ich, wir, ihr, sie – без изменений.",
+        "ОТДЕЛЯЕМЫЕ ПРИСТАВКИ. das trennbare Verb: ударная приставка (an-, auf-, aus-, ein-, mit-, zu- …) в предложении уходит в конец: aufstehen → Ich stehe um 7 Uhr auf. Partizip II: auf-ge-standen (ge- внутри).",
+        "НЕОТДЕЛЯЕМЫЕ ПРИСТАВКИ. das untrennbare Verb: безударные приставки be-, ge-, er-, ver-, zer-, ent-, emp-, miss- никогда не отделяются и в Partizip II нет ge-: bezahlen – bezahlte – bezahlt, verkaufen – verkauft, beginnen – begonnen.",
+        "ВОЗВРАТНЫЕ. das reflexive Verb: глагол с sich (как русское -ся): sich waschen – ich wasche mich, du wäschst dich. Perfekt всегда с haben: Ich habe mich gewaschen."
+      ],
+      tabelle: {
+        kopf: ["die Art", "der Infinitiv", "das Präteritum", "das Partizip II", "Merkmal · признак"],
+        sprechen: false,
+        zeilen: [
+          ["schwach", "machen", "machte", "gemacht", "-te / ge-…-t, Stamm bleibt"],
+          ["stark", "gehen", "ging", "gegangen", "Ablaut / ge-…-en"],
+          ["stark + Vokalwechsel", "fahren (du fährst)", "fuhr", "gefahren", "a → ä im Präsens"],
+          ["gemischt", "bringen", "brachte", "gebracht", "Ablaut + -te / -t"],
+          ["trennbar", "aufstehen", "stand … auf", "aufgestanden", "Vorsilbe ans Satzende"],
+          ["untrennbar", "bezahlen", "bezahlte", "bezahlt", "kein ge-"],
+          ["reflexiv", "sich waschen", "wusch sich", "hat sich gewaschen", "mit sich"]
+        ]
+      },
+      beispiele: [
+        { de: "Ich machte die Hausaufgaben.", en: "I did the homework.", ru: "Я делал домашнее задание.", hinweis: "schwach: machen – machte – gemacht" },
+        { de: "Die Sonne schien den ganzen Tag.", en: "The sun shone all day.", ru: "Солнце светило весь день.", hinweis: "stark: scheinen – schien – geschienen" },
+        { de: "Er brachte mir einen Brief.", en: "He brought me a letter.", ru: "Он принёс мне письмо.", hinweis: "gemischt: bringen – brachte – gebracht" },
+        { de: "Wir haben die Rechnung bezahlt.", en: "We have paid the bill.", ru: "Мы оплатили счёт.", hinweis: "untrennbar: be- → kein ge-" }
+      ],
+      merke: "schwach: -te / -t · stark: neuer Vokal + -en · gemischt: neuer Vokal + -te / -t · be-, ver-, er- … → kein ge-"
+    },
+    {
       // 2026-11-18: mit Claude – Artikel-Finder im Satzlabor
       id: "de-artikel-finden",
       thema: "artikel",
