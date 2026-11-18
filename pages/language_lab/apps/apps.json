@@ -16,14 +16,6 @@
     "icon": "/core/assets/favicon.ico"
   },
   {
-    "id": "analyse_zaz",
-    "title": "ZAZ-Analyse (alt, Sprachführer-Sätze)",
-    "category": "language",
-    "description": "Ältere Analyse: Sätze aus dem Sprachführer laden. Für eigene Sätze besser das Satzlabor.",
-    "href": "/pages/language_lab/apps/analyse_zaz/",
-    "icon": "/core/assets/favicon.ico"
-  },
-  {
     "id": "mathe_hub",
     "title": "Mathe-Hub",
     "category": "mathe",
