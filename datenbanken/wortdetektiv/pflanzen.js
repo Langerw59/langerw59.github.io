@@ -16,10 +16,10 @@
 // Neue Pflanzen einfach unten anhängen.
 // ============================================================
 window.WORTDETEKTIV_PFLANZENGRUPPEN = [
-  { id: "baum",    icon: "🌳", de: "Bäume",                 ru: "деревья" },
-  { id: "beere",   icon: "🫐", de: "Beeren & Sträucher",     ru: "ягоды и кустарники" },
-  { id: "obst",    icon: "🍎", de: "Obst & Nüsse",           ru: "фрукты и орехи" },
-  { id: "gemuese", icon: "🥕", de: "Gemüse & Kräuter",       ru: "овощи и травы" }
+  { id: "baum",    icon: "🌳", de: "die Bäume",                 ru: "деревья" },
+  { id: "beere",   icon: "🫐", de: "die Beeren und die Sträucher",     ru: "ягоды и кустарники" },
+  { id: "obst",    icon: "🍎", de: "das Obst und die Nüsse",           ru: "фрукты и орехи" },
+  { id: "gemuese", icon: "🥕", de: "das Gemüse und die Kräuter",       ru: "овощи и травы" }
 ];
 
 window.WORTDETEKTIV_PFLANZEN = [

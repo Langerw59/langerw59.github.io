@@ -95,6 +95,12 @@
   .ton{color:var(--acc);font-style:italic;cursor:pointer;border-bottom:1px dashed currentColor}
   .ton::after{content:" 🔊";font-size:.7em;font-style:normal;opacity:.75}
   .ton:hover{background:#efeaf8;border-radius:3px}
+  /* 2026-11-17: Auswahlliste der Gruppen / выпадающий список групп */
+  .auswahl{margin:4px 0 14px}
+  .auswahl label{display:block;font-size:14px;color:var(--muted);margin-bottom:4px}
+  .auswahl select{font:inherit;font-size:17px;padding:9px 12px;border-radius:10px;border:2px solid var(--acc);background:#fff;color:var(--ink);width:100%;max-width:520px;cursor:pointer}
+  .unterkopf{margin:14px 0 8px;font-size:17px;color:var(--acc)}
+  .unterkopf .ru{font-size:14px;font-weight:400}
   .wegname{background:rgba(255,255,255,.85);border:0;box-shadow:none;color:#b33a3a;font-weight:700;font-size:12px;padding:0 4px}
 </style>
   <script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
@@ -117,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const HER = { germ: "germanisch", lat: "Latein", frz: "Französisch", griech: "Griechisch", nord: "Altnordisch", orient: "Orient / Asien", amerika: "Amerika (Azteken, Inka …)" };
   const HER_FARBE = { germ: "#1a7f37", lat: "#8250df", frz: "#0969da", griech: "#bf3989", nord: "#9a6700", orient: "#bc4c00", amerika: "#c2410c" };
   const THEMEN = window.WORTDETEKTIV_THEMEN || [];
-  let filterThema = "", filterHer = "";
+  let filterThema = "", filterHer = "", filterUnter = "";  // 2026-11-17: filterHer wird nicht mehr angezeigt (versteckt)
   const TIERE = window.WORTDETEKTIV_TIERE || [];
   const TGR = window.WORTDETEKTIV_TIERGRUPPEN || [];
   let tierGruppe = "", tierVerdeckt = "";
@@ -135,6 +141,38 @@ document.addEventListener("DOMContentLoaded", function () {
       zweit: "it", bilder: true, laden: true }
   };
   const WERK = LEXIKA.werkstatt.daten;
+
+  // ---- 2026-11-17: die Auswahlliste (Dropdown) – alle Gruppen an einer Stelle ----
+  // Werte: ""            → alle Gruppen
+  //        "t:pflanzen"  → große Gruppe
+  //        "u:toponymie:staedte" → Untergruppe der Geschichten
+  //        "g:tiere:vogel"       → Untergruppe eines Lexikons
+  function auswahlHtml(wert) {
+    const opt = (v, txt) => `<option value="${v}"${v === wert ? " selected" : ""}>${esc(txt)}</option>`;
+    const ein = "\u00a0\u00a0\u00a0\u00a0\u00a0";
+    const alle = G.length + Object.values(LEXIKA).reduce((n, l) => n + l.daten.length, 0);
+    let o = opt("", `📜 alle Gruppen / все группы (${alle})`);
+    THEMEN.forEach((t) => {
+      const lex = LEXIKA[t.id];
+      const n = G.filter((g) => g.thema === t.id).length + (lex ? lex.daten.length : 0);
+      o += opt("t:" + t.id, `${t.icon} ${t.de} (${n})`);
+      (t.unter || []).forEach((u) => { o += opt(`u:${t.id}:${u.id}`, `${ein}${u.icon} ${u.de} (${G.filter((g) => g.thema === t.id && g.gruppe === u.id).length})`); });
+      if (lex) lex.gruppen.forEach((gr) => { o += opt(`g:${t.id}:${gr.id}`, `${ein}${gr.icon} ${gr.de} (${lex.daten.filter((x) => x.gr === gr.id).length})`); });
+    });
+    return `<div class="auswahl"><label for="gruppe">Gruppe wählen / выбрать группу:</label><select id="gruppe">${o}</select></div>`;
+  }
+  function geh(h) { if (decodeURIComponent(location.hash.slice(1)) === h) route(); else location.hash = h; }
+  function waehle(v) {
+    const [k, a, b] = v.split(":");
+    filterThema = ""; filterUnter = "";
+    if ((k === "t" || k === "g") && LEXIKA[a]) { aktLex = a; tierGruppe = k === "g" ? b : ""; geh(a); return; }
+    filterThema = a || ""; filterUnter = k === "u" ? b : "";
+    geh("");
+  }
+  function bindAuswahl() {
+    const sel = app.querySelector("#gruppe");
+    if (sel) sel.addEventListener("change", () => waehle(sel.value));
+  }
 
   // ---- Sprachausgabe: Wort in seiner Sprache (Latein → italienische Stimme) ----
   const SPR = { de: "de-DE", en: "en-GB", fr: "fr-FR", it: "it-IT", es: "es-ES", la: "it-IT", ru: "ru-RU", nl: "nl-NL", el: "el-GR" };
@@ -201,40 +239,33 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function liste() {
-    const hers = [...new Set(G.map((g) => g.h).filter(Boolean))];
-    const passt = (g) => (!filterThema || g.thema === filterThema) && (!filterHer || g.h === filterHer);
+    const karten = (l) => `<div class="karten">${l.map(karteHtml).join("")}</div>`;
+    const leer = `<p class="leer">Hier noch keine Fälle. Nenne Claude ein Wort – es kommt hierher. / Здесь пока нет дел. Назовите слово – оно появится здесь.</p>`;
     let inhalt = "";
     THEMEN.filter((t) => !filterThema || t.id === filterThema).forEach((t) => {
-      const faelle = G.filter((g) => g.thema === t.id && passt(g));
-      if (!faelle.length && (filterHer || !filterThema)) { if (!filterThema) return; }
+      const lex = LEXIKA[t.id];
+      const faelle = G.filter((g) => g.thema === t.id);
       inhalt += `<h3 class="themakopf">${t.icon} ${esc(t.de)} <span class="ru" style="font-size:15px;font-weight:400">/ ${esc(t.ru)}</span></h3>`;
-      if (t.id === "tiere" && TIERE.length) inhalt += `<a class="tierlink" href="#tiere"><b>🐾 Tier-Lexikon – ${TIERE.length} Tiere</b><br><span class="ru">Словарь животных: по-немецки с артиклем, на латыни, по-русски и по-английски – с историей слова и режимом заучивания.</span></a>`;
-      if (t.id === "pflanzen" && PFL.length) inhalt += `<a class="tierlink" href="#pflanzen"><b>🌳 Pflanzen-Lexikon – ${PFL.length} Pflanzen</b><br><span class="ru">Словарь растений: деревья, ягоды, фрукты, овощи – по-немецки с артиклем, на латыни, по-русски и по-английски, с историей слова и режимом заучивания.</span></a>`;
-      if (t.id === "werkstatt" && WERK.length) inhalt += `<a class="tierlink" href="#werkstatt"><b>🧰 Werkstatt-Lexikon – ${WERK.length} Wörter</b><br><span class="ru">Словарь мастерской: инструменты, электрика, крепёж, стройматериалы – по-немецки с артиклем, по-итальянски, по-русски и по-английски, с картинками, историей слова и режимом заучивания.</span></a>`;
-      if (t.id === "tiere" && !faelle.length && TIERE.length) return;
-      if (t.id === "werkstatt" && !faelle.length && WERK.length) return;
-      inhalt += faelle.length ? `<div class="karten">${faelle.map(karteHtml).join("")}</div>`
-        : `<p class="leer">Hier noch keine Fälle. Nenne Claude ein Wort – es kommt hierher. / Здесь пока нет дел. Назовите слово – оно появится здесь.</p>`;
+      if (lex && lex.daten.length) inhalt += `<a class="tierlink" href="#${t.id}"><b>${lex.icon} ${esc(lex.titel)} – ${lex.daten.length} ${esc(lex.wort)}</b><br><span class="ru">${lex.lead}</span></a>`;
+      if (t.unter) {
+        const ohne = faelle.filter((g) => !g.gruppe);
+        if (ohne.length && !filterUnter) inhalt += karten(ohne);
+        t.unter.filter((u) => !filterUnter || u.id === filterUnter).forEach((u) => {
+          const l = faelle.filter((g) => g.gruppe === u.id);
+          inhalt += `<h4 class="unterkopf">${u.icon} ${esc(u.de)} <span class="ru">/ ${esc(u.ru)}</span></h4>${l.length ? karten(l) : leer}`;
+        });
+      } else if (faelle.length) inhalt += karten(faelle);
+      else if (!lex) inhalt += leer;
     });
-    const ohne = G.filter((g) => !THEMEN.some((t) => t.id === g.thema) && passt(g) && !filterThema);
-    if (ohne.length) inhalt += `<h3 class="themakopf">📁 Sonstiges / разное</h3><div class="karten">${ohne.map(karteHtml).join("")}</div>`;
-    if (!inhalt) inhalt = `<p class="leer">Nichts gefunden. / Ничего не найдено.</p>`;
+    const ohne = G.filter((g) => !THEMEN.some((t) => t.id === g.thema));
+    if (ohne.length && !filterThema) inhalt += `<h3 class="themakopf">📁 Sonstiges / разное</h3>${karten(ohne)}`;
+    const wert = filterUnter ? `u:${filterThema}:${filterUnter}` : filterThema ? `t:${filterThema}` : "";
     app.innerHTML = `
       <h1>📜 Die Etymologie – Wortgeschichte</h1>
       <p class="lead"><span class="ru">Этимология (греч. étymon «истинное значение» + lógos «учение») – история слов: откуда пришло слово, кто его принёс, где это на карте.</span></p>
-      <div class="filter" id="themen">
-        <button type="button" data-t="" class="${filterThema ? "" : "an"}">Alle / все <span class="n">(${G.length})</span></button>
-        ${THEMEN.map((t) => `<button type="button" data-t="${t.id}" class="${filterThema === t.id ? "an" : ""}">${t.icon} ${esc(t.de)} <span class="n">(${G.filter((g) => g.thema === t.id).length})</span></button>`).join("")}
-      </div>
-      <div class="filter">
-        <select id="selHer"><option value="">Herkunft: alle / происхождение: все</option>${hers.map((h) => `<option value="${h}" ${filterHer === h ? "selected" : ""}>${esc(HER[h] || h)}</option>`).join("")}</select>
-      </div>
+      ${auswahlHtml(wert)}
       ${inhalt}`;
-    app.querySelector("#themen").addEventListener("click", (ev) => {
-      const b = ev.target.closest("button[data-t]"); if (!b) return;
-      filterThema = b.dataset.t; liste();
-    });
-    app.querySelector("#selHer").addEventListener("change", (ev) => { filterHer = ev.target.value; liste(); });
+    bindAuswahl();
     document.title = "Die Etymologie – Wortgeschichte";
   }
 
@@ -330,19 +361,19 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!l.length) return;
       inhalt += `<h3 class="themakopf">${g.icon} ${esc(g.de)} <span class="ru" style="font-size:15px;font-weight:400">/ ${esc(g.ru)}</span></h3><div class="tiere">${l.map(karte1).join("")}</div>`;
     });
+    // 2026-11-17: Geschichten (Fälle) dieser Gruppe oben zeigen, z. B. die Tomate bei den Pflanzen
+    const gesch = G.filter((g) => g.thema === art);
+    const geschHtml = !tierGruppe && gesch.length ? `<h3 class="themakopf">📜 Geschichten / истории</h3><div class="karten">${gesch.map(karteHtml).join("")}</div>` : "";
     app.innerHTML = `
       <a class="zur" href="#">← alle Fälle / все дела</a>
       <h1>${L.icon} ${L.titel}</h1>
       <p class="lead"><span class="ru">${L.lead}<br>Для заучивания: выберите «… verdecken» – название спрячется, вспомните его и нажмите, чтобы проверить.</span></p>
-      <div class="filter" id="tgr">
-        <button type="button" data-g="" class="${tierGruppe ? "" : "an"}">Alle / все <span class="n">(${DATEN.length})</span></button>
-        ${GRUPPEN.map((g) => `<button type="button" data-g="${g.id}" class="${tierGruppe === g.id ? "an" : ""}">${g.icon} ${esc(g.de)} <span class="n">(${DATEN.filter((x) => x.gr === g.id).length})</span></button>`).join("")}
-      </div>
+      ${auswahlHtml(tierGruppe ? `g:${art}:${tierGruppe}` : `t:${art}`)}
       <div class="filter" id="tverd">
         ${VERD.map(([k, n]) => `<button type="button" data-v="${k}" class="${tierVerdeckt === k ? "an" : ""}">${n}</button>`).join("")}
       </div>
-      ${inhalt}`;
-    app.querySelector("#tgr").addEventListener("click", (ev) => { const b = ev.target.closest("button[data-g]"); if (b) { tierGruppe = b.dataset.g; tierLexikon(art); } });
+      ${geschHtml}${inhalt}`;
+    bindAuswahl();
     app.querySelector("#tverd").addEventListener("click", (ev) => { const b = ev.target.closest("button[data-v]"); if (b) { tierVerdeckt = b.dataset.v; tierLexikon(art); } });
     app.querySelectorAll(".sag").forEach((b) => b.addEventListener("click", (ev) => { ev.stopPropagation(); sprich(b.dataset.txt, b.dataset.l); }));
     app.querySelectorAll(".versteckt").forEach((f) => f.addEventListener("click", () => f.classList.remove("versteckt")));

@@ -20,12 +20,21 @@
 // Neue Geschichten einfach unten anhängen.
 // ============================================================
 // Themen / темы – Reihenfolge = Reihenfolge auf der Seite
+// 2026-11-17: neu geordnet nach großen Gruppen (Auswahlliste oben auf der Seite).
+//   unter – Untergruppen; eine Geschichte gehört mit „gruppe: …“ dazu.
+//   Tiere / Pflanzen / Werkstatt haben ihre Untergruppen in tiere.js, pflanzen.js, werkstatt.js.
 window.WORTDETEKTIV_THEMEN = [
-  { id: "voelker",  icon: "🌍", de: "Völker & Länder",              ru: "народы и страны" },
-  { id: "tiere",    icon: "🐾", de: "Tiere · Vögel · Fische",        ru: "звери, птицы, рыбы" },
-  { id: "pflanzen", icon: "🍅", de: "Pflanzen & Essen",             ru: "растения и еда" },
-  { id: "werkstatt", icon: "🧰", de: "Werkstatt & Bau",             ru: "мастерская и стройка" },  // 2026-11-05
-  { id: "woerter",  icon: "🔤", de: "Wörter über Wörter",           ru: "слова о словах" }
+  { id: "pflanzen",  icon: "🌿", de: "die Pflanzen",                  ru: "растения: деревья, ягоды, фрукты, овощи" },
+  { id: "tiere",     icon: "🐾", de: "die Tiere",                     ru: "животный мир: звери, птицы, рыбы" },
+  { id: "toponymie", icon: "🗺️", de: "die Toponymie – die Ortsnamen", ru: "топонимика: города, страны, реки",
+    unter: [
+      { id: "staedte", icon: "🏘️", de: "die Städte und die Dörfer",          ru: "города и сёла" },
+      { id: "laender", icon: "🌍", de: "die Länder und die Landschaften",    ru: "страны и края" },
+      { id: "fluesse", icon: "🌊", de: "die Flüsse, die Seen und die Berge", ru: "реки, озёра и горы" }
+    ] },
+  { id: "werkstatt", icon: "🧰", de: "das Werkzeug und der Bau",      ru: "мастерская и стройка" },
+  { id: "woerter",   icon: "🔤", de: "die Wörter über Wörter",        ru: "слова о словах: язык и наука о языке" }
+  // versteckt (nicht gelöscht): { id: "voelker", icon: "🌍", de: "Völker & Länder", ru: "народы и страны" }
 ];
 
 window.WORTDETEKTIV = [
@@ -36,7 +45,8 @@ window.WORTDETEKTIV = [
   ru: "Как англы из Шлезвиг-Гольштейна дали имя Англии",
   wort: "English / England",
   h: "germ",
-  thema: "voelker",
+  thema: "toponymie",
+  gruppe: "laender",
   kurz: "Англичане – не «дети» немцев, а двоюродные братья: у них общие германские предки.",
   text: [
     "Около **410 года** римляне ушли из [[lex:britannia|Британии]]. Вскоре через [[lex:nordsee|Северное море]] туда начали переселяться германские племена. По преданию, которое записал монах **[[lex:beda|Беда Достопочтенный]]** (Beda Venerabilis, 731 г.), первые пришли в **449 году**.",
@@ -404,6 +414,129 @@ window.WORTDETEKTIV = [
   raetsel: { frage: "Внук говорит: «Бабушка, я завтра имею день рождения, мы поедем с автобусом в Krefeld». Какие две немецкие фразы «просвечивают» в этой речи? Как сказать по-русски?", antwort: "**Ich habe morgen Geburtstag** и **mit dem Bus fahren**. По-русски: «**У меня** завтра день рождения, мы поедем **на автобусе** в Krefeld»." }
 }
 
+,
+
+// 2026-11-17: Die Toponymie – die Lehre von den Ortsnamen (Gruppe „die Toponymie – die Ortsnamen“)
+{
+  id: "toponymie",
+  titel: "Die Toponymie – die Lehre von den Ortsnamen",
+  ru: "Топонимика – наука об именах мест: городов, стран, рек и гор",
+  wort: "die Toponymie / toponymy / топонимика",
+  h: "griech",
+  thema: "toponymie",
+  kurz: "Греческое tópos «место» + ónyma «имя»: наука о том, откуда у городов, стран, рек и гор их имена.",
+  text: [
+    "**die [[ton:de|Toponymie]]** (произносится «то-по-ню-МИ», ударение на последний слог) – от греческого **tópos** «место» (отсюда же **die Topografie**) и **ónyma** «имя» (как в **das Synonym** и **anonym**). По-немецки её ещё называют **die Ortsnamenkunde** – «наука об именах мест».",
+    "**Внимание, по-русски иначе:** наука называется **топонимика**, а **топонимия** – это сами названия какой-то местности, их совокупность. В немецком **die Toponymie** (или **die Toponomastik**) – и то, и другое.",
+    "Имена мест – самые старые слова языка. Город могли перестроить, народ мог смениться, а имя остаётся. Поэтому в названиях сохраняются языки, на которых здесь давно никто не говорит: латынь римлян, кельтский, древнесаксонский, славянский.",
+    "Два примера от римлян: **[[ort:koeln|Köln]]** ← латинское **Colonia** – «колония», поселение римских граждан (отсюда же **die Kolonie**). **[[ort:koblenz|Koblenz]]** ← латинское **Confluentes** – «сливающиеся»: здесь Mosel впадает в Rhein, у **das Deutsche Eck**.",
+    "Окончания немецких названий – как подсказки сыщику: **-burg** (die Burg – крепость: Hamburg, Magdeburg), **-furt** (die Furt – брод: [[ort:frankfurt|Frankfurt]], Erfurt), **-dorf** (das Dorf – деревня: Düsseldorf), **-heim** (das Heim – дом, поселение: Mannheim), **-feld** (das Feld – поле), **-bach** (der Bach – ручей), **-berg** (der Berg – гора).",
+    "На востоке Германии много славянских имён – там когда-то жили славяне: окончания **-itz** и **-ow**, например [[ort:chemnitz|Chemnitz]] или Pankow в Берлине.",
+    "У науки есть разделы: имена рек и озёр – **die Hydronymie** (греч. hýdor «вода»), имена гор – **die Oronymie** (греч. óros «гора»). Названия рек обычно самые древние – часто старше всех народов, которые потом жили на их берегах."
+  ],
+  spuren: [
+    ["die Topografie", "tópos «место» + gráphein «писать»: описание местности."],
+    ["das Synonym · anonym", "ónyma «имя»: syn- «вместе» → другое слово с тем же значением; an- «без» → без имени."],
+    ["die Utopie", "u- «не» + tópos: «место, которого нет». Так назвал свою книгу Томас Мор (1516)."],
+    ["Frankfurt", "die Furt der Franken – «брод франков» через Main."]
+  ],
+  orte: {
+    koeln:     { name: "Köln", lat: 50.9413, lng: 6.9583, info: "Лат. Colonia – римская колония на Rhein.", wiki: "Köln", wikiRu: "Кёльн" },
+    koblenz:   { name: "Koblenz – das Deutsche Eck", lat: 50.3644, lng: 7.6066, info: "Лат. Confluentes – «сливающиеся»: Mosel впадает в Rhein.", wiki: "Koblenz", wikiRu: "Кобленц" },
+    frankfurt: { name: "Frankfurt am Main", lat: 50.1109, lng: 8.6821, info: "die Furt der Franken – брод франков через Main.", wiki: "Frankfurt am Main", wikiRu: "Франкфурт-на-Майне" },
+    chemnitz:  { name: "Chemnitz", lat: 50.8278, lng: 12.9214, info: "Славянское имя (по реке Chemnitz) – окончание -itz.", wiki: "Chemnitz", wikiRu: "Хемниц" }
+  },
+  wege: [],
+  links: [
+    { t: "Toponymie – Wikipedia", url: "https://de.wikipedia.org/w/index.php?search=Toponymie&go=Go", art: "lexikon", sp: "DE", info: "Что такое Toponymie / Ortsnamenkunde." },
+    { t: "Топонимика – Википедия", url: "https://ru.wikipedia.org/wiki/Топонимика", art: "lexikon", sp: "RU", info: "То же по-русски." },
+    { t: "„Toponymie“ im DWDS", url: "https://www.dwds.de/wb/Toponymie", art: "woerterbuch", sp: "DE", info: "Немецкий словарь." },
+    { t: "Videos: Woher kommen Ortsnamen?", url: "https://www.youtube.com/results?search_query=Woher+kommen+Ortsnamen+Bedeutung", art: "video", sp: "DE", info: "Поиск видео на YouTube." }
+  ],
+  raetsel: { frage: "Что значит название **Frankfurt**? Подсказка: die Furt.", antwort: "**die Furt der Franken** – «брод франков»: место, где франки переходили реку Main вброд." }
+}
+,
+
+// 2026-11-17: Hannover – am hohen Ufer der Leine
+{
+  id: "hannover",
+  titel: "Hannover – die Siedlung am hohen Ufer",
+  ru: "Ганновер – поселение «на высоком берегу» реки Leine",
+  wort: "Hannover / Hanover / Ганновер",
+  h: "germ",
+  thema: "toponymie",
+  gruppe: "staedte",
+  kurz: "Старое имя Honovere обычно толкуют как «hohes Ufer» – высокий, сухой берег реки Leine. Толкование распространённое, но учёные о нём спорят.",
+  text: [
+    "Ганновер начинался в Средние века как маленькая деревня перевозчиков и рыбаков на восточном берегу реки [[ort:hohesufer|Leine]]. Место выбрали не случайно: высокая сухая терраса над рекой, которую не заливало при паводке.",
+    "Около **1150 года** в латинском тексте упоминается **vicus Honovere** – «поселение Honovere». На средненижненемецком **hō, hōch** – «высокий», а **ōver** – «берег» (сравните нидерландское **oever** – берег). Получается **«am hohen Ufer»** – «на высоком берегу».",
+    "Учёные спорят, точно ли это так, поэтому правильнее говорить «вероятно». Но место в старом городе и сегодня называется **[[ort:hohesufer|Am Hohen Ufer]]** – там стоит Historisches Museum.",
+    "В **1241 году** герцог **Otto das Kind** (Оттон Дитя), внук Генриха Льва, дал Ганноверу городские права – **das Stadtrecht**.",
+    "Двойное **nn** – немецкое написание; по-английски традиционно пишут **Hanover**. С **1714 по 1837 год** курфюрсты, а потом короли Ганновера были одновременно королями Великобритании (**die Personalunion**): первым был **Georg I.**, уехавший в [[ort:london|London]]. Поэтому города с именем Hanover есть и в США, и в Канаде."
+  ],
+  spuren: [
+    ["das Ufer · oever", "Нижненемецкое ōver, нидерландское oever – «берег»: та же основа, что во второй части Honovere."],
+    ["hoch · hohe", "Средненижненем. hō / hōch – «высокий»: первая часть имени."],
+    ["Hanover (USA, Kanada)", "Названы в честь Ганноверской династии английских королей."]
+  ],
+  orte: {
+    hohesufer: { name: "Hannover – Am Hohen Ufer", lat: 52.3713, lng: 9.7322, info: "Высокий берег Leine – здесь возникло поселение Honovere.", wiki: "Hannover", wikiRu: "Ганновер" },
+    london:    { name: "London", lat: 51.5074, lng: -0.1278, info: "1714: курфюрст Ганновера стал королём Великобритании – Georg I.", wiki: "Personalunion zwischen Großbritannien und Hannover", wikiRu: "Ганноверская династия" }
+  },
+  wege: [
+    ["hohesufer", "london", "1714 Georg I."]
+  ],
+  links: [
+    { t: "Hannover – Wikipedia", url: "https://de.wikipedia.org/wiki/Hannover", art: "lexikon", sp: "DE", info: "Город, история, имя Honovere." },
+    { t: "Ганновер – Википедия", url: "https://ru.wikipedia.org/wiki/Ганновер", art: "lexikon", sp: "RU", info: "То же по-русски." },
+    { t: "Am Hohen Ufer – Wikipedia", url: "https://de.wikipedia.org/w/index.php?search=Hohes+Ufer+Hannover&go=Go", art: "lexikon", sp: "DE", info: "Место, где начинался город." },
+    { t: "Videos: Geschichte Hannovers", url: "https://www.youtube.com/results?search_query=Geschichte+Hannover+Doku", art: "video", sp: "DE", info: "Поиск видео на YouTube." }
+  ],
+  raetsel: { frage: "Почему первые жители поселились именно на высоком берегу?", antwort: "Leine часто разливалась. На высокой сухой террасе дома не заливало, а рядом было удобно переправляться через реку – здесь жили перевозчики и рыбаки." }
+}
+,
+
+// 2026-11-17: Die Leine – der Fluss, der kein Seil ist
+{
+  id: "leine",
+  titel: "Die Leine – ein Fluss, der kein Seil ist",
+  ru: "Лайне – река, которая не «верёвка»",
+  wort: "die Leine (Fluss) / die Leine (Seil)",
+  h: "unklar",
+  thema: "toponymie",
+  gruppe: "fluesse",
+  kurz: "Река Leine звучит как die Leine «верёвка, поводок» – но это совпадение. Древнесаксонское имя реки – Lagina.",
+  text: [
+    "**die Leine** – река в Тюрингии и Нижней Саксонии, длиной около **281 км**. Она начинается в городе [[ort:leinefelde|Leinefelde]] (край Eichsfeld), течёт через [[ort:goettingen|Göttingen]] и [[ort:hannover_l|Hannover]] и впадает слева в [[ort:aller|Aller]], а Aller – в Weser.",
+    "Обычное слово **die Leine** – «верёвка, шнур, поводок» (**die Hundeleine**, **die Wäscheleine**) – идёт от древневерхненемецкого **līna** и родственно слову **das Leinen** – «лён, льняное полотно»: верёвки делали из льна. Английское **line** и латинское **linum** «лён» – той же семьи.",
+    "А у реки имя совсем другое: по-древнесаксонски она называлась **Lagina** (или **Legina**). Со временем оно стянулось в **Leine** – и случайно совпало со словом «верёвка». Это **ложный родственник**, как try и Trier.",
+    "Что значит **Lagina** – надёжно не известно. Названия рек – самые древние имена в языке, нередко старше германских племён. Есть разные гипотезы, но доказанного толкования нет.",
+    "Город **Leinefelde** назван по реке: в нём **das Feld** – «поле» у Leine. А в Ганновере Leine течёт мимо места **Am Hohen Ufer**, где начинался город (смотри дело «Hannover»)."
+  ],
+  spuren: [
+    ["die Leine (Seil)", "Древневерхненем. līna ← das Leinen «лён»: верёвки из льна. Англ. line, лат. linum. С рекой не родня!"],
+    ["das Linoleum", "Лат. linum «лён» + oleum «масло»: первый линолеум делали из льняного масла."],
+    ["Lagina → Leine", "Древнесаксонская форма имени реки."]
+  ],
+  orte: {
+    leinefelde: { name: "Leinefelde (Quelle)", lat: 51.3889, lng: 10.3256, info: "Здесь начинается Leine. Город назван по реке.", wiki: "Leinefelde", wikiRu: "Лайнефельде" },
+    goettingen: { name: "Göttingen", lat: 51.5413, lng: 9.9158, info: "Университетский город на Leine.", wiki: "Göttingen", wikiRu: "Гёттинген" },
+    hannover_l: { name: "Hannover", lat: 52.3713, lng: 9.7322, info: "Am Hohen Ufer – высокий берег Leine.", wiki: "Hannover", wikiRu: "Ганновер" },
+    aller:      { name: "Mündung in die Aller", lat: 52.70, lng: 9.62, info: "Около Schwarmstedt Leine впадает в Aller, а та – в Weser.", wiki: "Aller (Fluss)", wikiRu: "Аллер" }
+  },
+  wege: [
+    ["leinefelde", "goettingen", "Leine"],
+    ["goettingen", "hannover_l", "Leine"],
+    ["hannover_l", "aller", "Leine"]
+  ],
+  links: [
+    { t: "Leine (Fluss) – Wikipedia", url: "https://de.wikipedia.org/w/index.php?search=Leine+Aller+Fluss&go=Go", art: "lexikon", sp: "DE", info: "Река, её путь и притоки." },
+    { t: "Лайне – Википедия", url: "https://ru.wikipedia.org/wiki/Лайне", art: "lexikon", sp: "RU", info: "То же по-русски." },
+    { t: "„Leine“ im DWDS", url: "https://www.dwds.de/wb/Leine", art: "woerterbuch", sp: "DE", info: "Слово die Leine «верёвка» и его история." },
+    { t: "Leine auf der Karte", url: "https://www.openstreetmap.org/search?query=Leine%20Fluss", art: "karte", sp: "DE", info: "Найти реку на карте OpenStreetMap." }
+  ],
+  raetsel: { frage: "Что общего у верёвки **die Leine** и **das Linoleum**?", antwort: "**Лён.** Верёвка die Leine – от das Leinen (лён), а Linoleum – от латинского linum «лён» + oleum «масло». А река Leine к ним не относится – её древнее имя Lagina." }
+}
 
 ];
 

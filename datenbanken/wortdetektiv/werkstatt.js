@@ -16,10 +16,10 @@
 // Neue Wörter einfach unten anhängen.
 // ============================================================
 window.WORTDETEKTIV_WERKSTATTGRUPPEN = [
-  { id: "hand",        icon: "🔨", de: "Handwerkzeug",          ru: "ручной инструмент" },
-  { id: "elektro",     icon: "🔌", de: "Elektro & Messen",      ru: "электрика и измерения" },
-  { id: "befestigung", icon: "🔩", de: "Schrauben & Co.",       ru: "крепёж" },
-  { id: "bau",         icon: "🧱", de: "Baustoffe",             ru: "стройматериалы" }
+  { id: "hand",        icon: "🔨", de: "das Handwerkzeug",          ru: "ручной инструмент" },
+  { id: "elektro",     icon: "🔌", de: "die Elektrik und das Messen",      ru: "электрика и измерения" },
+  { id: "befestigung", icon: "🔩", de: "die Schrauben, die Nägel und die Dübel",       ru: "крепёж" },
+  { id: "bau",         icon: "🧱", de: "die Baustoffe",             ru: "стройматериалы" }
 ];
 
 window.WORTDETEKTIV_WERKSTATT = [

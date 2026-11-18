@@ -17,10 +17,10 @@
 // Neue Tiere einfach unten anhängen.
 // ============================================================
 window.WORTDETEKTIV_TIERGRUPPEN = [
-  { id: "haus",  icon: "🏡", de: "Haus- und Nutztiere", ru: "домашние животные" },
-  { id: "wild",  icon: "🌲", de: "Wildtiere",           ru: "дикие звери" },
-  { id: "vogel", icon: "🐦", de: "Vögel",               ru: "птицы" },
-  { id: "fisch", icon: "🐟", de: "Fische",              ru: "рыбы" }
+  { id: "haus",  icon: "🏡", de: "die Haus- und Nutztiere", ru: "домашние животные" },
+  { id: "wild",  icon: "🌲", de: "die Wildtiere",           ru: "дикие звери" },
+  { id: "vogel", icon: "🐦", de: "die Vögel",               ru: "птицы" },
+  { id: "fisch", icon: "🐟", de: "die Fische",              ru: "рыбы" }
 ];
 
 window.WORTDETEKTIV_TIERE = [
