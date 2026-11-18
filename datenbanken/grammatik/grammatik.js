@@ -80,6 +80,50 @@ window.GRAMMATIK = {
       merke: "Bekommt das Wort vor einem Nomen eine Endung (das schnelle Auto)? → das Adjektiv. Nie eine Endung möglich (morgens, hier, gern)? → das Adverb."
     },
     {
+      // 2026-11-18: mit Claude – die Wortart und das Satzglied (zwei verschiedene Ebenen)
+      id: "de-wortart-satzglied",
+      thema: "grundbegriffe",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "die Wortart und das Satzglied – zwei verschiedene Dinge",
+      titel_ru: "часть речи и член предложения – это разные вещи",
+      formel: "die Wortart = WAS für ein Wort? (das Verb, das Adverb …) · das Satzglied = WELCHE ROLLE hat es im Satz? (das Subjekt, die Ortsangabe …) – man findet es mit der Frage (Wer? Wo? Wann? Wie?)",
+      definitionen: [
+        { wort: "die Wortart", de: "Die Wortart sagt, zu welcher Gruppe ein Wort gehört – unabhängig vom Satz. Sie steht im Wörterbuch.", ru: "Часть речи говорит, к какой группе относится слово само по себе, вне предложения. Она указана в словаре." },
+        { wort: "das Satzglied", de: "Das Satzglied sagt, welche Aufgabe ein Wort (oder eine Wortgruppe) in einem bestimmten Satz hat. Man erfragt es mit einer Frage.", ru: "Член предложения говорит, какую роль слово (или группа слов) играет в конкретном предложении. Его находят вопросом." }
+      ],
+      erklaerung: [
+        "ДВА УРОВНЯ. В школе это учат как две разные вещи: die Wortart (часть речи) – это «паспорт» слова, он всегда одинаковый. das Satzglied (член предложения) – это «должность» слова в данном предложении, она зависит от предложения. Сравнение: человек по профессии электрослесарь (Wortart), а на собрании он председатель (Satzglied).",
+        "ЧЛЕНЫ ПРЕДЛОЖЕНИЯ (die Satzglieder): das Subjekt – подлежащее (Wer? Was?), das Prädikat – сказуемое (Was tut …?), das Dativobjekt – дополнение в дательном (Wem?), das Akkusativobjekt – дополнение в винительном (Wen? Was?), die Adverbialbestimmung – обстоятельство: der Zeit (Wann? Wie oft?), des Ortes (Wo? Wohin? Woher?), der Art und Weise (Wie?).",
+        "ОДНА РОЛЬ – РАЗНЫЕ ЧАСТИ РЕЧИ. На вопрос Wo? (die Ortsangabe) могут ответить: das Adverb (hier, dort, irgendwo) или die Präposition + das Nomen (im Garten). На вопрос Wann?: das Adverb (morgens, heute) или die Präposition + das Nomen (am Montag). На вопрос Wie?: das Adverb (gern) или das Adjektiv без окончания (schnell, langsam – adverbial gebraucht).",
+        "ОДНА ЧАСТЬ РЕЧИ – РАЗНЫЕ РОЛИ. das Nomen „die Sonne“ может быть das Subjekt (Die Sonne scheint.) или das Akkusativobjekt (Ich sehe die Sonne.) или частью Ortsangabe (in der Sonne).",
+        "КАК ЭТО В SATZLABOR (Satz bauen). Поля там – это die Satzglieder (вопросы Wer? Wem? Wann? Wo? Wie?). Часть речи каждого слова показывает 🔎 der Wortart-Erkenner (вверху). Проверка «steht im Wörterbuch» проверяет ТОЛЬКО орфографию, а не то, в правильное ли поле вписано слово. Поэтому „irgendwo“ в поле Wann? получило ✓ – написано правильно, но по смыслу это Wo? (где-нибудь), значит поле Wo? / Ortsangabe. А в поле Nomen „Irgendwo“ не нашлось, потому что это не существительное.",
+        "ПРОВЕРКА ВОПРОСОМ. Чтобы найти поле, задай вопрос к слову в готовом предложении: Ich habe es irgendwo gefunden. – Wo habe ich es gefunden? – irgendwo → die Ortsangabe."
+      ],
+      tabelle: {
+        kopf: ["das Wort", "die Wortart · часть речи", "die Frage", "das Satzglied · член предложения"],
+        sprechen: 0,
+        sprache: "de",
+        zeilen: [
+          ["irgendwo", "das Adverb (Ort) · наречие места", "Wo?", "die Ortsangabe"],
+          ["im Garten", "die Präposition + das Nomen", "Wo?", "die Ortsangabe"],
+          ["morgens", "das Adverb (Zeit)", "Wann?", "die Zeitangabe"],
+          ["oft", "das Adverb (Zeit)", "Wie oft?", "die Zeitangabe"],
+          ["gern", "das Adverb", "Wie?", "die Art und Weise"],
+          ["schnell", "das Adjektiv (adverbial gebraucht)", "Wie?", "die Art und Weise"],
+          ["die Sonne", "der Artikel + das Nomen", "Wer? / Wen?", "das Subjekt oder das Akkusativobjekt"],
+          ["kümmert", "das Verb (finit)", "Was tut …?", "das Prädikat"]
+        ]
+      },
+      beispiele: [
+        { de: "Ich habe den Schlüssel irgendwo gefunden.", en: "I found the key somewhere.", ru: "Я где-то нашёл ключ.", hinweis: "irgendwo – das Adverb; Frage Wo? → die Ortsangabe" },
+        { de: "Morgens trinke ich gern Kaffee.", en: "In the morning I like to drink coffee.", ru: "По утрам я охотно пью кофе.", hinweis: "morgens → Wann? (die Zeitangabe); gern → Wie? (die Art und Weise)" },
+        { de: "Die Sonne scheint.", en: "The sun is shining.", ru: "Светит солнце.", hinweis: "die Sonne – das Nomen, hier das Subjekt (Wer? Was?)" },
+        { de: "Ich sehe die Sonne.", en: "I see the sun.", ru: "Я вижу солнце.", hinweis: "dasselbe Nomen – hier das Akkusativobjekt (Wen? Was?)" }
+      ],
+      merke: "Die Wortart steht im Wörterbuch (das Adverb). Das Satzglied findet man mit der Frage im Satz (Wo? → die Ortsangabe). „irgendwo“ = das Adverb und antwortet auf Wo?"
+    },
+    {
       // 2026-11-18: mit Claude – Einteilung der Verben (wie in der Datenbank)
       id: "de-verbarten",
       thema: "verb",
