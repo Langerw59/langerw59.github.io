@@ -725,7 +725,8 @@
     // Verb
     const sVerb = $("sgVerb");
     opt(sVerb, "", "— bitte wählen —");
-    arr(g("DE_VERBS_MAIN")).forEach((v, i) => opt(sVerb, String(i), verbInf(v)));
+    // 2026-11-18: alphabetisch (der Wert bleibt die Nummer in DE_VERBS_MAIN)
+    arr(g("DE_VERBS_MAIN")).map((v, i) => ({ v, i })).sort((a, b) => verbInf(a.v).localeCompare(verbInf(b.v), "de")).forEach(({ v, i }) => opt(sVerb, String(i), verbInf(v)));
 
     // Artikel + Adjektiv
     fillArtikel($("sgSubjArt"), true);

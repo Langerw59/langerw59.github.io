@@ -43,6 +43,9 @@
   .ew-wortart b{font-size:1.02rem}
   .ew-wortart a{margin-left:.35rem;text-decoration:none}
   .ew-wa{opacity:.75;font-size:.78rem}
+  .ew-tipps{display:flex;flex-wrap:wrap;gap:.3rem;margin:.3rem 0}
+  .ew-tipps[hidden]{display:none}
+  .ew-tipps button{border-color:#16a34a!important;background:rgba(22,163,74,.08)!important;font-size:.95rem!important}
   .ew-umzug{margin:.3rem 0;padding:.35rem .55rem;border-left:4px solid #d97706;border-radius:6px;background:rgba(245,158,11,.12)}
   `;
   function css() {
@@ -312,6 +315,8 @@
     const such = el("button", { type: "button" }, "🔍 prüfen");
     const ab = el("button", { type: "button", title: "abbrechen" }, "✖");
     zeile.append(inp, such, ab);
+    // 2026-11-18: Vorschläge beim Tippen (wie am Handy) aus der eigenen Liste des Feldes
+    const tipps = el("div", { class: "ew-tipps", hidden: "" });
     const wahlZeile = el("div", { class: "ew-zeile ew-wahl" });
     const wahlKn = {};
     let wahlKey = null;
@@ -330,7 +335,7 @@
     const trotzdem = el("button", { type: "button", hidden: "", title: "Nur wenn Sie sicher sind, dass das Wort richtig geschrieben ist" }, "trotzdem übernehmen (?)");
     knZeile.append(ok, trotzdem);
     const meine = el("div", { class: "ew-meine" });
-    b.append(titel, zeile, wahlZeile, erg, knZeile, meine);
+    b.append(titel, zeile, tipps, wahlZeile, erg, knZeile, meine);
     sel.insertAdjacentElement("afterend", b);
 
     let aktuell = null;
@@ -397,9 +402,46 @@
       }
       erg.appendChild(u);
     }
+    // alle Wörter, die schon im Auswahlfeld stehen: [{text, wort, value}]
+    const normal = (x) => String(x || "").toLowerCase().replace(/\s+/g, " ").trim();
+    function listeDesFeldes() {
+      return [...sel.options]
+        .filter((o) => o.value !== "" && o.dataset.ew !== "1" && !o.disabled && !/^[—✏️-]/.test(o.textContent.trim()))
+        .map((o) => {
+          const text = o.textContent.trim();
+          return { text, wort: normal(text.replace(/\s*\(.*\)\s*$/, "")), value: o.value };
+        });
+    }
+    function waehlen(t) {
+      tipps.hidden = true;
+      schliessen();
+      sel.value = t.value;
+      sel.dispatchEvent(new Event("change"));
+      vorher = sel.value;
+    }
+    function zeigeTipps() {
+      const q = normal(inp.value);
+      tipps.innerHTML = "";
+      if (q.length < 2) { tipps.hidden = true; return; }
+      const l = listeDesFeldes();
+      const anfang = l.filter((t) => t.wort.startsWith(q));
+      const drin = l.filter((t) => !t.wort.startsWith(q) && t.wort.includes(q));
+      const treffer = anfang.sort((a, b) => a.wort.localeCompare(b.wort, "de")).concat(drin).slice(0, 8);
+      if (!treffer.length) { tipps.hidden = true; return; }
+      tipps.appendChild(el("span", { class: "ew-klein" }, "schon in der Liste – antippen:"));
+      treffer.forEach((t) => {
+        const k = el("button", { type: "button", title: "auswählen" }, t.text);
+        k.addEventListener("click", () => waehlen(t));
+        tipps.appendChild(k);
+      });
+      tipps.hidden = false;
+    }
     async function suchen() {
       const wert = inp.value.trim().replace(/\s+/g, " ");
       if (!wert) { inp.focus(); return; }
+      const schon = listeDesFeldes().find((t) => t.wort === normal(wert));
+      if (schon) { waehlen(schon); return; }
+      tipps.hidden = true;
       erg.textContent = "⏳ prüfe …";
       aktuell = null;
       knoepfe();
@@ -446,6 +488,7 @@
       b.hidden = false;
       aktuell = null;
       inp.value = "";
+      tipps.hidden = true;
       inp.classList.remove("ew-falsch", "ew-richtig");
       erg.textContent = opts.hinweis || "";
       if (opts.wahl) setzeWahl(null);
@@ -462,7 +505,7 @@
       if (aktuell && aktuell.eintrag && aktuell.geprueft && inp.value.trim() === (aktuell.text || "")) uebernehmen(false);
       else suchen();
     });
-    inp.addEventListener("input", () => { inp.classList.remove("ew-falsch", "ew-richtig"); if (aktuell) { aktuell = null; knoepfe(); } });
+    inp.addEventListener("input", () => { inp.classList.remove("ew-falsch", "ew-richtig"); zeigeTipps(); if (aktuell) { aktuell = null; knoepfe(); } });
     ok.addEventListener("click", () => uebernehmen(false));
     trotzdem.addEventListener("click", () => uebernehmen(true));
     ab.addEventListener("click", () => {
