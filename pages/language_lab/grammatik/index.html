@@ -136,7 +136,7 @@
               if (sprichSpalte(i) && erst !== "—") {
                 const b = el("b", null, erst);
                 b.title = "anhören / послушать";
-                b.addEventListener("click", () => sprich(erst, r.sprache || "en", td));
+                b.addEventListener("click", () => sprich(erst, tab.sprache || r.sprache || "en", td));
                 td.appendChild(b);
               } else td.appendChild(document.createTextNode(erst));
               if (teile.length) td.appendChild(document.createTextNode(" · " + teile.join(" · ")));

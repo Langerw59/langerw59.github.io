@@ -326,6 +326,71 @@ window.GRAMMATIK = {
       merke: "? – всегда в вопросе · ! – в английском по желанию (срочно, эмоция), в немецком обычно после просьбы · запятая перед dass / weil – только в немецком"
     },
     {
+      id: "satzart-verneinung",
+      thema: "satz",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "die Satzart, die Verneinung und die Zeitform – die Tabelle nach Petrow (die Frage · die Behauptung · die Verneinung)",
+      titel_ru: "тип предложения, отрицание и время: таблица Петрова (вопрос · утверждение · отрицание)",
+      formel: "die Satzart = WAS für ein Satz (Aussage / Frage)  ·  die Verneinung = JA oder NEIN (bejaht / verneint)  ·  die Zeitform = WANN  →  drei getrennte Schalter",
+      erklaerung: [
+        "ТАБЛИЦА ПЕТРОВА (16 уроков). Столбцы (die Spalten): вопрос – утверждение – отрицание. Строки (die Zeilen): будущее – настоящее – прошедшее. Получается 3 × 3 = 9 клеток: Will I love? – I will love. – I will not love. Для начинающего это очень удобная схема, и она правильная. Но в ней смешаны ДВА разных грамматических признака, и поэтому в Satzlabor «Satzart» выглядит иначе.",
+        "ПРИЗНАК 1 – die Satzart (тип предложения): ЧТО это за предложение по цели. der Aussagesatz – повествовательное (сообщаю), der Fragesatz – вопросительное (спрашиваю: die Ja/Nein-Frage или die W-Frage), der Aufforderungssatz – побудительное (прошу, приказываю), der Ausrufesatz – восклицательное. Именно это и стоит в Satzlabor в строке «Satzart».",
+        "ПРИЗНАК 2 – die Verneinung (отрицание) и её противоположность die Bejahung (утверждение). Грамматический термин для этой пары – die Polarität: bejaht (утвердительное) или verneint (отрицательное). Это НЕ тип предложения, а отдельный переключатель «да / нет». Петровская «Behauptung» = bejahter Aussagesatz, «Verneinung» = verneinter Aussagesatz.",
+        "ДОКАЗАТЕЛЬСТВО, что это два разных признака: вопрос тоже может быть с отрицанием. Gehst du nicht nach Hause? – Ты не идёшь домой? Don't you go home? Значит, полная схема не 3, а 2 × 2: Aussage bejaht · Aussage verneint · Frage bejaht · Frage verneint. Петров для простоты взял три самых частых клетки.",
+        "ПРИЗНАК 3 – время. У Петрова строки – это die Zeitstufe (реальное время: die Vergangenheit, die Gegenwart, die Zukunft – их три). В Satzlabor строки – это die Zeitform (das Tempus, грамматическая форма). В немецком их шесть: das Präsens, das Präteritum, das Perfekt, das Plusquamperfekt, das Futur I, das Futur II. На одну Zeitstufe приходится несколько Zeitformen: прошедшее = Präteritum, Perfekt или Plusquamperfekt. Поэтому в Satzlabor 6 строк, а у Петрова 3.",
+        "ИТОГО: путаницы нет, если держать в голове три отдельных переключателя: (1) die Satzart – Aussage или Frage; (2) die Verneinung – bejaht или verneint (nicht / kein); (3) die Zeitform – когда. Таблица Петрова – это (1)+(2) по горизонтали и (3) по вертикали.",
+        "КАК ОТРИЦАЮТ. Английский: всегда через вспомогательный глагол (das Hilfsverb) + not: will not (won't), do not (don't), did not (didn't). Вопрос: тот же вспомогательный глагол вперёд: Will you …? Do you …? Did you …? Немецкий: вспомогательного do нет – вперёд встаёт само finite Verb (Gehst du …?), а для отрицания служат nicht (отрицает глагол или всё предложение) и kein (отрицает существительное с неопределённым артиклем или без артикля: Ich habe kein Auto). nicht стоит обычно ближе к концу, перед Ortsangabe и перед infinite Teile: Du gehst nicht nach Hause. Du bist nicht nach Hause gegangen."
+      ],
+      tabellen: [
+        {
+          titel: "1 · die Tabelle nach Petrow – English (go home)",
+          kopf: ["die Zeitstufe", "die Frage · вопрос", "die Behauptung · утверждение", "die Verneinung · отрицание"],
+          sprache: "en",
+          sprechen: [1, 2, 3],
+          zeilen: [
+            ["die Zukunft · будущее (Future Simple)", "Will you go home?", "You will go home.", "You will not (won't) go home."],
+            ["die Gegenwart · настоящее (Present Simple)", "Do you go home?", "You go home.", "You do not (don't) go home."],
+            ["die Vergangenheit · прошедшее (Past Simple)", "Did you go home?", "You went home.", "You did not (didn't) go home."]
+          ]
+        },
+        {
+          titel: "2 · dieselbe Tabelle auf Deutsch (nach Hause gehen)",
+          kopf: ["die Zeitstufe (die Zeitform)", "die Frage · вопрос", "die Behauptung · утверждение", "die Verneinung · отрицание"],
+          sprache: "de",
+          sprechen: [1, 2, 3],
+          zeilen: [
+            ["die Zukunft (das Futur I)", "Wirst du nach Hause gehen?", "Du wirst nach Hause gehen.", "Du wirst nicht nach Hause gehen."],
+            ["die Gegenwart (das Präsens)", "Gehst du nach Hause?", "Du gehst nach Hause.", "Du gehst nicht nach Hause."],
+            ["die Vergangenheit (das Perfekt)", "Bist du nach Hause gegangen?", "Du bist nach Hause gegangen.", "Du bist nicht nach Hause gegangen."]
+          ]
+        },
+        {
+          titel: "3 · die Fachbegriffe · термины (выучить!)",
+          kopf: ["der Begriff", "Русский", "Beispiel"],
+          sprache: "de",
+          sprechen: 0,
+          zeilen: [
+            ["die Satzart", "тип предложения (по цели)", "Aussagesatz / Fragesatz"],
+            ["der Aussagesatz", "повествовательное предложение", "Du gehst nach Hause."],
+            ["der Fragesatz", "вопросительное предложение", "Gehst du nach Hause?"],
+            ["die Behauptung / die Bejahung", "утверждение (bejaht)", "Du gehst."],
+            ["die Verneinung", "отрицание (verneint)", "Du gehst nicht."],
+            ["die Polarität", "полярность: да или нет", "bejaht ↔ verneint"],
+            ["die Zeitstufe", "реальное время (прошлое, настоящее, будущее)", "die Vergangenheit"],
+            ["die Zeitform (das Tempus)", "грамматическое время (6 форм в немецком)", "das Perfekt"],
+            ["die Spalte / die Zeile", "столбец / строка таблицы", "—"]
+          ]
+        }
+      ],
+      beispiele: [
+        { de: "Gehst du nicht nach Hause?", en: "Don't you go home?", ru: "Ты не идёшь домой?", hinweis: "der Fragesatz + die Verneinung – вопрос тоже бывает отрицательным" },
+        { de: "Ich habe kein Auto.", en: "I don't have a car.", ru: "У меня нет машины.", hinweis: "kein – отрицание существительного" },
+        { de: "Ich gehe heute nicht nach Hause.", en: "I'm not going home today.", ru: "Я сегодня не иду домой.", hinweis: "nicht – перед Ortsangabe" }
+      ],
+      merke: "Три переключателя: die Satzart (Aussage / Frage) – die Verneinung (bejaht / verneint) – die Zeitform (wann). Таблица Петрова = Satzart + Verneinung по горизонтали, Zeitstufe по вертикали."
+    },
+    {
       id: "gross-klein",
       thema: "satz",
       sprache: "de",
