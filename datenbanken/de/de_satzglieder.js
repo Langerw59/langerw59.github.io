@@ -22,6 +22,8 @@ const DE_SATZGLIEDER = {
   art:  { name: "Art und Weise", frage: "Wie?", ru: "обстоятельство образа действия", farbe: "#0f8a8a", kasus: "" },
   ort:  { name: "Ortsangabe", frage: "Wo? / Wohin? / Woher?", ru: "обстоятельство места", farbe: "#9a6700", kasus: "" },
   neg:  { name: "Negation", frage: "", ru: "отрицание", farbe: "#57606a", kasus: "" },
+  // 2026-11-18: nach sein / werden / bleiben (Er war Pilot.)
+  pkv:  { name: "Prädikativ", frage: "Was? / Wie? (nach sein)", ru: "именная часть сказуемого", farbe: "#bf3989", kasus: "Nominativ" },
 };
 
 // ------------------------------------------------------------
@@ -139,6 +141,9 @@ const DE_VERB_VALENZ = {
   liegen: { akk: false, dat: false, ort: "wo" },
   stehen: { akk: false, dat: false, ort: "wo" },
   leuchten: { akk: false, dat: false },
+  // 2026-11-18: Kopulaverben (das Kopulaverb) – statt Objekt das Prädikativ
+  sein: { akk: false, dat: false, pkv: true },
+  werden: { akk: false, dat: false, pkv: true },
 };
 
 // Bewegungsverben: Perfekt mit „sein“ – aber mit Akkusativobjekt „haben“
@@ -153,27 +158,32 @@ const DE_GRAMMATIK = (() => {
     nom: { m: "der", f: "die", n: "das", pl: "die" },
     akk: { m: "den", f: "die", n: "das", pl: "die" },
     dat: { m: "dem", f: "der", n: "dem", pl: "den" },
+    gen: { m: "des", f: "der", n: "des", pl: "der" }, // 2026-11-18: der Genitiv
   };
   const EIN_END = {
     nom: { m: "", f: "e", n: "", pl: "e" },
     akk: { m: "en", f: "e", n: "", pl: "e" },
     dat: { m: "em", f: "er", n: "em", pl: "en" },
+    gen: { m: "es", f: "er", n: "es", pl: "er" },
   };
   // Adjektiv-Endungen
   const ADJ_SCHWACH = { // nach der/die/das
     nom: { m: "e", f: "e", n: "e", pl: "en" },
     akk: { m: "en", f: "e", n: "e", pl: "en" },
     dat: { m: "en", f: "en", n: "en", pl: "en" },
+    gen: { m: "en", f: "en", n: "en", pl: "en" },
   };
   const ADJ_GEMISCHT = { // nach ein/kein/mein
     nom: { m: "er", f: "e", n: "es", pl: "en" },
     akk: { m: "en", f: "e", n: "es", pl: "en" },
     dat: { m: "en", f: "en", n: "en", pl: "en" },
+    gen: { m: "en", f: "en", n: "en", pl: "en" },
   };
   const ADJ_STARK = { // ohne Artikel
     nom: { m: "er", f: "e", n: "es", pl: "e" },
     akk: { m: "en", f: "e", n: "es", pl: "e" },
     dat: { m: "em", f: "er", n: "em", pl: "en" },
+    gen: { m: "en", f: "er", n: "en", pl: "er" },
   };
 
   // Artikelwort bilden. Rückgabe "" wenn kein Artikel.
@@ -206,7 +216,13 @@ const DE_GRAMMATIK = (() => {
   function nomenForm(nomen, kasus) {
     if (nomen.gender === "pl") return kasus === "dat" ? nomen.datPl || nomen.lemma : nomen.lemma;
     if (nomen.weak && kasus !== "nom") return nomen.weak;
+    // 2026-11-18: Genitiv – Maskulinum/Neutrum bekommen -s bzw. -es (des Vaters, des Hauses)
+    if (kasus === "gen" && (nomen.gender === "m" || nomen.gender === "n")) return genitivNomen(nomen.lemma);
     return nomen.lemma;
+  }
+  function genitivNomen(lemma) {
+    if (/(s|ß|x|z|sch)$/.test(lemma)) return lemma + "es"; // das Haus → des Hauses, der Fuß → des Fußes
+    return lemma + "s"; // der Vater → des Vaters, das Flugzeug → des Flugzeugs
   }
 
   // Ganze Nomengruppe: Artikel + Adjektiv + Nomen
@@ -215,7 +231,7 @@ const DE_GRAMMATIK = (() => {
     return teile.filter(Boolean).join(" ");
   }
 
-  return { artikel, adjektivForm, nomenForm, nomengruppe };
+  return { artikel, adjektivForm, nomenForm, nomengruppe, genitivNomen };
 })();
 
 if (typeof window !== "undefined") {

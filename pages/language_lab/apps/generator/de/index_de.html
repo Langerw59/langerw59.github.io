@@ -78,6 +78,7 @@
       .sg-box select { width: 100%; margin-top: 4px; }
       .sg-box.sg-grau { --c: #8c959f; }
       .sg-box.sg-off { opacity: .45; }
+      .sg-box[hidden] { display: none; }
       .sg-head { font-size: .95rem; }
       .sg-head small, .form-row label small { color: #6e7781; font-weight: normal; }
       .sg-zeile { display: flex; gap: 6px; align-items: center; }
@@ -324,6 +325,16 @@
               </div>
             </div>
 
+            <!-- 2026-11-18: Prädikativ – nur bei sein / werden / bleiben -->
+            <div class="sg-box" id="sgPkvBox" style="--c:#bf3989" hidden>
+              <div class="sg-head"><b>Was ist / war …?</b> – Prädikativ <small>именная часть сказуемого (кем? каким?) · Nominativ · nach sein, werden, bleiben</small></div>
+              <div class="sg-zeile">
+                <select id="sgPkvArt" title="Artikel (beim Beruf meist ohne)"></select>
+                <select id="sgPkvAdj" title="Adjektiv"></select>
+              </div>
+              <select id="sgPkvNomen"></select>
+            </div>
+
             <!-- Dativobjekt -->
             <div class="sg-box" id="sgDatBox" style="--c:#1a7f37">
               <div class="sg-head"><b>Wem?</b> – Dativobjekt <small>кому? · Dativ</small> <span class="sg-tag" id="sgDatTag"></span></div>
@@ -342,6 +353,20 @@
                 <select id="sgAkkAdj" title="Adjektiv"></select>
               </div>
               <select id="sgAkkNomen"></select>
+            </div>
+
+            <!-- 2026-11-18: Genitivattribut – Wessen? -->
+            <div class="sg-box" id="sgGenBox" style="--c:#bf3989">
+              <div class="sg-head"><b>+ Wessen?</b> – Genitivattribut <small>чей? чего? · Genitiv (des / eines … + -s) · kein eigenes Satzglied</small></div>
+              <div class="sg-zeile">
+                <label for="sgGenZu" class="sg-mini">gehört zu:</label>
+                <select id="sgGenZu"></select>
+              </div>
+              <div class="sg-zeile">
+                <select id="sgGenArt" title="Artikel"></select>
+                <select id="sgGenAdj" title="Adjektiv"></select>
+              </div>
+              <select id="sgGenNomen"></select>
             </div>
 
             <!-- Zeit -->
