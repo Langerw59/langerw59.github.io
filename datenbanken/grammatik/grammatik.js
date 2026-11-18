@@ -24,6 +24,7 @@ window.GRAMMATIK = {
   themen: [
     { id: "verb",    titel: "das Verb",          titel_ru: "глагол" },
     { id: "pronomen", titel: "das Pronomen",     titel_ru: "местоимение" },
+    { id: "praeposition", titel: "die Präposition",   titel_ru: "предлог" },
     { id: "artikel", titel: "der Artikel",       titel_ru: "артикль" },
     { id: "satz",    titel: "der Satzbau",       titel_ru: "порядок слов" },
     { id: "lesen",   titel: "das Lesen",         titel_ru: "чтение и произношение" }
@@ -528,6 +529,39 @@ window.GRAMMATIK = {
         { de: "Ich werde nach Hause gegangen sein.", en: "I will have gone home.", ru: "Я уже уйду домой (к тому моменту).", hinweis: "grammatisch richtig, aber im Alltag fast nie" }
       ],
       merke: "Zeitform = f(Sprache, wirkliche Zeit, Situation) · DE: Zukunft meist im Präsens · Futur II = meist Vermutung · EN: Entscheidung → will, Plan → going to"
+    },
+    {
+      id: "de-praeposition-kasus",
+      thema: "praeposition",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "die Präposition bestimmt den Kasus (aus dem Fenster, nicht aus des Fensters)",
+      titel_ru: "падеж в немецком определяет предлог, а не русский вопрос",
+      formel: "der Kasus = f(die Präposition)  ·  NICHT f(русский вопрос)  ·  aus + Dativ → aus dem Fenster",
+      erklaerung: [
+        "ОШИБКА-ЛОВУШКА (die Interferenz – влияние родного языка). По-русски: «смотрю из окна» → из чего? → родительный падеж (der Genitiv). Если перенести это в немецкий, получается «aus des Fensters» – неправильно. Правильно: Ich sehe aus dem Fenster.",
+        "ПРАВИЛО. В немецком падеж (der Kasus) после предлога определяет сам предлог (die Präposition), а не вопрос и не русский перевод. Каждый предлог «управляет» своим падежом (die Rektion – управление). aus всегда требует дательного падежа (der Dativ): aus dem Fenster, aus der Stadt, aus dem Haus.",
+        "ПОЭТОМУ АЛГОРИТМ ТАКОЙ: 1) найти предлог; 2) посмотреть в таблице, какой падеж он требует; 3) поставить артикль в этом падеже. Русский вопрос «кого? чего?» здесь не помогает – он работает только для русского языка.",
+        "ЧЕТЫРЕ ГРУППЫ ПРЕДЛОГОВ. 1) Всегда der Dativ: aus, bei, mit, nach, seit, von, zu, gegenüber (стишок: «aus, bei, mit, nach, seit, von, zu»). 2) Всегда der Akkusativ: durch, für, gegen, ohne, um, bis. 3) Предлоги двойного управления (die Wechselpräposition): in, an, auf, über, unter, vor, hinter, neben, zwischen – вопрос Wo? (где?) → der Dativ: Ich bin in dem (im) Haus; вопрос Wohin? (куда?) → der Akkusativ: Ich gehe in das (ins) Haus. Только здесь вопрос имеет значение, и это немецкий вопрос, а не русский. 4) der Genitiv: wegen, trotz, während, statt (anstatt), innerhalb, außerhalb – их немного, в разговоре после wegen и trotz часто тоже ставят Dativ.",
+        "СЛИЯНИЕ ПРЕДЛОГА И АРТИКЛЯ (die Verschmelzung): von dem → vom, zu dem → zum, zu der → zur, bei dem → beim, in dem → im, in das → ins, an dem → am."
+      ],
+      tabelle: {
+        kopf: ["der Kasus", "die Präpositionen", "das Beispiel", "Русский"],
+        zeilen: [
+          ["immer der Dativ",      "aus, bei, mit, nach, seit, von, zu, gegenüber", "Ich sehe aus dem Fenster.",       "Я смотрю из окна."],
+          ["immer der Akkusativ",  "durch, für, gegen, ohne, um, bis",              "Das ist für den Enkel.",          "Это для внука."],
+          ["Wo? → der Dativ",      "in, an, auf, über, unter, vor, hinter, neben, zwischen", "Das Buch liegt auf dem Tisch.", "Книга лежит на столе."],
+          ["Wohin? → der Akkusativ","in, an, auf, über, unter, vor, hinter, neben, zwischen", "Ich lege das Buch auf den Tisch.", "Я кладу книгу на стол."],
+          ["der Genitiv",          "wegen, trotz, während, statt",                  "Wegen des Regens bleibe ich zu Hause.", "Из-за дождя я остаюсь дома."]
+        ]
+      },
+      beispiele: [
+        { de: "Ich sehe aus dem Fenster.", en: "I look out of the window.", ru: "Я смотрю из окна.", hinweis: "aus + Dativ (NICHT aus des Fensters)" },
+        { de: "Ich komme aus der Stadt.", en: "I come from the town.", ru: "Я иду из города.", hinweis: "aus + Dativ: die → der" },
+        { de: "Ich fahre mit dem Auto.", en: "I go by car.", ru: "Я еду на машине.", hinweis: "mit + Dativ" },
+        { de: "Ich gehe ins Haus.", en: "I go into the house.", ru: "Я иду в дом.", hinweis: "Wohin? → Akkusativ: in das = ins" }
+      ],
+      merke: "Падеж задаёт предлог: aus, bei, mit, nach, seit, von, zu → Dativ · durch, für, gegen, ohne, um → Akkusativ · in/an/auf…: Wo? Dativ, Wohin? Akkusativ · русский вопрос «из чего?» не переносить!"
     }
   ]
 };
