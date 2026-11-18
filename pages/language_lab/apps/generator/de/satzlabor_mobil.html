@@ -2698,7 +2698,17 @@ const DE_NOUNS = [
   { lemma: "Treppenhaus", article: "das", gender: "n" },
   { lemma: "Aufzug", article: "der", gender: "m" },
   { lemma: "Straßenbahn", article: "die", gender: "f" },
-  { lemma: "Haltestelle", article: "die", gender: "f" }
+  { lemma: "Haltestelle", article: "die", gender: "f" },
+  // 2026-11-18: Luftfahrt (Er war Pilot eines Passagierflugzeugs.)
+  { lemma: "Pilot", article: "der", gender: "m" },
+  { lemma: "Pilotin", article: "die", gender: "f" },
+  { lemma: "Passagier", article: "der", gender: "m" },
+  { lemma: "Passagierflugzeug", article: "das", gender: "n" },
+  { lemma: "Fluggesellschaft", article: "die", gender: "f" },
+  { lemma: "Flugkapitän", article: "der", gender: "m" },
+  { lemma: "Flughafen", article: "der", gender: "m" },
+  { lemma: "Vater", article: "der", gender: "m" },
+  { lemma: "Mutter", article: "die", gender: "f" }
 ];
 
 if (typeof window !== "undefined") {
@@ -2767,6 +2777,7 @@ const DE_SCHWACHE_NOMEN = {
   Student: "Studenten",
   Kunde: "Kunden",
   Kollege: "Kollegen",
+  Pilot: "Piloten", // 2026-11-18: des Piloten, dem Piloten, den Piloten
 };
 
 // Nomen in DE_NOUNS, die Plural sind
@@ -2778,6 +2789,7 @@ const DE_PERSONEN_LEMMAS = [
   "Studentin", "Arzt", "Ärztin", "Fahrer", "Fahrerin", "Verkäufer", "Verkäuferin",
   "Kunde", "Kundin", "Chef", "Chefin", "Kollege", "Kollegin", "Schauspieler",
   "Schauspielerin", "Sänger", "Sängerin", "Trainer", "Spieler", "Spielerin",
+  "Pilot", "Pilotin", "Passagier", "Flugkapitän", "Vater", "Mutter",
 ];
 
 // ------------------------------------------------------------
@@ -4505,6 +4517,7 @@ window.addEventListener("load", function () {
 //          DE_NOUNS, DE_ADVERBS, DE_ADJECTIVES, de_satzglieder.js)
 // Grenzen: einfache Hauptsätze; bei Nebensätzen nur der Hauptsatz.
 // Version 1 (2026-11-02)
+// 2026-11-18: der Genitiv (das Genitivattribut: eines Passagierflugzeugs, des Vaters)
 // =============================================================
 
 (() => {
@@ -4719,6 +4732,84 @@ window.addEventListener("load", function () {
   }
 
   // ------------------------------------------------------------
+  // 2026-11-18: der Genitiv – das Genitivattribut (Wessen? – чей? чего?)
+  //   „Pilot eines Passagierflugzeugs“, „das Auto des Vaters“, „die Tür der Küche“
+  //   Das Genitivattribut ist KEIN eigenes Satzglied – es hängt am Nomen davor.
+  // ------------------------------------------------------------
+  const GEN_STAEMME = ["kein", "mein", "dein", "sein", "ihr", "unser", "eur", "Ihr", "ein", "dies", "jed", "jen", "welch", "manch"];
+  function genitivArtikel(wort) {
+    const l = low(wort);
+    if (l === "des") return { gen: ["m", "n"], art: "des", typ: "def" };
+    if (l === "der") return { gen: ["f", "pl"], art: "der", typ: "def" };
+    for (const st of GEN_STAEMME) {
+      const sl = low(st);
+      if (l === sl + "es" || (sl === "eur" && l === "eures") || (sl === "unser" && l === "unseres")) return { gen: ["m", "n"], art: l, typ: sl === "ein" || sl === "kein" ? "ein" : "poss" };
+      if (l === sl + "er" && sl !== "ihr" || (sl === "ihr" && l === "ihrer") || (sl === "unser" && l === "unserer")) return { gen: ["f", "pl"], art: l, typ: sl === "ein" || sl === "kein" ? "ein" : "poss" };
+    }
+    return null;
+  }
+  // Nomen suchen: ganze Form, ohne Genitiv-Endung (-s/-es), sonst das Grundwort (Passagierflugzeug → Flugzeug)
+  function nomenSuchen(wort, L) {
+    const kandidaten = [wort];
+    if (/es$/.test(wort)) kandidaten.push(wort.slice(0, -2));
+    if (/s$/.test(wort)) kandidaten.push(wort.slice(0, -1));
+    const eigene = (g("DE_EIGENE_NOMEN") && typeof g("DE_EIGENE_NOMEN").laden === "function") ? arr(g("DE_EIGENE_NOMEN").laden()) : [];
+    for (const k of kandidaten) {
+      if (L.nomen.has(k)) return Object.assign({ form: k }, L.nomen.get(k));
+      const e = eigene.find((n) => n.lemma === k);
+      if (e) return { lemma: e.lemma, gender: e.gender, form: k };
+    }
+    for (const k of kandidaten) {
+      for (let p = 1; p <= k.length - 3; p++) {
+        const teil = k.charAt(p).toUpperCase() + k.slice(p + 1);
+        if (L.nomen.has(teil)) { const n = L.nomen.get(teil); return { lemma: k, gender: n.gender, form: k, grundwort: teil }; }
+      }
+    }
+    return null;
+  }
+  const GENUS_TXT = { m: "Maskulinum", f: "Femininum", n: "Neutrum", pl: "Plural" };
+  // prüft, ob ab ts[k] ein Genitivattribut steht → { bis, text, info } oder null
+  function genitivAnhang(ts, k, ende, L) {
+    if (k >= ende) return null;
+    const ga = genitivArtikel(ts[k]);
+    if (!ga) return null;
+    let j = k + 1;
+    while (j < ende && !istGross(ts[j]) && (istAdjektiv(low(ts[j])) || /en$/.test(low(ts[j])))) j++;
+    if (j >= ende || !istGross(ts[j]) || PRON[ts[j]]) return null;
+    const nw = ts[j];
+    const n = nomenSuchen(nw, L);
+    let genus = n ? n.gender : null;
+    if (ga.gen.includes("m")) {
+      // des / eines + Nomen auf -s / -es (oder schwaches Nomen auf -en: des Jungen)
+      if (!/s$/.test(nw) && !/(e?n)$/.test(nw)) return null;
+      if (genus && !["m", "n"].includes(genus)) return null;
+    } else {
+      // der / einer + feminines Nomen oder Plural (sonst eher Dativ)
+      if (genus && !["f", "pl"].includes(genus)) return null;
+      if (!genus && /s$/.test(nw)) return null;
+    }
+    const text = ts.slice(k, j + 1).join(" ");
+    const lemma = n ? n.lemma : nw.replace(/e?s$/, "");
+    const endung = ga.gen.includes("m") ? (/es$/.test(nw) && !/es$/.test(lemma) ? "-es" : /s$/.test(nw) ? "-s" : "-(e)n") : "ohne Endung";
+    const artTxt = ga.gen.includes("m") ? "„" + ga.art + "“ (m/n)" : "„" + ga.art + "“ (" + (genus === "pl" ? "Plural" : "f") + ")";
+    const info = "Genitivattribut „" + text + "“ · Wessen? (чей? чего?) · der Genitiv: " + artTxt + " + Nomen " + endung +
+      (genus ? " · " + (genus === "pl" ? "" : (genus === "m" ? "der " : genus === "f" ? "die " : "das ")) + lemma + " (" + GENUS_TXT[genus] + (n && n.grundwort ? ", Grundwort: " + n.grundwort : "") + ")" : "") +
+      " · kein eigenes Satzglied – gehört zum Nomen davor";
+    return { bis: j, text, info };
+  }
+  function genitivAnhaengen(ts, ende, L, gruppe) {
+    let k = gruppe.bis + 1;
+    let a;
+    while ((a = genitivAnhang(ts, k, ende, L))) {
+      gruppe.text += " " + a.text;
+      gruppe.bis = a.bis;
+      gruppe.genAttr = (gruppe.genAttr ? gruppe.genAttr + " · " : "") + a.info;
+      k = a.bis + 1;
+    }
+    return gruppe.bis + 1;
+  }
+
+  // ------------------------------------------------------------
   // Satzglieder gruppieren
   // ------------------------------------------------------------
   function gruppiere(ts, start, ende, kontext) {
@@ -4770,8 +4861,9 @@ window.addEventListener("load", function () {
         else if (PRAEP_HERKUNFT.has(l)) { rolle = "ort"; frage = "Woher?"; }
         else if (["in", "auf", "an", "über", "unter", "vor", "hinter", "neben", "zwischen"].includes(l) && art0 && art0.opt.every(([k]) => k === "akk" || k === "nom")) { rolle = "ort"; frage = "Wohin?"; }
         const kasusInfo = (art0 && art0.opt.length) ? (frage === "Wohin?" && ["in", "auf", "an", "über", "unter", "vor", "hinter", "neben", "zwischen"].includes(l) ? "Akkusativ (Richtung → wohin?)" : ["in", "auf", "an", "über", "unter", "vor", "hinter", "neben", "zwischen"].includes(l) ? "Dativ (Ort → wo?)" : "") : "";
-        out.push({ typ: "pg", rolle, text, frage, von: i, bis: j - 1, info: "Präpositionalgruppe" + (frage ? " · " + frage : "") + (kasusInfo ? " · " + kasusInfo : "") });
-        i = j; continue;
+        const pg = { typ: "pg", rolle, text, frage, von: i, bis: j - 1, info: "Präpositionalgruppe" + (frage ? " · " + frage : "") + (kasusInfo ? " · " + kasusInfo : "") };
+        out.push(pg);
+        i = genitivAnhaengen(ts, ende, L, pg); continue;
       }
 
       // Personalpronomen
@@ -4801,8 +4893,9 @@ window.addEventListener("load", function () {
           const kasus = [...new Set(opt.map(([k]) => k))];
           const genders = [...new Set(opt.map(([, gd]) => gd))];
           const zeitNomen = ZEIT_NOMEN.has(nw) && /^(jed|letzt|nächst|dies|all)/.test(low(t));
-          out.push({ typ: zeitNomen ? "zeitnp" : "np", rolle: zeitNomen ? "zeit" : undefined, text: ts.slice(i, j + 1).join(" "), kasus, gender: n ? n.gender : (genders.length === 1 ? genders[0] : null), nomen: n || { lemma: nw, gender: genders.length === 1 ? genders[0] : "m", unbekannt: true }, art, kein: !!art.kein, von: i, bis: j });
-          i = j + 1; continue;
+          const np = { typ: zeitNomen ? "zeitnp" : "np", rolle: zeitNomen ? "zeit" : undefined, text: ts.slice(i, j + 1).join(" "), kasus, gender: n ? n.gender : (genders.length === 1 ? genders[0] : null), nomen: n || { lemma: nw, gender: genders.length === 1 ? genders[0] : "m", unbekannt: true }, art, kein: !!art.kein, von: i, bis: j };
+          out.push(np);
+          i = genitivAnhaengen(ts, ende, L, np); continue;
         }
         // Artikelwort allein (z. B. „das“ als Pronomen)
         out.push({ typ: "np", text: t, kasus: [...new Set(art.opt.map(([k]) => k))], keys: ["er"], von: i, bis: i });
@@ -4838,8 +4931,9 @@ window.addEventListener("load", function () {
         const n = L.nomen.get(ts[j]) || null;
         const name = !n && !satzAnfang;
         const gen = n ? n.gender : null;
-        out.push({ typ: "np", text: ts.slice(i, j + 1).join(" "), kasus: ["nom", "akk", "dat"], gender: gen, nomen: n || { lemma: ts[j], gender: gen || "m", unbekannt: true }, keys: gen === "pl" ? ["sie"] : gen ? ["er"] : ["er", "sie"], ohneArtikel: true, name, von: i, bis: j });
-        i = j + 1; continue;
+        const np = { typ: "np", text: ts.slice(i, j + 1).join(" "), kasus: ["nom", "akk", "dat"], gender: gen, nomen: n || { lemma: ts[j], gender: gen || "m", unbekannt: true }, keys: gen === "pl" ? ["sie"] : gen ? ["er"] : ["er", "sie"], ohneArtikel: true, name, von: i, bis: j };
+        out.push(np);
+        i = genitivAnhaengen(ts, ende, L, np); continue;
       }
 
       // Zahl
@@ -4974,7 +5068,8 @@ window.addEventListener("load", function () {
       if (s.rolle === "subj" && !s.info) s.info = s.pron ? "Personalpronomen · Nominativ" : "Nomengruppe · Nominativ";
       if (s.rolle === "akk" && !s.info) s.info = (s.reflexiv ? "Reflexivpronomen (sich) · " : s.pron ? "Pronomen · " : "") + "Akkusativ" + (s.kein ? " · Verneinung mit „kein“" : "") + (s.kasus.length > 1 && !s.pron ? " (по артиклю мог бы быть и другим падежом)" : "");
       if (s.rolle === "dat" && !s.info) s.info = (s.reflexiv ? "Reflexivpronomen · " : s.pron ? "Pronomen · " : "") + "Dativ";
-      if (s.ohneArtikel && !s.pron && s.rolle !== "subj") s.info = (s.info || "") + " · ohne Artikel – падеж определён по смыслу";
+      if (s.ohneArtikel && !s.pron && s.rolle === "pkv") s.info = (s.info || "") + " · ohne Artikel: der Beruf nach „sein“ steht meist ohne Artikel (Er war Pilot. Ich bin Rentner.)";
+      else if (s.ohneArtikel && !s.pron && s.rolle !== "subj") s.info = (s.info || "") + " · ohne Artikel – падеж определён по смыслу";
     });
 
     // --- Tempus ---
@@ -5044,7 +5139,8 @@ window.addEventListener("load", function () {
     const seg = (text, rolle, info) => ({ text, rolle, info: info || "" });
     const toSeg = (s) => {
       if (s.typ === "w") return seg(s.text, s.rolle === "part" ? "part" : s.rolle, "Fragewort");
-      return seg(s.text, s.rolle || "unbek", s.info || (s.typ === "zeitnp" ? "Zeitangabe im Akkusativ (jeden Tag)" : ""));
+      const info0 = s.info || (s.typ === "zeitnp" ? "Zeitangabe im Akkusativ (jeden Tag)" : "");
+      return seg(s.text, s.rolle || "unbek", s.genAttr ? (info0 ? info0 + " · " : "") + s.genAttr : info0);
     };
     const vorSeg = vor.map(toSeg);
     if (hsInfo.nebensatzVorne) {

@@ -222,7 +222,17 @@ const DE_NOUNS = [
   { lemma: "Treppenhaus", article: "das", gender: "n" },
   { lemma: "Aufzug", article: "der", gender: "m" },
   { lemma: "Straßenbahn", article: "die", gender: "f" },
-  { lemma: "Haltestelle", article: "die", gender: "f" }
+  { lemma: "Haltestelle", article: "die", gender: "f" },
+  // 2026-11-18: Luftfahrt (Er war Pilot eines Passagierflugzeugs.)
+  { lemma: "Pilot", article: "der", gender: "m" },
+  { lemma: "Pilotin", article: "die", gender: "f" },
+  { lemma: "Passagier", article: "der", gender: "m" },
+  { lemma: "Passagierflugzeug", article: "das", gender: "n" },
+  { lemma: "Fluggesellschaft", article: "die", gender: "f" },
+  { lemma: "Flugkapitän", article: "der", gender: "m" },
+  { lemma: "Flughafen", article: "der", gender: "m" },
+  { lemma: "Vater", article: "der", gender: "m" },
+  { lemma: "Mutter", article: "die", gender: "f" }
 ];
 
 if (typeof window !== "undefined") {

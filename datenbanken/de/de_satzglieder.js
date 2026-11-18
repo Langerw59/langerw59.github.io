@@ -58,6 +58,7 @@ const DE_SCHWACHE_NOMEN = {
   Student: "Studenten",
   Kunde: "Kunden",
   Kollege: "Kollegen",
+  Pilot: "Piloten", // 2026-11-18: des Piloten, dem Piloten, den Piloten
 };
 
 // Nomen in DE_NOUNS, die Plural sind
@@ -69,6 +70,7 @@ const DE_PERSONEN_LEMMAS = [
   "Studentin", "Arzt", "Ärztin", "Fahrer", "Fahrerin", "Verkäufer", "Verkäuferin",
   "Kunde", "Kundin", "Chef", "Chefin", "Kollege", "Kollegin", "Schauspieler",
   "Schauspielerin", "Sänger", "Sängerin", "Trainer", "Spieler", "Spielerin",
+  "Pilot", "Pilotin", "Passagier", "Flugkapitän", "Vater", "Mutter",
 ];
 
 // ------------------------------------------------------------

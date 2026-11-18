@@ -894,6 +894,43 @@ window.GRAMMATIK = {
         { de: "Ich möchte das Meer sehen.", en: "I would like to see the sea.", ru: "Я хотел бы увидеть море.", hinweis: "möchte – finit · sehen – Infinitiv (в англ. с to)" }
       ],
       merke: "finit [fi-NIT] = с лицом: ich sehe, du siehst – стоит на 2-м месте. Infinitiv = основная форма без лица: sehen – стоит в словаре и в конце предложения. Найти finit: поменяй ich на du – изменившийся глагол и есть finit."
+    },
+    {
+      // 2026-11-18: mit Claude – „Er war Pilot eines Passagierflugzeugs.“
+      id: "de-genitiv",
+      thema: "artikel",
+      sprache: "de",
+      datum: "2026-11-18",
+      titel: "der Genitiv und das Genitivattribut (Pilot eines Passagierflugzeugs); der Beruf ohne Artikel",
+      titel_ru: "родительный падеж: «пилот пассажирского самолёта»; профессия без артикля",
+      formel: "Nomen + des/eines/meines … + Nomen-(e)s (m/n)  ·  Nomen + der/einer/meiner … + Nomen (f/Plural)  ·  sein + Beruf ohne Artikel",
+      erklaerung: [
+        "ПРИМЕР. Он был пилотом пассажирского самолёта → Er war Pilot eines Passagierflugzeugs. Типичная ошибка: „Er war einen Pilot der Passagierflugzeug“.",
+        "1) ПОСЛЕ sein – НЕ Akkusativ. После глагола sein (быть), werden (становиться), bleiben (оставаться) стоит der Nominativ (именительный падеж). Эта часть называется das Prädikativ (именная часть сказуемого; лат. praedicare – «высказывать»). Поэтому „einen Pilot“ (это Akkusativ) – неправильно. Правильно: Er war Pilot. / Er war ein guter Pilot.",
+        "2) ПРОФЕССИЯ БЕЗ АРТИКЛЯ. Если после sein / werden называют der Beruf (профессию), die Nationalität (национальность) или die Religion, артикль обычно не ставят: Er war Pilot. Sie ist Lehrerin. Ich bin Rentner. Er ist Deutscher. Артикль появляется, когда есть прилагательное: Er war ein guter Pilot. (В английском наоборот – артикль нужен всегда: He was a pilot.)",
+        "3) РОДИТЕЛЬНЫЙ ПАДЕЖ. der Genitiv (лат. genitivus – «родовой, происхождения») отвечает на вопрос Wessen? – чей? чего? Он показывает принадлежность: das Auto meines Vaters (машина моего отца), die Tür der Küche (дверь кухни), der Pilot eines Passagierflugzeugs (пилот пассажирского самолёта).",
+        "4) das Genitivattribut (определение в родительном падеже) – это НЕ отдельный член предложения (kein eigenes Satzglied). Оно «висит» на существительном перед ним и вместе с ним образует один член предложения. В Satzlabor вся группа „Pilot eines Passagierflugzeugs“ поэтому одного цвета (das Prädikativ).",
+        "5) ОКОНЧАНИЯ В ГЕНИТИВЕ. Мужской и средний род (m/n): артикль des / eines / meines …, а само существительное получает -s или -es: des Vaters, eines Passagierflugzeugs, seines Sohnes (-es чаще у коротких слов и после s, ß, z, sch). Слабые существительные (die n-Deklination) получают -(e)n: des Piloten, des Kunden, des Studenten. Женский род и множественное число (f/Plural): артикль der / einer / meiner …, существительное без окончания: der Küche, einer Frau, der Kinder.",
+        "6) der unbestimmte Artikel (неопределённый артикль ein) склоняется так: см. таблицу. В разговорной речи Genitiv часто заменяют на von + Dativ: der Pilot von einem Passagierflugzeug, das Auto von meinem Vater. Это понятно, но в письме лучше Genitiv.",
+        "7) СЛОЖНОЕ СЛОВО (das Kompositum). der Passagier + das Flugzeug = das Passagierflugzeug. Род определяет ПОСЛЕДНЕЕ слово (das Grundwort): das Flugzeug → das Passagierflugzeug, поэтому в Genitiv: eines Passagierflugzeugs."
+      ],
+      tabelle: {
+        kopf: ["der Kasus", "Maskulinum (der Pilot)", "Neutrum (das Flugzeug)", "Femininum (die Frau)", "Русский"],
+        zeilen: [
+          ["der Nominativ (Wer? Was?)",  "ein Pilot · der Pilot",          "ein Flugzeug · das Flugzeug",          "eine Frau · die Frau",   "кто? что?"],
+          ["der Akkusativ (Wen? Was?)",  "einen Piloten · den Piloten",    "ein Flugzeug · das Flugzeug",          "eine Frau · die Frau",   "кого? что?"],
+          ["der Dativ (Wem?)",           "einem Piloten · dem Piloten",    "einem Flugzeug · dem Flugzeug",        "einer Frau · der Frau",  "кому? чему?"],
+          ["der Genitiv (Wessen?)",      "eines Piloten · des Piloten",    "eines Flugzeugs · des Flugzeugs",      "einer Frau · der Frau",  "чей? чего?"]
+        ]
+      },
+      beispiele: [
+        { de: "Er war Pilot eines Passagierflugzeugs.", en: "He was the pilot of a passenger plane.", ru: "Он был пилотом пассажирского самолёта.", hinweis: "Pilot – Beruf ohne Artikel · eines …flugzeugs – Genitiv (n): eines + -s" },
+        { de: "Er war Pilot bei einer Fluggesellschaft.", en: "He was a pilot with an airline.", ru: "Он был пилотом в авиакомпании.", hinweis: "bei + Dativ: die → einer" },
+        { de: "Das Auto meines Vaters ist alt.", en: "My father's car is old.", ru: "Машина моего отца старая.", hinweis: "meines Vaters – Genitiv (m): -s" },
+        { de: "Die Tür der Küche ist offen.", en: "The kitchen door is open.", ru: "Дверь кухни открыта.", hinweis: "der Küche – Genitiv (f): ohne Endung" },
+        { de: "Er war ein guter Pilot.", en: "He was a good pilot.", ru: "Он был хорошим пилотом.", hinweis: "mit Adjektiv → mit Artikel, Nominativ (nicht „einen“)" }
+      ],
+      merke: "После sein – Nominativ, а не Akkusativ: Er war Pilot (профессия без артикля). Чей? чего? = Wessen? → der Genitiv: eines/des + Nomen-s (m/n), einer/der + Nomen (f/Pl)."
     }
   ]
 };
