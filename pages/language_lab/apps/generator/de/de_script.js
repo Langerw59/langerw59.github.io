@@ -331,7 +331,14 @@
   // prefix: "" (Dativ/Akkusativ) oder "n:" (Subjekt)
   function fillNomenOptionen(sel, liste, mitDingen, prefix) {
     prefix = prefix || "";
-    if (g("DE_EIGENE_NOMEN")) opt(sel, "eigen", "✏️ eigenes Nomen eingeben … (der/die/das wird gesucht)");
+    if (g("DE_EIGENE_NOMEN")) {
+      opt(sel, "eigen", "✏️ eigenes Nomen eingeben … (der/die/das wird gesucht)");
+      // 2026-11-18: „eingeben“ immer ganz oben (gleich nach „— bitte wählen —“), vor den Pronomen
+      const e = sel.querySelector('option[value="eigen"]');
+      const erste = sel.options[0];
+      if (e && erste && erste !== e && erste.value === "" && erste.parentElement === sel) erste.after(e);
+      else if (e && erste !== e) sel.prepend(e);
+    }
     const meine = liste.map((n, i) => [n, i]).filter(([n]) => n.eigen);
     if (meine.length) {
       const gm = group(sel, "Meine Wörter");
