@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Die Etymologie – Wortgeschichte</title>
 <!-- 2026-11-12: umbenannt in „Die Etymologie – Wortgeschichte“ (früher: der Wortdetektiv; Ordnername bleibt wortdetektiv)
+     2026-11-19: neue Gruppe „die Wortwurzeln“ (datenbanken/wortdetektiv/wurzeln.js)
      2026-11-04: Wortdetektiv – erstellt mit Claude
      DE: Geschichten der Wörter mit Karte, Wort-Spuren und „Mehr erfahren“-Links.
      RU: Истории слов: карта, «улики» (родственные слова), ссылки «узнать больше».
@@ -16,6 +17,7 @@
 <script src="../../../datenbanken/wortdetektiv/tiere.js" defer></script>
 <script src="../../../datenbanken/wortdetektiv/pflanzen.js" defer></script>  <!-- 2026-11-05: Pflanzen-Lexikon -->
 <script src="../../../datenbanken/wortdetektiv/werkstatt.js" defer></script>  <!-- 2026-11-05: Werkstatt-Lexikon (DE/IT/RU/EN) -->
+<script src="../../../datenbanken/wortdetektiv/wurzeln.js" defer></script>  <!-- 2026-11-19: die Wortwurzeln (Latein/Griechisch) -->
 <style>
   :root{--bg:#f4f1ea;--card:#fff;--ink:#1d2433;--muted:#5b6475;--line:#d9d3c5;--acc:#6b4fa3;--acc2:#b0742a;--ort:#2f6fb3}
   *{box-sizing:border-box}
@@ -101,6 +103,20 @@
   .auswahl select{font:inherit;font-size:17px;padding:9px 12px;border-radius:10px;border:2px solid var(--acc);background:#fff;color:var(--ink);width:100%;max-width:520px;cursor:pointer}
   .unterkopf{margin:14px 0 8px;font-size:17px;color:var(--acc)}
   .unterkopf .ru{font-size:14px;font-weight:400}
+  /* 2026-11-19: die Wortwurzeln / корни слов */
+  .wurzel{background:#fff;border:1px solid var(--line);border-left:6px solid #8250df;border-radius:12px;padding:12px 14px}
+  .wurzel.gr{border-left-color:#bf3989}
+  .wurzel .emo{font-size:30px;float:right;line-height:1}
+  .wurzel .wz{font-size:22px;font-weight:700;font-style:italic;color:#8250df}
+  .wurzel.gr .wz{color:#bf3989}
+  .wurzel .fo{font-size:14px;color:var(--muted)}
+  .wurzel .bd{font-size:17px;font-weight:600;margin:4px 0 6px}
+  .wurzel .zeile{margin:4px 0}
+  .wurzel .lbl{display:inline-block;min-width:26px;font-size:11px;font-weight:700;color:var(--muted)}
+  .wurzel .w{display:inline-block;margin:1px 2px;padding:0 6px;border-radius:6px;background:#f4f1ea;cursor:pointer}
+  .wurzel .w:hover{background:#efe9f8}
+  .wurzel .her{font-size:15px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .wurzel .wk{font-size:13px;margin-top:6px}
   .wegname{background:rgba(255,255,255,.85);border:0;box-shadow:none;color:#b33a3a;font-weight:700;font-size:12px;padding:0 4px}
 </style>
   <script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
@@ -138,7 +154,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2026-11-05: Werkstatt-Lexikon – statt Latein: Italienisch, dazu Bilder-Link
     werkstatt: { daten: window.WORTDETEKTIV_WERKSTATT || [], gruppen: window.WORTDETEKTIV_WERKSTATTGRUPPEN || [], icon: "🧰", titel: "Werkstatt-Lexikon",
       lead: "Инструменты, электрика, крепёж, стройматериалы: немецкое название с артиклем, итальянское (тоже с артиклем), русский, английский. 🔊 – послушать, 🖼️ – посмотреть картинки.", wort: "Wörter",
-      zweit: "it", bilder: true, laden: true }
+      zweit: "it", bilder: true, laden: true },
+    // 2026-11-19: die Wortwurzeln – lateinische und griechische Wurzeln
+    wurzeln: { daten: window.WORTDETEKTIV_WURZELN || [], gruppen: window.WORTDETEKTIV_WURZELGRUPPEN || [], icon: "🌱", titel: "die Wortwurzeln",
+      lead: "Корни слов: латинский или греческий корень и его значение, немецкие слова с артиклем, английские, итальянские и русские слова-«мостики». Нажмите на слово – оно прозвучит на своём языке.", wort: "Wurzeln", typ: "wurzel" }
   };
   const WERK = LEXIKA.werkstatt.daten;
 
@@ -340,11 +359,25 @@ document.addEventListener("DOMContentLoaded", function () {
   function tierLexikon(art) {
     const L = LEXIKA[art] || LEXIKA.tiere, DATEN = L.daten, GRUPPEN = L.gruppen;
     const Z = L.zweit || "la";
-    const VERD = [["", "Alles zeigen / всё видно"], ["de", "Deutsch verdecken"], [Z, Z === "it" ? "Italienisch verdecken" : "Latein verdecken"], ["ru", "Russisch verdecken"]];
+    const W = L.typ === "wurzel";
+    const VERD = W ? [["", "Alles zeigen / всё видно"], ["bed", "Bedeutung verdecken"], ["de", "Deutsch verdecken"], ["ru", "Russisch verdecken"]] : [["", "Alles zeigen / всё видно"], ["de", "Deutsch verdecken"], [Z, Z === "it" ? "Italienisch verdecken" : "Latein verdecken"], ["ru", "Russisch verdecken"]];
     const bildUrl = (x) => "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(x.bild || x.la || x.de.replace(/^(der|die|das) /, ""));
     const feld = (art, html) => `<div class="zeile f-${art} ${tierVerdeckt === art ? "versteckt" : ""}"><span class="inhalt">${html}</span></div>`;
     const sag = (txt, l) => `<button type="button" class="sag" data-txt="${esc(txt)}" data-l="${l}" title="anhören / послушать">🔊</button>`;
-    const karte1 = (x) => `<div class="tier">
+    // 2026-11-19: Karte für eine Wortwurzel
+    const woerter = (l, sp) => (l || []).map((w) => `<span class="w" data-txt="${esc(w)}" data-l="${sp}" title="anhören / послушать">${esc(w)}</span>`).join(" ");
+    const karteW = (x) => `<div class="wurzel${x.l === "el" ? " gr" : ""}">
+        <span class="emo">${x.emo || ""}</span>
+        <div class="zeile"><span class="wz">${esc(x.w)}</span> ${sag(x.sag || x.w.replace(/[^a-zA-Z ]/g, " ").trim(), x.l || "la")}<br><span class="fo">${esc(x.form || "")}</span></div>
+        ${feld("bed", `<span class="bd">${esc(x.bed)}</span>`)}
+        ${feld("de", `<span class="lbl">DE</span>${woerter(x.de, "de")}`)}
+        <div class="zeile"><span class="lbl">EN</span>${woerter(x.en, "en")}</div>
+        <div class="zeile"><span class="lbl">IT</span>${woerter(x.it, "it")}</div>
+        ${feld("ru", `<span class="lbl">RU</span>${woerter(x.ru, "ru")}`)}
+        <div class="her">🔎 ${esc(x.her)}</div>
+        <div class="wk">📚 <a href="https://de.wiktionary.org/w/index.php?search=${encodeURIComponent(x.sag || x.w.split(/[^a-zA-Z]/)[0])}&go=Go" target="_blank" rel="noopener">Wiktionary</a></div>
+      </div>`;
+    const karte1 = (x) => W ? karteW(x) : `<div class="tier">
         <span class="emo">${x.emo || ""}</span>
         ${feld("de", `<span class="lbl">DE</span><span class="de">${esc(x.de)}</span> ${sag(x.de, "de")}<br><span class="lbl"></span><span class="pl">Mehrzahl: ${esc(x.pl)}</span>`)}
         ${Z === "it" ? feld("it", `<span class="lbl">IT</span><span class="it">${esc(x.it)}</span> ${sag(x.it, "it")}`)
@@ -376,6 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
     bindAuswahl();
     app.querySelector("#tverd").addEventListener("click", (ev) => { const b = ev.target.closest("button[data-v]"); if (b) { tierVerdeckt = b.dataset.v; tierLexikon(art); } });
     app.querySelectorAll(".sag").forEach((b) => b.addEventListener("click", (ev) => { ev.stopPropagation(); sprich(b.dataset.txt, b.dataset.l); }));
+    app.querySelectorAll(".wurzel .w").forEach((b) => b.addEventListener("click", (ev) => { if (b.closest(".versteckt")) return; ev.stopPropagation(); sprich(b.dataset.txt, b.dataset.l); }));
     app.querySelectorAll(".versteckt").forEach((f) => f.addEventListener("click", () => f.classList.remove("versteckt")));
     document.title = L.titel + " – Etymologie";
   }

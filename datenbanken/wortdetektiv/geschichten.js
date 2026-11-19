@@ -24,6 +24,7 @@
 //   unter – Untergruppen; eine Geschichte gehört mit „gruppe: …“ dazu.
 //   Tiere / Pflanzen / Werkstatt haben ihre Untergruppen in tiere.js, pflanzen.js, werkstatt.js.
 window.WORTDETEKTIV_THEMEN = [
+  { id: "wurzeln",   icon: "🌱", de: "die Wortwurzeln",               ru: "корни слов: латынь и греческий" },  // 2026-11-19
   { id: "pflanzen",  icon: "🌿", de: "die Pflanzen",                  ru: "растения: деревья, ягоды, фрукты, овощи" },
   { id: "tiere",     icon: "🐾", de: "die Tiere",                     ru: "животный мир: звери, птицы, рыбы" },
   { id: "toponymie", icon: "🗺️", de: "die Toponymie – die Ortsnamen", ru: "топонимика: города, страны, реки",
