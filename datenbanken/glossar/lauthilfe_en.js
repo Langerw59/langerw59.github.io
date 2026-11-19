@@ -129,7 +129,7 @@
     if (/^kn|^wr|mb$|gh|alk|^h(our|onest)/.test(w)) add("stumm", "Die stummen Buchstaben", `в слове есть немая буква – её не читают`);
     // geschlossene Silbe, wenn sonst nichts passt
     if (!r.some((x) => x.id !== "paare") && /^[^aeiou]*[aeiou][^aeiouy]+$/.test(w)) {
-      add("kurz", "Die geschlossene Silbe", `одна гласная + согласная в конце → коротко`);
+      add("kurz", "Die geschlossene Silbe", `одна гласная + согласная в конце → коротко${/u/.test(w) && i.includes("ʌ") ? " (u → [ʌ] короткое «а», не «у»: sun – «сан»)" : ""}`);
     }
     // wichtige Regeln zuerst, Buchstabenpaare zuletzt / главное правило – первым
     return r.filter((x) => x.id !== "paare").concat(r.filter((x) => x.id === "paare"));
