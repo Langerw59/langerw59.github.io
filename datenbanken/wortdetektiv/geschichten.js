@@ -580,6 +580,36 @@ window.WORTDETEKTIV = [
     { t: "Zweite Lautverschiebung – Wikipedia", url: "https://de.wikipedia.org/wiki/Zweite_Lautverschiebung", art: "lexikon", sp: "DE", info: "Почему немецкий говорит Tag, а английский day." }
   ],
   raetsel: { frage: "Немецкое **gelb** по-английски … ? А немецкое **die Tür** (подсказка: t → d)?", antwort: "**yellow** (g → y) и **door** (t → d). Правила работают!" }
+},
+
+{
+  // 2026-11-19: mit Claude – Notiz: фраер ← der Freier
+  id: "fraer",
+  titel: "фраер ← der Freier: vom Bräutigam zum „Fraer“",
+  ru: "Фраер – не от frei, а от der Freier «жених, ухажёр»",
+  wort: "der Freier / фраер",
+  h: "germ",
+  thema: "woerter",
+  kurz: "Русское «фраер» пришло из немецкого der Freier («жених, ухажёр») – через воровской немецкий и идиш. С frei оно в далёком родстве.",
+  text: [
+    "**der [[ton:de|Freier]]** в обычном немецком – **жених, ухажёр**. Глагол **[[ton:de|freien]]** (устаревшее) – свататься: «um ein Mädchen freien».",
+    "В воровском немецком жаргоне (**das Rotwelsch**) и в языке **идиш** der Freier стал значить **клиента проститутки**, а отсюда – **простака, жертву обмана**. Значение «клиент проститутки» есть в разговорном немецком и сегодня.",
+    "Через идиш слово попало в русский блатной жаргон: **фраер** – «чужой, не из воровского мира, лох». Позже – ещё и «щёголь, франт», отсюда **фраериться**.",
+    "**А при чём тут frei?** Слова **[[ton:de|frei]]**, **der [[ton:de|Freund]]** и **freien** восходят к одному индоевропейскому корню со значением **«любить»**. «Свободными» сначала называли **своих, любимых** – членов рода, в отличие от рабов. Поэтому der Freier и frei – дальние родственники, но «фраер» пришёл через **ухажёра**, а не через **свободу**."
+  ],
+  spuren: [
+    ["der Freier – фраер", "Жених, ухажёр → (жаргон) клиент → простак → «фраер»."],
+    ["freien – свататься", "Устаревший глагол: um eine Frau freien."],
+    ["frei · der Freund · free · friend", "Один корень «любить»: свободный = «свой, любимый»; друг = «тот, кто любит»."],
+    ["der Friede", "По распространённому объяснению – тот же корень: мир между «своими»."]
+  ],
+  links: [
+    { t: "„Freier“ im DWDS", url: "https://www.dwds.de/wb/Freier", art: "woerterbuch", sp: "DE", info: "Немецкий словарь: значения и история слова." },
+    { t: "„frei“ im DWDS", url: "https://www.dwds.de/wb/frei", art: "woerterbuch", sp: "DE", info: "Происхождение frei – корень «любить»." },
+    { t: "Фраер – Викисловарь", url: "https://ru.wiktionary.org/wiki/фраер", art: "woerterbuch", sp: "RU", info: "Значения и этимология по-русски." },
+    { t: "„free“ – Etymonline", url: "https://www.etymonline.com/word/free", art: "woerterbuch", sp: "EN", info: "Free = «дорогой, любимый, свой»." }
+  ],
+  raetsel: { frage: "Какое немецкое слово – «брат» слова frei и значит человека, которого любят?", antwort: "**der Freund** (англ. friend). Тот же древний корень «любить»." }
 }
 
 ];
