@@ -1140,6 +1140,44 @@ window.GRAMMATIK = {
         { de: "Ich fahre mit dem Sohn.", en: "I am going with my son.", ru: "Я еду с сыном.", hinweis: "«с кем?» → mit + Dativ" }
       ],
       merke: "sein, werden, bleiben, heißen = знак «=» → immer der Nominativ (Er ist Pilot). Русский творительный «кем?» после «быть/являться» = Nominativ; «чем? с кем?» = mit + Dativ."
+    },
+    {
+      // 2026-11-19: mit Claude – this oder that? (I don't like that / this)
+      id: "en-this-that",
+      thema: "pronomen",
+      sprache: "en",
+      datum: "2026-11-19",
+      titel: "die Demonstrativpronomen this / that – these / those",
+      titel_ru: "указательные местоимения: this или that?",
+      formel: "this / these = nah (hier, jetzt) · that / those = fern (dort, vorhin, das Gesagte)",
+      erklaerung: [
+        "this и that – das Demonstrativpronomen (указательное местоимение). Они «показывают пальцем». Разница – в РАССТОЯНИИ: this – близко ко мне (вот это, здесь, сейчас), that – дальше от меня (вон то, там, тогда).",
+        "Расстояние бывает не только в пространстве, но и во времени и в разговоре. this – то, что происходит сейчас, вокруг меня, или то, о чём я сейчас скажу. that – то, что уже было, уже сказано (особенно другим человеком) или находится «там».",
+        "ПОЭТОМУ: I don't like that. – реакция на то, что только что сказал или сделал другой («Мне это (то, что ты сказал) не нравится» – Das gefällt mir nicht). I don't like this. – о том, что происходит со мной прямо сейчас («Мне это (вот это, здесь) не нравится» – Das hier gefällt mir nicht). Обе фразы правильные, но смысл разный.",
+        "Типичные ответы на слова собеседника – всегда that: That's right. (Stimmt.) · That's good. · That's a good idea. · Thank you, that's very kind.",
+        "Почему путаемся: в русском разговорном «это» стоит и вместо «это», и вместо «то»; в немецком разговорном «das» тоже говорят и про близкое, и про далёкое (das hier – das da). В английском выбирать между this и that нужно ВСЕГДА.",
+        "Две роли: 1) der Begleiter (перед существительным): this car – dieses Auto, that house – das Haus dort. 2) der Stellvertreter (вместо существительного, одно): I like this. – Das gefällt mir.",
+        "Множественное число: this → these, that → those. Произношение: this [ðɪs] (короткое и), these [ðiːz] (долгое и, звонкое z), that [ðæt] (широкое а/э), those [ðəʊz] («зоуз»). Звук th [ð] – кончик языка между зубами, звонко."
+      ],
+      tabelle: {
+        kopf: ["", "Einzahl · ед. число", "Mehrzahl · мн. число", "Deutsch", "Русский"],
+        sprechen: true,
+        zeilen: [
+          ["nah · близко", "this", "these", "dieser / diese / dieses · das hier", "этот, это · эти"],
+          ["fern · далеко", "that", "those", "der / die / das dort · jener", "тот, то · те"]
+        ]
+      },
+      beispiele: [
+        { en: "I don't like that.", de: "Das gefällt mir nicht.", ru: "Мне это (то, что ты сказал/сделал) не нравится.", hinweis: "реакция на чужие слова → that" },
+        { en: "I don't like this.", de: "Das hier gefällt mir nicht.", ru: "Мне это (вот это, сейчас) не нравится.", hinweis: "то, что передо мной → this" },
+        { en: "That's right.", de: "Das stimmt.", ru: "Верно.", hinweis: "ответ на слова собеседника → that" },
+        { en: "This is my wife, Lidia.", de: "Das ist meine Frau Lidia.", ru: "Это моя жена Лидия.", hinweis: "знакомлю – человек рядом → this" },
+        { en: "Look at that castle!", de: "Schau dir das Schloss dort an!", ru: "Посмотри на тот замок!", hinweis: "далеко → that" },
+        { en: "These apples are good.", de: "Diese Äpfel sind gut.", ru: "Эти яблоки хорошие.", hinweis: "мн. число, рядом → these" },
+        { en: "Who are those people?", de: "Wer sind die Leute dort?", ru: "Кто те люди?", hinweis: "мн. число, далеко → those" },
+        { en: "this week · that day", de: "diese Woche · an jenem Tag", ru: "на этой неделе · в тот день", hinweis: "сейчас → this, тогда → that" }
+      ],
+      merke: "this / these – hier und jetzt (вот это). that / those – dort, damals, das Gesagte (то). На чужие слова отвечаем that: That's right. I don't like that."
     }
   ]
 };
