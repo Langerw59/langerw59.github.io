@@ -140,6 +140,14 @@ window.WORTDETEKTIV_WURZELN = [
   ru:["темп"],
   her:"Das Tempus – грамматическое время (Präsens, Präteritum, Perfekt …) = die Zeitform. Английское tense (время глагола) – тоже от tempus, через старофранцузское tens. В итальянском il tempo – и «время», и «погода»." },
 
+{ id:"situs", gr:"lat_nomen", emo:"📌", w:"situs", form:"situs, situs (m.)", l:"la",
+  bed:"место, положение",
+  de:["die Situation","situiert"],
+  en:["site","campsite","website","building site","situation"],
+  it:["il sito","la situazione"],
+  ru:["ситуация"],
+  her:"situs – «место, где что-то находится». Англ. site – «место, участок»: campsite = der Campingplatz, website = die Webseite («место в сети»), building site = die Baustelle; sites – множественное число. Die Situation – «положение дел». Осторожно: англ. site, sight («вид», родственник немецкого sehen) и cite («цитировать», лат. citare) звучат одинаково [saɪt]." },
+
 // ---------------- Vorsilben / приставки ----------------
 { id:"prae", gr:"vorsilbe", emo:"⏩", w:"prae-", form:"prae + …", l:"la",
   bed:"перед, впереди, заранее",
