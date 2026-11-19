@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-19 – Schreiben: „please“ vorne oder hinten – beides richtig
+- „Please sit down.“ und „Sit down, please.“ gelten beide als richtig (nur bei Bitten mit dem Imperativ). Unten steht dann, was auf der Karte steht.
+- RU: please в начале (без запятой) или в конце (запятая перед please) – оба варианта засчитываются.
+
 ## 2026-11-17 – mehrere richtige Antworten (alt) + Ich möchte nach Hause
 - Karten können weitere richtige englische Antworten haben (Feld "alt"); beim Schreiben zählt die beste, mit Hinweis „Auch richtig!“
 - L1-09-6: „Ich möchte nach Hause.“ = „I'd like to go home.“ (passt zum Muster), „I want to go home.“ auch richtig

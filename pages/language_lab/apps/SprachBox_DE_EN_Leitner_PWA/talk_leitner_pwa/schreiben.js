@@ -398,6 +398,7 @@ function doCheck() {
   // RU: если у карточки несколько верных вариантов – засчитывается лучший
   const RANG = { richtig: 0, zeichen: 1, fast: 2, falsch: 3 };
   const ziele = [current.en || ""].concat(current.alt || []);
+  for (const z of ziele.slice()) for (const v of pleaseVarianten(z)) if (!ziele.includes(v)) ziele.push(v);
   let r = null, zielText = ziele[0];
   for (const z of ziele) {
     const x = pruefe(z, typed);
@@ -442,6 +443,22 @@ function doCheck() {
   const gut = karte.ersterOk === true;
   $("btnYes")?.classList.toggle("sbVorschlag", gut);
   $("btnNo")?.classList.toggle("sbVorschlag", !gut);
+}
+
+// 2026-11-19: „Please sit down.“ = „Sit down, please.“ – beides richtig
+// RU: please в начале (без запятой) или в конце (с запятой перед please) – оба варианта верны
+function pleaseVarianten(z) {
+  const t = String(z || "").trim();
+  const klein = (w) => (/^I\b/.test(w) ? w : w.charAt(0).toLowerCase() + w.slice(1));
+  const gross = (w) => w.charAt(0).toUpperCase() + w.slice(1);
+  let m = t.match(/^please\s+(.+?)([.!?]*)$/i);
+  if (m && m[1]) return [`${gross(m[1])}, please${m[2] || "."}`];
+  m = t.match(/^(.+?),?\s+please([.!?]*)$/i);
+  // nur bei der Bitte mit dem Imperativ (Sit down, please.), nicht bei „I need …, please.“ oder Fragen
+  // das erste Wort muss ein Verb im Imperativ sein / первое слово – глагол в повелительном наклонении
+  const IMPERATIV = /^(sit|stand|come|go|help|call|speak|talk|open|close|shut|send|wait|take|give|show|tell|bring|fill|write|repeat|say|look|listen|follow|turn|stop|put|let|read|check|try|leave|sign|keep|pay|park|drive|get|make|hold|move|enter|hurry|be|have|sit|lie|wake|clean|book|reserve|order|answer|spell|explain|change|use|switch|press|push|pull|ring|knock|tidy|wash|bring|carry|buy|sell|ask|remember|forget|hand|pass|excuse|forgive|calm|slow)$/i;
+  if (m && m[1] && !/\?$/.test(t) && IMPERATIV.test(m[1].split(/\s+/)[0])) return [`Please ${klein(m[1])}${m[2] || "."}`];
+  return [];
 }
 
 // Enter: prüfen · nach einem Fehler: Text korrigieren → Enter prüft noch einmal
