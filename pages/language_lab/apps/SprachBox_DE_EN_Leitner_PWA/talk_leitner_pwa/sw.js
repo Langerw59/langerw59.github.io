@@ -10,7 +10,7 @@
 // 2026-11-12: Lieder aus dem Lied-Trainer als Karteikarten.
 // 2026-11-17: der Schreib-Modus (schreiben.js).
 // 2026-11-17: Spickzettel ?z=, Leseregel stummes E (shining).
-const CACHE = "sprachbox-v56"; // 2026-11-19: Leseregel -s/-ed // 2026-11-19: Leseregel a vor l // 2026-11-19: please vorne/hinten beides richtig // 2026-11-17: alt-Antworten // 2026-11-17: Übersetzen: erst Deutsch, Englisch nach dem Prüfen // 2026-11-17: Akzent é freiwillig // 2026-11-17: Groß-/Kleinschreibung prüfen // 2026-11-17: Satzzeichen prüfen // 2026-11-17: Knopf Grammatik statt Spickzettel/Leseregeln
+const CACHE = "sprachbox-v57"; // 2026-11-19: Leseregel -s/-ed // 2026-11-19: Leseregel a vor l // 2026-11-19: please vorne/hinten beides richtig // 2026-11-17: alt-Antworten // 2026-11-17: Übersetzen: erst Deutsch, Englisch nach dem Prüfen // 2026-11-17: Akzent é freiwillig // 2026-11-17: Groß-/Kleinschreibung prüfen // 2026-11-17: Satzzeichen prüfen // 2026-11-17: Knopf Grammatik statt Spickzettel/Leseregeln
 const CORE = [
   "./",
   "./index.html",

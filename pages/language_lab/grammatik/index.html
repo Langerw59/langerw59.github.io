@@ -32,6 +32,17 @@
       .gr-regel.offen .pfeil { transform: rotate(180deg); }
       .gr-formel { font-weight: 700; color: var(--accent, #1f6feb); background: rgba(31,111,235,.08); border-radius: 10px; padding: 8px 12px; margin: 4px 0 10px; font-size: 1.05rem; }
       .gr-body p { margin: 6px 0; font-size: 1.02rem; }
+      /* 2026-11-19: 🔎 die Suche – Grammatik + Leseregeln */
+      .gr-suche { margin: 10px 0; }
+      .gr-suche input { width: 100%; box-sizing: border-box; font: inherit; font-size: 1.05rem; padding: 10px 14px; border-radius: 12px; border: 2px solid var(--accent, #1f6feb); background: var(--bg-surface, #fff); color: inherit; }
+      #grTreffer { margin-top: 6px; }
+      #grTreffer .tr { display: block; padding: 7px 12px; margin: 4px 0; border: 1px solid var(--border-subtle, #d0d7de); border-radius: 10px; text-decoration: none; color: inherit; background: var(--bg-surface, #fff); }
+      #grTreffer .tr:hover { border-color: var(--accent, #1f6feb); }
+      #grTreffer .tr small { display: block; color: var(--text-muted, #59636e); }
+      #grTreffer .art { font-size: .75rem; font-weight: 700; border-radius: 999px; padding: 1px 8px; margin-right: 6px; background: rgba(31,111,235,.12); }
+      #grTreffer .art.lese { background: rgba(45,164,78,.15); }
+      #grTreffer mark { background: #fff3b0; color: inherit; border-radius: 3px; }
+      #grTreffer .nichts { color: var(--text-muted, #59636e); padding: 4px 2px; }
       /* 2026-11-19: ★ das Kern-Programm – diese Regeln lernen, die anderen nachschlagen */
       .gr-kernbox { margin: 10px 0 12px; padding: 10px 14px; border: 2px solid #d29922; border-radius: 12px; background: rgba(210,153,34,.08); }
       .gr-kernbox b { display: block; margin-bottom: 4px; }
@@ -101,6 +112,10 @@
           <button type="button" id="grAlleAuf">▾ Alle öffnen</button>
           <button type="button" id="grAlleZu">▴ Alle schließen</button>
           <button type="button" id="grNurKern">★ nur der Kern / только ядро</button>
+        </div>
+        <div class="gr-suche">
+          <input type="search" id="grSuche" placeholder="🔎 Suchen: Wort oder Regel (z. B. forgot, this, Komma, Perfekt) …" autocomplete="off" />
+          <div id="grTreffer"></div>
         </div>
         <div class="gr-kernbox" id="grKernBox"></div>
         <nav class="gr-themen" id="grThemen"></nav>
@@ -331,6 +346,63 @@
           if (z) { if (z.classList.contains("gr-regel")) z.classList.add("offen"); setTimeout(() => z.scrollIntoView({ block: "start" }), 300); }
         }
       }
+
+      // ---- 2026-11-19: 🔎 die Suche in der Grammatik UND in den Leseregeln ----
+      let LESE = null;
+      fetch("../apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/data/leseregeln_en.json")
+        .then((r) => r.json()).then((d) => { LESE = d.regeln || []; if ($("grSuche").value) suchen(); }).catch(() => { LESE = []; });
+      const klein = (t) => String(t || "").toLowerCase().replace(/[\[\]]/g, "");
+      const textRegel = (r) => [r.titel, r.titel_ru, r.formel, r.merke, ...(r.erklaerung || []),
+        ...(r.beispiele || []).flatMap((b) => [b.de, b.en, b.ru, b.hinweis]),
+        ...(r.tabellen || (r.tabelle ? [r.tabelle] : [])).flatMap((t) => (t.zeilen || []).flat()),
+        ...(r.definitionen || []).flatMap((d) => [d.wort, d.de, d.ru])].join(" \n ");
+      const textLese = (r) => [r.titel, r.titel_ru, r.formel, r.erklaerung, r.hinweis,
+        ...(r.woerter || []).flatMap((w) => [w.en, w.ru, w.lies])].join(" \n ");
+      // Suchwörter + gleichbedeutende Wörter (Perfekt findet auch „2. Vergangenheit“ usw.)
+      function suchwoerter(q) {
+        const w = [q];
+        (window.GRAMMATIK_SYNONYME || []).forEach((e) => {
+          if (klein(e.namen).includes(q) || e.such.some((x) => klein(x) === q)) e.such.forEach((x) => w.push(klein(x)));
+        });
+        return Array.from(new Set(w)).filter((x) => x.length >= 2);
+      }
+      function schnipsel(text, q) {
+        const t = String(text).replace(/\s+/g, " ").replace(/[\[\]]/g, "");
+        const i = t.toLowerCase().indexOf(q);
+        if (i < 0) return "";
+        const a = Math.max(0, i - 50), b = Math.min(t.length, i + q.length + 60);
+        const esc = (x) => x.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+        return (a ? "… " : "") + esc(t.slice(a, i)) + "<mark>" + esc(t.slice(i, i + q.length)) + "</mark>" + esc(t.slice(i + q.length, b)) + (b < t.length ? " …" : "");
+      }
+      function suchen() {
+        const box = $("grTreffer"); box.innerHTML = "";
+        const q = klein($("grSuche").value.trim());
+        if (q.length < 2) return;
+        const ws = suchwoerter(q);
+        const treffer = [];
+        (window.GRAMMATIK ? window.GRAMMATIK.regeln : []).forEach((r) => {
+          const t = klein(textRegel(r));
+          const w = ws.find((x) => t.includes(x));
+          if (w) treffer.push({ art: "Grammatik", href: "#" + r.id, titel: (r.kern ? "★ " : "") + r.titel, sn: schnipsel(textRegel(r), w), id: r.id, gewicht: klein(r.titel).includes(w) ? 0 : 1 });
+        });
+        (LESE || []).forEach((r, i) => {
+          const t = klein(textLese(r));
+          const w = ws.find((x) => t.includes(x));
+          if (w) treffer.push({ art: "Leseregel", href: "../apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/leseregeln.html#r-" + r.id, titel: (i + 1) + ". " + r.titel + " – " + r.titel_ru, sn: schnipsel(textLese(r), w), gewicht: klein(r.titel).includes(w) ? 0 : 1 });
+        });
+        treffer.sort((a, b) => a.gewicht - b.gewicht);
+        if (!treffer.length) { box.appendChild(el("div", "nichts", "Nichts gefunden / ничего не найдено. Fragen Sie Claude – die Regel kommt dann hierher.")); return; }
+        treffer.forEach((t) => {
+          const a = el("a", "tr"); a.href = t.href;
+          if (t.art === "Leseregel") a.target = "_blank";
+          const art = el("span", "art" + (t.art === "Leseregel" ? " lese" : ""), t.art === "Leseregel" ? "📏 Leseregel" : "📐 Grammatik");
+          a.append(art, document.createTextNode(t.titel));
+          const sm = el("small"); sm.innerHTML = t.sn; a.appendChild(sm);
+          if (t.id) a.addEventListener("click", () => { const z = document.getElementById(t.id); if (z) { z.classList.add("offen"); setTimeout(() => z.scrollIntoView({ block: "start" }), 50); } });
+          box.appendChild(a);
+        });
+      }
+      $("grSuche").addEventListener("input", suchen);
 
       $("grNurKern").addEventListener("click", () => {
         const an = document.body.classList.toggle("nur-kern");

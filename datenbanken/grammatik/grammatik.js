@@ -1231,6 +1231,7 @@ window.GRAMMATIK = {
           ["eat", "ate", "eaten", "essen – aß – gegessen", "есть"],
           ["drink", "drank", "drunk", "trinken – trank – getrunken", "пить"],
           ["take", "took", "taken", "nehmen – nahm – genommen", "брать"],
+          ["forget", "forgot", "forgotten", "vergessen – vergaß – vergessen", "забывать"],
           ["have", "had", "had", "haben – hatte – gehabt", "иметь"],
           ["do", "did", "done", "machen / tun – tat – getan", "делать"],
           ["be", "was / were", "been", "sein – war – gewesen", "быть"],
