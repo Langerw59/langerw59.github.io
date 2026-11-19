@@ -104,13 +104,27 @@
     if (/ai|ay/.test(w)) add("ai-oa", "Die Doppelvokale ai, ay, oa, ow", `<b>${w.includes("ai") ? "ai" : "ay"}</b> → [eɪ] «эй»`);
     if (w.includes("oa")) add("ai-oa", "Die Doppelvokale ai, ay, oa, ow", `<b>oa</b> → [oʊ] «оу»`);
     if (w.includes("ow")) add(i.includes("aʊ") ? "ou-oi" : "ai-oa", i.includes("aʊ") ? "Die Doppellaute ou, ow, oi, oy" : "Die Doppelvokale ai, ay, oa, ow", `<b>ow</b> → ${i.includes("aʊ") ? "[aʊ] «ау»" : "[oʊ] «оу»"}`);
-    if (w.includes("ou")) add("ou-oi", "Die Doppellaute ou, ow, oi, oy", `<b>ou</b> → чаще [aʊ] «ау»`);
+    // 2026-11-19: ci / ti / si + Vokal → [ʃ] «ш» (delicious, station), Vokal + sion → [ʒ] «ж»
+    const msh = w.match(/([cts])i(?=[aeiou])/);
+    const shLaut = msh && (i.includes("ʃ") || i.includes("ʒ"));
+    if (shLaut) {
+      const zh = msh[1] === "s" && i.includes("ʒ");
+      add("tion-cious", "ci, ti, si vor einem Vokal", `<b>${msh[1]}i</b> + гласная → ${zh ? "[ʒ] «ж»" : "[ʃ] «ш»"}, i отдельно не читается`);
+    }
+    // 2026-11-19: Endung -ous → [əs] «ес» (delicious, famous)
+    const ousEnde = /ous$/.test(w) && /əs$/.test(i);
+    if (ousEnde) add("schwa", "Das Schwa", `<b>-ous</b> в конце → [əs] «ес» (безударно)`);
+    // 2026-11-19: a vor l / aw / au → [ɔ] «о» (call, talk, saw)
+    if (/all|al[ktds]|aw|au/.test(w) && /ɔ/.test(i)) add("a-vor-l", "Das A vor L (all, al) und AW, AU", `<b>${w.match(/all|al[ktds]|aw|au/)[0]}</b> → [ɔ] «о»`);
+    // 2026-11-19: Endungen -ed / -s
+    if (/[^e]ed$/.test(w)) add("endungen-s-ed", "Die Endungen -s und -ed", `<b>-ed</b> → ${/ɪd$/.test(i) ? "[ɪd] «ид» (после t, d)" : /t$/.test(i) ? "[t] «т»" : "[d] «д»"}`);
+    if (w.includes("ou") && !(ousEnde && (w.match(/ou/g) || []).length === 1)) add("ou-oi", "Die Doppellaute ou, ow, oi, oy", `<b>ou</b> → чаще [aʊ] «ау»`);
     if (/oi|oy/.test(w)) add("ou-oi", "Die Doppellaute ou, ow, oi, oy", `<b>${w.includes("oi") ? "oi" : "oy"}</b> → [ɔɪ] «ой»`);
     if (w.includes("igh")) add("igh-y", "Die Buchstaben igh und y", `<b>igh</b> → [aɪ] «ай», gh не читается`);
     else if (/[^aeiou]y$/.test(w)) add("igh-y", "Die Buchstaben igh und y", `<b>y</b> в конце → ${/aɪ$/.test(i) ? "[aɪ] «ай»" : "[i] «и»"}`);
     if (/^w[ao]|[^a-z]w[ao]/.test(w) || /^wor/.test(w)) add("w", "Das W ändert den Vokal", `<b>w</b> перед a/o меняет гласную`);
     else if (/[aeiou]r/.test(w)) add("vokal-r", "Vokal + R", `<b>${w.match(/[aeiou]r/)[0]}</b> → гласная + r читается вместе`);
-    if (/c[eiy]/.test(w)) add("c-g", "Die Buchstaben C und G", `<b>c</b> перед e, i, y → [s] «с»`);
+    if (/c[eiy]/.test(w) && !(shLaut && msh[1] === "c" && !/c[ey]/.test(w) && (w.match(/ci/g) || []).length === 1)) add("c-g", "Die Buchstaben C und G", `<b>c</b> перед e, i, y → [s] «с»`);
     if (/g[eiy]/.test(w) && i.includes("dʒ")) add("c-g", "Die Buchstaben C und G", `<b>g</b> перед e, i, y → [dʒ] «дж»`);
     if (/^kn|^wr|mb$|gh|alk|^h(our|onest)/.test(w)) add("stumm", "Die stummen Buchstaben", `в слове есть немая буква – её не читают`);
     // geschlossene Silbe, wenn sonst nichts passt
