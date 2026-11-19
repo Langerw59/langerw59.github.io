@@ -1065,6 +1065,88 @@
       ]
     },
     {
+      "id": "endungen-s-ed",
+      "titel": "Die Endungen -s und -ed",
+      "titel_ru": "как читать окончания -s и -ed",
+      "formel": "-ed: [t] · [d] · [ɪd] nach t/d   ·   -s: [s] · [z] · [ɪz] nach s/sch/tsch",
+      "erklaerung": "Окончание -ed (прошедшее время, Past Simple) читается тремя способами: после глухих звуков (p, k, f, s, ш, ч) – [t]: worked «вёркт», helped; после звонких звуков и гласных – [d]: played «плэйд», lived; после t и d – с гласной [ɪd]: visited «ви́зитид», wanted, needed. Буква e в -ed обычно НЕ читается – только после t и d. Окончание -s (множественное число, he/she/it) устроено так же: после глухих – [s]: books, cats; после звонких – [z]: friends «фрэндз», dogs, lives; после s, z, sh, ch – [ɪz]: buses, watches.",
+      "hinweis": "Немцу трудно: в немецком в конце слова звонкие оглушаются (der Hund – «хунт»). В английском – НЕТ: friends – «фрэндз» со звонким [dz], не «фрэнтс». А в friend буква i вообще не читается: [frend] – см. «Die Ausnahmen».",
+      "woerter": [
+        {
+          "en": "work[ed]",
+          "ipa": "wɜrkt",
+          "lies": "вёркт",
+          "ru": "работал"
+        },
+        {
+          "en": "help[ed]",
+          "ipa": "helpt",
+          "lies": "хэлпт",
+          "ru": "помог"
+        },
+        {
+          "en": "play[ed]",
+          "ipa": "pleɪd",
+          "lies": "плэйд",
+          "ru": "играл"
+        },
+        {
+          "en": "liv[ed]",
+          "ipa": "lɪvd",
+          "lies": "ливд",
+          "ru": "жил"
+        },
+        {
+          "en": "visit[ed]",
+          "ipa": "ˈvɪzɪtɪd",
+          "lies": "ви́зитид",
+          "ru": "посетил"
+        },
+        {
+          "en": "want[ed]",
+          "ipa": "ˈwɑntɪd",
+          "lies": "уо́нтид",
+          "ru": "хотел"
+        },
+        {
+          "en": "need[ed]",
+          "ipa": "ˈnidɪd",
+          "lies": "ни́дид",
+          "ru": "нуждался"
+        },
+        {
+          "en": "book[s]",
+          "ipa": "bʊks",
+          "lies": "букс",
+          "ru": "книги"
+        },
+        {
+          "en": "friend[s]",
+          "ipa": "frendz",
+          "lies": "фрэндз",
+          "ru": "друзья"
+        },
+        {
+          "en": "dog[s]",
+          "ipa": "dɔɡz",
+          "lies": "догз",
+          "ru": "собаки"
+        },
+        {
+          "en": "bus[es]",
+          "ipa": "ˈbʌsɪz",
+          "lies": "ба́сиз",
+          "ru": "автобусы"
+        },
+        {
+          "en": "watch[es]",
+          "ipa": "ˈwɑtʃɪz",
+          "lies": "уо́чиз",
+          "ru": "часы (наручные)"
+        }
+      ]
+    },
+    {
       "id": "ausnahmen",
       "titel": "Die Ausnahmen",
       "titel_ru": "Исключения – учить наизусть",
