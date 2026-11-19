@@ -1274,6 +1274,43 @@ window.GRAMMATIK = {
         { en: "I'm not well today.", de: "Mir geht es heute nicht gut.", ru: "Мне сегодня нехорошо.", hinweis: "well = здоров" }
       ],
       merke: "Какой? → good (a good night). Как? → well (I slept well). После be, feel, look, taste → good (It tastes good)."
+    },
+    {
+      // 2026-11-19: mit Claude – Gestern war ich im Garten / Yesterday I was in the garden
+      id: "verbzweit-de-en",
+      thema: "satz",
+      sprache: "de",
+      datum: "2026-11-19",
+      titel: "die Verbzweitstellung: Gestern war ich im Garten – Yesterday I was in the garden",
+      titel_ru: "глагол на втором месте (DE) – подлежащее перед глаголом (EN)",
+      formel: "DE: Position 1 (beliebig) – das finite Verb – das Subjekt …  ·  EN: (Zeit) – Subjekt – Verb – …",
+      erklaerung: [
+        "НЕМЕЦКОЕ ПРАВИЛО. В повествовательном предложении (der Aussagesatz) личная форма глагола (das finite Verb) ВСЕГДА стоит на втором месте. Это называется die Verbzweitstellung. Место считают не по словам, а по членам предложения (die Satzglieder): «Am letzten Sonntag» – три слова, но одно место.",
+        "НА ПЕРВОЕ МЕСТО МОЖНО ПОСТАВИТЬ ЧТО УГОДНО: подлежащее, время, место, дополнение. Глагол всё равно остаётся вторым. Если первое место занято НЕ подлежащим, подлежащее уходит за глагол – это die Inversion (обратный порядок): Ich war gestern im Garten. · Gestern war ich im Garten. · Im Garten war ich gestern. Смысл одинаковый, меняется только то, что мы выделяем.",
+        "АНГЛИЙСКОЕ ПРАВИЛО. Порядок жёсткий: подлежащее – глагол – остальное (S – V – O: Subjekt – Prädikat – Objekt). Подлежащее стоит ВСЕГДА прямо перед глаголом. Время можно вынести вперёд – тогда глагол окажется третьим: Yesterday I was in the garden. Но чаще время ставят в конец: I was in the garden yesterday. Ошибка немцев: «Yesterday was I in the garden» – так нельзя.",
+        "ГДЕ АНГЛИЙСКИЙ ВСЁ-ТАКИ МЕНЯЕТ ПОРЯДОК: в вопросе. Вперёд выходит вспомогательный глагол (das Hilfsverb): Were you in the garden? · Did you sleep well? Плюс несколько готовых фраз: Here comes the bus. – Da kommt der Bus.",
+        "РУССКИЙ – свободный порядок: «Вчера я был в саду», «Я вчера был в саду», «В саду я был вчера». Поэтому русскому легко сказать по-немецки «Gestern ich war…» – это типичная ошибка. Проверка: что стоит первым? Если не подлежащее – сразу глагол, потом подлежащее.",
+        "В ПРИДАТОЧНОМ (der Nebensatz) немецкий глагол уходит в КОНЕЦ: …, weil ich gestern im Garten war. В английском и там порядок не меняется: …, because I was in the garden yesterday."
+      ],
+      tabelle: {
+        kopf: ["Position 1 · первое место", "Position 2 · das Verb", "Rest · остальное", "English", "Русский"],
+        sprechen: false,
+        zeilen: [
+          ["Ich (das Subjekt)", "war", "gestern im Garten.", "I was in the garden yesterday.", "Я был вчера в саду."],
+          ["Gestern (die Zeit)", "war", "ich im Garten.", "Yesterday I was in the garden.", "Вчера я был в саду."],
+          ["Im Garten (der Ort)", "war", "ich gestern.", "I was in the garden yesterday.", "В саду я был вчера."],
+          ["Am Sonntag (die Zeit, 2 Wörter)", "habe", "ich Tomaten gepflanzt.", "On Sunday I planted tomatoes.", "В воскресенье я посадил помидоры."],
+          ["Den Kaffee (das Objekt)", "trinke", "ich ohne Zucker.", "I drink (my) coffee without sugar.", "Кофе я пью без сахара."]
+        ]
+      },
+      beispiele: [
+        { de: "Gestern war ich im Garten.", en: "Yesterday I was in the garden.", ru: "Вчера я был в саду.", hinweis: "DE: глагол 2-й · EN: подлежащее перед глаголом (глагол 3-й)" },
+        { de: "Ich war gestern im Garten.", en: "I was in the garden yesterday.", ru: "Я вчера был в саду.", hinweis: "EN: время чаще в конце" },
+        { de: "Heute regnet es.", en: "It is raining today.", ru: "Сегодня идёт дождь.", hinweis: "DE: Heute + Verb + es" },
+        { de: "Warst du im Garten?", en: "Were you in the garden?", ru: "Ты был в саду?", hinweis: "вопрос: глагол вперёд в обоих языках" },
+        { de: "Ich bin müde, weil ich im Garten war.", en: "I am tired because I was in the garden.", ru: "Я устал, потому что был в саду.", hinweis: "DE Nebensatz: глагол в конце" }
+      ],
+      merke: "DE: das Verb immer auf Platz 2 – steht etwas anderes vorn, kommt das Subjekt NACH dem Verb (Gestern war ich …). EN: Subjekt immer direkt vor dem Verb (Yesterday I was …)."
     }
   ]
 };

@@ -53,5 +53,10 @@ window.GRAMMATIK_SYNONYME = [
   { namen: "das Prädikat = die Satzaussage", ru: "сказуемое", such: ["Prädikat", "Satzaussage"], nicht: ["Prädikativ"] },
   { namen: "das Prädikativ = die Gleichsetzung (nach sein, werden, bleiben)", ru: "именная часть сказуемого", such: ["Prädikativ"] },
   { namen: "das Objekt = die Ergänzung", ru: "дополнение", such: ["Objekt"] },
-  { namen: "der Nebensatz = der Gliedsatz", ru: "придаточное предложение", such: ["Nebensatz", "Nebensätze"] }
+  { namen: "der Nebensatz = der Gliedsatz", ru: "придаточное предложение", such: ["Nebensatz", "Nebensätze"] },
+  { namen: "der Aussagesatz = der Behauptungssatz = der Deklarativsatz = statement", ru: "повествовательное предложение", such: ["Aussagesatz", "Behauptungssatz", "Deklarativsatz"] },
+  { namen: "die Verbzweitstellung = die V2-Stellung (das Verb auf Platz 2)", ru: "глагол на втором месте", such: ["Verbzweitstellung"] },
+  { namen: "die Inversion = die Umstellung (das Subjekt steht nach dem Verb)", ru: "обратный порядок слов", such: ["Inversion"] },
+  { namen: "das finite Verb = die Personalform = die gebeugte Form", ru: "личная форма глагола", such: ["finite Verb", "finiten Verb", "Personalform"] },
+  { namen: "das Satzglied = der Satzteil", ru: "член предложения", such: ["Satzglied"] }
 ];
