@@ -169,6 +169,7 @@ window.GRAMMATIK = {
     {
       // 2026-11-18: mit Claude – Artikel-Finder im Satzlabor
       id: "de-artikel-finden",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "artikel",
       sprache: "de",
       datum: "2026-11-18",
@@ -347,6 +348,7 @@ window.GRAMMATIK = {
     },
     {
       id: "en-pronomen",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "pronomen",
       sprache: "en",
       datum: "2026-11-12",
@@ -385,6 +387,7 @@ window.GRAMMATIK = {
     },
     {
       id: "en-be",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "verb",
       sprache: "en",
       datum: "2026-11-12",
@@ -542,6 +545,7 @@ window.GRAMMATIK = {
     },
     {
       id: "satzart-verneinung",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "satz",
       sprache: "de",
       datum: "2026-11-18",
@@ -646,6 +650,7 @@ window.GRAMMATIK = {
     },
     {
       id: "moechte-would-like",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "verb",
       sprache: "en",
       datum: "2026-11-17",
@@ -745,6 +750,7 @@ window.GRAMMATIK = {
     },
     {
       id: "en-will-would",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "verb",
       sprache: "en",
       datum: "2026-11-18",
@@ -820,6 +826,7 @@ window.GRAMMATIK = {
     },
     {
       id: "de-praeposition-kasus",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "praeposition",
       sprache: "de",
       datum: "2026-11-18",
@@ -1153,6 +1160,7 @@ window.GRAMMATIK = {
     {
       // 2026-11-19: mit Claude – this oder that? (I don't like that / this)
       id: "en-this-that",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "pronomen",
       sprache: "en",
       datum: "2026-11-19",
@@ -1196,6 +1204,7 @@ window.GRAMMATIK = {
     {
       // 2026-11-19: mit Claude – I slept well: die Konjugation im Past Simple
       id: "en-past-simple",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "verb",
       sprache: "en",
       datum: "2026-11-19",
@@ -1278,6 +1287,7 @@ window.GRAMMATIK = {
     {
       // 2026-11-19: mit Claude – Gestern war ich im Garten / Yesterday I was in the garden
       id: "verbzweit-de-en",
+      kern: true,  // ★ 2026-11-19: zum Lernen (das Kern-Programm)
       thema: "satz",
       sprache: "de",
       datum: "2026-11-19",

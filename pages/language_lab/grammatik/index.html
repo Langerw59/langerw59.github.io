@@ -32,6 +32,14 @@
       .gr-regel.offen .pfeil { transform: rotate(180deg); }
       .gr-formel { font-weight: 700; color: var(--accent, #1f6feb); background: rgba(31,111,235,.08); border-radius: 10px; padding: 8px 12px; margin: 4px 0 10px; font-size: 1.05rem; }
       .gr-body p { margin: 6px 0; font-size: 1.02rem; }
+      /* 2026-11-19: ★ das Kern-Programm – diese Regeln lernen, die anderen nachschlagen */
+      .gr-kernbox { margin: 10px 0 12px; padding: 10px 14px; border: 2px solid #d29922; border-radius: 12px; background: rgba(210,153,34,.08); }
+      .gr-kernbox b { display: block; margin-bottom: 4px; }
+      .gr-kernbox small { display: block; color: var(--text-muted, #59636e); margin-bottom: 6px; }
+      .gr-kernbox a { display: inline-block; margin: 3px 4px 3px 0; padding: 3px 10px; border-radius: 999px; border: 1px solid #d29922; text-decoration: none; color: inherit; font-size: .92rem; }
+      .gr-kopf .stern { color: #d29922; font-weight: 700; }
+      body.nur-kern .gr-regel:not(.kern), body.nur-kern .gr-links, body.nur-kern .gr-leer { display: none; }
+      #grNurKern.an { background: #d29922; color: #fff; border-color: #d29922; }
       /* 2026-11-19: gleichbedeutende Wörter / синонимы терминов */
       .gr-syn { border-bottom: 2px dotted #8250df; cursor: help; }
       .gr-syn:hover { background: rgba(130,80,223,.1); }
@@ -92,7 +100,9 @@
         <div class="gr-knoepfe">
           <button type="button" id="grAlleAuf">▾ Alle öffnen</button>
           <button type="button" id="grAlleZu">▴ Alle schließen</button>
+          <button type="button" id="grNurKern">★ nur der Kern / только ядро</button>
         </div>
+        <div class="gr-kernbox" id="grKernBox"></div>
         <nav class="gr-themen" id="grThemen"></nav>
         <div id="grInhalt"><p class="gr-leer">Lädt … / загрузка …</p></div>
         <p class="gr-fuss">Daten: /datenbanken/grammatik/grammatik.js</p>
@@ -193,8 +203,9 @@
       }
 
       function regelKarte(r) {
-        const box = el("section", "gr-regel"); box.id = r.id;
+        const box = el("section", "gr-regel" + (r.kern ? " kern" : "")); box.id = r.id;
         const kopf = el("div", "gr-kopf");
+        if (r.kern) { const st = el("span", "stern", "★"); st.title = "der Kern – zum Lernen / ядро – выучить"; kopf.appendChild(st); }
         kopf.append(el("h3", null, r.titel), el("span", "ru", r.titel_ru), el("span", "fl", (r.sprache || "").toUpperCase()), el("span", "pfeil", "▾"));
         const body = el("div", "gr-body");
         if (r.formel) body.appendChild(el("div", "gr-formel", r.formel));
@@ -304,6 +315,16 @@
           if (!regeln.length && !links.length) inhalt.appendChild(el("p", "gr-leer", "Noch leer – пока пусто."));
         });
 
+        // ★ das Kern-Programm: Liste oben
+        const kern = G.regeln.filter((r) => r.kern);
+        const kb = $("grKernBox");
+        if (kern.length && kb) {
+          kb.innerHTML = "";
+          kb.appendChild(el("b", null, "★ Der Kern – diese " + kern.length + " Regeln lernen / ядро – эти правила выучить"));
+          kb.appendChild(el("small", null, "Alle anderen Regeln sind zum Nachschlagen – wie ein Wörterbuch. / Остальные – справочник: открывать, когда возник вопрос."));
+          kern.forEach((r) => { const a = el("a", null, "★ " + r.titel.split(" – ")[0].split(":")[0]); a.href = "#" + r.id; a.title = r.titel_ru || ""; kb.appendChild(a); });
+        }
+
         // Link mit #id → Regel öffnen
         if (location.hash) {
           const z = document.querySelector(location.hash);
@@ -311,6 +332,10 @@
         }
       }
 
+      $("grNurKern").addEventListener("click", () => {
+        const an = document.body.classList.toggle("nur-kern");
+        $("grNurKern").classList.toggle("an", an);
+      });
       $("grAlleAuf").addEventListener("click", () => document.querySelectorAll(".gr-regel").forEach((r) => r.classList.add("offen")));
       $("grAlleZu").addEventListener("click", () => document.querySelectorAll(".gr-regel").forEach((r) => r.classList.remove("offen")));
       window.addEventListener("hashchange", () => {
