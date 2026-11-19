@@ -537,6 +537,49 @@ window.WORTDETEKTIV = [
     { t: "Leine auf der Karte", url: "https://www.openstreetmap.org/search?query=Leine%20Fluss", art: "karte", sp: "DE", info: "Найти реку на карте OpenStreetMap." }
   ],
   raetsel: { frage: "Что общего у верёвки **die Leine** и **das Linoleum**?", antwort: "**Лён.** Верёвка die Leine – от das Leinen (лён), а Linoleum – от латинского linum «лён» + oleum «масло». А река Leine к ним не относится – её древнее имя Lagina." }
+},
+
+{
+  // 2026-11-19: mit Claude – Wladimirs Entdeckung: yesterday = gestern
+  id: "yesterday",
+  titel: "gestern → yesterday: das deutsche G wird zum englischen Y",
+  ru: "Почему немецкое gestern по-английски yesterday – и ещё десяток таких пар",
+  wort: "yesterday / gestern",
+  h: "germ",
+  thema: "woerter",
+  kurz: "Английский не «исковеркал» немецкий: оба языка – дети одного германского праязыка, и у каждого свои привычки менять звуки.",
+  text: [
+    "Слово **[[ton:en|yesterday]]** кажется совсем чужим. Но разрежем его: **yester** + **day**. day – это der Tag. А yester – это наше **[[ton:de|gestern]]**!",
+    "В [[lex:altenglisch|древнеанглийском]] (около 450–1100 гг.) «вчера» писалось **geostran dæg** – «вчерашний день». Буква g ещё стояла, но перед гласными e и i англосаксы уже произносили её мягко, как «й». Со временем и написание поменялось: **g → y**. Так gestern превратилось в yester-.",
+    "Это не случайность, а **правило**: немецкое **g** в начале слова перед e, i часто = английское **y**. **gelb** – [[ton:en|yellow]], **gähnen** – [[ton:en|yawn]], **das Garn** – [[ton:en|yarn]], **der Garten** – [[ton:en|yard]] (двор). Зная правило, можно угадывать слова!",
+    "**А теперь шутка наоборот.** Во второй половине того же слова «исковеркал» как раз **немецкий**. В германском праязыке было *dagaz с буквой d. Английский её сохранил – **day**, а немецкий около 500–800 гг. превратил d в t – **Tag**. Это называется die zweite Lautverschiebung (второе передвижение согласных). Поэтому: Tag – day, Tochter – daughter, tief – deep, trinken – drink.",
+    "**Кто кому родня.** Англичане не брали немецкий язык. Около 450 года [[ort:angeln|англы]] и [[ort:sachsen|саксы]] переплыли [[lex:nordsee|Северное море]] в Британию (см. историю «English»). Немецкий и английский – **двоюродные братья**: у них общий дед – германский праязык. А после [[lex:normannen1066|1066 года]] норманны принесли в английский тысячи французских и латинских слов – поэтому сегодня английский так не похож на немецкий."
+  ],
+  spuren: [
+    ["gestern – yesterday", "g → y: древнеангл. geostran, нем. gestern."],
+    ["gelb – yellow", "g → y. Ср. русское «жёлтый» – тоже родственник (индоевроп. корень *ghel- «блестящий»)."],
+    ["gähnen – yawn", "g → y: зевать."],
+    ["der Garten – yard", "g → y: двор, участок. Английское garden пришло позже через французский – тоже родственник!"],
+    ["der Tag – day", "d → t: тут изменился немецкий (die zweite Lautverschiebung)."],
+    ["die Tochter – daughter · tief – deep", "Та же пара d ↔ t."]
+  ],
+  orte: {
+    angeln:  { name: "Angeln", lat: 54.70, lng: 9.75, info: "Родина англов (Шлезвиг-Гольштейн).", wiki: "Angeln (Halbinsel)", wikiRu: "Ангельн" },
+    sachsen: { name: "Land der Sachsen", lat: 53.30, lng: 8.80, info: "Откуда пришли саксы (нынешняя Нижняя Саксония).", wiki: "Niedersachsen", wikiRu: "Нижняя Саксония" },
+    england: { name: "England", lat: 52.40, lng: -1.20, info: "Здесь из языка англов и саксов вырос английский.", wiki: "England", wikiRu: "Англия" }
+  },
+  wege: [
+    ["angeln", "england", "Angeln"],
+    ["sachsen", "england", "Sachsen"]
+  ],
+  links: [
+    { t: "„yesterday“ – Etymonline", url: "https://www.etymonline.com/word/yesterday", art: "woerterbuch", sp: "EN", info: "Английский этимологический словарь: история слова." },
+    { t: "„gestern“ im DWDS", url: "https://www.dwds.de/wb/gestern", art: "woerterbuch", sp: "DE", info: "Немецкий словарь с происхождением слова." },
+    { t: "Altenglische Sprache – Wikipedia", url: "https://de.wikipedia.org/wiki/Altenglische_Sprache", art: "lexikon", sp: "DE", info: "Древнеанглийский язык." },
+    { t: "Древнеанглийский язык – Википедия", url: "https://ru.wikipedia.org/wiki/Древнеанглийский_язык", art: "lexikon", sp: "RU", info: "То же по-русски." },
+    { t: "Zweite Lautverschiebung – Wikipedia", url: "https://de.wikipedia.org/wiki/Zweite_Lautverschiebung", art: "lexikon", sp: "DE", info: "Почему немецкий говорит Tag, а английский day." }
+  ],
+  raetsel: { frage: "Немецкое **gelb** по-английски … ? А немецкое **die Tür** (подсказка: t → d)?", antwort: "**yellow** (g → y) и **door** (t → d). Правила работают!" }
 }
 
 ];
