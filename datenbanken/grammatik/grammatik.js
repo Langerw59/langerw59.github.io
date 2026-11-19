@@ -658,7 +658,9 @@ window.GRAMMATIK = {
         "ПОЧЕМУ «I WOULD TO GO HOME» – ОШИБКА. would – вспомогательный глагол (das Hilfsverb), он сам по себе ничего не значит, только «бы». После него обязательно нужен смысловой глагол (das Vollverb) – и без to: I would like, I would go. «I would to go» – смыслового глагола нет (пропущено like), а to после would не ставится. Правильно: I would like to go home. или I'd like to go home.",
         "WANT = WOLLEN. want – обычный смысловой глагол «хотеть», прямо и без вежливости: I want to go home. = Ich will nach Hause. После want – to + Infinitiv (I want to pay). В разговоре «I want to go home» тоже часто переводят как «Ich möchte nach Hause» – поэтому программа принимает оба варианта.",
         "ЛОВУШКА: ENGLISCH WILL ≠ DEUTSCH WILL. Немецкое ich will = I want (хочу). Английское I will = ich werde (будущее время, das Futur): I will go home. = Ich werde nach Hause gehen. Слова-родственники (оба от древнего «хотеть»), но значение в языках разошлось – это ложный друг (der falsche Freund).",
-        "ВЕЖЛИВОСТЬ. В магазине, кафе, у врача лучше I'd like …: I'd like a coffee, please. – Ich möchte einen Kaffee, bitte. «I want a coffee» звучит грубовато, как «Ich will einen Kaffee»."
+        "ВЕЖЛИВОСТЬ. В магазине, кафе, у врача лучше I'd like …: I'd like a coffee, please. – Ich möchte einen Kaffee, bitte. «I want a coffee» звучит грубовато, как «Ich will einen Kaffee».",
+        "ВОПРОС: WOULD YOU LIKE …? = MÖCHTEST DU …? (2026-11-19). Möchtest du etwas trinken? – Would you like something to drink? «Would you something to drink?» – ошибка: would – только «бы», смыслового глагола нет (как по-немецки «Würdest du etwas trinken?» без глагола – «бы ты что-то попить»). like здесь – не «любить» (любить = love = lieben), а mögen / «нравиться»: Would you like …? = буквально «Понравилось бы тебе …?» → «Хочешь …? / Не хочешь ли …?». Это НЕ чересчур любезно: немецкое möchtest – ровно то же самое (mögen + Konjunktiv II = würdest mögen). Просто в немецком «бы» спрятано внутри слова möchte, а в английском стоит отдельно: would + like.",
+        "ПОПРОЩЕ, СРЕДИ СВОИХ: Do you want something to drink? – Willst du was trinken? – Хочешь что-нибудь попить? Это тоже правильно и нормально (дома, с друзьями). Would you like …? – стандарт для гостя, в кафе, с незнакомыми. Ответ: Yes, please. / No, thank you. Или: I'd like a tea, please."
       ],
       tabelle: {
         kopf: ["Deutsch", "English", "die Form", "Русский"],
@@ -676,9 +678,11 @@ window.GRAMMATIK = {
         { de: "Ich möchte nach Hause.", en: "I'd like to go home.", ru: "Я хотел бы домой.", hinweis: "möchte = would like" },
         { de: "Ich will nach Hause.", en: "I want to go home.", ru: "Я хочу домой.", hinweis: "will (DE) = want (EN)" },
         { de: "Ich werde morgen kommen.", en: "I will come tomorrow.", ru: "Я приду завтра.", hinweis: "will (EN) = werden (DE)!" },
-        { de: "Ich möchte einen Kaffee, bitte.", en: "I'd like a coffee, please.", ru: "Мне кофе, пожалуйста.", hinweis: "höflich" }
+        { de: "Ich möchte einen Kaffee, bitte.", en: "I'd like a coffee, please.", ru: "Мне кофе, пожалуйста.", hinweis: "höflich" },
+        { de: "Möchtest du etwas trinken?", en: "Would you like something to drink?", ru: "Хочешь что-нибудь попить?", hinweis: "möchtest = would … like (like = mögen, не «любить»)" },
+        { de: "Willst du was trinken?", en: "Do you want something to drink?", ru: "Хочешь попить?", hinweis: "проще, среди своих" }
       ],
-      merke: "möchte = would like (I'd like) · will (DE) = want · will (EN) = werden · после would – глагол без to: I would like / I would go, НЕ I would to go"
+      merke: "möchte = would like (I'd like) · will (DE) = want · will (EN) = werden · после would – глагол без to: I would like / I would go, НЕ I would to go · Would you like …? = Möchtest du …?"
     },
     {
       id: "en-phrasal-verb",
