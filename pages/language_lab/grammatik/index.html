@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../../core/assets/style.css" />
     <script src="../../../core/js/core_init.js" defer></script>
     <script src="../../../datenbanken/grammatik/grammatik.js" defer></script>
+    <script src="../../../datenbanken/grammatik/synonyme.js" defer></script>  <!-- 2026-11-19: gleichbedeutende Wörter -->
     <!-- 2026-11-12: die Grammatik – erstellt mit Claude
          DE: Alle Grammatik-Regeln an EINEM Ort (DE · EN · RU), mit Sprachausgabe.
              Andere Programme verlinken hierher: grammatik/index.html#<id>
@@ -31,6 +32,15 @@
       .gr-regel.offen .pfeil { transform: rotate(180deg); }
       .gr-formel { font-weight: 700; color: var(--accent, #1f6feb); background: rgba(31,111,235,.08); border-radius: 10px; padding: 8px 12px; margin: 4px 0 10px; font-size: 1.05rem; }
       .gr-body p { margin: 6px 0; font-size: 1.02rem; }
+      /* 2026-11-19: gleichbedeutende Wörter / синонимы терминов */
+      .gr-syn { border-bottom: 2px dotted #8250df; cursor: help; }
+      .gr-syn:hover { background: rgba(130,80,223,.1); }
+      .gr-synbox { margin: 10px 0 4px; padding: 8px 12px; border: 1px dashed #8250df; border-radius: 8px; font-size: .92rem; background: rgba(130,80,223,.05); }
+      .gr-synbox b { display: block; margin-bottom: 3px; color: #8250df; }
+      .gr-synbox div { margin: 2px 0; }
+      .gr-synbox .ru { color: var(--text-muted, #59636e); }
+      #grSynPop { position: absolute; z-index: 3000; display: none; max-width: 320px; padding: 8px 12px; border-radius: 10px; border: 1px solid #8250df; background: var(--bg-surface, #fff); color: inherit; box-shadow: 0 6px 20px rgba(0,0,0,.18); font-size: .95rem; }
+      #grSynPop small { display: block; color: var(--text-muted, #59636e); }
       .gr-merke { margin: 12px 0 4px; padding: 8px 12px; border-left: 4px solid #d29922; background: rgba(210,153,34,.1); border-radius: 6px; font-weight: 600; }
       .gr-tab-wrap { overflow-x: auto; margin: 10px 0; }
       table.gr-tab { border-collapse: collapse; width: 100%; font-size: .95rem; }
@@ -116,6 +126,72 @@
         } catch (_) { fertig(); }
       }
 
+      // ---- 2026-11-19: gleichbedeutende Wörter / синонимы терминов ----
+      // Im Text gepunktet unterstrichen (antippen → Hinweis), am Ende der Regel eine Fußnote.
+      // erst beim Aufbau berechnen (synonyme.js wird mit „defer“ geladen)
+      let SYN = null;
+      const synListe = () => SYN || (SYN = (window.GRAMMATIK_SYNONYME || []).map((e) => {
+        const esc = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        // Wortanfang: kein Buchstabe davor; danach nur Kleinbuchstaben (Endungen) erlaubt
+        const re = new RegExp("(?<![\\p{L}\\p{N}])(" + e.such.map(esc).join("|") + ")(?![\\p{Lu}\\p{N}])", "u");
+        const nicht = (e.nicht || []).map((n) => n.toLowerCase());
+        return Object.assign({}, e, { re, nicht });
+      }));
+      function synTreffer(e, text) {
+        let rest = text, off = 0;
+        while (true) {
+          const m = e.re.exec(rest);
+          if (!m) return -1;
+          const ab = rest.slice(m.index).toLowerCase();
+          if (!e.nicht.some((n) => ab.startsWith(n))) return off + m.index;
+          off += m.index + 1; rest = rest.slice(m.index + 1);
+        }
+      }
+      const pop = document.createElement("div"); pop.id = "grSynPop"; document.body.appendChild(pop);
+      document.addEventListener("click", (ev) => {
+        const s = ev.target.closest(".gr-syn");
+        if (!s) { pop.style.display = "none"; return; }
+        ev.stopPropagation();
+        pop.innerHTML = "";
+        pop.append(document.createTextNode("🔁 " + s.dataset.namen), el("small", null, s.dataset.ru));
+        const r = s.getBoundingClientRect();
+        pop.style.display = "block";
+        pop.style.left = Math.max(8, Math.min(window.scrollX + r.left, window.scrollX + document.documentElement.clientWidth - pop.offsetWidth - 8)) + "px";
+        pop.style.top = (window.scrollY + r.bottom + 6) + "px";
+      }, true);
+      function synonymeAnwenden(r, body) {
+        if (!synListe().length) return;
+        const gefunden = [];
+        const absaetze = Array.from(body.querySelectorAll(":scope > p:not(.gr-def-de):not(.gr-def-ru), .gr-formel, .gr-merke"));
+        synListe().forEach((e) => {
+          let markiert = false;
+          for (const p of absaetze) {
+            const walker = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
+            let n;
+            while ((n = walker.nextNode())) {
+              if (n.parentNode.closest(".gr-syn")) continue;
+              const i = synTreffer(e, n.nodeValue);
+              if (i < 0) continue;
+              const m = e.re.exec(n.nodeValue.slice(i));
+              const wort = n.nodeValue.slice(i).match(new RegExp("^" + m[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\p{Ll}*", "u"))[0];
+              const nach = n.splitText(i); nach.splitText(wort.length);
+              const span = el("span", "gr-syn", wort);
+              span.dataset.namen = e.namen; span.dataset.ru = e.ru; span.title = e.namen + " – " + e.ru;
+              nach.parentNode.replaceChild(span, nach);
+              markiert = true; break;
+            }
+            if (markiert) break;
+          }
+          const ganzText = (r.titel || "") + " " + (r.formel || "") + " " + (r.erklaerung || []).join(" ") + " " + (r.merke || "");
+          if (markiert || synTreffer(e, ganzText) >= 0) gefunden.push(e);
+        });
+        if (!gefunden.length) return;
+        const box = el("div", "gr-synbox");
+        box.appendChild(el("b", null, "🔁 Gleichbedeutende Wörter / одно и то же – разные названия"));
+        gefunden.forEach((e) => { const d = el("div"); d.append(document.createTextNode(e.namen + " "), el("span", "ru", "· " + e.ru)); box.appendChild(d); });
+        body.appendChild(box);
+      }
+
       function regelKarte(r) {
         const box = el("section", "gr-regel"); box.id = r.id;
         const kopf = el("div", "gr-kopf");
@@ -189,6 +265,7 @@
           body.appendChild(g);
         }
         if (r.merke) body.appendChild(el("div", "gr-merke", "📌 " + r.merke));
+        synonymeAnwenden(r, body);
         if (r.datum) body.appendChild(el("div", "gr-fuss", "eingetragen: " + r.datum + " · Link: #" + r.id));
 
         kopf.addEventListener("click", () => {
