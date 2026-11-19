@@ -97,7 +97,7 @@
     if (mf && VOKAL_NAME[mf[2]] && i.includes(VOKAL_NAME[mf[2]][0].replace("juː", "uː")) && !/[aeiou]{2}[^aeiouy](ing|ed|er|est)$/.test(w)) {
       const [laut, ru] = VOKAL_NAME[mf[2]];
       const grund = mf[1] + "e";
-      add("stummes-e", "Das stumme E", `<b>${esc(w)}</b> ← <b>${esc(grund)}</b>: перед -${mf[4]} немая e выпадает, но <b>${mf[2]}</b> всё равно читается [${laut}] ${ru} (как в ${esc(grund)})`);
+      add("stummes-e", "Das stumme E", `<b>${esc(w)}</b> ← <b>${esc(grund)}</b>: перед -${mf[4]} немая e выпадает, но <b>${mf[2]}</b> всё равно читается [${laut}] ${ru} (как в ${esc(grund)}). Признак: перед -${mf[4]} ОДНА согласная (<b>${mf[3]}</b>) → гласная длинная; две одинаковые (hopped, stopped) → коротко`);
     }
     if (/ee|ea/.test(w)) add("ee-ea", "Die Doppelvokale ee und ea", `<b>${w.includes("ee") ? "ee" : "ea"}</b> → обычно [iː] долгое «и»${w.includes("ea") && !i.includes("iː") ? " (здесь исключение!)" : ""}`);
     if (w.includes("oo")) add("oo", "Der Doppelvokal oo", `<b>oo</b> → [uː] «уу» или [ʊ] «у»`);
