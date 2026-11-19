@@ -1192,6 +1192,88 @@ window.GRAMMATIK = {
         { en: "this week · that day", de: "diese Woche · an jenem Tag", ru: "на этой неделе · в тот день", hinweis: "сейчас → this, тогда → that" }
       ],
       merke: "this / these – hier und jetzt (вот это). that / those – dort, damals, das Gesagte (то). На чужие слова отвечаем that: That's right. I don't like that."
+    },
+    {
+      // 2026-11-19: mit Claude – I slept well: die Konjugation im Past Simple
+      id: "en-past-simple",
+      thema: "verb",
+      sprache: "en",
+      datum: "2026-11-19",
+      titel: "das Past Simple – sleep → slept (die regelmäßigen und die unregelmäßigen Verben)",
+      titel_ru: "простое прошедшее: sleep → slept, правильные и неправильные глаголы",
+      formel: "regelmäßig: V + -ed (work → worked)  ·  unregelmäßig: V1 – V2 – V3 (sleep – slept – slept)  ·  im Past Simple für ALLE Personen gleich",
+      erklaerung: [
+        "КОНЪЮГАЦИЯ ИЛИ ДЕКЛИНАЦИЯ? die Konjugation (спряжение) – изменение ГЛАГОЛА: по лицу (ich, du, er …), числу и времени (die Zeitform). die Deklination (склонение) – изменение существительного, прилагательного, местоимения по падежам (der Kasus). sleep → slept – это конъюгация: глагол изменился по ВРЕМЕНИ (das Präsens → das Präteritum).",
+        "ПО ЛИЦАМ АНГЛИЙСКИЙ ПОЧТИ НЕ МЕНЯЕТСЯ. В настоящем времени (Present Simple) окончание есть только у he / she / it: I sleep, you sleep, he sleeps. В прошедшем (Past Simple) – вообще одинаково для всех: I slept, you slept, he slept, we slept, they slept. Сравните немецкий: ich schlief, du schliefst, er schlief, wir schliefen. Единственное исключение – be: I was, you were, he was, we were.",
+        "ПРАВИЛЬНЫЕ ГЛАГОЛЫ (die regelmäßigen Verben, regular verbs): прошедшее = глагол + -ed: work → worked, play → played, visit → visited. Как немецкие слабые глаголы: arbeiten – arbeitete.",
+        "НЕПРАВИЛЬНЫЕ ГЛАГОЛЫ (die unregelmäßigen Verben, irregular verbs): у них три формы, их учат наизусть: V1 (der Infinitiv) – V2 (Past Simple, das Präteritum) – V3 (das Partizip II). sleep – slept – slept. Как немецкие сильные глаголы (die starken Verben): schlafen – schlief – geschlafen. Самых нужных – около 50.",
+        "ВАЖНОЕ ОТЛИЧИЕ ОТ НЕМЕЦКОГО. В разговоре немцы о прошлом говорят das Perfekt: Ich habe gut geschlafen. Англичане – Past Simple, если время закончилось (ночь прошла): I slept well. «I have slept well» по-английски звучит странно. Правило: законченное прошлое (yesterday, last night, in 2010) → Past Simple.",
+        "ВОПРОС И ОТРИЦАНИЕ – через did, а глагол возвращается в V1: Did you sleep well? (не «Did you slept») · I didn't sleep well. did уже показывает прошлое – второй раз его не ставят.",
+        "СЛОВО SLEEP В ПРОГРАММИРОВАНИИ – то же самое слово: sleep(1) – «поспи 1 секунду», программа ждёт."
+      ],
+      tabelle: {
+        kopf: ["V1 · der Infinitiv", "V2 · Past Simple", "V3 · das Partizip II", "Deutsch", "Русский"],
+        sprechen: true,
+        zeilen: [
+          ["sleep", "slept", "slept", "schlafen – schlief – geschlafen", "спать"],
+          ["go", "went", "gone", "gehen – ging – gegangen", "идти"],
+          ["see", "saw", "seen", "sehen – sah – gesehen", "видеть"],
+          ["come", "came", "come", "kommen – kam – gekommen", "приходить"],
+          ["eat", "ate", "eaten", "essen – aß – gegessen", "есть"],
+          ["drink", "drank", "drunk", "trinken – trank – getrunken", "пить"],
+          ["take", "took", "taken", "nehmen – nahm – genommen", "брать"],
+          ["have", "had", "had", "haben – hatte – gehabt", "иметь"],
+          ["do", "did", "done", "machen / tun – tat – getan", "делать"],
+          ["be", "was / were", "been", "sein – war – gewesen", "быть"],
+          ["work", "worked", "worked", "arbeiten – arbeitete – gearbeitet", "работать (правильный)"]
+        ]
+      },
+      beispiele: [
+        { en: "I slept well.", de: "Ich habe gut geschlafen.", ru: "Я хорошо спал.", hinweis: "EN: Past Simple · DE: das Perfekt" },
+        { en: "Did you sleep well?", de: "Hast du gut geschlafen?", ru: "Ты хорошо спал?", hinweis: "did + V1 (sleep, не slept)" },
+        { en: "I didn't sleep well.", de: "Ich habe nicht gut geschlafen.", ru: "Я плохо спал.", hinweis: "didn't + V1" },
+        { en: "He slept until nine.", de: "Er hat bis neun geschlafen.", ru: "Он спал до девяти.", hinweis: "he slept – без -s: в прошедшем все лица одинаковы" },
+        { en: "Yesterday I worked in the garden.", de: "Gestern habe ich im Garten gearbeitet.", ru: "Вчера я работал в саду.", hinweis: "правильный глагол: work + -ed" }
+      ],
+      merke: "Past Simple: одна форма для всех лиц (I / he / they slept). Правильные: + -ed. Неправильные: V1 – V2 – V3 наизусть (sleep – slept – slept). Вопрос и «не»: did / didn't + V1."
+    },
+    {
+      // 2026-11-19: mit Claude – I slept well, nicht good
+      id: "en-good-well",
+      thema: "grundbegriffe",
+      sprache: "en",
+      datum: "2026-11-19",
+      titel: "good oder well? – das Adjektiv und das Adverb im Englischen",
+      titel_ru: "good или well – прилагательное и наречие",
+      formel: "good = das Adjektiv (какой?) · well = das Adverb (как?)  ·  DE: beides gut",
+      erklaerung: [
+        "ДВЕ ЧАСТИ РЕЧИ. good – das Adjektiv (прилагательное): описывает предмет, отвечает на вопрос «какой?»: a good bed – ein gutes Bett – хорошая кровать. well – das Adverb (наречие): описывает действие (глагол), отвечает на вопрос «как?»: I slept well – Ich habe gut geschlafen – я спал хорошо.",
+        "ПОЧЕМУ НЕ «I SLEPT GOOD». slept – глагол. К глаголу в английском нужно наречие, а не прилагательное. Обычно наречие делают окончанием -ly: quick → quickly, slow → slowly, bad → badly (I slept badly – я плохо спал). У good эта форма неправильная – вместо «goodly» используется отдельное слово well. (В разговорном американском «I slept good» иногда слышно, но это считается ошибкой.)",
+        "ПОЧЕМУ НЕМЦУ ТРУДНО. В немецком прилагательное ставят к глаголу без изменений (adverbial gebraucht): ein guter Schlaf – Ich habe gut geschlafen. Одно слово gut. В английском – два разных слова, как в русском «хороший» и «хорошо».",
+        "ЛОВУШКА: ГЛАГОЛЫ-«ЗНАКИ РАВЕНСТВА». После be, feel, look, smell, taste стоит прилагательное, потому что оно описывает не действие, а САМ ПРЕДМЕТ (как немецкое sein + Prädikativ): The soup is good. · This tastes good. · You look good. · I feel good. Проверка: можно ли поставить «=»? Суп = хороший → good.",
+        "WELL ЕЩЁ ЗНАЧИТ «ЗДОРОВ». I am well. / I'm not well. – Мне хорошо / я здоров – мне нехорошо. How are you? – I'm well, thank you. (Или: I'm fine / I'm good.)"
+      ],
+      tabelle: {
+        kopf: ["das Adjektiv · какой?", "das Adverb · как?", "Deutsch", "Русский"],
+        sprechen: true,
+        zeilen: [
+          ["good", "well", "gut", "хороший – хорошо"],
+          ["bad", "badly", "schlecht", "плохой – плохо"],
+          ["quick", "quickly", "schnell", "быстрый – быстро"],
+          ["slow", "slowly", "langsam", "медленный – медленно"],
+          ["fast", "fast", "schnell", "быстрый – быстро (без -ly)"],
+          ["hard", "hard", "hart / fleißig", "трудный – усердно (без -ly)"]
+        ]
+      },
+      beispiele: [
+        { en: "I slept well.", de: "Ich habe gut geschlafen.", ru: "Я хорошо спал.", hinweis: "как спал? → well (Adverb)" },
+        { en: "It was a good night.", de: "Es war eine gute Nacht.", ru: "Это была хорошая ночь.", hinweis: "какая ночь? → good (Adjektiv)" },
+        { en: "I slept badly.", de: "Ich habe schlecht geschlafen.", ru: "Я плохо спал.", hinweis: "bad + ly" },
+        { en: "He speaks English well.", de: "Er spricht gut Englisch.", ru: "Он хорошо говорит по-английски.", hinweis: "как говорит? → well" },
+        { en: "This soup tastes good.", de: "Diese Suppe schmeckt gut.", ru: "Этот суп вкусный.", hinweis: "taste = «знак равенства» → good" },
+        { en: "I'm not well today.", de: "Mir geht es heute nicht gut.", ru: "Мне сегодня нехорошо.", hinweis: "well = здоров" }
+      ],
+      merke: "Какой? → good (a good night). Как? → well (I slept well). После be, feel, look, taste → good (It tastes good)."
     }
   ]
 };
