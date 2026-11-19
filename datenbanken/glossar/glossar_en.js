@@ -126,7 +126,7 @@ window.GLOSSAR_EN = [
   bsp:["It was delicious.","Es hat sehr gut geschmeckt."], t:["Essen & Trinken"] },
 { w:"do", f:["does","did","doing","done","don't"], de:"tun, machen", ru:"делать", h:"germ",
   her:"Древнеангл. dōn – немецкое «tun». Очень древний корень *dʰeh₁- «класть, ставить» – родня русских «деть» и «дело»!",
-  ver:"DE tun, die Tat · RU деть, дело", tip:"do – дело.",
+  ver:"DE tun, die Tat · RU деть, дело", tip:"do – дело. ЧТЕНИЕ: do [du] «ду», но does [dʌz] «даз» (в быстрой речи «дэз»), did [dɪd] «дид», done [dʌn] «дан». ГРАММАТИКА: does – для he / she / it и для that, this: What does that mean? Основной глагол после does – без -s (mean, не means).",
   bsp:["What did you do?","Was hast du gemacht?"], t:["Grundwörter"] },
 { w:"doctor", de:"der Arzt", ru:"врач", h:"lat",
   her:"Лат. doctor «учитель» (docere «учить»). Врач – учёный человек.",
