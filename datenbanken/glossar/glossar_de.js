@@ -208,5 +208,32 @@ window.GLOSSAR_DE = [
     tip: "e → ie / i в du и er/sie/es: sehen → du siehst, er sieht; geben → du gibst; lesen → du liest.",
     bsp: [["sehen – sah – gesehen", "die Stammformen eines starken Verbs"]],
     en: "strong (irregular) verb", gr: "de-finit-infinit"
+  },
+  // 2026-11-23: das Pronomen + das Possessivpronomen (Frage im Chat: «откуда слово поссессив?»)
+  {
+    w: "das Pronomen", k: ["Pronomen", "Pronomens", "Pronomina", "das Fürwort", "Fürwort", "Fürwörter", "das Personalpronomen", "Personalpronomen"],
+    sag: "das Pronomen", aus: "pro-NO-men [proˈnoːmən]",
+    de: "die Wortart, die statt eines Nomens steht: ich, du, er, sie, es, mein, dein, dieser …",
+    ru: "местоимение (стоит вместо имени существительного)",
+    h: "lat",
+    her: "Лат. pronomen ← pro «вместо» + nomen «имя». Буквально «вместо-имя». Русское «место-имение» – это калька (die Lehnübersetzung) того же латинского слова: (в)место + имя. Немецкое «das Fürwort» – тоже калька: für «вместо» + das Wort.",
+    ver: "DE der Name, der Nominativ, das Nomen · EN pronoun [ˈprəʊnaʊn], noun · RU номинация, имя",
+    tip: "Gleiche Begriffe / то же самое: das Pronomen = das Fürwort = EN pronoun. Das Personalpronomen (личное местоимение): ich, du, er … Das Possessivpronomen (притяжательное): mein, dein, sein …",
+    bsp: [["Der Mann ist müde. Er schläft.", "er = das Pronomen (steht statt «der Mann»)"]],
+    en: "pronoun [ˈprəʊnaʊn] – «проунаун»", gr: "en-pronomen"
+  },
+  {
+    w: "das Possessivpronomen", k: ["Possessivpronomen", "possessiv", "Possessiv", "possessive", "der Possessivartikel", "Possessivartikel", "der Possessivbegleiter", "Possessivbegleiter", "das besitzanzeigende Fürwort", "besitzanzeigend", "Possession"],
+    sag: "possessiv. das Possessivpronomen", aus: "POS-se-siv-pro-NO-men [ˈpɔsɛsiːfproˌnoːmən] (auch pos-se-SIV)",
+    de: "das besitzanzeigende Fürwort – zeigt, wem etwas gehört: mein, dein, sein, ihr, unser, euer, ihr / Ihr",
+    ru: "притяжательное местоимение (мой, твой, его, её, наш, ваш, их) – показывает, чьё это",
+    h: "lat",
+    her: "Лат. possessivus «относящийся к владению» ← possidere «владеть» ← potis «могущий, имеющий власть» + sedere «сидеть». Картина: «сидеть на чём-то как хозяин» – кто сидит на земле, тот ею и владеет. Интересно: немецкое be-SITZ-en, der Besitz («владеть, владение») построено по той же картине – «сидеть на чём-то». А pronomen = pro «вместо» + nomen «имя» (см. das Pronomen). Вместе: «местоимение владения».",
+    ver: "DE der Besitz, besitzen, der Ballbesitz · EN possess, possession [pəˈzɛʃn], possessive · lat. sedere: der Präsident (praesidere «сидеть впереди»), die Residenz · potis: potent, das Potenzial",
+    tip: "Gleiche Begriffe / то же самое: das Possessivpronomen = das besitzanzeigende Fürwort = der Possessivartikel / der Possessivbegleiter (так их называют, когда они стоят ПЕРЕД существительным: mein Auto) = EN possessive pronoun (my, our; одно без сущ.: mine, ours). Ряд: mein – dein – sein – ihr – sein – unser – euer – ihr / Ihr. Окончание как у ein: mein Hund, meine Katze, meinen Hund (Akkusativ).",
+    bsp: [["Das ist mein Auto.", "mein = das Possessivpronomen (Possessivartikel) – чьё? моё"],
+          ["Das Auto ist meins.", "meins – стоит один, без существительного"],
+          ["Wir besuchen unsere Enkel.", "unsere – чьих? наших"]],
+    en: "possessive pronoun [pəˈzɛsɪv ˈprəʊnaʊn] – «пэ-ЗЭ-сив»", gr: "en-pronomen"
   }
 ];
