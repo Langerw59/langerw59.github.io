@@ -1736,6 +1736,643 @@
    "mnemo": "",
    "wort": "",
    "ru": "Я тебя люблю."
+  },
+  {
+   "id": "lek-T-01-1",
+   "order": 145,
+   "lesson": "T-01",
+   "topic": "T-01 Test: die Pronomen",
+   "stufe": "Test",
+   "de": "Ich bin aus Willich.",
+   "en": "I am from Willich.",
+   "mnemo": "I am = ich bin (nur mit I)",
+   "wort": "Я есть из Willich.",
+   "ru": "Я из Willich.",
+   "alt": [
+    "I'm from Willich."
+   ]
+  },
+  {
+   "id": "lek-T-01-2",
+   "order": 146,
+   "lesson": "T-01",
+   "topic": "T-01 Test: die Pronomen",
+   "stufe": "Test",
+   "de": "Wir sind zu Hause.",
+   "en": "We are at home.",
+   "mnemo": "wir = we",
+   "wort": "Мы есть в доме.",
+   "ru": "Мы дома.",
+   "alt": [
+    "We're at home."
+   ]
+  },
+  {
+   "id": "lek-T-01-3",
+   "order": 147,
+   "lesson": "T-01",
+   "topic": "T-01 Test: die Pronomen",
+   "stufe": "Test",
+   "de": "Ich bin müde.",
+   "en": "I am tired.",
+   "mnemo": "Subjekt = I, nicht me",
+   "wort": "Я есть уставший.",
+   "ru": "Я устал.",
+   "alt": [
+    "I'm tired."
+   ]
+  },
+  {
+   "id": "lek-T-01-4",
+   "order": 148,
+   "lesson": "T-01",
+   "topic": "T-01 Test: die Pronomen",
+   "stufe": "Test",
+   "de": "Das ist unser Haus.",
+   "en": "This is our house.",
+   "mnemo": "we → our (unser)",
+   "wort": "Это есть наш дом.",
+   "ru": "Это наш дом."
+  },
+  {
+   "id": "lek-T-01-5",
+   "order": 149,
+   "lesson": "T-01",
+   "topic": "T-01 Test: die Pronomen",
+   "stufe": "Test",
+   "de": "Wo ist ihr Auto?",
+   "en": "Where is their car?",
+   "mnemo": "they → their (ihr / их)",
+   "wort": "Где есть их машина?",
+   "ru": "Где их машина?"
+  },
+  {
+   "id": "lek-T-01-6",
+   "order": 150,
+   "lesson": "T-01",
+   "topic": "T-01 Test: die Pronomen",
+   "stufe": "Test",
+   "de": "Wie heißt du?",
+   "en": "What is your name?",
+   "mnemo": "you → your (dein)",
+   "wort": "Что есть твоё имя?",
+   "ru": "Как тебя зовут?",
+   "alt": [
+    "What's your name?"
+   ]
+  },
+  {
+   "id": "lek-T-02-1",
+   "order": 151,
+   "lesson": "T-02",
+   "topic": "T-02 Test: to be – am / is / are – was / were",
+   "stufe": "Test",
+   "de": "Sie ist meine Tochter.",
+   "en": "She is my daughter.",
+   "mnemo": "he / she / it → is",
+   "wort": "Она есть моя дочь.",
+   "ru": "Она моя дочь.",
+   "alt": [
+    "She's my daughter."
+   ]
+  },
+  {
+   "id": "lek-T-02-2",
+   "order": 152,
+   "lesson": "T-02",
+   "topic": "T-02 Test: to be – am / is / are – was / were",
+   "stufe": "Test",
+   "de": "Wir waren letzte Woche in Hannover.",
+   "en": "We were in Hanover last week.",
+   "mnemo": "we / you / they → were (Vergangenheit)",
+   "wort": "Мы были в Hannover прошлую неделю.",
+   "ru": "Мы были в Hannover на прошлой неделе.",
+   "alt": [
+    "We were in Hannover last week."
+   ]
+  },
+  {
+   "id": "lek-T-02-3",
+   "order": 153,
+   "lesson": "T-02",
+   "topic": "T-02 Test: to be – am / is / are – was / were",
+   "stufe": "Test",
+   "de": "Ich war gestern müde.",
+   "en": "I was tired yesterday.",
+   "mnemo": "I / he / she / it → was",
+   "wort": "Я был уставший вчера.",
+   "ru": "Вчера я устал.",
+   "alt": [
+    "Yesterday I was tired."
+   ]
+  },
+  {
+   "id": "lek-T-02-4",
+   "order": 154,
+   "lesson": "T-02",
+   "topic": "T-02 Test: to be – am / is / are – was / were",
+   "stufe": "Test",
+   "de": "Das sind meine Söhne.",
+   "en": "They are my sons.",
+   "mnemo": "they → are",
+   "wort": "Они есть мои сыновья.",
+   "ru": "Это мои сыновья.",
+   "alt": [
+    "They're my sons."
+   ]
+  },
+  {
+   "id": "lek-T-02-5",
+   "order": 155,
+   "lesson": "T-02",
+   "topic": "T-02 Test: to be – am / is / are – was / were",
+   "stufe": "Test",
+   "de": "Bist du zu Hause?",
+   "en": "Are you at home?",
+   "mnemo": "Frage mit be: ohne do",
+   "wort": "Есть ты в доме?",
+   "ru": "Ты дома?"
+  },
+  {
+   "id": "lek-T-02-6",
+   "order": 156,
+   "lesson": "T-02",
+   "topic": "T-02 Test: to be – am / is / are – was / were",
+   "stufe": "Test",
+   "de": "Es ist nicht kalt.",
+   "en": "It isn't cold.",
+   "mnemo": "is not = isn't",
+   "wort": "Оно есть не холодное.",
+   "ru": "Не холодно.",
+   "alt": [
+    "It is not cold.",
+    "It's not cold."
+   ]
+  },
+  {
+   "id": "lek-T-02-7",
+   "order": 157,
+   "lesson": "T-02",
+   "topic": "T-02 Test: to be – am / is / are – was / were",
+   "stufe": "Test",
+   "de": "Ich bin 67 Jahre alt.",
+   "en": "I am 67 years old.",
+   "mnemo": "das Alter mit be, nicht have",
+   "wort": "Я есть 67 лет старый.",
+   "ru": "Мне 67 лет.",
+   "alt": [
+    "I'm 67 years old."
+   ]
+  },
+  {
+   "id": "lek-T-02-8",
+   "order": 158,
+   "lesson": "T-02",
+   "topic": "T-02 Test: to be – am / is / are – was / were",
+   "stufe": "Test",
+   "de": "Das Wetter ist gut.",
+   "en": "The weather is good.",
+   "mnemo": "the weather = it → is",
+   "wort": "Погода есть хорошая.",
+   "ru": "Погода хорошая."
+  },
+  {
+   "id": "lek-T-02-9",
+   "order": 159,
+   "lesson": "T-02",
+   "topic": "T-02 Test: to be – am / is / are – was / were",
+   "stufe": "Test",
+   "de": "Ich bin einverstanden.",
+   "en": "I agree.",
+   "mnemo": "agree ist ein Verb – ohne am!",
+   "wort": "Я соглашаюсь.",
+   "ru": "Я согласен."
+  },
+  {
+   "id": "lek-T-03-1",
+   "order": 160,
+   "lesson": "T-03",
+   "topic": "T-03 Test: this / that – these / those",
+   "stufe": "Test",
+   "de": "Das ist sehr gut!",
+   "en": "That's very good!",
+   "mnemo": "Antwort auf fremde Worte → that",
+   "wort": "То есть очень хорошо!",
+   "ru": "Это очень хорошо!",
+   "alt": [
+    "That is very good!"
+   ]
+  },
+  {
+   "id": "lek-T-03-2",
+   "order": 161,
+   "lesson": "T-03",
+   "topic": "T-03 Test: this / that – these / those",
+   "stufe": "Test",
+   "de": "Ich repariere dein Auto.",
+   "en": "I'll repair your car.",
+   "mnemo": "I'll = I will",
+   "wort": "Я буду чинить твою машину.",
+   "ru": "Я починю твою машину.",
+   "alt": [
+    "I will repair your car."
+   ]
+  },
+  {
+   "id": "lek-T-03-3",
+   "order": 162,
+   "lesson": "T-03",
+   "topic": "T-03 Test: this / that – these / those",
+   "stufe": "Test",
+   "de": "Diese Suppe ist lecker!",
+   "en": "This soup is delicious!",
+   "mnemo": "hier, bei mir → this",
+   "wort": "Этот суп есть вкусный!",
+   "ru": "Этот суп очень вкусный!"
+  },
+  {
+   "id": "lek-T-03-4",
+   "order": 163,
+   "lesson": "T-03",
+   "topic": "T-03 Test: this / that – these / those",
+   "stufe": "Test",
+   "de": "Diese Suppe schmeckt gut.",
+   "en": "This soup tastes good.",
+   "mnemo": "nach taste, look, feel → good (Adjektiv)",
+   "wort": "Этот суп на вкус хороший.",
+   "ru": "Этот суп вкусный."
+  },
+  {
+   "id": "lek-T-03-5",
+   "order": 164,
+   "lesson": "T-03",
+   "topic": "T-03 Test: this / that – these / those",
+   "stufe": "Test",
+   "de": "Das ist meine Frau.",
+   "en": "This is my wife.",
+   "mnemo": "this is – nie this's",
+   "wort": "Это есть моя жена.",
+   "ru": "Это моя жена."
+  },
+  {
+   "id": "lek-T-03-6",
+   "order": 165,
+   "lesson": "T-03",
+   "topic": "T-03 Test: this / that – these / those",
+   "stufe": "Test",
+   "de": "Das stimmt.",
+   "en": "That's right.",
+   "mnemo": "That's = That is",
+   "wort": "То есть правильно.",
+   "ru": "Верно.",
+   "alt": [
+    "That is right."
+   ]
+  },
+  {
+   "id": "lek-T-03-7",
+   "order": 166,
+   "lesson": "T-03",
+   "topic": "T-03 Test: this / that – these / those",
+   "stufe": "Test",
+   "de": "Schau dir das Schloss dort drüben an!",
+   "en": "Look at that castle over there!",
+   "mnemo": "dort drüben, eins → that",
+   "wort": "Смотри на тот замок там вон!",
+   "ru": "Посмотри на тот замок вон там!"
+  },
+  {
+   "id": "lek-T-03-8",
+   "order": 167,
+   "lesson": "T-03",
+   "topic": "T-03 Test: this / that – these / those",
+   "stufe": "Test",
+   "de": "Wer sind die Leute dort drüben?",
+   "en": "Who are those people over there?",
+   "mnemo": "dort drüben, viele → those",
+   "wort": "Кто есть те люди там вон?",
+   "ru": "Кто те люди вон там?"
+  },
+  {
+   "id": "lek-T-04-1",
+   "order": 168,
+   "lesson": "T-04",
+   "topic": "T-04 Test: die Frage und die Verneinung (do / does / did)",
+   "stufe": "Test",
+   "de": "Sprichst du Englisch?",
+   "en": "Do you speak English?",
+   "mnemo": "I / you / we / they → do",
+   "wort": "Делаешь ты говорить английский?",
+   "ru": "Ты говоришь по-английски?"
+  },
+  {
+   "id": "lek-T-04-2",
+   "order": 169,
+   "lesson": "T-04",
+   "topic": "T-04 Test: die Frage und die Verneinung (do / does / did)",
+   "stufe": "Test",
+   "de": "Wohnt sie in Krefeld?",
+   "en": "Does she live in Krefeld?",
+   "mnemo": "he / she / it → does + Verb ohne -s",
+   "wort": "Делает она жить в Krefeld?",
+   "ru": "Она живёт в Krefeld?"
+  },
+  {
+   "id": "lek-T-04-3",
+   "order": 170,
+   "lesson": "T-04",
+   "topic": "T-04 Test: die Frage und die Verneinung (do / does / did)",
+   "stufe": "Test",
+   "de": "Was bedeutet das?",
+   "en": "What does that mean?",
+   "mnemo": "-s steckt schon in does → mean",
+   "wort": "Что делает то значить?",
+   "ru": "Что это значит?"
+  },
+  {
+   "id": "lek-T-04-4",
+   "order": 171,
+   "lesson": "T-04",
+   "topic": "T-04 Test: die Frage und die Verneinung (do / does / did)",
+   "stufe": "Test",
+   "de": "Er mag keinen Kaffee.",
+   "en": "He doesn't like coffee.",
+   "mnemo": "he → doesn't + Verb",
+   "wort": "Он не делает любить кофе.",
+   "ru": "Он не любит кофе.",
+   "alt": [
+    "He does not like coffee."
+   ]
+  },
+  {
+   "id": "lek-T-04-5",
+   "order": 172,
+   "lesson": "T-04",
+   "topic": "T-04 Test: die Frage und die Verneinung (do / does / did)",
+   "stufe": "Test",
+   "de": "Hast du gut geschlafen?",
+   "en": "Did you sleep well?",
+   "mnemo": "Vergangenheit: Did + V1 (sleep)",
+   "wort": "Сделал ты спать хорошо?",
+   "ru": "Ты хорошо спал?"
+  },
+  {
+   "id": "lek-T-04-6",
+   "order": 173,
+   "lesson": "T-04",
+   "topic": "T-04 Test: die Frage und die Verneinung (do / does / did)",
+   "stufe": "Test",
+   "de": "Ich habe ihn gestern nicht gesehen.",
+   "en": "I didn't see him yesterday.",
+   "mnemo": "didn't + V1 (see, nicht saw)",
+   "wort": "Я не сделал видеть его вчера.",
+   "ru": "Я не видел его вчера.",
+   "alt": [
+    "I did not see him yesterday."
+   ]
+  },
+  {
+   "id": "lek-T-05-1",
+   "order": 174,
+   "lesson": "T-05",
+   "topic": "T-05 Test: das Past Simple",
+   "stufe": "Test",
+   "de": "Gestern habe ich im Garten gearbeitet.",
+   "en": "Yesterday I worked in the garden.",
+   "mnemo": "regelmäßig: work → worked",
+   "wort": "Вчера я работал в саду.",
+   "ru": "Вчера я работал в саду.",
+   "alt": [
+    "I worked in the garden yesterday."
+   ]
+  },
+  {
+   "id": "lek-T-05-2",
+   "order": 175,
+   "lesson": "T-05",
+   "topic": "T-05 Test: das Past Simple",
+   "stufe": "Test",
+   "de": "Wir haben letzten Sonntag Freunde besucht.",
+   "en": "We visited friends last Sunday.",
+   "mnemo": "visit → visited «ви́зитид»",
+   "wort": "Мы посетили друзей прошлое воскресенье.",
+   "ru": "В прошлое воскресенье мы были в гостях у друзей."
+  },
+  {
+   "id": "lek-T-05-3",
+   "order": 176,
+   "lesson": "T-05",
+   "topic": "T-05 Test: das Past Simple",
+   "stufe": "Test",
+   "de": "Er hat bis neun geschlafen.",
+   "en": "He slept until nine.",
+   "mnemo": "sleep – slept – slept (ohne -s!)",
+   "wort": "Он спал до девяти.",
+   "ru": "Он спал до девяти."
+  },
+  {
+   "id": "lek-T-05-4",
+   "order": 177,
+   "lesson": "T-05",
+   "topic": "T-05 Test: das Past Simple",
+   "stufe": "Test",
+   "de": "Ich habe meine Brille vergessen.",
+   "en": "I forgot my glasses.",
+   "mnemo": "forget – forgot – forgotten",
+   "wort": "Я забыл мои очки.",
+   "ru": "Я забыл очки."
+  },
+  {
+   "id": "lek-T-05-5",
+   "order": 178,
+   "lesson": "T-05",
+   "topic": "T-05 Test: das Past Simple",
+   "stufe": "Test",
+   "de": "Wir sind nach Hause gegangen.",
+   "en": "We went home.",
+   "mnemo": "go – went – gone",
+   "wort": "Мы пошли домой.",
+   "ru": "Мы пошли домой."
+  },
+  {
+   "id": "lek-T-05-6",
+   "order": 179,
+   "lesson": "T-05",
+   "topic": "T-05 Test: das Past Simple",
+   "stufe": "Test",
+   "de": "Ich habe schon gegessen.",
+   "en": "I ate already.",
+   "mnemo": "eat – ate – eaten",
+   "wort": "Я ел уже.",
+   "ru": "Я уже поел.",
+   "alt": [
+    "I already ate.",
+    "I have already eaten.",
+    "I've already eaten."
+   ]
+  },
+  {
+   "id": "lek-T-06-1",
+   "order": 180,
+   "lesson": "T-06",
+   "topic": "T-06 Test: I'm · I'll · I'd · would like",
+   "stufe": "Test",
+   "de": "Der Hund wedelt mit dem Schwanz.",
+   "en": "The dog wags its tail.",
+   "mnemo": "its (ohne ') = sein, beim Tier/Ding",
+   "wort": "Собака виляет его хвостом.",
+   "ru": "Собака виляет хвостом."
+  },
+  {
+   "id": "lek-T-06-2",
+   "order": 181,
+   "lesson": "T-06",
+   "topic": "T-06 Test: I'm · I'll · I'd · would like",
+   "stufe": "Test",
+   "de": "Er hat es gesehen.",
+   "en": "He's seen it.",
+   "mnemo": "vor V3 (seen): 's = has",
+   "wort": "Он имеет видевший это.",
+   "ru": "Он это видел.",
+   "alt": [
+    "He has seen it."
+   ]
+  },
+  {
+   "id": "lek-T-06-3",
+   "order": 182,
+   "lesson": "T-06",
+   "topic": "T-06 Test: I'm · I'll · I'd · would like",
+   "stufe": "Test",
+   "de": "Das ist Peters Auto.",
+   "en": "This is Peter's car.",
+   "mnemo": "Peter's = Peters (wessen?)",
+   "wort": "Это есть Питера машина.",
+   "ru": "Это машина Петера."
+  },
+  {
+   "id": "lek-T-06-4",
+   "order": 183,
+   "lesson": "T-06",
+   "topic": "T-06 Test: I'm · I'll · I'd · would like",
+   "stufe": "Test",
+   "de": "Ich rufe dich an.",
+   "en": "I'll call you.",
+   "mnemo": "I'll = I will",
+   "wort": "Я буду звонить тебе.",
+   "ru": "Я тебе позвоню.",
+   "alt": [
+    "I will call you."
+   ]
+  },
+  {
+   "id": "lek-T-06-5",
+   "order": 184,
+   "lesson": "T-06",
+   "topic": "T-06 Test: I'm · I'll · I'd · would like",
+   "stufe": "Test",
+   "de": "Möchtest du Tee? – Ja, bitte.",
+   "en": "Would you like tea? – Yes, please.",
+   "mnemo": "höflich: Would you like …?",
+   "wort": "Хотел бы ты чай? – Да, пожалуйста.",
+   "ru": "Хочешь чаю? – Да, пожалуйста."
+  },
+  {
+   "id": "lek-T-06-6",
+   "order": 185,
+   "lesson": "T-06",
+   "topic": "T-06 Test: I'm · I'll · I'd · would like",
+   "stufe": "Test",
+   "de": "Ich möchte einen Kaffee, bitte.",
+   "en": "I'd like a coffee, please.",
+   "mnemo": "I'd like = I would like = ich möchte",
+   "wort": "Я бы хотел один кофе, пожалуйста.",
+   "ru": "Мне кофе, пожалуйста.",
+   "alt": [
+    "I would like a coffee, please."
+   ]
+  },
+  {
+   "id": "lek-T-07-1",
+   "order": 186,
+   "lesson": "T-07",
+   "topic": "T-07 Test: die Wortstellung und die Satzzeichen",
+   "stufe": "Test",
+   "de": "Ich war gestern im Garten.",
+   "en": "I was in the garden yesterday.",
+   "mnemo": "Subjekt immer vor dem Verb",
+   "wort": "Я был в саду вчера.",
+   "ru": "Вчера я был в саду.",
+   "alt": [
+    "Yesterday I was in the garden.",
+    "Yesterday, I was in the garden."
+   ]
+  },
+  {
+   "id": "lek-T-07-2",
+   "order": 187,
+   "lesson": "T-07",
+   "topic": "T-07 Test: die Wortstellung und die Satzzeichen",
+   "stufe": "Test",
+   "de": "Warst du im Garten?",
+   "en": "Were you in the garden?",
+   "mnemo": "nur in der Frage: Verb nach vorn",
+   "wort": "Был ты в саду?",
+   "ru": "Ты был в саду?"
+  },
+  {
+   "id": "lek-T-07-3",
+   "order": 188,
+   "lesson": "T-07",
+   "topic": "T-07 Test: die Wortstellung und die Satzzeichen",
+   "stufe": "Test",
+   "de": "Setz dich, bitte.",
+   "en": "Sit down, please.",
+   "mnemo": "please hinten → Komma davor",
+   "wort": "Сядь вниз, пожалуйста.",
+   "ru": "Садись, пожалуйста.",
+   "alt": [
+    "Please sit down."
+   ]
+  },
+  {
+   "id": "lek-T-07-4",
+   "order": 189,
+   "lesson": "T-07",
+   "topic": "T-07 Test: die Wortstellung und die Satzzeichen",
+   "stufe": "Test",
+   "de": "Könntest du mir bitte helfen?",
+   "en": "Could you please help me?",
+   "mnemo": "please in der Mitte – ohne Komma",
+   "wort": "Мог бы ты пожалуйста помочь мне?",
+   "ru": "Не мог бы ты мне помочь?",
+   "alt": [
+    "Could you help me, please?"
+   ]
+  },
+  {
+   "id": "lek-T-07-5",
+   "order": 190,
+   "lesson": "T-07",
+   "topic": "T-07 Test: die Wortstellung und die Satzzeichen",
+   "stufe": "Test",
+   "de": "Danke, Anna.",
+   "en": "Thank you, Anna.",
+   "mnemo": "Anrede mit Komma",
+   "wort": "Благодарю тебя, Анна.",
+   "ru": "Спасибо, Анна."
+  },
+  {
+   "id": "lek-T-07-6",
+   "order": 191,
+   "lesson": "T-07",
+   "topic": "T-07 Test: die Wortstellung und die Satzzeichen",
+   "stufe": "Test",
+   "de": "Ich bin zu Hause geblieben, weil ich müde war.",
+   "en": "I stayed at home because I was tired.",
+   "mnemo": "EN: vor because meist kein Komma; DE: vor weil immer",
+   "wort": "Я остался дома, потому что я был уставший.",
+   "ru": "Я остался дома, потому что устал."
   }
  ]
 }

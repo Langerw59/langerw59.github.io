@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-23 – neue Lektionen aus dem Tagestest (Stufe „Test“)
+- 47 neue Karten T-01 … T-07: alle englischen Sätze aus dem Grammatik-Tagestest als ganze Sätze (DE / EN / дословно / RU), mit kurzer Regel im Merksatz
+- T-01 die Pronomen · T-02 to be (am/is/are – was/were) · T-03 this/that · T-04 do/does/did · T-05 Past Simple · T-06 I'm/I'll/I'd · T-07 Wortstellung und Satzzeichen
+- Auswahl: Thema „T-0… Test: …“ oder Stufe „Test“; Sätze, die schon in L1/L2 stehen, wurden nicht doppelt aufgenommen; Cache sprachbox-v64
+
 ## 2026-11-19 – Schreiben: „please“ vorne oder hinten – beides richtig
 - „Please sit down.“ und „Sit down, please.“ gelten beide als richtig (nur bei Bitten mit dem Imperativ). Unten steht dann, was auf der Karte steht.
 - RU: please в начале (без запятой) или в конце (запятая перед please) – оба варианта засчитываются.
