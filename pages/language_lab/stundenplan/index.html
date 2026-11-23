@@ -88,15 +88,17 @@
         lesen:  { t: "der Lese-Trainer", u: "/pages/language_lab/lesetrainer/index.html" },
         wdh:    { t: "die Wiederholung: der Sprachführer, Box 1–2", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html" },
         // 2026-11-23: das Zehnfingersystem (слепая печать) – TIPP10 online, kostenlos, deutsche Tastatur; öffnet in neuem Tab
-        tipp:   { t: "⌨️ die Zehnfingertechnik (TIPP10)", u: "https://www.tipp10.com/de/", neu: true }
+        tipp:   { t: "⌨️ die Zehnfingertechnik (TIPP10)", u: "https://www.tipp10.com/de/", neu: true },
+        // 2026-11-23: der Grammatik-Tagestest (Lektion + Wiederholung der Fehler)
+        test:   { t: "📝 der Grammatik-Tagestest", u: "/pages/language_lab/tagestest/index.html" }
       };
       // Index 0 = Montag
       const PLAN = [
-        { tag: "Montag",     a: [["grund", 5], ["sfEN", 20], ["slDE", 10], ["tipp", 10]] },
-        { tag: "Dienstag",   a: [["grund", 5], ["lesen", 20], ["lese", 10], ["tipp", 10]] },
-        { tag: "Mittwoch",   a: [["grund", 5], ["slDE", 15], ["diktat", 10], ["tipp", 10]] },
-        { tag: "Donnerstag", a: [["grund", 5], ["sfEN", 15], ["lesen", 15], ["tipp", 10]] },
-        { tag: "Freitag",    a: [["grund", 5], ["slEN", 15], ["sfEN", 15], ["tipp", 10]] },
+        { tag: "Montag",     a: [["grund", 5], ["sfEN", 20], ["slDE", 10], ["tipp", 10], ["test", 15]] },
+        { tag: "Dienstag",   a: [["grund", 5], ["lesen", 20], ["lese", 10], ["tipp", 10], ["test", 15]] },
+        { tag: "Mittwoch",   a: [["grund", 5], ["slDE", 15], ["diktat", 10], ["tipp", 10], ["test", 15]] },
+        { tag: "Donnerstag", a: [["grund", 5], ["sfEN", 15], ["lesen", 15], ["tipp", 10], ["test", 15]] },
+        { tag: "Freitag",    a: [["grund", 5], ["slEN", 15], ["sfEN", 15], ["tipp", 10], ["test", 15]] },
         { tag: "Samstag",    a: [["lied", 20], ["weis", 10], ["tipp", 10]] },
         { tag: "Sonntag",    a: [["wdh", 15]], frei: true }
       ];

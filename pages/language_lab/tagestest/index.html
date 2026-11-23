@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Der Grammatik-Tagestest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <script src="../../../datenbanken/tagestest/fragen.js" defer></script>
+    <!-- 2026-11-23: der Grammatik-Tagestest – erstellt mit Claude
+         DE: Jeden Tag 15 Minuten: eine Lektion (10 Fragen) + Wiederholung der Fehler. Zuerst die Grundlagen.
+         RU: Каждый день 15 минут: один урок (10 вопросов) + повтор ошибок. Сначала основы.
+         Daten: /datenbanken/tagestest/fragen.js · Fortschritt: localStorage „tagestest_v1“ (pro Gerät) -->
+    <style>
+      .tt-wrap { max-width: 860px; margin: 0 auto; }
+      .tt-sub { color: var(--text-muted, #59636e); margin-top: 0; }
+      .tt-heute { border: 2px solid #8250df; border-radius: 14px; padding: 12px 16px; margin: 10px 0; background: rgba(130,80,223,.06); }
+      .tt-heute h2 { margin: 0 0 4px; font-size: 22px; }
+      .tt-knopf { font: inherit; font-size: 17px; cursor: pointer; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--accent, #1f6feb); background: var(--accent, #1f6feb); color: #fff; font-weight: 700; margin: 6px 4px 0 0; touch-action: manipulation; }
+      .tt-knopf.leicht { background: transparent; color: inherit; }
+      .tt-leiste { display: flex; flex-wrap: wrap; gap: 4px; margin: 10px 0; }
+      .tt-leiste span { width: 26px; height: 8px; border-radius: 4px; background: var(--border-subtle, #d0d7de); }
+      .tt-leiste span.ok { background: #1a7f37; }
+      .tt-leiste span.jetzt { background: #8250df; }
+      .tt-liste { display: grid; gap: 6px; margin: 8px 0 16px; }
+      .tt-liste button { text-align: left; font: inherit; cursor: pointer; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border-subtle, #d0d7de); background: var(--bg-surface, #fff); color: inherit; }
+      .tt-liste button small { color: var(--text-muted, #59636e); }
+      .tt-stand { display: flex; justify-content: space-between; color: var(--text-muted, #59636e); font-size: 15px; }
+      .tt-frage { font-size: 26px; font-weight: 800; margin: 14px 0 6px; line-height: 1.3; }
+      .tt-wdh { display: inline-block; font-size: 13px; font-weight: 700; border-radius: 999px; padding: 2px 10px; background: #d29922; color: #fff; margin-bottom: 4px; }
+      .tt-wahl { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+      .tt-wahl button { font: inherit; font-size: 19px; font-weight: 600; padding: 14px 10px; border-radius: 14px; border: 2px solid var(--border-subtle, #d0d7de); background: var(--bg-surface, #fff); color: inherit; cursor: pointer; touch-action: manipulation; text-align: left; }
+      .tt-wahl button.richtig { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+      .tt-wahl button.falsch { background: #cf222e; border-color: #cf222e; color: #fff; }
+      .tt-wahl button:disabled { cursor: default; }
+      .tt-erkl { border-left: 4px solid #8250df; background: rgba(130,80,223,.07); padding: 8px 12px; border-radius: 6px; font-size: 17px; }
+      .tt-erkl a { font-weight: 700; }
+      .tt-erg { text-align: center; font-size: 22px; margin: 16px 0; }
+      .tt-erg b { font-size: 40px; display: block; }
+      .tt-klein { color: var(--text-muted, #59636e); font-size: 14px; }
+      @media (max-width: 600px) { .tt-wahl { grid-template-columns: 1fr; } .tt-frage { font-size: 22px; } }
+      @media (orientation: landscape) and (max-height: 560px) { .tt-frage { font-size: 22px; margin: 4px 0; } .tt-wahl button { padding: 8px; font-size: 17px; } }
+    </style>
+  </head>
+  <body data-lernzeit="Tagestest">
+    <div data-partial="header" data-partial-path="../../../core/partials/header.html"></div>
+    <main class="page-wrapper">
+      <div class="card tt-wrap" id="ttApp"><p>Lädt …</p></div>
+    </main>
+    <script>
+    (function () {
+      const KEY = "tagestest_v1";
+      const PRO_TAG = 10, WDH_MAX = 3, BESTANDEN = 0.8;
+      let st = {}; try { st = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) {}
+      st.fertig = st.fertig || {};   // lektion-id → beste Punktzahl (0..1), bestanden wenn >= 0.8
+      st.fehler = st.fehler || {};   // "lektion#nr" → true  (die Fehlerkiste)
+      st.tage = st.tage || {};       // "2026-11-23" → { l, r, g }
+      const speichern = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (_) {} };
+      const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      const mische = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+      const heute = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+      const REGEL = "../grammatik/index.html#";
+      const LESE = "../apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/leseregeln.html#r-";
+      const app = document.getElementById("ttApp");
+
+      function sprich(text, l) {
+        try {
+          if (!window.speechSynthesis) return;
+          speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = l === "de" ? "de-DE" : "en-US"; u.rate = 0.9;
+          const v = speechSynthesis.getVoices().find((x) => x.lang && x.lang.toLowerCase().startsWith(u.lang.slice(0, 2).toLowerCase()));
+          if (v) u.voice = v;
+          speechSynthesis.speak(u);
+        } catch (_) {}
+      }
+      // Satz zum Vorlesen: ___ durch die richtige Antwort ersetzen; russischen Teil weglassen
+      function vorlesetext(q) {
+        let t = String(q.f);
+        if (t.includes("=")) t = t.split("=").pop();
+        t = t.replace(/\(.*?\)/g, "").replace(/___/g, q.a[0]).replace(/[«»]/g, "").trim();
+        if (/[а-яё]/i.test(t)) return /^[^а-яё]+$/i.test(q.a[0]) ? q.a[0] : "";
+        return t;
+      }
+
+      function aktuelleLektion(T) {
+        return T.find((l) => !(st.fertig[l.id] >= BESTANDEN)) || null;
+      }
+
+      function start() {
+        const T = window.TAGESTEST || [];
+        if (!T.length) { app.innerHTML = "<p>Keine Fragen gefunden.</p>"; return; }
+        const akt = aktuelleLektion(T);
+        const nr = akt ? T.indexOf(akt) + 1 : T.length;
+        const heuteLog = st.tage[heute()];
+        const anzFehler = Object.keys(st.fehler).length;
+        const anzWdh = akt ? Object.keys(st.fehler).filter((k) => k.split("#")[0] !== akt.id).length : 0;
+        let h = `<h1>📝 Der Grammatik-Tagestest</h1>
+          <p class="tt-sub">Jeden Tag 15 Minuten · eine Lektion (${PRO_TAG} Fragen) + Wiederholung der Fehler<br><small>Каждый день 15 минут: один урок + повтор ошибок. Урок засчитан, если правильно ${Math.round(BESTANDEN * 100)} % и больше.</small></p>
+          <div class="tt-leiste">${T.map((l) => `<span class="${st.fertig[l.id] >= BESTANDEN ? "ok" : l === akt ? "jetzt" : ""}" title="${esc(l.titel)}"></span>`).join("")}</div>
+          <div class="tt-heute">`;
+        if (akt) {
+          h += `<h2>Heute: Lektion ${nr} von ${T.length} – ${esc(akt.titel)}</h2>
+            <div class="tt-klein">${esc(akt.ru)}${anzWdh ? ` · dazu ${Math.min(WDH_MAX, anzWdh)} Fragen zur Wiederholung (в «ящике ошибок»: ${anzFehler})` : ""}</div>
+            ${heuteLog ? `<p>✅ Heute schon gemacht: ${heuteLog.r} von ${heuteLog.g} richtig. Noch einmal?</p>` : ""}
+            <button class="tt-knopf" id="ttLos">▶ Test starten</button>
+            <a class="tt-knopf leicht" style="text-decoration:none;display:inline-block" href="${akt.regel ? REGEL + akt.regel : LESE + akt.lese}" target="quantura_regel">${akt.regel ? "📐 die Regel lesen" : "📏 die Leseregel lesen"}</a>`;
+        } else {
+          h += `<h2>🎉 Alle ${T.length} Lektionen bestanden!</h2>
+            <div class="tt-klein">Jetzt jeden Tag ein Mischtest aus allen Themen. / Теперь каждый день – смешанный тест по всем темам.</div>
+            <button class="tt-knopf" id="ttMix">▶ Mischtest (12 Fragen)</button>`;
+        }
+        h += `</div>
+          <h3>Alle Lektionen <small class="tt-klein">(antippen = frei üben)</small></h3>
+          <div class="tt-liste">${T.map((l, i) => `<button data-i="${i}">${st.fertig[l.id] >= BESTANDEN ? "✅" : l === akt ? "▶" : "○"} ${i + 1}. <b>${esc(l.titel)}</b> <small>· ${esc(l.ru)}${st.fertig[l.id] != null ? ` · bestes Ergebnis ${Math.round(st.fertig[l.id] * 100)} %` : ""}</small></button>`).join("")}</div>
+          ${anzFehler ? `<button class="tt-knopf leicht" id="ttFehler">🔁 nur die Fehlerkiste üben (${anzFehler})</button>` : ""}
+          <p class="tt-klein">Der Fortschritt wird auf diesem Gerät gespeichert. / Прогресс сохраняется на этом устройстве.</p>`;
+        app.innerHTML = h;
+        const los = document.getElementById("ttLos");
+        if (los) los.onclick = () => test(akt, true);
+        const mix = document.getElementById("ttMix");
+        if (mix) mix.onclick = () => mischtest(T);
+        const fk = document.getElementById("ttFehler");
+        if (fk) fk.onclick = () => fehlertest(T);
+        app.querySelectorAll(".tt-liste button").forEach((b) => b.onclick = () => test(T[+b.dataset.i], false));
+      }
+
+      function fehlerFragen(T, ohne, max) {
+        const liste = [];
+        Object.keys(st.fehler).forEach((k) => {
+          const [lid, n] = k.split("#");
+          if (lid === ohne) return;
+          const l = T.find((x) => x.id === lid);
+          if (l && l.fragen[+n]) liste.push({ l, n: +n, q: l.fragen[+n], wdh: true });
+        });
+        return mische(liste).slice(0, max);
+      }
+
+      function test(l, mitWdh) {
+        const T = window.TAGESTEST;
+        let fr = mische(l.fragen.map((q, n) => ({ l, n, q })));
+        if (mitWdh) fr = fr.concat(fehlerFragen(T, l.id, WDH_MAX));
+        lauf(fr, l);
+      }
+      function mischtest(T) {
+        const alle = T.flatMap((l) => l.fragen.map((q, n) => ({ l, n, q })));
+        lauf(mische(alle).slice(0, 12), null);
+      }
+      function fehlertest(T) { lauf(fehlerFragen(T, null, 30), null); }
+
+      function lauf(fr, lektion) {
+        let i = 0, richtigL = 0, gesamtL = 0, richtig = 0;
+        function zeige() {
+          if (i >= fr.length) return ende();
+          const x = fr[i], q = x.q;
+          const opt = mische(q.a.map((t, k) => ({ t, ok: k === 0 })));
+          app.innerHTML = `<div class="tt-stand"><span>${lektion ? esc(lektion.titel) : "🔀 Mischtest / Wiederholung"}</span><span>Frage ${i + 1} von ${fr.length}</span></div>
+            ${x.wdh ? `<span class="tt-wdh">🔁 Wiederholung · ${esc(x.l.titel)}</span>` : ""}
+            <div class="tt-frage">${esc(q.f)}</div>
+            <div class="tt-wahl">${opt.map((o, k) => `<button data-k="${k}">${esc(o.t)}</button>`).join("")}</div>
+            <div id="ttNach"></div>`;
+          app.querySelectorAll(".tt-wahl button").forEach((b) => b.onclick = () => {
+            const o = opt[+b.dataset.k];
+            app.querySelectorAll(".tt-wahl button").forEach((bb) => { bb.disabled = true; if (opt[+bb.dataset.k].ok) bb.classList.add("richtig"); });
+            const key = x.l.id + "#" + x.n;
+            if (o.ok) { richtig++; delete st.fehler[key]; } else { b.classList.add("falsch"); st.fehler[key] = true; }
+            if (lektion && x.l === lektion && !x.wdh) { gesamtL++; if (o.ok) richtigL++; }
+            speichern();
+            const satz = q.l ? vorlesetext(q) : "";
+            const link = x.l.regel ? REGEL + x.l.regel : LESE + x.l.lese;
+            document.getElementById("ttNach").innerHTML = `<div class="tt-erkl">${o.ok ? "✅ <b>Richtig!</b>" : "❌ <b>Nicht ganz.</b> Richtig: <b>" + esc(q.a[0]) + "</b>"}<br>${esc(q.e)}
+              <br><a href="${link}" target="quantura_regel">${x.l.regel ? "📐 zur Regel" : "📏 zur Leseregel"} ↗</a></div>
+              ${satz ? `<button class="tt-knopf leicht" id="ttHoer">🔊 anhören</button>` : ""}
+              <button class="tt-knopf" id="ttWeiter">Weiter ➜</button>`;
+            if (satz) { document.getElementById("ttHoer").onclick = () => sprich(satz, q.l); sprich(satz, q.l); }
+            const w = document.getElementById("ttWeiter"); w.focus();
+            w.onclick = () => { i++; zeige(); };
+          });
+        }
+        function ende() {
+          const T = window.TAGESTEST;
+          let msg = "";
+          if (lektion && gesamtL) {
+            const q = richtigL / gesamtL;
+            st.fertig[lektion.id] = Math.max(st.fertig[lektion.id] || 0, q);
+            msg = q >= BESTANDEN ? "🎉 Lektion bestanden! Morgen kommt die nächste. / Урок пройден!" : "Noch nicht ganz – morgen diese Lektion noch einmal. / Завтра повторим этот урок.";
+          }
+          st.tage[heute()] = { l: lektion ? lektion.id : "mix", r: richtig, g: fr.length };
+          speichern();
+          app.innerHTML = `<div class="tt-erg">Ergebnis / результат<b>${richtig} / ${fr.length}</b>${esc(msg)}</div>
+            <p class="tt-klein" style="text-align:center">Fehler kommen in die Fehlerkiste und werden an den nächsten Tagen wiederholt. / Ошибки попадают в «ящик ошибок» и повторяются в следующие дни.</p>
+            <p style="text-align:center"><button class="tt-knopf" id="ttZur">Zur Übersicht</button></p>`;
+          document.getElementById("ttZur").onclick = start;
+        }
+        zeige();
+      }
+
+      function bereit() { if (window.TAGESTEST) start(); else setTimeout(bereit, 50); }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bereit); else bereit();
+    })();
+    </script>
+  </body>
+</html>
