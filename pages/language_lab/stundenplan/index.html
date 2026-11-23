@@ -41,8 +41,8 @@
     <main class="page-wrapper">
       <div class="card sp-wrap">
         <h1>🗓️ Der Stundenplan</h1>
-        <p class="sp-sub">35 Minuten am Tag (5 Min. die Grundlagen + 30) – lieber jeden Tag ein bisschen als einmal viel.<br />
-          <small>План занятий: 30 минут в день – лучше каждый день понемногу.</small></p>
+        <p class="sp-sub">45 Minuten am Tag (5 Min. die Grundlagen + 30 + 10 Min. die Zehnfingertechnik) – lieber jeden Tag ein bisschen als einmal viel.<br />
+          <small>План занятий: 30 минут в день + 10 минут слепой печати (Mo–Sa) – лучше каждый день понемногу.</small></p>
 
         <section class="sp-heute" id="spHeute"></section>
 
@@ -65,6 +65,7 @@
         <ul class="sp-regeln">
           <li><b>Die Grammatik – höchstens ein Drittel der Zeit.</b> Den Namen einer Regel nur lernen, wenn man ihn für einen Satz braucht.<br /><small>Грамматика – не больше трети времени.</small></li>
           <li><b>Ein Thema pro Woche.</b> Erst Deutsch, dann dasselbe auf Englisch.<br /><small>Одна тема на неделю: сначала немецкий, потом английский.</small></li>
+          <li><b>Die Zehnfingertechnik: 10 Minuten, Montag bis Samstag.</b> Nicht auf die Tastatur schauen – lieber langsam und richtig als schnell mit Fehlern. Die Zeigefinger liegen auf <b>F</b> und <b>J</b> (die kleinen Erhebungen).<br /><small>Слепая печать: 10 минут, пн–сб. Не смотреть на клавиатуру – лучше медленно, но правильно. Указательные пальцы на F и J (там бугорки).</small></li>
           <li><b>Jeden Tag 30 Minuten</b> sind besser als 3 Stunden am Sonntag.<br /><small>Лучше 30 минут каждый день, чем 3 часа в воскресенье.</small></li>
         </ul>
         <p class="sp-klein">Die Häkchen werden auf jedem Gerät (der Computer, das iPhone, das Tablet) getrennt gespeichert.<br />
@@ -85,16 +86,18 @@
         weis:   { t: "die Weisheiten", u: "/pages/language_lab/weisheiten/index.html" },
         grund:  { t: "die Grundlagen (Pronomen, sein, haben)", u: "/pages/language_lab/grundlagen/index.html" },
         lesen:  { t: "der Lese-Trainer", u: "/pages/language_lab/lesetrainer/index.html" },
-        wdh:    { t: "die Wiederholung: der Sprachführer, Box 1–2", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html" }
+        wdh:    { t: "die Wiederholung: der Sprachführer, Box 1–2", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html" },
+        // 2026-11-23: das Zehnfingersystem (слепая печать) – TIPP10 online, kostenlos, deutsche Tastatur; öffnet in neuem Tab
+        tipp:   { t: "⌨️ die Zehnfingertechnik (TIPP10)", u: "https://www.tipp10.com/de/", neu: true }
       };
       // Index 0 = Montag
       const PLAN = [
-        { tag: "Montag",     a: [["grund", 5], ["sfEN", 20], ["slDE", 10]] },
-        { tag: "Dienstag",   a: [["grund", 5], ["lesen", 20], ["lese", 10]] },
-        { tag: "Mittwoch",   a: [["grund", 5], ["slDE", 15], ["diktat", 10]] },
-        { tag: "Donnerstag", a: [["grund", 5], ["sfEN", 15], ["lesen", 15]] },
-        { tag: "Freitag",    a: [["grund", 5], ["slEN", 15], ["sfEN", 15]] },
-        { tag: "Samstag",    a: [["lied", 20], ["weis", 10]] },
+        { tag: "Montag",     a: [["grund", 5], ["sfEN", 20], ["slDE", 10], ["tipp", 10]] },
+        { tag: "Dienstag",   a: [["grund", 5], ["lesen", 20], ["lese", 10], ["tipp", 10]] },
+        { tag: "Mittwoch",   a: [["grund", 5], ["slDE", 15], ["diktat", 10], ["tipp", 10]] },
+        { tag: "Donnerstag", a: [["grund", 5], ["sfEN", 15], ["lesen", 15], ["tipp", 10]] },
+        { tag: "Freitag",    a: [["grund", 5], ["slEN", 15], ["sfEN", 15], ["tipp", 10]] },
+        { tag: "Samstag",    a: [["lied", 20], ["weis", 10], ["tipp", 10]] },
         { tag: "Sonntag",    a: [["wdh", 15]], frei: true }
       ];
       const THEMEN = [
@@ -135,7 +138,7 @@
         p.a.forEach(([k, min], i) => {
           const f = istFertig(heute, i);
           h += `<label class="sp-auf${f ? " fertig" : ""}"><input type="checkbox" data-t="${heute}" data-i="${i}"${f ? " checked" : ""}>
-                <span class="min">${min} Min.</span><a href="${L[k].u}">${L[k].t}</a></label>`;
+                <span class="min">${min} Min.</span><a href="${L[k].u}"${L[k].neu ? ' target="_blank" rel="noopener"' : ""}>${L[k].t}</a></label>`;
         });
         document.getElementById("spHeute").innerHTML = h;
 
@@ -145,7 +148,7 @@
         PLAN.forEach((d, t) => {
           const teile = d.a.map(([k, min], i) => {
             alle++; if (istFertig(t, i)) ok++;
-            return `${istFertig(t, i) ? "✅" : "▫️"} <a href="${L[k].u}">${L[k].t}</a> <span class="sp-klein">(${min} Min.)</span>`;
+            return `${istFertig(t, i) ? "✅" : "▫️"} <a href="${L[k].u}"${L[k].neu ? ' target="_blank" rel="noopener"' : ""}>${L[k].t}</a> <span class="sp-klein">(${min} Min.)</span>`;
           });
           const voll = d.a.every((_, i) => istFertig(t, i));
           w += `<tr class="${t === heute ? "heute" : ""}"><td><b>${d.tag}</b></td><td>${teile.join("<br>")}</td><td class="ok">${voll ? "✅" : ""}</td></tr>`;
