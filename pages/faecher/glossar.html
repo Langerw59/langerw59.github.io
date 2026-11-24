@@ -36,6 +36,12 @@
       .gd-bsp b::before { content: "🔊 "; font-size: .8em; opacity: .7; }
       .gd-knoepfe { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
       .gd-knoepfe button, .gd-knoepfe a { font: 600 .9rem system-ui, sans-serif; cursor: pointer; border-radius: 999px; padding: 6px 12px; border: 1px solid var(--border-subtle, #afb8c1); background: transparent; color: inherit; text-decoration: none; }
+      .gr-box { margin: 10px 0; border: 1px solid var(--border-subtle, #d0d7de); border-radius: 10px; padding: 8px 12px; background: var(--bg-surface, #fff); }
+      .gr-box summary { cursor: pointer; font-weight: 700; }
+      .gr-tab { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: .95rem; }
+      .gr-tab th, .gr-tab td { border-top: 1px solid var(--border-subtle, #d0d7de); padding: 5px 8px; text-align: left; vertical-align: middle; }
+      .gr-b { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.4rem; white-space: nowrap; }
+      .gr-sag { border: 1px solid var(--border-subtle, #d0d7de); background: transparent; border-radius: 999px; cursor: pointer; padding: 2px 8px; }
       .gd-leer { color: var(--text-muted, #59636e); }
     </style>
   </head>
@@ -46,6 +52,29 @@
         <h1>📘 Das Fachglossar – Mathematik und Elektrotechnik</h1>
         <p class="gd-sub">Alle Fachbegriffe der Kurse mit Artikel, gleichbedeutenden Namen, Herkunft und Beispiel. Auf 🔊 tippen – die deutsche Stimme liest vor.<br />
           <small>Термины курсов: с артиклем, вторым названием, происхождением и примером. Языковые глоссарии – отдельно, в Language Lab.</small></p>
+        <details class="gr-box" id="griechisch">
+          <summary>🔤 Die griechischen Buchstaben in der Elektrotechnik <small>– греческие буквы: как читаются и что значат</small></summary>
+          <table class="gr-tab">
+            <tr><th>groß · klein</th><th>der Name · die Aussprache</th><th>die Bedeutung in der Elektrotechnik</th><th></th></tr>
+            <tr><td class="gr-b">Α α</td><td><b>das Alpha</b><br><span class="gd-aus">AL-fa [ˈalfa]</span></td><td>α – der Temperaturbeiwert (Widerstand und Temperatur)</td><td><button type="button" class="gr-sag" data-gr="das Alpha">🔊</button></td></tr>
+            <tr><td class="gr-b">Β β</td><td><b>das Beta</b><br><span class="gd-aus">BE-ta [ˈbeːta]</span></td><td>β – die Stromverstärkung des Transistors</td><td><button type="button" class="gr-sag" data-gr="das Beta">🔊</button></td></tr>
+            <tr><td class="gr-b">Γ γ</td><td><b>das Gamma</b><br><span class="gd-aus">GAM-ma [ˈɡama]</span></td><td>γ – die elektrische Leitfähigkeit (auch κ)</td><td><button type="button" class="gr-sag" data-gr="das Gamma">🔊</button></td></tr>
+            <tr><td class="gr-b">Δ δ</td><td><b>das Delta</b><br><span class="gd-aus">DEL-ta [ˈdɛlta]</span></td><td>Δ – die Änderung, die Differenz: ΔU, Δϑ; die Dreieckschaltung</td><td><button type="button" class="gr-sag" data-gr="das Delta">🔊</button></td></tr>
+            <tr><td class="gr-b">Ε ε</td><td><b>das Epsilon</b><br><span class="gd-aus">EP-si-lon [ˈɛpsilɔn]</span></td><td>ε – die Permittivität (der Kondensator)</td><td><button type="button" class="gr-sag" data-gr="das Epsilon">🔊</button></td></tr>
+            <tr><td class="gr-b">Η η</td><td><b>das Eta</b><br><span class="gd-aus">E-ta [ˈeːta]</span></td><td>η – der Wirkungsgrad</td><td><button type="button" class="gr-sag" data-gr="das Eta">🔊</button></td></tr>
+            <tr><td class="gr-b">Θ ϑ</td><td><b>das Theta</b><br><span class="gd-aus">THE-ta [ˈteːta]</span></td><td>ϑ – die Temperatur in °C</td><td><button type="button" class="gr-sag" data-gr="das Theta">🔊</button></td></tr>
+            <tr><td class="gr-b">Κ κ</td><td><b>das Kappa</b><br><span class="gd-aus">KAP-pa [ˈkapa]</span></td><td>κ – die elektrische Leitfähigkeit</td><td><button type="button" class="gr-sag" data-gr="das Kappa">🔊</button></td></tr>
+            <tr><td class="gr-b">Λ λ</td><td><b>das Lambda</b><br><span class="gd-aus">LAMB-da [ˈlambda]</span></td><td>λ – die Wellenlänge</td><td><button type="button" class="gr-sag" data-gr="das Lambda">🔊</button></td></tr>
+            <tr><td class="gr-b">Μ μ</td><td><b>das My</b><br><span class="gd-aus">MÜ [myː]</span></td><td>μ – mikro (10⁻⁶): μF, μA; die Permeabilität</td><td><button type="button" class="gr-sag" data-gr="das My">🔊</button></td></tr>
+            <tr><td class="gr-b">Π π</td><td><b>das Pi</b><br><span class="gd-aus">PI [piː]</span></td><td>π ≈ 3,14159 – die Kreiszahl</td><td><button type="button" class="gr-sag" data-gr="das Pi">🔊</button></td></tr>
+            <tr><td class="gr-b">Ρ ρ</td><td><b>das Rho</b><br><span class="gd-aus">RO [ʁoː]</span></td><td>ρ – der spezifische Widerstand</td><td><button type="button" class="gr-sag" data-gr="das Rho">🔊</button></td></tr>
+            <tr><td class="gr-b">Σ σ</td><td><b>das Sigma</b><br><span class="gd-aus">SIG-ma [ˈzɪɡma]</span></td><td>Σ – die Summe (Σ I = 0 – die Knotenregel)</td><td><button type="button" class="gr-sag" data-gr="das Sigma">🔊</button></td></tr>
+            <tr><td class="gr-b">Τ τ</td><td><b>das Tau</b><br><span class="gd-aus">TAU [taʊ̯]</span></td><td>τ – die Zeitkonstante: τ = R · C</td><td><button type="button" class="gr-sag" data-gr="das Tau">🔊</button></td></tr>
+            <tr><td class="gr-b">Φ φ</td><td><b>das Phi</b><br><span class="gd-aus">FI [fiː]</span></td><td>φ – das Potential, der Phasenwinkel; Φ – der magnetische Fluss</td><td><button type="button" class="gr-sag" data-gr="das Phi">🔊</button></td></tr>
+            <tr><td class="gr-b">Ω ω</td><td><b>das Omega</b><br><span class="gd-aus">O-me-ga [ˈoːmeɡa]</span></td><td>Ω – das Ohm (Einheit des Widerstands); ω – die Kreisfrequenz</td><td><button type="button" class="gr-sag" data-gr="das Omega">🔊</button></td></tr>
+          </table>
+          <p class="gd-sub">Im Deutschen sind die Buchstabennamen sächlich: <b>das</b> Alpha, <b>das</b> Phi, <b>das</b> Omega.</p>
+        </details>
         <div class="gd-faecher" id="gdFaecher"></div>
         <input type="search" id="gdSuche" placeholder="🔍 Begriff suchen: Summand / Vertauschungsgesetz / напряжение …" autocomplete="off" />
         <p class="gd-sub" id="gdZahl"></p>
@@ -119,6 +148,8 @@
         if (offen) sprich(offen);
       });
       $("gdSuche").addEventListener("input", zeichne);
+      document.querySelectorAll(".gr-sag").forEach((b) => b.addEventListener("click", () => sprich(b.dataset.gr)));
+      if (location.hash === "#griechisch") { const d = $("griechisch"); d.open = true; d.scrollIntoView({ block: "start" }); }
 
       // glossar.html#w=Summand → Begriff öffnen
       function ausHash() {

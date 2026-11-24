@@ -980,7 +980,7 @@ window.GLOSSAR_FACH = [
    "φ"
   ],
   "her": "лат. potentia «сила, возможность» ← posse «мочь» → «возможность (совершить работу)»",
-  "erk": "Напряжение точки относительно точки отсчёта (die Masse, 0 V). Знак φ (фи). Напряжение между двумя точками – разность потенциалов: U = φA − φB.",
+  "erk": "Напряжение точки относительно точки отсчёта (die Masse, 0 V). Знак φ – греческая буква das Phi [fiː], «фи». Напряжение между двумя точками – разность потенциалов: U = φA − φB.",
   "ver": "Родственники: die Potenz (степень), potent, потенциальный. Пишут и Potential, и Potenzial – оба верно.",
   "bsp": [
    [
@@ -1141,6 +1141,27 @@ window.GLOSSAR_FACH = [
    ]
   ],
   "aus": "i-ma-gi-NÄ-re EIN-heit [imaɡiˈnɛːʁə ˈaɪ̯nhaɪ̯t]",
+  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+ },
+ {
+  "w": "das Phi",
+  "fach": "Elektrotechnik",
+  "ru": "фи (греческая буква φ, Φ)",
+  "h": "griech",
+  "k": [
+   "φ",
+   "Φ",
+   "phi"
+  ],
+  "her": "греч. φῖ (phi) – 21-я буква греческого алфавита",
+  "erk": "Маленькая φ – потенциал (das Potential) или угол сдвига фаз (der Phasenwinkel); большая Φ – магнитный поток (der magnetische Fluss). Названия греческих букв в немецком среднего рода: das Phi.",
+  "bsp": [
+   [
+    "U = φA − φB",
+    "die Spannung als Differenz der Potentiale"
+   ]
+  ],
+  "aus": "FI [fiː]",
   "lek": "kurs-1-mathematik/02-zahlenarten.html"
  }
 ];
