@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Die Rechentricks – Kurs 1 Mathematik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-24: Sammlung der Rechentricks (Kopfrechnen) – erstellt mit Claude.
+         RU: приёмы быстрого счёта в уме – каждый с примером и коротким «почему» (алгебра). -->
+    <link rel="stylesheet" href="../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../et.css" />
+    <script src="../../../../core/js/core_init.js" defer></script>
+    <style>
+      .ra-tab { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: .95em; }
+      .ra-tab th, .ra-tab td { border: 1px solid var(--border-subtle); padding: 6px 8px; text-align: center; vertical-align: middle; }
+      .ra-tab th { background: var(--accent-soft); }
+      .bsp { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.15em; white-space: nowrap; }
+      .regel { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.2em; text-align: center; margin: 8px 0; }
+      details { margin: 6px 0; }
+      summary { cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="../index.html">Elektrotechnik</a> › <a href="index.html">Kurs 1 – die Mathematik</a> › die Rechentricks</p>
+        <h1>⚡ Die Rechentricks – das Kopfrechnen</h1>
+        <p class="hint-text">Приёмы быстрого счёта в уме. У каждого приёма: die Regel (правило), das Beispiel (пример) и „Warum?“ – короткое доказательство через алгебру.
+          Все доказательства построены одинаково: число записываем как <b>10a + b</b> (a – десятки, b – единицы).</p>
+        <p class="hint-text"><b>die Begriffe:</b> das Kopfrechnen (счёт в уме) · der Rechentrick (приём счёта) · das Schnellrechnen (быстрый счёт).
+          Большие известные системы таких приёмов: <b>die Vedische Mathematik</b> (ведическая математика, Индия) und <b>das Trachtenberg-System</b> (система быстрого счёта Трахтенберга).</p>
+
+        <p class="hint-text"><b>der Inhalt:</b>
+          <a href="#t1">1. das Quadrat einer Zahl mit 5 am Ende</a> ·
+          <a href="#t2">2. gleiche Zehner, Einer ergeben 10</a> ·
+          <a href="#t3">3. mal 11</a> ·
+          <a href="#t4">4. mal 5 und mal 25</a> ·
+          <a href="#t5">5. das Quadrat in der Nähe von 50</a> ·
+          <a href="#t6">6. die Teilbarkeitsregeln</a> ·
+          <a href="#t7">7. Zum Ansehen</a></p>
+
+        <!-- ===== 1 ===== -->
+        <h2 id="t1">1. Das Quadrat einer Zahl mit 5 am Ende</h2>
+        <div class="et-box">
+          <p><b>Die Regel:</b> die Zehnerzahl mit der <b>nächsten</b> Zahl multiplizieren, dann <b>25</b> anhängen.</p>
+          <table class="ra-tab">
+            <tr><th>die Aufgabe</th><th>die Zehner · (Zehner + 1)</th><th>+ 25 anhängen</th></tr>
+            <tr><td class="bsp">15²</td><td class="bsp">1 · 2 = 2</td><td class="bsp"><b>225</b></td></tr>
+            <tr><td class="bsp">25²</td><td class="bsp">2 · 3 = 6</td><td class="bsp"><b>625</b></td></tr>
+            <tr><td class="bsp">35²</td><td class="bsp">3 · 4 = 12</td><td class="bsp"><b>1 225</b></td></tr>
+            <tr><td class="bsp">85²</td><td class="bsp">8 · 9 = 72</td><td class="bsp"><b>7 225</b></td></tr>
+            <tr><td class="bsp">105²</td><td class="bsp">10 · 11 = 110</td><td class="bsp"><b>11 025</b></td></tr>
+          </table>
+          <details><summary><b>Warum?</b> (почему)</summary>
+            <p class="regel">(10a + 5)² = 100a² + 100a + 25 = 100 · a · (a + 1) + 25</p>
+            <p class="hint-text">a · (a + 1) – это сотни, а 25 всегда стоит в конце.</p>
+          </details>
+        </div>
+
+        <!-- ===== 2 ===== -->
+        <h2 id="t2">2. Gleiche Zehner, die Einer ergeben zusammen 10</h2>
+        <div class="et-box">
+          <p><b>Die Regel:</b> gleiche Zehner, und die Einer ergeben zusammen <b>10</b> (z. B. 4 und 6, 3 und 7) →
+            Zehner · (Zehner + 1), dahinter <b>Einer · Einer</b> (immer zweistellig schreiben: 9 → 09).</p>
+          <table class="ra-tab">
+            <tr><th>die Aufgabe</th><th>Zehner · (Zehner + 1)</th><th>Einer · Einer</th><th>das Ergebnis</th></tr>
+            <tr><td class="bsp">23 · 27</td><td class="bsp">2 · 3 = 6</td><td class="bsp">3 · 7 = 21</td><td class="bsp"><b>621</b></td></tr>
+            <tr><td class="bsp">64 · 66</td><td class="bsp">6 · 7 = 42</td><td class="bsp">4 · 6 = 24</td><td class="bsp"><b>4 224</b></td></tr>
+            <tr><td class="bsp">81 · 89</td><td class="bsp">8 · 9 = 72</td><td class="bsp">1 · 9 = 09</td><td class="bsp"><b>7 209</b></td></tr>
+            <tr><td class="bsp">35 · 35</td><td class="bsp">3 · 4 = 12</td><td class="bsp">5 · 5 = 25</td><td class="bsp"><b>1 225</b> ← Trick 1!</td></tr>
+          </table>
+          <p class="hint-text">💡 Трюк 1 (квадрат на 5) – это частный случай: 5 + 5 = 10, 5 · 5 = 25.</p>
+          <details><summary><b>Warum?</b> (почему)</summary>
+            <p class="regel">(10a + b) · (10a + c) = 100a² + 10a · (b + c) + b · c</p>
+            <p class="hint-text">Если b + c = 10, то 10a · 10 = 100a, и получается 100a² + 100a + bc = <b>100 · a · (a + 1) + b · c</b>.</p>
+          </details>
+        </div>
+
+        <!-- ===== 3 ===== -->
+        <h2 id="t3">3. Mal 11 (zweistellige Zahlen)</h2>
+        <div class="et-box">
+          <p><b>Die Regel:</b> die zwei Ziffern <b>auseinanderziehen</b> und ihre <b>Summe</b> in die Mitte schreiben.
+            Ist die Summe 10 oder mehr – die 1 zur ersten Ziffer dazuzählen (der Übertrag, перенос).</p>
+          <table class="ra-tab">
+            <tr><th>die Aufgabe</th><th>die Rechnung</th><th>das Ergebnis</th></tr>
+            <tr><td class="bsp">72 · 11</td><td class="bsp">7 | 7+2 | 2 = 7 | 9 | 2</td><td class="bsp"><b>792</b></td></tr>
+            <tr><td class="bsp">35 · 11</td><td class="bsp">3 | 8 | 5</td><td class="bsp"><b>385</b></td></tr>
+            <tr><td class="bsp">64 · 11</td><td class="bsp">6 | 10 | 4 → (6+1) | 0 | 4</td><td class="bsp"><b>704</b></td></tr>
+            <tr><td class="bsp">89 · 11</td><td class="bsp">8 | 17 | 9 → (8+1) | 7 | 9</td><td class="bsp"><b>979</b></td></tr>
+          </table>
+          <details><summary><b>Warum?</b> (почему)</summary>
+            <p class="regel">(10a + b) · 11 = (10a + b) · 10 + (10a + b) = 100a + 10 · (a + b) + b</p>
+            <p class="hint-text">a – сотни, (a + b) – десятки, b – единицы. Если a + b ≥ 10, единица переходит в сотни.</p>
+          </details>
+        </div>
+
+        <!-- ===== 4 ===== -->
+        <h2 id="t4">4. Mal 5 und mal 25</h2>
+        <div class="et-box">
+          <p><b>Die Regel:</b> 5 = 10 : 2 und 25 = 100 : 4. Also: <b>mal 5</b> = mal 10, dann halbieren;
+            <b>mal 25</b> = mal 100, dann durch 4 teilen.</p>
+          <table class="ra-tab">
+            <tr><th>die Aufgabe</th><th>die Rechnung</th><th>das Ergebnis</th></tr>
+            <tr><td class="bsp">48 · 5</td><td class="bsp">480 : 2</td><td class="bsp"><b>240</b></td></tr>
+            <tr><td class="bsp">137 · 5</td><td class="bsp">1 370 : 2</td><td class="bsp"><b>685</b></td></tr>
+            <tr><td class="bsp">36 · 25</td><td class="bsp">3 600 : 4</td><td class="bsp"><b>900</b></td></tr>
+            <tr><td class="bsp">44 · 25</td><td class="bsp">4 400 : 4</td><td class="bsp"><b>1 100</b></td></tr>
+          </table>
+          <p class="hint-text">💡 В электротехнике: 5 · 48 Ω, 25 · 36 мА – считается в уме за секунду.</p>
+        </div>
+
+        <!-- ===== 5 ===== -->
+        <h2 id="t5">5. Das Quadrat in der Nähe von 50</h2>
+        <div class="et-box">
+          <p><b>Die Regel:</b> für 50 + d: zuerst <b>25 + d</b> (die Hunderter), dahinter <b>d²</b> (zweistellig).
+            Für 50 − d: <b>25 − d</b>, dahinter d².</p>
+          <table class="ra-tab">
+            <tr><th>die Aufgabe</th><th>d</th><th>25 ± d</th><th>d²</th><th>das Ergebnis</th></tr>
+            <tr><td class="bsp">53²</td><td class="bsp">+3</td><td class="bsp">28</td><td class="bsp">09</td><td class="bsp"><b>2 809</b></td></tr>
+            <tr><td class="bsp">57²</td><td class="bsp">+7</td><td class="bsp">32</td><td class="bsp">49</td><td class="bsp"><b>3 249</b></td></tr>
+            <tr><td class="bsp">48²</td><td class="bsp">−2</td><td class="bsp">23</td><td class="bsp">04</td><td class="bsp"><b>2 304</b></td></tr>
+            <tr><td class="bsp">46²</td><td class="bsp">−4</td><td class="bsp">21</td><td class="bsp">16</td><td class="bsp"><b>2 116</b></td></tr>
+          </table>
+          <details><summary><b>Warum?</b> (почему)</summary>
+            <p class="regel">(50 ± d)² = 2 500 ± 100d + d² = 100 · (25 ± d) + d²</p>
+            <p class="hint-text">Это просто die binomische Formel (формула квадрата суммы/разности): (a ± b)² = a² ± 2ab + b².</p>
+          </details>
+        </div>
+
+        <!-- ===== 6 ===== -->
+        <h2 id="t6">6. Die Teilbarkeitsregeln</h2>
+        <div class="et-box">
+          <p>Признаки делимости на 2, 3, 4, 5, 6, <b>7</b>, 8, 9, 10, 11, 25 и der 1001-Trick (7, 11, 13 auf einmal) – в Lektion 3:</p>
+          <p>→ <a href="03-primzahlen.html#abschnitt2">Lektion 3 – 2. Die Teilbarkeitsregeln</a></p>
+        </div>
+
+        <!-- ===== Übungen ===== -->
+        <div class="et-aufgabe">
+          <h4>Zum Üben – im Kopf rechnen (считать в уме)</h4>
+          <p class="bsp">a) 45² &nbsp; b) 95² &nbsp; c) 52 · 58 &nbsp; d) 43 · 11 &nbsp; e) 78 · 11 &nbsp; f) 64 · 25 &nbsp; g) 54² &nbsp; h) 47²</p>
+          <details><summary>die Lösungen</summary>
+            <div class="loesung">a) 4 · 5 = 20 → 2 025 &nbsp; b) 9 · 10 = 90 → 9 025 &nbsp; c) 5 · 6 = 30, 2 · 8 = 16 → 3 016 &nbsp;
+              d) 4 | 7 | 3 → 473 &nbsp; e) 7 | 15 | 8 → 858 &nbsp; f) 6 400 : 4 = 1 600 &nbsp; g) 29 | 16 → 2 916 &nbsp; h) 22 | 09 → 2 209</div>
+          </details>
+        </div>
+
+        <!-- ===== 7 ===== -->
+        <h2 id="t7">7. Zum Ansehen</h2>
+        <ul class="et-list">
+          <li><a href="https://de.wikipedia.org/w/index.php?search=Vedische+Mathematik" target="_blank" rel="noopener">Wikipedia – die Vedische Mathematik</a></li>
+          <li><a href="https://de.wikipedia.org/w/index.php?search=Trachtenberg+Schnellrechnen" target="_blank" rel="noopener">Wikipedia – das Trachtenberg-System</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=Rechentricks+Kopfrechnen+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Rechentricks Kopfrechnen“</a></li>
+        </ul>
+
+        <div class="et-nav">
+          <a href="index.html">← Kurs 1 – die Mathematik</a>
+          <a href="03-primzahlen.html">Lektion 3 – die Teilbarkeitsregeln</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
