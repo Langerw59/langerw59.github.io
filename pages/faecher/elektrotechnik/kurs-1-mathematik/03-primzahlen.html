@@ -32,6 +32,9 @@
       .sieb-knoepfe { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
       .sieb-knoepfe button { font-size: 1em; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
       .sieb-knoepfe button.zweit { background: transparent; color: var(--accent); }
+      .spalten td.leer { background: transparent; }
+      .ra-tab tr.ggt td { background: rgba(26,127,55,.12); }
+      .ra-tab tr.kgv td { background: rgba(9,105,218,.12); }
       .baum { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.15em; line-height: 1.7; text-align: center; }
     </style>
   </head>
@@ -118,6 +121,31 @@
           <p>Mit Primfaktoren: <b>jeden</b> Faktor so oft nehmen, wie er höchstens vorkommt.<br />
             4 = 2 · 2 &nbsp;&nbsp; 6 = 2 · 3 &nbsp;&nbsp; → kgV = 2 · 2 · 3 = <b>12</b></p>
           <p class="hint-text">Проверка-подсказка: ggT · kgV = a · b. &nbsp; 2 · 12 = 4 · 6 = 24 ✓. Если НОД = 1, числа <b>teilerfremd</b> (взаимно простые).</p>
+        </div>
+
+        <div class="et-box">
+          <h3>Das Verfahren in Spalten – запись столбиком (ggT und kgV zusammen)</h3>
+          <p><b>Schritt 1:</b> die Primfaktoren <b>untereinander</b> schreiben – gleiche Faktoren genau in dieselbe Spalte.
+            So sieht man sofort, welche Faktoren gemeinsam sind.</p>
+          <table class="ra-tab spalten">
+            <tr><th></th><th>2</th><th>2</th><th>2</th><th>3</th><th>3</th><th>die Potenzschreibweise</th></tr>
+            <tr><td class="stufe">24</td><td class="bsp">2</td><td class="bsp">2</td><td class="bsp">2</td><td class="bsp">3</td><td class="leer"></td><td class="bsp">2³ · 3¹</td></tr>
+            <tr><td class="stufe">36</td><td class="bsp">2</td><td class="bsp">2</td><td class="leer"></td><td class="bsp">3</td><td class="bsp">3</td><td class="bsp">2² · 3²</td></tr>
+            <tr class="ggt"><td class="stufe">ggT</td><td class="bsp">2</td><td class="bsp">2</td><td class="leer"></td><td class="bsp">3</td><td class="leer"></td><td class="bsp">2² · 3¹ = <b>12</b></td></tr>
+            <tr class="kgv"><td class="stufe">kgV</td><td class="bsp">2</td><td class="bsp">2</td><td class="bsp">2</td><td class="bsp">3</td><td class="bsp">3</td><td class="bsp">2³ · 3² = <b>72</b></td></tr>
+          </table>
+          <p><b>Schritt 2:</b> in <b>die Potenzschreibweise</b> (запись в степенях) umschreiben und vergleichen:</p>
+          <table class="ra-tab">
+            <tr><th></th><th>welche Faktoren?</th><th>welcher Exponent?</th><th>24 und 36</th></tr>
+            <tr class="ggt"><td class="stufe">ggT</td><td>nur die <b>gemeinsamen</b> (есть в обоих числах)</td><td>der <b>kleinere</b> Exponent</td><td class="bsp">2² · 3¹ = 12</td></tr>
+            <tr class="kgv"><td class="stufe">kgV</td><td><b>alle</b> Faktoren (все, что встречаются)</td><td>der <b>größere</b> Exponent</td><td class="bsp">2³ · 3² = 72</td></tr>
+          </table>
+          <p class="hint-text">❓ <b>Почему у «наибольшего» делителя берём «меньшую» степень?</b> Делитель должен поместиться в <b>оба</b> числа.
+            В 36 только две двойки (2²) – значит, больше двух двоек в общий делитель взять нельзя, иначе 36 на него не разделится.
+            В 24 только одна тройка (3¹) – значит, только одна тройка. «Наибольший» – это сам результат (12), а степени ограничивает то число, где множителей меньше.<br />
+            У kgV наоборот: кратное должно <b>содержать</b> оба числа целиком – поэтому нужны все двойки из 24 (2³) и все тройки из 36 (3²).</p>
+          <p class="hint-text">🧠 Запомнить: <b>ggT ≤ kleinere Zahl</b> (12 ≤ 24), <b>kgV ≥ größere Zahl</b> (72 ≥ 36).
+            Проверка: ggT · kgV = 12 · 72 = 864 = 24 · 36 ✓</p>
         </div>
 
         <!-- ===== 5. Trainer ===== -->
