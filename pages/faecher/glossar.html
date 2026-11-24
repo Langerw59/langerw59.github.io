@@ -21,6 +21,9 @@
       .gd-eintrag { border: 1px solid var(--border-subtle, #d0d7de); border-radius: 10px; margin: 6px 0; background: var(--bg-surface, #fff); scroll-margin-top: 80px; }
       .gd-kopf { display: flex; gap: 10px; align-items: baseline; padding: 9px 12px; cursor: pointer; flex-wrap: wrap; }
       .gd-wort { font-weight: 700; font-size: 1.15rem; }
+      .gd-aus { color: #8250df; font-weight: 600; font-family: "Segoe UI", "DejaVu Sans", sans-serif; }
+      .gd-links { margin-top: 8px; }
+      .gd-links a { display: inline-block; margin: 3px 6px 3px 0; padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border-subtle, #d0d7de); text-decoration: none; color: inherit; font-size: .92rem; }
       .gd-auch { color: var(--accent, #1f6feb); font-weight: 600; }
       .gd-ru { color: var(--text-muted, #59636e); flex: 1; min-width: 200px; }
       .gd-fach { font-size: .75rem; border: 1px solid var(--border-subtle, #d0d7de); border-radius: 999px; padding: 0 8px; color: var(--text-muted, #59636e); }
@@ -85,7 +88,7 @@
           const h = HER[e.h] || ["", "", "#999"];
           return `<div class="gd-eintrag ${offen === e.w ? "offen" : ""}" id="w-${esc(schluessel(e))}" data-w="${esc(e.w)}">
             <div class="gd-kopf"><span class="gd-punkt" style="background:${h[2]}" title="${esc(h[0])}"></span>
-              <span class="gd-wort">${esc(e.w)}</span>${e.auch ? `<span class="gd-auch">= ${esc(e.auch)}</span>` : ""}
+              <span class="gd-wort">${esc(e.w)}</span><span class="gd-aus">${esc(e.aus || "")}</span>${e.auch ? `<span class="gd-auch">= ${esc(e.auch)}</span>` : ""}
               <span class="gd-ru">${esc(e.ru)}</span><span class="gd-fach">${esc(e.fach)}</span></div>
             <div class="gd-body">
               ${e.auch ? `<div><b>Auch / другое название:</b> ${esc(e.auch)}</div>` : ""}
@@ -93,7 +96,9 @@
               <div><b>Herkunft / происхождение:</b> ${esc(e.her)}</div>
               ${e.erk ? `<div style="margin-top:4px"><b>Erklärung / объяснение:</b> ${esc(e.erk)}</div>` : ""}
               ${e.ver ? `<div style="margin-top:4px"><b>Verwandt / родственные:</b> ${esc(e.ver)}</div>` : ""}
+              ${e.aus ? `<div style="margin-top:4px"><b>Aussprache / произношение:</b> ${esc(e.aus)} <small>(БОЛЬШИЕ буквы – ударный слог)</small></div>` : ""}
               ${(e.bsp || []).map((b) => `<div class="gd-bsp" data-sag="${esc(b[0])}"><b>${esc(b[0])}</b>${b[1] ? ` – <i>${esc(b[1])}</i>` : ""}</div>`).join("")}
+              ${e.links ? `<div class="gd-links"><b>Zum Weiterlesen / почитать:</b><br>${e.links.map((l) => `<a href="${esc(l[1])}" target="_blank" rel="noopener">📖 ${esc(l[0])}</a>`).join("")}</div>` : ""}
               <div class="gd-knoepfe">
                 <button type="button" data-sag="${esc(e.w)}">🔊 ${esc(e.w)}</button>
                 ${e.auch ? `<button type="button" data-sag="${esc(e.auch)}">🔊 ${esc(e.auch)}</button>` : ""}

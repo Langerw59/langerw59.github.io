@@ -27,7 +27,8 @@ window.GLOSSAR_FACH = [
     "Mathematik ist überall.",
     ""
    ]
-  ]
+  ],
+  "aus": "ma-the-ma-TIK [matemaˈtiːk]"
  },
  {
   "w": "senkrecht / das Perpendikel",
@@ -42,7 +43,8 @@ window.GLOSSAR_FACH = [
     "Die Gerade steht senkrecht auf der anderen.",
     ""
    ]
-  ]
+  ],
+  "aus": "SENK-recht [ˈzɛŋkʁɛçt] · per-PEN-di-kel [pɛʁˈpɛndɪkl̩]"
  },
  {
   "w": "die Konstante",
@@ -57,7 +59,8 @@ window.GLOSSAR_FACH = [
     "Die Kreiszahl π ist eine Konstante.",
     ""
    ]
-  ]
+  ],
+  "aus": "kon-STAN-te [kɔnˈstantə]"
  },
  {
   "w": "die Variable",
@@ -72,7 +75,8 @@ window.GLOSSAR_FACH = [
     "Setze für x die Zahl 3 ein.",
     ""
    ]
-  ]
+  ],
+  "aus": "va-ri-A-ble [vaˈʁi̯aːblə]"
  },
  {
   "w": "parallel",
@@ -86,7 +90,8 @@ window.GLOSSAR_FACH = [
     "Die Schienen verlaufen parallel.",
     ""
    ]
-  ]
+  ],
+  "aus": "pa-ral-LEL [paʁaˈleːl]"
  },
  {
   "w": "die Diagonale",
@@ -101,7 +106,8 @@ window.GLOSSAR_FACH = [
     "Ein Rechteck hat zwei Diagonalen.",
     ""
    ]
-  ]
+  ],
+  "aus": "di-a-go-NA-le [di̯aɡoˈnaːlə]"
  },
  {
   "w": "die Kathete",
@@ -115,7 +121,8 @@ window.GLOSSAR_FACH = [
     "a² + b² = c² – a und b sind die Katheten.",
     ""
    ]
-  ]
+  ],
+  "aus": "ka-THE-te [kaˈteːtə]"
  },
  {
   "w": "die Hypotenuse",
@@ -129,7 +136,8 @@ window.GLOSSAR_FACH = [
     "c ist die Hypotenuse.",
     ""
    ]
-  ]
+  ],
+  "aus": "hy-po-te-NU-se [hypoteˈnuːzə]"
  },
  {
   "w": "die Geometrie",
@@ -144,7 +152,8 @@ window.GLOSSAR_FACH = [
     "Geometrie: Dreieck, Kreis, Quadrat",
     ""
    ]
-  ]
+  ],
+  "aus": "ge-o-me-TRIE [ɡeomeˈtʁiː]"
  },
  {
   "w": "der Radius / der Durchmesser",
@@ -158,7 +167,8 @@ window.GLOSSAR_FACH = [
     "d = 2 · r",
     ""
    ]
-  ]
+  ],
+  "aus": "RA-di-us [ˈʁaːdi̯ʊs] · DURCH-mes-ser [ˈdʊʁçˌmɛsɐ]"
  },
  {
   "w": "das Prozent",
@@ -172,33 +182,89 @@ window.GLOSSAR_FACH = [
     "3 % Zinsen auf 10 000 € = 300 €",
     ""
    ]
-  ]
+  ],
+  "aus": "pro-ZENT [pʁoˈt͡sɛnt]"
  },
  {
   "w": "die Algebra",
   "fach": "Mathematik",
   "ru": "алгебра",
   "h": "arab",
-  "her": "араб. al-dschabr «восполнение, восстановление» → «восстановление»",
-  "erk": "Из названия книги аль-Хорезми (IX век, родом из Хорезма — Средняя Азия). «Восстановление» — перенос членов уравнения на другую сторону.",
+  "her": "араб. al-ǧabr (аль-джабр) «восполнение, дополнение» – слово из названия книги аль-Хорезми «Китаб аль-мухтасар фи хисаб аль-джабр валь-мукабала» – «Краткая книга о счёте через дополнение и уравнивание» (около 825 г.)",
+  "erk": "Наука о решении уравнений. Аль-Хорезми (родился около 780 г. в Хорезме – Средняя Азия, у Аральского моря; работал в Багдаде, в «Доме мудрости») описал два приёма: al-ǧabr – «дополнить»: перенести вычитаемое на другую сторону как сложение; al-muqābala – «уравнять»: убрать одинаковое с обеих сторон. В 1145 г. книгу перевели на латынь (Liber algebrae et almucabala) – так слово попало в Европу.",
   "bsp": [
    [
-    "x + 5 = 8 → x = 3",
-    ""
+    "x − 3 = 5 → x = 5 + 3 = 8",
+    "al-ǧabr – das Ergänzen (дополнение)"
+   ],
+   [
+    "x + 3 = 5 + 3 → x = 5",
+    "al-muqābala – das Ausgleichen (уравнивание)"
    ]
-  ]
+  ],
+  "aus": "AL-ge-bra [ˈalɡebʁa]",
+  "links": [
+   [
+    "die Algebra",
+    "https://de.wikipedia.org/wiki/Algebra"
+   ],
+   [
+    "das Buch „Hisab al-dschabr wa-l-muqabala“ (um 825)",
+    "https://de.wikipedia.org/wiki/Hisab_al-dschabr_wa-l-muqabala"
+   ],
+   [
+    "al-Chwarizmi – der Mathematiker",
+    "https://de.wikipedia.org/wiki/Al-Chwarizmi"
+   ],
+   [
+    "Choresmien – seine Heimat",
+    "https://de.wikipedia.org/wiki/Choresm"
+   ],
+   [
+    "das Haus der Weisheit in Bagdad",
+    "https://de.wikipedia.org/wiki/Haus_der_Weisheit_(Bagdad)"
+   ],
+   [
+    "die Mathematik in der Blütezeit des Islam",
+    "https://de.wikipedia.org/wiki/Mathematik_in_der_Bl%C3%BCtezeit_des_Islam"
+   ]
+  ],
+  "ver": "Родственник: der Algorithmus – тоже от аль-Хорезми. Испанское algebrista когда-то значило «костоправ» – тот, кто «восстанавливает» кости (тот же корень ǧabr)."
  },
  {
   "w": "der Algorithmus",
   "fach": "Mathematik",
   "ru": "алгоритм",
   "h": "lat",
-  "her": "от имени аль-Хорезми, лат. Algorismi → «(по методу) аль-Хорезми»",
-  "erk": "Точная последовательность шагов. Средневековые латинские переводы начинались словами «Dixit Algorismi…» — «сказал аль-Хорезми».",
+  "her": "от имени аль-Хорезми (al-Ḫwārizmī = «хорезмиец»), лат. Algorismi → Algorismus → der Algorithmus (буквы -rith- – под влиянием греч. arithmos «число»)",
+  "erk": "Точная последовательность шагов для решения задачи. Латинский перевод его книги о счёте индийскими цифрами (XII век) начинался словами «Dixit Algorizmi…» – «сказал аль-Хорезми». В 1983 г. в СССР вышла марка к 1200-летию со дня его рождения.",
   "bsp": [
    [
     "Ein Kochrezept ist auch ein Algorithmus.",
     ""
+   ],
+   [
+    "Der schriftliche Rechenweg der Division ist ein Algorithmus.",
+    ""
+   ]
+  ],
+  "aus": "al-go-RITH-mus [alɡoˈʁɪtmʊs]",
+  "links": [
+   [
+    "der Algorithmus (mit Briefmarke 1983)",
+    "https://de.wikipedia.org/wiki/Algorithmus"
+   ],
+   [
+    "al-Chwarizmi – der Namensgeber",
+    "https://de.wikipedia.org/wiki/Al-Chwarizmi"
+   ],
+   [
+    "„Dixit Algorizmi“ – die lateinische Übersetzung",
+    "https://de.wikipedia.org/wiki/Dixit_Algorizmi"
+   ],
+   [
+    "Choresmien",
+    "https://de.wikipedia.org/wiki/Choresm"
    ]
   ]
  },
@@ -216,7 +282,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "sum-MAND [zʊˈmant]"
  },
  {
   "w": "die Summe",
@@ -232,7 +299,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "SUM-me [ˈzʊmə]"
  },
  {
   "w": "der Minuend",
@@ -248,7 +316,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "mi-nu-END [minuˈɛnt]"
  },
  {
   "w": "der Subtrahend",
@@ -264,7 +333,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "sub-tra-HEND [zʊptʁaˈhɛnt]"
  },
  {
   "w": "die Differenz",
@@ -280,7 +350,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "dif-fe-RENZ [dɪfəˈʁɛnt͡s]"
  },
  {
   "w": "der Faktor",
@@ -296,7 +367,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "FAK-tor [ˈfaktoːɐ̯]"
  },
  {
   "w": "das Produkt",
@@ -312,7 +384,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "pro-DUKT [pʁoˈdʊkt]"
  },
  {
   "w": "der Dividend",
@@ -328,7 +401,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "di-vi-DEND [diviˈdɛnt]"
  },
  {
   "w": "der Divisor",
@@ -344,7 +418,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "di-VI-sor [diˈviːzoːɐ̯]"
  },
  {
   "w": "der Quotient",
@@ -360,7 +435,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "quo-ti-ENT [kvoˈt͡si̯ɛnt]"
  },
  {
   "w": "die Basis",
@@ -376,7 +452,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "BA-sis [ˈbaːzɪs]"
  },
  {
   "w": "der Exponent",
@@ -392,7 +469,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "ex-po-NENT [ɛkspoˈnɛnt]"
  },
  {
   "w": "die Potenz",
@@ -408,7 +486,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "po-TENZ [poˈtɛnt͡s]"
  },
  {
   "w": "der Radikand",
@@ -423,7 +502,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "ra-di-KAND [ʁadiˈkant]"
  },
  {
   "w": "die Wurzel",
@@ -439,7 +519,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "WUR-zel [ˈvʊʁt͡sl̩]"
  },
  {
   "w": "der Logarithmus",
@@ -455,7 +536,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "lo-ga-RITH-mus [loɡaˈʁɪtmʊs]"
  },
  {
   "w": "der Numerus",
@@ -471,7 +553,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "NU-me-rus [ˈnuːməʁʊs]"
  },
  {
   "w": "das Kommutativgesetz",
@@ -492,7 +575,14 @@ window.GLOSSAR_FACH = [
    "Vertauschungsgesetz",
    "kommutativ"
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "kom-mu-ta-TIF-ge-setz [kɔmutaˈtiːfɡəˌzɛt͡s]",
+  "links": [
+   [
+    "das Kommutativgesetz",
+    "https://de.wikipedia.org/wiki/Kommutativgesetz"
+   ]
+  ]
  },
  {
   "w": "das Assoziativgesetz",
@@ -513,7 +603,14 @@ window.GLOSSAR_FACH = [
    "Verbindungsgesetz",
    "assoziativ"
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "as-so-zi-a-TIF-ge-setz [asot͡si̯aˈtiːfɡəˌzɛt͡s]",
+  "links": [
+   [
+    "das Assoziativgesetz",
+    "https://de.wikipedia.org/wiki/Assoziativgesetz"
+   ]
+  ]
  },
  {
   "w": "das Distributivgesetz",
@@ -534,7 +631,14 @@ window.GLOSSAR_FACH = [
    "Verteilungsgesetz",
    "distributiv"
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "dis-tri-bu-TIF-ge-setz [dɪstʁibuˈtiːfɡəˌzɛt͡s]",
+  "links": [
+   [
+    "das Distributivgesetz",
+    "https://de.wikipedia.org/wiki/Distributivgesetz"
+   ]
+  ]
  },
  {
   "w": "die Klammer",
@@ -549,7 +653,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "KLAM-mer [ˈklamɐ]"
  },
  {
   "w": "die Reihenfolge der Rechenoperationen",
@@ -564,7 +669,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/01-rechenarten.html"
+  "lek": "kurs-1-mathematik/01-rechenarten.html",
+  "aus": "REI-hen-fol-ge [ˈʁaɪ̯ənˌfɔlɡə]"
  },
  {
   "w": "der Bruch",
@@ -579,7 +685,8 @@ window.GLOSSAR_FACH = [
     "¾ – 3 ist der Zähler, 4 ist der Nenner.",
     ""
    ]
-  ]
+  ],
+  "aus": "BRUCH [bʁʊx]"
  },
  {
   "w": "die ganze Zahl",
@@ -594,7 +701,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "GAN-ze ZAHL [ˈɡant͡sə ˈt͡saːl]"
  },
  {
   "w": "der Dreisatz",
@@ -609,7 +717,8 @@ window.GLOSSAR_FACH = [
     "3 kg kosten 6 €. 1 kg kostet 2 €. 5 kg kosten 10 €.",
     ""
    ]
-  ]
+  ],
+  "aus": "DREI-satz [ˈdʁaɪ̯zat͡s]"
  },
  {
   "w": "die Gleichung",
@@ -624,7 +733,8 @@ window.GLOSSAR_FACH = [
     "2x + 3 = 11 → 2x = 8 → x = 4",
     ""
    ]
-  ]
+  ],
+  "aus": "GLEI-chung [ˈɡlaɪ̯çʊŋ]"
  },
  {
   "w": "die Funktion",
@@ -638,7 +748,8 @@ window.GLOSSAR_FACH = [
     "y = 2x + 1 – die Steigung ist 2.",
     ""
    ]
-  ]
+  ],
+  "aus": "funk-TSION [fʊŋkˈt͡si̯oːn]"
  },
  {
   "w": "die natürliche Zahl",
@@ -657,7 +768,14 @@ window.GLOSSAR_FACH = [
     "3 ist eine natürliche Zahl"
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "na-TÜR-li-che ZAHL [naˈtyːɐ̯lɪçə ˈt͡saːl]",
+  "links": [
+   [
+    "der Zahlenbereich",
+    "https://de.wikipedia.org/wiki/Zahlenbereich"
+   ]
+  ]
  },
  {
   "w": "die rationale Zahl",
@@ -679,7 +797,14 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "ra-tsio-NA-le ZAHL [ʁat͡si̯oˈnaːlə ˈt͡saːl]",
+  "links": [
+   [
+    "der Zahlenbereich",
+    "https://de.wikipedia.org/wiki/Zahlenbereich"
+   ]
+  ]
  },
  {
   "w": "die irrationale Zahl",
@@ -702,7 +827,14 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "IR-ra-tsio-na-le ZAHL [ˈɪʁat͡si̯oˌnaːlə ˈt͡saːl]",
+  "links": [
+   [
+    "der Zahlenbereich",
+    "https://de.wikipedia.org/wiki/Zahlenbereich"
+   ]
+  ]
  },
  {
   "w": "die reelle Zahl",
@@ -716,7 +848,14 @@ window.GLOSSAR_FACH = [
   "her": "лат. realis «вещественный» ← res «вещь» → «вещественное число»",
   "erk": "Все рациональные и иррациональные числа вместе – каждая точка числовой прямой, каждый результат измерения. Обозначение ℝ.",
   "ver": "Родственники: real, die Realität, реальный. «Вещественное» – калька: res = вещь.",
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "re-EL-le ZAHL [ʁeˈɛlə ˈt͡saːl]",
+  "links": [
+   [
+    "der Zahlenbereich",
+    "https://de.wikipedia.org/wiki/Zahlenbereich"
+   ]
+  ]
  },
  {
   "w": "die relative Zahl",
@@ -738,7 +877,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "re-la-TI-ve ZAHL [ʁelaˈtiːvə ˈt͡saːl]"
  },
  {
   "w": "die Zahlengerade",
@@ -750,7 +890,8 @@ window.GLOSSAR_FACH = [
   ],
   "her": "нем. die Zahl «число» + die Gerade «прямая» (gerade «прямой»)",
   "erk": "Прямая, на которой каждой точке соответствует число: справа от 0 – положительные, слева – отрицательные. Только с положительной частью – der Zahlenstrahl (числовой луч).",
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "ZAH-len-ge-ra-de [ˈt͡saːlənɡəˌʁaːdə]"
  },
  {
   "w": "der Betrag",
@@ -774,7 +915,14 @@ window.GLOSSAR_FACH = [
     "сумма составляет 50 евро"
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "be-TRAG [bəˈtʁaːk]",
+  "links": [
+   [
+    "der Betrag (die Betragsfunktion)",
+    "https://de.wikipedia.org/wiki/Betragsfunktion"
+   ]
+  ]
  },
  {
   "w": "das Vorzeichen",
@@ -793,7 +941,8 @@ window.GLOSSAR_FACH = [
     "gleiche Vorzeichen → plus"
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "VOR-zei-chen [ˈfoːɐ̯ˌt͡saɪ̯çn̩]"
  },
  {
   "w": "das Rechenzeichen",
@@ -802,7 +951,8 @@ window.GLOSSAR_FACH = [
   "h": "germ",
   "her": "нем. rechnen «считать» + das Zeichen «знак»",
   "erk": "Знак, который говорит, ЧТО делать: +, −, ·, :. Отличать от das Vorzeichen (знак самого числа).",
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "RE-chen-zei-chen [ˈʁɛçn̩ˌt͡saɪ̯çn̩]"
  },
  {
   "w": "die Gegenzahl",
@@ -817,7 +967,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "GE-gen-zahl [ˈɡeːɡn̩ˌt͡saːl]"
  },
  {
   "w": "das Potential",
@@ -837,7 +988,14 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "po-ten-TSIAL [potɛnˈt͡si̯aːl]",
+  "links": [
+   [
+    "das elektrische Potential",
+    "https://de.wikipedia.org/wiki/Elektrisches_Potential"
+   ]
+  ]
  },
  {
   "w": "die Masse",
@@ -857,7 +1015,8 @@ window.GLOSSAR_FACH = [
     "минус соединён с массой"
    ]
   ],
-  "lek": "kurs-1-mathematik/02-zahlenarten.html"
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "aus": "MAS-se [ˈmasə]"
  },
  {
   "w": "die Spannung",
@@ -877,7 +1036,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "etage-1/01-ladung-strom-spannung.html"
+  "lek": "etage-1/01-ladung-strom-spannung.html",
+  "aus": "SPAN-nung [ˈʃpanʊŋ]"
  },
  {
   "w": "der Strom",
@@ -899,7 +1059,8 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "etage-1/01-ladung-strom-spannung.html"
+  "lek": "etage-1/01-ladung-strom-spannung.html",
+  "aus": "STROM [ʃtʁoːm]"
  },
  {
   "w": "der Widerstand",
@@ -920,6 +1081,7 @@ window.GLOSSAR_FACH = [
     ""
    ]
   ],
-  "lek": "etage-1/02-leiter-widerstand.html"
+  "lek": "etage-1/02-leiter-widerstand.html",
+  "aus": "WI-der-stand [ˈviːdɐˌʃtant]"
  }
 ];
