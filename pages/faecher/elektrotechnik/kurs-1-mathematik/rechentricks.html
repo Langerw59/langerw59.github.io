@@ -16,6 +16,12 @@
       .bsp { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.15em; white-space: nowrap; }
       .regel { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.2em; text-align: center; margin: 8px 0; }
       details { margin: 6px 0; }
+      .tr-box { position: sticky; top: 0; z-index: 5; background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 12px; padding: 8px 12px; margin: 10px 0; }
+      .tr-zeile { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      .tr-zeile input { flex: 1; min-width: 160px; font-size: 1.25em; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); font-family: "Cambria Math", "Times New Roman", serif; }
+      .tr-zeile button { font-size: 1em; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+      .tr-erg { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.4em; font-weight: 700; min-width: 90px; }
+      .tr-hinweis { font-size: .9em; margin-top: 4px; }
       summary { cursor: pointer; }
     </style>
   </head>
@@ -37,6 +43,16 @@
           <a href="#t5">5. das Quadrat in der Nähe von 50</a> ·
           <a href="#t6">6. die Teilbarkeitsregeln</a> ·
           <a href="#t7">7. Zum Ansehen</a></p>
+
+        <div class="tr-box">
+          <div class="tr-zeile">
+            <b>🧮 der Taschenrechner</b>
+            <input id="trIn" type="text" inputmode="decimal" placeholder="z. B. 36 · 37 oder 35²" autocomplete="off" />
+            <button type="button" id="trGo">=</button>
+            <span class="tr-erg" id="trErg"></span>
+          </div>
+          <div class="tr-hinweis hint-text" id="trHinweis">Zum Nachprüfen: · oder * oder x = mal, : oder / = geteilt, ² oder ^2 = Quadrat. Enter = rechnen.</div>
+        </div>
 
         <!-- ===== 1 ===== -->
         <h2 id="t1">1. Das Quadrat einer Zahl mit 5 am Ende</h2>
@@ -157,5 +173,32 @@
         </div>
       </div>
     </main>
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        const fmt = (n) => Number.isInteger(n) ? n.toLocaleString("de-DE") : n.toLocaleString("de-DE", { maximumFractionDigits: 8 });
+        function rechnen() {
+          let t = $("trIn").value.trim();
+          if (!t) return;
+          let e = t.replace(/\s/g, "").replace(/[·x×*]/gi, "*").replace(/[:÷/]/g, "/").replace(/,/g, ".")
+                   .replace(/²/g, "^2").replace(/³/g, "^3").replace(/−/g, "-").replace(/\^/g, "**");
+          if (!/^[0-9+\-*/().]+$/.test(e)) { $("trErg").textContent = "?"; $("trHinweis").textContent = "Nur Zahlen und + − · : ² ( ) eingeben."; return; }
+          let r; try { r = Function('"use strict";return (' + e + ")")(); } catch (x) { r = NaN; }
+          if (!isFinite(r)) { $("trErg").textContent = "?"; return; }
+          $("trErg").textContent = "= " + fmt(r);
+          // passt Trick 2? (zweistellig · zweistellig, gleiche Zehner, Einer zusammen 10)
+          const m = t.replace(/\s/g, "").match(/^(\d)(\d)[·x×*](\d)(\d)$/i);
+          let h = "";
+          if (m) {
+            const a = +m[1], b = +m[2], c = +m[3], d = +m[4];
+            if (a === c && b + d === 10) h = "✅ Trick 2 passt: " + a + " · " + (a + 1) + " = " + a * (a + 1) + ", " + b + " · " + d + " = " + String(b * d).padStart(2, "0");
+            else if (a === c) h = "⚠️ Trick 2 passt hier nicht: " + b + " + " + d + " = " + (b + d) + " (nicht 10).";
+          }
+          $("trHinweis").textContent = h || "Zum Nachprüfen: · oder * oder x = mal, : oder / = geteilt, ² oder ^2 = Quadrat. Enter = rechnen.";
+        }
+        $("trGo").addEventListener("click", rechnen);
+        $("trIn").addEventListener("keydown", (e) => { if (e.key === "Enter") rechnen(); });
+      })();
+    </script>
   </body>
 </html>
