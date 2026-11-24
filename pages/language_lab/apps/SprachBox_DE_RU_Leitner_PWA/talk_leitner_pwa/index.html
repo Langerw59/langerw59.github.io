@@ -4,28 +4,45 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0b1220" />
-  <title>SprachBox DE↔RU</title>
+  <title>SprachBox RU → DE</title>
 
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./assets/icon-192.png" />
   <link rel="apple-touch-icon" href="./assets/icon-192.png" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=20261117e" />
+  <!-- 2026-11-05: der Benutzer – eigener Fortschritt pro Name / у каждого пользователя свой прогресс (vor app.js laden!) -->
+  <script src="./benutzer.js?v=20261106d"></script>
   <script src="../../../shared_data/sprachfuehrer_phrase_adapter.js" defer></script>
   <!-- 2026-11-02: Uhr, KW, Kalender, Lernzeit / часы, календарь, время занятий -->
   <script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
   <script src="../../../../../core/js/lernuhr.js" defer></script>
+  <!-- 2026-11-02: Glossar – Wortkarte mit Herkunft / глоссарий с происхождением слов -->
+  <script src="../../../../../datenbanken/glossar/glossar_de.js" defer></script>
+    <script src="../../../../../core/js/glossar_karte.js" data-glossar="../../../glossar/index.html" defer></script>
 </head>
-<body data-lernzeit="SprachBox DE↔RU" data-keine-navi><!-- 2026-11-11: keine Navi-Knöpfe, sie würden die Karteikarten-Knöpfe verdecken -->
+<body data-lernzeit="SprachBox RU → DE" data-keine-navi><!-- 2026-11-11: keine Navi-Knöpfe, sie würden die Karteikarten-Knöpfe verdecken -->
   <header class="topbar">
     <div class="brand">
       <div class="logo">SB</div>
       <div class="titles">
         <div class="h1">SprachBox</div>
-        <div class="h2">Deutsch ↔ Русский · Leitner (8 Boxen)</div>
+        <div class="h2">Russisch → Deutsch · Leitner (8 Boxen) · <span class="mini">Stand 24.11.</span></div>
       </div>
     </div>
 
     <div class="top-actions" data-lernuhr-slot>
+      <!-- 2026-11-17: Glossar, Spickzettel, Leseregeln öffnen in einem eigenen Tab – die Karteikarten bleiben offen / открываются в отдельной вкладке -->
+      <a class="btn ghost" href="../../../glossar/index.html" target="quantura_glossar" title="Glossar – Wörter mit Herkunft (eigener Tab)">
+        <span class="lbl lbl-de">📖 Glossar</span>
+        <span class="lbl lbl-en">глоссарий</span>
+      </a>
+      <!-- 2026-11-11: der Spickzettel – Lautschrift (IPA) / шпаргалка по транскрипции -->
+      <!-- 2026-11-17: Ordnung – Spickzettel und Leseregeln gehören jetzt zur Grammatik (Thema „das Lesen“).
+           Die Knöpfe sind nur versteckt, nicht gelöscht. / шпаргалка и правила чтения теперь в грамматике -->
+      <a class="btn ghost" href="../../../grammatik/index.html" target="quantura_grammatik" title="Die Grammatik – Regeln, Lautschrift, Leseregeln (eigener Tab)">
+        <span class="lbl lbl-de">📐 Grammatik</span>
+        <span class="lbl lbl-en">грамматика</span>
+      </a>
       <button id="btnInstall" class="btn ghost" hidden>
         <span class="lbl lbl-de">App installieren</span>
         <span class="lbl lbl-en">Install app</span>
@@ -128,8 +145,8 @@
           <span>TTS</span>
           <select id="selTts">
             <option value="off">Aus</option>
-            <option value="de">Deutsch</option>
-            <option value="en">English</option>
+            <option value="de">Russisch (vorne)</option>
+            <option value="en">Deutsch (hinten)</option>
             <option value="both">Beide</option>
           </select>
         </label>
@@ -143,6 +160,32 @@
             <button id="btnTempoSlow" class="btn ghost" type="button">Langsam / Slow</button>
             <button id="btnTempoFast" class="btn ghost" type="button">Schnell / Fast</button>
           </div>
+        </label>
+        <label class="field">
+          <span>Audio</span>
+          <select id="selAudioSource">
+            <option value="auto">Aufnahmen (mp3), sonst Browser</option>
+            <option value="synth">Nur Browser-Stimme</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Stimme Russisch</span>
+          <select id="selVoiceDe"><option value="">Auto (beste Stimme)</option></select>
+          <button id="btnVoiceTestDe" class="btn ghost" type="button">▶ Test</button>
+        </label>
+        <label class="field">
+          <span>Stimme Deutsch</span>
+          <select id="selVoiceEn"><option value="">Auto (beste Stimme)</option></select>
+          <button id="btnVoiceTestEn" class="btn ghost" type="button">▶ Test</button>
+        </label>
+        <!-- 2026-11-17: der Schreib-Modus / режим письма -->
+        <label class="field">
+          <span>✍️ Schreiben</span>
+          <select id="selSchreiben">
+            <option value="aus">Aus (nur umdrehen)</option>
+            <option value="lesen">RU → DE übersetzen (Russisch sehen, Deutsch schreiben)</option>
+            <option value="diktat">Diktat (Deutsch hören + schreiben)</option>
+          </select>
         </label>
         <label class="field">
           <span>⭐ Filter / Starred</span>
@@ -246,7 +289,10 @@
       <div class="boxes" id="boxesGrid"></div>
 
       <div class="hint">
-        Tipp: <b>Gewusst</b> → Karte wandert eine Box nach rechts (längerer Abstand). <b>Nicht gewusst</b> → zurück in Box 1.
+        So lernst du: jeden Tag <b>Start</b> drücken. Zuerst kommt die Wiederholung, danach eine neue Lektion (6 Sätze).
+        Die nächste Lektion kommt erst, wenn du alle Sätze einmal <b>gewusst</b> hast. Höchstens 2 neue Lektionen pro Tag.<br>
+        <b>Gewusst</b> → Karte wandert eine Box nach rechts (längerer Abstand). <b>Nicht gewusst</b> → zurück in Box 1, und sie kommt gleich nochmal.
+        <b>⭐ Merken</b> → Satz gefällt dir / willst du extra üben (Filter „Gemerkt“).
       </div>
     </section>
 
@@ -362,20 +408,49 @@
       <div class="cardTop">
         <div class="pill" id="pillMeta">–</div>
         <div class="pill" id="pillBox">Box 1</div>
+        <!-- 2026-11-17: der Schreib-Modus – Aus / Lesen / Diktat (режим письма) -->
+        <button id="btnSchreibModus" class="btn ghost schreibModusBtn" type="button" title="Schreib-Modus umschalten: Aus → Lesen → Diktat">✍️ Schreiben: Aus</button>
       </div>
 
       <div id="card" class="card3d">
         <div class="cardInner">
         <div class="cardFace cardFront">
-          <div class="lang">DE</div>
+          <div class="lang">RU</div>
           <div class="text" id="txtFront">…</div>
           <div class="mnemo" id="txtMnemo" hidden></div>
         </div>
         <div class="cardFace cardBack">
-          <div class="lang">EN</div>
+          <div class="lang">DE</div>
           <div class="text" id="txtBack">…</div>
+          <!-- 2026-11-14: дословно + по-русски -->
+          <div class="ruLines" id="txtRu" hidden></div>
         </div>
         </div>
+      </div>
+
+      <!-- 2026-11-17: Englisch schreiben (Sprachführer + Diktat zusammen) / написать английский вариант -->
+      <div id="schreibBox" class="schreibBox" hidden>
+        <div class="schreibZeile">
+          <input id="inpSchreiben" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" lang="de" placeholder="Deutsch schreiben … (Enter = prüfen)" />
+          <button id="btnSchreibHoeren" class="btn ghost" type="button" title="Deutsch noch einmal hören">🔊</button>
+          <button id="btnSchreibHinweis" class="btn ghost" type="button" title="Russischen Satz zeigen" hidden>👁 RU</button>
+          <button id="btnSchreibPruefen" class="btn primary" type="button">✔ Prüfen</button>
+        </div>
+        <div id="schreibErgebnis" class="schreibErgebnis"></div>
+        <div class="schreibFuss">
+          <span class="mini" id="lblSchreibStats">Sätze 0</span>
+          <!-- 2026-11-17: die Satzzeichen mitprüfen / проверять знаки препинания -->
+          <label class="mini sbZeichenWahl"><input type="checkbox" id="chkSchreibZeichen" checked /> Satzzeichen prüfen (. , ? !)</label>
+          <label class="mini sbZeichenWahl"><input type="checkbox" id="chkSchreibGross" checked /> Groß-/Kleinschreibung prüfen (Aa)</label>
+        </div>
+      </div>
+
+      <!-- 2026-11-02: Tempo direkt in der Karte / темп прямо в карточке -->
+      <div class="cardTempo" role="group" aria-label="Tempo">
+        <button id="btnCardSlow" class="btn ghost" type="button" data-speed="0.6">🐢 Langsam</button>
+        <button id="btnCardNormal" class="btn ghost" type="button" data-speed="0.9">Normal</button>
+        <button id="btnCardFast" class="btn ghost" type="button" data-speed="1.2">🐇 Schnell</button>
+        <span class="mini" id="lblCardSpeed">0.90×</span>
       </div>
 
       <div class="cardBottom">
@@ -480,11 +555,11 @@
     </button>
     <a id="btnNavHome" class="btn" href="/index.html">
       <span class="lbl lbl-de">Portal</span>
-      <span class="lbl lbl-en">Portal</span>
+      <span class="lbl lbl-en">Home</span>
     </a>
   </div>
 
   <script src="../../../shared_data/mnemo_panel.js?v=20261107"></script>
-  <script src="./app.js?v=20261107a" type="module"></script>
+  <script src="./app.js?v=20261119a" type="module"></script>
 </body>
 </html>

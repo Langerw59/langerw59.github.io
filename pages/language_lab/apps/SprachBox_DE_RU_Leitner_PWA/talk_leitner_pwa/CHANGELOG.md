@@ -1,13 +1,9 @@
-# Changelog
+# SprachBox RU → DE
 
-## 2026-02-23
-
-- UI-Begriffe geklaert:
-  - Inhalts-`Level` wird in der Anzeige jetzt als `Stufe` bezeichnet.
-  - Leitner-Fortschritt bleibt `Box` (nun 8 Boxen in der UI/Logik).
-- Datenmodell rueckwaertskompatibel getrennt:
-  - Karten/Deck-Eintraege nutzen `stufe` (Alias `level` bleibt lesbar).
-  - Fortschritt nutzt `box` (Migration alter Progress-Eintraege mit `meta.level -> meta.box`).
-- Neues A1-Zusatzdeck (offline) hinzugefuegt:
-  - Datei: `data/sentences_a1.json`
-  - Wird als Zusatzdeck automatisch geladen (falls vorhanden), ohne bestehende Decks zu ersetzen.
+## 2026-11-24
+- Neu aufgebaut als Kopie der SprachBox DE↔EN: dieselben Lektionen (`lektionen_de_en.json` aus DE↔EN, eine gemeinsame Datei).
+- Vorne der russische Satz, hinten der deutsche Satz. Deutsch wird mit den mp3-Aufnahmen aus DE↔EN vorgelesen.
+- Eigener Lernfortschritt (Boxen 1–8), getrennt von DE↔EN; dieselben Benutzer.
+- Schreib-Modus: Deutsch schreiben (Russisch sehen) oder Diktat (Deutsch hören + schreiben).
+- Ohne Lieder, Spickzettel und Leseregeln (gehören zum Englischen). Glossar-Popup: Glossar Deutsch.
+- Die alte Version DE→RU (von ChatGPT) ist gelöscht.

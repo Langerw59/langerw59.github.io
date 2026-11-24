@@ -1015,3 +1015,215 @@ body.mode-bg .bgPreviewThumb{
   display: none !important;
   pointer-events: none !important;
 }
+
+/* 2026-11-02: Tempo-Leiste in der Karte / темп в карточке */
+.cardTempo{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top: 12px;
+}
+.cardTempo .btn{
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+.cardTempo .btn.isActive{
+  border-color: #60a5fa;
+  background: rgba(96,165,250,.28);
+  font-weight: 700;
+}
+
+/* 2026-11-06: Handy quer (z. B. iPhone + Fernseher): Karte links, Knöpfe rechts –
+   „Gewusst / Nicht gewusst“ immer sichtbar, ohne Scrollen.
+   телефон горизонтально: карточка слева, кнопки справа, всё видно без прокрутки */
+@media (orientation: landscape) and (max-height: 560px){
+  .studyOverlay{
+    z-index: 10050; /* über der Kopfleiste / поверх шапки */
+    padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+    overflow-y: auto;
+  }
+  .cardShell{
+    width: min(98vw, 1100px);
+    max-height: calc(100dvh - 12px);
+    padding: 8px 10px;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(210px, 34%);
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 6px;
+  }
+  .cardTop{ grid-column: 1; grid-row: 1; margin: 0; padding-right: 0; }
+  .pill{ padding: 4px 8px; font-size: 11px; }
+  .card3d{
+    grid-column: 1; grid-row: 2;
+    height: auto;
+    min-height: 150px;
+  }
+  .cardFace{ padding: 10px 14px; gap: 6px; overflow-y: auto; }
+  .text{ font-size: clamp(22px, 7.5vh, 38px); }
+  .mnemo{ margin-top: 4px; padding: 5px 8px; font-size: 13px; }
+
+  /* rechte Spalte: oben Tempo (Platz für ×), darunter die Antwort-Knöpfe */
+  .cardTempo{
+    grid-column: 2; grid-row: 1;
+    margin: 0;
+    padding-right: 52px;
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
+  .cardTempo .btn{ padding: 5px 8px; font-size: 13px; }
+  .cardTempo .mini{ display: none; }
+  .cardBottom{
+    grid-column: 2; grid-row: 2;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 6px;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .cardBottom .right{ order: -1; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .cardBottom .right .btn{ padding: 12px 6px; font-size: 16px; }
+  #btnYes, #btnNo{ min-height: 56px; font-size: 18px; font-weight: 800; }
+  #btnForgot, #btnNext{ grid-column: 1 / -1; }
+  .cardBottom .left{ display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .cardBottom .left .btn{ padding: 8px 6px; font-size: 14px; }
+  .x{ top: 6px; right: 8px; }
+  .studyOverlay-backdrop{ background: rgba(4,8,18,.82); }
+}
+
+/* 2026-11-06: „Weiter / Next“ reagierte auf dem iPhone oft nicht.
+   Grund: zwei schnelle Tipps (Gewusst → Weiter) hält iOS für „Doppeltipp = Zoomen“.
+   touch-action: manipulation schaltet den Doppeltipp-Zoom auf Knöpfen ab.
+   кнопка Weiter: iOS принимал два быстрых нажатия за двойной тап (зум) */
+.btn, button{ touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
+@media (orientation: landscape) and (max-height: 560px){
+  /* keine eigene Scroll-Fläche rechts – ein Tipp ist immer ein Klick */
+  .cardBottom{ overflow: visible; }
+  /* Nach der Antwort: statt Gewusst/Nicht gewusst/Vergessen ein großer Knopf „Weiter“ an derselben Stelle */
+  .cardBottom .right:has(#btnNext:not([hidden])) #btnYes,
+  .cardBottom .right:has(#btnNext:not([hidden])) #btnNo,
+  .cardBottom .right:has(#btnNext:not([hidden])) #btnForgot{ display: none; }
+  #btnNext{ min-height: 96px; font-size: 22px; font-weight: 800; }
+}
+
+/* 2026-11-12: Handy hochkant – Kopfleiste und Knöpfe unten überlappten sich.
+   телефон вертикально: шапка и нижние кнопки больше не наезжают друг на друга */
+@media (max-width: 640px) and (orientation: portrait){
+  /* Kopfleiste: Titel oben, die Knöpfe darunter in einer Zeile zum Wischen */
+  .topbar{ flex-wrap: wrap; padding: 10px 12px; gap: 8px; }
+  .brand{ width: 100%; }
+  .top-actions{
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .top-actions::-webkit-scrollbar{ display: none; }
+  .top-actions > *{ flex: 0 0 auto; }
+
+  /* Start / Boxen / Wörterbuch dürfen umbrechen */
+  .cta{ flex-wrap: wrap; }
+
+  /* Zurück / Portal: schmale Leiste ganz unten, Inhalt endet darüber */
+  body{ padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .bottom-nav{
+    left: 12px;
+    right: 12px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    justify-content: flex-end;
+  }
+  .bottom-nav .btn{ min-height: 44px; padding: 8px 16px; }
+}
+
+/* 2026-11-14: дословно + по-русски auf der Rückseite */
+.ruLines{
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  background: rgba(8,14,28,.30);
+  font-size: 16px;
+  line-height: 1.3;
+}
+.ruLines .ruWort{ color: var(--muted); font-style: italic; }
+.ruLines .ruNorm{ font-weight: 700; margin-top: 4px; }
+.ruLines .ruWort:only-child, .ruLines .ruNorm:only-child{ margin-top: 0; }
+@media (orientation: landscape) and (max-height: 560px){
+  .ruLines{ margin-top: 4px; padding: 5px 8px; font-size: 14px; }
+}
+
+/* 2026-11-17: der Schreib-Modus – Karte auf Englisch schreiben
+   режим письма: поле ввода под карточкой, проверка по словам и буквам */
+.schreibModusBtn{ padding: 6px 10px; font-size: 13px; border-radius: 999px; }
+.schreibModusBtn.isActive{ border-color: #60a5fa; background: rgba(96,165,250,.28); font-weight: 700; }
+.schreibBox{ margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.schreibBox[hidden]{ display: none; }
+.schreibZeile{ display: flex; gap: 6px; align-items: center; }
+#inpSchreiben{
+  flex: 1 1 auto; min-width: 0;
+  font-size: 20px; /* ≥16px: iPhone zoomt sonst / иначе iPhone увеличивает */
+  padding: 10px 12px; border-radius: 12px;
+  border: 1px solid var(--stroke); background: rgba(8,14,28,.55); color: var(--text);
+}
+#inpSchreiben:focus{ outline: 2px solid #60a5fa; }
+.schreibZeile .btn{ padding: 10px 12px; white-space: nowrap; }
+.schreibErgebnis{ font-size: 18px; line-height: 1.5; min-height: 0; }
+.schreibErgebnis:empty{ display: none; }
+.schreibErgebnis .sbTitel{ font-weight: 800; margin-bottom: 2px; }
+.schreibErgebnis.is-richtig .sbTitel{ color: var(--good); }
+.schreibErgebnis.is-fast .sbTitel{ color: #facc15; }
+.schreibErgebnis.is-falsch .sbTitel{ color: var(--bad); }
+.sbOk{ color: var(--good); font-weight: 700; }
+.sbTypo{ color: #facc15; font-weight: 700; }
+.sbLetterBad{ color: #0b1220; background: #facc15; border-radius: 3px; padding: 0 1px; }
+.sbBad{ color: var(--bad); font-weight: 800; text-decoration: underline; }
+.sbMiss{ color: var(--bad); font-weight: 800; border-bottom: 2px dashed var(--bad); }
+.sbYou{ color: var(--muted); font-size: 14px; margin-left: 2px; }
+.btn.sbVorschlag{ outline: 3px solid #facc15; outline-offset: 2px; }
+
+/* Diktat: deutscher Satz verschwommen, Tipp auf „👁 DE“ zeigt ihn
+   диктант: немецкий текст размыт, кнопка «👁 DE» показывает его */
+.card3d.schreibDiktat .cardFront .text,
+.card3d.schreibDiktat .cardFront .mnemo{ filter: blur(9px); user-select: none; transition: filter .2s; }
+.card3d.schreibDiktat.hinweisAn .cardFront .text,
+.card3d.schreibDiktat.hinweisAn .cardFront .mnemo{ filter: none; }
+
+/* Handy/Tablet quer: Schreibfeld unter der Karte in der linken Spalte */
+@media (orientation: landscape) and (max-height: 560px){
+  body.schreibAn .cardShell{ grid-template-rows: auto minmax(0, 1fr) auto; }
+  body.schreibAn .cardBottom{ grid-row: 2 / span 2; }
+  .schreibBox{ grid-column: 1; grid-row: 3; margin-top: 0; gap: 4px; }
+  #inpSchreiben{ font-size: 17px; padding: 6px 10px; }
+  .schreibZeile .btn{ padding: 6px 8px; }
+  .schreibErgebnis{ font-size: 15px; line-height: 1.35; }
+  #lblSchreibStats{ display: none; }
+  body.schreibAn .card3d{ min-height: 110px; }
+}
+
+/* 2026-11-17: das Ergebnis am Ende (Prozent) / итог в конце */
+.schreibBilanz{ position: fixed; inset: 0; z-index: 10100; display: grid; place-items: center; background: rgba(4,8,18,.7); padding: 12px; }
+.schreibBilanzKarte{ width: min(440px, 94vw); max-height: 94dvh; overflow-y: auto; border-radius: 22px; padding: 18px; background: #111c33; color: #eaf0ff; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 20px 70px rgba(0,0,0,.6); text-align: center; }
+.schreibBilanzKarte .sbTitel{ font-size: 20px; font-weight: 800; }
+.sbProzent{ font-size: 56px; font-weight: 900; line-height: 1.1; margin: 6px 0 2px; }
+.sbTabelle{ width: 100%; margin: 10px 0; border-collapse: collapse; font-size: 16px; text-align: left; }
+.sbTabelle td, .sbTabelle th{ padding: 4px 6px; border-bottom: 1px solid rgba(255,255,255,.1); }
+.sbTabelle td:last-child{ text-align: right; }
+.sbVerlauf{ font-size: 14px; }
+.schreibBilanzKarte .btn{ min-width: 120px; margin-top: 6px; }
+
+/* 2026-11-17: die Satzzeichen / знаки препинания */
+.sbPunkt{ color: var(--bad); font-weight: 900; border: 2px solid var(--bad); border-radius: 5px; padding: 0 3px; margin-left: 1px; }
+.sbInfo{ font-size: 14px; color: var(--muted); margin-top: 2px; }
+.schreibFuss{ display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+.sbZeichenWahl{ cursor: pointer; white-space: nowrap; }
+@media (orientation: landscape) and (max-height: 560px){ .schreibFuss{ display: none; } }
+.sbGross{ color: var(--good); font-weight: 700; text-decoration: underline wavy var(--bad); text-decoration-thickness: 2px; text-underline-offset: 3px; }

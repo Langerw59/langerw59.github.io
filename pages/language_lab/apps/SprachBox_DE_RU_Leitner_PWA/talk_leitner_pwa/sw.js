@@ -1,16 +1,27 @@
 // 2026-02-23 | RU/DE/EN: Cache bump + safer update flow (skipWaiting/message).
-const CACHE = "sprachbox-v13";
+// 2026-11-02: Lektionen Level 1-2, Lernen der Reihe nach.
+// 2026-11-11: Spickzettel (Lautschrift) dazu.
+// 2026-11-11: Lautschrift im Wort-Fenster.
+// 2026-11-11: Zurück-Knöpfe (Glossar, Spickzettel).
+// 2026-11-11: die Leseregeln dazu.
+// 2026-11-11: Navi-Knöpfe (core_init.js neu).
+// 2026-11-12: Auto-Stimme ohne Spass-Stimmen (iPhone, deutsche Namen).
+// 2026-11-12: Knopf „Lieder“ (Lied-Trainer).
+// 2026-11-12: Lieder aus dem Lied-Trainer als Karteikarten.
+// 2026-11-17: der Schreib-Modus (schreiben.js).
+// 2026-11-17: Spickzettel ?z=, Leseregel stummes E (shining).
+const CACHE = "sprachbox-rude-v1"; // 2026-11-24: Sprachführer RU → DE (eigener Cache)
 const CORE = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
+  "./schreiben.js",
+  "./benutzer.js",
   "./manifest.webmanifest",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
-  "./assets/bg-de-en.webp",
-  "./data/de_en_sample.json",
-  "./data/talk_levels_de_en.json"
+  "./assets/bg-de-en.webp"
 ];
 
 self.addEventListener("install", (event) => {
@@ -24,7 +35,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil((async ()=>{
     const keys = await caches.keys();
-    await Promise.all(keys.map(k => (k === CACHE) ? null : caches.delete(k)));
+    await Promise.all(keys.map(k => (k === CACHE || !k.startsWith("sprachbox-rude-v")) ? null : caches.delete(k) /* 2026-11-06: nur eigene alte Caches loeschen (nicht die von DE↔IT) */));
     self.clients.claim();
   })());
 });
@@ -43,6 +54,10 @@ self.addEventListener("fetch", (event) => {
   // Only handle same-origin
   if (url.origin !== self.location.origin) return;
 
+  // 2026-11-02: Audio (mp3 + index.json) nicht ueber den SW-Cache:
+  // Safari braucht Range-Requests fuer <audio>, und der Index soll immer frisch sein.
+  if (url.pathname.includes("/audio/")) return;
+
   event.respondWith((async ()=>{
     const cache = await caches.open(CACHE);
 
@@ -60,7 +75,21 @@ self.addEventListener("fetch", (event) => {
       }
     }
 
-    // Try cache first
+    // 2026-11-05: Programm-Dateien (js, css, json, html) immer zuerst frisch aus dem Netz,
+    // nur offline aus dem Cache – sonst sieht man neue Funktionen erst nach mehrmaligem Neuladen.
+    if (/\.(js|css|json|html|webmanifest)$/i.test(url.pathname)) {
+      try {
+        const fresh = await fetch(req, { cache: "no-cache" });
+        if (fresh && fresh.ok) cache.put(req, fresh.clone());
+        return fresh;
+      } catch (_e) {
+        const old = (await cache.match(req)) || (await cache.match(req, { ignoreSearch: true }));
+        if (old) return old;
+        throw _e;
+      }
+    }
+
+    // Bilder usw.: Cache zuerst
     const cached = await cache.match(req);
     if (cached) return cached;
 
