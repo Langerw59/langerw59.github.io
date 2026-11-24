@@ -1177,7 +1177,10 @@ window.GRAMMATIK = {
         "ГРАММАТИКА: «this very good» – так нельзя, в предложении нет сказуемого (das Prädikat). Нужен глагол be: This IS very good. · That IS very good → сокращённо That's very good. (That's = That is.) У this сокращения нет: всегда this is (подробно: правило «I'm · I'll · I'd – die Kurzformen», раздел 's).",
         "Почему путаемся: в русском разговорном «это» стоит и вместо «это», и вместо «то»; в немецком разговорном «das» тоже говорят и про близкое, и про далёкое (das hier – das da). В английском выбирать между this и that нужно ВСЕГДА.",
         "Две роли: 1) der Begleiter (перед существительным): this car – dieses Auto, that house – das Haus dort. 2) der Stellvertreter (вместо существительного, одно): I like this. – Das gefällt mir.",
-        "Множественное число: this → these, that → those. Произношение: this [ðɪs] (короткое и), these [ðiːz] (долгое и, звонкое z), that [ðæt] (широкое а/э), those [ðəʊz] («зоуз»). Звук th [ð] – кончик языка между зубами, звонко."
+        "Множественное число: this → these, that → those. Произношение: this [ðɪs] (короткое и), these [ðiːz] (долгое и, звонкое z), that [ðæt] (широкое а/э), those [ðəʊz] («зоуз»). Звук th [ð] – кончик языка между зубами, звонко.",
+        "THIS ИЛИ IT? (2026-11-24: How much is this? – How much is it?) Оба вопроса правильные. this – das Demonstrativpronomen (указательное местоимение): им я ПОКАЗЫВАЮ новый предмет – беру в руки, показываю пальцем. it – das Personalpronomen (личное местоимение, 3-е лицо ед. ч., средний род): оно только ЗАМЕНЯЕТ предмет, который уже известен обоим (уже назван или уже в разговоре). it ничего не показывает.",
+        "В МАГАЗИНЕ: впервые беру куртку и спрашиваю → How much is this? (Сколько стоит вот это?). Про куртку уже говорили («I like this jacket.») → How much is it? (Сколько она стоит?). Вещь на полке далеко → How much is that? Несколько вещей → How much are these? / How much are those? Также правильно: How much does it / this cost?",
+        "ТАК ЖЕ В НЕМЕЦКОМ: Was kostet das? (das – das Demonstrativpronomen, показываю) – самый обычный вопрос в магазине. Was kostet es? – грамматически правильно, но звучит странно, если «es» ещё не названо. Правило одно и то же: новое показываем (this / das), известное заменяем (it / es)."
       ],
       tabelle: {
         kopf: ["", "Einzahl · ед. число", "Mehrzahl · мн. число", "Deutsch", "Русский"],
@@ -1197,7 +1200,10 @@ window.GRAMMATIK = {
         { en: "Who are those people?", de: "Wer sind die Leute dort?", ru: "Кто те люди?", hinweis: "мн. число, далеко → those" },
         { en: "This soup is very good!", de: "Diese Suppe ist sehr gut!", ru: "Этот суп очень вкусный!", hinweis: "ем сейчас сам → this" },
         { en: "I'll repair your car. – That's very good!", de: "Ich repariere dein Auto. – Das ist sehr gut!", ru: "Я починю твою машину. – Вот это хорошо!", hinweis: "ответ на чужие слова → that" },
-        { en: "this week · that day", de: "diese Woche · an jenem Tag", ru: "на этой неделе · в тот день", hinweis: "сейчас → this, тогда → that" }
+        { en: "this week · that day", de: "diese Woche · an jenem Tag", ru: "на этой неделе · в тот день", hinweis: "сейчас → this, тогда → that" },
+        { en: "How much is this?", de: "Was kostet das?", ru: "Сколько стоит вот это?", hinweis: "показываю новый предмет → this (das)" },
+        { en: "I like this jacket. How much is it?", de: "Die Jacke gefällt mir. Was kostet sie?", ru: "Мне нравится эта куртка. Сколько она стоит?", hinweis: "куртка уже названа → it (sie)" },
+        { en: "How much are these?", de: "Was kosten die?", ru: "Сколько стоят эти?", hinweis: "мн. число, рядом → these" }
       ],
       merke: "this / these – hier und jetzt (вот это). that / those – dort, damals, das Gesagte (то). На чужие слова отвечаем that: That's right. I don't like that."
     },
