@@ -36,23 +36,33 @@
         <!-- ===== 1. Die Zahlenarten ===== -->
         <h2>1. Die Zahlenarten – vom Zählen zur Messung</h2>
         <p>Jede neue Zahlenart ist entstanden, weil eine Rechnung mit den alten Zahlen <b>nicht mehr ging</b>.
-          Jede Menge enthält die vorige – wie Zwiebelschalen (как слои луковицы).</p>
-        <svg class="zm" viewBox="0 0 560 250" role="img" aria-label="Die Zahlenmengen N, Z, Q, R ineinander">
-          <rect x="4" y="4" width="552" height="242" rx="22" fill="#eef4ff" stroke="#1e4fa3"/>
-          <rect x="24" y="34" width="420" height="200" rx="18" fill="#e7f6ec" stroke="#2f8a4c"/>
-          <rect x="44" y="64" width="290" height="160" rx="16" fill="#fff6e0" stroke="#c48a00"/>
-          <rect x="64" y="94" width="160" height="120" rx="14" fill="#ffe9e3" stroke="#c2410c"/>
-          <text x="20" y="26" font-size="16" fill="#1e4fa3" font-weight="700">ℝ die reellen Zahlen</text>
-          <text x="458" y="70" font-size="14" fill="#1e4fa3">√2 ≈ 1,414…</text>
-          <text x="458" y="96" font-size="14" fill="#1e4fa3">π ≈ 3,14159…</text>
-          <text x="40" y="56" font-size="15" fill="#2f8a4c" font-weight="700">ℚ die rationalen Zahlen</text>
-          <text x="346" y="110" font-size="14" fill="#2f8a4c">½ = 0,5</text>
-          <text x="346" y="136" font-size="14" fill="#2f8a4c">−¾ = −0,75</text>
-          <text x="346" y="162" font-size="14" fill="#2f8a4c">⅓ = 0,333…</text>
-          <text x="60" y="86" font-size="15" fill="#a26f00" font-weight="700">ℤ die ganzen Zahlen</text>
-          <text x="236" y="130" font-size="14" fill="#a26f00">−1, −2, −3 …</text>
-          <text x="80" y="116" font-size="15" fill="#c2410c" font-weight="700">ℕ natürliche</text>
-          <text x="80" y="150" font-size="14" fill="#c2410c">0, 1, 2, 3 …</text>
+          Jede Menge enthält die vorige – wie Zwiebelschalen (как слои луковицы).
+          <b>Aber:</b> die irrationalen Zahlen sind <b>kein</b> Teil von ℚ – sie liegen <b>neben</b> ℚ. Zusammen ergeben sie ℝ.</p>
+        <svg class="zm" viewBox="0 0 600 330" role="img" aria-label="Die Zahlenmengen: N in Z in Q; Q und die irrationalen Zahlen bilden R; R liegt in C">
+          <rect x="4" y="4" width="592" height="322" rx="22" fill="#f6efff" stroke="#8250df"/>
+          <text x="20" y="27" font-size="16" fill="#8250df" font-weight="700">ℂ die komplexen Zahlen</text>
+          <text x="420" y="27" font-size="14" fill="#8250df">i ; 2 + 3i ; √(−1) = i</text>
+          <rect x="18" y="40" width="564" height="272" rx="18" fill="#eef4ff" stroke="#1e4fa3"/>
+          <text x="32" y="62" font-size="16" fill="#1e4fa3" font-weight="700">ℝ die reellen Zahlen = ℚ + die irrationalen Zahlen</text>
+          <rect x="32" y="74" width="370" height="226" rx="16" fill="#e7f6ec" stroke="#2f8a4c"/>
+          <text x="46" y="96" font-size="15" fill="#2f8a4c" font-weight="700">ℚ die rationalen Zahlen</text>
+          <text x="300" y="130" font-size="14" fill="#2f8a4c">½ = 0,5</text>
+          <text x="300" y="156" font-size="14" fill="#2f8a4c">−¾ = −0,75</text>
+          <text x="300" y="182" font-size="14" fill="#2f8a4c">⅓ = 0,333…</text>
+          <rect x="46" y="108" width="236" height="180" rx="14" fill="#fff6e0" stroke="#c48a00"/>
+          <text x="60" y="130" font-size="15" fill="#a26f00" font-weight="700">ℤ die ganzen Zahlen</text>
+          <text x="60" y="276" font-size="14" fill="#a26f00">−1, −2, −3 …</text>
+          <rect x="60" y="142" width="160" height="110" rx="12" fill="#ffe9e3" stroke="#c2410c"/>
+          <text x="74" y="168" font-size="15" fill="#c2410c" font-weight="700">ℕ natürliche</text>
+          <text x="74" y="200" font-size="14" fill="#c2410c">0, 1, 2, 3 …</text>
+          <rect x="414" y="74" width="156" height="226" rx="16" fill="#fff" stroke="#6e7781" stroke-dasharray="6 4"/>
+          <text x="426" y="96" font-size="15" fill="#57606a" font-weight="700">die irrationalen</text>
+          <text x="426" y="114" font-size="15" fill="#57606a" font-weight="700">Zahlen</text>
+          <text x="426" y="150" font-size="14" fill="#57606a">√2 ≈ 1,41421…</text>
+          <text x="426" y="176" font-size="14" fill="#57606a">π ≈ 3,14159…</text>
+          <text x="426" y="202" font-size="14" fill="#57606a">e ≈ 2,71828…</text>
+          <text x="426" y="236" font-size="12" fill="#57606a">kein Bruch,</text>
+          <text x="426" y="252" font-size="12" fill="#57606a">keine Periode</text>
         </svg>
         <table class="ra-tab">
           <tr><th>die Zahlenart</th><th>das Beispiel</th><th>warum es sie gibt</th></tr>
@@ -60,10 +70,22 @@
           <tr><td>die ganzen Zahlen ℤ<small>целые</small></td><td class="bsp">… −2, −1, 0, 1, 2 …</td><td>3 − 5 geht in ℕ nicht → die negativen Zahlen</td></tr>
           <tr><td>die rationalen Zahlen ℚ<small>рациональные (= gebrochene, дроби)</small></td><td class="bsp">½ ; −¾ ; 0,25</td><td>3 : 4 geht in ℤ nicht → der Bruch</td></tr>
           <tr><td>die irrationalen Zahlen<small>иррациональные</small></td><td class="bsp">√2 ; π</td><td>kein Bruch, unendlich viele Stellen ohne Periode</td></tr>
-          <tr><td>die reellen Zahlen ℝ<small>действительные</small></td><td class="bsp">alle zusammen</td><td>jeder Punkt auf der Zahlengeraden, jeder Messwert</td></tr>
+          <tr><td>die reellen Zahlen ℝ<small>действительные</small></td><td class="bsp">ℚ + irrationale</td><td>jeder Punkt auf der Zahlengeraden, jeder Messwert</td></tr>
+          <tr><td>die komplexen Zahlen ℂ<small>комплексные (для общего образования)</small></td><td class="bsp">i ; 2 + 3i</td><td>√(−1) geht in ℝ nicht → die imaginäre Einheit i mit i² = −1</td></tr>
         </table>
         <p class="hint-text">💡 <b>rational</b> – от лат. <i>ratio</i> «отношение»: число, которое можно записать как отношение двух целых (3/4). <b>ir-rational</b> – «не-отношение».
           Сравни: der Quotient (lat. <i>quotiens</i> «сколько раз»). Буквы ℕ, ℤ, ℚ, ℝ: <b>N</b>atürlich, <b>Z</b>ahl, <b>Q</b>uotient, <b>R</b>eell. Все термины урока – в <a href="../../glossar.html" target="_blank">📘 das Fachglossar</a>.</p>
+
+        <div class="et-box">
+          <h3>Zum Weiterdenken: die komplexen Zahlen ℂ</h3>
+          <p>Keine reelle Zahl ergibt mit sich selbst multipliziert eine negative Zahl: 2² = 4, (−2)² = 4. Darum erfand man
+            <b>die imaginäre Einheit</b> i („die gedachte Einheit“, lat. <i>imaginarius</i> «воображаемый») mit <b>i² = −1</b>.
+            Eine komplexe Zahl hat zwei Teile: <b>den Realteil</b> und <b>den Imaginärteil</b>: z = 3 + 4i.</p>
+          <p><b>Wo braucht man das?</b> In der Elektrotechnik beim <b>Wechselstrom</b>: Spule und Kondensator verschieben die Phase,
+            und mit komplexen Zahlen rechnet man das bequem aus (Modul 6). <b>Achtung:</b> Elektriker schreiben <b>j</b> statt i,
+            weil i schon der Buchstabe für den Strom ist: Z = R + jX.</p>
+          <p class="hint-text">Это пока только для общего развития – считать с комплексными числами будем в модуле «Wechselstrom».</p>
+        </div>
 
         <!-- ===== 2. Die Zahlengerade ===== -->
         <h2>2. Die Zahlengerade und die relativen Zahlen</h2>
@@ -148,9 +170,9 @@
 
         <div class="et-aufgabe">
           <h4>Aufgabe 1 – die Zahlenart</h4>
-          <p>Zu welcher kleinsten Menge (ℕ, ℤ, ℚ, ℝ) gehört die Zahl? a) 7 &nbsp; b) −7 &nbsp; c) 0,4 &nbsp; d) √9 &nbsp; e) √5 &nbsp; f) −⅔</p>
+          <p>Zu welcher kleinsten Menge (ℕ, ℤ, ℚ, ℝ, ℂ) gehört die Zahl? a) 7 &nbsp; b) −7 &nbsp; c) 0,4 &nbsp; d) √9 &nbsp; e) √5 &nbsp; f) −⅔ &nbsp; g) √(−4)</p>
           <details><summary>Lösung zeigen</summary>
-            <div class="loesung">a) ℕ &nbsp; b) ℤ &nbsp; c) ℚ (0,4 = 2/5) &nbsp; d) ℕ – √9 = 3! &nbsp; e) ℝ (irrational) &nbsp; f) ℚ</div>
+            <div class="loesung">a) ℕ &nbsp; b) ℤ &nbsp; c) ℚ (0,4 = 2/5) &nbsp; d) ℕ – √9 = 3! &nbsp; e) ℝ (irrational) &nbsp; f) ℚ &nbsp; g) ℂ – √(−4) = 2i</div>
           </details>
         </div>
 
@@ -214,6 +236,8 @@
         <h2>7. Zum Ansehen</h2>
         <ul class="et-list">
           <li><a href="https://de.wikipedia.org/wiki/Zahlenbereich" target="_blank" rel="noopener">📖 Wikipedia – der Zahlenbereich</a>
+            · <a href="https://de.wikipedia.org/wiki/Irrationale_Zahl" target="_blank" rel="noopener">die irrationale Zahl</a>
+            · <a href="https://de.wikipedia.org/wiki/Komplexe_Zahl" target="_blank" rel="noopener">die komplexe Zahl</a>
             · <a href="https://de.wikipedia.org/wiki/Betragsfunktion" target="_blank" rel="noopener">der Betrag</a>
             · <a href="https://de.wikipedia.org/wiki/Elektrisches_Potential" target="_blank" rel="noopener">das elektrische Potential</a></li>
           <li><a href="https://www.youtube.com/results?search_query=Rechnen+mit+negativen+Zahlen+Vorzeichenregeln+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Rechnen mit negativen Zahlen“</a>

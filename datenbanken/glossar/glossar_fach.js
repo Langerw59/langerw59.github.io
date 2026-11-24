@@ -816,7 +816,7 @@ window.GLOSSAR_FACH = [
    "irrationale Zahlen"
   ],
   "her": "лат. ir- (in-) «не» + ratio «отношение» → «не-отношение»",
-  "erk": "Число, которое нельзя записать дробью: бесконечно много знаков после запятой без периода. Примеры: √2, π.",
+  "erk": "Число, которое нельзя записать дробью: бесконечно много знаков после запятой без периода. Примеры: √2, π, e. Лежит НЕ внутри ℚ, а рядом: ℚ + иррациональные = ℝ.",
   "bsp": [
    [
     "√2 = 1,41421356…",
@@ -831,8 +831,8 @@ window.GLOSSAR_FACH = [
   "aus": "IR-ra-tsio-na-le ZAHL [ˈɪʁat͡si̯oˌnaːlə ˈt͡saːl]",
   "links": [
    [
-    "der Zahlenbereich",
-    "https://de.wikipedia.org/wiki/Zahlenbereich"
+    "die irrationale Zahl",
+    "https://de.wikipedia.org/wiki/Irrationale_Zahl"
    ]
   ]
  },
@@ -846,7 +846,7 @@ window.GLOSSAR_FACH = [
    "ℝ"
   ],
   "her": "лат. realis «вещественный» ← res «вещь» → «вещественное число»",
-  "erk": "Все рациональные и иррациональные числа вместе – каждая точка числовой прямой, каждый результат измерения. Обозначение ℝ.",
+  "erk": "Все рациональные и иррациональные числа вместе (ℝ = ℚ + иррациональные) – каждая точка числовой прямой, каждый результат измерения. Обозначение ℝ.",
   "ver": "Родственники: real, die Realität, реальный. «Вещественное» – калька: res = вещь.",
   "lek": "kurs-1-mathematik/02-zahlenarten.html",
   "aus": "re-EL-le ZAHL [ʁeˈɛlə ˈt͡saːl]",
@@ -1083,5 +1083,64 @@ window.GLOSSAR_FACH = [
   ],
   "lek": "etage-1/02-leiter-widerstand.html",
   "aus": "WI-der-stand [ˈviːdɐˌʃtant]"
+ },
+ {
+  "w": "die komplexe Zahl",
+  "fach": "Mathematik",
+  "ru": "комплексное число",
+  "h": "lat",
+  "k": [
+   "komplexe Zahlen",
+   "ℂ",
+   "Realteil",
+   "Imaginärteil"
+  ],
+  "her": "лат. complexus «сплетённый, составной» ← com-plectere «сплетать» → «составное число»",
+  "erk": "Число из двух частей: der Realteil + der Imaginärteil · i, например z = 3 + 4i. Множество ℂ включает все действительные числа. В электротехнике нужны для расчёта переменного тока (Modul 6); там пишут j вместо i.",
+  "ver": "Родственники: der Komplex, kompliziert, комплекс.",
+  "bsp": [
+   [
+    "z = 3 + 4i",
+    ""
+   ],
+   [
+    "Z = R + jX",
+    "der komplexe Widerstand in der Elektrotechnik"
+   ]
+  ],
+  "aus": "kom-PLE-xe ZAHL [kɔmˈplɛksə ˈt͡saːl]",
+  "lek": "kurs-1-mathematik/02-zahlenarten.html",
+  "links": [
+   [
+    "die komplexe Zahl",
+    "https://de.wikipedia.org/wiki/Komplexe_Zahl"
+   ]
+  ]
+ },
+ {
+  "w": "die imaginäre Einheit",
+  "fach": "Mathematik",
+  "ru": "мнимая единица",
+  "h": "lat",
+  "k": [
+   "imaginär",
+   "i",
+   "j"
+  ],
+  "her": "лат. imaginarius «воображаемый» ← imago «образ» → «воображаемая единица»",
+  "erk": "Число i, для которого i² = −1. «Воображаемое», потому что среди действительных чисел такого нет. Электрики пишут j, потому что i (I) – это ток.",
+  "ver": "Родственники: das Image, die Imagination, имидж. «Мнимая» – калька.",
+  "bsp": [
+   [
+    "i² = −1",
+    ""
+   ],
+   [
+    "√(−4) = 2i",
+    ""
+   ]
+  ],
+  "aus": "i-ma-gi-NÄ-re EIN-heit [imaɡiˈnɛːʁə ˈaɪ̯nhaɪ̯t]",
+  "lek": "kurs-1-mathematik/02-zahlenarten.html"
  }
 ];
