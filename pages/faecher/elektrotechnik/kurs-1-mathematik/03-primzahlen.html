@@ -64,9 +64,34 @@
             <tr><td>3</td><td>die <b>Quersumme</b> (сумма цифр) ist durch 3 teilbar</td><td class="bsp">456: 4+5+6 = 15 ✓</td></tr>
             <tr><td>4</td><td>die letzten zwei Ziffern bilden eine durch 4 teilbare Zahl</td><td class="bsp">1 316: 16 ✓</td></tr>
             <tr><td>5</td><td>die letzte Ziffer ist 0 oder 5</td><td class="bsp">235</td></tr>
+            <tr><td>6</td><td>durch 2 <b>und</b> durch 3 teilbar (gerade + Quersumme durch 3)</td><td class="bsp">354: gerade, 3+5+4 = 12 ✓</td></tr>
+            <tr><td>7</td><td>die letzte Ziffer verdoppeln und vom Rest abziehen – siehe unten ⬇</td><td class="bsp">133: 13 − 2·3 = 7 ✓</td></tr>
+            <tr><td>8</td><td>die letzten drei Ziffern bilden eine durch 8 teilbare Zahl</td><td class="bsp">5 136: 136 = 8 · 17 ✓</td></tr>
             <tr><td>9</td><td>die Quersumme ist durch 9 teilbar</td><td class="bsp">729: 7+2+9 = 18 ✓</td></tr>
             <tr><td>10</td><td>die letzte Ziffer ist 0</td><td class="bsp">470</td></tr>
+            <tr><td>11</td><td>die <b>alternierende Quersumme</b> (знакочередующаяся сумма цифр, справа: + − + −) ist durch 11 teilbar</td><td class="bsp">2 728: 8−2+7−2 = 11 ✓</td></tr>
+            <tr><td>25</td><td>die letzten zwei Ziffern sind 00, 25, 50 oder 75</td><td class="bsp">1 375 ✓</td></tr>
           </table>
+          <p class="hint-text">Логика: 2, 5, 10 – смотрим на <b>последнюю</b> цифру; 4, 25 – на две последние; 8 – на три последние (потому что 10, 100, 1000 уже делятся на 2, 4, 8).
+            3, 9 – <b>Quersumme</b>. 6 = 2 · 3 – оба признака сразу.</p>
+        </div>
+
+        <div class="et-box">
+          <h3>die Teilbarkeit durch 7 – признак делимости на 7</h3>
+          <p><b>Die Regel:</b> die letzte Ziffer abtrennen, <b>verdoppeln</b> und vom Rest <b>abziehen</b>.
+            Ist das Ergebnis durch 7 teilbar (auch 0 oder negativ), dann ist die Zahl durch 7 teilbar. Bei großen Zahlen wiederholen.</p>
+          <table class="ra-tab">
+            <tr><th>die Zahl</th><th>der Rest − 2 · letzte Ziffer</th><th>teilbar durch 7?</th></tr>
+            <tr><td class="bsp">133</td><td class="bsp">13 − 2 · 3 = 7</td><td>✓ ja (133 = 7 · 19)</td></tr>
+            <tr><td class="bsp">161</td><td class="bsp">16 − 2 · 1 = 14</td><td>✓ ja (161 = 7 · 23)</td></tr>
+            <tr><td class="bsp">2 394</td><td class="bsp">239 − 8 = 231 → 23 − 2 = 21</td><td>✓ ja (2 394 = 7 · 342)</td></tr>
+            <tr><td class="bsp">145</td><td class="bsp">14 − 2 · 5 = 4</td><td>✗ nein</td></tr>
+          </table>
+          <p class="hint-text">❓ <b>Почему это работает?</b> Запишем число как 10a + b (a – остаток, b – последняя цифра).
+            Тогда (10a + b) − 10 · (a − 2b) = 21b, а 21 = 3 · 7 всегда делится на 7.
+            Значит, 10a + b и a − 2b либо оба делятся на 7, либо оба не делятся (10 на 7 не делится, поэтому делимость не теряется).</p>
+          <p class="hint-text">💡 Ещё один приём для больших чисел: 1001 = 7 · 11 · 13. Разбить число справа на группы по 3 цифры и считать с чередованием знаков:
+            123 123: 123 − 123 = 0 → делится на 7, на 11 и на 13 сразу.</p>
         </div>
 
         <!-- ===== 2. Primzahlen ===== -->
