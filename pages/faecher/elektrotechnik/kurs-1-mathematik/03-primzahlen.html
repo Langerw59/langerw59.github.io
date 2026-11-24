@@ -90,8 +90,26 @@
           <p class="hint-text">❓ <b>Почему это работает?</b> Запишем число как 10a + b (a – остаток, b – последняя цифра).
             Тогда (10a + b) − 10 · (a − 2b) = 21b, а 21 = 3 · 7 всегда делится на 7.
             Значит, 10a + b и a − 2b либо оба делятся на 7, либо оба не делятся (10 на 7 не делится, поэтому делимость не теряется).</p>
-          <p class="hint-text">💡 Ещё один приём для больших чисел: 1001 = 7 · 11 · 13. Разбить число справа на группы по 3 цифры и считать с чередованием знаков:
-            123 123: 123 − 123 = 0 → делится на 7, на 11 и на 13 сразу.</p>
+        </div>
+
+        <div class="et-box">
+          <h3>der 1001-Trick – 7, 11 und 13 auf einmal</h3>
+          <p><b>Die Grundidee:</b> 1001 = 7 · 11 · 13. Alle drei Primzahlen stecken in einer einzigen Zahl!</p>
+          <p><b>Die Regel:</b> die Zahl von rechts in <b>Dreiergruppen</b> (группы по 3 цифры) teilen und die Gruppen
+            <b>abwechselnd</b> abziehen und addieren (+ − + …, von rechts). Das Ergebnis prüft man auf 7, 11 und 13 – alles auf einmal.</p>
+          <table class="ra-tab">
+            <tr><th>die Zahl</th><th>die Dreiergruppen</th><th>das Ergebnis</th><th>7?</th><th>11?</th><th>13?</th></tr>
+            <tr><td class="bsp">123 123</td><td class="bsp">123 − 123</td><td class="bsp">0</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td class="bsp">10 101</td><td class="bsp">101 − 10</td><td class="bsp">91 = 7 · 13</td><td>✓</td><td>✗</td><td>✓</td></tr>
+            <tr><td class="bsp">5 005</td><td class="bsp">005 − 5</td><td class="bsp">0</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td class="bsp">2 024</td><td class="bsp">024 − 2</td><td class="bsp">22 = 2 · 11</td><td>✗</td><td>✓</td><td>✗</td></tr>
+          </table>
+          <details>
+            <summary><b>Für später: warum funktioniert das?</b> (почему это работает – можно не читать сейчас)</summary>
+            <p class="hint-text">1000 = 1001 − 1. Для делимости на 1001 (а значит, на 7, 11, 13) число 1000 ведёт себя как −1.
+              Поэтому 10 101 = 10 · 1000 + 101 «ведёт себя» как 10 · (−1) + 101 = 101 − 10 = 91.
+              Та же идея, что и в признаке для 7 выше: заменяем число на меньшее, которое делится на 7 тогда и только тогда, когда делится исходное.</p>
+          </details>
         </div>
 
         <!-- ===== 2. Primzahlen ===== -->
