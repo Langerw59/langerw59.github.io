@@ -2,7 +2,7 @@
 <html lang="de" data-theme="light">
   <head>
     <meta charset="utf-8" />
-    <title>Die Teiler, die Primzahlen, ggT und kgV – Kurs 1 Mathematik</title>
+    <title>Die Teiler, die Teilbarkeitsregeln, die Primzahlen, ggT und kgV – Kurs 1 Mathematik</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="../../../../core/assets/style.css" />
     <link rel="stylesheet" href="../et.css" />
@@ -42,11 +42,13 @@
     <main class="page-wrapper">
       <div class="card">
         <p class="hint-text"><a href="../index.html">Elektrotechnik</a> › <a href="index.html">Kurs 1 – die Mathematik</a> › Lektion 3 · Buch A 4 (Vorbereitung)</p>
-        <h1>Die Teiler, die Primzahlen, ggT und kgV</h1>
+        <h1>Die Teiler, die Teilbarkeitsregeln, die Primzahlen, ggT und kgV</h1>
         <p class="hint-text">Делители, простые числа, НОД и НОК – фундамент для дробей: без них не сократить дробь и не найти общий знаменатель.</p>
 
+        <p class="hint-text inhalt"><b>der Inhalt:</b> <a href="#abschnitt1">1. Der Teiler und das Vielfache</a> · <a href="#abschnitt2">2. Die Teilbarkeitsregeln</a> · <a href="#abschnitt3">3. Die Primzahlen</a> · <a href="#abschnitt4">4. Die Primfaktorzerlegung</a> · <a href="#abschnitt5">5. Der ggT und das kgV</a> · <a href="#abschnitt6">6. Der Trainer – ggT, kgV, Primfaktoren</a> · <a href="#abschnitt7">7. Die Aufgaben</a> · <a href="#abschnitt8">8. Die Anwendung in der Elektrotechnik</a> · <a href="#abschnitt9">9. Zum Ansehen</a></p>
+
         <!-- ===== 1. Teiler und Vielfache ===== -->
-        <h2>1. Der Teiler und das Vielfache</h2>
+        <h2 id="abschnitt1">1. Der Teiler und das Vielfache</h2>
         <p>12 : 3 = 4 ohne Rest → <b>3 ist ein Teiler von 12</b> (делитель), und <b>12 ist ein Vielfaches von 3</b> (кратное).
           Man schreibt: 3 | 12 („3 teilt 12“).</p>
         <table class="ra-tab">
@@ -56,6 +58,9 @@
         </table>
         <p class="hint-text">Teiler gibt es <b>endlich</b> viele (конечное число), Vielfache – <b>unendlich</b> viele.</p>
 
+        <!-- ===== 2. Teilbarkeitsregeln ===== -->
+        <h2 id="abschnitt2">2. Die Teilbarkeitsregeln</h2>
+        <p class="hint-text">Признаки делимости: как сразу узнать, делится ли число на 2, 3, 4 … – без деления. Нужны для Primfaktorzerlegung, ggT, kgV und das Kürzen.</p>
         <div class="et-box">
           <h3>die Teilbarkeitsregeln – признаки делимости</h3>
           <table class="ra-tab">
@@ -112,8 +117,8 @@
           </details>
         </div>
 
-        <!-- ===== 2. Primzahlen ===== -->
-        <h2>2. Die Primzahlen</h2>
+        <!-- ===== 3. Primzahlen ===== -->
+        <h2 id="abschnitt3">3. Die Primzahlen</h2>
         <div class="et-box">
           <h3>die Primzahl – простое число</h3>
           <p>Eine <b>Primzahl</b> hat <b>genau zwei</b> Teiler: die 1 und sich selbst. &nbsp; 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 …</p>
@@ -135,8 +140,8 @@
           </div>
         </div>
 
-        <!-- ===== 3. Primfaktorzerlegung ===== -->
-        <h2>3. Die Primfaktorzerlegung</h2>
+        <!-- ===== 4. Primfaktorzerlegung ===== -->
+        <h2 id="abschnitt4">4. Die Primfaktorzerlegung</h2>
         <p>Jede zusammengesetzte Zahl lässt sich <b>eindeutig</b> (единственным образом) als Produkt von Primzahlen schreiben –
           das ist <b>der Hauptsatz der Arithmetik</b> (основная теорема арифметики).</p>
         <div class="et-aufgabe">
@@ -150,8 +155,8 @@
           <p class="hint-text">Способ: делить на самое маленькое простое число, пока делится; потом на следующее (2 → 3 → 5 → 7 …).</p>
         </div>
 
-        <!-- ===== 4. ggT und kgV ===== -->
-        <h2>4. Der ggT und das kgV</h2>
+        <!-- ===== 5. ggT und kgV ===== -->
+        <h2 id="abschnitt5">5. Der ggT und das kgV</h2>
         <div class="et-box">
           <h3>der ggT – der größte gemeinsame Teiler (НОД)</h3>
           <p>Die größte Zahl, die beide Zahlen teilt. <b>Wozu?</b> Zum <b>Kürzen</b> von Brüchen (сокращение): 24/36 → durch ggT 12 → 2/3.</p>
@@ -191,8 +196,8 @@
             Проверка: ggT · kgV = 12 · 72 = 864 = 24 · 36 ✓</p>
         </div>
 
-        <!-- ===== 5. Trainer ===== -->
-        <h2>5. Der Trainer – ggT, kgV, Primfaktoren</h2>
+        <!-- ===== 6. Trainer ===== -->
+        <h2 id="abschnitt6">6. Der Trainer – ggT, kgV, Primfaktoren</h2>
         <p class="hint-text">Тренажёр: НОД, НОК, наименьший простой множитель, число делителей. Enter – проверить, ещё раз Enter – следующий.</p>
         <div class="et-aufgabe">
           <div class="tr-aufgabe" id="trAufgabe"></div>
@@ -206,8 +211,8 @@
           <div class="tr-stand" id="trStand"></div>
         </div>
 
-        <!-- ===== 6. Aufgaben ===== -->
-        <h2>6. Die Aufgaben</h2>
+        <!-- ===== 7. Aufgaben ===== -->
+        <h2 id="abschnitt7">7. Die Aufgaben</h2>
         <div class="et-aufgabe">
           <h4>Aufgabe 1 – Primzahl oder nicht?</h4>
           <p>a) 1 &nbsp; b) 2 &nbsp; c) 27 &nbsp; d) 29 &nbsp; e) 51 &nbsp; f) 97</p>
@@ -239,8 +244,8 @@
           </details>
         </div>
 
-        <!-- ===== 7. Elektrotechnik ===== -->
-        <h2>7. Die Anwendung in der Elektrotechnik</h2>
+        <!-- ===== 8. Elektrotechnik ===== -->
+        <h2 id="abschnitt8">8. Die Anwendung in der Elektrotechnik</h2>
         <div class="et-aufgabe">
           <h4>Zwei Blinklichter – wann blinken sie zusammen?</h4>
           <p>Eine LED blinkt alle <b>4 s</b>, eine zweite alle <b>6 s</b>. Beide starten gleichzeitig. Nach wie vielen Sekunden blinken sie wieder <b>zusammen</b>?</p>
@@ -258,8 +263,8 @@
           </details>
         </div>
 
-        <!-- ===== 8. Links ===== -->
-        <h2>8. Zum Ansehen</h2>
+        <!-- ===== 9. Links ===== -->
+        <h2 id="abschnitt9">9. Zum Ansehen</h2>
         <ul class="et-list">
           <li><a href="https://de.wikipedia.org/wiki/Primzahl" target="_blank" rel="noopener">📖 Wikipedia – die Primzahl</a>
             · <a href="https://de.wikipedia.org/wiki/Sieb_des_Eratosthenes" target="_blank" rel="noopener">das Sieb des Eratosthenes</a>
