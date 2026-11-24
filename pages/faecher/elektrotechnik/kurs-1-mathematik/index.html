@@ -53,20 +53,21 @@
       (function () {
         // [Titel, Buch-Kapitel, Link]
         const T = [
-          ["1. die Rechenarten, die Rechengesetze, die Reihenfolge", "A 1, A 3", "01-rechenarten.html"],
-          ["2. die Zahlenarten: ganze, gebrochene und relative Zahlen", "A 2", "02-zahlenarten.html"],
-          ["3. das Rechnen mit Brüchen", "A 4", ""],
-          ["4. das Rechnen mit Potenzen, die Zehnerpotenzen (kilo, milli …)", "A 5", ""],
-          ["5. der Dreisatz und die Prozentrechnung", "A 6", ""],
-          ["6. das Rechnen mit physikalischen Größen und Einheiten", "A 7", ""],
-          ["7. das Rechnen mit allgemeinen Zahlen: Terme, Klammern auflösen", "A 8", ""],
-          ["8. die Gleichungen – Formeln umstellen", "A 9", ""],
-          ["9. die Funktion: die Funktionsgleichung, die Steigung, die Kurve", "A 9", ""],
-          ["10. die Berechnung von Längen und Flächen", "A 10", ""],
-          ["11. die Berechnung von Körpern und Gewichtskräften", "A 11", ""],
-          ["12. die Winkelfunktionen (sin, cos, tan)", "A 12", ""],
-          ["13. die Exponentialfunktionen", "A 13", ""],
-        ];
+ ["1. die Rechenarten, die Rechengesetze, die Reihenfolge", "A 1, A 3", "01-rechenarten.html"],
+ ["2. die Zahlenarten: ganze, gebrochene und relative Zahlen", "A 2", "02-zahlenarten.html"],
+ ["3. die Teiler, die Primzahlen, ggT und kgV", "A 4 (Vorbereitung)", "03-primzahlen.html"],
+ ["4. das Rechnen mit Brüchen", "A 4", ""],
+ ["5. das Rechnen mit Potenzen, die Zehnerpotenzen (kilo, milli …)", "A 5", ""],
+ ["6. der Dreisatz und die Prozentrechnung", "A 6", ""],
+ ["7. das Rechnen mit physikalischen Größen und Einheiten", "A 7", ""],
+ ["8. das Rechnen mit allgemeinen Zahlen: Terme, Klammern auflösen", "A 8", ""],
+ ["9. die Gleichungen – Formeln umstellen", "A 9", ""],
+ ["10. die Funktion: die Funktionsgleichung, die Steigung, die Kurve", "A 9", ""],
+ ["11. die Berechnung von Längen und Flächen", "A 10", ""],
+ ["12. die Berechnung von Körpern und Gewichtskräften", "A 11", ""],
+ ["13. die Winkelfunktionen (sin, cos, tan)", "A 12", ""],
+ ["14. die Exponentialfunktionen", "A 13", ""],
+ ];
         const KEY = "quantura_mathe_grundkurs";
         let st = {}; try { st = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
         const plan = document.getElementById("plan");

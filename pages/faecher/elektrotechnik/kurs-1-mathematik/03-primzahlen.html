@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Die Teiler, die Primzahlen, ggT und kgV – Kurs 1 Mathematik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../et.css" />
+    <script src="../../../../core/js/core_init.js" defer></script>
+    <style>
+      .ra-tab { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: .95em; }
+      .ra-tab th, .ra-tab td { border: 1px solid var(--border-subtle); padding: 6px 8px; text-align: center; vertical-align: middle; }
+      .ra-tab th { background: var(--accent-soft); }
+      .ra-tab .stufe { font-weight: 700; }
+      .ra-tab .bsp { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.15em; white-space: nowrap; }
+      .ra-tab small { color: var(--text-muted); display: block; }
+      .tr-aufgabe { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.6em; text-align: center; margin: 10px 0; }
+      .tr-zeile { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+      .tr-zeile input { width: 120px; font-size: 1.2em; padding: 6px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); text-align: center; }
+      .tr-zeile button { font-size: 1em; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+      .tr-zeile button.zweit { background: transparent; color: var(--accent); }
+      .tr-meldung { text-align: center; margin-top: 10px; min-height: 1.5em; }
+      .tr-weg { text-align: center; color: var(--text-muted); font-family: "Cambria Math", "Times New Roman", serif; }
+      .tr-stand { text-align: center; font-size: .9em; color: var(--text-muted); margin-top: 6px; }
+      .zm { width:100%; max-width:560px; display:block; margin:10px auto; }
+      .zg { width:100%; display:block; margin:6px 0 4px; }
+      .sieb { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; max-width: 520px; margin: 10px auto; }
+      .sieb button { font: 600 1rem system-ui, sans-serif; padding: 8px 0; border-radius: 6px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); cursor: default; }
+      .sieb button.weg { opacity: .25; text-decoration: line-through; }
+      .sieb button.prim { background: #1a7f37; color: #fff; border-color: #1a7f37; }
+      .sieb button.eins { opacity: .35; }
+      .sieb-knoepfe { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+      .sieb-knoepfe button { font-size: 1em; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+      .sieb-knoepfe button.zweit { background: transparent; color: var(--accent); }
+      .baum { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.15em; line-height: 1.7; text-align: center; }
+    </style>
+  </head>
+      <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="../index.html">Elektrotechnik</a> › <a href="index.html">Kurs 1 – die Mathematik</a> › Lektion 3 · Buch A 4 (Vorbereitung)</p>
+        <h1>Die Teiler, die Primzahlen, ggT und kgV</h1>
+        <p class="hint-text">Делители, простые числа, НОД и НОК – фундамент для дробей: без них не сократить дробь и не найти общий знаменатель.</p>
+
+        <!-- ===== 1. Teiler und Vielfache ===== -->
+        <h2>1. Der Teiler und das Vielfache</h2>
+        <p>12 : 3 = 4 ohne Rest → <b>3 ist ein Teiler von 12</b> (делитель), und <b>12 ist ein Vielfaches von 3</b> (кратное).
+          Man schreibt: 3 | 12 („3 teilt 12“).</p>
+        <table class="ra-tab">
+          <tr><th>die Zahl</th><th>die Teilermenge T</th><th>die Vielfachenmenge V</th></tr>
+          <tr><td class="bsp">12</td><td class="bsp">T(12) = {1, 2, 3, 4, 6, 12}</td><td class="bsp">V(12) = {12, 24, 36, 48 …}</td></tr>
+          <tr><td class="bsp">7</td><td class="bsp">T(7) = {1, 7}</td><td class="bsp">V(7) = {7, 14, 21, 28 …}</td></tr>
+        </table>
+        <p class="hint-text">Teiler gibt es <b>endlich</b> viele (конечное число), Vielfache – <b>unendlich</b> viele.</p>
+
+        <div class="et-box">
+          <h3>die Teilbarkeitsregeln – признаки делимости</h3>
+          <table class="ra-tab">
+            <tr><th>teilbar durch</th><th>die Regel</th><th>das Beispiel</th></tr>
+            <tr><td>2</td><td>die letzte Ziffer ist gerade (0, 2, 4, 6, 8)</td><td class="bsp">358</td></tr>
+            <tr><td>3</td><td>die <b>Quersumme</b> (сумма цифр) ist durch 3 teilbar</td><td class="bsp">456: 4+5+6 = 15 ✓</td></tr>
+            <tr><td>4</td><td>die letzten zwei Ziffern bilden eine durch 4 teilbare Zahl</td><td class="bsp">1 316: 16 ✓</td></tr>
+            <tr><td>5</td><td>die letzte Ziffer ist 0 oder 5</td><td class="bsp">235</td></tr>
+            <tr><td>9</td><td>die Quersumme ist durch 9 teilbar</td><td class="bsp">729: 7+2+9 = 18 ✓</td></tr>
+            <tr><td>10</td><td>die letzte Ziffer ist 0</td><td class="bsp">470</td></tr>
+          </table>
+        </div>
+
+        <!-- ===== 2. Primzahlen ===== -->
+        <h2>2. Die Primzahlen</h2>
+        <div class="et-box">
+          <h3>die Primzahl – простое число</h3>
+          <p>Eine <b>Primzahl</b> hat <b>genau zwei</b> Teiler: die 1 und sich selbst. &nbsp; 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 …</p>
+          <p>Die <b>1</b> ist <b>keine</b> Primzahl (nur ein Teiler). Die <b>2</b> ist die einzige gerade Primzahl.
+            Zahlen mit mehr als zwei Teilern heißen <b>zusammengesetzte Zahlen</b> (составные): 4, 6, 8, 9, 10 …</p>
+          <p class="hint-text">💡 <b>prim</b> ← лат. <i>primus</i> «первый»: простые числа – «первичные» кирпичики, из которых умножением строятся все остальные.
+            Родственники: die Primel (первоцвет), primitiv, прима, примат.</p>
+        </div>
+
+        <h3>Das Sieb des Eratosthenes – решето Эратосфена</h3>
+        <p>Eratosthenes (griechischer Gelehrter, ca. 276–194 v. Chr., Bibliothekar in Alexandria) fand so alle Primzahlen:
+          man streicht die Vielfachen von 2, dann von 3, von 5, von 7 – was übrig bleibt, sind Primzahlen.</p>
+        <div class="et-aufgabe">
+          <div class="sieb" id="sieb"></div>
+          <p class="tr-meldung" id="siebText"></p>
+          <div class="sieb-knoepfe">
+            <button type="button" id="siebWeiter">Nächster Schritt</button>
+            <button type="button" id="siebNeu" class="zweit">Von vorn</button>
+          </div>
+        </div>
+
+        <!-- ===== 3. Primfaktorzerlegung ===== -->
+        <h2>3. Die Primfaktorzerlegung</h2>
+        <p>Jede zusammengesetzte Zahl lässt sich <b>eindeutig</b> (единственным образом) als Produkt von Primzahlen schreiben –
+          das ist <b>der Hauptsatz der Arithmetik</b> (основная теорема арифметики).</p>
+        <div class="et-aufgabe">
+          <h4>Das Beispiel – der Faktorbaum (дерево множителей)</h4>
+          <div class="baum">
+            60 = 2 · 30<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30 = 2 · 15<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15 = 3 · 5<br />
+            <b>60 = 2 · 2 · 3 · 5 = 2² · 3 · 5</b>
+          </div>
+          <p class="hint-text">Способ: делить на самое маленькое простое число, пока делится; потом на следующее (2 → 3 → 5 → 7 …).</p>
+        </div>
+
+        <!-- ===== 4. ggT und kgV ===== -->
+        <h2>4. Der ggT und das kgV</h2>
+        <div class="et-box">
+          <h3>der ggT – der größte gemeinsame Teiler (НОД)</h3>
+          <p>Die größte Zahl, die beide Zahlen teilt. <b>Wozu?</b> Zum <b>Kürzen</b> von Brüchen (сокращение): 24/36 → durch ggT 12 → 2/3.</p>
+          <p>Mit Primfaktoren: die <b>gemeinsamen</b> Faktoren nehmen.<br />
+            24 = 2 · 2 · 2 · 3 &nbsp;&nbsp; 36 = 2 · 2 · 3 · 3 &nbsp;&nbsp; → ggT = 2 · 2 · 3 = <b>12</b></p>
+        </div>
+        <div class="et-box">
+          <h3>das kgV – das kleinste gemeinsame Vielfache (НОК)</h3>
+          <p>Die kleinste Zahl, die durch beide Zahlen teilbar ist. <b>Wozu?</b> Für <b>den Hauptnenner</b> (общий знаменатель): 1/4 + 1/6 → Hauptnenner 12.</p>
+          <p>Mit Primfaktoren: <b>jeden</b> Faktor so oft nehmen, wie er höchstens vorkommt.<br />
+            4 = 2 · 2 &nbsp;&nbsp; 6 = 2 · 3 &nbsp;&nbsp; → kgV = 2 · 2 · 3 = <b>12</b></p>
+          <p class="hint-text">Проверка-подсказка: ggT · kgV = a · b. &nbsp; 2 · 12 = 4 · 6 = 24 ✓. Если НОД = 1, числа <b>teilerfremd</b> (взаимно простые).</p>
+        </div>
+
+        <!-- ===== 5. Trainer ===== -->
+        <h2>5. Der Trainer – ggT, kgV, Primfaktoren</h2>
+        <p class="hint-text">Тренажёр: НОД, НОК, наименьший простой множитель, число делителей. Enter – проверить, ещё раз Enter – следующий.</p>
+        <div class="et-aufgabe">
+          <div class="tr-aufgabe" id="trAufgabe"></div>
+          <div class="tr-zeile">
+            <input id="trEingabe" type="text" inputmode="numeric" autocomplete="off" placeholder="=" />
+            <button id="trPruefen">Prüfen</button>
+            <button id="trNeu" class="zweit">Neue Aufgabe</button>
+          </div>
+          <div class="tr-meldung" id="trMeldung"></div>
+          <div class="tr-weg" id="trWeg"></div>
+          <div class="tr-stand" id="trStand"></div>
+        </div>
+
+        <!-- ===== 6. Aufgaben ===== -->
+        <h2>6. Die Aufgaben</h2>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – Primzahl oder nicht?</h4>
+          <p>a) 1 &nbsp; b) 2 &nbsp; c) 27 &nbsp; d) 29 &nbsp; e) 51 &nbsp; f) 97</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) nein – nur ein Teiler &nbsp; b) ja &nbsp; c) nein – 27 = 3 · 9 &nbsp; d) ja &nbsp;
+              e) nein – Quersumme 6 → 51 = 3 · 17 (eine Falle!) &nbsp; f) ja</div>
+          </details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – die Primfaktorzerlegung</h4>
+          <p>a) 36 &nbsp; b) 84 &nbsp; c) 150 &nbsp; d) 1000</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) 2² · 3² &nbsp; b) 2² · 3 · 7 &nbsp; c) 2 · 3 · 5² &nbsp; d) 2³ · 5³ (1000 = 10³ = (2 · 5)³)</div>
+          </details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – ggT und kgV</h4>
+          <p>a) ggT(18; 24) &nbsp; b) kgV(18; 24) &nbsp; c) ggT(35; 12) &nbsp; d) kgV(8; 12; 18)</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">18 = 2 · 3², &nbsp; 24 = 2³ · 3<br />
+              a) 2 · 3 = <b>6</b> &nbsp; b) 2³ · 3² = <b>72</b> &nbsp; c) <b>1</b> – 35 und 12 sind teilerfremd &nbsp; d) 2³ · 3² = <b>72</b></div>
+          </details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – der Kabelrest</h4>
+          <p>Zwei Kabel, 48 m und 60 m lang, sollen in <b>gleich lange</b> Stücke geschnitten werden – ohne Rest, so lang wie möglich. Wie lang ist ein Stück? Wie viele Stücke gibt es?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">ggT(48; 60) = <b>12 m</b> → 48 : 12 = 4 und 60 : 12 = 5 → <b>9 Stücke</b>.</div>
+          </details>
+        </div>
+
+        <!-- ===== 7. Elektrotechnik ===== -->
+        <h2>7. Die Anwendung in der Elektrotechnik</h2>
+        <div class="et-aufgabe">
+          <h4>Zwei Blinklichter – wann blinken sie zusammen?</h4>
+          <p>Eine LED blinkt alle <b>4 s</b>, eine zweite alle <b>6 s</b>. Beide starten gleichzeitig. Nach wie vielen Sekunden blinken sie wieder <b>zusammen</b>?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">kgV(4; 6) = <b>12 s</b>. Genau so rechnet man beim Arduino mit zwei Takten (zwei Zeitgebern) – oder bei zwei Zahnrädern:
+              Zahnräder mit 12 und 18 Zähnen treffen sich mit denselben Zähnen nach kgV(12; 18) = 36 Zähnen wieder.</div>
+          </details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Teilerfremde Zähnezahlen</h4>
+          <p>Warum wählen Ingenieure bei Zahnrädern oft <b>teilerfremde</b> Zähnezahlen (z. B. 13 und 20)?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">ggT(13; 20) = 1 → kgV = 260: jeder Zahn trifft erst nach 260 Zähnen wieder denselben Zahn.
+              So verteilt sich der Verschleiß (износ) gleichmäßig auf alle Zähne.</div>
+          </details>
+        </div>
+
+        <!-- ===== 8. Links ===== -->
+        <h2>8. Zum Ansehen</h2>
+        <ul class="et-list">
+          <li><a href="https://de.wikipedia.org/wiki/Primzahl" target="_blank" rel="noopener">📖 Wikipedia – die Primzahl</a>
+            · <a href="https://de.wikipedia.org/wiki/Sieb_des_Eratosthenes" target="_blank" rel="noopener">das Sieb des Eratosthenes</a>
+            · <a href="https://de.wikipedia.org/wiki/Primfaktorzerlegung" target="_blank" rel="noopener">die Primfaktorzerlegung</a>
+            · <a href="https://de.wikipedia.org/wiki/Gr%C3%B6%C3%9Fter_gemeinsamer_Teiler" target="_blank" rel="noopener">der ggT</a>
+            · <a href="https://de.wikipedia.org/wiki/Kleinstes_gemeinsames_Vielfaches" target="_blank" rel="noopener">das kgV</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=Primfaktorzerlegung+ggT+kgV+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Primfaktorzerlegung, ggT, kgV“</a>
+            <span class="tag">Suche; gute Videos später fest eintragen</span></li>
+          <li>Alle Begriffe mit Herkunft und Aussprache: <a href="../../glossar.html" target="_blank">📘 das Fachglossar</a></li>
+        </ul>
+
+        <div class="et-nav">
+          <a href="02-zahlenarten.html">← Lektion 2 – die Zahlenarten</a>
+          <a href="index.html">Kurs 1 – die Mathematik</a>
+          <span class="hint-text">Nächste Lektion: das Rechnen mit Brüchen (in Vorbereitung)</span>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        const z = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+        let aktuell = null, richtig = 0, gesamt = 0;
+
+        // Jede Vorlage liefert: [Aufgabe, Ergebnis, Rechenweg] – ggT, kgV, kleinster Primfaktor
+        const ggt = (x, y) => (y ? ggt(y, x % y) : x);
+        const P = [2, 3, 5, 7];
+        const VORLAGEN = [
+          () => { const g = z(2, 12), x = z(2, 7), y = z(2, 7), a = g * x, b = g * y, r = ggt(a, b);
+            return [`ggT(${a}; ${b})`, r, `größte Zahl, die ${a} und ${b} teilt: ${r}`]; },
+          () => { let a = z(2, 12), b = z(2, 12); while (a === b) b = z(2, 12); const r = a * b / ggt(a, b);
+            return [`kgV(${a}; ${b})`, r, `kleinste Zahl, die durch ${a} und ${b} teilbar ist: ${r} (= ${a} · ${b} : ggT ${ggt(a, b)})`]; },
+          () => { const p = P[z(0, 3)], q = z(p, 19), n = p * q; let k = 2; while (n % k) k++;
+            return [`kleinster Primfaktor von ${n}`, k, `${n} = ${k} · ${n / k}`]; },
+          () => { const n = [12, 18, 20, 24, 28, 30, 36, 40, 45, 48, 50, 60, 72][z(0, 12)]; let c = 0; for (let i = 1; i <= n; i++) if (n % i === 0) c++;
+            const t = []; for (let i = 1; i <= n; i++) if (n % i === 0) t.push(i);
+            return [`Anzahl der Teiler von ${n}`, c, `T(${n}) = {${t.join(", ")}}`]; },
+        ];
+        const zeige = (t) => t.replace(/-/g, "−");
+        function neu() {
+          aktuell = VORLAGEN[z(0, VORLAGEN.length - 1)]();
+          $("trAufgabe").textContent = zeige(aktuell[0]) + " = ?";
+          $("trEingabe").value = ""; $("trMeldung").textContent = ""; $("trWeg").textContent = "";
+          $("trEingabe").focus();
+        }
+        function pruefen() {
+          const v = parseFloat($("trEingabe").value.replace("−", "-").replace(",", "."));
+          if (isNaN(v)) { $("trMeldung").textContent = "Bitte eine Zahl eingeben."; return; }
+          gesamt++;
+          if (v === aktuell[1]) { richtig++; $("trMeldung").innerHTML = "✅ <b>Richtig!</b> Верно!"; }
+          else { $("trMeldung").innerHTML = "❌ Leider falsch. Richtig: <b>" + zeige(String(aktuell[1])) + "</b>"; }
+          $("trWeg").textContent = zeige(aktuell[0]) + " = " + zeige(aktuell[2]);
+          $("trStand").textContent = richtig + " von " + gesamt + " richtig";
+        }
+        $("trPruefen").addEventListener("click", pruefen);
+        $("trNeu").addEventListener("click", neu);
+        $("trEingabe").addEventListener("keydown", (e) => {
+          if (e.key !== "Enter") return;
+          if ($("trWeg").textContent) neu(); else pruefen();
+        });
+        neu();
+
+        // ===== das Sieb des Eratosthenes =====
+        const sieb = $("sieb"); let schritt = 0; const PR = [2, 3, 5, 7];
+        for (let i = 1; i <= 100; i++) { const b = document.createElement("button"); b.textContent = i; b.dataset.n = i; if (i === 1) b.className = "eins"; sieb.appendChild(b); }
+        function siebe() {
+          if (schritt >= PR.length) {
+            sieb.querySelectorAll("button").forEach((b) => { const n = +b.dataset.n; if (n > 1 && !b.classList.contains("weg")) b.classList.add("prim"); });
+            $("siebText").innerHTML = "Fertig! Übrig bleiben die <b>25 Primzahlen bis 100</b>. Warum reicht es bis 7? Weil 11 · 11 = 121 > 100.";
+            $("siebWeiter").disabled = true; return;
+          }
+          const p = PR[schritt++];
+          sieb.querySelector(`[data-n="${p}"]`).classList.add("prim");
+          sieb.querySelectorAll("button").forEach((b) => { const n = +b.dataset.n; if (n > p && n % p === 0) b.classList.add("weg"); });
+          $("siebText").innerHTML = `Die <b>${p}</b> ist eine Primzahl – alle Vielfachen von ${p} (${2 * p}, ${3 * p}, ${4 * p} …) werden gestrichen.`;
+        }
+        function siebNeu() { schritt = 0; sieb.querySelectorAll("button").forEach((b) => b.classList.remove("weg", "prim")); $("siebWeiter").disabled = false;
+          $("siebText").textContent = "Die 1 ist keine Primzahl (sie hat nur einen Teiler). Drücke „Nächster Schritt“."; }
+        $("siebWeiter").addEventListener("click", siebe);
+        $("siebNeu").addEventListener("click", siebNeu);
+        siebNeu();
+      })();
+    </script>
+  </body>
+</html>

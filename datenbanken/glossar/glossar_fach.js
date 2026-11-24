@@ -1163,5 +1163,219 @@ window.GLOSSAR_FACH = [
   ],
   "aus": "FI [fiː]",
   "lek": "kurs-1-mathematik/02-zahlenarten.html"
+ },
+ {
+  "w": "die Primzahl",
+  "fach": "Mathematik",
+  "ru": "простое число",
+  "h": "lat",
+  "k": [
+   "Primzahlen",
+   "prim"
+  ],
+  "aus": "PRIM-zahl [ˈpʁiːmˌt͡saːl]",
+  "her": "лат. primus «первый» → «первичное число»",
+  "erk": "Число, у которого ровно два делителя: 1 и само число. 2, 3, 5, 7, 11, 13 … Единица – НЕ простое число. 2 – единственное чётное простое.",
+  "ver": "Родственники: die Primel (первоцвет – «первый цветок весны»), primitiv, прима, примадонна.",
+  "bsp": [
+   [
+    "13 ist eine Primzahl.",
+    "T(13) = {1, 13}"
+   ]
+  ],
+  "lek": "kurs-1-mathematik/03-primzahlen.html",
+  "links": [
+   [
+    "die Primzahl",
+    "https://de.wikipedia.org/wiki/Primzahl"
+   ]
+  ]
+ },
+ {
+  "w": "die zusammengesetzte Zahl",
+  "fach": "Mathematik",
+  "ru": "составное число",
+  "h": "germ",
+  "aus": "tsu-SAM-men-ge-setz-te ZAHL [t͡suˈzamənɡəˌzɛt͡stə ˈt͡saːl]",
+  "her": "нем. zusammensetzen «составлять» → «составленное число»",
+  "erk": "Натуральное число больше 1, у которого больше двух делителей: 4, 6, 8, 9 … Его можно разложить на простые множители.",
+  "bsp": [
+   [
+    "12 = 2 · 2 · 3",
+    ""
+   ]
+  ],
+  "lek": "kurs-1-mathematik/03-primzahlen.html"
+ },
+ {
+  "w": "der Teiler",
+  "fach": "Mathematik",
+  "ru": "делитель",
+  "h": "germ",
+  "k": [
+   "Teilermenge",
+   "teilbar",
+   "T(n)"
+  ],
+  "aus": "TEI-ler [ˈtaɪ̯lɐ]",
+  "her": "нем. teilen «делить» → «тот, кто делит»",
+  "erk": "Число, на которое данное число делится без остатка. 3 ist ein Teiler von 12 (3 | 12). Teilermenge: T(12) = {1, 2, 3, 4, 6, 12}. Не путать с der Divisor – делитель в конкретном примере деления.",
+  "bsp": [
+   [
+    "3 | 12",
+    "3 teilt 12"
+   ]
+  ],
+  "lek": "kurs-1-mathematik/03-primzahlen.html"
+ },
+ {
+  "w": "das Vielfache",
+  "fach": "Mathematik",
+  "ru": "кратное",
+  "h": "germ",
+  "k": [
+   "Vielfache",
+   "Vielfachenmenge",
+   "V(n)"
+  ],
+  "aus": "FIEL-fa-che [ˈfiːlˌfaxə]",
+  "her": "нем. viel «много» + -fach «-кратный» → «многократное»",
+  "erk": "Результат умножения числа на 1, 2, 3 … V(3) = {3, 6, 9, 12 …}. Кратных бесконечно много.",
+  "bsp": [
+   [
+    "12 ist ein Vielfaches von 3.",
+    ""
+   ]
+  ],
+  "lek": "kurs-1-mathematik/03-primzahlen.html"
+ },
+ {
+  "w": "die Quersumme",
+  "fach": "Mathematik",
+  "ru": "сумма цифр числа",
+  "h": "germ",
+  "aus": "QUER-sum-me [ˈkveːɐ̯ˌzʊmə]",
+  "her": "нем. quer «поперёк» + die Summe → «сумма поперёк (по цифрам)»",
+  "erk": "Сумма всех цифр числа. Признак делимости: число делится на 3 (на 9), если его Quersumme делится на 3 (на 9).",
+  "bsp": [
+   [
+    "Quersumme von 456 = 4 + 5 + 6 = 15",
+    "→ 456 ist durch 3 teilbar"
+   ]
+  ],
+  "lek": "kurs-1-mathematik/03-primzahlen.html"
+ },
+ {
+  "w": "die Primfaktorzerlegung",
+  "fach": "Mathematik",
+  "ru": "разложение на простые множители",
+  "h": "lat",
+  "k": [
+   "Primfaktor",
+   "Primfaktoren",
+   "Faktorbaum"
+  ],
+  "aus": "PRIM-fak-tor-zer-le-gung [ˈpʁiːmfaktoːɐ̯t͡sɛɐ̯ˌleːɡʊŋ]",
+  "her": "лат. primus «первый» + factor «делающий» + нем. zerlegen «разбирать на части»",
+  "erk": "Запись числа как произведения простых чисел. Она единственная для каждого числа (der Hauptsatz der Arithmetik).",
+  "bsp": [
+   [
+    "60 = 2² · 3 · 5",
+    ""
+   ]
+  ],
+  "lek": "kurs-1-mathematik/03-primzahlen.html",
+  "links": [
+   [
+    "die Primfaktorzerlegung",
+    "https://de.wikipedia.org/wiki/Primfaktorzerlegung"
+   ]
+  ]
+ },
+ {
+  "w": "der größte gemeinsame Teiler",
+  "fach": "Mathematik",
+  "auch": "der ggT",
+  "ru": "наибольший общий делитель (НОД)",
+  "h": "germ",
+  "k": [
+   "ggT",
+   "ggt"
+  ],
+  "aus": "ge-ge-TE [ɡeːɡeːˈteː]",
+  "her": "нем. größte «наибольший» + gemeinsam «общий» + der Teiler",
+  "erk": "Самое большое число, на которое делятся оба числа. Нужен для сокращения дробей (das Kürzen). По простым множителям: берут ОБЩИЕ множители.",
+  "bsp": [
+   [
+    "ggT(24; 36) = 12",
+    "24/36 = 2/3"
+   ]
+  ],
+  "lek": "kurs-1-mathematik/03-primzahlen.html",
+  "links": [
+   [
+    "der größte gemeinsame Teiler",
+    "https://de.wikipedia.org/wiki/Gr%C3%B6%C3%9Fter_gemeinsamer_Teiler"
+   ]
+  ]
+ },
+ {
+  "w": "das kleinste gemeinsame Vielfache",
+  "fach": "Mathematik",
+  "auch": "das kgV",
+  "ru": "наименьшее общее кратное (НОК)",
+  "h": "germ",
+  "k": [
+   "kgV",
+   "kgv"
+  ],
+  "aus": "ka-ge-FAU [kaːɡeːˈfaʊ̯]",
+  "her": "нем. kleinste «наименьшее» + gemeinsam «общее» + das Vielfache",
+  "erk": "Самое маленькое число, которое делится на оба числа. Нужно для общего знаменателя (der Hauptnenner). По простым множителям: каждый множитель столько раз, сколько он встречается максимум.",
+  "bsp": [
+   [
+    "kgV(4; 6) = 12",
+    "1/4 + 1/6 = 3/12 + 2/12"
+   ]
+  ],
+  "lek": "kurs-1-mathematik/03-primzahlen.html",
+  "links": [
+   [
+    "das kleinste gemeinsame Vielfache",
+    "https://de.wikipedia.org/wiki/Kleinstes_gemeinsames_Vielfaches"
+   ]
+  ]
+ },
+ {
+  "w": "teilerfremd",
+  "fach": "Mathematik",
+  "ru": "взаимно простые",
+  "h": "germ",
+  "aus": "TEI-ler-fremd [ˈtaɪ̯lɐˌfʁɛmt]",
+  "her": "нем. der Teiler + fremd «чужой» → «чужие по делителям»",
+  "erk": "Два числа teilerfremd, если их НОД = 1: у них нет общих делителей, кроме 1. Например 8 и 15 – сами не простые, но взаимно простые.",
+  "bsp": [
+   [
+    "ggT(8; 15) = 1",
+    ""
+   ]
+  ],
+  "lek": "kurs-1-mathematik/03-primzahlen.html"
+ },
+ {
+  "w": "das Sieb des Eratosthenes",
+  "fach": "Mathematik",
+  "ru": "решето Эратосфена",
+  "h": "griech",
+  "aus": "E-ra-TOS-the-nes [eʁaˈtɔsteːnɛs]",
+  "her": "по имени Эратосфена Киренского (ок. 276–194 до н. э.), греческого учёного, библиотекаря в Александрии; нем. das Sieb «сито, решето»",
+  "erk": "Способ найти все простые числа: вычёркивают кратные 2, потом 3, 5, 7 … Оставшиеся – простые. Эратосфен также измерил окружность Земли.",
+  "lek": "kurs-1-mathematik/03-primzahlen.html",
+  "links": [
+   [
+    "das Sieb des Eratosthenes",
+    "https://de.wikipedia.org/wiki/Sieb_des_Eratosthenes"
+   ]
+  ]
  }
 ];
