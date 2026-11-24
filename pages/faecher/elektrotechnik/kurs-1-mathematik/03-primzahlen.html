@@ -249,7 +249,12 @@
           () => { const g = z(2, 12), x = z(2, 7), y = z(2, 7), a = g * x, b = g * y, r = ggt(a, b);
             return [`ggT(${a}; ${b})`, r, `größte Zahl, die ${a} und ${b} teilt: ${r}`]; },
           () => { let a = z(2, 12), b = z(2, 12); while (a === b) b = z(2, 12); const r = a * b / ggt(a, b);
-            return [`kgV(${a}; ${b})`, r, `kleinste Zahl, die durch ${a} und ${b} teilbar ist: ${r} (= ${a} · ${b} : ggT ${ggt(a, b)})`]; },
+            const gr = Math.max(a, b), kl = Math.min(a, b), v = [];
+            for (let m = gr; m <= r; m += gr) v.push(m === r ? `<b>${m}</b> ✓` : `${m}`);
+            const weg = `Vielfache von ${gr}: ${v.join(', ')} – die erste Zahl, die auch durch ${kl} teilbar ist: <b>${r}</b>` +
+              (gr % kl === 0 ? `<br />💡 ${gr} ist schon durch ${kl} teilbar → das kgV ist die größere Zahl selbst. (${gr * 2} ist auch ein gemeinsames Vielfaches, aber nicht das kleinste.)`
+                             : `<br />Kontrolle: ${a} · ${b} : ggT ${ggt(a, b)} = ${a * b} : ${ggt(a, b)} = ${r}`);
+            return [`kgV(${a}; ${b})`, r, weg]; },
           () => { const p = P[z(0, 3)], q = z(p, 19), n = p * q; let k = 2; while (n % k) k++;
             return [`kleinster Primfaktor von ${n}`, k, `${n} = ${k} · ${n / k}`]; },
           () => { const n = [12, 18, 20, 24, 28, 30, 36, 40, 45, 48, 50, 60, 72][z(0, 12)]; let c = 0; for (let i = 1; i <= n; i++) if (n % i === 0) c++;
@@ -269,7 +274,7 @@
           gesamt++;
           if (v === aktuell[1]) { richtig++; $("trMeldung").innerHTML = "✅ <b>Richtig!</b> Верно!"; }
           else { $("trMeldung").innerHTML = "❌ Leider falsch. Richtig: <b>" + zeige(String(aktuell[1])) + "</b>"; }
-          $("trWeg").textContent = zeige(aktuell[0]) + " = " + zeige(aktuell[2]);
+          $("trWeg").innerHTML = zeige(aktuell[0]) + " = " + zeige(aktuell[2]);
           $("trStand").textContent = richtig + " von " + gesamt + " richtig";
         }
         $("trPruefen").addEventListener("click", pruefen);
