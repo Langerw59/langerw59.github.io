@@ -55,6 +55,12 @@
   table.tt th,table.tt td{border:1px solid var(--line);padding:3px 7px;text-align:center}
   table.tt tr.cur td{background:#ffe1d6;font-weight:700}
   .note{color:var(--muted);font-size:.92rem}
+  .media{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .media video{width:100%;border-radius:10px;background:#000;display:block}
+  .doc{display:flex;gap:14px;align-items:flex-start}
+  .doc img{width:110px;border:1px solid var(--line);border-radius:6px;background:#fff;flex:none}
+  .btn{display:inline-block;margin-top:10px;padding:6px 12px;border-radius:8px;background:var(--ink);color:#fff;text-decoration:none;font-size:.9rem}
+  h3.sub{margin:26px 0 12px;font-size:1.15rem}
   footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem}
   @media (max-width:700px){
     .demo{grid-template-columns:1fr}
@@ -88,6 +94,7 @@
     <a href="#angebot">Angebot</a>
     <a href="#demo">Zum Ausprobieren</a>
     <a href="#beispiele">Beispiele</a>
+    <a href="#material">Material &amp; Videos</a>
     <a href="#kontakt">Kontakt</a>
   </div>
 </nav>
@@ -108,8 +115,8 @@
           <div class="det">Arbeit im Bergwerk mit Drehstromanlagen (380 V) – Sicherheit und Praxis von Anfang an.</div></li>
       <li><div class="what">Elektronik-Reparatur</div>
           <div class="det">Reparatur von Platinen für Parksysteme: Fehlersuche mit Schaltplan, Oszilloskop und Messgeräten; SMD-Bauteile (Prozessoren, AD-/DA-Wandler, Transistoren) mit der Heißluftstation aus- und eingelötet.</div></li>
-      <li><div class="what">Arbeit an einer Schule</div>
-          <div class="det">Arbeit mit Kindern in Deutschland, u. a. gemeinsame Elektronik-Versuche (z. B. der astabile Multivibrator mit zwei Transistoren).</div></li>
+      <li><div class="what">Unterricht in Deutschland</div>
+          <div class="det">Unterricht an einer Schule: Digitaltechnik in Klasse 10 (Logikgatter, Zahlensysteme, 7-Segment-Anzeige) und Mathematik in Klasse 8 (E-Kurs); Elektronik-Versuche mit den Schülern (z. B. der astabile Multivibrator). Beispiele unten unter <a href="#material">Material &amp; Videos</a>.</div></li>
       <li><div class="what">Eigenes Lernportal</div>
           <div class="det">„Quantura“ – selbst entwickelte Lernseite für Sprachen, Mathematik und Elektrotechnik (<a href="/index.html">ansehen</a>).</div></li>
     </ul>
@@ -205,6 +212,45 @@
       <div class="card">
         <h3>Geheimbotschaft im Binärcode</h3>
         <p>Ein Spruch als Folge von Nullen und Einsen: umrechnen ins Dezimal- und Hexadezimalsystem und entschlüsseln.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="material">
+  <div class="wrap">
+    <h2>Material und Videos aus meinem Unterricht</h2>
+    <h3 class="sub">Arbeitsblätter und Klassenarbeiten (PDF)</h3>
+    <div class="grid">
+      <div class="card doc">
+        <img src="materialien/ka.png" alt="Seite 4 der Klassenarbeit: Schaltplan BCD-Decoder mit 7-Segment-Anzeige">
+        <div><h3>Klassenarbeit Digitaltechnik, Klasse 10</h3>
+          <p>Logikgatter und Wahrheitstabellen, ein Aphorismus im Binärcode zum Entschlüsseln (Dezimal-, Hexadezimalsystem, ASCII) und der Schaltplan einer 7-Segment-Anzeige. 4 Seiten, 2022.</p>
+          <a class="btn" href="materialien/klassenarbeit-digitaltechnik-2022.pdf" target="_blank">PDF öffnen</a></div>
+      </div>
+      <div class="card doc">
+        <img src="materialien/geo.png" alt="Titelfolie: Mathematik ohne Langeweile, 8. Klasse E-Kurs">
+        <div><h3>„Mathematik ohne Langeweile“ – Aufwärmung Geometrie, Klasse 8</h3>
+          <p>Einstieg für die ersten 10–15 Minuten: Wie viele Dreiecke, Quadrate, Rechtecke stecken in der Figur? Danach eine Aufgabe zur Bruchrechnung. 13 Folien.</p>
+          <a class="btn" href="materialien/aufwaermung-geometrie-klasse-8.pdf" target="_blank">PDF öffnen</a></div>
+      </div>
+    </div>
+    <h3 class="sub">Versuche im Video</h3>
+    <div class="media">
+      <div class="card">
+        <video controls preload="none" poster="videos/multivibrator.jpg" src="videos/multivibrator.mp4"></video>
+        <h3 style="margin-top:10px">Der astabile Multivibrator</h3>
+        <p>Zwei Transistoren, zwei Kondensatoren – die Lampen blinken abwechselnd. Aufgebaut auf dem Steckbrett.</p>
+      </div>
+      <div class="card">
+        <video controls preload="none" poster="videos/elektrische-klingel.jpg" src="videos/elektrische-klingel.mp4"></video>
+        <h3 style="margin-top:10px">Die selbstgebaute elektrische Klingel</h3>
+        <p>Elektromagnet und Unterbrecher: Wie aus Strom eine Schwingung und ein Ton wird.</p>
+      </div>
+      <div class="card">
+        <video controls preload="none" poster="videos/yoda-roboter.jpg" src="videos/yoda-roboter.mp4"></video>
+        <h3 style="margin-top:10px">Der Arduino-Roboter – und Kätzchen Yoda</h3>
+        <p>Ein kleines Roboterauto mit Arduino fährt durch die Wohnung – die Katze ist das beste Testpublikum. (ca. 3 Minuten)</p>
       </div>
     </div>
   </div>
