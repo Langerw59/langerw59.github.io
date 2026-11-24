@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fachglossar – Mathematik und Elektrotechnik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../core/assets/style.css" />
+    <script src="../../core/js/core_init.js" defer></script>
+    <script src="../../datenbanken/glossar/glossar_fach.js" defer></script>
+    <!-- 2026-11-24: Fachglossar – erstellt mit Claude
+         DE: Eigenes Glossar für die Kurse in „die Fächer“ (Mathematik, Elektrotechnik, später Physik, Chemie …).
+             Daten: /datenbanken/glossar/glossar_fach.js · Link auf ein Wort: glossar.html#w=Summand
+         RU: Отдельный глоссарий для курсов (математика, электротехника). Языковые глоссарии – отдельно. -->
+    <style>
+      .gd-wrap { max-width: 980px; margin: 0 auto; }
+      .gd-sub { color: var(--text-muted, #59636e); margin-top: 0; }
+      .gd-faecher { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+      .gd-faecher button { font: 600 .95rem system-ui, sans-serif; cursor: pointer; border: 1px solid var(--border-subtle, #d0d7de); border-radius: 999px; padding: 6px 14px; background: var(--bg-surface, #fff); color: inherit; }
+      .gd-faecher button.aktiv { background: var(--accent, #1f6feb); border-color: var(--accent, #1f6feb); color: #fff; }
+      #gdSuche { width: 100%; box-sizing: border-box; font: inherit; font-size: 1.15rem; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-subtle, #d0d7de); background: var(--bg-surface, #fff); color: var(--text-main, #1f2328); margin: 6px 0 12px; }
+      .gd-eintrag { border: 1px solid var(--border-subtle, #d0d7de); border-radius: 10px; margin: 6px 0; background: var(--bg-surface, #fff); scroll-margin-top: 80px; }
+      .gd-kopf { display: flex; gap: 10px; align-items: baseline; padding: 9px 12px; cursor: pointer; flex-wrap: wrap; }
+      .gd-wort { font-weight: 700; font-size: 1.15rem; }
+      .gd-auch { color: var(--accent, #1f6feb); font-weight: 600; }
+      .gd-ru { color: var(--text-muted, #59636e); flex: 1; min-width: 200px; }
+      .gd-fach { font-size: .75rem; border: 1px solid var(--border-subtle, #d0d7de); border-radius: 999px; padding: 0 8px; color: var(--text-muted, #59636e); }
+      .gd-punkt { width: 10px; height: 10px; border-radius: 50%; display: inline-block; align-self: center; }
+      .gd-body { display: none; padding: 0 14px 14px 32px; line-height: 1.5; }
+      .gd-eintrag.offen .gd-body { display: block; }
+      .gd-eintrag.offen { box-shadow: 0 2px 10px rgba(0,0,0,.08); border-color: var(--accent, #1f6feb); }
+      .gd-her { display: inline-block; font-size: .78rem; font-weight: 700; padding: 1px 9px; border-radius: 999px; color: #fff; margin: 4px 0 6px; }
+      .gd-bsp { margin: 4px 0; cursor: pointer; font-family: "Cambria Math", "Times New Roman", serif; }
+      .gd-bsp b::before { content: "🔊 "; font-size: .8em; opacity: .7; }
+      .gd-knoepfe { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+      .gd-knoepfe button, .gd-knoepfe a { font: 600 .9rem system-ui, sans-serif; cursor: pointer; border-radius: 999px; padding: 6px 12px; border: 1px solid var(--border-subtle, #afb8c1); background: transparent; color: inherit; text-decoration: none; }
+      .gd-leer { color: var(--text-muted, #59636e); }
+    </style>
+  </head>
+  <body data-lernzeit="Fachglossar" data-wm-sprache="de">
+    <main class="page-wrapper">
+      <div class="card gd-wrap">
+        <p class="hint-text"><a href="index.html">die Fächer</a> › das Fachglossar</p>
+        <h1>📘 Das Fachglossar – Mathematik und Elektrotechnik</h1>
+        <p class="gd-sub">Alle Fachbegriffe der Kurse mit Artikel, gleichbedeutenden Namen, Herkunft und Beispiel. Auf 🔊 tippen – die deutsche Stimme liest vor.<br />
+          <small>Термины курсов: с артиклем, вторым названием, происхождением и примером. Языковые глоссарии – отдельно, в Language Lab.</small></p>
+        <div class="gd-faecher" id="gdFaecher"></div>
+        <input type="search" id="gdSuche" placeholder="🔍 Begriff suchen: Summand / Vertauschungsgesetz / напряжение …" autocomplete="off" />
+        <p class="gd-sub" id="gdZahl"></p>
+        <div id="gdListe"></div>
+      </div>
+    </main>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      const norm = (s) => String(s || "").toLowerCase().replace(/^(der|die|das)\s+/, "").trim();
+      const HER = { lat: ["Latein", "из латыни", "#8250df"], griech: ["Griechisch", "из греческого", "#bf3989"], arab: ["Arabisch", "из арабского", "#9a6700"], germ: ["germanisch (Erbwort)", "германское слово", "#1a7f37"] };
+      const G = (window.GLOSSAR_FACH || []).slice().sort((a, b) => norm(a.w).localeCompare(norm(b.w), "de"));
+      const FAECHER = ["Alle"].concat([...new Set(G.map((e) => e.fach))]);
+      let fach = "Alle", offen = "";
+
+      function sprich(text, rate) {
+        if (!text) return;
+        if (!rate && window.TTSManager && window.TTSManager.speak) { window.TTSManager.speak(text, "de"); return; }
+        try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "de-DE"; u.rate = rate || 0.85; speechSynthesis.speak(u); } catch (_) {}
+      }
+      const schluessel = (e) => norm(e.w).replace(/[^a-zäöüß0-9]+/g, "-");
+
+      $("gdFaecher").innerHTML = FAECHER.map((f) => `<button type="button" data-fach="${esc(f)}" class="${f === fach ? "aktiv" : ""}">${esc(f === "Alle" ? "Alle Fächer" : "die " + f)} (${f === "Alle" ? G.length : G.filter((e) => e.fach === f).length})</button>`).join("");
+      $("gdFaecher").addEventListener("click", (ev) => {
+        const b = ev.target.closest("[data-fach]"); if (!b) return;
+        fach = b.dataset.fach;
+        $("gdFaecher").querySelectorAll("button").forEach((x) => x.classList.toggle("aktiv", x === b));
+        zeichne();
+      });
+
+      function zeichne() {
+        const q = norm($("gdSuche").value);
+        const liste = G.filter((e) => (fach === "Alle" || e.fach === fach) &&
+          (!q || [e.w, e.auch, e.ru, e.erk].concat(e.k || []).some((x) => norm(x).includes(q))));
+        $("gdZahl").textContent = liste.length + " Begriffe";
+        if (!liste.length) { $("gdListe").innerHTML = '<p class="gd-leer">Nichts gefunden / ничего не найдено.</p>'; return; }
+        $("gdListe").innerHTML = liste.map((e) => {
+          const h = HER[e.h] || ["", "", "#999"];
+          return `<div class="gd-eintrag ${offen === e.w ? "offen" : ""}" id="w-${esc(schluessel(e))}" data-w="${esc(e.w)}">
+            <div class="gd-kopf"><span class="gd-punkt" style="background:${h[2]}" title="${esc(h[0])}"></span>
+              <span class="gd-wort">${esc(e.w)}</span>${e.auch ? `<span class="gd-auch">= ${esc(e.auch)}</span>` : ""}
+              <span class="gd-ru">${esc(e.ru)}</span><span class="gd-fach">${esc(e.fach)}</span></div>
+            <div class="gd-body">
+              ${e.auch ? `<div><b>Auch / другое название:</b> ${esc(e.auch)}</div>` : ""}
+              ${h[0] ? `<span class="gd-her" style="background:${h[2]}">${esc(h[0])} · ${esc(h[1])}</span>` : ""}
+              <div><b>Herkunft / происхождение:</b> ${esc(e.her)}</div>
+              ${e.erk ? `<div style="margin-top:4px"><b>Erklärung / объяснение:</b> ${esc(e.erk)}</div>` : ""}
+              ${e.ver ? `<div style="margin-top:4px"><b>Verwandt / родственные:</b> ${esc(e.ver)}</div>` : ""}
+              ${(e.bsp || []).map((b) => `<div class="gd-bsp" data-sag="${esc(b[0])}"><b>${esc(b[0])}</b>${b[1] ? ` – <i>${esc(b[1])}</i>` : ""}</div>`).join("")}
+              <div class="gd-knoepfe">
+                <button type="button" data-sag="${esc(e.w)}">🔊 ${esc(e.w)}</button>
+                ${e.auch ? `<button type="button" data-sag="${esc(e.auch)}">🔊 ${esc(e.auch)}</button>` : ""}
+                <button type="button" data-langsam="${esc(e.w)}">🐢 langsam</button>
+                ${e.lek ? `<a href="elektrotechnik/${esc(e.lek)}">📚 zur Lektion</a>` : ""}
+              </div>
+            </div></div>`;
+        }).join("");
+      }
+
+      $("gdListe").addEventListener("click", (ev) => {
+        const s = ev.target.closest("[data-sag]"); if (s) { sprich(s.dataset.sag); return; }
+        const l = ev.target.closest("[data-langsam]"); if (l) { sprich(l.dataset.langsam, 0.55); return; }
+        const k = ev.target.closest(".gd-kopf"); if (!k) return;
+        const box = k.parentElement;
+        offen = box.classList.contains("offen") ? "" : box.dataset.w;
+        document.querySelectorAll(".gd-eintrag").forEach((x) => x.classList.toggle("offen", x.dataset.w === offen));
+        if (offen) sprich(offen);
+      });
+      $("gdSuche").addEventListener("input", zeichne);
+
+      // glossar.html#w=Summand → Begriff öffnen
+      function ausHash() {
+        const m = location.hash.match(/w=([^&]+)/); if (!m) return;
+        const q = norm(decodeURIComponent(m[1]));
+        const e = G.find((x) => norm(x.w) === q || norm(x.auch) === q || (x.k || []).some((k) => norm(k) === q) || norm(x.w).startsWith(q));
+        if (!e) return;
+        offen = e.w; fach = "Alle"; zeichne();
+        const el = document.getElementById("w-" + schluessel(e));
+        if (el) el.scrollIntoView({ block: "center" });
+      }
+      zeichne(); ausHash();
+      window.addEventListener("hashchange", ausHash);
+    });
+    </script>
+  </body>
+</html>
