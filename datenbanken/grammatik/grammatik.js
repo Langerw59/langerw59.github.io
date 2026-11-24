@@ -1328,6 +1328,45 @@ window.GRAMMATIK = {
         { de: "Ich bin müde, weil ich im Garten war.", en: "I am tired because I was in the garden.", ru: "Я устал, потому что был в саду.", hinweis: "DE Nebensatz: глагол в конце" }
       ],
       merke: "DE: das Verb immer auf Platz 2 – steht etwas anderes vorn, kommt das Subjekt NACH dem Verb (Gestern war ich …). EN: Subjekt immer direkt vor dem Verb (Yesterday I was …)."
+    },
+    {
+      // 2026-11-24: mit Claude – Is there electricity here? (warum ohne the)
+      id: "en-nullartikel-there-is",
+      kern: true,  // ★ zum Lernen (das Kern-Programm)
+      thema: "artikel",
+      sprache: "en",
+      datum: "2026-11-24",
+      titel: "der Nullartikel: Is there electricity here? – warum ohne the",
+      titel_ru: "нулевой артикль: почему Is there electricity here? без the",
+      formel: "there is / are + NEUES: unzählbar → ohne Artikel (electricity) · zählbar Einzahl → a (a socket) · Mehrzahl → any / ohne (any shops) · the = schon bekannt, das bestimmte",
+      erklaerung: [
+        "ФРАЗА: Is there electricity here? – Gibt es hier Strom? – Здесь есть электричество? Перед electricity артикля НЕТ. Это называется der Nullartikel (нулевой артикль). Fußnote: der Nullartikel = zero article ≈ «ohne Artikel».",
+        "ПРИЧИНА 1 – НЕИСЧИСЛЯЕМОЕ СУЩЕСТВИТЕЛЬНОЕ. electricity – das unzählbare Substantiv (неисчисляемое существительное). Fußnote: unzählbar = uncountable ≈ der Stoffname / das Massennomen. Его нельзя посчитать: нельзя сказать «one electricity, two electricities». Так же: water, money, information, bread, coffee, Wi-Fi. Перед ними нельзя ставить a, а без особой причины не ставят и the.",
+        "ПРИЧИНА 2 – КОНСТРУКЦИЯ there is / there are. Она вводит в разговор НОВОЕ: «есть ли здесь (вообще) что-то?» А the (der bestimmte Artikel, определённый артикль) означает «тот самый, уже известный». Новое и известное одновременно – противоречие, поэтому «Is there THE electricity?» звучит неправильно. После there is стоит: a + счётное в ед. числе (Is there a socket here?), any / ничего + мн. число (Are there any shops here?), ничего + неисчисляемое (Is there electricity / water here?).",
+        "КОГДА ВСЁ-ТАКИ THE: если речь идёт о конкретном, уже известном электричестве – например, о снабжении в этом доме или на этой стоянке: The electricity is off. – Der Strom ist weg. – Электричество отключили. Is the electricity on? – Ist der Strom an? Здесь «электричество» уже определённое: то, что подключено к нашему дому.",
+        "ОБЩЕЕ ВЫСКАЗЫВАНИЕ – БЕЗ THE: Electricity is dangerous. – Strom ist gefährlich. Речь об электричестве вообще. Немцы и русские здесь часто ставят the по привычке – это типичная ошибка.",
+        "НЕМЕЦКИЙ ПОСТУПАЕТ ТАК ЖЕ: Gibt es hier Strom? – тоже без артикля (der Nullartikel). Но: Der Strom ist weg. – с артиклем, потому что конкретный. Проверка: если по-немецки артикль не нужен, в английском его почти наверняка тоже нет.",
+        "ПРОИЗНОШЕНИЕ: electricity [ɪˌlekˈtrɪsəti] – ударение на «три»: «илекТРИсити». Отсюда же electric [ɪˈlektrɪk] (электрический), electrician [ɪˌlekˈtrɪʃn] (der Elektriker). Слово от греческого ἤλεκτρον – «янтарь» (der Bernstein)."
+      ],
+      tabelle: {
+        kopf: ["Fall · случай", "English", "Deutsch", "Русский"],
+        sprechen: false,
+        zeilen: [
+          ["unzählbar, neu · неисчисляемое, новое", "Is there electricity here?", "Gibt es hier Strom?", "Здесь есть электричество?"],
+          ["zählbar, Einzahl, neu · счётное, ед. ч.", "Is there a socket here?", "Gibt es hier eine Steckdose?", "Здесь есть розетка?"],
+          ["Mehrzahl, neu · мн. число", "Are there any shops here?", "Gibt es hier Geschäfte?", "Здесь есть магазины?"],
+          ["bestimmt, bekannt · конкретное", "The electricity is off.", "Der Strom ist weg.", "Электричество отключили."],
+          ["allgemein · вообще", "Electricity is dangerous.", "Strom ist gefährlich.", "Электричество опасно."]
+        ]
+      },
+      beispiele: [
+        { en: "Is there electricity here?", de: "Gibt es hier Strom?", ru: "Здесь есть электричество?", hinweis: "there is + неисчисляемое → без артикля" },
+        { en: "Is there water here?", de: "Gibt es hier Wasser?", ru: "Здесь есть вода?", hinweis: "water неисчисляемое → без артикля" },
+        { en: "Is there a socket here?", de: "Gibt es hier eine Steckdose?", ru: "Здесь есть розетка?", hinweis: "счётное, ед. число → a" },
+        { en: "The electricity is off.", de: "Der Strom ist weg.", ru: "Электричество отключили.", hinweis: "конкретное (в этом доме) → the" },
+        { en: "Is there Wi-Fi here?", de: "Gibt es hier WLAN?", ru: "Здесь есть вайфай?", hinweis: "неисчисляемое → без артикля" }
+      ],
+      merke: "there is + Neues: unzählbar → ohne Artikel (Is there electricity?), zählbar → a (Is there a socket?). the nur für das schon Bekannte (The electricity is off). Wie im Deutschen: Gibt es hier Strom? – ohne Artikel."
     }
   ]
 };
