@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Die Zahlenarten und die relativen Zahlen – Kurs 1 Mathematik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../et.css" />
+    <script src="../../../../core/js/core_init.js" defer></script>
+    <style>
+      .ra-tab { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: .95em; }
+      .ra-tab th, .ra-tab td { border: 1px solid var(--border-subtle); padding: 6px 8px; text-align: center; vertical-align: middle; }
+      .ra-tab th { background: var(--accent-soft); }
+      .ra-tab .stufe { font-weight: 700; }
+      .ra-tab .bsp { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.15em; white-space: nowrap; }
+      .ra-tab small { color: var(--text-muted); display: block; }
+      .tr-aufgabe { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.6em; text-align: center; margin: 10px 0; }
+      .tr-zeile { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+      .tr-zeile input { width: 120px; font-size: 1.2em; padding: 6px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); text-align: center; }
+      .tr-zeile button { font-size: 1em; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+      .tr-zeile button.zweit { background: transparent; color: var(--accent); }
+      .tr-meldung { text-align: center; margin-top: 10px; min-height: 1.5em; }
+      .tr-weg { text-align: center; color: var(--text-muted); font-family: "Cambria Math", "Times New Roman", serif; }
+      .tr-stand { text-align: center; font-size: .9em; color: var(--text-muted); margin-top: 6px; }
+      .zm { width:100%; max-width:560px; display:block; margin:10px auto; }
+      .zg { width:100%; display:block; margin:6px 0 4px; }
+    </style>
+  </head>
+    <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="../index.html">Elektrotechnik</a> › <a href="index.html">Kurs 1 – die Mathematik</a> › Lektion 2 · Buch A 2</p>
+        <h1>Die Zahlenarten und die relativen Zahlen</h1>
+        <p class="hint-text">Какие бывают числа, числовая прямая, знаки «плюс» и «минус», модуль. В электротехнике это потенциалы, направление тока и отрицательные напряжения.</p>
+
+        <!-- ===== 1. Die Zahlenarten ===== -->
+        <h2>1. Die Zahlenarten – vom Zählen zur Messung</h2>
+        <p>Jede neue Zahlenart ist entstanden, weil eine Rechnung mit den alten Zahlen <b>nicht mehr ging</b>.
+          Jede Menge enthält die vorige – wie Zwiebelschalen (как слои луковицы).</p>
+        <svg class="zm" viewBox="0 0 560 250" role="img" aria-label="Die Zahlenmengen N, Z, Q, R ineinander">
+          <rect x="4" y="4" width="552" height="242" rx="22" fill="#eef4ff" stroke="#1e4fa3"/>
+          <rect x="24" y="34" width="420" height="200" rx="18" fill="#e7f6ec" stroke="#2f8a4c"/>
+          <rect x="44" y="64" width="290" height="160" rx="16" fill="#fff6e0" stroke="#c48a00"/>
+          <rect x="64" y="94" width="160" height="120" rx="14" fill="#ffe9e3" stroke="#c2410c"/>
+          <text x="20" y="26" font-size="16" fill="#1e4fa3" font-weight="700">ℝ die reellen Zahlen</text>
+          <text x="458" y="70" font-size="14" fill="#1e4fa3">√2 ≈ 1,414…</text>
+          <text x="458" y="96" font-size="14" fill="#1e4fa3">π ≈ 3,14159…</text>
+          <text x="40" y="56" font-size="15" fill="#2f8a4c" font-weight="700">ℚ die rationalen Zahlen</text>
+          <text x="346" y="110" font-size="14" fill="#2f8a4c">½ = 0,5</text>
+          <text x="346" y="136" font-size="14" fill="#2f8a4c">−¾ = −0,75</text>
+          <text x="346" y="162" font-size="14" fill="#2f8a4c">⅓ = 0,333…</text>
+          <text x="60" y="86" font-size="15" fill="#a26f00" font-weight="700">ℤ die ganzen Zahlen</text>
+          <text x="236" y="130" font-size="14" fill="#a26f00">−1, −2, −3 …</text>
+          <text x="80" y="116" font-size="15" fill="#c2410c" font-weight="700">ℕ natürliche</text>
+          <text x="80" y="150" font-size="14" fill="#c2410c">0, 1, 2, 3 …</text>
+        </svg>
+        <table class="ra-tab">
+          <tr><th>die Zahlenart</th><th>das Beispiel</th><th>warum es sie gibt</th></tr>
+          <tr><td>die natürlichen Zahlen ℕ<small>натуральные</small></td><td class="bsp">0, 1, 2, 3 …</td><td>zum Zählen: 3 Widerstände, 12 Schüler</td></tr>
+          <tr><td>die ganzen Zahlen ℤ<small>целые</small></td><td class="bsp">… −2, −1, 0, 1, 2 …</td><td>3 − 5 geht in ℕ nicht → die negativen Zahlen</td></tr>
+          <tr><td>die rationalen Zahlen ℚ<small>рациональные (= gebrochene, дроби)</small></td><td class="bsp">½ ; −¾ ; 0,25</td><td>3 : 4 geht in ℤ nicht → der Bruch</td></tr>
+          <tr><td>die irrationalen Zahlen<small>иррациональные</small></td><td class="bsp">√2 ; π</td><td>kein Bruch, unendlich viele Stellen ohne Periode</td></tr>
+          <tr><td>die reellen Zahlen ℝ<small>действительные</small></td><td class="bsp">alle zusammen</td><td>jeder Punkt auf der Zahlengeraden, jeder Messwert</td></tr>
+        </table>
+        <p class="hint-text">💡 <b>rational</b> – от лат. <i>ratio</i> «отношение»: число, которое можно записать как отношение двух целых (3/4). <b>ir-rational</b> – «не-отношение».
+          Сравни: der Quotient (lat. <i>quotiens</i> «сколько раз»). Буквы ℕ, ℤ, ℚ, ℝ: <b>N</b>atürlich, <b>Z</b>ahl, <b>Q</b>uotient, <b>R</b>eell.</p>
+
+        <!-- ===== 2. Die Zahlengerade ===== -->
+        <h2>2. Die Zahlengerade und die relativen Zahlen</h2>
+        <p>Zahlen <b>mit Vorzeichen</b> (+ oder −) heißen <b>die relativen Zahlen</b> – sie sagen, <i>wie weit</i> und <i>in welche Richtung</i> von null.
+          Rechts von 0 – positiv, links – negativ.</p>
+        <svg class="zg" viewBox="0 0 620 70" role="img" aria-label="Die Zahlengerade von minus 5 bis plus 5">
+          <line x1="20" y1="35" x2="600" y2="35" stroke="#1d2433" stroke-width="2"/>
+          <polygon points="600,30 612,35 600,40" fill="#1d2433"/>
+          <g font-size="14" text-anchor="middle" fill="#1d2433">
+            <line x1="60" y1="28" x2="60" y2="42" stroke="#1d2433"/><text x="60" y="62">−5</text>
+            <line x1="114" y1="28" x2="114" y2="42" stroke="#1d2433"/><text x="114" y="62">−4</text>
+            <line x1="168" y1="28" x2="168" y2="42" stroke="#1d2433"/><text x="168" y="62">−3</text>
+            <line x1="222" y1="28" x2="222" y2="42" stroke="#1d2433"/><text x="222" y="62">−2</text>
+            <line x1="276" y1="28" x2="276" y2="42" stroke="#1d2433"/><text x="276" y="62">−1</text>
+            <line x1="330" y1="24" x2="330" y2="46" stroke="#1d2433" stroke-width="2"/><text x="330" y="62" font-weight="700">0</text>
+            <line x1="384" y1="28" x2="384" y2="42" stroke="#1d2433"/><text x="384" y="62">1</text>
+            <line x1="438" y1="28" x2="438" y2="42" stroke="#1d2433"/><text x="438" y="62">2</text>
+            <line x1="492" y1="28" x2="492" y2="42" stroke="#1d2433"/><text x="492" y="62">3</text>
+            <line x1="546" y1="28" x2="546" y2="42" stroke="#1d2433"/><text x="546" y="62">4</text>
+          </g>
+          <text x="180" y="18" font-size="13" fill="#c2410c" text-anchor="middle">← negativ</text>
+          <text x="480" y="18" font-size="13" fill="#1e4fa3" text-anchor="middle">positiv →</text>
+          <circle cx="168" cy="35" r="5" fill="#c2410c"/><circle cx="492" cy="35" r="5" fill="#1e4fa3"/>
+        </svg>
+        <div class="et-box">
+          <h3>der Betrag – модуль</h3>
+          <div class="et-formel">|−3| = 3 &nbsp;&nbsp;&nbsp; |+3| = 3</div>
+          <p>Der Betrag ist der <b>Abstand von null</b> – immer positiv. −3 und +3 haben denselben Betrag, aber <b>entgegengesetzte Vorzeichen</b>
+            (противоположные знаки). Solche Zahlen heißen <b>die Gegenzahlen</b>.</p>
+        </div>
+        <div class="et-box">
+          <h3>das Vorzeichen und das Rechenzeichen</h3>
+          <p>In 5 − (−3) steht das Minus <b>zweimal</b> – aber mit zwei Rollen: das erste ist <b>das Rechenzeichen</b> (знак действия: вычесть),
+            das zweite ist <b>das Vorzeichen</b> (знак числа: отрицательное). Deshalb die Klammer!</p>
+        </div>
+
+        <!-- ===== 3. Die Vorzeichenregeln ===== -->
+        <h2>3. Die Vorzeichenregeln</h2>
+        <div class="et-box">
+          <h3>Addieren und Subtrahieren</h3>
+          <div class="et-formel">a + (−b) = a − b &nbsp;&nbsp;&nbsp; a − (−b) = a + b</div>
+          <p>Eine negative Zahl <b>subtrahieren</b> heißt die Gegenzahl <b>addieren</b>: 5 − (−3) = 5 + 3 = <b>8</b>.
+            Auf der Zahlengeraden: Minus heißt „umdrehen“ – zweimal umdrehen ist wieder geradeaus.</p>
+        </div>
+        <div class="et-box">
+          <h3>Multiplizieren und Dividieren</h3>
+          <table class="ra-tab" style="max-width:420px">
+            <tr><th></th><th>das Beispiel</th><th>das Ergebnis</th></tr>
+            <tr><td>(+) · (+)</td><td class="bsp">3 · 4</td><td><b>+</b> 12</td></tr>
+            <tr><td>(−) · (−)</td><td class="bsp">(−3) · (−4)</td><td><b>+</b> 12</td></tr>
+            <tr><td>(+) · (−)</td><td class="bsp">3 · (−4)</td><td><b>−</b> 12</td></tr>
+            <tr><td>(−) · (+)</td><td class="bsp">(−3) · 4</td><td><b>−</b> 12</td></tr>
+          </table>
+          <p><b>Gleiche Vorzeichen → plus, verschiedene Vorzeichen → minus.</b> Beim Dividieren genauso: (−12) : (−4) = 3; 12 : (−4) = −3.</p>
+          <p class="hint-text">Achtung bei Potenzen: (−3)² = 9, aber −3² = −9 – die Potenz kommt vor dem Vorzeichen (Lektion 1: Potenz vor Punkt vor Strich).</p>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Das Beispiel</h4>
+          <p class="tr-weg" style="font-size:1.15em">
+            −4 − (−6) · 2 = −4 − (−12) = −4 + 12 = <b>8</b>
+          </p>
+        </div>
+
+        <!-- ===== 4. Trainer ===== -->
+        <h2>4. Der Trainer – die Vorzeichen</h2>
+        <p class="hint-text">Тренажёр: каждый раз новый пример со знаками. Минус можно вводить обычным «-». Enter – проверить, ещё раз Enter – следующий.</p>
+        <div class="et-aufgabe">
+          <div class="tr-aufgabe" id="trAufgabe"></div>
+          <div class="tr-zeile">
+            <input id="trEingabe" type="text" inputmode="text" autocomplete="off" placeholder="=" />
+            <button id="trPruefen">Prüfen</button>
+            <button id="trNeu" class="zweit">Neue Aufgabe</button>
+          </div>
+          <div class="tr-meldung" id="trMeldung"></div>
+          <div class="tr-weg" id="trWeg"></div>
+          <div class="tr-stand" id="trStand"></div>
+        </div>
+
+        <!-- ===== 5. Aufgaben ===== -->
+        <h2>5. Die Aufgaben</h2>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – die Zahlenart</h4>
+          <p>Zu welcher kleinsten Menge (ℕ, ℤ, ℚ, ℝ) gehört die Zahl? a) 7 &nbsp; b) −7 &nbsp; c) 0,4 &nbsp; d) √9 &nbsp; e) √5 &nbsp; f) −⅔</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) ℕ &nbsp; b) ℤ &nbsp; c) ℚ (0,4 = 2/5) &nbsp; d) ℕ – √9 = 3! &nbsp; e) ℝ (irrational) &nbsp; f) ℚ</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – ordnen</h4>
+          <p>Ordne der Größe nach (die kleinste zuerst): 2; −5; 0; −0,5; 1,5; −2</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">−5 &lt; −2 &lt; −0,5 &lt; 0 &lt; 1,5 &lt; 2. Je weiter links auf der Zahlengeraden, desto kleiner – auch wenn der Betrag größer ist!</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – addieren und subtrahieren</h4>
+          <p>a) −8 + 3 &nbsp; b) −8 − 3 &nbsp; c) 4 − (−9) &nbsp; d) −6 − (−6) &nbsp; e) −2 + (−7)</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) <b>−5</b> &nbsp; b) <b>−11</b> &nbsp; c) 4 + 9 = <b>13</b> &nbsp; d) −6 + 6 = <b>0</b> &nbsp; e) −2 − 7 = <b>−9</b></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – multiplizieren und dividieren</h4>
+          <p>a) (−6) · 7 &nbsp; b) (−5) · (−8) &nbsp; c) (−48) : 6 &nbsp; d) (−2)³ &nbsp; e) (−2)⁴</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) <b>−42</b> &nbsp; b) <b>40</b> &nbsp; c) <b>−8</b> &nbsp; d) <b>−8</b> (ungerade Anzahl Minus → minus) &nbsp; e) <b>16</b> (gerade Anzahl → plus)</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – die Temperatur</h4>
+          <p>Morgens in Willich −4 °C, mittags +3 °C. Um wie viel Grad ist es wärmer geworden?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Δϑ = 3 − (−4) = 3 + 4 = <b>7 K</b> (Temperaturunterschiede gibt man in Kelvin an; 7 K = 7 °C Unterschied).</div>
+          </details>
+        </div>
+
+        <!-- ===== 6. Elektrotechnik ===== -->
+        <h2>6. Die Anwendung in der Elektrotechnik</h2>
+        <div class="et-box">
+          <h3>das Potential und die Spannung</h3>
+          <p>In einer Schaltung wählt man einen Punkt als <b>Bezugspunkt</b> (die Masse, ⏚, 0 V). Jeder andere Punkt hat <b>ein Potential</b> φ –
+            positiv oder negativ gegenüber der Masse. Die Spannung ist die <b>Differenz</b> zweier Potentiale:</p>
+          <div class="et-formel">U<sub>AB</sub> = φ<sub>A</sub> − φ<sub>B</sub></div>
+          <p>Darum braucht man die relativen Zahlen: Ein Netzteil mit ±12 V hat Punkte mit <b>+12 V</b> und mit <b>−12 V</b> gegenüber der Masse.</p>
+        </div>
+        <div class="et-aufgabe">
+          <p>Ein symmetrisches Netzteil: Punkt A hat φ<sub>A</sub> = +12 V, Punkt B hat φ<sub>B</sub> = −12 V. Wie groß ist die Spannung U<sub>AB</sub>? Und U<sub>BA</sub>?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">U<sub>AB</sub> = 12 − (−12) = 12 + 12 = <b>24 V</b><br />
+              U<sub>BA</sub> = −12 − 12 = <b>−24 V</b> – gleicher Betrag, umgekehrte Richtung. Das Multimeter zeigt genau das: Messspitzen vertauscht → Minus im Display.</div>
+          </details>
+        </div>
+        <div class="et-aufgabe">
+          <p>Im Auto ist die Karosserie die Masse (0 V). Am Pluspol der Batterie misst man 12,6 V. Welches Potential hat der Minuspol? Was zeigt das Multimeter, wenn man die rote Spitze an Masse und die schwarze an den Pluspol hält?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Der Minuspol ist mit der Karosserie verbunden → <b>0 V</b>. Bei vertauschten Spitzen zeigt das Multimeter <b>−12,6 V</b>:
+              das Vorzeichen sagt nur, dass die Richtung umgekehrt ist.</div>
+          </details>
+        </div>
+
+        <!-- ===== 7. Links ===== -->
+        <h2>7. Zum Ansehen</h2>
+        <ul class="et-list">
+          <li><a href="https://de.wikipedia.org/wiki/Zahlenbereich" target="_blank" rel="noopener">📖 Wikipedia – der Zahlenbereich</a>
+            · <a href="https://de.wikipedia.org/wiki/Betragsfunktion" target="_blank" rel="noopener">der Betrag</a>
+            · <a href="https://de.wikipedia.org/wiki/Elektrisches_Potential" target="_blank" rel="noopener">das elektrische Potential</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=Rechnen+mit+negativen+Zahlen+Vorzeichenregeln+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Rechnen mit negativen Zahlen“</a>
+            <span class="tag">Suche; gute Videos später fest eintragen</span></li>
+          <li><a href="https://www.youtube.com/results?search_query=Zahlenmengen+N+Z+Q+R+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Zahlenmengen N, Z, Q, R“</a>
+            <span class="tag">Suche</span></li>
+        </ul>
+
+        <div class="et-nav">
+          <a href="01-rechenarten.html">← Lektion 1 – die Rechenarten</a>
+          <a href="index.html">Kurs 1 – die Mathematik</a>
+          <span class="hint-text">Nächste Lektion: das Rechnen mit Brüchen (in Vorbereitung)</span>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        const z = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+        let aktuell = null, richtig = 0, gesamt = 0;
+
+        // Jede Vorlage liefert: [Aufgabe, Ergebnis, Rechenweg] – Rechnen mit Vorzeichen
+        const k = (n) => (n < 0 ? `(${n})` : `${n}`);
+        const VORLAGEN = [
+          () => { const a = z(-15, 15), b = z(-15, -1);
+            return [`${a} + ${k(b)}`, a + b, `${a} − ${-b} = ${a + b}`]; },
+          () => { const a = z(-15, 15), b = z(-15, -1);
+            return [`${a} − ${k(b)}`, a - b, `minus mal minus = plus: ${a} + ${-b} = ${a - b}`]; },
+          () => { const a = z(1, 12), b = z(a + 1, 20);
+            return [`${a} − ${b}`, a - b, `${a} − ${b} = −(${b} − ${a}) = ${a - b}`]; },
+          () => { const a = z(-9, -2), b = z(2, 9);
+            return [`${a} · ${b}`, a * b, `minus mal plus = minus: ${a * b}`]; },
+          () => { const a = z(-9, -2), b = z(-9, -2);
+            return [`${a} · ${k(b)}`, a * b, `minus mal minus = plus: ${a * b}`]; },
+          () => { const b = z(-9, -2), q = z(-9, 9) || 3, a = b * q;
+            return [`${a} : ${k(b)}`, q, `gleiche Vorzeichen → plus, verschiedene → minus: ${q}`]; },
+          () => { const a = z(-20, 20) || -7;
+            return [`|${a}|`, Math.abs(a), `der Betrag: der Abstand von 0 → ${Math.abs(a)}`]; },
+          () => { const a = z(-6, 6), b = z(-6, -1), c = z(2, 5);
+            return [`${a} − ${k(b)} · ${c}`, a - b * c, `${a} − ${k(b * c)} = ${a} + ${-b * c} = ${a - b * c}`]; },
+        ];
+        const zeige = (t) => t.replace(/-/g, "−");
+        function neu() {
+          aktuell = VORLAGEN[z(0, VORLAGEN.length - 1)]();
+          $("trAufgabe").textContent = zeige(aktuell[0]) + " = ?";
+          $("trEingabe").value = ""; $("trMeldung").textContent = ""; $("trWeg").textContent = "";
+          $("trEingabe").focus();
+        }
+        function pruefen() {
+          const v = parseFloat($("trEingabe").value.replace("−", "-").replace(",", "."));
+          if (isNaN(v)) { $("trMeldung").textContent = "Bitte eine Zahl eingeben."; return; }
+          gesamt++;
+          if (v === aktuell[1]) { richtig++; $("trMeldung").innerHTML = "✅ <b>Richtig!</b> Верно!"; }
+          else { $("trMeldung").innerHTML = "❌ Leider falsch. Richtig: <b>" + zeige(String(aktuell[1])) + "</b>"; }
+          $("trWeg").textContent = zeige(aktuell[0]) + " = " + zeige(aktuell[2]);
+          $("trStand").textContent = richtig + " von " + gesamt + " richtig";
+        }
+        $("trPruefen").addEventListener("click", pruefen);
+        $("trNeu").addEventListener("click", neu);
+        $("trEingabe").addEventListener("keydown", (e) => {
+          if (e.key !== "Enter") return;
+          if ($("trWeg").textContent) neu(); else pruefen();
+        });
+        neu();
+      })();
+    </script>
+  </body>
+</html>
