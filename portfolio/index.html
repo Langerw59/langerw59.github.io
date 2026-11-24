@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waldemar Langer – Portfolio: Elektrotechnik, Digitaltechnik, Mathematik</title>
+<meta name="description" content="Kurse und AGs in Elektrotechnik, Digitaltechnik, Arduino und Mathematik – Waldemar Langer, Willich und Umgebung.">
+<style>
+  :root{
+    --ink:#1d2433; --muted:#5b6475; --line:#dfe3ea; --bg:#f6f7f9; --card:#fff;
+    --accent:#c2410c; --accent-soft:#fff3ec; --blue:#1e4fa3; --on:#ff3b1f; --off:#2a2f38;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+  a{color:var(--blue)}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+  header.hero{background:#1d2433;color:#fff;padding:48px 0 40px}
+  .hero h1{margin:0 0 6px;font-size:2.1rem;letter-spacing:.01em}
+  .hero .sub{margin:0;color:#c9d1e0;font-size:1.1rem}
+  .hero .tags{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+  .hero .tags span{border:1px solid #4a5468;border-radius:999px;padding:4px 12px;font-size:.9rem;color:#e6ebf3}
+  nav.top{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:5}
+  nav.top .wrap{display:flex;gap:18px;overflow-x:auto;padding-top:10px;padding-bottom:10px}
+  nav.top a{text-decoration:none;color:var(--muted);white-space:nowrap;font-size:.95rem}
+  nav.top a:hover{color:var(--ink)}
+  section{padding:38px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:1.45rem;margin:0 0 16px}
+  h3{margin:0 0 6px;font-size:1.08rem}
+  .lead{font-size:1.08rem;max-width:720px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .card p{margin:6px 0 0;color:var(--muted)}
+  .card .for{display:inline-block;margin-top:10px;font-size:.85rem;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 8px}
+  .timeline{list-style:none;margin:0;padding:0}
+  .timeline li{display:grid;grid-template-columns:190px 1fr;gap:16px;padding:12px 0;border-top:1px solid var(--line)}
+  .timeline li:first-child{border-top:none}
+  .timeline .what{font-weight:600}
+  .timeline .det{color:var(--muted)}
+  .todo{background:#fffbe6;border:1px dashed #d9b400;border-radius:8px;padding:2px 8px;font-size:.9rem}
+  /* 7-Segment-Demo */
+  .demo{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
+  .switches{display:flex;gap:10px}
+  .sw{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.9rem}
+  .sw button{width:54px;height:54px;border-radius:10px;border:2px solid var(--line);background:#fff;font-size:1.3rem;font-weight:700;cursor:pointer;color:var(--muted)}
+  .sw button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .sw small{color:var(--muted)}
+  .display{margin-top:18px;background:#111;border-radius:12px;padding:16px;display:inline-block}
+  .seg{fill:var(--off);transition:fill .15s}
+  .seg.on{fill:var(--on);filter:drop-shadow(0 0 4px rgba(255,59,31,.7))}
+  .result{font-size:1.05rem;margin:14px 0 0}
+  .formula{font-family:ui-monospace,Consolas,monospace;background:#f1f3f7;border-radius:8px;padding:12px;margin-top:10px;font-size:.95rem;overflow-x:auto}
+  .term{padding:1px 4px;border-radius:4px}
+  .term.active{background:#ffe1d6;color:#9a2a00;font-weight:700}
+  table.tt{border-collapse:collapse;margin-top:14px;font-family:ui-monospace,Consolas,monospace;font-size:.88rem}
+  table.tt th,table.tt td{border:1px solid var(--line);padding:3px 7px;text-align:center}
+  table.tt tr.cur td{background:#ffe1d6;font-weight:700}
+  .note{color:var(--muted);font-size:.92rem}
+  footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem}
+  @media (max-width:700px){
+    .demo{grid-template-columns:1fr}
+    .timeline li{grid-template-columns:1fr;gap:2px}
+    .hero h1{font-size:1.7rem}
+  }
+  @media print{
+    nav.top{display:none}
+    header.hero{background:#fff;color:var(--ink);padding:10px 0}
+    .hero .sub,.hero .tags span{color:var(--ink)}
+    section{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Waldemar Langer</h1>
+    <p class="sub">Kurse und AGs in Elektrotechnik, Digitaltechnik und Mathematik – verständlich, praktisch, mit Versuchen zum Anfassen.</p>
+    <div class="tags">
+      <span>die Elektrotechnik</span><span>die Digitaltechnik</span><span>der Arduino</span>
+      <span>die Mathematik</span><span>die Informatik</span><span>Willich und Umgebung</span>
+    </div>
+  </div>
+</header>
+
+<nav class="top">
+  <div class="wrap">
+    <a href="#ueber">Über mich</a>
+    <a href="#angebot">Angebot</a>
+    <a href="#demo">Zum Ausprobieren</a>
+    <a href="#beispiele">Beispiele</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="ueber">
+  <div class="wrap">
+    <h2>Über mich</h2>
+    <p class="lead">
+      Ich verbinde zwei Welten: viele Jahre im Klassenzimmer und viele Jahre an der Werkbank.
+      Deshalb erkläre ich Technik nicht nur mit Formeln, sondern mit dem, was man sehen, messen und selbst bauen kann.
+    </p>
+    <ul class="timeline">
+      <li><div class="what">Lehrer, 11 Jahre</div>
+          <div class="det">Unterricht in Mathematik und Informatik (u. a. Zahlensysteme: Binär-, Dezimal- und Hexadezimalsystem).</div></li>
+      <li><div class="what">Elektroschlosser</div>
+          <div class="det">Arbeit im Bergwerk mit Drehstromanlagen (380 V) – Sicherheit und Praxis von Anfang an.</div></li>
+      <li><div class="what">Elektronik-Reparatur</div>
+          <div class="det">Reparatur von Platinen für Parksysteme: Fehlersuche mit Schaltplan, Oszilloskop und Messgeräten; SMD-Bauteile (Prozessoren, AD-/DA-Wandler, Transistoren) mit der Heißluftstation aus- und eingelötet.</div></li>
+      <li><div class="what">Arbeit an einer Schule</div>
+          <div class="det">Arbeit mit Kindern in Deutschland, u. a. gemeinsame Elektronik-Versuche (z. B. der astabile Multivibrator mit zwei Transistoren).</div></li>
+      <li><div class="what">Eigenes Lernportal</div>
+          <div class="det">„Quantura“ – selbst entwickelte Lernseite für Sprachen, Mathematik und Elektrotechnik (<a href="/index.html">ansehen</a>).</div></li>
+    </ul>
+  </div>
+</section>
+
+<section id="angebot">
+  <div class="wrap">
+    <h2>Was ich anbiete</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>⚡ Grundlagen der Elektrotechnik</h3>
+        <p>Strom, Spannung, Widerstand, das ohmsche Gesetz, Reihen- und Parallelschaltung – mit Messungen am Multimeter statt nur an der Tafel.</p>
+        <span class="for">Kurs · Volkshochschule · AG</span>
+      </div>
+      <div class="card">
+        <h3>🔢 Digitaltechnik: vom Schalter zur Anzeige</h3>
+        <p>UND, ODER, NICHT – und wie daraus ein BCD-Decoder wird, der eine 7-Segment-Anzeige steuert. Logik, die man leuchten sieht.</p>
+        <span class="for">Kurs · AG ab Klasse 8</span>
+      </div>
+      <div class="card">
+        <h3>🤖 Arduino-AG</h3>
+        <p>Vom ersten Blinklicht bis zum eigenen kleinen Projekt: programmieren, verdrahten, messen, verbessern.</p>
+        <span class="for">AG · Klasse 7–10</span>
+      </div>
+      <div class="card">
+        <h3>🔧 Elektrik im Alltag und im Auto</h3>
+        <p>Wie funktioniert die Sicherung, der FI-Schalter, das Gebläse im Auto? Fehler systematisch finden – Schritt für Schritt.</p>
+        <span class="for">Kurs · Volkshochschule</span>
+      </div>
+      <div class="card">
+        <h3>💻 Zahlensysteme und Codes</h3>
+        <p>Binär, dezimal, hexadezimal – mit einer Geheimbotschaft im Binärcode, die die Gruppe selbst entschlüsselt.</p>
+        <span class="for">AG · Projekttag</span>
+      </div>
+      <div class="card">
+        <h3>📐 Mathematik im Alltag</h3>
+        <p>Prozent, Zinsen, Kredit oder Rabatt? Mathematik an echten Entscheidungen – auch für Erwachsene, die lange nicht mehr gerechnet haben.</p>
+        <span class="for">Kurs · Nachhilfe</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <h2>Zum Ausprobieren: der BCD-Decoder und die 7-Segment-Anzeige</h2>
+    <p class="lead">
+      So sieht eine Stunde Digitaltechnik bei mir aus. Schalten Sie die vier Eingänge D, C, B, A ein und aus:
+      Der Decoder macht aus der Binärzahl eine Ziffer. Unten sieht man, welche UND-/ODER-Verknüpfung das Segment <b>a</b> gerade einschaltet.
+    </p>
+    <div class="demo">
+      <div>
+        <div class="switches" id="switches"></div>
+        <div class="display">
+          <svg width="120" height="200" viewBox="0 0 120 200" aria-label="7-Segment-Anzeige">
+            <polygon id="s-a" class="seg" points="22,10 98,10 88,22 32,22"/>
+            <polygon id="s-b" class="seg" points="100,13 100,95 90,88 90,24"/>
+            <polygon id="s-c" class="seg" points="100,105 100,187 90,176 90,112"/>
+            <polygon id="s-d" class="seg" points="22,190 98,190 88,178 32,178"/>
+            <polygon id="s-e" class="seg" points="20,105 20,187 30,176 30,112"/>
+            <polygon id="s-f" class="seg" points="20,13 20,95 30,88 30,24"/>
+            <polygon id="s-g" class="seg" points="24,100 34,93 86,93 96,100 86,107 34,107"/>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <p class="result" id="result"></p>
+        <div class="formula" id="formula"></div>
+        <p class="note">D = 8, C = 4, B = 2, A = 1. Die Zahlen 10 bis 15 gibt es im BCD-Code nicht – die Anzeige bleibt dann dunkel.</p>
+        <table class="tt" id="tt"></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="beispiele">
+  <div class="wrap">
+    <h2>Beispiele aus Unterricht und Praxis</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Der astabile Multivibrator</h3>
+        <p>Zwei Transistoren, zwei Kondensatoren, zwei LEDs – und die Kinder sehen zum ersten Mal, wie eine Schaltung von selbst „taktet“. Danach das Signal am Oszilloskop.</p>
+      </div>
+      <div class="card">
+        <h3>Warum läuft das Gebläse nur auf Stufe 4?</h3>
+        <p>Ein klassischer Fehler im Auto: das vierstufige Heizungsgebläse. Am Beispiel des Vorwiderstands lernt man Reihenschaltung, Spannungsabfall und systematische Fehlersuche.</p>
+      </div>
+      <div class="card">
+        <h3>Die Bleistiftmine als Regelwiderstand</h3>
+        <p>Mit Grafit aus dem Bleistift wird eine LED heller und dunkler – der Widerstand hängt von der Länge des Leiters ab.</p>
+      </div>
+      <div class="card">
+        <h3>Geheimbotschaft im Binärcode</h3>
+        <p>Ein Spruch als Folge von Nullen und Einsen: umrechnen ins Dezimal- und Hexadezimalsystem und entschlüsseln.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="wrap">
+    <h2>Kontakt</h2>
+    <p class="lead">Ich freue mich über Anfragen von Schulen, Volkshochschulen und Bildungseinrichtungen in Willich und Umgebung.</p>
+    <p><span class="todo">✏️ Kontakt wird noch ergänzt (E-Mail)</span></p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">© Waldemar Langer · <a href="/index.html">Lernportal Quantura</a></div>
+</footer>
+
+<script>
+// Segmente a..g für die Ziffern 0..9 (BCD); 10..15 = dunkel
+const SEG = {0:"abcdef",1:"bc",2:"abged",3:"abgcd",4:"fgbc",5:"afgcd",6:"afgedc",7:"abc",8:"abcdefg",9:"abcdfg"};
+const bits = {D:0,C:0,B:0,A:0};
+const wert = {D:8,C:4,B:2,A:1};
+
+const swBox = document.getElementById('switches');
+["D","C","B","A"].forEach(k=>{
+  const d = document.createElement('div'); d.className='sw';
+  const b = document.createElement('button'); b.textContent='0'; b.setAttribute('aria-label','Eingang '+k);
+  b.onclick=()=>{bits[k]^=1; update();};
+  d.append(b);
+  const s=document.createElement('div'); s.innerHTML='<b>'+k+'</b><small> ='+wert[k]+'</small>';
+  d.append(s); swBox.append(d); bits['_'+k]=b;
+});
+
+// Truth table
+const tt = document.getElementById('tt');
+let h = '<tr><th>D</th><th>C</th><th>B</th><th>A</th><th>Ziffer</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th><th>f</th><th>g</th></tr>';
+for(let n=0;n<10;n++){
+  const bs=[8,4,2,1].map(v=>(n&v)?1:0);
+  h+='<tr id="r'+n+'"><td>'+bs.join('</td><td>')+'</td><td>'+n+'</td>'+
+     [..."abcdefg"].map(s=>'<td>'+(SEG[n].includes(s)?1:0)+'</td>').join('')+'</tr>';
+}
+tt.innerHTML=h;
+
+function update(){
+  const {D,C,B,A}=bits;
+  ["D","C","B","A"].forEach(k=>{const b=bits['_'+k]; b.textContent=bits[k]; b.classList.toggle('on',!!bits[k]);});
+  const n = D*8+C*4+B*2+A;
+  const on = n<=9 ? SEG[n] : "";
+  [..."abcdefg"].forEach(s=>document.getElementById('s-'+s).classList.toggle('on',on.includes(s)));
+  document.getElementById('result').innerHTML =
+    'Eingang <b>'+D+C+B+A+'</b><sub>2</sub> = <b>'+n+'</b><sub>10</sub> → ' + (n<=9 ? 'Anzeige: <b>'+n+'</b>' : '<b>kein BCD-Wert</b> (Anzeige dunkel)');
+  const t = [
+    ['D', D],
+    ['B', B],
+    ['(C UND A)', C&&A],
+    ['(NICHT C UND NICHT A)', !C&&!A]
+  ];
+  const aOn = n<=9 && t.some(x=>x[1]);
+  document.getElementById('formula').innerHTML =
+    'a = ' + t.map(x=>'<span class="term'+(x[1]&&n<=9?' active':'')+'">'+x[0]+'</span>').join(' ODER ') +
+    '<br>→ Segment a ist <b>'+(aOn?'AN':'AUS')+'</b>';
+  tt.querySelectorAll('tr').forEach(r=>r.classList.remove('cur'));
+  if(n<=9) document.getElementById('r'+n).classList.add('cur');
+}
+update();
+</script>
+</body>
+</html>
