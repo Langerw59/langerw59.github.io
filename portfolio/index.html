@@ -61,6 +61,14 @@
   .doc img{width:110px;border:1px solid var(--line);border-radius:6px;background:#fff;flex:none}
   .btn{display:inline-block;margin-top:10px;padding:6px 12px;border-radius:8px;background:var(--ink);color:#fff;text-decoration:none;font-size:.9rem}
   h3.sub{margin:26px 0 12px;font-size:1.15rem}
+  table.plan{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.95rem}
+  table.plan th{background:#1d2433;color:#fff;text-align:left;padding:10px;font-weight:600}
+  table.plan td{padding:10px;border-top:1px solid var(--line);vertical-align:top}
+  table.plan td:first-child{font-weight:600;width:20%}
+  .steps{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+  .steps span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600}
+  .steps b{color:var(--accent)}
+  .scroll{overflow-x:auto}
   footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem}
   @media (max-width:700px){
     .demo{grid-template-columns:1fr}
@@ -92,6 +100,7 @@
   <div class="wrap">
     <a href="#ueber">Über mich</a>
     <a href="#angebot">Angebot</a>
+    <a href="#methode">So unterrichte ich</a>
     <a href="#demo">Zum Ausprobieren</a>
     <a href="#beispiele">Beispiele</a>
     <a href="#material">Material &amp; Videos</a>
@@ -158,6 +167,43 @@
         <span class="for">Kurs · Nachhilfe</span>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="methode">
+  <div class="wrap">
+    <h2>So unterrichte ich: Theorie, Versuch, Arduino, Simulation</h2>
+    <p class="lead">Jedes Thema hat bei mir vier Schritte. Zuerst die Regel, dann der echte Versuch auf dem Tisch,
+      dann dasselbe Prinzip mit dem Arduino programmiert – und zum Wiederholen zu Hause eine fertige Simulation
+      (z. B. die bewährten HTML5-Apps von Walter Fendt).</p>
+    <div class="steps"><span><b>1</b> die Theorie</span><span><b>2</b> der Versuch</span><span><b>3</b> der Arduino</span><span><b>4</b> die Simulation</span></div>
+    <div class="scroll"><table class="plan">
+      <tr><th>Thema</th><th>Versuch</th><th>Mit dem Arduino</th><th>Simulation zum Nachschauen</th></tr>
+      <tr><td>Der Stromkreis und das ohmsche Gesetz</td>
+          <td>Messen mit dem Multimeter; die Bleistiftmine als Widerstand</td>
+          <td>Spannung mit dem analogen Eingang messen (der Spannungsteiler)</td>
+          <td><a href="https://walter-fendt.de/html5/phde/ohmslaw_de.htm" target="_blank">Ohmsches Gesetz</a></td></tr>
+      <tr><td>Reihen- und Parallelschaltung</td>
+          <td>Lampen in Reihe und parallel – wo wird es dunkler?</td>
+          <td>LED-Helligkeit mit dem Potentiometer steuern (PWM)</td>
+          <td><a href="https://walter-fendt.de/html5/phde/combinationresistors_de.htm" target="_blank">Kombinationen von Widerständen</a> · <a href="https://walter-fendt.de/html5/phde/potentiometer_de.htm" target="_blank">Potentiometerschaltung</a></td></tr>
+      <tr><td>Der Elektromagnet</td>
+          <td><a href="#material">Die selbstgebaute elektrische Klingel (Video)</a></td>
+          <td>Ein Relais schalten – der Elektromagnet als Schalter</td>
+          <td><a href="https://walter-fendt.de/html5/phde/lorentzforce_de.htm" target="_blank">Lorentzkraft</a> · <a href="https://walter-fendt.de/html5/phde/electricmotor_de.htm" target="_blank">Gleichstrom-Elektromotor</a></td></tr>
+      <tr><td>Der Transistor als Schalter</td>
+          <td><a href="#material">Der astabile Multivibrator (Video)</a>, Signal am Oszilloskop</td>
+          <td>Das Blinklicht – derselbe Takt, aber programmiert</td>
+          <td>Oszilloskop-Bild im Versuch selbst</td></tr>
+      <tr><td>Die Digitaltechnik</td>
+          <td>Logikgatter, Wahrheitstabelle (<a href="#material">Klassenarbeit, Klasse 10</a>)</td>
+          <td>Eine 7-Segment-Anzeige ansteuern</td>
+          <td><a href="#demo">BCD-Decoder auf dieser Seite</a></td></tr>
+      <tr><td>Sensoren und Motoren</td>
+          <td><a href="#material">Der Arduino-Roboter (Video)</a></td>
+          <td>Abstandssensor, Motortreiber, ein Roboter fährt selbst</td>
+          <td>–</td></tr>
+    </table></div>
   </div>
 </section>
 
