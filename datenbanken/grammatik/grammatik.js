@@ -1497,10 +1497,10 @@ window.GRAMMATIK = {
         "РОДИТЕЛЬНЫЙ ≠ der Genitiv. Der Genitiv отвечает только на вопрос Wessen? (чей?) – это принадлежность: das Auto des Vaters (машина отца). Остальные значения русского родительного по-немецки передаются ДРУГИМИ падежами: «нет времени» → Ich habe keine Zeit (der Akkusativ); «из дома» → aus dem Haus (der Dativ); «без друга» → ohne den Freund (der Akkusativ); «стакан воды» → ein Glas Wasser (вообще без падежа). В разговорной речи и сам Genitiv часто заменяют: das Auto von meinem Vater (von + Dativ).",
         "ПАДЕЖ ВИДЕН ПО АРТИКЛЮ. В русском падеж показывает окончание существительного (пилот, пилота, пилоту), в немецком – прежде всего артикль (der, des, dem, den). Поэтому существительное надо учить с артиклем: от рода зависит вся таблица. Только у мужского рода (das Maskulinum) Akkusativ отличается от Nominativ (der → den); у женского, среднего и множественного числа они одинаковые.",
         "ШАГ 1. Кто (что) действует? Это das Subjekt – всегда der Nominativ: Der Mann arbeitet.",
-        "ШАГ 2. Есть предлог (die Präposition)? Тогда падеж решает ПРЕДЛОГ, а не русский вопрос: aus, bei, mit, nach, seit, von, zu → der Dativ; durch, für, gegen, ohne, um → der Akkusativ; die Wechselpräposition (in, an, auf, über, unter, vor, hinter, neben, zwischen): Wo? → Dativ, Wohin? → Akkusativ; wegen, trotz, während, statt → der Genitiv. Подробно: правило «die Präposition bestimmt den Kasus».",
+        "ШАГ 2. Есть предлог (die Präposition)? Тогда падеж решает ПРЕДЛОГ, а не русский вопрос: aus, bei, mit, nach, seit, von, zu → der Dativ; durch, für, gegen, ohne, um → der Akkusativ; die Wechselpräposition (in, an, auf, über, unter, vor, hinter, neben, zwischen): Wo? → Dativ, Wohin? → Akkusativ; wegen, trotz, während, statt → der Genitiv. Подробно: правило «die Präposition bestimmt den Kasus». А сам предлог у многих глаголов задаёт ГЛАГОЛ (warten auf, denken an) – см. правило «das Verb mit fester Präposition».",
         "ШАГ 3. Предлога нет? Тогда падеж решает ГЛАГОЛ (die Rektion). Большинство глаголов – der Akkusativ: Ich sehe den Mann. Небольшая группа – der Dativ: helfen, danken, gefallen, gehören, antworten, folgen, gratulieren. Если дополнений два: кому (обычно человек) → der Dativ, что (обычно вещь) → der Akkusativ: Ich gebe dem Sohn das Buch.",
         "ШАГ 4. Глаголы sein, werden, bleiben, heißen – «знак равенства»: справа тоже der Nominativ. «Он был учителем» → Er war Lehrer (не творительный!). Подробно: der Gleichsetzungsnominativ.",
-        "ЛОВУШКИ: падеж в русском и немецком НЕ совпадает. благодарю тебя (вин.) → Ich danke dir (Dativ); звоню тебе (дат.) → Ich rufe dich an (Akkusativ); думаю о тебе (предл.) → Ich denke an dich (an + Akkusativ); жду автобус(а) → Ich warte auf den Bus (auf + Akkusativ). Такие глаголы учат сразу с падежом: danken + Dativ, anrufen + Akkusativ, denken an + Akkusativ, warten auf + Akkusativ.",
+        "ЛОВУШКИ: падеж в русском и немецком НЕ совпадает. благодарю тебя (вин.) → Ich danke dir (Dativ); звоню тебе (дат.) → Ich rufe dich an (Akkusativ); думаю о тебе (предл.) → Ich denke an dich (an + Akkusativ); жду автобус(а) → Ich warte auf den Bus (auf + Akkusativ). Такие глаголы учат сразу с падежом: danken + Dativ, anrufen + Akkusativ (an – приставка, не предлог!), denken an + Akkusativ, warten auf + Akkusativ.",
         "БОНУС: nach Hause, zu Hause. nach и zu требуют Dativ, а -e в слове Hause – старое окончание дательного падежа (dem Hause). Сегодня оно сохранилось почти только в этих выражениях."
       ],
       tabelle: {
@@ -1526,6 +1526,52 @@ window.GRAMMATIK = {
         { de: "Ich gehe nach Hause.", en: "I'm going home.", ru: "Я иду домой.", hinweis: "nach + Dativ · Hause = старая форма Dativ" }
       ],
       merke: "Падеж определяют по порядку: Subjekt → Nominativ · есть Präposition → решает предлог · нет предлога → решает Verb (обычно Akkusativ; кому = Dativ) · sein/werden/bleiben → Nominativ. Родительный ≠ Genitiv (Genitiv = только «чей?»). Творительный и предложный → Präposition + Dativ/Akkusativ, НЕ Genitiv."
+    },
+    {
+      // 2026-11-25: mit Claude – Frage: bestimmt das Verb die Präposition? Wie heißen solche Verben? Ist „anrufen“ so ein Verb?
+      id: "de-verb-mit-praeposition",
+      thema: "verb",
+      sprache: "de",
+      datum: "2026-11-25",
+      titel: "das Verb mit fester Präposition (warten auf + Akk.) – und warum anrufen KEIN solches Verb ist",
+      titel_ru: "глаголы с управлением (с постоянным предлогом) и отделяемые глаголы – не путать",
+      formel: "das Verb → die Präposition → der Kasus → der Artikel · warten → auf → Akkusativ → auf den Bus · ABER anrufen: an = die Vorsilbe (trennbar), kein Präposition → Akkusativ direkt: Ich rufe dich an",
+      definitionen: [
+        { wort: "das Verb mit fester Präposition (das präpositionale Verb)", de: "Ein Verb, das immer mit derselben Präposition steht: warten auf, denken an, sich freuen über, sich interessieren für. Die Präposition gehört zum Verb und muss mit ihm gelernt werden.", ru: "Глагол с постоянным (управляемым) предлогом: глагол всегда требует один и тот же предлог, а предлог требует свой падеж. Учат как одно целое: warten auf + Akkusativ." },
+        { wort: "das Präpositionalobjekt", de: "Das Objekt, das mit der festen Präposition des Verbs angeschlossen wird: Ich warte auf den Bus. (Worauf warte ich? – auf den Bus)", ru: "Предложное дополнение: дополнение, которое присоединяется через постоянный предлог глагола. Вопрос строится из wo(r) + предлог: Worauf? Woran? Wofür?" }
+      ],
+      erklaerung: [
+        "ДА, ЦЕПОЧКА ИДЁТ ОТ ГЛАГОЛА. Глагол выбирает предлог, предлог выбирает падеж, падеж определяет форму артикля: warten → auf → der Akkusativ → den Bus. Ни предлог, ни падеж, ни артикль логикой не выводятся: «ждать автобус(а)» по-русски вообще без предлога. Поэтому такой глагол учат сразу целиком: warten auf + Akk.",
+        "УТОЧНЕНИЕ К АЛГОРИТМУ «den Fall bestimmen». Шаг 2 (предлог решает падеж) работает всегда. Но откуда взялся сам предлог? Если это место или время (in der Schule, nach dem Essen), предлог выбирают по смыслу. Если это das Verb mit fester Präposition, предлог задаёт глагол.",
+        "КАК ЭТО НАЗЫВАЕТСЯ. das Verb mit fester Präposition = das präpositionale Verb = das Präpositionalverb (глагол с управлением / с постоянным предлогом). Дополнение после такого предлога называется das Präpositionalobjekt (предложное дополнение). В учебниках есть списки «Verben mit Präpositionen» – их учат как слова.",
+        "ЧАСТЫЕ ГЛАГОЛЫ. + der Akkusativ: warten auf, denken an, sich freuen auf (на будущее) / über (о прошедшем), sich interessieren für, sich kümmern um, sich erinnern an, sprechen über. + der Dativ: teilnehmen an, sich fürchten vor, fragen nach, träumen von, sprechen mit, Angst haben vor.",
+        "ВОПРОС ЗАДАЮТ ЧЕРЕЗ wo(r) + ПРЕДЛОГ: Worauf wartest du? – Auf den Bus. Woran denkst du? – An den Urlaub. О людях – предлог + wen/wem: Auf wen wartest du? – Auf meinen Sohn. Ответ без повторения: Ich warte darauf (da(r) + предлог).",
+        "ВНИМАНИЕ: anrufen – НЕ такой глагол! В «Ich rufe dich an» слово an не предлог, а отделяемая приставка (die trennbare Vorsilbe) глагола anrufen. В предложении приставка уходит в конец: an|rufen → Ich rufe … an. Предлога в предложении нет, поэтому падеж решает сам глагол: anrufen + der Akkusativ (wen? – dich). Отсюда правильно Ich rufe DICH an, а «Ich rufe dir an» – ошибка: по-русски «звоню тебе» (дательный), и эта русская привычка тянет к dir.",
+        "КАК ОТЛИЧИТЬ. Приставка (die Vorsilbe) стоит в конце предложения одна, после неё ничего нет: Ich rufe dich an. Ich stehe früh auf. Предлог (die Präposition) стоит перед своим существительным или местоимением: Ich denke an dich. Ich warte auf den Bus. В словаре: anrufen – одно слово; denken an – два слова.",
+        "АНГЛИЙСКИЙ. Там тоже есть глаголы с постоянным предлогом (prepositional verbs): wait for, think of / about, look at, listen to. Их тоже учат целиком: Ich warte auf den Bus – I'm waiting for the bus (не on!)."
+      ],
+      tabelle: {
+        kopf: ["das Verb + die Präposition + der Kasus", "das Beispiel", "по-русски", "English"],
+        sprechen: 1,
+        sprache: "de",
+        zeilen: [
+          ["warten auf + Akkusativ", "Ich warte auf den Bus.", "Я жду автобус.", "wait for"],
+          ["denken an + Akkusativ", "Ich denke an dich.", "Я думаю о тебе.", "think of"],
+          ["sich freuen auf + Akkusativ", "Ich freue mich auf den Urlaub.", "Я жду отпуска с радостью.", "look forward to"],
+          ["sich interessieren für + Akkusativ", "Ich interessiere mich für Mathematik.", "Я интересуюсь математикой.", "be interested in"],
+          ["sich kümmern um + Akkusativ", "Ich kümmere mich um den Garten.", "Я забочусь о саде.", "take care of"],
+          ["teilnehmen an + Dativ", "Ich nehme an dem Kurs teil.", "Я участвую в курсе.", "take part in"],
+          ["Angst haben vor + Dativ", "Er hat Angst vor dem Hund.", "Он боится собаки.", "be afraid of"],
+          ["anrufen + Akkusativ (KEINE Präposition!)", "Ich rufe dich an.", "Я звоню тебе.", "call (somebody)"]
+        ]
+      },
+      beispiele: [
+        { de: "Ich warte auf den Bus.", en: "I'm waiting for the bus.", ru: "Я жду автобус.", hinweis: "warten → auf → Akkusativ → den" },
+        { de: "Worauf wartest du? – Darauf.", en: "What are you waiting for?", ru: "Чего ты ждёшь? – Этого.", hinweis: "wo(r) + Präposition / da(r) + Präposition" },
+        { de: "Ich denke an dich.", en: "I'm thinking of you.", ru: "Я думаю о тебе.", hinweis: "an = die Präposition (стоит перед dich)" },
+        { de: "Ich rufe dich morgen an.", en: "I'll call you tomorrow.", ru: "Я позвоню тебе завтра.", hinweis: "an = die Vorsilbe (в конце) · anrufen + Akk. → dich, не dir" }
+      ],
+      merke: "das Verb → die Präposition → der Kasus → der Artikel: warten auf + Akk. учить целиком. anrufen: an – приставка (в конце предложения), не предлог → Ich rufe DICH an (Akkusativ)."
     }
   ]
 };

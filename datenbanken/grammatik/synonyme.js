@@ -66,4 +66,7 @@ window.GRAMMATIK_SYNONYME = [
   ,{ namen: "das Zahlwort = das Numerale = numeral", ru: "числительное", such: ["Zahlwort", "Numerale", "numeral"] }
   ,{ namen: "die Rektion – ein Verb / eine Präposition verlangt einen bestimmten Fall", ru: "управление (глагол или предлог требует падеж)", such: ["Rektion"] }
   ,{ namen: "die Wechselpräposition = die Präposition mit Dativ oder Akkusativ (Wo? / Wohin?)", ru: "предлог двойного управления", such: ["Wechselpräposition"] }
+  ,{ namen: "das Verb mit fester Präposition = das präpositionale Verb = das Präpositionalverb ≈ prepositional verb (warten auf, wait for)", ru: "глагол с постоянным предлогом (с управлением)", such: ["fester Präposition", "präpositionale Verb", "Präpositionalverb"] }
+  ,{ namen: "das Präpositionalobjekt = das Objekt mit Präposition (Worauf? Woran?)", ru: "предложное дополнение", such: ["Präpositionalobjekt"] }
+  ,{ namen: "die Vorsilbe = das Präfix (beim trennbaren Verb: an-, auf-, aus- …)", ru: "приставка", such: ["Vorsilbe", "Präfix"] }
 ];
