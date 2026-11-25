@@ -897,6 +897,29 @@
     // 2026-11-18: alphabetisch (der Wert bleibt die Nummer in DE_VERBS_MAIN)
     alleVerben().map((v, i) => ({ v, i })).sort((a, b) => verbInf(a.v).localeCompare(verbInf(b.v), "de")).forEach(({ v, i }) => opt(sVerb, String(i), verbInf(v)));
 
+    // 2026-11-25: die Verb-Suche – tippen (auch langsam): war → warten; „sich freuen“ geht auch
+    const suche = $("sgVerbSuche"), dl = $("sgVerbListe");
+    if (suche && dl) {
+      const liste = alleVerben().map((v, i) => ({ i, inf: verbInf(v), refl: !!v.reflexiv })).sort((a, b) => a.inf.localeCompare(b.inf, "de"));
+      liste.forEach((x) => { const o = document.createElement("option"); o.value = x.inf; if (x.refl) o.label = "sich " + x.inf; dl.appendChild(o); });
+      const finde = (t) => {
+        t = t.trim().toLowerCase().replace(/^sich\s+/, "");
+        if (!t) return null;
+        return liste.find((x) => x.inf.toLowerCase() === t) || liste.find((x) => x.inf.toLowerCase().startsWith(t)) || liste.find((x) => x.inf.toLowerCase().includes(t)) || null;
+      };
+      const setze = (x) => {
+        if (!x || sVerb.value === String(x.i)) return;
+        sVerb.value = String(x.i);
+        sVerb.dispatchEvent(new Event("change"));
+      };
+      suche.addEventListener("input", () => setze(finde(suche.value)));
+      suche.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); const x = finde(suche.value); if (x) { setze(x); suche.value = x.inf; suche.blur(); } }
+      });
+      // umgekehrt: Verb im Menü gewählt → im Suchfeld anzeigen
+      sVerb.addEventListener("change", () => { const x = liste.find((y) => String(y.i) === sVerb.value); if (document.activeElement !== suche) suche.value = x ? x.inf : ""; });
+    }
+
     // Artikel + Adjektiv
     fillArtikel($("sgSubjArt"), true);
     fillArtikel($("sgDatArt"), true);
@@ -977,6 +1000,7 @@
     $("deClearBtn").addEventListener("click", () => {
       ["sgSubj", "sgVerb", "sgDatNomen", "sgAkkNomen", "sgPkvNomen", "sgPobjNomen", "sgGenNomen", "sgZeit", "sgWie", "sgOrt", "sgAux", "sgSubjAdj", "sgDatAdj", "sgAkkAdj", "sgPkvAdj", "sgGenAdj", "sgPobjAdj"].forEach((id) => ($(id).selectedIndex = 0));
       if ($("sgOrtWarum")) $("sgOrtWarum").style.display = "none";
+      if ($("sgVerbSuche")) $("sgVerbSuche").value = "";
       $("sgNeg").checked = false;
       document.querySelectorAll(".en-box").forEach((b) => (b.hidden = true));
       $("deSentenceOutput").textContent = "Noch kein Satz erzeugt …";

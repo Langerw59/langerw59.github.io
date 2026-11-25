@@ -319,6 +319,11 @@
             <!-- Prädikat -->
             <div class="sg-box" style="--c:#d1242f">
               <div class="sg-head"><b>Was tut …?</b> – Prädikat (Verb) <small>сказуемое</small></div>
+              <!-- 2026-11-25: Verb suchen – tippen, das Verb wird sofort gefunden -->
+              <input id="sgVerbSuche" list="sgVerbListe" type="search" autocomplete="off" spellcheck="false" lang="de"
+                     placeholder="🔎 Verb suchen … (z. B. war → warten)" title="Buchstaben tippen – das Verb wird sofort gewählt"
+                     style="width:100%;box-sizing:border-box;font:inherit;padding:6px 10px;margin-bottom:4px;border:1px solid #d0d7de;border-radius:8px">
+              <datalist id="sgVerbListe"></datalist>
               <select id="sgVerb"></select>
               <div class="sg-info" id="sgVerbInfo"></div>
               <div class="sg-zeile">
