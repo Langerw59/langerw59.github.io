@@ -1479,6 +1479,53 @@ window.GRAMMATIK = {
         { en: "I have one appointment today, not two.", de: "Ich habe heute nur einen Termin, nicht zwei.", ru: "Сегодня у меня одна встреча, а не две.", hinweis: "one – количество" }
       ],
       merke: "a / an = ein (ohne Kasus): an vor Vokal-LAUT (an appointment, an hour), a vor Konsonant-LAUT (a car, a university). one = das Zahlwort. Deutsch: Ich habe einen Termin – der Akkusativ, maskulin → einen."
+    },
+    {
+      // 2026-11-25: mit Claude – Frage: родительный = Genitiv? творительный/предложный = Genitiv? Wie finde ich den Fall?
+      id: "de-kasus-bestimmen",
+      thema: "grundbegriffe",
+      sprache: "de",
+      datum: "2026-11-25",
+      titel: "den Fall bestimmen – der Algorithmus (und warum родительный ≠ der Genitiv)",
+      titel_ru: "как определить падеж в немецком предложении – алгоритм из 4 шагов",
+      formel: "1) das Subjekt → der Nominativ · 2) die Präposition? → sie bestimmt den Fall · 3) keine Präposition → das Verb bestimmt (meist Akkusativ; Person = Dativ, Sache = Akkusativ) · 4) sein/werden/bleiben → der Nominativ",
+      definitionen: [
+        { wort: "die Rektion", de: "Die Rektion ist die Fähigkeit eines Wortes (Verb, Präposition), den Fall des abhängigen Wortes zu bestimmen: helfen regiert den Dativ, mit regiert den Dativ.", ru: "Управление: глагол или предлог «решает», в каком падеже стоит зависимое слово. helfen управляет дательным, mit – тоже дательным." }
+      ],
+      erklaerung: [
+        "РУССКИЙ 6 → НЕМЕЦКИЙ 4. Творительный и предложный падежи в немецком НЕ превращаются в der Genitiv. Их работу делает die Präposition + der Dativ (реже der Akkusativ): ручкой → mit dem Stift; в школе → in der Schule; о фильме → über den Film. Подробно: правило «die Fälle im Vergleich».",
+        "РОДИТЕЛЬНЫЙ ≠ der Genitiv. Der Genitiv отвечает только на вопрос Wessen? (чей?) – это принадлежность: das Auto des Vaters (машина отца). Остальные значения русского родительного по-немецки передаются ДРУГИМИ падежами: «нет времени» → Ich habe keine Zeit (der Akkusativ); «из дома» → aus dem Haus (der Dativ); «без друга» → ohne den Freund (der Akkusativ); «стакан воды» → ein Glas Wasser (вообще без падежа). В разговорной речи и сам Genitiv часто заменяют: das Auto von meinem Vater (von + Dativ).",
+        "ПАДЕЖ ВИДЕН ПО АРТИКЛЮ. В русском падеж показывает окончание существительного (пилот, пилота, пилоту), в немецком – прежде всего артикль (der, des, dem, den). Поэтому существительное надо учить с артиклем: от рода зависит вся таблица. Только у мужского рода (das Maskulinum) Akkusativ отличается от Nominativ (der → den); у женского, среднего и множественного числа они одинаковые.",
+        "ШАГ 1. Кто (что) действует? Это das Subjekt – всегда der Nominativ: Der Mann arbeitet.",
+        "ШАГ 2. Есть предлог (die Präposition)? Тогда падеж решает ПРЕДЛОГ, а не русский вопрос: aus, bei, mit, nach, seit, von, zu → der Dativ; durch, für, gegen, ohne, um → der Akkusativ; die Wechselpräposition (in, an, auf, über, unter, vor, hinter, neben, zwischen): Wo? → Dativ, Wohin? → Akkusativ; wegen, trotz, während, statt → der Genitiv. Подробно: правило «die Präposition bestimmt den Kasus».",
+        "ШАГ 3. Предлога нет? Тогда падеж решает ГЛАГОЛ (die Rektion). Большинство глаголов – der Akkusativ: Ich sehe den Mann. Небольшая группа – der Dativ: helfen, danken, gefallen, gehören, antworten, folgen, gratulieren. Если дополнений два: кому (обычно человек) → der Dativ, что (обычно вещь) → der Akkusativ: Ich gebe dem Sohn das Buch.",
+        "ШАГ 4. Глаголы sein, werden, bleiben, heißen – «знак равенства»: справа тоже der Nominativ. «Он был учителем» → Er war Lehrer (не творительный!). Подробно: der Gleichsetzungsnominativ.",
+        "ЛОВУШКИ: падеж в русском и немецком НЕ совпадает. благодарю тебя (вин.) → Ich danke dir (Dativ); звоню тебе (дат.) → Ich rufe dich an (Akkusativ); думаю о тебе (предл.) → Ich denke an dich (an + Akkusativ); жду автобус(а) → Ich warte auf den Bus (auf + Akkusativ). Такие глаголы учат сразу с падежом: danken + Dativ, anrufen + Akkusativ, denken an + Akkusativ, warten auf + Akkusativ.",
+        "БОНУС: nach Hause, zu Hause. nach и zu требуют Dativ, а -e в слове Hause – старое окончание дательного падежа (dem Hause). Сегодня оно сохранилось почти только в этих выражениях."
+      ],
+      tabelle: {
+        kopf: ["der Kasus · вопрос", "das Maskulinum", "das Femininum", "das Neutrum", "der Plural", "русский"],
+        sprechen: 1,
+        sprache: "de",
+        zeilen: [
+          ["der Nominativ · Wer? Was?", "der Mann · ein Mann", "die Frau · eine Frau", "das Kind · ein Kind", "die Kinder", "именительный (кто? что?)"],
+          ["der Genitiv · Wessen?", "des Mannes · eines Mannes", "der Frau · einer Frau", "des Kindes · eines Kindes", "der Kinder", "только «чей?» (не весь родительный)"],
+          ["der Dativ · Wem?", "dem Mann · einem Mann", "der Frau · einer Frau", "dem Kind · einem Kind", "den Kindern (+n)", "дательный (кому? чему?)"],
+          ["der Akkusativ · Wen? Was?", "den Mann · einen Mann", "die Frau · eine Frau", "das Kind · ein Kind", "die Kinder", "винительный (кого? что?)"],
+          ["— (kein eigener Fall)", "mit dem Mann", "mit der Frau", "mit dem Kind", "mit den Kindern", "творительный → mit + Dativ"],
+          ["— (kein eigener Fall)", "über den Mann · im Haus", "in der Schule", "über das Kind", "über die Kinder", "предложный → Präposition + Dativ/Akk."]
+        ]
+      },
+      beispiele: [
+        { de: "Das ist das Auto meines Vaters.", en: "This is my father's car.", ru: "Это машина моего отца.", hinweis: "Wessen? → der Genitiv (разговорно: von meinem Vater)" },
+        { de: "Ich habe keine Zeit.", en: "I have no time.", ru: "У меня нет времени.", hinweis: "родительный по-русски → der Akkusativ (haben + Akk.)" },
+        { de: "Ich gebe dem Sohn das Buch.", en: "I give my son the book.", ru: "Я даю сыну книгу.", hinweis: "Wem? → Dativ · Was? → Akkusativ" },
+        { de: "Ich danke dir.", en: "Thank you.", ru: "Я благодарю тебя.", hinweis: "danken + Dativ (по-русски винительный!)" },
+        { de: "Ich rufe dich morgen an.", en: "I'll call you tomorrow.", ru: "Я позвоню тебе завтра.", hinweis: "anrufen + Akkusativ (по-русски дательный!)" },
+        { de: "Ich denke an dich.", en: "I'm thinking of you.", ru: "Я думаю о тебе.", hinweis: "предложный → an + Akkusativ" },
+        { de: "Ich gehe nach Hause.", en: "I'm going home.", ru: "Я иду домой.", hinweis: "nach + Dativ · Hause = старая форма Dativ" }
+      ],
+      merke: "Падеж определяют по порядку: Subjekt → Nominativ · есть Präposition → решает предлог · нет предлога → решает Verb (обычно Akkusativ; кому = Dativ) · sein/werden/bleiben → Nominativ. Родительный ≠ Genitiv (Genitiv = только «чей?»). Творительный и предложный → Präposition + Dativ/Akkusativ, НЕ Genitiv."
     }
   ]
 };

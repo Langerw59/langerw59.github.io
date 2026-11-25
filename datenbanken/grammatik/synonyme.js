@@ -64,4 +64,6 @@ window.GRAMMATIK_SYNONYME = [
   ,{ namen: "Future Simple = will-future ≈ das Futur I", ru: "простое будущее", such: ["Future Simple", "will-future"] }
   ,{ namen: "der unbestimmte Artikel = indefinite article (a / an, ein / eine)", ru: "неопределённый артикль", such: ["unbestimmte Artikel", "indefinite article"] }
   ,{ namen: "das Zahlwort = das Numerale = numeral", ru: "числительное", such: ["Zahlwort", "Numerale", "numeral"] }
+  ,{ namen: "die Rektion = die Valenz (vereinfacht) – ein Verb / eine Präposition verlangt einen bestimmten Fall", ru: "управление (глагол или предлог требует падеж)", such: ["Rektion"] }
+  ,{ namen: "die Wechselpräposition = die Präposition mit Dativ oder Akkusativ (Wo? / Wohin?)", ru: "предлог двойного управления", such: ["Wechselpräposition"] }
 ];
