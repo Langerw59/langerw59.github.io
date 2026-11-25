@@ -867,6 +867,30 @@
       if (q === "Wo?") adverbs.filter((a) => a.group === "place").forEach((a) => optIn(og, "a:" + a.id, `${a.base}  (Adverb)`));
     });
 
+    // 2026-11-25: „Warum?“ – Erklärung zur Ortsangabe (die Präposition → der Kasus → der Artikel)
+    sOrt.addEventListener("change", () => {
+      const box = $("sgOrtWarum"); if (!box) return;
+      const v = sOrt.value;
+      const p = v.startsWith("p:") ? pats.find((x) => x.id === v.slice(2)) : null;
+      if (!p) { box.style.display = "none"; box.innerHTML = ""; return; }
+      const DAT = ["aus", "bei", "mit", "nach", "seit", "von", "zu"];
+      const WECHSEL = ["in", "an", "auf", "über", "unter", "vor", "hinter", "neben", "zwischen"];
+      const VERS = { zum: "zu + dem", zur: "zu + der", im: "in + dem", ins: "in + das", am: "an + dem", ans: "an + das", vom: "von + dem", beim: "bei + dem" };
+      const erstes = p.phrase.split(" ")[0];
+      const kasus = p.case === "akk" ? "der Akkusativ" : "der Dativ";
+      const zeilen = [`<b>${p.question}</b> → <b>${p.phrase}</b> · die Präposition <b>${p.prep}</b> → <b>${kasus}</b>`];
+      if (VERS[erstes]) zeilen.push(`${erstes} = ${VERS[erstes]} (слитная форма: предлог + артикль)`);
+      if (DAT.includes(p.prep)) zeilen.push(`${p.prep} verlangt <b>immer den Dativ</b> – вопрос не важен. Стишок: aus, bei, mit, nach, seit, von, zu → Dativ.`);
+      else if (WECHSEL.includes(p.prep)) zeilen.push(`${p.prep} ist eine <b>Wechselpräposition</b>: Wohin? (куда?) → Akkusativ · Wo? (где?) → Dativ. Здесь вопрос <b>${p.question}</b> → ${kasus}.`);
+      if (p.prep === "nach") zeilen.push(p.phrase === "nach Hause" ? "nach Hause – feste Wendung (устойчивое выражение): куда? домой. Где? дома → zu Hause." : "nach – для городов и стран без артикля (nach Berlin, nach Italien). Страны с артиклем → in die Türkei.");
+      else if (p.prep === "zu" && p.question === "Wohin?") zeilen.push("zu – к человеку или учреждению (zum Arzt, zur Arbeit, zur Schule); «к кому? / на что?»");
+      else if (p.prep === "bei") zeilen.push("bei – «у кого?», «на (работе)»: beim Arzt, bei der Arbeit.");
+      if (p.phrase === "zu Hause") zeilen.push("zu Hause – feste Wendung: где? дома. Нельзя «Ich gehe zu Hause» → правильно nach Hause.");
+      zeilen.push(`<a href="/pages/language_lab/verb-trainer/index.html" target="quantura_regel">🧩 im Verb-Trainer üben ↗</a> · <a href="/pages/language_lab/grammatik/index.html#de-praeposition-kasus" target="quantura_regel">📐 die Regel ↗</a>`);
+      box.innerHTML = "💡 <b>Warum?</b> · почему так?<br>" + zeilen.join("<br>");
+      box.style.display = "";
+    });
+
     // Events
     $("sgVerb").addEventListener("change", updateValenz);
     $("sgSubj").addEventListener("change", () => { updateSubjektArt(); updateFragNach(); updateGenZu(); });
@@ -874,6 +898,7 @@
     $("deGenerateBtn").addEventListener("click", () => generieren(true));
     $("deClearBtn").addEventListener("click", () => {
       ["sgSubj", "sgVerb", "sgDatNomen", "sgAkkNomen", "sgPkvNomen", "sgGenNomen", "sgZeit", "sgWie", "sgOrt", "sgAux", "sgSubjAdj", "sgDatAdj", "sgAkkAdj", "sgPkvAdj", "sgGenAdj"].forEach((id) => ($(id).selectedIndex = 0));
+      if ($("sgOrtWarum")) $("sgOrtWarum").style.display = "none";
       $("sgNeg").checked = false;
       document.querySelectorAll(".en-box").forEach((b) => (b.hidden = true));
       $("deSentenceOutput").textContent = "Noch kein Satz erzeugt …";
