@@ -65,6 +65,7 @@ main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);grid-temp
 .name:hover{border-color:var(--blue)}
 .name small{color:var(--soft);font-weight:700;margin-left:4px}
 .ortpop b{font:700 17px Barlow,sans-serif}.ortpop .row{margin-top:6px;gap:10px}.ortpop button{border:1px solid #1d5fa8;border-radius:999px;background:#fff;color:#1d5fa8;font-weight:700;padding:4px 10px}.ortpop a{font-weight:700}
+details.mehr{background:var(--panel);border:2px solid var(--gold);border-radius:14px;padding:10px 14px}details.mehr summary{cursor:pointer;font:700 19px/1.2 "Barlow Condensed",sans-serif}details.mehr p{margin:8px 0}
 .vorlesen{min-height:40px;padding:0 14px;border-radius:999px;border:2px solid var(--blue);background:var(--panel);color:var(--blue);font-weight:700;align-self:flex-start}
 .vorlesen[aria-pressed=true]{background:var(--blue);color:#fff}
 @media (max-width:820px){main{grid-template-columns:1fr}.mapwrap{min-height:44vh;border-right:0;border-bottom:1px solid var(--line)}}
@@ -140,7 +141,8 @@ const FRAGEN=[
  wer:'Orville und Wilbur Wright',wo:'Kitty Hawk, North Carolina (USA)',wann:'17. Dezember 1903',
  text:'Der erste Flug dauerte nur 12 Sekunden und ging etwa 37 Meter weit. Die Brüder Wright hatten vorher die Gleitflüge von Otto Lilienthal genau studiert: Er flog ab 1891 in Berlin-Lichterfelde und gilt als der erste Mensch, der wiederholt erfolgreich segelte.',
  wort:'das Flugzeug – „das Zeug“ ist ein altes Wort für das Gerät, wie in das Werkzeug und das Fahrzeug.',
- wiki:'Gebrüder_Wright',orte:[['Kitty Hawk',36.06,-75.70],['Berlin-Lichterfelde',52.43,13.31]]},
+ wiki:'Gebrüder_Wright',orte:[['Kitty Hawk',36.06,-75.70],['Berlin-Lichterfelde',52.43,13.31],['Anklam',53.856,13.689],['Stölln',52.75,12.40]],
+ mehr:{titel:'Otto Lilienthal – der erste Flieger',text:'Otto Lilienthal (1848–1896) wurde in Anklam (Vorpommern) geboren und war Ingenieur und Unternehmer in Berlin. Er beobachtete den Flug der Störche und schrieb 1889 das Buch „Der Vogelflug als Grundlage der Fliegekunst“. Ab 1891 machte er über 2000 Gleitflüge. 1894 ließ er sich in Berlin-Lichterfelde einen eigenen Hügel aufschütten – den „Fliegeberg“, heute eine Gedenkstätte. Am 9. August 1896 stürzte er am Gollenberg bei Stölln (Havelland) ab und starb am nächsten Tag in Berlin. Die Brüder Wright haben seine Messwerte genau studiert – sie nannten ihn ihr großes Vorbild.',orte:'Zum Ansehen: das Otto-Lilienthal-Museum in Anklam; der Fliegeberg in Berlin-Lichterfelde (frei zugänglich); am Gollenberg in Stölln das Lilienthal-Denkmal und das Flugzeug „Lady Agnes“ (eine Il-62, die dort 1989 auf einer Wiese gelandet ist). Auf der Karte: Anklam, Stölln, Berlin-Lichterfelde.',links:[['Otto Lilienthal – Wikipedia','https://de.wikipedia.org/wiki/Otto_Lilienthal'],['Otto-Lilienthal-Museum Anklam','https://www.lilienthal-museum.de'],['Bilder: Lilienthal Gleitflug','https://commons.wikimedia.org/w/index.php?search=Otto+Lilienthal+Gleitflug&title=Special:MediaSearch&type=image']]}},
 {ding:'das Radio',frage:'Wer zeigte am 7. Mai 1895 in Sankt Petersburg einen Empfänger für Funkwellen?',
  opts:['Guglielmo Marconi','Heinrich Hertz','Alexander Popow','Ferdinand Braun'],r:2,
  wer:'Alexander Stepanowitsch Popow, Physiklehrer',wo:'Sankt Petersburg',wann:'7. Mai 1895',
@@ -172,7 +174,7 @@ const NAMEN={
  'der Dieselmotor':[['Rudolf Diesel','de'],['Augsburg','de']],
  'die Laufmaschine':[['Karl Drais','de'],['Schwetzingen','de']],
  'der Computer':[['Konrad Zuse','de'],['Kreuzberg','de']],
- 'das Flugzeug':[['Orville Wright','en'],['Wilbur Wright','en'],['Kitty Hawk','en'],['North Carolina','en'],['Otto Lilienthal','de'],['Lichterfelde','de']],
+ 'das Flugzeug':[['Orville Wright','en'],['Wilbur Wright','en'],['Kitty Hawk','en'],['North Carolina','en'],['Otto Lilienthal','de'],['Lichterfelde','de'],['Anklam','de'],['Stölln','de'],['Gollenberg','de']],
  'das Radio':[['Alexander Stepanowitsch Popow','ru','Александр Степанович Попов'],['Guglielmo Marconi','it'],['Bologna','it'],['Heinrich Hertz','de'],['Karlsruhe','de']]
 };
 const SPR={de:'de-DE',en:'en-US',it:'it-IT',ru:'ru-RU',da:'da-DK'};
@@ -253,6 +255,7 @@ function antwort(k){
    '<button class="vorlesen" type="button" data-lesen="info" aria-pressed="false">🔊 Vorlesen</button>'+
    '<p>'+esc(f.text)+'</p><p class="wort"><b>Das Wort:</b> '+esc(f.wort)+'</p>'+
    ortTipp+'<div class="links">'+bildLink(f)+'<a href="https://de.wikipedia.org/wiki/'+encodeURIComponent(f.wiki)+'" target="_blank" rel="noopener">Wikipedia lesen ↗</a><a href="'+osm+'" target="_blank" rel="noopener">Auf der Karte öffnen ↗</a>'+glossarLink(f)+'</div></div>'+
+   (f.mehr?'<details class="mehr"><summary>📌 Mehr dazu: '+esc(f.mehr.titel)+'</summary><button class="vorlesen" type="button" data-lesen="mehr" aria-pressed="false">🔊 Vorlesen</button><p>'+esc(f.mehr.text)+'</p><p><b>'+esc(f.mehr.orte)+'</b></p><div class="links">'+f.mehr.links.map(l=>'<a href="'+l[1]+'" target="_blank" rel="noopener">'+esc(l[0])+' ↗</a>').join('')+'</div></details>':'')+
    '<button class="next" type="button" id="weiter">'+(i+1<FRAGEN.length?'Nächste Frage →':'Zum Ergebnis →')+'</button>';
   $('#maphint').style.display='none';
   zeigeOrte(f.orte);
@@ -266,7 +269,7 @@ function ende(){
 }
 $('#side').addEventListener('click',e=>{
   const nb=e.target.closest('.name');if(nb){nameSprechen(NAMEN[FRAGEN[i].ding][+nb.dataset.n]);return;}
-  const v=e.target.closest('.vorlesen');if(v){const f=FRAGEN[i];vorlesen(v,v.dataset.lesen==='frage'?frageText(f):infoText(f));return;}
+  const v=e.target.closest('.vorlesen');if(v){const f=FRAGEN[i];vorlesen(v,v.dataset.lesen==='frage'?frageText(f):v.dataset.lesen==='mehr'?f.mehr.text+' '+f.mehr.orte:infoText(f));return;}
   const o=e.target.closest('.opt');if(o){antwort(+o.dataset.k);return;}
   if(e.target.closest('#weiter')){i++;if(i<FRAGEN.length)frage();else ende();return;}
   if(e.target.closest('#neu')){i=0;punkte=0;frage();}
