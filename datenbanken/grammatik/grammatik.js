@@ -1574,6 +1574,43 @@ window.GRAMMATIK = {
         { de: "Ich rufe dich morgen an.", en: "I'll call you tomorrow.", ru: "Я позвоню тебе завтра.", hinweis: "an = die Vorsilbe (в конце) · anrufen + Akk. → dich, не dir" }
       ],
       merke: "das Verb → die Präposition → der Kasus → der Artikel: warten auf + Akk. учить целиком. anrufen: an – приставка (в конце предложения), не предлог → Ich rufe DICH an (Akkusativ)."
+    },
+    {
+      // 2026-11-25: mit Claude – Frage: „Ich gehe wohin? → also Dativ?“ – der Denkweg Wohin? / Wo? → die Präposition → der Kasus
+      id: "de-wohin-wo-denkweg",
+      thema: "praeposition",
+      sprache: "de",
+      datum: "2026-11-25",
+      titel: "der Denkweg: Wohin? oder Wo? → welche Präposition? → welcher Kasus?",
+      titel_ru: "цепочка вопросов к себе: куда или где? → какой предлог? → какой падеж?",
+      formel: "1) Wohin? / Wo? / Woher? · 2) die Präposition wählen · 3) aus, bei, mit, nach, seit, von, zu → IMMER Dativ · Wechselpräposition: Wohin? → Akkusativ, Wo? → Dativ · 4) der Artikel",
+      erklaerung: [
+        "ИДЕЯ ВЕРНАЯ: задавать себе вопросы по порядку. Но вывод «gehen + Wohin? → Dativ» неверный. Вопрос Wohin? сам по себе падеж НЕ определяет. Падеж определяет ПРЕДЛОГ, а вопрос Wohin?/Wo? нужен только для предлогов двойного управления (die Wechselpräposition).",
+        "ШАГ 1. Движение или состояние? Wohin? (куда?) – движение, направление, изменение места: gehen, fahren, legen, stellen, setzen, hängen (повесить). Wo? (где?) – состояние, место: sein, wohnen, liegen, stehen, sitzen, hängen (висеть). Woher? (откуда?) – исходная точка: kommen aus, kommen von.",
+        "ШАГ 2. Какой предлог? Его выбирают по цели: город или страна без артикля → nach (nach Berlin); к человеку или в учреждение → zu (zum Arzt, zur Arbeit); внутрь помещения или пространства → in (in die Stadt, ins Bett); на горизонтальную поверхность → auf (auf den Tisch); на вертикальную → an (an die Wand). Устойчивые выражения учат целиком: nach Hause (куда?) / zu Hause (где?), auf die Toilette.",
+        "ШАГ 3. Какой падеж? Его задаёт предлог. aus, bei, mit, nach, seit, von, zu → ВСЕГДА der Dativ, даже при Wohin? Поэтому nach Hause и zum Arzt стоят в Dativ не из-за вопроса, а из-за предлогов nach и zu. durch, für, gegen, ohne, um → всегда der Akkusativ. И только у Wechselpräposition (in, an, auf, über, unter, vor, hinter, neben, zwischen) вопрос решает: Wohin? → der Akkusativ, Wo? → der Dativ.",
+        "ШАГ 4. Артикль: по роду и падежу (der Park → Akkusativ den Park → in den Park; Dativ dem Park → im Park).",
+        "ПРОВЕРКА НА ТРЁХ ПРИМЕРАХ С ОДНИМ И ТЕМ ЖЕ Wohin? Ich gehe in die Stadt → in = Wechselpräposition + Wohin? → Akkusativ. Ich gehe zum Arzt → zu = всегда Dativ. Ich gehe nach Hause → nach = всегда Dativ. Вопрос одинаковый, а падежи разные, значит, решает предлог."
+      ],
+      tabelle: {
+        kopf: ["die Frage", "die Präposition", "der Kasus – warum?", "das Beispiel"],
+        sprechen: 3,
+        sprache: "de",
+        zeilen: [
+          ["Wohin?", "in (Wechselpräposition)", "Akkusativ – wegen Wohin?", "Ich gehe in die Stadt."],
+          ["Wo?", "in (Wechselpräposition)", "Dativ – wegen Wo?", "Ich bin in der Stadt."],
+          ["Wohin?", "zu", "Dativ – zu immer Dativ", "Ich gehe zum Arzt."],
+          ["Wohin?", "nach", "Dativ – nach immer Dativ", "Ich gehe nach Hause."],
+          ["Wo?", "zu (feste Wendung)", "Dativ – zu immer Dativ", "Ich bin zu Hause."],
+          ["Woher?", "aus", "Dativ – aus immer Dativ", "Ich komme aus der Stadt."]
+        ]
+      },
+      beispiele: [
+        { de: "Ich lege das Buch auf den Tisch.", en: "I put the book on the table.", ru: "Я кладу книгу на стол.", hinweis: "legen = Wohin? · auf = Wechselpräposition → Akkusativ" },
+        { de: "Das Buch liegt auf dem Tisch.", en: "The book is lying on the table.", ru: "Книга лежит на столе.", hinweis: "liegen = Wo? → Dativ" },
+        { de: "Ich gehe nach Hause.", en: "I'm going home.", ru: "Я иду домой.", hinweis: "Wohin?, aber nach → immer Dativ" }
+      ],
+      merke: "Erst fragen: Wohin? / Wo? / Woher? → dann die Präposition wählen → die Präposition bestimmt den Kasus. Nur bei der Wechselpräposition entscheidet die Frage: Wohin? = Akkusativ, Wo? = Dativ. nach / zu → immer Dativ."
     }
   ]
 };
