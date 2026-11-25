@@ -1,5 +1,8 @@
 # SprachBox RU → DE
 
+## 2026-11-25
+- Schreib-Knopf zeigt jetzt richtig „RU → DE übersetzen“ bzw. „Diktat (DE hören)“ (stand noch „DE → EN“ aus der Kopie DE↔EN).
+
 ## 2026-11-24
 - Neu aufgebaut als Kopie der SprachBox DE↔EN: dieselben Lektionen (`lektionen_de_en.json` aus DE↔EN, eine gemeinsame Datei).
 - Vorne der russische Satz, hinten der deutsche Satz. Deutsch wird mit den mp3-Aufnahmen aus DE↔EN vorgelesen.

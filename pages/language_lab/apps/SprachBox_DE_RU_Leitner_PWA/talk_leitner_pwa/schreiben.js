@@ -1,16 +1,16 @@
 // 2026-11-17: der Schreib-Modus (Sprachführer + Diktat zusammen)
 // RU: режим «Schreiben» – каждую карточку не только переворачивать, но и написать по-английски.
 //   Aus     – как раньше (только переворачивать)
-//   Lesen   – видишь немецкий текст, пишешь английский
-//   Diktat  – немецкий текст скрыт, английский звучит, пишешь услышанное
+//   Lesen   – видишь русский текст, пишешь немецкий (RU → DE)
+//   Diktat  – русский текст скрыт, немецкий звучит, пишешь услышанное
 // Проверка: знаки препинания и большие/маленькие буквы проверяются (можно выключить); ошибки показываются по словам и буквам.
 
 const LS_KEY = "sprachbox_ru_de_schreiben_v1";
 const MODES = ["aus", "lesen", "diktat"];
 const MODE_LABEL = {
   aus: "✍️ Schreiben: Aus",
-  lesen: "✍️ Schreiben: DE → EN übersetzen",
-  diktat: "✍️ Schreiben: Diktat (EN hören) 🎧",
+  lesen: "✍️ Schreiben: RU → DE übersetzen", // 2026-11-25: war DE → EN (aus DE↔EN kopiert)
+  diktat: "✍️ Schreiben: Diktat (DE hören) 🎧",
 };
 
 let api = null; // { grade(known), next(), flipToAnswer(), speakBack(it), isAwaitingNext() }

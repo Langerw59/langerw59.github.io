@@ -10,7 +10,8 @@
 // 2026-11-12: Lieder aus dem Lied-Trainer als Karteikarten.
 // 2026-11-17: der Schreib-Modus (schreiben.js).
 // 2026-11-17: Spickzettel ?z=, Leseregel stummes E (shining).
-const CACHE = "sprachbox-rude-v1"; // 2026-11-24: Sprachführer RU → DE (eigener Cache)
+// 2026-11-25: Schreiben-Knopf RU → DE (statt DE → EN).
+const CACHE = "sprachbox-rude-v2"; // 2026-11-24: Sprachführer RU → DE (eigener Cache)
 const CORE = [
   "./",
   "./index.html",
