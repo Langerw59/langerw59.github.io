@@ -62,4 +62,6 @@ window.GRAMMATIK_SYNONYME = [
   // 2026-11-25
   ,{ namen: "Present Continuous = Present Progressive ≈ die Verlaufsform der Gegenwart (am / is / are + -ing)", ru: "настоящее длительное", such: ["Present Continuous", "Present Progressive", "Verlaufsform"] }
   ,{ namen: "Future Simple = will-future ≈ das Futur I", ru: "простое будущее", such: ["Future Simple", "will-future"] }
+  ,{ namen: "der unbestimmte Artikel = indefinite article (a / an, ein / eine)", ru: "неопределённый артикль", such: ["unbestimmte Artikel", "indefinite article"] }
+  ,{ namen: "das Zahlwort = das Numerale = numeral", ru: "числительное", such: ["Zahlwort", "Numerale", "numeral"] }
 ];

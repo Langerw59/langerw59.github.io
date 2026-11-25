@@ -1441,6 +1441,43 @@ window.GRAMMATIK = {
         { en: "The phone is ringing. – I'll get it.", de: "Das Telefon klingelt. – Ich gehe ran.", ru: "Телефон звонит. – Я возьму.", hinweis: "решение сейчас → ’ll" }
       ],
       merke: "Termin → I'm driving · Absicht → I'm going to drive · jetzt entschieden / Versprechen → I'll drive. Wie im Deutschen (Morgen fahre ich …) und Russischen (Завтра я еду …): fester Plan = die Gegenwartsform."
+    },
+    {
+      // 2026-11-25: mit Claude – Frage: warum „I have an appointment“ (an, nicht one) und „einen Termin“
+      id: "en-a-an",
+      thema: "artikel",
+      sprache: "en",
+      datum: "2026-11-25",
+      titel: "der unbestimmte Artikel a / an (an appointment) und der Akkusativ im Deutschen (einen Termin)",
+      titel_ru: "неопределённый артикль a / an и винительный падеж в немецком",
+      formel: "a + Konsonant-LAUT (a car, a university) · an + Vokal-LAUT (an appointment, an hour) · DE: haben + der Akkusativ → einen Termin",
+      erklaerung: [
+        "ПЕРЕВОД. I have an appointment = Ich habe einen Termin = У меня назначена встреча (у меня приём / запись).",
+        "a И an – ОДНО СЛОВО, der unbestimmte Artikel (неопределённый артикль). Оба произошли от древнеанглийского ān «один» – родня немецкого ein. Перед согласным звуком n со временем отпало (a car), а перед гласным звуком осталось, чтобы было легче произносить: an appointment, а не «a appointment» (два гласных подряд «э-э» трудно сказать). Читается безударно: [ən], а не «он».",
+        "РЕШАЕТ ЗВУК, А НЕ БУКВА. an hour [ˈaʊər] – h не читается, слово начинается с гласного звука. a university [ˌjuːnɪˈvɜːrsəti] – буква u, но звук [j] (согласный). an umbrella – звук [ʌ], гласный.",
+        "ПОЧЕМУ НЕ one. one – das Zahlwort (числительное) «один», его используют, когда важно количество: I have one appointment, not two (у меня одна встреча, а не две). an – просто «какой-то, один из многих», количество не подчёркивается. В немецком ein делает обе работы (артикль и числительное), в английском они разделились на a/an и one.",
+        "НЕМЕЦКИЙ: der Akkusativ. Да, einen Termin – das Akkusativobjekt (Wen? Was? habe ich? – einen Termin). Глагол haben требует Akkusativ. der Termin – мужской род (das Maskulinum), поэтому ein → einen. Женский и средний род в Akkusativ не меняются: Ich habe eine Frage, ich habe ein Auto.",
+        "АНГЛИЙСКИЙ БЕЗ ПАДЕЖЕЙ. В английском у артикля нет падежей и рода: an appointment в любой роли (подлежащее или дополнение). Роль слова показывает только порядок слов (см. «die Fälle im Vergleich»)."
+      ],
+      tabelle: {
+        kopf: ["English", "der Laut am Anfang · первый звук", "Deutsch"],
+        sprechen: 0,
+        zeilen: [
+          ["a car", "[k] – der Konsonant", "ein Auto"],
+          ["an appointment", "[ə] – der Vokal", "ein Termin (Akk.: einen Termin)"],
+          ["an hour", "[aʊ] – der Vokal (h stumm)", "eine Stunde"],
+          ["a university", "[j] – der Konsonant", "eine Universität"],
+          ["an umbrella", "[ʌ] – der Vokal", "ein Regenschirm"],
+          ["one appointment", "das Zahlwort – genau eins", "ein (einziger) Termin"]
+        ]
+      },
+      beispiele: [
+        { en: "I have an appointment.", de: "Ich habe einen Termin.", ru: "У меня назначена встреча.", hinweis: "an – перед гласным звуком · einen – der Akkusativ (der Termin)" },
+        { en: "I have a question.", de: "Ich habe eine Frage.", ru: "У меня вопрос.", hinweis: "a – перед согласным · die Frage → eine (не меняется)" },
+        { en: "I'll be there in an hour.", de: "Ich bin in einer Stunde da.", ru: "Я буду через час.", hinweis: "h не читается → an" },
+        { en: "I have one appointment today, not two.", de: "Ich habe heute nur einen Termin, nicht zwei.", ru: "Сегодня у меня одна встреча, а не две.", hinweis: "one – количество" }
+      ],
+      merke: "a / an = ein (ohne Kasus): an vor Vokal-LAUT (an appointment, an hour), a vor Konsonant-LAUT (a car, a university). one = das Zahlwort. Deutsch: Ich habe einen Termin – der Akkusativ, maskulin → einen."
     }
   ]
 };
