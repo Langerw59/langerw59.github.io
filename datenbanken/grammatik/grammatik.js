@@ -1611,6 +1611,47 @@ window.GRAMMATIK = {
         { de: "Ich gehe nach Hause.", en: "I'm going home.", ru: "Я иду домой.", hinweis: "Wohin?, aber nach → immer Dativ" }
       ],
       merke: "Erst fragen: Wohin? / Wo? / Woher? → dann die Präposition wählen → die Präposition bestimmt den Kasus. Nur bei der Wechselpräposition entscheidet die Frage: Wohin? = Akkusativ, Wo? = Dativ. nach / zu → immer Dativ."
+    },
+    {
+      // 2026-11-25: mit Claude – Frage: „Ich gehe ins Haus“ oder „Ich gehe nach Hause“? (auf der Terrasse stehen)
+      id: "de-ins-haus-nach-hause",
+      thema: "praeposition",
+      sprache: "de",
+      datum: "2026-11-25",
+      titel: "ins Haus · nach Hause · zum Haus – und im Haus · zu Hause",
+      titel_ru: "в дом (внутрь здания) · домой (к себе домой) · к дому (до дома)",
+      formel: "das Ziel fragen: das Gebäude von innen → ins Haus (in + Akk.) · mein Zuhause (wo ich wohne) → nach Hause · bis zum Gebäude, nicht hinein → zum Haus (zu + Dat.)",
+      definitionen: [
+        { wort: "das Zuhause", de: "Der Ort, an dem man wohnt und lebt – nicht nur das Gebäude, sondern auch der Garten, die Terrasse, die Familie.", ru: "«Свой дом» как место, где живёшь: не только здание, но и сад, терраса, семья. Поэтому в nach Hause / zu Hause нет артикля – речь не о конкретном здании." }
+      ],
+      erklaerung: [
+        "ВОПРОС К СЕБЕ: ЧТО МОЯ ЦЕЛЬ? Здание как помещение – или «мой дом» как место, где я живу? Это не падеж и не вопрос Wohin?, а смысл цели (das Ziel).",
+        "ins Haus = in das Haus: войти ВНУТРЬ здания (hinein). Haus здесь – конкретное здание, поэтому с артиклем. Подходит для любого дома, не только своего: Der Postbote geht ins Haus. in – Wechselpräposition, Wohin? → Akkusativ (das Haus → in das → ins).",
+        "nach Hause = ДОМОЙ, к себе, туда, где живу. Это устойчивое выражение (feste Wendung), без артикля, -e – старое окончание Dativ. Говорят, когда находятся ВНЕ дома: на работе, в магазине, в гостях. Войду ли я потом в само здание – неважно.",
+        "zum Haus = zu dem Haus: идти К дому, ДО него, но не внутрь. Ich gehe zum Haus und warte vor der Tür.",
+        "ВАШ СЛУЧАЙ – ТЕРРАСА. Вы уже дома (zu Hause), просто снаружи. Поэтому nach Hause не подходит – вы уже там. Правильно: Ich gehe ins Haus. Разговорно ещё проще: Ich gehe rein. (rein = herein/hinein, внутрь).",
+        "ТО ЖЕ САМОЕ ДЛЯ Wo? im Haus = внутри здания. zu Hause = дома, у себя. В саду вы zu Hause, но НЕ im Haus. А мастер, который чинит у вас отопление, im Haus, но не zu Hause (он не у себя дома).",
+        "ПРАВИЛО-ПРОВЕРКА: можно ли сказать «домой / дома» по-русски? Да → nach Hause / zu Hause. Нужно «в дом / в доме» (внутрь, внутри)? → ins Haus / im Haus."
+      ],
+      tabelle: {
+        kopf: ["die Frage", "Deutsch", "по-русски", "was ist gemeint?"],
+        sprechen: 1,
+        sprache: "de",
+        zeilen: [
+          ["Wohin?", "Ich gehe nach Hause.", "Я иду домой.", "mein Zuhause (von draußen, von weit weg)"],
+          ["Wohin?", "Ich gehe ins Haus.", "Я захожу в дом.", "hinein ins Gebäude (z. B. von der Terrasse)"],
+          ["Wohin?", "Ich gehe zum Haus.", "Я иду к дому.", "bis zum Gebäude, nicht hinein"],
+          ["Wo?", "Ich bin zu Hause.", "Я дома.", "bei mir (auch im Garten!)"],
+          ["Wo?", "Ich bin im Haus.", "Я в доме.", "drinnen im Gebäude"],
+          ["Woher?", "Ich komme aus dem Haus.", "Я выхожу из дома.", "aus dem Gebäude heraus"]
+        ]
+      },
+      beispiele: [
+        { de: "Es regnet, ich gehe ins Haus.", en: "It's raining, I'm going inside.", ru: "Дождь, я захожу в дом.", hinweis: "auf der Terrasse → ins Haus (nicht nach Hause)" },
+        { de: "Nach der Arbeit fahre ich nach Hause.", en: "After work I drive home.", ru: "После работы я еду домой.", hinweis: "von außerhalb → nach Hause" },
+        { de: "Ich bin zu Hause, aber im Garten.", en: "I'm at home, but in the garden.", ru: "Я дома, но в саду.", hinweis: "zu Hause ≠ im Haus" }
+      ],
+      merke: "домой → nach Hause · дома → zu Hause · в дом (внутрь) → ins Haus · в доме (внутри) → im Haus · к дому → zum Haus. Auf der Terrasse: Ich gehe ins Haus / Ich gehe rein."
     }
   ]
 };
