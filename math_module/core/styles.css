@@ -590,3 +590,27 @@ details.erwachsene > summary { cursor: pointer; color: #64748b; font-size: .9em;
 .time-mode-toggle, .time-mode-note, #timerBox { display: none !important; }
 .sterne-widget { cursor: default !important; text-align: center; }
 .sterne-zahl { font-size: 1.8em; font-weight: 800; line-height: 1.1; }
+
+/* „Wer spielt?“ – die Spielerliste */
+.sp-modal { width: min(560px, 94%) !important; max-height: 88vh; overflow-y: auto; text-align: left !important; }
+.sp-modal h3 { text-align: center; font-size: 1.6em; margin: 0 0 6px; }
+.sp-liste { display: grid; gap: 8px; }
+.sp-karte { display: flex; gap: 6px; align-items: stretch; }
+.sp-waehlen { flex: 1; display: grid; grid-template-columns: 56px 1fr; grid-template-rows: auto auto; column-gap: 10px; align-items: center;
+  text-align: left; padding: 8px 12px; border-radius: 14px; border: 2px solid #dbe3f0; background: #fff; cursor: pointer; color: #0f172a; }
+.sp-waehlen:hover { border-color: var(--team-accent, #2563eb); background: #f5f9ff; }
+.sp-waehlen img { grid-row: 1 / 3; width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
+.sp-name { font-size: 1.25em; font-weight: 800; }
+.sp-info { font-size: .85em; color: #475569; }
+.sp-mini { border: 1px solid #dbe3f0; background: #fff; border-radius: 12px; padding: 0 10px; font-size: 1.1em; cursor: pointer; }
+.sp-neu, .sp-erwachsene { margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 8px; }
+.sp-neu > summary, .sp-erwachsene > summary { cursor: pointer; font-weight: 700; }
+.sp-neu #name-input { width: 100%; font-size: 1.1em; padding: 10px 12px; margin: 8px 0; border-radius: 12px; border: 1px solid #cbd5e1; }
+.sp-erwachsene table { font-size: .85em; margin-top: 6px; }
+.sp-erwachsene th, .sp-erwachsene td { padding: 4px 6px; text-align: center; }
+.sp-klein { font-size: .8em; color: #64748b; }
+.name-modal.sp-modal .sp-waehlen { background: #fff !important; color: #0f172a !important; border: 2px solid #dbe3f0 !important; border-radius: 14px !important; padding: 8px 12px !important; font-weight: 400; }
+.name-modal.sp-modal .sp-waehlen:hover { border-color: var(--team-accent, #2563eb) !important; background: #f5f9ff !important; }
+.name-modal.sp-modal .sp-mini { background: #fff !important; color: #0f172a !important; border: 1px solid #dbe3f0 !important; border-radius: 12px !important; padding: 0 12px !important; }
+.name-modal.sp-modal .sp-mini:hover { background: #fef2f2 !important; }
+.name-modal.sp-modal .sp-info { color: #475569; font-weight: 400; }

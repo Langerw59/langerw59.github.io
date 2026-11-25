@@ -416,6 +416,39 @@ function sterneSpeichern(levelId, n) {
   if (n > (a[sp][String(levelId)] || 0)) a[sp][String(levelId)] = n;
   localStorage.setItem(STERNE_KEY, JSON.stringify(a));
 }
+// 2026-11-25: die Spielerliste – wie im Sprachführer: wählen, umbenennen, löschen.
+// Jeder Spieler behält seine Sterne und das zuletzt gespielte Level.
+const SPIELER_KEY = 'math_module_spieler_v1';   // [{ name, avatar, theme }]
+const ZULETZT_KEY = 'math_module_zuletzt_v1';   // { "philipp": "3" }
+function spielerListe() { try { const l = JSON.parse(localStorage.getItem(SPIELER_KEY) || '[]'); return Array.isArray(l) ? l : []; } catch (e) { return []; } }
+function spielerSpeichern(l) { localStorage.setItem(SPIELER_KEY, JSON.stringify(l)); }
+function spielerMerken(name, avatar, theme) {
+  const n = normalizePlayerName(name); if (!n) return;
+  const l = spielerListe(); const i = l.findIndex(p => p.name.toLowerCase() === n.toLowerCase());
+  const eintrag = { name: n, avatar: avatar || getAvatar() || AVATARS[0], theme: theme || getTheme() || THEMES[0] };
+  if (i >= 0) l[i] = eintrag; else l.push(eintrag);
+  spielerSpeichern(l);
+}
+function zuletztAlle() { try { return JSON.parse(localStorage.getItem(ZULETZT_KEY) || '{}') || {}; } catch (e) { return {}; } }
+function zuletztSetzen(levelId) { const a = zuletztAlle(); a[sterneSpieler()] = String(levelId); localStorage.setItem(ZULETZT_KEY, JSON.stringify(a)); }
+function zuletztFuer(name) { return zuletztAlle()[String(name || '').toLowerCase()]; }
+function sterneSummeVon(name) { const m = sterneAlle()[String(name || '').toLowerCase()] || {}; return Object.values(m).reduce((a, b) => a + (Number(b) || 0), 0); }
+function spielerUmbenennen(alt, neu) {
+  neu = normalizePlayerName(neu); if (!neu) return;
+  const a = alt.toLowerCase(), b = neu.toLowerCase();
+  const l = spielerListe().map(p => (p.name.toLowerCase() === a ? { ...p, name: neu } : p)); spielerSpeichern(l);
+  const st = sterneAlle(); if (st[a] && a !== b) { st[b] = st[a]; delete st[a]; localStorage.setItem(STERNE_KEY, JSON.stringify(st)); }
+  const z = zuletztAlle(); if (z[a] && a !== b) { z[b] = z[a]; delete z[a]; localStorage.setItem(ZULETZT_KEY, JSON.stringify(z)); }
+  if ((getUserName() || '').toLowerCase() === a) setUserName(neu);
+}
+function spielerLoeschen(name) {
+  const a = name.toLowerCase();
+  spielerSpeichern(spielerListe().filter(p => p.name.toLowerCase() !== a));
+  const st = sterneAlle(); delete st[a]; localStorage.setItem(STERNE_KEY, JSON.stringify(st));
+  const z = zuletztAlle(); delete z[a]; localStorage.setItem(ZULETZT_KEY, JSON.stringify(z));
+  if ((getUserName() || '').toLowerCase() === a) clearUserName();
+}
+
 function sterneSummeZeigen() {
   const el = document.getElementById('sterne-summe');
   if (!el) return;
@@ -833,12 +866,11 @@ function renderWelcome() {
         </div>
       </button>
       <div class=\"welcome-actions\">
-        <button class=\"linklike\" id=\"change-name\" data-de=\"Name ändern\" data-en=\"Change name\">Name ändern</button>
+        <button class=\"linklike\" id=\"change-name\" data-de=\"👥 Spieler wechseln\" data-en=\"Players\">👥 Spieler wechseln</button>
         <button class=\"linklike\" id=\"hint-open\" data-de=\"Hinweis\" data-en=\"Hint\">Hinweis</button>
         <button class=\"linklike\" id=\"bg-open\" data-de=\"Bild wechseln\" data-en=\"Change image\">Bild wechseln</button>
         <button class=\"linklike\" id=\"btnBackgroundOnly\" data-de=\"Nur Hintergrund\" data-en=\"Background only\">Nur Hintergrund</button>
         <button class=\"linklike\" id=\"open-level-results\" data-de=\"Auswertung\" data-en=\"Evaluation\">Auswertung</button>
-        <button class=\"linklike\" id=\"reset-player\" data-de=\"Neuer Spieler\" data-en=\"New player\">Neuer Spieler</button>
       </div>
       <div class=\"bonus-widget sterne-widget\" id=\"sterne-widget\" title=\"Alle Sterne aus allen Levels\">
         <div class=\"bonus-kicker\">Meine Sterne</div>
@@ -867,10 +899,7 @@ function renderWelcome() {
   }
   const changeBtn = document.getElementById('change-name');
   if (changeBtn) {
-    changeBtn.onclick = () => {
-      clearUserName();
-      openNameModal();
-    };
+    changeBtn.onclick = () => openNameModal();
   }
   const resetBtn = document.getElementById('reset-player');
   if (resetBtn) {
@@ -907,136 +936,93 @@ function renderWelcome() {
 }
 
 function openNameModal() {
+  // 2026-11-25: „Wer spielt?“ – gespeicherte Spieler oben, neuer Spieler unten
   let overlay = document.getElementById('name-modal-backdrop');
-  if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.id = 'name-modal-backdrop';
-    overlay.innerHTML = `
-      <div class="name-modal">
-        <p class="name-kicker">Hallo! Schön, dass du da bist!</p>
-        <h3>Willkommen bei Mathe-Spaß!</h3>
-        <p class="name-sub">Name eingeben und Team wählen.</p>
-        <input type="text" id="name-input" placeholder="Dein Name..." autocomplete="off" />
+  if (overlay) overlay.remove();
+  overlay = document.createElement('div');
+  overlay.id = 'name-modal-backdrop';
+  // aktuellen Namen (falls noch nicht in der Liste) übernehmen
+  const aktuell = getUserName() || localStorage.getItem(PLAYER_NAME_KEY) || '';
+  if (aktuell && !spielerListe().some(p => p.name.toLowerCase() === aktuell.toLowerCase())) spielerMerken(aktuell);
+  const liste = spielerListe();
+  const LEVEL_ZAHL = 7;
+  const karten = liste.map((p, i) => {
+    const z = zuletztFuer(p.name);
+    return `<div class="sp-karte" data-i="${i}">
+        <button type="button" class="sp-waehlen" data-i="${i}" title="Mit ${escapeHtml(p.name)} spielen">
+          <img src="${p.avatar}" alt="" width="52" height="52">
+          <span class="sp-name">${escapeHtml(p.name)}</span>
+          <span class="sp-info">⭐ ${sterneSummeVon(p.name)} von ${LEVEL_ZAHL * 3}${z !== undefined ? ` · zuletzt Level ${escapeHtml(z)}` : ''}</span>
+        </button>
+        <button type="button" class="sp-mini" data-umbenennen="${i}" title="Namen ändern">✏️</button>
+        <button type="button" class="sp-mini" data-loeschen="${i}" title="Spieler löschen">🗑️</button>
+      </div>`;
+  }).join('');
+  const tabelle = liste.length ? `<details class="sp-erwachsene"><summary>👥 Übersicht für Erwachsene</summary>
+      <table class="result-table"><tr><th>Spieler</th>${[...Array(LEVEL_ZAHL).keys()].map(l => `<th>L${l}</th>`).join('')}<th>⭐</th></tr>
+      ${liste.map(p => { const m = sterneAlle()[p.name.toLowerCase()] || {};
+        return `<tr><td>${escapeHtml(p.name)}</td>${[...Array(LEVEL_ZAHL).keys()].map(l => `<td>${m[l] ? '⭐'.repeat(m[l]) : '–'}</td>`).join('')}<td><b>${sterneSummeVon(p.name)}</b></td></tr>`; }).join('')}
+      </table><p class="sp-klein">Die Zahlen eines Levels (Punkte, Versuche, Note) zeigt der Knopf „Auswertung“ oben – unter „Für Erwachsene“.</p></details>` : '';
+  overlay.innerHTML = `
+    <div class="name-modal sp-modal">
+      <h3>Wer spielt?</h3>
+      ${liste.length ? `<div class="sp-liste">${karten}</div>` : '<p class="name-sub">Noch kein Spieler – lege unten einen an.</p>'}
+      <details class="sp-neu"${liste.length ? '' : ' open'}><summary>＋ Neuer Spieler</summary>
+        <input type="text" id="name-input" placeholder="Name, z. B. Philipp" autocomplete="off" />
         <div class="team-picker" id="team-picker" aria-label="Team auswählen">
-          ${AVATARS.map((src, idx) => {
-            const label = TEAM_NAMES[idx] || 'Avatar';
-            const theme = THEMES[idx] || THEMES[0];
-            return `
-              <label class="team-option">
-                <input type="radio" name="team" value="${src}" data-theme="${theme}">
-                <img src="${src}" alt="${label}" width="52" height="52" />
-                <span>${label}</span>
-              </label>`;
-          }).join('')}
+          ${AVATARS.map((src, idx) => `
+            <label class="team-option">
+              <input type="radio" name="team" value="${src}" data-theme="${THEMES[idx] || THEMES[0]}"${idx === 0 ? ' checked' : ''}>
+              <img src="${src}" alt="${TEAM_NAMES[idx] || 'Tier'}" width="52" height="52" />
+              <span>${TEAM_NAMES[idx] || 'Tier'}</span>
+            </label>`).join('')}
         </div>
-        <p class="team-choice" id="team-choice">Du hast noch kein Team gewählt.</p>
-        <div class="name-actions">
-          <button id="name-submit" data-de="Los geht's!" data-en="Let's go!">Los geht's!</button>
-          <button type="button" id="name-later" class="name-later" data-de="Später" data-en="Later">Später</button>
-          <button type="button" id="profile-reset" class="name-later" data-de="Profil zurücksetzen" data-en="Reset profile">Profil zurücksetzen</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(overlay);
-  }
+        <div class="name-actions"><button id="name-submit">Los geht's!</button></div>
+      </details>
+      ${tabelle}
+      <div class="name-actions"><button type="button" id="name-later" class="name-later">Schließen</button></div>
+    </div>`;
+  document.body.appendChild(overlay);
 
-  const findNameInput = (root) => {
-    if (!root || !root.querySelector) return null;
-    return root.querySelector(
-      '#name-input, #playerName, #name, input[name="name"], input[type="text"], input[type="search"], input[placeholder*="Name" i], input[aria-label*="Name" i]'
-    );
+  const fertig = () => {
+    markGameActive(true);
+    markWelcomeShown();
+    overlay.classList.remove('is-visible');
+    document.dispatchEvent(new Event('ll-game-activated'));
+    if (typeof wireLevelToolbarNeu === 'function') wireLevelToolbarNeu();
   };
-  const findConfirmButton = (root) => {
-    if (!root || !root.querySelectorAll) return null;
-    const byId = root.querySelector('#name-submit, #name-confirm, #start, #ok, #confirm');
-    if (byId) return byId;
-    const candidates = Array.from(root.querySelectorAll('button, [role="button"]'));
-    return candidates.find(el => {
-      const txt = ((el.textContent || '').trim()).toLowerCase();
-      return /weiter|ok|start|bestätigen|bestaetigen|los/.test(txt);
-    }) || null;
+  overlay.querySelectorAll('.sp-waehlen').forEach(b => b.addEventListener('click', () => {
+    const p = spielerListe()[Number(b.dataset.i)]; if (!p) return;
+    setAvatar(p.avatar); setTheme(p.theme || themeForAvatar(p.avatar)); setUserName(p.name);
+    fertig();
+  }));
+  overlay.querySelectorAll('[data-umbenennen]').forEach(b => b.addEventListener('click', () => {
+    const p = spielerListe()[Number(b.dataset.umbenennen)]; if (!p) return;
+    const neu = window.prompt('Neuer Name:', p.name);
+    if (neu && neu.trim()) { spielerUmbenennen(p.name, neu.trim()); openNameModal(); }
+  }));
+  overlay.querySelectorAll('[data-loeschen]').forEach(b => b.addEventListener('click', () => {
+    const p = spielerListe()[Number(b.dataset.loeschen)]; if (!p) return;
+    if (window.confirm(`${p.name} löschen? Seine Sterne gehen dabei verloren.`)) { spielerLoeschen(p.name); renderWelcome(); openNameModal(); }
+  }));
+  const input = overlay.querySelector('#name-input');
+  const neuAnlegen = () => {
+    const val = normalizePlayerName((input.value || '').trim());
+    if (!val) { input.focus(); input.placeholder = 'Bitte einen Namen eingeben'; return; }
+    const sel = overlay.querySelector('#team-picker input[type="radio"]:checked');
+    const avatar = sel ? sel.value : AVATARS[0];
+    const theme = sel ? (sel.dataset.theme || themeForAvatar(avatar)) : THEMES[0];
+    setAvatar(avatar); setTheme(theme); setUserName(val);
+    spielerMerken(val, avatar, theme);
+    fertig();
   };
-
-  const input = findNameInput(overlay);
-  const btn = findConfirmButton(overlay);
-  const laterBtn = overlay.querySelector('#name-later');
-  const resetProfileBtn = overlay.querySelector('#profile-reset');
-  const picker = overlay.querySelector('#team-picker');
-  const choice = overlay.querySelector('#team-choice');
-
-  if (!overlay.dataset.bound) {
-    picker.querySelectorAll('input[type="radio"]').forEach(r => {
-      r.addEventListener('change', () => {
-        if (choice) choice.textContent = `Du hast Team ${r.nextElementSibling?.alt || 'Avatar'} gewählt.`;
-      });
-    });
-
-    const commit = () => {
-      if (!input) return;
-      const val = normalizePlayerName((input.value || '').trim() || 'Gast');
-      if (!val) return;
-      const selected = overlay.querySelector('#team-picker input[type="radio"]:checked');
-      if (!selected || !selected.value) {
-        if (choice) choice.textContent = 'Bitte wähle zuerst ein Team aus.';
-        return;
-      }
-      setAvatar(selected.value);
-      setTheme(selected.dataset.theme || themeForAvatar(selected.value));
-      setUserName(val);
-      markGameActive(true);
-      markWelcomeShown();
-      overlay.classList.remove('is-visible');
-      document.dispatchEvent(new Event('ll-game-activated'));
-    };
-
-    if (btn) {
-      btn.addEventListener('click', commit);
-    }
-    if (laterBtn) {
-      laterBtn.addEventListener('click', () => {
-        markWelcomeShown();
-        markGameActive(hasProfile());
-        overlay.classList.remove('is-visible');
-      });
-    }
-    if (resetProfileBtn) {
-      resetProfileBtn.addEventListener('click', () => {
-        resetCurrentProfileBonus();
-        clearUserName();
-        localStorage.removeItem(TEAM_ID_KEY);
-        localStorage.removeItem(AVATAR_KEY);
-        localStorage.removeItem(THEME_KEY);
-        markGameActive(false);
-        clearWelcomeShown();
-        if (choice) choice.textContent = 'Du hast noch kein Team gewählt.';
-        picker.querySelectorAll('input[type="radio"]').forEach(r => { r.checked = false; });
-        if (input) input.value = 'Gast';
-        openNameModal();
-      });
-    }
-    overlay.dataset.bound = '1';
-  }
-
-  const storedAvatar = getAvatar();
-  const currentAvatar = AVATARS.includes(storedAvatar) ? storedAvatar : AVATARS[0];
-  picker.querySelectorAll('input[type="radio"]').forEach(r => {
-    r.checked = r.value === currentAvatar;
+  overlay.querySelector('#name-submit').addEventListener('click', neuAnlegen);
+  input.addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.preventDefault(); neuAnlegen(); } });
+  overlay.querySelector('#name-later').addEventListener('click', () => {
+    markWelcomeShown(); markGameActive(hasProfile()); overlay.classList.remove('is-visible');
   });
-  if (choice) choice.textContent = `Du hast Team ${teamNameForAvatar(currentAvatar)} gewählt.`;
-  if (input) input.value = 'Gast';
-
   overlay.classList.add('is-visible');
-  applyBilingualLabels(overlay);
-  if (input) {
-    requestAnimationFrame(() => {
-      input.focus();
-      input.select();
-    });
-  }
-  // Test guide:
-  // 1) Seite laden -> Name eingeben -> Enter: gleicher Ablauf wie Klick auf "Los geht's!".
-  // 2) Team wechseln (z. B. Pinguin/Frosch/Panda) -> Enter funktioniert weiterhin.
-  // 3) Klick auf "Los geht's!" funktioniert unverändert.
+  if (!liste.length) requestAnimationFrame(() => input.focus());
 }
 // DE: Progress aus localStorage laden
 // EN: Load progress from localStorage
@@ -1494,7 +1480,14 @@ function wireLevelToolbar(levels, container) {
   };
 
   const initialFromUrl = new URLSearchParams(window.location.search).get('level');
-  renderSelected(initialFromUrl || select.value);
+  const zuletzt = zuletztFuer(getUserName());
+  renderSelected(initialFromUrl || (zuletzt !== undefined && byId.has(String(zuletzt)) ? zuletzt : select.value));
+  // nach einem Spielerwechsel neu einstellen
+  window.wireLevelToolbarNeu = () => {
+    const z = zuletztFuer(getUserName());
+    Array.from(select.options).forEach(o => { const it = byId.get(o.value); if (it) o.textContent = `${it.title}  ${sternText(sterneFuer(it.id))}`; });
+    renderSelected(z !== undefined && byId.has(String(z)) ? z : levelData[0].id);
+  };
 
   if (!select.dataset.bound) {
     select.addEventListener('change', () => renderSelected(select.value));
@@ -1632,6 +1625,7 @@ function renderTasksForCurrentLevel() {
   const timerBox = document.getElementById('timerBox');
   const timerText = document.getElementById('timerText');
   const levelId = parseCurrentLevel();
+  if (levelId !== null && levelId !== undefined && levelId !== '') { try { zuletztSetzen(levelId); } catch (e) {} }
   if (!tasksHost || levelId === null) return Promise.resolve();
   resetRun(levelId);
   let runState = loadState(levelId);
