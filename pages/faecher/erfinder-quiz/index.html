@@ -64,6 +64,7 @@ main{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);grid-temp
 .name{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-weight:600;font-size:15px}
 .name:hover{border-color:var(--blue)}
 .name small{color:var(--soft);font-weight:700;margin-left:4px}
+.ortpop b{font:700 17px Barlow,sans-serif}.ortpop .row{margin-top:6px;gap:10px}.ortpop button{border:1px solid #1d5fa8;border-radius:999px;background:#fff;color:#1d5fa8;font-weight:700;padding:4px 10px}.ortpop a{font-weight:700}
 .vorlesen{min-height:40px;padding:0 14px;border-radius:999px;border:2px solid var(--blue);background:var(--panel);color:var(--blue);font-weight:700;align-self:flex-start}
 .vorlesen[aria-pressed=true]{background:var(--blue);color:#fff}
 @media (max-width:820px){main{grid-template-columns:1fr}.mapwrap{min-height:44vh;border-right:0;border-bottom:1px solid var(--line)}}
@@ -199,10 +200,22 @@ function karteStart(){
     new ResizeObserver(()=>map.invalidateSize()).observe(document.getElementById('map'));
   }catch(e){$('#maperr').style.display='flex';map=null;}
 }
+/* Wikipedia-Artikel, wenn der Titel anders ist als der Ortsname */
+const WIKI_ORT={'Menlo Park':'Menlo Park (New Jersey)','Newcastle':'Newcastle upon Tyne','Kitty Hawk':'Kitty Hawk (North Carolina)'};
+function ortSprache(name){for(const l of Object.values(NAMEN)){const n=l.find(x=>x[0]===name);if(n)return n;}return [name,'de'];}
+function ortPopup(o){
+  const titel=WIKI_ORT[o[0]]||o[0];
+  const wiki='https://de.wikipedia.org/w/index.php?search='+encodeURIComponent(titel);
+  const osm='https://www.openstreetmap.org/?mlat='+o[1]+'&mlon='+o[2]+'#map=12/'+o[1]+'/'+o[2];
+  return '<div class="ortpop"><b>'+esc(o[0])+'</b><div class="row"><button type="button" data-ort="'+esc(o[0])+'">🔊 anhören</button></div>'+
+   '<div class="row"><a href="'+wiki+'" target="_blank" rel="noopener">Wikipedia: '+esc(o[0])+' ↗</a></div>'+
+   '<div class="row"><a href="'+osm+'" target="_blank" rel="noopener">Große Karte ↗</a></div></div>';
+}
+document.getElementById('map').addEventListener('click',e=>{const b=e.target.closest('[data-ort]');if(b){e.stopPropagation();nameSprechen(ortSprache(b.dataset.ort));}});
 function zeigeOrte(orte){
   if(!map)return;
   ebene.clearLayers();
-  orte.forEach((o,n)=>{L.circleMarker([o[1],o[2]],{radius:n?8:11,color:'#10233d',weight:2,fillColor:'#ffc81e',fillOpacity:1}).addTo(ebene).bindTooltip(o[0],{permanent:true,direction:'right',offset:[10,0],className:'ort'});});
+  orte.forEach((o,n)=>{L.circleMarker([o[1],o[2]],{radius:n?8:11,color:'#10233d',weight:2,fillColor:'#ffc81e',fillOpacity:1}).addTo(ebene).bindTooltip(o[0],{permanent:true,direction:'right',offset:[10,0],className:'ort',interactive:true}).bindPopup(ortPopup(o));});
   if(orte.length===1)map.flyTo([orte[0][1],orte[0][2]],9,{duration:1.2});
   else map.flyToBounds(orte.map(o=>[o[1],o[2]]),{padding:[60,60],maxZoom:9,duration:1.2});
 }
@@ -229,12 +242,13 @@ function antwort(k){
   $('.meta span:last-child').textContent='Punkte: '+punkte;
   const hauptort=f.orte[0];
   const osm='https://www.openstreetmap.org/?mlat='+hauptort[1]+'&mlon='+hauptort[2]+'#map=11/'+hauptort[1]+'/'+hauptort[2];
+  const ortTipp='<p class="small" style="margin:6px 0 0">Tipp: Auf einen gelben Punkt der Karte tippen – dann Wikipedia über den Ort lesen oder den Namen anhören.</p>';
   $('#info').innerHTML='<div class="card"><h3>'+(k===f.r?'Richtig!':'Leider falsch.')+' '+esc(f.ding)+'</h3>'+
    '<dl class="facts"><dt>Wer?</dt><dd>'+esc(f.wer)+'</dd><dt>Wo?</dt><dd>'+esc(f.wo)+'</dd><dt>Wann?</dt><dd>'+esc(f.wann)+'</dd></dl>'+
    namenLeiste(f)+
    '<button class="vorlesen" type="button" data-lesen="info" aria-pressed="false">🔊 Vorlesen</button>'+
    '<p>'+esc(f.text)+'</p><p class="wort"><b>Das Wort:</b> '+esc(f.wort)+'</p>'+
-   '<div class="links"><a href="https://de.wikipedia.org/wiki/'+encodeURIComponent(f.wiki)+'">Wikipedia lesen ↗</a><a href="'+osm+'">Auf der Karte öffnen ↗</a></div></div>'+
+   ortTipp+'<div class="links"><a href="https://de.wikipedia.org/wiki/'+encodeURIComponent(f.wiki)+'">Wikipedia lesen ↗</a><a href="'+osm+'">Auf der Karte öffnen ↗</a></div></div>'+
    '<button class="next" type="button" id="weiter">'+(i+1<FRAGEN.length?'Nächste Frage →':'Zum Ergebnis →')+'</button>';
   $('#maphint').style.display='none';
   zeigeOrte(f.orte);
