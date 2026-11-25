@@ -34,7 +34,8 @@ window.WORTDETEKTIV_THEMEN = [
       { id: "fluesse", icon: "🌊", de: "die Flüsse, die Seen und die Berge", ru: "реки, озёра и горы" }
     ] },
   { id: "werkstatt", icon: "🧰", de: "das Werkzeug und der Bau",      ru: "мастерская и стройка" },
-  { id: "woerter",   icon: "🔤", de: "die Wörter über Wörter",        ru: "слова о словах: язык и наука о языке" }
+  { id: "woerter",   icon: "🔤", de: "die Wörter über Wörter",        ru: "слова о словах: язык и наука о языке" },
+  { id: "personen",  icon: "👤", de: "die Eponyme – Wörter nach Personen", ru: "слова, названные в честь людей: дрезина, дизель, вольт …" }  // 2026-11-25
   // versteckt (nicht gelöscht): { id: "voelker", icon: "🌍", de: "Völker & Länder", ru: "народы и страны" }
 ];
 
@@ -611,7 +612,45 @@ window.WORTDETEKTIV = [
   ],
   raetsel: { frage: "Какое немецкое слово – «брат» слова frei и значит человека, которого любят?", antwort: "**der Freund** (англ. friend). Тот же древний корень «любить»." }
 }
-
+,
+{
+  id: "draisine",
+  titel: "Draisine – das Wort, das einen Namen trägt",
+  ru: "Дрезина – слово, в котором спрятано имя: Karl Drais",
+  wort: "die Draisine / дрезина",
+  h: "germ",
+  thema: "personen",
+  kurz: "Дрезину все знают с детства – а это фамилия человека из Мангейма, который в 1817 году придумал прадедушку велосипеда.",
+  text: [
+    "**Karl Drais** (1785–1851) родился в [[ort:karlsruhe|Karlsruhe]], был лесничим (der Forstbeamte) в Бадене и бароном: полное имя – Karl Freiherr von Drais. Он очень любил изобретать.",
+    "**12 июня 1817 года** он выехал из [[ort:mannheim|Mannheim]] на своей **die Laufmaschine** («беговой машине»): две деревянных колеса, руль, сиденье – и **никаких педалей**. Ехали так: отталкивались ногами от земли. До [[ort:relaishaus|Schwetzinger Relaishaus]] и обратно – около 13–14 км примерно за час. Быстрее почтовой кареты!",
+    "Одна из версий, зачем это было нужно: 1816 год называли **«das Jahr ohne Sommer»** (год без лета) – после извержения вулкана Тамбора был неурожай, корм для лошадей стал дорогим, многие лошади погибли. Нужна была «лошадь, которая не ест».",
+    "Люди сразу стали называть машину по фамилии изобретателя: **die Draisine**, по-французски **[[ton:fr|draisienne]]**, по-английски шутливо **[[ton:en|dandy horse]]** («лошадка для франтов»). Так фамилия стала словом – это называется **das Eponym** (эпоним): слово, названное в честь человека.",
+    "Потом велосипеду дали педали, а слово **Draisine** «переехало» на железную дорогу: так стали называть маленькую тележку, которую рабочие двигают руками или мотором. Именно в этом значении слово пришло и в русский язык: **дрезина**. Произносят по-немецки: dra-i-SI-ne – [[ton:de|die Draisine]].",
+    "Drais придумал и другое: одну из первых пишущих машин с клавишами (die Schreibmaschine – как в нашем Erfinder-Quiz!) и, как часто пишут, мясорубку (**der Fleischwolf**).",
+    "И грустный конец, как у Philipp Reis: после революции 1848 года Drais отказался от дворянского титула, его высмеивали, и в **1851 году он умер в бедности** в Karlsruhe. Признание пришло только потом: в 2017 году вся Германия праздновала 200 лет велосипеда."
+  ],
+  spuren: [
+    ["die Draisine (DE) · дрезина (RU)", "Сначала – беговая машина без педалей, потом – тележка на рельсах. Русское слово взяло второе значение."],
+    ["die Laufmaschine · das Laufrad", "Так Drais сам назвал машину. Сегодня das Laufrad – детский беговел без педалей: та же идея 1817 года!"],
+    ["der Diesel", "Тоже эпоним: двигатель назван по Rudolf Diesel (Augsburg, 1893)."],
+    ["das Volt · das Ampere · das Ohm · das Hertz", "Единицы в электротехнике – тоже фамилии: Volta, Ampère, Ohm, Hertz. Эпонимы, которые Вы знаете из профессии."],
+    ["die Röntgenstrahlen", "Названы по Wilhelm Conrad Röntgen (Würzburg, 1895). По-русски тоже: рентген."]
+  ],
+  orte: {
+    mannheim:    { name: "Mannheim", lat: 49.4875, lng: 8.4660, info: "Отсюда Drais выехал 12.06.1817. Здесь же Carl Benz построил первый автомобиль (1886). В TECHNOSEUM можно увидеть Laufmaschine.", wiki: "Mannheim", wikiRu: "Мангейм" },
+    relaishaus:  { name: "Schwetzinger Relaishaus", lat: 49.43, lng: 8.53, info: "Почтовая станция (сегодня в Mannheim-Rheinau) – цель первой поездки. Позиция примерная.", wiki: "Karl Drais", wikiRu: "Дрез, Карл" },
+    karlsruhe:   { name: "Karlsruhe", lat: 49.0094, lng: 8.4044, info: "Здесь Drais родился (1785) и умер (1851).", wiki: "Karlsruhe", wikiRu: "Карлсруэ" }
+  },
+  wege: [ ["mannheim", "relaishaus", "12.06.1817 · ca. 7 km"] ],
+  links: [
+    { t: "Karl Drais – Wikipedia", url: "https://de.wikipedia.org/wiki/Karl_Drais", art: "lexikon", sp: "DE", info: "Жизнь и изобретения Drais." },
+    { t: "Дрез, Карл – Википедия", url: "https://ru.wikipedia.org/wiki/Дрез,_Карл", art: "lexikon", sp: "RU", info: "То же по-русски." },
+    { t: "„Draisine“ im DWDS", url: "https://www.dwds.de/wb/Draisine", art: "woerterbuch", sp: "DE", info: "Немецкий словарь: значение и история слова." },
+    { t: "TECHNOSEUM Mannheim", url: "https://www.technoseum.de", art: "karte", sp: "DE", info: "Музей техники в Мангейме – там есть Laufmaschine. Недалеко от Willich (ок. 3 ч)." }
+  ],
+  raetsel: { frage: "Какая единица измерения из Вашей профессии – тоже чья-то фамилия, как Draisine? (их несколько)", antwort: "das Volt (Volta), das Ampere (Ampère), das Ohm (Georg Simon Ohm), das Watt (James Watt), das Hertz (Heinrich Hertz) – всё это эпонимы." }
+}
 ];
 
 // ------------------------------------------------------------
