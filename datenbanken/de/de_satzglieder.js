@@ -24,6 +24,9 @@ const DE_SATZGLIEDER = {
   neg:  { name: "Negation", frage: "", ru: "отрицание", farbe: "#57606a", kasus: "" },
   // 2026-11-18: nach sein / werden / bleiben (Er war Pilot.)
   pkv:  { name: "Prädikativ", frage: "Was? / Wie? (nach sein)", ru: "именная часть сказуемого", farbe: "#bf3989", kasus: "Nominativ" },
+  // 2026-11-25: das Präpositionalobjekt (warten auf den Bus) und das Reflexivpronomen (sich freuen)
+  pobj: { name: "Präpositionalobjekt", frage: "Worauf? Woran? Wofür? …", ru: "предложное дополнение", farbe: "#6639ba", kasus: "" },
+  refl: { name: "Reflexivpronomen", frage: "(sich)", ru: "возвратное местоимение «себя / -ся»", farbe: "#8c959f", kasus: "Akkusativ" },
 };
 
 // ------------------------------------------------------------
@@ -144,6 +147,20 @@ const DE_VERB_VALENZ = {
   // 2026-11-18: Kopulaverben (das Kopulaverb) – statt Objekt das Prädikativ
   sein: { akk: false, dat: false, pkv: true },
   werden: { akk: false, dat: false, pkv: true },
+  // 2026-11-25: Verben mit fester Präposition (das Präpositionalobjekt kommt aus de_verb_praeposition.js)
+  freuen: { akk: false, dat: false }, interessieren: { akk: false, dat: false }, kümmern: { akk: false, dat: false },
+  erinnern: { akk: false, dat: false }, ärgern: { akk: false, dat: false }, verlassen: { akk: false, dat: false },
+  gewöhnen: { akk: false, dat: false }, vorbereiten: { akk: false, dat: false }, entscheiden: { akk: false, dat: false },
+  beschweren: { akk: false, dat: false }, bedanken: { akk: false, dat: false }, bewerben: { akk: false, dat: false },
+  verabschieden: { akk: false, dat: false }, beschäftigen: { akk: false, dat: false },
+  bitten: { akk: "optional", dat: false }, achten: { akk: false, dat: false }, aufpassen: { akk: false, dat: false },
+  lachen: { akk: false, dat: false }, antworten: { akk: false, dat: "optional" }, teilnehmen: { akk: false, dat: false },
+  träumen: { akk: false, dat: false }, anfangen: { akk: "optional", dat: false }, aufhören: { akk: false, dat: false },
+  erzählen: { akk: "optional", dat: "optional" }, einladen: { akk: "pflicht", dat: false }, abhängen: { akk: false, dat: false },
+  gratulieren: { akk: false, dat: "pflicht" }, gehören: { akk: false, dat: "optional" },
+  // Verben OHNE Präposition – die russische Falle (danken + Dativ, anrufen + Akkusativ)
+  danken: { akk: false, dat: "pflicht" }, folgen: { akk: false, dat: "pflicht" }, gefallen: { akk: false, dat: "pflicht" },
+  besuchen: { akk: "pflicht", dat: false }, heiraten: { akk: "pflicht", dat: false }, anrufen: { akk: "pflicht", dat: false },
 };
 
 // Bewegungsverben: Perfekt mit „sein“ – aber mit Akkusativobjekt „haben“

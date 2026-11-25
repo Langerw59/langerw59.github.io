@@ -33,8 +33,8 @@ window.GRAMMATIK = {
 
   // fertige Seiten, die zur Grammatik gehören (nur Links)
   links: [
-    { thema: "verb", titel: "🧩 der Verb-Trainer (das Verb + die Präposition)", titel_ru: "тренажёр: какой глагол с каким предлогом и падежом; куда? / где?",
-      href: "/pages/language_lab/verb-trainer/index.html" },
+    { thema: "verb", titel: "📝 Satzlabor: Test „das Verb + die Präposition“", titel_ru: "тест в Satzlabor: какой глагол с каким предлогом и падежом; куда? / где?",
+      href: "/pages/language_lab/apps/generator/de/index_de.html#test" },
     { thema: "lesen", titel: "📏 die Leseregeln (Englisch)", titel_ru: "правила чтения: почему time – «тайм», night – «найт»",
       href: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/leseregeln.html" },
     { thema: "lesen", titel: "🔤 der Spickzettel (die Lautschrift)", titel_ru: "все значки транскрипции [ ] в одной таблице – для отдельного слова см. «Wie liest man das?» в глоссарии",

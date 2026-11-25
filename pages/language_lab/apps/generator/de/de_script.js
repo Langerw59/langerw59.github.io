@@ -100,7 +100,8 @@
     const auxInf = auxWahl; // "sein" | "haben"
     switch (tense) {
       case "praeteritum":
-        return { finit: formen(verb.praeteritum, key), rechts: [], auxInf: null };
+        // 2026-11-25: trennbares Verb → die Vorsilbe ans Satzende (nahm … teil)
+        return { finit: formen(verb.praeteritum, key), rechts: verb.trennbar && verb.prefix ? [verb.prefix] : [], auxInf: null };
       case "perfekt":
         return { finit: AUX[auxInf].praesens[key], rechts: [part], auxInf };
       case "plusquamperfekt":
@@ -110,7 +111,7 @@
       case "futur2":
         return { finit: AUX.werden.praesens[key], rechts: [part, auxInf], auxInf };
       default:
-        return { finit: formen(pres, key) || inf, rechts: [], auxInf: null };
+        return { finit: formen(pres, key) || inf, rechts: verb.trennbar && verb.prefix ? [verb.prefix] : [], auxInf: null };
     }
   }
 
@@ -209,6 +210,28 @@
     if (cfg.art) S.art = seg(cfg.art.wort, "art", "Wie?");
     if (cfg.ort) S.ort = seg(cfg.ort.text, "ort", cfg.ort.frage);
 
+    // 2026-11-25: das Reflexivpronomen (sich freuen → ich freue mich)
+    const REFL = { ich: "mich", du: "dich", er: "sich", wir: "uns", ihr: "euch", sie: "sich" };
+    const reflexiv = !!verb.reflexiv || !!(cfg.pobj && cfg.pobj.reflexiv);
+    if (reflexiv) S.refl = seg(REFL[key] || "sich", "refl", `Reflexivpronomen im Akkusativ (sich ${verbInf(verb)}: ich → mich, du → dich, er/sie/es → sich, wir → uns, ihr → euch, sie/Sie → sich) · das reflexive Verb`);
+
+    // 2026-11-25: das Präpositionalobjekt – die Kette das Verb → die Präposition → der Kasus → der Artikel
+    if (cfg.pobj && cfg.pobj.nomen) {
+      const po = cfg.pobj;
+      let ng = G.nomengruppe(po.nomen, po.art, po.adj, po.k);
+      let text = po.p + " " + ng;
+      const VERS = { "an dem": "am", "an das": "ans", "in dem": "im", "in das": "ins", "zu dem": "zum", "zu der": "zur", "von dem": "vom", "bei dem": "beim", "um das": "ums", "für das": "fürs", "über das": "übers" };
+      let vers = "";
+      const zwei = text.split(" ").slice(0, 2).join(" ");
+      if (po.art && po.art.typ === "def" && !po.adj && VERS[zwei] && ["am", "im", "zum", "zur", "vom", "beim", "ins", "ans"].includes(VERS[zwei])) {
+        vers = ` · ${VERS[zwei]} = ${zwei} (слитная форма)`;
+        text = VERS[zwei] + text.slice(zwei.length);
+      }
+      const artW = (text.split(" ")[1] || "");
+      S.pobj = seg(text, "pobj",
+        `Präpositionalobjekt · ${po.v}: ${verbInf(verb)} → ${po.p} → ${po.k === "akk" ? "Akkusativ" : "Dativ"}${artW ? " → " + artW : ""}${vers} · die Präposition gehört fest zum Verb (лучше учить вместе: ${po.v} + ${po.k === "akk" ? "Akk." : "Dat."})`);
+    }
+
     // 2026-11-18: das Prädikativ (nach sein / werden / bleiben) – Nominativ
     let pkvKein = false;
     if (cfg.pkv && istKopula(verb)) {
@@ -253,6 +276,12 @@
         case "art": w = "wie"; break;
         case "ort": w = (cfg.ort.frage || "Wo?").replace("?", "").toLowerCase(); break;
         case "pkv": w = "was"; break; // Was war er? – Pilot.
+        case "pobj": { // 2026-11-25: Worauf wartest du? / Auf wen wartest du?
+          const po = cfg.pobj;
+          if (po.nomen && po.nomen.istPerson) w = po.p + " " + (po.k === "akk" ? "wen" : "wem");
+          else w = "wo" + (/^[aeiouäöü]/.test(po.p) ? "r" : "") + po.p;
+          break;
+        }
       }
       fragewort = seg(w, fragNach, "Fragewort für " + g("DE_SATZGLIEDER")[fragNach].name);
       delete S[fragNach];
@@ -265,6 +294,7 @@
     const nicht = seg("nicht", "neg", "Negation");
     const freq = cfg.zeit && cfg.zeit.gruppe === "frequency";
 
+    if (S.refl) mittel.push(S.refl); // das Reflexivpronomen steht gleich nach dem Verb / dem Subjekt
     if (S.zeit) { if (negNicht && freq) mittel.push(nicht); mittel.push(S.zeit); }
     if (S.dat) mittel.push(S.dat);
     if (S.akk && akkBestimmt) mittel.push(S.akk);
@@ -272,11 +302,12 @@
     if (S.art) mittel.push(S.art);
     if (S.akk && !akkBestimmt) mittel.push(S.akk);
     if (S.ort) mittel.push(S.ort);
+    if (S.pobj) mittel.push(S.pobj); // das Präpositionalobjekt steht meist am Ende des Mittelfelds
     if (S.pkv) mittel.push(S.pkv); // das Prädikativ steht am Ende des Mittelfelds (Er war gestern nicht müde.)
 
     const finit = seg(pr.finit, "pred", "finites Verb (2. Stelle)");
     const rechts = pr.rechts.map((r, i) =>
-      seg(r, "pred", pr.rechts.length === 2 && i === 1 ? "Hilfsverb im Infinitiv" : (r === verbInf(verb) ? "Infinitiv" : "Partizip II"))
+      seg(r, "pred", pr.rechts.length === 2 && i === 1 ? "Hilfsverb im Infinitiv" : (r === verbInf(verb) ? "Infinitiv" : (verb.trennbar && r === verb.prefix ? `abgetrennte Vorsilbe „${r}-“ (das trennbare Verb ${verbInf(verb)}) – steht am Satzende, ist KEINE Präposition` : "Partizip II")))
     );
 
     // ---- Felder: Vorfeld | linke Klammer | Mittelfeld | rechte Klammer ----
@@ -303,6 +334,8 @@
       hinweise.push("Bewegungsverb ohne Ziel – mit „Wohin?“ (z. B. nach Hause) klingt der Satz vollständiger.");
     }
     if (val.dat === "pflicht" && !cfg.dat) hinweise.push(`„${inf}“ braucht normalerweise ein Dativobjekt (Wem?).`);
+    const pIdx = (g("DE_VERB_PRAEP_INDEX") || {})[inf];
+    if (pIdx && !cfg.pobj && fragNach !== "pobj") hinweise.push(`„${inf}“ hat oft eine feste Präposition: ${pIdx.map((x) => x.v + " + " + (x.k === "akk" ? "Akk." : "Dat.")).join(", ")} → wähle unten „das Präpositionalobjekt“.`);
     if (val.akk === "pflicht" && !cfg.akk) hinweise.push(`„${inf}“ braucht normalerweise ein Akkusativobjekt (Wen/Was?).`);
     if ((inf === "sein" || inf === "werden") && !cfg.pkv && !cfg.ort && !cfg.art) hinweise.push(`„${inf}“ ist hier ein Kopulaverb (глагол-связка) – wähle „Was ist …? – das Prädikativ“ (z. B. Pilot).`);
 
@@ -435,6 +468,7 @@
     fillNomenSelect($("sgDatNomen"), AKK_LISTE, false);
     fillNomenSelect($("sgAkkNomen"), AKK_LISTE, true);
     fillNomenSelect($("sgPkvNomen"), AKK_LISTE, true);
+    fillNomenSelect($("sgPobjNomen"), AKK_LISTE, true);
     fillNomenSelect($("sgGenNomen"), AKK_LISTE, true);
   }
 
@@ -467,6 +501,18 @@
     const kop = istKopula(v);
     $("sgPkvBox").hidden = !kop;
     if (!kop) $("sgPkvNomen").value = "";
+    // 2026-11-25: das Präpositionalobjekt – nur bei Verben mit fester Präposition
+    const pListe = v ? ((g("DE_VERB_PRAEP_INDEX") || {})[verbInf(v)] || []) : [];
+    const pBox = $("sgPobjBox");
+    if (pBox) {
+      pBox.hidden = !pListe.length;
+      const pw = $("sgPobjWahl");
+      pw.innerHTML = "";
+      pListe.forEach((x, i) => opt(pw, String(i), `${x.v} + ${x.k === "akk" ? "Akkusativ" : "Dativ"} – ${x.ru}`));
+      pw.style.display = pListe.length > 1 ? "" : "none";
+      if (!pListe.length) $("sgPobjNomen").value = "";
+      updatePobjInfo();
+    }
     updateGenZu();
     if (!v) { info.textContent = ""; return; }
     const teile = [];
@@ -485,8 +531,26 @@
     const prt = formen(v.praeteritum, "er");
     const stammformen = prt && (v.partizip2 || v.partizip) ? ` · ${verbInf(v)} – ${prt} – ${v.partizip2 || v.partizip}` : "";
     if (kop) teile.push("Was ist …? (das Prädikativ)");
+    pListe.forEach((x) => teile.push(`${"wo" + (/^[aeiouäöü]/.test(x.p) ? "r" : "") + x.p}? (${x.p} + ${x.k === "akk" ? "Akk." : "Dat."})`));
     info.textContent = (kop ? "das Kopulaverb (глагол-связка) · " : "") + (typ.length ? typ.join(" · ") : verbInf(v)) + stammformen + ` · Perfekt mit „${kop ? "sein" : v.perfektAux || "haben"}“` + (teile.length ? " · fragt: " + teile.join(", ") : " · ohne Objekt");
     updateFragNach();
+  }
+
+  // 2026-11-25: die Zeile „warten → auf → Akkusativ“ in der Box Präpositionalobjekt
+  function aktPobj() {
+    const verbs = alleVerben();
+    const v = $("sgVerb").value === "" ? null : verbs[Number($("sgVerb").value)];
+    const liste = v ? ((g("DE_VERB_PRAEP_INDEX") || {})[verbInf(v)] || []) : [];
+    return liste[Number($("sgPobjWahl").value) || 0] || null;
+  }
+  function updatePobjInfo() {
+    const info = $("sgPobjInfo");
+    if (!info) return;
+    const x = aktPobj();
+    if (!x) { info.innerHTML = ""; return; }
+    const wo = "wo" + (/^[aeiouäöü]/.test(x.p) ? "r" : "") + x.p;
+    info.innerHTML = `<b>${x.v.replace(/ \S+$/, "")}</b> → <b>${x.p}</b> → <b>${x.k === "akk" ? "der Akkusativ" : "der Dativ"}</b> → der Artikel · Frage: <b>${wo[0].toUpperCase() + wo.slice(1)}?</b> · ${x.ru} · <i>${x.en}</i>`
+      + `<br><small>Beispiel: ${x.s} – ${x.sr}${x.h ? "<br>💡 " + x.h : ""}</small>`;
   }
 
   // 2026-11-18: „Wessen?“ – zu welchem Nomen gehört das Genitivattribut?
@@ -529,6 +593,7 @@
       art: !!$("sgWie").value,
       ort: !!$("sgOrt").value,
       pkv: !$("sgPkvBox").hidden && !!$("sgPkvNomen").value,
+      pobj: !!$("sgPobjBox") && !$("sgPobjBox").hidden && !!$("sgPobjNomen").value,
     };
     Object.keys(da).forEach((k) => {
       if (da[k]) opt(sel, k, k === "pkv" ? "Was? / Wer? – Prädikativ" : `${SG[k].frage} – ${SG[k].name}`);
@@ -575,6 +640,11 @@
       dat: readNomenGruppe("sgDat", AKK_LISTE),
       akk: readNomenGruppe("sgAkk", AKK_LISTE),
       pkv: $("sgPkvBox").hidden ? null : readNomenGruppe("sgPkv", AKK_LISTE),
+      pobj: (() => { // 2026-11-25
+        if (!$("sgPobjBox") || $("sgPobjBox").hidden) return null;
+        const n = readNomenGruppe("sgPobj", AKK_LISTE); const x = aktPobj();
+        return n && x ? Object.assign(n, { p: x.p, k: x.k, v: x.v, reflexiv: x.reflexiv }) : null;
+      })(),
       gen: (() => { const n = readNomenGruppe("sgGen", AKK_LISTE); if (n) n.zu = $("sgGenZu").value; return n; })(),
       zeit: zeit ? { wort: zeit.base, gruppe: zeit.group } : null,
       art: wie ? { wort: wie.base } : null,
@@ -691,6 +761,8 @@
     document.querySelectorAll(".sl-tab").forEach((b) => b.classList.toggle("active", b.dataset.mode === m));
     $("slModeBauen").style.display = m === "bauen" ? "" : "none";
     $("slModeEingabe").style.display = m === "eingabe" ? "" : "none";
+    if ($("slModeTest")) $("slModeTest").style.display = m === "test" ? "" : "none";
+    if (m === "test" && typeof window.DE_VERB_TEST_START === "function") window.DE_VERB_TEST_START();
     try { localStorage.setItem("satzlabor_modus", m); } catch (e) { /* egal */ }
   }
 
@@ -718,6 +790,7 @@
     let m = "bauen";
     try { m = localStorage.getItem("satzlabor_modus") || "bauen"; } catch (e) { /* egal */ }
     if (location.hash === "#eingabe") m = "eingabe";
+    if (location.hash === "#test") m = "test";
     setzeModus(m);
   }
 
@@ -760,6 +833,7 @@
       { sel: "sgDatNomen", prefix: "", art: "sgDatArt" },
       { sel: "sgAkkNomen", prefix: "", art: "sgAkkArt" },
       { sel: "sgPkvNomen", prefix: "", art: "sgPkvArt" },
+      { sel: "sgPobjNomen", prefix: "", art: "sgPobjArt" },
       { sel: "sgGenNomen", prefix: "", art: "sgGenArt" },
     ];
     // Liste neu bauen, Auswahl in allen Feldern behalten
@@ -833,14 +907,17 @@
     // 2026-11-18: das Prädikativ (Standard: ohne Artikel – der Beruf) und das Genitivattribut (Standard: ein → eines)
     fillArtikel($("sgPkvArt"), true);
     fillArtikel($("sgGenArt"), true);
+    fillArtikel($("sgPobjArt"), true);
+    $("sgPobjArt").value = "def";
     $("sgPkvArt").value = "none";
     $("sgGenArt").value = "ein";
-    ["sgSubjAdj", "sgDatAdj", "sgAkkAdj", "sgPkvAdj", "sgGenAdj"].forEach((id) => fillAdjektiv($(id)));
+    ["sgSubjAdj", "sgDatAdj", "sgAkkAdj", "sgPkvAdj", "sgGenAdj", "sgPobjAdj"].forEach((id) => fillAdjektiv($(id)));
 
     // Dativ: Personen + Meine Wörter; Akkusativ: Personen + Dinge + Meine Wörter
     fillNomenSelect($("sgDatNomen"), AKK_LISTE, false);
     fillNomenSelect($("sgAkkNomen"), AKK_LISTE, true);
     fillNomenSelect($("sgPkvNomen"), AKK_LISTE, true);
+    fillNomenSelect($("sgPobjNomen"), AKK_LISTE, true);
     fillNomenSelect($("sgGenNomen"), AKK_LISTE, true);
     initEigeneNomen();
 
@@ -886,7 +963,7 @@
       else if (p.prep === "zu" && p.question === "Wohin?") zeilen.push("zu – к человеку или учреждению (zum Arzt, zur Arbeit, zur Schule); «к кому? / на что?»");
       else if (p.prep === "bei") zeilen.push("bei – «у кого?», «на (работе)»: beim Arzt, bei der Arbeit.");
       if (p.phrase === "zu Hause") zeilen.push("zu Hause – feste Wendung: где? дома. Нельзя «Ich gehe zu Hause» → правильно nach Hause.");
-      zeilen.push(`<a href="/pages/language_lab/verb-trainer/index.html" target="quantura_regel">🧩 im Verb-Trainer üben ↗</a> · <a href="/pages/language_lab/grammatik/index.html#de-praeposition-kasus" target="quantura_regel">📐 die Regel ↗</a>`);
+      zeilen.push(`<a href="#test" onclick="document.querySelector('.sl-tab[data-mode=test]').click();return false;">📝 im Test üben</a> · <a href="/pages/language_lab/grammatik/index.html#de-praeposition-kasus" target="quantura_regel">📐 die Regel ↗</a>`);
       box.innerHTML = "💡 <b>Warum?</b> · почему так?<br>" + zeilen.join("<br>");
       box.style.display = "";
     });
@@ -894,10 +971,11 @@
     // Events
     $("sgVerb").addEventListener("change", updateValenz);
     $("sgSubj").addEventListener("change", () => { updateSubjektArt(); updateFragNach(); updateGenZu(); });
-    ["sgSatzart", "sgDatNomen", "sgAkkNomen", "sgPkvNomen", "sgZeit", "sgWie", "sgOrt"].forEach((id) => $(id).addEventListener("change", updateFragNach));
+    ["sgSatzart", "sgDatNomen", "sgAkkNomen", "sgPkvNomen", "sgPobjNomen", "sgZeit", "sgWie", "sgOrt"].forEach((id) => $(id).addEventListener("change", updateFragNach));
+    $("sgPobjWahl").addEventListener("change", updatePobjInfo);
     $("deGenerateBtn").addEventListener("click", () => generieren(true));
     $("deClearBtn").addEventListener("click", () => {
-      ["sgSubj", "sgVerb", "sgDatNomen", "sgAkkNomen", "sgPkvNomen", "sgGenNomen", "sgZeit", "sgWie", "sgOrt", "sgAux", "sgSubjAdj", "sgDatAdj", "sgAkkAdj", "sgPkvAdj", "sgGenAdj"].forEach((id) => ($(id).selectedIndex = 0));
+      ["sgSubj", "sgVerb", "sgDatNomen", "sgAkkNomen", "sgPkvNomen", "sgPobjNomen", "sgGenNomen", "sgZeit", "sgWie", "sgOrt", "sgAux", "sgSubjAdj", "sgDatAdj", "sgAkkAdj", "sgPkvAdj", "sgGenAdj", "sgPobjAdj"].forEach((id) => ($(id).selectedIndex = 0));
       if ($("sgOrtWarum")) $("sgOrtWarum").style.display = "none";
       $("sgNeg").checked = false;
       document.querySelectorAll(".en-box").forEach((b) => (b.hidden = true));

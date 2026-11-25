@@ -1,9 +1,10 @@
 // ============================================================
 // die Verben mit Präposition, ohne Präposition und die festen Ortsangaben
 // 2026-11-25 · geschrieben mit Claude
-// DE: Datenbank für den Verb-Trainer (/pages/language_lab/verb-trainer/).
+// DE: Datenbank für das Satzlabor Deutsch: die Box „das Präpositionalobjekt“ und den Modus „📝 Test“
+//     (/pages/language_lab/apps/generator/de/index_de.html).
 //     Kette: das Verb → die Präposition → der Kasus → der Artikel.
-// RU: База для тренажёра «глагол + предлог + падеж».
+// RU: База для Satzlabor: окошко «предложное дополнение» и режим «Test».
 //
 // Aufbau eines Eintrags:
 //   g   – die Gruppe: "akk" (Verb + Präposition + Akkusativ), "dat" (Verb + Präposition + Dativ),
@@ -93,3 +94,20 @@ window.DE_VERB_PRAEPOSITION = [
 { g: "ort", v: "im Haus sein (Wo? – drinnen)", p: "in", k: "dat", ru: "быть в доме, внутри здания", en: "be inside (the house)", s: "Die Kinder spielen im Haus.", l: "im", f: ["ins", "zu", "nach"], sr: "Дети играют в доме.", h: "im Haus = внутри здания. zu Hause = у себя дома (и в саду тоже)." },
 { g: "ort", v: "zum Haus gehen (Wohin? – bis zum Gebäude)", p: "zu", k: "dat", ru: "идти к дому (до дома, не внутрь)", en: "walk up to the house", s: "Ich gehe zum Haus und warte vor der Tür.", l: "zum", f: ["ins", "nach", "im"], sr: "Я иду к дому и жду у двери.", h: "zum Haus = до здания, но не внутрь." }
 ];
+
+// ------------------------------------------------------------
+// Index für das Satzlabor: Infinitiv → mögliche Präpositionen
+// (warten → [auf + Akk.], freuen → [auf + Akk., über + Akk.])
+// Nur „Verb + Präposition“ (Gruppen akk/dat) mit einem Verb aus zwei Wörtern (sich zählt nicht).
+// ------------------------------------------------------------
+window.DE_VERB_PRAEP_INDEX = (function () {
+  const idx = {};
+  window.DE_VERB_PRAEPOSITION.forEach(function (e) {
+    if (e.g !== "akk" && e.g !== "dat") return;
+    const refl = /^sich /.test(e.v);
+    const w = e.v.replace(/^sich /, "").split(" ");
+    if (w.length !== 2 || w[1] !== e.p) return;
+    (idx[w[0]] = idx[w[0]] || []).push({ p: e.p, k: e.k, v: e.v, reflexiv: refl, ru: e.ru, en: e.en, s: e.s, sr: e.sr, h: e.h || "" });
+  });
+  return idx;
+})();

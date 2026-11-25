@@ -435,6 +435,12 @@
     zeile("subj", "Nominativ", "Wer? Was?", "именительный", cfg.subj && cfg.subj.nomen ? esc(genRu[cfg.subj.nomen.gender] || "") : "местоимение в Nominativ");
     zeile("akk", "Akkusativ", "Wen? Was?", "винительный", cfg.akk && cfg.akk.nomen ? esc(genRu[cfg.akk.nomen.gender] || "") + (cfg.akk.nomen.weak ? "<br><b>n-Deklination</b>: такое слово получает <b>-(e)n</b> (den Jungen)" : "") : "");
     zeile("dat", "Dativ", "Wem?", "дательный", cfg.dat && cfg.dat.nomen ? esc(genRu[cfg.dat.nomen.gender] || "") + (cfg.dat.nomen.gender === "pl" ? "<br>в Dativ Plural к слову добавляется <b>-n</b>: den Kinder<b>n</b>" : "") : "");
+    // 2026-11-25: das Präpositionalobjekt – der Kasus kommt von der Präposition, die Präposition vom Verb
+    if (cfg.pobj && cfg.pobj.nomen) {
+      if (cfg.pobj.nomen.gender) markiert[cfg.pobj.k][cfg.pobj.nomen.gender] = true;
+      zeile("pobj", cfg.pobj.k === "akk" ? "Akkusativ" : "Dativ", cfg.pobj.p + " + ?", cfg.pobj.k === "akk" ? "винительный" : "дательный",
+        `падеж задаёт <b>предлог ${esc(cfg.pobj.p)}</b>, а предлог задаёт <b>глагол</b>: ${de(cfg.pobj.v)} + ${cfg.pobj.k === "akk" ? "Akkusativ" : "Dativ"}.<br>Русский вопрос здесь не помогает – такие глаголы учат вместе с предлогом.`);
+    }
     if (!teile.length) return "";
 
     const zelle = (k, gen, txt) => `<td class="${markiert[k][gen] ? "ek-aktiv" : ""}">${txt}</td>`;

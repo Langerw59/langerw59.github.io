@@ -46,6 +46,7 @@
     <script src="../../../../../datenbanken/de/de_preps/de_preps.js" defer></script>
     <!-- DE/EN/RU: Präposition + Ort Muster -->
     <script src="../../../../../datenbanken/de/de_prep_patterns.js" defer></script>
+    <script src="../../../../../datenbanken/de/de_verb_praeposition.js" defer></script>
 
     <!-- DE: Nomen / EN: Nouns / RU: Существительные -->
     <script src="../../../../../datenbanken/de/de_nouns/de_nouns.js" defer></script>
@@ -69,6 +70,7 @@
     <script src="de_wortart_erkenner.js" defer></script>
     <!-- DE: Grammatik-Erklärungen / RU: грамматические объяснения на русском -->
     <script src="de_erklaerung.js" defer></script>
+    <script src="de_verb_test.js" defer></script>
     <!-- DE: Analyse eingegebener Sätze / RU: разбор введённого предложения -->
     <script src="de_satz_analyse.js" defer></script>
 
@@ -240,7 +242,11 @@
             <div class="sl-tabs" role="tablist">
               <button type="button" class="sl-tab active" data-mode="bauen" role="tab">🔧 Satz bauen<br><small>собрать</small></button>
               <button type="button" class="sl-tab" data-mode="eingabe" role="tab">🔍 Satz eingeben<br><small>ввести и разобрать</small></button>
+              <button type="button" class="sl-tab" data-mode="test" role="tab">📝 Test<br><small>Verb + Präposition</small></button>
             </div>
+
+            <!-- ==================== MODUS 3: Test (2026-11-25) ==================== -->
+            <div id="slModeTest" style="display:none"><p>Lädt …</p></div>
 
             <!-- ==================== MODUS 2: Satz eingeben ==================== -->
             <div id="slModeEingabe" style="display:none">
@@ -256,7 +262,7 @@
               <div class="sg-info">Ctrl + Enter = analysieren. Beispiele / примеры:</div>
               <div class="sl-beispiele" id="slBeispiele"></div>
               <div class="sl-hinweis">
-                ⚠ Программа понимает простые главные предложения и слова из своей базы (сейчас ≈ 36 глаголов, ≈ 200 существительных).
+                ⚠ Программа понимает простые главные предложения и слова из своей базы (сейчас ≈ 80 глаголов, ≈ 200 существительных).
                 Незнакомые слова показываются <b>серым</b>. Из сложного предложения разбирается только главная часть.
               </div>
             </div>
@@ -353,6 +359,18 @@
                 <select id="sgAkkAdj" title="Adjektiv"></select>
               </div>
               <select id="sgAkkNomen"></select>
+            </div>
+
+            <!-- 2026-11-25: das Präpositionalobjekt – nur bei Verben mit fester Präposition (warten auf, sich freuen auf …) -->
+            <div class="sg-box" id="sgPobjBox" style="--c:#6639ba" hidden>
+              <div class="sg-head"><b>Worauf? Woran? Wofür? …</b> – Präpositionalobjekt <small>предложное дополнение · предлог задаёт глагол</small></div>
+              <select id="sgPobjWahl" title="welche Präposition?"></select>
+              <div class="sg-info" id="sgPobjInfo"></div>
+              <div class="sg-zeile">
+                <select id="sgPobjArt" title="Artikel"></select>
+                <select id="sgPobjAdj" title="Adjektiv"></select>
+              </div>
+              <select id="sgPobjNomen"></select>
             </div>
 
             <!-- 2026-11-18: Genitivattribut – Wessen? -->
