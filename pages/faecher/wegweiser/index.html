@@ -24,7 +24,7 @@
   <body>
     <main class="page-wrapper">
       <div class="card">
-        <p class="hint-text"><a href="../../../sections/faecher.html">Fächer</a> › der Wegweiser</p>
+        <p class="hint-text"><a href="/pages/faecher/index.html">Fächer</a> › der Wegweiser</p>
         <h1>🧭 Der Wegweiser – Simulationen, Videos, Nachschlagen</h1>
         <p class="hint-text">
           Nicht das Fahrrad neu erfinden: Hier stehen gute fertige Seiten für alle Fächer. Не изобретать велосипед –
@@ -50,7 +50,7 @@
             <b>den Falstad-Simulator (CircuitJS)</b> – er kann auch Deutsch.</p>
         </div>
 
-        <div class="et-nav"><a href="../../../sections/faecher.html">← Fächer</a></div>
+        <div class="et-nav"><a href="/pages/faecher/index.html">← Fächer</a></div>
       </div>
     </main>
 
@@ -99,10 +99,36 @@
             b: "Kostenlose Erklärungen und Aufgaben mit Lösungen, besonders Mathematik." },
           { t: "Wikipedia – das Periodensystem", u: "https://de.wikipedia.org/wiki/Periodensystem",
             f: ["Chemie"], s: ["DE", "EN", "RU"],
-            b: "Das Periodensystem der Elemente; links die anderen Sprachen." },
+            b: "Das Periodensystem der Elemente; links die anderen Sprachen." },,
+          // 2026-11-25: aus der Bibliothek (Ressourcen) übernommen
+          { t: "Pavel Viktor – der YouTube-Kanal (Physik)", u: "https://www.youtube.com/@pvictor54",
+            f: ["Physik", "Elektrotechnik"], s: ["RU"],
+            b: "Der ganze Kanal des Physiklehrers: Versuche und Erklärungen von Grund auf." },
+          { t: "Walter Fendt – die Lorentzkraft (Leiterschaukel)", u: "https://www.walter-fendt.de/html5/phde/lorentzforce_de.htm",
+            f: ["Physik", "Elektrotechnik"], s: ["DE"],
+            b: "Die Kraft auf einen stromdurchflossenen Leiter im Hufeisenmagneten – oft im Unterricht gezeigt." },
+          { t: "Tinkercad Circuits (Autodesk)", u: "https://www.tinkercad.com/circuits",
+            f: ["Elektrotechnik"], s: ["DE", "EN"],
+            b: "Schaltungen auf dem Steckbrett, auch mit dem Arduino und Programm – kostenlos im Browser." },
+          { t: "der Duden", u: "https://www.duden.de",
+            f: ["Sprachen"], s: ["DE"], b: "die Rechtschreibung, die Bedeutung, der Artikel, die Herkunft eines Wortes." },
+          { t: "DeepL – der Übersetzer", u: "https://www.deepl.com/translator",
+            f: ["Sprachen"], s: ["DE", "EN", "RU"], b: "Sehr genaue Übersetzungen ganzer Sätze und Texte." },
+          { t: "PONS – das Wörterbuch", u: "https://de.pons.com",
+            f: ["Sprachen"], s: ["DE", "EN", "RU"], b: "Wörterbuch mit Beispielen und Aussprache." },
+          { t: "dict.cc – das Wörterbuch", u: "https://www.dict.cc",
+            f: ["Sprachen"], s: ["DE", "EN"], b: "Schnell ein einzelnes Wort nachschlagen." },
+          { t: "der Google Übersetzer", u: "https://translate.google.com",
+            f: ["Sprachen"], s: ["DE", "EN", "RU"], b: "Schnell übersetzen, auch mit Sprachausgabe und Mikrofon." },
+          { t: "der Artikel – der, die oder das?", u: "https://der-artikel.de/",
+            f: ["Sprachen"], s: ["DE"], b: "Den richtigen Artikel eines Nomens finden (das Satzlabor kann das inzwischen auch)." },
+          { t: "die Wikipedia (Deutsch)", u: "https://de.wikipedia.org",
+            f: ["Sprachen", "Allgemeinbildung", "Physik", "Mathematik", "Chemie"], s: ["DE"], b: "Das Nachschlagewerk zu allem." },
+          { t: "После завтра / Poslezavtra – Nikolai Dubinin", u: "https://www.youtube.com/@posle_zavtra",
+            f: ["Allgemeinbildung"], s: ["RU"], b: "YouTube-Kanal: Länder, Wirtschaft, Geschichte – verständlich erklärt." }
         ];
 
-        const FAECHER = ["Alle", "Elektrotechnik", "Physik", "Mathematik", "Chemie"];
+        const FAECHER = ["Alle", "Elektrotechnik", "Physik", "Mathematik", "Chemie", "Sprachen", "Allgemeinbildung"];
         const SPRACHEN = ["Alle", "DE", "EN", "RU"];
         let fach = "Alle", sprache = "Alle";
         try { fach = localStorage.getItem("ww_fach") || "Alle"; sprache = localStorage.getItem("ww_sprache") || "Alle"; } catch (e) {}

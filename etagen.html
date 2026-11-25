@@ -110,7 +110,7 @@ const ETAGEN = window.Q_ETAGEN || [];   /* Daten: /core/js/etagen_daten.js */
 
 /* ===== Aufbau / построение ===== */
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const link = (r) => `<a href="${esc(r[1])}"${r[3]==="idee"?' class="idee"':''}>${esc(r[0])}${r[2]?`<span>${esc(r[2])}</span>`:''}</a>`;
+const link = (r) => `<a href="${esc(r[1])}"${/^https?:/.test(r[1])?' target="_blank" rel="noopener"':''}${r[3]==="idee"?' class="idee"':''}>${esc(r[0])}${r[2]?`<span>${esc(r[2])}</span>`:''}</a>`;
 const raumPlan = (r) => Array.isArray(r[4])
   ? `<div class="unter"><div class="unter-titel">${esc(r[0])}${r[2]?`<span>${esc(r[2])}</span>`:''}</div>${r[4].map(link).join("")}</div>`
   : link(r);

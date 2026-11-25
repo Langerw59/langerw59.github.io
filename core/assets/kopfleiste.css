@@ -261,6 +261,7 @@ body:has(.kopf2) #ll-fab-nav { display: none !important; }
 .etm__eingang:hover { text-decoration: underline; }
 .etm__zu { margin-left: auto; border: 1px solid var(--k-rand); background: transparent; color: var(--k-text);
   border-radius: 8px; min-width: 34px; min-height: 34px; cursor: pointer; font-size: 15px; }
+.etm__info { font-size: 13px; color: var(--k-grau); margin: -4px 0 10px; }
 .etm__gruppen { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 18px; }
 .etm__gtitel { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .4px;
   color: var(--k-grau); padding: 0 8px 4px; border-bottom: 1px solid var(--k-rand); margin-bottom: 4px; }

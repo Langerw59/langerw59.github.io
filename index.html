@@ -91,7 +91,7 @@
             ${e.gruppen.map((g) => {
               const erster = g.r.flatMap((r) => (Array.isArray(r[4]) ? r[4] : [r])).find((r) => r[1]);
               const inhalt = g.r.map((r) => String(r[0]).replace(/^[^A-Za-zÄÖÜäöü0-9]+/, "")).slice(0, 3).join(" · ");
-              return erster ? `<a class="st-gruppe" href="${esc(erster[1])}">${esc(g.t)}<small>${esc(inhalt)}</small></a>` : "";
+              return erster ? `<a class="st-gruppe" href="${esc(erster[1])}"${/^https?:/.test(erster[1]) ? ' target="_blank" rel="noopener"' : ""}>${esc(g.t)}<small>${esc(inhalt)}</small></a>` : "";
             }).join("")}
           </article>`;
         }).join("");

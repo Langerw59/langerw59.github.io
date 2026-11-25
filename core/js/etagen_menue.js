@@ -59,7 +59,8 @@
           <div class="etm__unterliste">${r[4].map(raum).join("")}</div></details>`;
       }
       const ist = istHier(r[1]);
-      return `<a href="${esc(r[1])}" class="etm__raum${r[3] === "idee" ? " etm__idee" : ""}${ist ? " etm__ist-hier" : ""}"${ist ? ' aria-current="page"' : ""}>${esc(r[0])}${r[2] ? `<small>${esc(r[2])}</small>` : ""}</a>`;
+      const extern = /^https?:/.test(r[1] || "");
+      return `<a href="${esc(r[1])}"${extern ? ' target="_blank" rel="noopener"' : ""} class="etm__raum${r[3] === "idee" ? " etm__idee" : ""}${ist ? " etm__ist-hier" : ""}"${ist ? ' aria-current="page"' : ""}>${esc(r[0])}${extern ? " ↗" : ""}${r[2] ? `<small>${esc(r[2])}</small>` : ""}</a>`;
     }
 
     function auf(e) {
@@ -71,6 +72,7 @@
            <div class="etm__titel"><b>${esc(e.nr)} · ${esc(e.name)}</b>
              ${e.eingang ? `<a href="${esc(e.eingang)}" class="etm__eingang">➜ Eingang zur Etage</a>` : ""}
              <button type="button" class="etm__zu" aria-label="Schließen">✕</button></div>
+           ${e.info ? `<div class="etm__info">${esc(e.info)}</div>` : ""}
            <div class="etm__gruppen">${e.gruppen.map((g) =>
              `<div class="etm__gruppe"><div class="etm__gtitel" title="${esc(g.info || "")}">${esc(g.t)}</div>${g.r.map(raum).join("")}</div>`).join("")}</div>
          </div>`;
@@ -117,7 +119,13 @@
       if (kopf.querySelector(".etm__bereich")) break;
     }
 
-    fenster.addEventListener("click", (ev) => ev.stopPropagation());
+    fenster.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      if (ev.target.closest("a")) zu();   // nach Klick auf einen Raum Fenster schließen
+    });
+    // Zurück-Taste: Browser zeigt die alte Seite aus dem Speicher – Fenster dann zu
+    window.addEventListener("pageshow", zu);
+    window.addEventListener("pagehide", zu);
     document.addEventListener("click", zu);
     document.addEventListener("keydown", (ev) => { if (ev.key === "Escape") zu(); });
   }
