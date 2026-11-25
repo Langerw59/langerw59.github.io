@@ -2951,8 +2951,16 @@ function renderRuLines(it) {
   if (!box) return;
   const wort = (it.wort || "").trim();
   const ru = (it.ru || "").trim();
+  const de = (it.de || "").trim(); // 2026-11-25: auch Deutsch auf der Rückseite / немецкий тоже на обороте
   box.textContent = "";
-  if (!wort && !ru) { box.hidden = true; return; }
+  if (!wort && !ru && !de) { box.hidden = true; return; }
+  if (de) {
+    const d = document.createElement("div");
+    d.className = "ruDe";
+    d.lang = "de";
+    d.textContent = "deutsch: " + de;
+    box.appendChild(d);
+  }
   if (wort && wort !== ru) {
     const a = document.createElement("div");
     a.className = "ruWort";
