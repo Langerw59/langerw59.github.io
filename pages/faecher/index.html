@@ -2,23 +2,53 @@
 <html lang="de" data-theme="light">
   <head>
     <meta charset="utf-8" />
-    <title>Fächer – Portal</title>
+    <title>die Fächer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../../core/assets/style.css" />
-    <script src="../../core/js/core_init.js" defer></script>
-    <meta http-equiv="refresh" content="0; url=../../sections/faecher.html" />
+    <link rel="stylesheet" href="/core/assets/style.css" />
+    <!-- 2026-11-25: Seite baut sich aus /core/js/etagen_daten.js (2. Etage) –
+         dieselben Bereiche wie im Menü. RU: страница строится из общего списка. -->
+    <script src="/core/js/etagen_daten.js"></script>
+    <script src="/core/js/core_init.js" defer></script>
+    <style>
+      .ll-kopf h1 { margin: 0 0 4px; }
+      .ll-kopf p { margin: 0 0 18px; color: #5b6475; }
+      .ll-bereiche { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+      .ll-bereich { background: #fff; border: 1px solid #d9dee7; border-top: 5px solid #2f8a5b; border-radius: 14px; padding: 14px 16px 16px; }
+      .ll-bereich h2 { margin: 0 0 2px; font-size: 20px; }
+      .ll-bereich .ll-info { margin: 0 0 10px; font-size: 14px; color: #5b6475; }
+      .ll-bereich a { display: block; padding: 10px 12px; margin-top: 6px; border: 1px solid #e3e7ee; border-left: 4px solid #2f8a5b;
+        border-radius: 10px; text-decoration: none; color: #111827; font-size: 16px; background: #fafbfd; }
+      .ll-bereich a:hover { border-color: #2f8a5b; background: #eef8f2; }
+      .ll-bereich a small { display: block; font-size: 13px; color: #5b6475; }
+      html[data-theme="dark"] .ll-bereich { background: #1d222b; border-color: #353c48; border-top-color: #4ade80; }
+      html[data-theme="dark"] .ll-bereich a { background: #252b35; border-color: #353c48; border-left-color: #4ade80; color: #e8ebf1; }
+      html[data-theme="dark"] .ll-bereich a small, html[data-theme="dark"] .ll-info, html[data-theme="dark"] .ll-kopf p { color: #a3acbb; }
+    </style>
   </head>
   <body>
-    <div data-partial="header" data-partial-path="../../core/core/partials/header.html"></div>
+    <div data-partial="header" data-partial-path="/core/partials/header.html"></div>
 
     <main class="page-wrapper">
-      <div class="card">
-        <h1>Fächer – Portal</h1>
-        <p>Weiterleitung zum bestehenden Fächer-Bereich.</p>
-        <p><a href="../../sections/faecher.html">→ Falls keine Weiterleitung: Fächer öffnen</a></p>
+      <div class="ll-kopf">
+        <h1>📚 die Fächer</h1>
+        <p>die Mathematik, die Elektrotechnik, die Physik – und der Wegweiser zu fertigen Simulationen und Videos.</p>
       </div>
+      <section class="ll-bereiche" id="bereiche"></section>
     </main>
 
-    <div data-partial="footer" data-partial-path="../../core/core/partials/footer.html"></div>
+    <div data-partial="footer" data-partial-path="/core/partials/footer.html"></div>
+
+    <script>
+      (function () {
+        const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+        const e3 = (window.Q_ETAGEN || []).find((e) => e.id === "e2");
+        if (!e3) return;
+        document.getElementById("bereiche").innerHTML = e3.gruppen.map((g) => {
+          const links = g.r.flatMap((r) => (Array.isArray(r[4]) ? r[4] : [r]));
+          return `<article class="ll-bereich"><h2>${esc(g.t)}</h2>${g.info ? `<p class="ll-info">${esc(g.info)}</p>` : ""}
+            ${links.map((r) => `<a href="${esc(r[1])}"${r[3] === "idee" ? ' style="opacity:.6"' : ""}>${esc(r[0])}${r[2] ? `<small>${esc(r[2])}</small>` : ""}</a>`).join("")}</article>`;
+        }).join("");
+      })();
+    </script>
   </body>
 </html>

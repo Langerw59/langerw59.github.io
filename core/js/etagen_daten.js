@@ -90,9 +90,8 @@ window.Q_ETAGEN = [
    ]}
 ];
 
-/* Nicht mehr im Menü (Dateien bleiben vorerst auf der Seite) / убрано из меню, файлы пока на месте:
-   Talk Levels 0–10 (/pages/language_lab/apps/talk_levels/), weitere Sprachpaare IT/ES/FR/TR
-   (/pages/language_lab/sprachfuehrer_auswahl/), Werkstatt/TagBook (/pages/portal/werkstatt/),
-   Bibliothek (/pages/bibliothek/ – Ressourcen-Links jetzt im Wegweiser), Projekte (/pages/projekte/),
-   Store (/pages/store/), 10 Web-Lektionen, alte Glossare (apps/tools/glossar, generator/de/glossar.html),
-   Generator-Übersicht (/sections/generator.html), Legacy-Portal (/pages/legacy/). */
+/* 2026-11-25: Keller geleert. Gelöscht (in der GitHub-Historie noch vorhanden): Bibliothek, Projekte,
+   Store, Werkstatt/TagBook, Legacy-Portal, Talk Levels, alte Glossare, Generator-Übersicht.
+   Videos aus der Bibliothek liegen jetzt in /portfolio/videos/.
+   Nur versteckt (Datei bleibt): weitere Sprachpaare IT/ES/FR/TR (/pages/language_lab/sprachfuehrer_auswahl/),
+   Informatik-Kurse (/pages/faecher/informatik/). */
