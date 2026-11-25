@@ -435,6 +435,28 @@ function zwanzigerfeld(text) {
   return `<div class="zf"><div class="zf-reihe">${reihe(0)}</div><div class="zf-reihe">${reihe(1)}</div></div>`;
 }
 
+// 2026-11-25: die Rennbahn – das Tier läuft mit jeder gelösten Aufgabe ein Stück vom Start zum Ziel
+// RU: беговая дорожка – зверёк бежит к финишу с каждой решённой задачей
+function rennbahn(geloest, gesamt) {
+  const host = document.getElementById('tasks');
+  if (!host || !gesamt) return;
+  let bahn = document.getElementById('mmRennbahn');
+  if (!bahn) {
+    bahn = document.createElement('div');
+    bahn.id = 'mmRennbahn';
+    bahn.innerHTML = '<span class="rb-start">🚩</span><div class="rb-strecke"><div class="rb-spur"></div><img class="rb-tier" alt=""></div><span class="rb-ziel">🏁</span>';
+    host.parentNode.insertBefore(bahn, host);
+  }
+  const anteil = Math.max(0, Math.min(1, geloest / gesamt));
+  const tier = bahn.querySelector('.rb-tier');
+  tier.src = getAvatar() || AVATARS[0];
+  tier.style.left = `calc(${anteil * 100}% - ${anteil * 44}px)`;
+  bahn.querySelector('.rb-spur').style.width = `${anteil * 100}%`;
+  bahn.querySelector('.rb-ziel').textContent = anteil >= 1 ? '🏆' : '🏁';
+  bahn.classList.toggle('rb-fertig', anteil >= 1);
+  bahn.title = `${geloest} von ${gesamt} Aufgaben gelöst`;
+}
+
 // 2026-11-25: Aufgabe vorlesen (deutsche Stimme) und das Maskottchen bewegen
 function aufgabeSprechbar(text) {
   return String(text)
@@ -1738,6 +1760,7 @@ function renderTasksForCurrentLevel() {
 
   const updateResults = () => {
     const correctCount = solved.size;
+    rennbahn(correctCount, testTaskCount);
     const pointsTasks = correctCount * POINTS_PER_CORRECT;
     const timeMetrics = getTimeMetrics(testTaskCount);
     const timeBonusMax = timeModeEnabled ? timeMetrics.bonusMax : 0;
@@ -2065,6 +2088,8 @@ function renderTasksForCurrentLevel() {
         const html = `
           <div class="sterne-gross">${sternText(sterneAusProzent(stats.percent))}</div>
           <p class="sterne-lob">${['Nicht aufgeben – nochmal probieren! 💪', 'Gut! Ein Stern. Schaffst du zwei? 🙂', 'Sehr gut! Zwei Sterne! 👏', 'Super! Alle drei Sterne! 🎉'][sterneAusProzent(stats.percent)]}</p>
+          <p class="kind-ergebnis">${stats.correctCount || 0} von ${stats.tasksTotal || 0} Aufgaben richtig</p>
+          <details class="erwachsene"><summary>Für Erwachsene: alle Zahlen</summary>
           <div class="summary">
             <h3>Auswertung</h3>
             <p>Aufgaben gesamt / Total tasks: ${stats.tasksTotal || 0}</p>
@@ -2094,6 +2119,7 @@ function renderTasksForCurrentLevel() {
             </thead>
             <tbody>${rows}</tbody>
           </table>
+          </details>
           <div class="modal-actions">
             <button type="button" class="pill btn-primary" id="restart-level-end">Nochmal spielen</button>
             <button type="button" class="pill btn-secondary" id="back-to-levels-end">Zur Level-Auswahl</button>

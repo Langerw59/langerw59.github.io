@@ -570,3 +570,18 @@ main > h2#levels { display: inline-block; background: rgba(255,255,255,.75); pad
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 #levelStartBtn { font-size: 1.25em; padding: 12px 28px !important; min-height: 52px; width: auto !important; border-radius: 999px; }
 details#allLevelsDetails { padding: 8px 12px; border-radius: 12px; }
+
+/* die Rennbahn */
+#mmRennbahn { display: flex; align-items: center; gap: 10px; margin: 6px 0 4px; padding: 10px 14px; border-radius: 16px;
+  background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.7); }
+#mmRennbahn .rb-start, #mmRennbahn .rb-ziel { font-size: 28px; }
+#mmRennbahn .rb-strecke { position: relative; flex: 1; height: 44px; border-radius: 22px;
+  background: repeating-linear-gradient(90deg, #d6c6a5 0 22px, #cbb893 22px 44px); box-shadow: inset 0 2px 6px rgba(0,0,0,.2); }
+#mmRennbahn .rb-spur { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 22px; background: rgba(34,197,94,.45); transition: width .8s ease; }
+#mmRennbahn .rb-tier { position: absolute; top: 0; width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 3px solid #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,.3); transition: left .8s cubic-bezier(.3,1.4,.5,1); }
+#mmRennbahn.rb-fertig .rb-ziel { animation: mmHuepf .8s ease 3; }
+/* Auswertung für Kinder */
+.kind-ergebnis { text-align: center; font-size: 1.25em; margin: 0 0 12px; }
+details.erwachsene > summary { cursor: pointer; color: #64748b; font-size: .9em; margin-bottom: 8px; }
+.exercise .meta { display: none; }
