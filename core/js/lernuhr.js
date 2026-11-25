@@ -331,6 +331,8 @@
 
   // ---------------- Einbauen ----------------
   function einbauen() {
+    // 2026-11-25: Seiten ohne Kopfleiste (eigenes Fenster) bleiben ganz frei
+    if (document.body && document.body.hasAttribute("data-kein-kopf")) return;
     stilEinfuegen();
     // 2026-11-25: die Stoppuhr ▶ ist aus – die Lernzeit zählt jetzt lernbilanz.js von selbst (sonst doppelt)
     lernName = "";

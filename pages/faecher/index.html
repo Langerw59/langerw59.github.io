@@ -46,7 +46,7 @@
         document.getElementById("bereiche").innerHTML = e3.gruppen.map((g) => {
           const links = g.r.flatMap((r) => (Array.isArray(r[4]) ? r[4] : [r]));
           return `<article class="ll-bereich"><h2>${esc(g.t)}</h2>${g.info ? `<p class="ll-info">${esc(g.info)}</p>` : ""}
-            ${links.map((r) => `<a href="${esc(r[1])}"${r[3] === "idee" ? ' style="opacity:.6"' : ""}>${esc(r[0])}${r[2] ? `<small>${esc(r[2])}</small>` : ""}</a>`).join("")}</article>`;
+            ${links.map((r) => `<a href="${esc(r[1])}"${r[5] === "neu" ? ' target="_blank" rel="noopener" data-neues-fenster' : ""}${r[3] === "idee" ? ' style="opacity:.6"' : ""}>${esc(r[0])}${r[2] ? `<small>${esc(r[2])}</small>` : ""}</a>`).join("")}</article>`;
         }).join("");
       })();
     </script>

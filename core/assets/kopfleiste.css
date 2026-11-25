@@ -328,3 +328,6 @@ body.etm-offen #navi-knoepfe { display: none !important; }  /* Pfeile verdecken 
   .kopf2__menue .etm__knopf { padding: 4px 6px; }
   .kopf2__menue .etm__name { font-size: 13px; }
 }
+
+/* 2026-11-25: Seiten ohne Kopfleiste (eigenes Fenster): alte Zurück/Portal-Ecke aus – die runden Knöpfe reichen */
+body[data-kein-kopf] #ll-fab-nav { display: none !important; }

@@ -548,3 +548,25 @@ body { overflow-x: hidden; }
   .exercise .row { flex-wrap: wrap; }
   .exercise .actions button, .exercise button { padding: 8px 12px; }
 }
+
+/* die Sterne */
+.sterne-gross { font-size: 2.6em; text-align: center; letter-spacing: 6px; margin: 4px 0 0; }
+.sterne-lob { text-align: center; font-size: 1.2em; font-weight: 700; margin: 0 0 10px; }
+/* das Zwanzigerfeld */
+.zf-hilfe { margin: 4px 0 10px; }
+.zf-hilfe > summary { cursor: pointer; font-weight: 700; color: #334155; }
+.zf { display: inline-grid; gap: 6px; padding: 10px 12px; margin-top: 8px; background: rgba(255,255,255,.85); border: 2px solid #94a3b8; border-radius: 12px; }
+.zf-reihe { display: flex; gap: 6px; }
+.zf-p { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #cbd5e1; background: #fff; display: inline-block; }
+.zf-fuenf { margin-right: 10px; }
+.zf-rot { background: #ef4444; border-color: #b91c1c; }
+.zf-blau { background: #3b82f6; border-color: #1d4ed8; }
+.zf-frage { background: #fff; border: 2px dashed #3b82f6; }
+.zf-weg { background: #fecaca; border-color: #f87171; position: relative; }
+.zf-weg::after { content: "✕"; position: absolute; inset: 0; display: grid; place-items: center; color: #b91c1c; font-weight: 900; font-size: 18px; }
+@media (max-width: 600px) { .zf-p { width: 20px; height: 20px; } .zf-reihe { gap: 4px; } .zf-fuenf { margin-right: 6px; } }
+/* Startseite des Moduls: Überschrift lesbar, großer Start-Knopf */
+main > h2#levels { display: inline-block; background: rgba(255,255,255,.75); padding: 4px 14px; border-radius: 12px;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+#levelStartBtn { font-size: 1.25em; padding: 12px 28px !important; min-height: 52px; width: auto !important; border-radius: 999px; }
+details#allLevelsDetails { padding: 8px 12px; border-radius: 12px; }

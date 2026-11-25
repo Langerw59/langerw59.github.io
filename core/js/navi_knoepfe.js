@@ -72,6 +72,19 @@
       else location.href = "/index.html";
     });
     knopf("→", "Vor / вперёд", () => history.forward());
+    // 2026-11-25: Seiten ohne Kopfleiste (z. B. Mathe-Spaß im eigenen Fenster):
+    // 🏠 zur Startseite und ⛶ Vollbild (blendet auch die Leisten des Browsers aus)
+    if (document.body.hasAttribute("data-kein-kopf")) {
+      knopf("🏠", "Quantura – die Startseite", () => { location.href = "/index.html"; });
+      const de = document.documentElement;
+      if (de.requestFullscreen || de.webkitRequestFullscreen) {
+        knopf("⛶", "Vollbild an / aus", () => {
+          const voll = document.fullscreenElement || document.webkitFullscreenElement;
+          if (voll) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+          else (de.requestFullscreen || de.webkitRequestFullscreen).call(de);
+        });
+      }
+    }
     document.body.appendChild(box);
 
     // ⬆/⬇ nur zeigen, wenn die Seite länger als der Bildschirm ist

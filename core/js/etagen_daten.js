@@ -4,6 +4,7 @@
        (etagen_menue.js) und der Etagenplan (etagen.html).
        Neue Seite = eine Zeile: ["Name", "/pfad/zur/seite.html", "Hinweis", "idee"]
        Untermenü: ["Name", "", "Hinweis", "", [ [Unterpunkt], [Unterpunkt] ]]
+       Neues Fenster: ["Name", "/pfad", "Hinweis", "", "neu"]
    RU: Все комнаты Quantura в одном месте. Из этого списка строится
        меню в шапке и план этажей. Новая страница = одна строка.
    ============================================================ */
@@ -38,7 +39,7 @@ window.Q_ETAGEN = [
    gruppen:[
     { t:"die Mathematik", r:[
       ["die Mathematik – Übersicht","/pages/faecher/mathematik/index.html"],
-      ["🐯 Mathe-Spaß – das Level-System","/math_module/index.html","die Grundschule, mit Tieren und Punkten"],
+      ["🐯 Mathe-Spaß – das Level-System","/math_module/index.html","öffnet in neuem Fenster ↗","","neu"],
       ["die Grundschule (Klasse 1–4) – die Themen","/mathe_grundschule.html"],
       ["die Realschule (Klasse 5–10)","/pages/faecher/mathematik-realschule/index.html"],
       ["💶 die Finanzmathematik","/pages/faecher/mathematik/finanzmathematik/index.html","Kredit, Sparplan"],

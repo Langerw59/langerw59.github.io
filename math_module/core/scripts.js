@@ -399,6 +399,42 @@ function applyBilingualLabels(root = document) {
   });
 }
 
+
+// ===========================
+// 2026-11-25: die Sterne ⭐ (1–3 pro Level, das beste Ergebnis zählt, pro Spieler)
+// und das Zwanzigerfeld (Bild zum Zählen für Plus/Minus bis 20)
+// RU: звёзды за уровень и «поле из 20 точек» как наглядная подсказка
+// ===========================
+const STERNE_KEY = 'math_module_sterne_v1';
+function sterneSpieler() { return normalizePlayerName(getUserName() || localStorage.getItem(PLAYER_NAME_KEY) || 'gast').toLowerCase() || 'gast'; }
+function sterneAlle() { try { return JSON.parse(localStorage.getItem(STERNE_KEY) || '{}') || {}; } catch (e) { return {}; } }
+function sterneFuer(levelId) { const a = sterneAlle(); return ((a[sterneSpieler()] || {})[String(levelId)]) || 0; }
+function sterneSpeichern(levelId, n) {
+  const a = sterneAlle(); const sp = sterneSpieler(); a[sp] = a[sp] || {};
+  if (n > (a[sp][String(levelId)] || 0)) a[sp][String(levelId)] = n;
+  localStorage.setItem(STERNE_KEY, JSON.stringify(a));
+}
+function sterneAusProzent(p) { return p >= 90 ? 3 : p >= 70 ? 2 : p >= 40 ? 1 : 0; }
+function sternText(n) { return '⭐'.repeat(n) + '☆'.repeat(3 - n); }
+
+function zwanzigerfeld(text) {
+  const m = String(text).match(/(\d+)\s*([+\-])\s*(\d+|\?)\s*=\s*(\d+)?/);
+  if (!m) return '';
+  const a = Number(m[1]); const op = m[2];
+  const b = m[3] === '?' ? (Number(m[4]) - a) : Number(m[3]);
+  if (!(a >= 0 && b >= 0) || a > 20 || (op === '+' && a + b > 20)) return '';
+  const punkte = [];
+  if (op === '+') {
+    for (let i = 0; i < a; i++) punkte.push('rot');
+    for (let i = 0; i < b; i++) punkte.push(m[3] === '?' ? 'frage' : 'blau');
+  } else {
+    for (let i = 0; i < a; i++) punkte.push(i >= a - b ? 'weg' : 'rot');
+  }
+  while (punkte.length < 20) punkte.push('leer');
+  const reihe = (r) => punkte.slice(r * 10, r * 10 + 10).map((k, i) => `<span class="zf-p zf-${k}${i === 4 ? ' zf-fuenf' : ''}"></span>`).join('');
+  return `<div class="zf"><div class="zf-reihe">${reihe(0)}</div><div class="zf-reihe">${reihe(1)}</div></div>`;
+}
+
 // 2026-11-25: Aufgabe vorlesen (deutsche Stimme) und das Maskottchen bewegen
 function aufgabeSprechbar(text) {
   return String(text)
@@ -1411,7 +1447,7 @@ function wireLevelToolbar(levels, container) {
   levelData.forEach(item => {
     const option = document.createElement('option');
     option.value = item.id;
-    option.textContent = item.title;
+    option.textContent = `${item.title}  ${sternText(sterneFuer(item.id))}`;
     select.appendChild(option);
   });
 
@@ -1420,7 +1456,7 @@ function wireLevelToolbar(levels, container) {
     const item = byId.get(String(levelId)) || levelData[0];
     if (!item) return;
     select.value = item.id;
-    detailTitle.textContent = item.title;
+    detailTitle.textContent = `${item.title}  ${sternText(sterneFuer(item.id))}`;
     detailDesc.textContent = item.desc;
     startBtn.dataset.href = item.href;
   };
@@ -2012,6 +2048,7 @@ function renderTasksForCurrentLevel() {
           timeSavedMin: 0,
           timeLimitSec: getTimeLimitSec(),
         };
+        sterneSpeichern(levelId, sterneAusProzent(stats.percent));
         const rows = tasks.map((task, idx) => {
           const log = taskAttemptLog.get(task.id) || [];
           return `
@@ -2026,6 +2063,8 @@ function renderTasksForCurrentLevel() {
           `;
         }).join('');
         const html = `
+          <div class="sterne-gross">${sternText(sterneAusProzent(stats.percent))}</div>
+          <p class="sterne-lob">${['Nicht aufgeben – nochmal probieren! 💪', 'Gut! Ein Stern. Schaffst du zwei? 🙂', 'Sehr gut! Zwei Sterne! 👏', 'Super! Alle drei Sterne! 🎉'][sterneAusProzent(stats.percent)]}</p>
           <div class="summary">
             <h3>Auswertung</h3>
             <p>Aufgaben gesamt / Total tasks: ${stats.tasksTotal || 0}</p>
@@ -2118,6 +2157,7 @@ function renderTasksForCurrentLevel() {
 
         ex.innerHTML = `
           <p><strong>Aufgabe ${task.slide}:</strong> ${task.text} <button type="button" class="pill btn-ghost btn-vorlesen" data-action="vorlesen" title="Aufgabe vorlesen">🔊</button></p>
+          ${['0','1','2'].includes(String(levelId)) && zwanzigerfeld(task.text) ? `<details class="zf-hilfe"${String(levelId) === '0' ? ' open' : ''}><summary>🔴 mit Punkten zählen</summary>${zwanzigerfeld(task.text)}</details>` : ''}
           <p class="meta">Max: ${maxPts} Punkte · Versuche: <span class="attempts">${attempts}</span> · <span class="status-badge status-pending">⏳</span></p>
           <div class="lives-row">Leben: <span class="life-dots">${renderLifeDots(marks)}</span></div>
           <div class=\"row\">

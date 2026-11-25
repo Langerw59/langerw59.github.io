@@ -60,7 +60,8 @@
       }
       const ist = istHier(r[1]);
       const extern = /^https?:/.test(r[1] || "");
-      return `<a href="${esc(r[1])}"${extern ? ' target="_blank" rel="noopener"' : ""} class="etm__raum${r[3] === "idee" ? " etm__idee" : ""}${ist ? " etm__ist-hier" : ""}"${ist ? ' aria-current="page"' : ""}>${esc(r[0])}${extern ? " ↗" : ""}${r[2] ? `<small>${esc(r[2])}</small>` : ""}</a>`;
+      const neu = r[5] === "neu";
+      return `<a href="${esc(r[1])}"${extern ? ' target="_blank" rel="noopener"' : ""}${neu ? ' target="_blank" rel="noopener" data-neues-fenster' : ""} class="etm__raum${r[3] === "idee" ? " etm__idee" : ""}${ist ? " etm__ist-hier" : ""}"${ist ? ' aria-current="page"' : ""}>${esc(r[0])}${extern ? " ↗" : ""}${r[2] ? `<small>${esc(r[2])}</small>` : ""}</a>`;
     }
 
     function auf(e) {
