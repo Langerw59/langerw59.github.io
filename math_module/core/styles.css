@@ -494,3 +494,57 @@ body.background-only #btnBackgroundOnly { display: none !important; }
   gap: 10px;
   align-items: center;
 }
+
+
+/* ============================================================
+   2026-11-25: Glas-Design (Quantura)
+   DE: Die Kästen sind halbdurchsichtig mit Unschärfe („Milchglas“) –
+       das Bild bleibt sichtbar, die Schrift bleibt lesbar.
+       Englische Unterzeilen auf den Knöpfen ausgeblendet (nur Deutsch).
+   RU: «матовое стекло»: картинку видно, текст читается. Только немецкий.
+   ============================================================ */
+#mmBildUnscharf { position: fixed; inset: -40px; z-index: -1; background-size: cover; background-position: center; pointer-events: none; }
+body { position: relative; }
+.btn-en { display: none !important; }
+
+.player-bar, .level-info-card, .exercise, .level, .level-toolbar, .summary,
+.attempt-log-wrap, .timer-panel, #levelDetail, details#allLevelsDetails {
+  background: rgba(255, 255, 255, 0.62) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(1.25);
+  backdrop-filter: blur(10px) saturate(1.25);
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18) !important;
+}
+body.mm-dunkel .player-bar, body.mm-dunkel .level-info-card, body.mm-dunkel .exercise,
+body.mm-dunkel .level, body.mm-dunkel .level-toolbar, body.mm-dunkel #levelDetail {
+  background: rgba(255, 255, 255, 0.72) !important;
+}
+/* die Aufgabe groß und deutlich – für Kinder */
+.exercise > p:first-child { font-size: 1.5em; margin: 0 0 6px; }
+.exercise input { font-size: 1.4em; min-width: 140px; padding: 8px 12px; background: rgba(255,255,255,0.95); }
+.exercise .meta { font-size: 0.9em; }
+.btn-vorlesen { margin-left: 8px; font-size: 0.75em !important; padding: 4px 10px !important; vertical-align: middle; }
+/* Maskottchen hüpft bei richtig, wackelt bei falsch */
+@keyframes mmHuepf { 0%,100% { transform: translateY(0) } 30% { transform: translateY(-14px) scale(1.08) } 60% { transform: translateY(0) } 80% { transform: translateY(-5px) } }
+@keyframes mmWackel { 0%,100% { transform: rotate(0) } 25% { transform: rotate(-12deg) } 75% { transform: rotate(12deg) } }
+.avatar-img.huepf { animation: mmHuepf .7s ease; }
+.avatar-img.wackel { animation: mmWackel .45s ease 2; }
+
+#mmBild { position: fixed; inset: 0; z-index: -1; background-size: contain; background-position: center; background-repeat: no-repeat; pointer-events: none; }
+/* die Spielerleiste kompakt in einer Reihe: Tier · Knöpfe · Spardose */
+#welcome .player-bar { display: grid !important; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
+#welcome .player-bar .welcome-actions { flex-wrap: wrap; }
+#welcome .bonus-widget { margin-left: 0; min-width: 130px; }
+#welcome .bonus-jar { height: 38px; }
+@media (max-width: 760px) { #welcome .player-bar { grid-template-columns: 1fr auto; } #welcome .player-bar .welcome-actions { grid-column: 1 / -1; } }
+/* Handy: nichts ragt über den Rand */
+*, *::before, *::after { box-sizing: border-box; }
+body { overflow-x: hidden; }
+@media (max-width: 600px) {
+  main { padding: 0.4em 0.6em 0.8em; }
+  .exercise { padding: 12px; }
+  .exercise > p:first-child { font-size: 1.3em; }
+  .exercise input { min-width: 0; width: 100%; }
+  .exercise .row { flex-wrap: wrap; }
+  .exercise .actions button, .exercise button { padding: 8px 12px; }
+}

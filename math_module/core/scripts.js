@@ -399,6 +399,39 @@ function applyBilingualLabels(root = document) {
   });
 }
 
+// 2026-11-25: Aufgabe vorlesen (deutsche Stimme) und das Maskottchen bewegen
+function aufgabeSprechbar(text) {
+  return String(text)
+    .replace(/(\d)\s+:\s+(\d)/g, '$1 geteilt durch $2')
+    .replace(/:/g, ', ')
+    .replace(/·|×|\*/g, ' mal ').replace(/÷/g, ' geteilt durch ')
+    .replace(/\+/g, ' plus ').replace(/(\d)\s*-\s*(\d)/g, '$1 minus $2')
+    .replace(/(^|[\s(+\-=])\?(?=\s|$)/g, '$1 wie viel ')
+    .replace(/=\s*$/, ' gleich wie viel').replace(/=/g, ' gleich ')
+    .replace(/\?/g, '.').replace(/\s+/g, ' ').trim();
+}
+function vorlesen(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(aufgabeSprechbar(text));
+  u.lang = 'de-DE'; u.rate = 0.9;
+  const st = window.speechSynthesis.getVoices().find(v => /^de/i.test(v.lang));
+  if (st) u.voice = st;
+  window.speechSynthesis.speak(u);
+}
+document.addEventListener('click', (ev) => {
+  const b = ev.target.closest && ev.target.closest('[data-action="vorlesen"]');
+  if (!b) return;
+  const p = b.closest('p');
+  const t = p ? p.textContent.replace(/^Aufgabe\s*\d+:\s*/, '').replace('🔊', '') : '';
+  vorlesen(t);
+});
+function maskottchen(art) {
+  document.querySelectorAll('#welcome .avatar-img').forEach(img => {
+    img.classList.remove('huepf', 'wackel'); void img.offsetWidth; img.classList.add(art);
+  });
+}
+
 function resolveTheme(themeUrl) {
   const resolved = canonicalTheme(themeUrl);
   if (resolved) return resolved;
@@ -407,13 +440,36 @@ function resolveTheme(themeUrl) {
 }
 
 function applyTheme(themeUrl) {
+  // 2026-11-25: das Bild wird GANZ gezeigt (nicht vergrößert/abgeschnitten).
+  // Die Ränder füllt dasselbe Bild – stark verschwommen – im Hintergrund.
+  // RU: картинка целиком, края заполняет та же картинка, размытая.
   const resolved = resolveTheme(themeUrl);
-  document.body.style.backgroundImage = `linear-gradient(rgba(12,16,27,0.18), rgba(12,16,27,0.18)), url(${resolved})`;
-  document.body.style.backgroundSize = 'cover'; // 2026-11-25: ganzer Bildschirm gefüllt
-  document.body.style.backgroundRepeat = 'no-repeat';
-  document.body.style.backgroundPosition = 'center top';
-  document.body.style.backgroundAttachment = 'fixed';
+  const dunkel = document.documentElement.getAttribute('data-theme') === 'dark';
+  let unscharf = document.getElementById('mmBildUnscharf');
+  if (!unscharf) {
+    unscharf = document.createElement('div');
+    unscharf.id = 'mmBildUnscharf';
+    unscharf.setAttribute('aria-hidden', 'true');
+    document.body.prepend(unscharf);
+  }
+  let scharf = document.getElementById('mmBild');
+  if (!scharf) {
+    scharf = document.createElement('div');
+    scharf.id = 'mmBild';
+    scharf.setAttribute('aria-hidden', 'true');
+    unscharf.after(scharf);
+  }
+  unscharf.style.backgroundImage = `url(${resolved})`;
+  unscharf.style.filter = `blur(28px) brightness(${dunkel ? 0.45 : 0.8})`;
+  scharf.style.backgroundImage = `url(${resolved})`;
+  scharf.style.filter = dunkel ? 'brightness(0.7)' : 'none';
+  document.body.style.backgroundImage = 'none';
   document.body.style.backgroundColor = '#0b1224';
+  document.body.classList.toggle('mm-dunkel', dunkel);
+  if (!window.__mmThemeBeobachter) {
+    window.__mmThemeBeobachter = new MutationObserver(() => applyTheme(getTheme()));
+    window.__mmThemeBeobachter.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
   applyTeamToneByAvatar(getAvatar() || AVATARS[0]);
 }
 
@@ -2061,7 +2117,7 @@ function renderTasksForCurrentLevel() {
         taskAttemptLog.set(task.id, []);
 
         ex.innerHTML = `
-          <p><strong>Aufgabe ${task.slide}:</strong> ${task.text}</p>
+          <p><strong>Aufgabe ${task.slide}:</strong> ${task.text} <button type="button" class="pill btn-ghost btn-vorlesen" data-action="vorlesen" title="Aufgabe vorlesen">🔊</button></p>
           <p class="meta">Max: ${maxPts} Punkte · Versuche: <span class="attempts">${attempts}</span> · <span class="status-badge status-pending">⏳</span></p>
           <div class="lives-row">Leben: <span class="life-dots">${renderLifeDots(marks)}</span></div>
           <div class=\"row\">
@@ -2138,6 +2194,7 @@ function renderTasksForCurrentLevel() {
               }
               const bonus = awardTaskBonus(task.id, 'Aufgabe gelöst');
               showToast(`Super! +${pts} Punkte`, 'ok');
+              maskottchen('huepf');
               if (bonus > 0 && feedback) {
                 feedback.textContent = `Richtig! (+${pts} Punkte, Zeitbonus +${bonus})`;
               }
@@ -2154,6 +2211,7 @@ function renderTasksForCurrentLevel() {
                 statusBadge.className = 'status-badge status-warn';
               }
               showToast(`Versuch ${attemptNumber} nicht ganz richtig.`, 'warn');
+              maskottchen('wackel');
               if (attemptsEl) attemptsEl.textContent = attemptsNow.toString();
               const lifeIdx = attemptNumber - 1;
               marksNow[lifeIdx] = 'bad';

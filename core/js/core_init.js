@@ -62,6 +62,9 @@
   (function ensureDunkelCss() {
     const href = "/core/assets/dunkel.css";
     if (document.querySelector(`link[href="${href}"]`)) return;
+    // 2026-11-25: Seiten mit eigenem Bild und eigenen Farben (z. B. Mathe-Spaß) bleiben, wie sie sind –
+    // dunkel wird dort nur die Kopfleiste. RU: у таких страниц свои цвета, тёмной становится только шапка.
+    if (document.body && document.body.hasAttribute("data-eigenes-bild")) return;
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = href;
