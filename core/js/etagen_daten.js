@@ -8,7 +8,7 @@
        меню в шапке и план этажей. Новая страница = одна строка.
    ============================================================ */
 window.Q_ETAGEN = [
- { id:"e3", kurz:"3", nr:"3. Etage", name:"das Language Lab", farbe:"#2f6fb3", eingang:"/pages/language_lab/index.html",
+ { id:"e3", kurz:"3", nr:"3. Etage", name:"das Language Lab", motto:"Sprachen lernen und verstehen", farbe:"#2f6fb3", eingang:"/pages/language_lab/index.html",
    gruppen:[
     { t:"der Sprachführer", info:"die Karteikarten – Sprachpaar wählen; die Lieder sind auch Karten (🎵)", r:[
       ["🇩🇪⇄🇬🇧 Deutsch ⇄ English","/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html","die Karteikarten, auch die Lieder"],
@@ -34,7 +34,7 @@ window.Q_ETAGEN = [
       ["📖 das Glossar Deutsch","/pages/language_lab/glossar/de.html","Fachwörter der Grammatik"],
       ["📜 die Etymologie – Wortgeschichte","/pages/language_lab/wortdetektiv/index.html","mit der Toponymie"]]}
    ]},
- { id:"e2", kurz:"2", nr:"2. Etage", name:"die Fächer", farbe:"#2f8a5b", eingang:"/pages/faecher/index.html",
+ { id:"e2", kurz:"2", nr:"2. Etage", name:"die Fächer", motto:"Wissen entdecken und vertiefen", farbe:"#2f8a5b", eingang:"/pages/faecher/index.html",
    gruppen:[
     { t:"die Mathematik", r:[
       ["die Mathematik – Übersicht","/pages/faecher/mathematik/index.html"],
@@ -65,7 +65,7 @@ window.Q_ETAGEN = [
       ["die Technik","/pages/faecher/technik/index.html","noch leer","idee"],
       ["die Informatik (HTML, CSS, JavaScript)","/pages/faecher/informatik/index.html","ruht – 10 Web-Lektionen","idee"]]}
    ]},
- { id:"e1", kurz:"1", nr:"1. Etage", name:"die Programme", farbe:"#b0742a",
+ { id:"e1", kurz:"1", nr:"1. Etage", name:"die Programme", motto:"Wissen praktisch anwenden", farbe:"#b0742a",
    info:"Programme, die Claude gebaut hat – sie öffnen in Claude (Anmeldung nötig)",
    gruppen:[
     { t:"das Auto", r:[

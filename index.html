@@ -11,10 +11,10 @@
     <script src="/core/js/etagen_daten.js"></script>
     <script src="/core/js/core_init.js" defer></script>
     <style>
-      .st { max-width: 1060px; margin: 0 auto; padding: 22px 14px 40px; }
+      .st { width: 100%; box-sizing: border-box; max-width: 1060px; margin: 0 auto; padding: 22px 14px 40px; }
       .st-held { display: flex; gap: 18px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 18px; }
       .st-banner { flex: 1 1 420px; background: #24263f; color: #f3f4ff; border-radius: 16px; padding: 20px 24px; }
-      .st-banner h1 { margin: 0; font-size: 30px; color: #fff; }
+      .st-held .st-banner h1 { margin: 0; font-size: 40px; letter-spacing: .5px; color: #fff; }
       .st-banner .st-logik { margin: 6px 0 10px; font-size: 20px; font-weight: 700; color: #a9b8ff; }
       .st-held .st-banner .st-spruch { margin: 0; font-size: 15px; color: #c9cce6; }
       .st-schnell { flex-direction: column; }
@@ -29,7 +29,16 @@
       .st-held .st-spruch { margin: 2px 0 0; color: #5b6475; font-size: 16px; }
       .st-idee { background: #fff; border: 1px solid #d9dee7; border-radius: 14px; padding: 16px 22px; font-size: 16px; margin-bottom: 18px; line-height: 1.55; }
       .st-idee p { margin: 0 0 10px; } .st-idee p:last-child { margin: 0; }
-      .st-idee h2 { font-size: 19px; margin: 6px 0 8px; } .st-idee h2 + p { margin-top: 0; }
+      .st-idee { line-height: 1.7; }
+      .st-idee > summary { cursor: pointer; font-weight: 700; font-size: 17px; color: #4b3a8f; list-style: none; }
+      .st-idee > summary::-webkit-details-marker { display: none; }
+      .st-idee > summary .st-auf { font-weight: 400; font-size: 13px; color: #5b6475; }
+      .st-idee[open] > summary { margin-bottom: 6px; }
+      .st-sym { width: 22px; height: 22px; display: block; }
+      .st-motto { margin: -4px 0 8px; color: #5b6475; font-size: 15px; }
+      html[data-theme="dark"] .st-motto { color: #a3acbb; }
+      html[data-theme="dark"] .st-idee > summary, html[data-theme="dark"] .st-idee h2 { color: #c4b5fd; }
+      .st-idee h2 { font-size: 20px; margin: 10px 0 8px; color: #4b3a8f; } .st-idee h2 + p { margin-top: 0; }
       .st-idee ul { margin: 0 0 10px; padding-left: 22px; }
       .st-kern { font-style: italic; color: #2f4f86; border-left: 4px solid #6b4fa3; padding-left: 12px; }
       html[data-theme="dark"] .st-kern { color: #b9c8ff; }
@@ -75,7 +84,8 @@
         </div>
       </section>
 
-      <section class="st-idee">
+      <details class="st-idee" id="stIdee">
+        <summary>ℹ️ Über Quantura <span class="st-auf">– aufklappen / zuklappen</span></summary>
         <h2>Was ist Quantura?</h2>
         <p>Quantura ist ein digitales Lernhaus, das verschiedene Wissensgebiete, Lernmethoden und praktische Anwendungen unter einem Dach vereint.</p>
         <p>Dahinter steht eine einfache, aber faszinierende Idee: Ob Sprachen, Mathematik, Naturwissenschaften oder Technik – überall
@@ -92,7 +102,7 @@
         <p>Quantura steht für bewusstes und strukturiertes Lernen, messbare Lernfortschritte und einen sinnvollen Umgang
           mit der Zeit, die wir in unsere Bildung investieren.</p>
         <p class="st-kern">Denn Lernen bedeutet nicht nur, Wissen zu erwerben, sondern auch, es zu verstehen.</p>
-      </section>
+      </details>
 
       <h2 class="st-h">🏢 die Etagen</h2>
       <section class="st-etagen" id="etagen"></section>
@@ -111,12 +121,31 @@
     <script>
       (function () {
         const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+        // Info-Block: beim ersten Besuch offen, danach zugeklappt (Zustand wird gemerkt)
+        const idee = document.getElementById("stIdee");
+        try {
+          const z = localStorage.getItem("q_start_info");
+          idee.open = z === null ? true : z === "auf";
+          // Merken erst nach dem Laden (sonst zählt das automatische Öffnen mit)
+          setTimeout(() => idee.addEventListener("toggle", () => { try { localStorage.setItem("q_start_info", idee.open ? "auf" : "zu"); } catch (e) {} }), 300);
+          if (z === null) localStorage.setItem("q_start_info", "zu");
+        } catch (e) { idee.open = true; }
+
+        // kleine Linien-Symbole je Etage (wie Lucide-Icons)
+        const SYMBOL = {
+          e3: '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>',
+          e2: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+          e1: '<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>',
+        };
+        const symbol = (id) => SYMBOL[id] ? `<svg class="st-sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SYMBOL[id]}</svg>` : "";
+
         // die Etagen als Kacheln (ohne Erdgeschoss und Keller)
         const etagen = (window.Q_ETAGEN || []).filter((e) => !e.keller && e.id !== "eg");
         document.getElementById("etagen").innerHTML = etagen.map((e) => {
           const ziel = e.eingang || "#";
           return `<article class="st-etage" style="--f:${e.farbe}">
-            <h3><span class="st-nr">${esc(e.kurz)}</span><a href="${esc(ziel)}">${esc(e.name)}</a></h3>
+            <h3><span class="st-nr">${esc(e.kurz)}</span><span style="color:${e.farbe}">${symbol(e.id)}</span><a href="${esc(ziel)}">${esc(e.name)}</a></h3>
+            ${e.motto ? `<p class="st-motto">${esc(e.motto)}</p>` : ""}
             ${e.gruppen.map((g) => {
               const erster = g.r.flatMap((r) => (Array.isArray(r[4]) ? r[4] : [r])).find((r) => r[1]);
               const inhalt = g.r.map((r) => String(r[0]).replace(/^[^A-Za-zÄÖÜäöü0-9]+/, "")).slice(0, 3).join(" · ");
