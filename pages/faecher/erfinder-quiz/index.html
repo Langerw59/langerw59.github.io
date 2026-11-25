@@ -182,6 +182,10 @@ function nameSprechen(n){
   if(window.TTSManager){window.TTSManager.speak(text,loc,{rate:.85});}
   else{const u=new SpeechSynthesisUtterance(text);u.lang=loc;u.rate=.85;speechSynthesis.speak(u);}
 }
+/* Bilder: Suche bei Wikimedia Commons (freie Fotos), öffnet im eigenen Tab */
+const BILD={'die Schreibmaschine':'Sholes and Glidden typewriter','das Telefon':'Philipp Reis Telefon','das Automobil':'Benz Patent-Motorwagen','der Buchdruck':'Gutenberg Druckerpresse','die Glühlampe':'Edison light bulb 1879','der Dieselmotor':'Diesel Motor 1897 MAN','die Laufmaschine':'Laufmaschine Drais','der Computer':'Zuse Z3 Deutsches Museum','das Flugzeug':'Wright Flyer 1903','das Radio':'Popov radio receiver'};
+function bildLink(f){const q=BILD[f.ding];return q?'<a href="https://commons.wikimedia.org/w/index.php?search='+encodeURIComponent(q)+'&title=Special:MediaSearch&type=image" target="_blank" rel="noopener">🖼 Bilder ansehen ↗</a>':'';}
+function glossarLink(f){const w=f.wort.split(' – ')[0];return '<a href="/pages/language_lab/glossar/de.html#w='+encodeURIComponent(w)+'" target="_blank" rel="noopener">📖 '+esc(w)+' im Glossar ↗</a>';}
 function namenLeiste(f){
   const l=NAMEN[f.ding];if(!l)return '';
   return '<p class="small" style="margin:8px 0 0">Die Namen – zum Anhören antippen (in der Sprache des Landes):</p><div class="namen">'+
@@ -248,7 +252,7 @@ function antwort(k){
    namenLeiste(f)+
    '<button class="vorlesen" type="button" data-lesen="info" aria-pressed="false">🔊 Vorlesen</button>'+
    '<p>'+esc(f.text)+'</p><p class="wort"><b>Das Wort:</b> '+esc(f.wort)+'</p>'+
-   ortTipp+'<div class="links"><a href="https://de.wikipedia.org/wiki/'+encodeURIComponent(f.wiki)+'">Wikipedia lesen ↗</a><a href="'+osm+'">Auf der Karte öffnen ↗</a></div></div>'+
+   ortTipp+'<div class="links">'+bildLink(f)+'<a href="https://de.wikipedia.org/wiki/'+encodeURIComponent(f.wiki)+'" target="_blank" rel="noopener">Wikipedia lesen ↗</a><a href="'+osm+'" target="_blank" rel="noopener">Auf der Karte öffnen ↗</a>'+glossarLink(f)+'</div></div>'+
    '<button class="next" type="button" id="weiter">'+(i+1<FRAGEN.length?'Nächste Frage →':'Zum Ergebnis →')+'</button>';
   $('#maphint').style.display='none';
   zeigeOrte(f.orte);
