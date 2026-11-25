@@ -148,7 +148,8 @@ const FRAGEN=[
  wer:'Alexander Stepanowitsch Popow, Physiklehrer',wo:'Sankt Petersburg',wann:'7. Mai 1895',
  text:'In Russland ist der 7. Mai bis heute „der Tag des Radios“. Im selben Jahr experimentierte Guglielmo Marconi bei Bologna und erhielt 1896 in England ein Patent. Die Grundlage schuf Heinrich Hertz: Er wies 1886–1888 in Karlsruhe die elektromagnetischen Wellen nach.',
  wort:'das Radio – lat. radius „der Strahl“; daher auch der Radius beim Kreis.',
- wiki:'Alexander_Stepanowitsch_Popow',orte:[['Sankt Petersburg',59.93,30.36],['Bologna',44.49,11.34],['Karlsruhe',49.01,8.40]]}
+ wiki:'Alexander_Stepanowitsch_Popow',orte:[['Sankt Petersburg',59.93,30.36],['Bologna',44.49,11.34],['Karlsruhe',49.01,8.40],['Fulda',50.55,9.68]],
+ mehr:{titel:'Wer hat das Radio wirklich erfunden?',text:'Eine Antwort gibt es nicht – viele haben zur gleichen Zeit gearbeitet. Heinrich Hertz wies 1886–1888 in Karlsruhe die elektromagnetischen Wellen nach. 1894 zeigte Oliver Lodge in England eine Übertragung mit Wellen. Am 7. Mai 1895 führte Alexander Popow in Sankt Petersburg seinen Empfänger vor – in Russland gilt er deshalb als der Erfinder. Guglielmo Marconi meldete 1896 in England das erste Patent an und baute daraus ein Geschäft; 1909 erhielt er den Nobelpreis für Physik – zusammen mit dem Deutschen Ferdinand Braun aus Fulda, der die Sender stark verbessert hat (von ihm stammt auch die Braunsche Röhre, die Bildröhre). Nikola Tesla hielt schon 1893 Vorträge über drahtlose Übertragung und erhielt 1900 Patente in den USA. 1943 erklärte das Oberste Gericht der USA wichtige Teile von Marconis Patent für ungültig, weil Tesla, Lodge und andere das schon vorher hatten.',orte:'Fazit: Popow, Marconi, Tesla, Lodge und Braun – jeder hat einen Teil beigetragen. Welcher Name genannt wird, hängt oft vom Land ab. Auf der Karte: Fulda (Ferdinand Braun).',links:[['Erfindung des Radios – Wikipedia','https://de.wikipedia.org/wiki/Hörfunk'],['Ferdinand Braun – Wikipedia','https://de.wikipedia.org/wiki/Ferdinand_Braun'],['Nikola Tesla – Wikipedia','https://de.wikipedia.org/wiki/Nikola_Tesla']]}}
 ];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -175,7 +176,7 @@ const NAMEN={
  'die Laufmaschine':[['Karl Drais','de'],['Schwetzingen','de']],
  'der Computer':[['Konrad Zuse','de'],['Kreuzberg','de']],
  'das Flugzeug':[['Orville Wright','en'],['Wilbur Wright','en'],['Kitty Hawk','en'],['North Carolina','en'],['Otto Lilienthal','de'],['Lichterfelde','de'],['Anklam','de'],['Stölln','de'],['Gollenberg','de']],
- 'das Radio':[['Alexander Stepanowitsch Popow','ru','Александр Степанович Попов'],['Guglielmo Marconi','it'],['Bologna','it'],['Heinrich Hertz','de'],['Karlsruhe','de']]
+ 'das Radio':[['Alexander Stepanowitsch Popow','ru','Александр Степанович Попов'],['Guglielmo Marconi','it'],['Bologna','it'],['Heinrich Hertz','de'],['Karlsruhe','de'],['Ferdinand Braun','de'],['Fulda','de'],['Oliver Lodge','en'],['Nikola Tesla','en']]
 };
 const SPR={de:'de-DE',en:'en-US',it:'it-IT',ru:'ru-RU',da:'da-DK'};
 function nameSprechen(n){
