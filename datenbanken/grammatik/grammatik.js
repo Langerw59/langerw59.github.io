@@ -1367,6 +1367,42 @@ window.GRAMMATIK = {
         { en: "Is there Wi-Fi here?", de: "Gibt es hier WLAN?", ru: "Здесь есть вайфай?", hinweis: "неисчисляемое → без артикля" }
       ],
       merke: "there is + Neues: unzählbar → ohne Artikel (Is there electricity?), zählbar → a (Is there a socket?). the nur für das schon Bekannte (The electricity is off). Wie im Deutschen: Gibt es hier Strom? – ohne Artikel."
+    },
+    {
+      // 2026-11-25: mit Claude – Frage zu „I was tired yesterday“ (die Spracheingabe hörte „die Reifen“)
+      id: "en-was-tired",
+      thema: "verb",
+      sprache: "en",
+      datum: "2026-11-25",
+      titel: "I was tired yesterday – was + das Adjektiv (das Prädikativ); tired ≠ tires",
+      titel_ru: "I was tired yesterday – вчера я устал; tired (уставший) ≠ tires (шины)",
+      formel: "das Subjekt + was / were + das Adjektiv (das Prädikativ) + die Zeitangabe  ·  I was tired yesterday = Ich war gestern müde",
+      erklaerung: [
+        "ПЕРЕВОД. I was tired yesterday = Ich war gestern müde = Я вчера был уставшим (я вчера устал).",
+        "ОСТОРОЖНО, ПОХОЖИЕ СЛОВА. tired [ˈtaɪəd] = müde (уставший). tires / tyres [ˈtaɪəz] = die Reifen (шины, колёса). Разница только в последнем звуке: [d] или [z]. Поэтому die Spracheingabe услышала «Reifen».",
+        "was = das Präteritum (Past Simple) глагола to be (sein). Только две формы: I / he / she / it was (ich war, er war), you / we / they were (du warst, wir waren, sie waren). Полная таблица – в правиле «das Verb to be».",
+        "tired по происхождению das Partizip II (past participle) глагола to tire (ermüden – утомлять). Здесь оно работает как das Adjektiv, так же как немецкое müde / erschöpft. В предложении это das Prädikativ: was + tired вместе образуют сказуемое (was – связка, das Kopulaverb).",
+        "ПОРЯДОК СЛОВ. В английском die Zeitangabe (yesterday) обычно стоит в конце: I was tired yesterday. В немецком gestern идёт сразу после глагола: Ich war gestern müde. Если поставить время в начало: EN – Yesterday I was tired (порядок «подлежащее → глагол» не меняется); DE – Gestern war ich müde (глагол остаётся на 2-м месте, подлежащее уходит за него – die Inversion). См. правило «die Verbzweitstellung».",
+        "СРАВНЕНИЕ С РУССКИМ. В настоящем времени связку «есть» по-русски опускаем (я устал / я уставший), в английском am обязательно: I am tired. В прошедшем и по-русски есть «был»: я был уставшим = I was tired."
+      ],
+      tabelle: {
+        kopf: ["English", "das Satzglied · член предложения", "Deutsch", "по-русски"],
+        sprechen: 0,
+        zeilen: [
+          ["I", "das Subjekt · подлежащее", "ich", "я"],
+          ["was", "das Prädikat (das Kopulaverb, Past Simple) · сказуемое (связка)", "war", "был"],
+          ["tired", "das Prädikativ (das Adjektiv) · именная часть сказуемого", "müde", "уставшим"],
+          ["yesterday", "die Zeitangabe (das Adverb der Zeit) · обстоятельство времени", "gestern", "вчера"]
+        ]
+      },
+      beispiele: [
+        { en: "I was tired yesterday.", de: "Ich war gestern müde.", ru: "Я вчера устал.", hinweis: "was + Adjektiv" },
+        { en: "Yesterday I was tired.", de: "Gestern war ich müde.", ru: "Вчера я устал.", hinweis: "EN: порядок не меняется · DE: die Inversion" },
+        { en: "We were tired.", de: "Wir waren müde.", ru: "Мы устали.", hinweis: "we → were" },
+        { en: "I am tired.", de: "Ich bin müde.", ru: "Я устал.", hinweis: "сейчас: am обязательно" },
+        { en: "The tires are new.", de: "Die Reifen sind neu.", ru: "Шины новые.", hinweis: "tires [ˈtaɪəz] – die Reifen, не путать с tired" }
+      ],
+      merke: "tired [ˈtaɪəd] = müde · tires [ˈtaɪəz] = die Reifen. I was tired = Ich war müde: was / were + das Adjektiv, die Zeitangabe (yesterday) im Englischen meist am Ende."
     }
   ]
 };
