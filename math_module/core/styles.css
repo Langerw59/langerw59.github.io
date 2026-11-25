@@ -585,3 +585,8 @@ details#allLevelsDetails { padding: 8px 12px; border-radius: 12px; }
 .kind-ergebnis { text-align: center; font-size: 1.25em; margin: 0 0 12px; }
 details.erwachsene > summary { cursor: pointer; color: #64748b; font-size: .9em; margin-bottom: 8px; }
 .exercise .meta { display: none; }
+
+/* Grundschule: kein Zeitmodus, statt Spardose die Sternensammlung */
+.time-mode-toggle, .time-mode-note, #timerBox { display: none !important; }
+.sterne-widget { cursor: default !important; text-align: center; }
+.sterne-zahl { font-size: 1.8em; font-weight: 800; line-height: 1.1; }

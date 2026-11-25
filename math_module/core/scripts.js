@@ -41,6 +41,8 @@ const BONUS_STORE_KEY = 'math_module_bonus_store_v1';
 const BONUS_STEP_SECONDS = 60; // Bonus-Berechnung pro Minute Restzeit
 const BONUS_POINTS_PER_STEP = 2;
 const BONUS_JAR_CAP = 120;
+// 2026-11-25: Grundschule ohne Zeitdruck – der Zeitmodus ist aus (für ältere Klassen später wieder an)
+const OHNE_ZEITMODUS = true;
 let timerInterval = null;
 let toastHideTimeout = null;
 
@@ -414,6 +416,12 @@ function sterneSpeichern(levelId, n) {
   if (n > (a[sp][String(levelId)] || 0)) a[sp][String(levelId)] = n;
   localStorage.setItem(STERNE_KEY, JSON.stringify(a));
 }
+function sterneSummeZeigen() {
+  const el = document.getElementById('sterne-summe');
+  if (!el) return;
+  const meine = sterneAlle()[sterneSpieler()] || {};
+  el.textContent = String(Object.values(meine).reduce((a, b) => a + (Number(b) || 0), 0));
+}
 function sterneAusProzent(p) { return p >= 90 ? 3 : p >= 70 ? 2 : p >= 40 ? 1 : 0; }
 function sternText(n) { return '⭐'.repeat(n) + '☆'.repeat(3 - n); }
 
@@ -698,7 +706,7 @@ function addProfileBonusPoints(delta) {
   const next = getProfileBonusPoints() + add;
   lastBonusEarned = add;
   setProfileBonusPoints(next);
-  showToast(`Bonus +${add} in die Spardose gelegt`, 'ok');
+  // 2026-11-25: keine Spardose-Meldung mehr (Grundschule: nur Sterne)
   renderBonusJar(true);
   return add;
 }
@@ -832,15 +840,17 @@ function renderWelcome() {
         <button class=\"linklike\" id=\"open-level-results\" data-de=\"Auswertung\" data-en=\"Evaluation\">Auswertung</button>
         <button class=\"linklike\" id=\"reset-player\" data-de=\"Neuer Spieler\" data-en=\"New player\">Neuer Spieler</button>
       </div>
-      <div class=\"bonus-widget\" id=\"bonus-widget\" aria-live=\"polite\">
-        <div class=\"bonus-kicker\">Spardose / Punkteglas</div>
-        <div class=\"bonus-jar\"><div id=\"bonus-jar-fill\" class=\"bonus-jar-fill\"></div></div>
-        <div class=\"bonus-points\">Bonus: <strong id=\"bonus-points\">0</strong></div>
+      <div class=\"bonus-widget sterne-widget\" id=\"sterne-widget\" title=\"Alle Sterne aus allen Levels\">
+        <div class=\"bonus-kicker\">Meine Sterne</div>
+        <div class=\"sterne-zahl\">⭐ <strong id=\"sterne-summe\">0</strong></div>
+        <div class=\"bonus-points\">von <span id=\"sterne-max\">21</span></div>
+</div>
       </div>
     </div>
   `;
   applyBilingualLabels(target);
   renderBonusJar(false);
+  sterneSummeZeigen();
   const bonusWrap = document.getElementById('bonus-widget');
   if (bonusWrap) {
     bonusWrap.setAttribute('role', 'button');
@@ -1911,7 +1921,7 @@ function renderTasksForCurrentLevel() {
       tasksHost.appendChild(nav);
       tasksHost.appendChild(newBtn);
       if (timeModeToggle && !timeModeToggle.dataset.bound) {
-        const initialOn = runState.timeModeEnabled !== false;
+        const initialOn = OHNE_ZEITMODUS ? false : runState.timeModeEnabled !== false;
         timeModeToggle.checked = initialOn;
         timeModeToggle.addEventListener('change', () => {
           setTimeMode(!!timeModeToggle.checked);
@@ -1924,7 +1934,7 @@ function renderTasksForCurrentLevel() {
       if (timeModeNote) {
         timeModeNote.textContent = `Bonus: +${BONUS_POINTS_PER_STEP} Punkt(e) pro gesparter Minute.`;
       }
-      setTimeMode(timeModeToggle ? !!timeModeToggle.checked : true);
+      setTimeMode(OHNE_ZEITMODUS ? false : (timeModeToggle ? !!timeModeToggle.checked : true));
       console.log(`[Timer] Zeitmodus aktiv: ${timeModeEnabled}, Sanduhr: ${!!document.querySelector('.hourglass, #hourglass, [data-hourglass]')}, Toast: ${!!document.getElementById('toast')}, Dateien: math_module/core/scripts.js + math_module/core/styles.css + math_module/levels/level*.html`);
 
       const openSolutionPopup = (task, solutionText) => {
@@ -2072,6 +2082,7 @@ function renderTasksForCurrentLevel() {
           timeLimitSec: getTimeLimitSec(),
         };
         sterneSpeichern(levelId, sterneAusProzent(stats.percent));
+        sterneSummeZeigen();
         const rows = tasks.map((task, idx) => {
           const log = taskAttemptLog.get(task.id) || [];
           return `
@@ -2259,12 +2270,12 @@ function renderTasksForCurrentLevel() {
                 statusBadge.className = 'status-badge status-ok';
               }
               const bonus = awardTaskBonus(task.id, 'Aufgabe gelöst');
-              showToast(`Super! +${pts} Punkte`, 'ok');
+              showToast(['Super!', 'Toll!', 'Prima!', 'Klasse!', 'Spitze!'][Math.floor(Math.random() * 5)] + ' 🎉', 'ok');
               maskottchen('huepf');
               if (bonus > 0 && feedback) {
-                feedback.textContent = `Richtig! (+${pts} Punkte, Zeitbonus +${bonus})`;
+                feedback.textContent = `Richtig! 🎉`;
               }
-              lockTask(task.id, `Richtig! (+${pts} Punkte)`, true);
+              lockTask(task.id, `Richtig! 🎉`, true);
             } else if (!solved.has(task.id)) {
               marksNow[attemptIndex] = 'bad';
               taskAttemptMarks.set(task.id, marksNow);
@@ -2305,7 +2316,7 @@ function renderTasksForCurrentLevel() {
               }
               const restLeben = MAX_LIVES - attemptNumber;
               feedback.textContent = correct
-                ? `Richtig! (+${pts} Punkte)`
+                ? `Richtig! 🎉`
                 : (restLeben > 0
                     ? `Versuch ${attemptNumber} nicht ganz richtig.${tipp} Noch ${restLeben} ${restLeben === 1 ? 'Leben' : 'Leben'}.`
                     : `Leider nicht richtig. Die Lösung ist ${task.answer}.`);
