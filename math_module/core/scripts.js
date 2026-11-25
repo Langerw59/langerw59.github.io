@@ -79,7 +79,7 @@ const THEMES = [
   `${SITE_ROOT}/assets/themes/squirrel.jpg`,
   `${SITE_ROOT}/assets/themes/tigr.jpg`,
 ];
-const TEAM_NAMES = ['Pinguin', 'Panda', 'Frosch', 'Eichhoernchen', 'Tiger'];
+const TEAM_NAMES = ['Pinguin', 'Panda', 'Frosch', 'Eichhörnchen', 'Tiger'];
 const TEAM_TONES = [
   { accent: '#3b82f6', accentStrong: '#1d4ed8', onAccent: '#ffffff', accentSoft: '#e0ecff', accentBorder: '#b6ccff' },
   { accent: '#f59e0b', accentStrong: '#b45309', onAccent: '#ffffff', accentSoft: '#fff2d8', accentBorder: '#f5d39a' },
@@ -409,7 +409,7 @@ function resolveTheme(themeUrl) {
 function applyTheme(themeUrl) {
   const resolved = resolveTheme(themeUrl);
   document.body.style.backgroundImage = `linear-gradient(rgba(12,16,27,0.18), rgba(12,16,27,0.18)), url(${resolved})`;
-  document.body.style.backgroundSize = 'contain'; // kompletter Inhalt sichtbar
+  document.body.style.backgroundSize = 'cover'; // 2026-11-25: ganzer Bildschirm gefüllt
   document.body.style.backgroundRepeat = 'no-repeat';
   document.body.style.backgroundPosition = 'center top';
   document.body.style.backgroundAttachment = 'fixed';
@@ -706,7 +706,7 @@ function renderWelcome() {
       <button type=\"button\" class=\"avatar-chip\" id=\"avatar-open\">
         <img class=\"avatar-img\" src=\"${avatar}\" alt=\"Avatar\" width=\"48\" height=\"48\" />
         <div class=\"welcome-copy\">
-          <span class=\"welcome-text\">Das Spiel fuer Team ${teamName}</span>
+          <span class=\"welcome-text\">Das Spiel für Team ${teamName}</span>
           <div class=\"welcome-meta\"><small>Spieler: ${name}</small></div>
         </div>
       </button>
@@ -793,7 +793,7 @@ function openNameModal() {
         <h3>Willkommen bei Mathe-Spaß!</h3>
         <p class="name-sub">Name eingeben und Team wählen.</p>
         <input type="text" id="name-input" placeholder="Dein Name..." autocomplete="off" />
-        <div class="team-picker" id="team-picker" aria-label="Team auswaehlen">
+        <div class="team-picker" id="team-picker" aria-label="Team auswählen">
           ${AVATARS.map((src, idx) => {
             const label = TEAM_NAMES[idx] || 'Avatar';
             const theme = THEMES[idx] || THEMES[0];
@@ -805,10 +805,10 @@ function openNameModal() {
               </label>`;
           }).join('')}
         </div>
-        <p class="team-choice" id="team-choice">Du hast noch kein Team gewaehlt.</p>
+        <p class="team-choice" id="team-choice">Du hast noch kein Team gewählt.</p>
         <div class="name-actions">
           <button id="name-submit" data-de="Los geht's!" data-en="Let's go!">Los geht's!</button>
-          <button type="button" id="name-later" class="name-later" data-de="Spaeter" data-en="Later">Spaeter</button>
+          <button type="button" id="name-later" class="name-later" data-de="Später" data-en="Later">Später</button>
           <button type="button" id="profile-reset" class="name-later" data-de="Profil zurücksetzen" data-en="Reset profile">Profil zurücksetzen</button>
         </div>
       </div>
@@ -843,7 +843,7 @@ function openNameModal() {
   if (!overlay.dataset.bound) {
     picker.querySelectorAll('input[type="radio"]').forEach(r => {
       r.addEventListener('change', () => {
-        if (choice) choice.textContent = `Du hast Team ${r.nextElementSibling?.alt || 'Avatar'} gewaehlt.`;
+        if (choice) choice.textContent = `Du hast Team ${r.nextElementSibling?.alt || 'Avatar'} gewählt.`;
       });
     });
 
@@ -853,7 +853,7 @@ function openNameModal() {
       if (!val) return;
       const selected = overlay.querySelector('#team-picker input[type="radio"]:checked');
       if (!selected || !selected.value) {
-        if (choice) choice.textContent = 'Bitte waehle zuerst ein Team aus.';
+        if (choice) choice.textContent = 'Bitte wähle zuerst ein Team aus.';
         return;
       }
       setAvatar(selected.value);
@@ -884,7 +884,7 @@ function openNameModal() {
         localStorage.removeItem(THEME_KEY);
         markGameActive(false);
         clearWelcomeShown();
-        if (choice) choice.textContent = 'Du hast noch kein Team gewaehlt.';
+        if (choice) choice.textContent = 'Du hast noch kein Team gewählt.';
         picker.querySelectorAll('input[type="radio"]').forEach(r => { r.checked = false; });
         if (input) input.value = 'Gast';
         openNameModal();
@@ -898,7 +898,7 @@ function openNameModal() {
   picker.querySelectorAll('input[type="radio"]').forEach(r => {
     r.checked = r.value === currentAvatar;
   });
-  if (choice) choice.textContent = `Du hast Team ${teamNameForAvatar(currentAvatar)} gewaehlt.`;
+  if (choice) choice.textContent = `Du hast Team ${teamNameForAvatar(currentAvatar)} gewählt.`;
   if (input) input.value = 'Gast';
 
   overlay.classList.add('is-visible');
@@ -1762,10 +1762,11 @@ function renderTasksForCurrentLevel() {
 
       const newBtn = document.createElement('button');
       newBtn.type = 'button';
-      newBtn.textContent = 'Aufgaben';
+      newBtn.textContent = '🎲 Neue Aufgaben';
       newBtn.className = 'btn-secondary pill';
-      newBtn.setAttribute('data-de', 'Aufgaben');
-      newBtn.setAttribute('data-en', 'Tasks');
+      newBtn.title = 'Neue zufällige Aufgaben für dieses Level';
+      newBtn.setAttribute('data-de', '🎲 Neue Aufgaben');
+      newBtn.setAttribute('data-en', 'New tasks');
       newBtn.addEventListener('click', () => {
         const generated = loadGeneratedStore();
         generated[levelId] = generateTasksForLevel(levelId);
@@ -1973,15 +1974,17 @@ function renderTasksForCurrentLevel() {
             <h3>Auswertung</h3>
             <p>Aufgaben gesamt / Total tasks: ${stats.tasksTotal || 0}</p>
             <p>Richtig / Correct: ${stats.correctCount || 0}</p>
+            ${stats.timeModeEnabled ? `
             <p>Zeitlimit / Time limit: ${formatClock(stats.timeLimitSec || 0)}</p>
             <p>Zeit gebraucht / Time used: ${formatClock(stats.timeConsumedSec || 0)}</p>
-            <p>Zeit gespart / Time saved: ${formatClock((stats.timeSavedMin || 0) * 60)}</p>
+            <p>Zeit gespart / Time saved: ${formatClock((stats.timeSavedMin || 0) * 60)}</p>` : ''}
             <p>Punkte (Aufgaben) / Task points: ${stats.pointsTasks || 0}</p>
-            <p>Zeitbonus / Time bonus: ${stats.pointsTime || 0}</p>
+            <p>Lebensbonus / Life bonus: ${stats.pointsLives || 0}</p>
+            ${stats.timeModeEnabled ? `<p>Zeitbonus / Time bonus: ${stats.pointsTime || 0}</p>` : ''}
             <p>Gesamtpunkte / Total points: ${stats.pointsTotal || 0}</p>
             <p>Prozent: ${stats.percent}%</p>
             <p>Note (1–6): ${stats.grade}</p>
-            <p>Versuche gesamt: ${stats.attemptsTotal}</p>
+            <p>Versuche gesamt: ${tasks.reduce((n, t) => n + (taskAttemptLog.get(t.id) || []).length, 0)} (davon falsch: ${stats.attemptsTotal})</p>
           </div>
           <table class="attempt-log-table">
             <thead>
@@ -2058,7 +2061,7 @@ function renderTasksForCurrentLevel() {
         taskAttemptLog.set(task.id, []);
 
         ex.innerHTML = `
-          <p><strong>Slide ${task.slide}:</strong> ${task.text}</p>
+          <p><strong>Aufgabe ${task.slide}:</strong> ${task.text}</p>
           <p class="meta">Max: ${maxPts} Punkte · Versuche: <span class="attempts">${attempts}</span> · <span class="status-badge status-pending">⏳</span></p>
           <div class="lives-row">Leben: <span class="life-dots">${renderLifeDots(marks)}</span></div>
           <div class=\"row\">
@@ -2161,16 +2164,27 @@ function renderTasksForCurrentLevel() {
               } else {
                 // still lives left; prepare for next try
                 updateTaskVisuals(task.id, taskScores.get(task.id) || 0);
-                setNextEnabled(false);
               }
             }
 
             if (attemptsEl) attemptsEl.textContent = attemptNumber.toString();
 
             if (feedback) {
+              // 2026-11-25: kindgerechter Tipp bei falscher Zahl
+              let tipp = '';
+              const zahlKind = Number(String(rawVal).replace(',', '.'));
+              const zahlSoll = Number(String(task.answer).replace(',', '.'));
+              if (!correct && rawVal && Number.isFinite(zahlKind) && Number.isFinite(zahlSoll)) {
+                tipp = zahlKind > zahlSoll ? ' Tipp: Deine Zahl ist zu groß. 🔽' : ' Tipp: Deine Zahl ist zu klein. 🔼';
+              } else if (!correct && rawVal && !Number.isFinite(zahlKind)) {
+                tipp = ' Tipp: Bitte nur eine Zahl eintippen.';
+              }
+              const restLeben = MAX_LIVES - attemptNumber;
               feedback.textContent = correct
                 ? `Richtig! (+${pts} Punkte)`
-                : `Versuch ${attemptNumber} nicht ganz richtig.`;
+                : (restLeben > 0
+                    ? `Versuch ${attemptNumber} nicht ganz richtig.${tipp} Noch ${restLeben} ${restLeben === 1 ? 'Leben' : 'Leben'}.`
+                    : `Leider nicht richtig. Die Lösung ist ${task.answer}.`);
               feedback.className = 'feedback ' + (correct ? 'ok' : 'warn');
             }
 
