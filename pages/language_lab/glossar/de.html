@@ -65,7 +65,7 @@
       const $ = (id) => document.getElementById(id);
       const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
       const norm = (s) => String(s || "").toLowerCase().replace(/^(der|die|das)\s+/, "").trim();
-      const HER = { lat: ["Latein", "из латыни", "#8250df"], griech: ["Griechisch", "из греческого", "#bf3989"], germ: ["germanisch (Erbwort)", "германское слово", "#1a7f37"], frz: ["Französisch", "из французского", "#0969da"] };
+      const HER = { lat: ["Latein", "из латыни", "#8250df"], griech: ["Griechisch", "из греческого", "#bf3989"], germ: ["germanisch (Erbwort)", "германское слово", "#1a7f37"], frz: ["Französisch", "из французского", "#0969da"], engl: ["Englisch", "из английского", "#bc4c00"] };
       const G = (window.GLOSSAR_DE || []).slice().sort((a, b) => norm(a.w).localeCompare(norm(b.w), "de"));
       let offen = "";
 

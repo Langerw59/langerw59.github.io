@@ -235,5 +235,17 @@ window.GLOSSAR_DE = [
           ["Das Auto ist meins.", "meins – стоит один, без существительного"],
           ["Wir besuchen unsere Enkel.", "unsere – чьих? наших"]],
     en: "possessive pronoun [pəˈzɛsɪv ˈprəʊnaʊn] – «пэ-ЗЭ-сив»", gr: "en-pronomen"
+  },
+  {
+    w: "die QWERTZ-Tastatur", k: ["QWERTZ", "QWERTY", "QWERTZ-Tastatur", "QWERTY-Tastatur", "AZERTY", "die Tastaturbelegung", "Tastaturbelegung", "das Tastaturlayout", "Tastaturlayout"],
+    sag: "die QWERTZ-Tastatur", aus: "KWERTS-tas-ta-TUR [ˈkvɛrts tastaˌtuːɐ̯]",
+    de: "die deutsche Tastaturbelegung – benannt nach den ersten sechs Buchstaben der oberen Buchstabenreihe: Q W E R T Z",
+    ru: "немецкая раскладка клавиатуры; название – просто первые шесть букв верхнего ряда",
+    h: "engl",
+    her: "Не слово, а «название по первым буквам». Раскладку придумал Christopher Latham Sholes для пишущей машинки (die Schreibmaschine, патент 1868, Milwaukee, США) – там верхний ряд Q W E R T Y, отсюда die QWERTY-Tastatur (англ., «квэ́рти»). В Германии Y и Z поменяли местами: Z в немецком частая, Y почти не встречается – так получилась QWERTZ. Так же названы: AZERTY (французская), ЙЦУКЕН (русская).",
+    ver: "die Tastatur ← ital. tasto «клавиша» ← лат. taxare «трогать, ощупывать» · die Taste · EN keyboard · RU клавиатура ← лат. clavis «ключ»",
+    tip: "Gleiche Begriffe / то же самое: die Tastaturbelegung = das Tastaturlayout = EN keyboard layout. Merke: QWERTY (EN) – QWERTZ (DE) – Y und Z sind vertauscht. Darauf lerne ich die Zehnfingertechnik.",
+    bsp: [["Ich lerne das Zehnfingersystem auf der QWERTZ-Tastatur.", "die deutsche Tastatur – Y unten links, Z oben in der Mitte"]],
+    en: "QWERTY keyboard [ˈkwɜːti ˈkiːbɔːd] – «квэ́рти ки́борд»"
   }
 ];
