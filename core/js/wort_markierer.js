@@ -191,7 +191,7 @@ html[data-theme="dark"] #wmKarte{background:#253858;color:#dfe7f3}
     else if (document.caretRangeFromPoint) { const r = document.caretRangeFromPoint(x, y); if (r) { node = r.startContainer; off = r.startOffset; } }
     if (!node || node.nodeType !== 3) return null;
     const el = node.parentElement;
-    if (!el || el.closest("input,textarea,select,[contenteditable],#wmKarte,#wmKnopf,#wmTipp,#wordPopup,script,style")) return null;
+    if (!el || el.closest("input,textarea,select,[contenteditable],#wmKarte,#wmKnopf,#wmTipp,#wordPopup,script,style,.kopf2")) return null;
     const t = node.textContent;
     const ist = (c) => /[A-Za-zÄÖÜäöüß'’]/.test(c || "");
     let a = off, b = off;

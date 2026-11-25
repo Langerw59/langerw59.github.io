@@ -45,34 +45,23 @@ window.Q_ETAGEN = [
       ["Kurs 1 – die Mathematik","/pages/faecher/elektrotechnik/kurs-1-mathematik/index.html"],
       ["der Kursplan","/pages/faecher/elektrotechnik/kursplan.html","nach dem Lehrbuch"],
       ["📓 mein Labortagebuch","/pages/faecher/elektrotechnik/labortagebuch.html"]]},
-    { t:"die Physik & die Informatik", r:[
+    { t:"die Physik", r:[
       ["die Physik – Übersicht","/pages/faecher/physik/index.html"],
-      ["die Kanonenkugel (Simulation)","/pages/faecher/physik-oberstufe/kanonenkugel_physik.html"],
-      ["die Informatik – Übersicht","/pages/faecher/informatik/index.html"],
-      ["10 Web-Lektionen","/pages/faecher/informatik/web-lessons/index.html"]]},
+      ["die Kanonenkugel (Simulation)","/pages/faecher/physik-oberstufe/kanonenkugel_physik.html"]]},
     { t:"Für alle Fächer", r:[
       ["🧭 der Wegweiser","/pages/faecher/wegweiser/index.html","Simulationen und Videos"],
       ["📘 das Fachglossar","/pages/faecher/glossar.html","Mathematik, Elektrotechnik"],
       ["🗺️ das Erfinder-Quiz","/pages/faecher/erfinder-quiz/index.html","wer hat was wo erfunden"]]},
-    { t:"Ideen (noch leer)", r:[
-      ["die Chemie","/pages/faecher/chemie/index.html","","idee"],
-      ["die Überlebenskunst","/pages/faecher/ueberlebenskunst/index.html","","idee"],
-      ["die Technik","/pages/faecher/technik/index.html","","idee"]]}
+    { t:"Ideen und ruhende Fächer", r:[
+      ["die Chemie","/pages/faecher/chemie/index.html","noch leer","idee"],
+      ["die Überlebenskunst","/pages/faecher/ueberlebenskunst/index.html","noch leer","idee"],
+      ["die Technik","/pages/faecher/technik/index.html","noch leer","idee"],
+      ["die Informatik (HTML, CSS, JavaScript)","/pages/faecher/informatik/index.html","ruht – 10 Web-Lektionen","idee"]]}
    ]},
- { id:"e1", kurz:"1", nr:"1. Etage", name:"die Werkzeuge", farbe:"#b0742a",
-   gruppen:[
-    { t:"Werkzeuge für den Alltag", r:[
-      ["🚗 der Auto-Kauf-Assistent","/pages/language_lab/apps/tools/auto-kauf-assistent/index.html"],
-      ["🔨 die Werkstatt / TagBook","/pages/portal/werkstatt/index.html"]]},
-    { t:"die Bibliothek & die Projekte", r:[
-      ["📚 die Bibliothek","/pages/bibliothek/index.html","Videos, Fotos, Ressourcen"],
-      ["🐭 das Maus-Projekt","/pages/projekte/index.html"],
-      ["der Store – Apps & Tools","/pages/store/index.html","Katalog aller Programme"]]}
-   ]},
- { id:"eg", kurz:"EG", nr:"Erdgeschoss", name:"der Eingang", farbe:"#6b4fa3",
+ { id:"eg", kurz:"EG", nr:"Erdgeschoss", name:"der Eingang", farbe:"#6b4fa3", eingang:"/index.html",
    gruppen:[
     { t:"Start", r:[
-      ["🏠 das Portal – die Startseite","/index.html"],
+      ["🏠 die Startseite – was ist Quantura?","/index.html"],
       ["🗓️ der Stundenplan","/pages/language_lab/stundenplan/index.html","was heute dran ist"],
       ["🏢 der Etagenplan – alles auf einer Seite","/etagen.html"]]}
    ]},
@@ -82,6 +71,13 @@ window.Q_ETAGEN = [
       ["Talk Levels 0–10","/pages/language_lab/apps/talk_levels/index.html","ersetzt durch Sprachführer + Satzlabor"],
       ["der Lied-Trainer (Liedtexte eingeben)","/pages/language_lab/lieder/index.html","Lernen: im Sprachführer unter 🎵"],
       ["weitere Sprachpaare (IT, ES, FR, TR)","/pages/language_lab/sprachfuehrer_auswahl/index.html","später umbauen"]]},
+    { t:"Archiv – die Werkzeuge (früher 1. Etage)", r:[
+      ["🚗 der Auto-Kauf-Assistent","/pages/language_lab/apps/tools/auto-kauf-assistent/index.html"],
+      ["🔨 die Werkstatt / TagBook","/pages/portal/werkstatt/index.html","Arbeitsnotizen, alte Links"],
+      ["📚 die Bibliothek","/pages/bibliothek/index.html","Videos, Fotos, Ressourcen"],
+      ["🐭 das Maus-Projekt","/pages/projekte/index.html"],
+      ["der Store – Apps & Tools","/pages/store/index.html"],
+      ["10 Web-Lektionen (Informatik)","/pages/faecher/informatik/web-lessons/index.html"]]},
     { t:"Alt – später löschen", r:[
       ["Glossar (alt, Tools)","/pages/language_lab/apps/tools/glossar/index.html"],
       ["Glossar (alt, Generator)","/pages/language_lab/apps/generator/de/glossar.html"],

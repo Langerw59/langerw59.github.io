@@ -3,43 +3,122 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quantura – Portal</title>
-    <link rel="stylesheet" href="core/assets/style.css" />
-    <link rel="stylesheet" href="/assets/portal/portal.css" />
+    <title>Quantura – die Startseite</title>
+    <!-- 2026-11-25: neue Startseite. Was ist Quantura + die Etagen als Kacheln
+         (aus /core/js/etagen_daten.js) + Lernzeit der letzten 7 Tage (aus der Lernuhr).
+         RU: новая главная: что такое Quantura, этажи плитками, время учёбы за 7 дней. -->
+    <link rel="stylesheet" href="/core/assets/style.css" />
+    <script src="/core/js/etagen_daten.js"></script>
     <script src="/core/js/core_init.js" defer></script>
-    <script src="/assets/portal/portal.js" defer></script>
-  <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+      .st { max-width: 1060px; margin: 0 auto; padding: 22px 14px 40px; }
+      .st-held { display: flex; gap: 18px; align-items: center; margin-bottom: 18px; }
+      .st-logo { flex-shrink: 0; width: 78px; height: 78px; border-radius: 20px; display: grid; place-items: center;
+        background: linear-gradient(135deg, #2f6fb3, #6b4fa3); color: #fff; font: 800 44px/1 system-ui, Arial, sans-serif; }
+      .st-held h1 { margin: 0; font-size: 30px; }
+      .st-held .st-spruch { margin: 2px 0 0; color: #5b6475; font-size: 16px; }
+      .st-idee { background: #fff; border: 1px solid #d9dee7; border-radius: 14px; padding: 14px 18px; margin-bottom: 18px; line-height: 1.55; }
+      .st-idee p { margin: 0 0 8px; } .st-idee p:last-child { margin: 0; }
+      .st-name { font-size: 14px; color: #5b6475; }
+      h2.st-h { font-size: 18px; margin: 22px 0 10px; }
+      .st-etagen { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+      .st-etage { background: #fff; border: 1px solid #d9dee7; border-top: 6px solid var(--f); border-radius: 14px; padding: 14px 16px; }
+      .st-etage h3 { margin: 0 0 8px; font-size: 19px; display: flex; gap: 8px; align-items: center; }
+      .st-etage h3 a { color: inherit; text-decoration: none; }
+      .st-nr { display: inline-grid; place-items: center; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 7px;
+        background: var(--f); color: #fff; font-size: 13px; font-weight: 800; }
+      .st-gruppe { display: block; padding: 9px 12px; margin-top: 6px; border-radius: 10px; text-decoration: none; color: #111827;
+        background: #f6f8fb; border: 1px solid #e6eaf0; border-left: 4px solid var(--f); font-size: 16px; }
+      .st-gruppe:hover { background: #eef3fa; border-color: var(--f); }
+      .st-gruppe small { display: block; font-size: 13px; color: #5b6475; }
+      .st-zeit { background: #fff; border: 1px solid #d9dee7; border-radius: 14px; padding: 14px 18px; }
+      .st-balken { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; align-items: end; height: 110px; margin-top: 8px; }
+      .st-tag { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; font-size: 12px; color: #5b6475; }
+      .st-tag i { display: block; width: 70%; min-height: 3px; border-radius: 5px 5px 0 0; background: #2f6fb3; }
+      .st-tag b { color: #111827; font-size: 12px; }
+      .st-zeit-liste { margin: 10px 0 0; padding: 0; list-style: none; font-size: 14px; color: #374151; }
+      .st-zeit-liste li { display: flex; justify-content: space-between; border-bottom: 1px dashed #e3e7ee; padding: 3px 0; }
+      html[data-theme="dark"] .st-idee, html[data-theme="dark"] .st-etage, html[data-theme="dark"] .st-zeit { background: #1d222b; border-color: #353c48; color: #e8ebf1; }
+      html[data-theme="dark"] .st-gruppe { background: #252b35; border-color: #353c48; color: #e8ebf1; border-left-color: var(--f); }
+      html[data-theme="dark"] .st-gruppe small, html[data-theme="dark"] .st-name, html[data-theme="dark"] .st-spruch, html[data-theme="dark"] .st-tag { color: #a3acbb; }
+      html[data-theme="dark"] .st-tag b, html[data-theme="dark"] .st-zeit-liste { color: #e8ebf1; }
+      @media (max-width: 600px) { .st-held h1 { font-size: 24px; } .st-logo { width: 60px; height: 60px; font-size: 34px; } }
+    </style>
   </head>
   <body>
     <div data-partial="header" data-partial-path="/core/partials/header.html"></div>
-    <main id="ll-content" data-ll-content class="page-wrapper">
-      <section class="ll-welcome" aria-label="Willkommen">
-        <h1>Herzlich willkommen auf Quantura.</h1>
-        <p>Hier kannst du lernen, üben und Themen entdecken – und passende Apps &amp; Tools sofort öffnen. Materialien (z. B. EPUB) kannst du ansehen und herunterladen, falls vorhanden.</p>
-        <p><strong>Apps öffnen</strong>: Werkzeuge starten · <strong>Themen entdecken</strong>: Lernpfade · <strong>Schnellstart</strong>: direkt loslegen</p>
-        <p><strong>Quantura</strong> = Quant + (h)ora (Zeit) — Maß &amp; Klarheit.<br>„Alles wird klar, wenn es messbar wird.“</p>
-      </section>
 
-      <section class="card portal-topics">
-        <div class="topic-controls">
-          <label class="ll-label" for="topicSelect">Wähle ein Thema:</label>
-          <input type="search" id="topicSearch" placeholder="Thema suchen …" autocomplete="off" />
-          <div class="topic-filters" style="display:inline-flex; gap:.35rem; margin-left:.5rem;">
-  <button type="button" class="topicFilter" data-type="all">Alle</button>
-  <button type="button" class="topicFilter" data-type="page">Pages</button>
-  <button type="button" class="topicFilter" data-type="app">Apps</button>
-  <button type="button" class="topicFilter" data-type="tool">Tools</button>
-</div>
-<button id="btnBack" type="button" onclick="history.back()">← Zurück</button>
-<select id="topicSelect">
-            <option value="">Thema wählen …</option>
-          </select>
+    <main class="st" id="ll-content">
+      <section class="st-held">
+        <div class="st-logo" aria-hidden="true">Q</div>
+        <div>
+          <h1>Quantura</h1>
+          <p class="st-spruch">das Maß &amp; die Klarheit · „Alles wird klar, wenn es messbar wird.“</p>
         </div>
       </section>
 
-      <section id="portal-home" data-portal-home></section>
+      <section class="st-idee">
+        <p><b>Was ist Quantura?</b> Meine Lernplattform: die Sprachen, die Mathematik und die Elektrotechnik an einem Ort.
+          Die Idee: Auch eine Sprache hat eine Struktur wie die Mathematik – die Zeitform, die Satzart, die Wortstellung,
+          der Kasus nach der Präposition folgen Regeln. Wer die Regel sieht, versteht den Satz.</p>
+        <p class="st-name"><b>Der Name:</b> <i>Quant</i> (die Menge, das Maß) + <i>hora</i> (lat. die Stunde, die Zeit) –
+          messen, was man lernt, und sehen, wie viel Zeit man investiert.</p>
+      </section>
+
+      <h2 class="st-h">🏢 die Etagen</h2>
+      <section class="st-etagen" id="etagen"></section>
+
+      <h2 class="st-h">⏱️ die Lernzeit – die letzten 7 Tage</h2>
+      <section class="st-zeit">
+        <div class="st-balken" id="balken"></div>
+        <ul class="st-zeit-liste" id="zeitListe"></ul>
+        <p class="st-name" style="margin:8px 0 0">Gemessen mit der Lernuhr ⏱️ oben in der Kopfleiste – auf jedem Gerät getrennt.
+          <a href="/pages/language_lab/stundenplan/index.html">➜ der Stundenplan</a></p>
+      </section>
     </main>
+
     <div data-partial="footer" data-partial-path="/core/partials/footer.html"></div>
-    <script src="assets/js/portal_registry_loader.js"></script>
-</body>
+
+    <script>
+      (function () {
+        const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+        // die Etagen als Kacheln (ohne Erdgeschoss und Keller)
+        const etagen = (window.Q_ETAGEN || []).filter((e) => !e.keller && e.id !== "eg");
+        document.getElementById("etagen").innerHTML = etagen.map((e) => {
+          const ziel = e.eingang || "#";
+          return `<article class="st-etage" style="--f:${e.farbe}">
+            <h3><span class="st-nr">${esc(e.kurz)}</span><a href="${esc(ziel)}">${esc(e.name)}</a></h3>
+            ${e.gruppen.map((g) => {
+              const erster = g.r.flatMap((r) => (Array.isArray(r[4]) ? r[4] : [r])).find((r) => r[1]);
+              const inhalt = g.r.map((r) => String(r[0]).replace(/^[^A-Za-zÄÖÜäöü0-9]+/, "")).slice(0, 3).join(" · ");
+              return erster ? `<a class="st-gruppe" href="${esc(erster[1])}">${esc(g.t)}<small>${esc(inhalt)}</small></a>` : "";
+            }).join("")}
+          </article>`;
+        }).join("");
+
+        // die Lernzeit aus der Lernuhr (localStorage "lernuhr_log_v1": { "JJJJ-MM-TT": { Name: Sekunden } })
+        let log = {};
+        try { log = JSON.parse(localStorage.getItem("lernuhr_log_v1") || "{}") || {}; } catch (e) { log = {}; }
+        const z2 = (n) => String(n).padStart(2, "0");
+        const key = (d) => `${d.getFullYear()}-${z2(d.getMonth() + 1)}-${z2(d.getDate())}`;
+        const tage = [], proName = {};
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date(); d.setDate(d.getDate() - i);
+          const eintrag = log[key(d)] || {};
+          let sum = 0;
+          for (const [name, sek] of Object.entries(eintrag)) { const s = Number(sek) || 0; sum += s; proName[name] = (proName[name] || 0) + s; }
+          tage.push({ d, sum });
+        }
+        const max = Math.max(60, ...tage.map((t) => t.sum));
+        const wt = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+        const min = (s) => Math.round(s / 60);
+        document.getElementById("balken").innerHTML = tage.map((t) =>
+          `<div class="st-tag" title="${min(t.sum)} min"><b>${t.sum ? min(t.sum) + "′" : ""}</b><i style="height:${Math.round((t.sum / max) * 80)}%"></i>${wt[t.d.getDay()]}</div>`).join("");
+        const liste = Object.entries(proName).sort((a, b) => b[1] - a[1]);
+        document.getElementById("zeitListe").innerHTML = liste.length
+          ? liste.map(([n, s]) => `<li><span>${esc(n)}</span><b>${min(s)} min</b></li>`).join("")
+          : `<li><span>Noch keine Lernzeit gemessen.</span></li>`;
+      })();
+    </script>
+  </body>
 </html>
