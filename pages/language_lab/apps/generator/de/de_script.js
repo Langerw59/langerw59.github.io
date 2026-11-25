@@ -228,8 +228,14 @@
         text = VERS[zwei] + text.slice(zwei.length);
       }
       const artW = (text.split(" ")[1] || "");
+      // 2026-11-25: einfach, Schritt für Schritt (auch für Anfänger)
+      const kas = po.k === "akk" ? "Akkusativ" : "Dativ";
+      const wechsel = ["an", "auf", "in", "über", "unter", "vor", "hinter", "neben", "zwischen"].includes(po.p);
       S.pobj = seg(text, "pobj",
-        `Präpositionalobjekt · ${po.v}: ${verbInf(verb)} → ${po.p} → ${po.k === "akk" ? "Akkusativ" : "Dativ"}${artW ? " → " + artW : ""}${vers} · die Präposition gehört fest zum Verb (лучше учить вместе: ${po.v} + ${po.k === "akk" ? "Akk." : "Dat."})`);
+        `Präpositionalobjekt · ① Das Verb ${verbInf(verb)} (der Infinitiv) braucht immer die Präposition „${po.p}“. ` +
+        `② Nach „${po.p}“ steht hier immer der ${kas}` + (wechsel ? ` (allein kann „${po.p}“ Dativ oder Akkusativ haben – bei „${po.v}“ immer ${kas}). ` : ". ") +
+        (artW ? `③ ${kas} → „${artW}“${vers}. ` : "") +
+        `Merke: ${po.v} + ${kas}.`);
     }
 
     // 2026-11-18: das Prädikativ (nach sein / werden / bleiben) – Nominativ
