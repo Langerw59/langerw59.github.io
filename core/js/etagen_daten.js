@@ -38,7 +38,8 @@ window.Q_ETAGEN = [
    gruppen:[
     { t:"die Mathematik", r:[
       ["die Mathematik – Übersicht","/pages/faecher/mathematik/index.html"],
-      ["die Grundschule (Klasse 1–4)","/mathe_grundschule.html"],
+      ["🐯 Mathe-Spaß – das Level-System","/math_module/index.html","die Grundschule, mit Tieren und Punkten"],
+      ["die Grundschule (Klasse 1–4) – die Themen","/mathe_grundschule.html"],
       ["die Realschule (Klasse 5–10)","/pages/faecher/mathematik-realschule/index.html"],
       ["💶 die Finanzmathematik","/pages/faecher/mathematik/finanzmathematik/index.html","Kredit, Sparplan"],
       ["🧮 der Rechner: die quadratische Gleichung","/pages/language_lab/apps/mathe/quadratgleichung/index.html"]]},

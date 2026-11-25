@@ -38,8 +38,8 @@ const TIMER_KEY = 'math_module_timer_v1';
 const AVATAR_KEY = 'math_module_avatar_v1';
 const THEME_KEY = 'math_module_theme_v1';
 const BONUS_STORE_KEY = 'math_module_bonus_store_v1';
-const BONUS_STEP_SECONDS = 10;
-const BONUS_POINTS_PER_STEP = 1;
+const BONUS_STEP_SECONDS = 60; // Bonus-Berechnung pro Minute Restzeit
+const BONUS_POINTS_PER_STEP = 2;
 const BONUS_JAR_CAP = 120;
 let timerInterval = null;
 let toastHideTimeout = null;
@@ -136,6 +136,7 @@ const LEVEL_HINTS = {
 // RU: Ð¢ÐµÐºÑƒÑ‰Ð°Ñ ÑÑ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÐ° ÑƒÑ€Ð¾Ð²Ð½Ñ Ð´Ð»Ñ Ð¼Ð¾Ð´Ð°Ð»Ð¾Ðº
 let currentLevelStats = null;
 let bonusJarFlashTimeout = null;
+let lastBonusEarned = 0;
 
 // DE: Einfacher Drag-Support für Modalfenster
 // EN: Simple drag support for modal windows
@@ -581,7 +582,9 @@ function addProfileBonusPoints(delta) {
   const add = Math.max(0, Math.round(delta || 0));
   if (!add) return 0;
   const next = getProfileBonusPoints() + add;
+  lastBonusEarned = add;
   setProfileBonusPoints(next);
+  showToast(`Bonus +${add} in die Spardose gelegt`, 'ok');
   renderBonusJar(true);
   return add;
 }
@@ -597,14 +600,15 @@ function resetCurrentProfileBonus() {
     delete store[key];
     saveBonusStore(store);
   }
+  lastBonusEarned = 0;
   renderBonusJar(false);
 }
 
-function renderBonusJar(pop = false) {
+function renderBonusJar(pop = false, overridePoints = null) {
   const pointsEl = document.getElementById('bonus-points');
   const fillEl = document.getElementById('bonus-jar-fill');
   const wrapEl = document.getElementById('bonus-widget');
-  const points = getProfileBonusPoints();
+  const points = overridePoints !== null ? Math.max(0, Math.round(overridePoints || 0)) : getProfileBonusPoints();
   if (pointsEl) pointsEl.textContent = String(points);
   if (fillEl) {
     const pct = Math.max(0, Math.min(100, (points / BONUS_JAR_CAP) * 100));
@@ -614,6 +618,38 @@ function renderBonusJar(pop = false) {
   wrapEl.classList.add('pop');
   if (bonusJarFlashTimeout) clearTimeout(bonusJarFlashTimeout);
   bonusJarFlashTimeout = setTimeout(() => wrapEl.classList.remove('pop'), 260);
+}
+
+function openBonusInfoModal() {
+  const balance = getProfileBonusPoints();
+  const last = lastBonusEarned;
+  const recent = currentLevelStats ? ((currentLevelStats.timeBonusPoints || 0) + (currentLevelStats.lifeBonusPoints || 0)) : last;
+  const timePart = currentLevelStats ? `${currentLevelStats.timeBonusPoints || 0} Zeit` : '–';
+  const lifePart = currentLevelStats ? `${currentLevelStats.lifeBonusPoints || 0} Leben` : '–';
+  const html = `
+    <div class="bonus-modal-body">
+      <p>Dein Punkteglas enthält aktuell <strong>${balance}</strong> Bonuspunkte.</p>
+      <ul class="bonus-breakdown">
+        <li>Letzte Gutschrift: <strong>${recent || 0}</strong> (Zeit: ${timePart}, Leben: ${lifePart})</li>
+        <li>So sammelst du Punkte: Zeitmodus aktiv lassen und Aufgaben mit möglichst wenigen Versuchen lösen.</li>
+        <li>Die Punkte bleiben pro Spielerprofil gespeichert.</li>
+      </ul>
+      <button type="button" class="pill btn-secondary" id="bonus-reset-btn">Punkteglas leeren</button>
+    </div>`;
+  const { overlay } = ensureModal('bonus-modal', 'Punkteglas / Spardose');
+  if (overlay) {
+    const body = overlay.querySelector('.modal-body');
+    if (body) body.innerHTML = html;
+    const resetBtn = overlay.querySelector('#bonus-reset-btn');
+    if (resetBtn) {
+      resetBtn.onclick = () => {
+        resetCurrentProfileBonus();
+        showToast('Punkteglas geleert', 'warn');
+        closeModal('bonus-modal');
+      };
+    }
+    overlay.classList.add('is-visible');
+  }
 }
 
 function getNavigationType() {
@@ -691,6 +727,20 @@ function renderWelcome() {
   `;
   applyBilingualLabels(target);
   renderBonusJar(false);
+  const bonusWrap = document.getElementById('bonus-widget');
+  if (bonusWrap) {
+    bonusWrap.setAttribute('role', 'button');
+    bonusWrap.setAttribute('tabindex', '0');
+    bonusWrap.setAttribute('aria-label', 'Punkteglas öffnen');
+    const openBonus = () => openBonusInfoModal();
+    bonusWrap.onclick = openBonus;
+    bonusWrap.onkeydown = ev => {
+      if (ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault();
+        openBonus();
+      }
+    };
+  }
   const changeBtn = document.getElementById('change-name');
   if (changeBtn) {
     changeBtn.onclick = () => {
@@ -1350,7 +1400,7 @@ function loadLayout() {
         if (homeLink) homeLink.href = `${MODULE_ROOT}/index.html`;
         const level0Link = header.querySelector('[data-nav="level0"]');
         if (level0Link) {
-          const currentLevel = getCurrentLevel();
+          const currentLevel = parseCurrentLevel();
           level0Link.href = `${MODULE_ROOT}/levels/level0.html`;
           level0Link.textContent = currentLevel != null ? `Level ${currentLevel}` : 'Aufgaben';
         }
@@ -1462,12 +1512,13 @@ function renderTasksForCurrentLevel() {
   resetRun(levelId);
   let runState = loadState(levelId);
   const MAX_LIVES = 3;
-  const SECONDS_PER_TASK = 60;
+  const TEST_TOTAL_SECONDS = 300; // 5 Minuten Gesamtzeit pro Test
 
   const taskScores = new Map();
   const taskAttemptMarks = new Map();
   const taskAttemptLog = new Map();
   const taskUiRefs = new Map();
+  let currentTasks = [];
   const solved = new Set();
   let finalModalShown = false;
   let totalMax = 0; // Gesamt-Maximum inkl. Zeitbonus
@@ -1477,13 +1528,9 @@ function renderTasksForCurrentLevel() {
   let timerStartMs = 0;
   let timerEndMs = 0;
   let taskTimerInterval = null;
-  let remainingSeconds = SECONDS_PER_TASK;
+  let remainingSeconds = TEST_TOTAL_SECONDS;
   let testTaskCount = 0;
-  let timeLimitSec = 0;
-  let activeTimerTaskId = null;
-  let levelBonusPoints = 0;
-  let taskRemainingById = {};
-  let taskBonusAwarded = new Set();
+  let timeLimitSec = TEST_TOTAL_SECONDS;
   const POINTS_PER_CORRECT = 3;
   const BONUS_PER_SAVED_MIN = BONUS_POINTS_PER_STEP;
   const persistRunState = (patch = {}) => {
@@ -1530,7 +1577,7 @@ function renderTasksForCurrentLevel() {
       markTestRunning(false);
       timerStartMs = 0;
       timerEndMs = 0;
-      remainingSeconds = SECONDS_PER_TASK;
+      remainingSeconds = TEST_TOTAL_SECONDS;
     }
     persistRunState({ timeModeEnabled: !!timeModeEnabled });
     updateTimerUi();
@@ -1541,10 +1588,10 @@ function renderTasksForCurrentLevel() {
     const endMs = testRunning ? Date.now() : (timerEndMs || Date.now());
     return Math.max(0, Math.round((endMs - timerStartMs) / 1000));
   };
-  const getTimeLimitSec = (taskCount) => Math.max(0, (taskCount || 0) * SECONDS_PER_TASK);
+  const getTimeLimitSec = () => TEST_TOTAL_SECONDS;
   const getTimeMetrics = (taskCount) => {
     if (!timeModeEnabled) return { consumedSec: 0, savedSec: 0, savedMin: 0, bonusPoints: 0, bonusMax: 0, limitSec: 0 };
-    const limitSec = getTimeLimitSec(taskCount);
+    const limitSec = getTimeLimitSec();
     const consumedSec = Math.max(0, getConsumedSec());
     const savedSec = Math.max(0, limitSec - consumedSec);
     const savedMin = Math.floor(savedSec / 60);
@@ -1557,37 +1604,14 @@ function renderTasksForCurrentLevel() {
       clearInterval(taskTimerInterval);
       taskTimerInterval = null;
     }
-    activeTimerTaskId = null;
     persistRunState({ running: false });
     updateHourglass();
   };
   const canStartTestTimer = () => timeModeEnabled && isGameActive() && hasProfile() && !finalModalShown && !runState.finished;
-  const awardTaskBonus = (taskId, reason = 'task') => {
-    const id = String(taskId || '');
-    if (!id || !canStartTestTimer()) return 0;
-    if (taskBonusAwarded.has(id)) return 0;
-    const left = Math.max(0, Math.floor(taskRemainingById[id] || 0));
-    const bonus = Math.floor(left / BONUS_STEP_SECONDS) * BONUS_POINTS_PER_STEP;
-    taskBonusAwarded.add(id);
-    if (bonus <= 0) return 0;
-    levelBonusPoints += bonus;
-    addBonusPoints(bonus);
-    showToast(`Zeitbonus +${bonus} (${reason})`, 'ok');
-    return bonus;
-  };
-  const startTaskTimer = taskId => {
-    if (!taskId || !timeLimitSec || !canStartTestTimer()) return;
-    const id = String(taskId);
-    if (activeTimerTaskId === id && taskTimerInterval) return;
-    if (taskTimerInterval) clearInterval(taskTimerInterval);
-    activeTimerTaskId = id;
-    if (typeof taskRemainingById[id] !== 'number') taskRemainingById[id] = SECONDS_PER_TASK;
-    remainingSeconds = Math.max(0, taskRemainingById[id]);
-    if (remainingSeconds <= 0) {
-      markTestRunning(false);
-      updateTimerUi();
-      return;
-    }
+  const awardTaskBonus = () => 0; // Bonus wird über die Gesamtzeit ermittelt
+  const startTaskTimer = () => {
+    if (!timeLimitSec || !canStartTestTimer()) return;
+    if (taskTimerInterval) return;
     if (!timerStartMs) {
       timerStartMs = Date.now();
       timerEndMs = 0;
@@ -1595,14 +1619,10 @@ function renderTasksForCurrentLevel() {
     markTestRunning(true);
     updateTimerUi();
     taskTimerInterval = setInterval(() => {
-      const currentId = String(activeTimerTaskId || '');
-      if (!currentId) return;
-      const next = Math.max(0, Math.floor((taskRemainingById[currentId] || 0) - 1));
-      taskRemainingById[currentId] = next;
-      remainingSeconds = next;
+      const elapsed = getConsumedSec();
+      remainingSeconds = Math.max(0, timeLimitSec - elapsed);
       updateTimerUi();
       if (remainingSeconds > 0) return;
-      taskBonusAwarded.add(currentId);
       stopTaskTimer();
       markTestRunning(false);
       showToast('Zeit abgelaufen: kein Bonus', 'warn');
@@ -1628,12 +1648,21 @@ function renderTasksForCurrentLevel() {
     const correctCount = solved.size;
     const pointsTasks = correctCount * POINTS_PER_CORRECT;
     const timeMetrics = getTimeMetrics(testTaskCount);
-    const bonusMaxPerTask = Math.floor(SECONDS_PER_TASK / BONUS_STEP_SECONDS) * BONUS_POINTS_PER_STEP;
-    const bonusMax = timeModeEnabled ? (testTaskCount * bonusMaxPerTask) : 0;
-    const bonusEarned = timeModeEnabled ? levelBonusPoints : 0;
+    const timeBonusMax = timeModeEnabled ? timeMetrics.bonusMax : 0;
+    const timeBonusEarned = timeModeEnabled ? timeMetrics.bonusPoints : 0;
+
+    // Lebensbonus: jede gesparte Leben = 1 Punkt (verbleibende Leben pro Aufgabe)
+    const savedLives = currentTasks.reduce((sum, task) => {
+      const wrongAttempts = levelAttempts[task.id] || 0;
+      const attemptsTotal = wrongAttempts + (solved.has(task.id) ? 1 : 0);
+      const remaining = Math.max(0, MAX_LIVES - Math.min(MAX_LIVES, attemptsTotal));
+      return sum + remaining;
+    }, 0);
+    const lifeBonusMax = testTaskCount * Math.max(0, MAX_LIVES - 1); // bei Lösung im 1. Versuch bleiben 2 Leben
+
     const maxTaskPoints = testTaskCount * POINTS_PER_CORRECT;
-    const maxAll = maxTaskPoints + bonusMax;
-    const earned = pointsTasks + bonusEarned;
+    const maxAll = maxTaskPoints + timeBonusMax + lifeBonusMax;
+    const earned = pointsTasks + timeBonusEarned + savedLives;
     const percent = maxAll > 0 ? Math.round((earned / maxAll) * 100) : 0;
     const grade = gradeFromPercent(percent);
     const attemptsTotal = Object.values(levelAttempts).reduce((a, b) => a + (b || 0), 0);
@@ -1651,18 +1680,25 @@ function renderTasksForCurrentLevel() {
       tasksTotal: testTaskCount,
       correctCount,
       pointsTasks,
-      pointsTime: bonusEarned,
+      pointsTime: timeBonusEarned,
+      pointsLives: savedLives,
       pointsTotal: earned,
-      timeBonusPoints: bonusEarned,
-      timeBonusMax: bonusMax,
+      timeBonusPoints: timeBonusEarned,
+      timeBonusMax: timeBonusMax,
+      lifeBonusPoints: savedLives,
+      lifeBonusMax,
       timeConsumedSec: timeMetrics.consumedSec,
       timeSavedSec: timeMetrics.savedSec,
       timeSavedMin: timeMetrics.savedMin,
       timeLimitSec: timeMetrics.limitSec,
     };
 
+    // Bonus-Anzeige im Punkteglas mit aktuellen Level-Boni füllen (Zeit + Leben)
+    const bonusDisplay = timeBonusEarned + savedLives;
+    renderBonusJar(false, bonusDisplay);
+
     if (hasActivity) {
-      saveProgress(levelId, { earned, max: maxAll, percent, timeModeEnabled, timeBonusPoints: bonusEarned, timeBonusMax: bonusMax });
+      saveProgress(levelId, { earned, max: maxAll, percent, timeModeEnabled, timeBonusPoints: timeBonusEarned, timeBonusMax: timeBonusMax, lifeBonusPoints: savedLives, lifeBonusMax });
     }
   };
 
@@ -1698,16 +1734,15 @@ function renderTasksForCurrentLevel() {
   };
 
   return getTasks().then(tasks => {
+      currentTasks = tasks;
       hideLoadError();
       tasksHost.innerHTML = '';
       testTaskCount = tasks.length;
-      timeLimitSec = getTimeLimitSec(testTaskCount);
-      remainingSeconds = SECONDS_PER_TASK;
-      levelBonusPoints = 0;
-      taskRemainingById = {};
-      taskBonusAwarded = new Set();
-      tasks.forEach(task => { taskRemainingById[String(task.id)] = SECONDS_PER_TASK; });
-      totalMax = (testTaskCount * POINTS_PER_CORRECT) + (testTaskCount * Math.floor(SECONDS_PER_TASK / BONUS_STEP_SECONDS) * BONUS_POINTS_PER_STEP);
+      timeLimitSec = getTimeLimitSec();
+      remainingSeconds = TEST_TOTAL_SECONDS;
+      const timeBonusMax = Math.floor(TEST_TOTAL_SECONDS / BONUS_STEP_SECONDS) * BONUS_POINTS_PER_STEP;
+      const lifeBonusMax = testTaskCount * Math.max(0, MAX_LIVES - 1);
+      totalMax = (testTaskCount * POINTS_PER_CORRECT) + timeBonusMax + lifeBonusMax;
       if (!tasks.length) {
         tasksHost.innerHTML = '<p>Für dieses Level sind aktuell keine Aufgaben hinterlegt.</p>';
         return;
@@ -1769,9 +1804,9 @@ function renderTasksForCurrentLevel() {
         });
         timeModeToggle.dataset.bound = '1';
       }
-      const timeModeNote = document.querySelector('.time-mode-note');
+        const timeModeNote = document.querySelector('.time-mode-note');
       if (timeModeNote) {
-        timeModeNote.textContent = `Bonus: +${BONUS_POINTS_PER_STEP} pro ${BONUS_STEP_SECONDS}s Restzeit pro Aufgabe.`;
+        timeModeNote.textContent = `Bonus: +${BONUS_POINTS_PER_STEP} Punkt(e) pro gesparter Minute.`;
       }
       setTimeMode(timeModeToggle ? !!timeModeToggle.checked : true);
       console.log(`[Timer] Zeitmodus aktiv: ${timeModeEnabled}, Sanduhr: ${!!document.querySelector('.hourglass, #hourglass, [data-hourglass]')}, Toast: ${!!document.getElementById('toast')}, Dateien: math_module/core/scripts.js + math_module/core/styles.css + math_module/levels/level*.html`);
@@ -1796,7 +1831,7 @@ function renderTasksForCurrentLevel() {
           timeConsumedSec: 0,
           timeSavedSec: 0,
           timeSavedMin: 0,
-          timeLimitSec: getTimeLimitSec(tasks.length),
+          timeLimitSec: getTimeLimitSec(),
         };
         const safeSolution = (solutionText || '–').toString().replace(/</g, '&lt;');
         const rows = [
@@ -1813,15 +1848,79 @@ function renderTasksForCurrentLevel() {
         openModal('solution-modal', 'Lösung', html);
       };
 
+      // Tabelle für Versuche/Leben (unter den Aufgaben)
+      const ensureAttemptTable = () => {
+        let wrap = document.getElementById('attemptTableWrap');
+        if (!wrap) {
+          wrap = document.createElement('div');
+          wrap.id = 'attemptTableWrap';
+          wrap.className = 'attempt-table-wrap';
+          const hostParent = tasksHost.parentElement;
+          if (hostParent) {
+            tasksHost.insertAdjacentElement('afterend', wrap);
+          }
+        }
+        if (!wrap.innerHTML) {
+          wrap.innerHTML = `
+            <h3 class="attempt-table-title">Aufgaben-Übersicht</h3>
+            <table class="attempt-log-table live">
+              <thead>
+                <tr>
+                  <th>Nr.</th>
+                  <th>Aufgabe</th>
+                  <th>Leben 1</th>
+                  <th>Leben 2</th>
+                  <th>Leben 3</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          `;
+        }
+        return wrap.querySelector('tbody');
+      };
+
       const renderLifeDots = (marks) => marks.map((m, i) => `
         <span class="life-dot ${m}" data-life="${i + 1}" aria-hidden="true"></span>
       `).join('');
+
+      const renderAttemptTable = () => {
+        const tbody = ensureAttemptTable();
+        if (!tbody) return;
+        tbody.innerHTML = tasks.map((task, idx) => {
+          const marks = taskAttemptMarks.get(task.id) || ['empty', 'empty', 'empty'];
+          const log = taskAttemptLog.get(task.id) || [];
+          const cell = (i) => {
+            const mark = marks[i] || 'empty';
+            const entry = log[i];
+            const text = entry ? escapeHtml(entry.input || '–') : '–';
+            return `
+              <td>
+                <div class="life-cell">
+                  <span class="life-dot ${mark}" aria-hidden="true"></span>
+                  <span class="life-answer">${text}</span>
+                </div>
+              </td>
+            `;
+          };
+          return `
+            <tr>
+              <td>${idx + 1}</td>
+              <td>${task.text}</td>
+              ${cell(0)}
+              ${cell(1)}
+              ${cell(2)}
+            </tr>
+          `;
+        }).join('');
+      };
 
       const updateTaskVisuals = (taskId, points) => {
         const refs = taskUiRefs.get(taskId);
         if (!refs) return;
         const marks = taskAttemptMarks.get(taskId) || ['empty', 'empty', 'empty'];
         if (refs.livesEl) refs.livesEl.innerHTML = renderLifeDots(marks);
+        renderAttemptTable();
       };
 
       const formatAttempt = (entry) => {
@@ -1854,7 +1953,7 @@ function renderTasksForCurrentLevel() {
           timeConsumedSec: 0,
           timeSavedSec: 0,
           timeSavedMin: 0,
-          timeLimitSec: getTimeLimitSec(tasks.length),
+          timeLimitSec: getTimeLimitSec(),
         };
         const rows = tasks.map((task, idx) => {
           const log = taskAttemptLog.get(task.id) || [];
@@ -1919,6 +2018,10 @@ function renderTasksForCurrentLevel() {
         if (finalModalShown) return;
         const allDone = tasks.every(task => taskDone(task.id));
         if (!allDone) return;
+        // Bonus in die Spardose buchen: gesparte Zeit + gesparte Leben
+        updateResults();
+        const bonusToAdd = (currentLevelStats?.timeBonusPoints || 0) + (currentLevelStats?.lifeBonusPoints || 0);
+        if (bonusToAdd > 0) addProfileBonusPoints(bonusToAdd);
         finalModalShown = true;
         openLevelEndModal();
       };
@@ -1945,7 +2048,9 @@ function renderTasksForCurrentLevel() {
         ex.dataset.points = POINTS_PER_CORRECT.toString();
         ex.dataset.taskId = task.id;
 
-        const attempts = Math.max(0, Math.min(MAX_LIVES, levelAttempts[task.id] || 0));
+        // Reset attempts per task on render so counters don't leak across tasks
+        setAttempts(task.id, 0);
+        const attempts = 0;
         const maxPts = POINTS_PER_CORRECT;
         const marks = ['empty', 'empty', 'empty'];
         for (let i = 0; i < attempts; i += 1) marks[i] = 'bad';
@@ -1969,12 +2074,12 @@ function renderTasksForCurrentLevel() {
           <div class=\"solution\">${task.solution || ''}</div>
         `;
 
-        const checkBtn = ex.querySelector('[data-action=\"check-answer\"]');
-        const showSolutionBtn = ex.querySelector('[data-action=\"show-solution\"]');
-        const input = ex.querySelector('input');
-        const feedback = ex.querySelector('.feedback');
-        const solution = ex.querySelector('.solution');
-        const attemptsEl = ex.querySelector('.attempts');
+          const checkBtn = ex.querySelector('[data-action=\"check-answer\"]');
+          const showSolutionBtn = ex.querySelector('[data-action=\"show-solution\"]');
+          const input = ex.querySelector('input');
+          const feedback = ex.querySelector('.feedback');
+          const solution = ex.querySelector('.solution');
+          const attemptsEl = ex.querySelector('.attempts');
         const statusBadge = ex.querySelector('.status-badge');
         const livesEl = ex.querySelector('.life-dots');
         taskUiRefs.set(task.id, {
@@ -1989,14 +2094,24 @@ function renderTasksForCurrentLevel() {
         });
         updateTaskVisuals(task.id, taskScores.get(task.id) || 0);
 
-        if (checkBtn && input) {
-          checkBtn.addEventListener('click', () => {
-            if (solved.has(task.id)) return;
-            const existingAttempts = levelAttempts[task.id] || 0;
-            if (existingAttempts >= MAX_LIVES) return;
+        const focusInput = (el, select = true) => {
+          if (!el) return;
+          requestAnimationFrame(() => {
+            el.focus();
+            if (select && typeof el.select === 'function') el.select();
+          });
+        };
 
-            const attemptsNow = incAttempts(task.id);
-            const attemptIndex = attemptsNow - 1;
+        if (attemptsEl) attemptsEl.textContent = '1';
+
+        if (checkBtn && input) {
+          const handleCheck = () => {
+            if (solved.has(task.id)) return;
+            const attemptsUsed = levelAttempts[task.id] || 0; // wrong attempts so far
+            if (attemptsUsed >= MAX_LIVES) return;
+
+            const attemptNumber = attemptsUsed + 1; // 1..3 human-readable
+            const attemptIndex = attemptNumber - 1;
             const rawVal = (input.value || '').trim();
             const val = rawVal.toLowerCase();
             const expected = (task.answer || '').toString().trim().toLowerCase();
@@ -2027,23 +2142,35 @@ function renderTasksForCurrentLevel() {
             } else if (!solved.has(task.id)) {
               marksNow[attemptIndex] = 'bad';
               taskAttemptMarks.set(task.id, marksNow);
+              // only increment attempts on wrong answers
+              const attemptsNow = attemptsUsed + 1;
+              setAttempts(task.id, attemptsNow);
               taskScores.set(task.id, 0);
               if (statusBadge) {
                 statusBadge.textContent = '❌';
                 statusBadge.className = 'status-badge status-warn';
               }
-              showToast(`Versuch ${attemptsNow}: Nicht ganz.`, 'warn');
+              showToast(`Versuch ${attemptNumber} nicht ganz richtig.`, 'warn');
+              if (attemptsEl) attemptsEl.textContent = attemptsNow.toString();
+              const lifeIdx = attemptNumber - 1;
+              marksNow[lifeIdx] = 'bad';
+              taskAttemptMarks.set(task.id, marksNow);
               if (attemptsNow >= MAX_LIVES) {
-                lockTask(task.id, 'Alle 3 Versuche verbraucht.', false);
+                lockTask(task.id, `Versuch ${attemptNumber} nicht ganz richtig. Keine Versuche mehr.`, false);
+                if (statusBadge) statusBadge.textContent = '⛔';
+              } else {
+                // still lives left; prepare for next try
+                updateTaskVisuals(task.id, taskScores.get(task.id) || 0);
+                setNextEnabled(false);
               }
             }
 
-            if (attemptsEl) attemptsEl.textContent = attemptsNow.toString();
+            if (attemptsEl) attemptsEl.textContent = attemptNumber.toString();
 
             if (feedback) {
               feedback.textContent = correct
                 ? `Richtig! (+${pts} Punkte)`
-                : `Versuch ${attemptsNow}: Nicht ganz.`;
+                : `Versuch ${attemptNumber} nicht ganz richtig.`;
               feedback.className = 'feedback ' + (correct ? 'ok' : 'warn');
             }
 
@@ -2051,24 +2178,33 @@ function renderTasksForCurrentLevel() {
             hasActivity = true;
             updateResults();
             maybeOpenLevelEndModal();
-          });
+            focusInput(input, true);
+          };
+
+          checkBtn.addEventListener('click', handleCheck);
 
           // =========================================================
-          // DE: Enter im Eingabefeld = \"Prüfen\" ausführen
-          // EN: Press Enter in input = run \"Check\"
-          // RU: ÐÐ°Ð¶Ð°Ñ‚Ð¸Ðµ Enter Ð² Ð¿Ð¾Ð»Ðµ Ð²Ð²Ð¾Ð´Ð° = Ð²Ñ‹Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÑŒ \"ÐŸÑ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ\"
+          // DE: Enter im Eingabefeld = "Prüfen" ausführen
+          // EN: Press Enter in input = run "Check"
+          // RU: Нажатие Enter в поле ввода = выполнить "Проверить"
           // =========================================================
           input.addEventListener('keydown', ev => {
             const isEnter = ev.key === 'Enter' || ev.code === 'NumpadEnter' || ev.keyCode === 13;
             if (!isEnter) return;
             ev.preventDefault();
-            checkBtn.click();
+            ev.stopPropagation(); // verhindert doppeltes Auslösen über den globalen Listener
+            handleCheck();
           });
         }
 
         if (attempts >= MAX_LIVES) {
           updateTaskVisuals(task.id, taskScores.get(task.id) || 0);
           lockTask(task.id, 'Alle 3 Versuche verbraucht.', false);
+        }
+
+        // focus first task's input on load
+        if (idx === 0) {
+          requestAnimationFrame(() => focusInput(input, true));
         }
 
         if (showSolutionBtn && solution) {
@@ -2138,13 +2274,17 @@ function renderTasksForCurrentLevel() {
           navInline.append(prevBtn, nextBtn);
         }
         const activeTaskId = slides[activeSlide]?.dataset.taskId;
+        const activeInput = slides[activeSlide]?.querySelector('input');
+        if (activeInput) {
+          requestAnimationFrame(() => { activeInput.focus(); activeInput.select?.(); });
+        }
         if (!canStartTestTimer()) {
           if (testRunning || taskTimerInterval) {
             stopTaskTimer();
             markTestRunning(false);
           }
-        } else if (activeTaskId && !taskDone(activeTaskId) && (taskRemainingById[String(activeTaskId)] || 0) > 0) {
-          startTaskTimer(activeTaskId);
+        } else if (remainingSeconds > 0) {
+          startTaskTimer();
         } else {
           stopTaskTimer();
           markTestRunning(false);
