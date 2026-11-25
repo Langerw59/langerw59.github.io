@@ -137,7 +137,7 @@ window.LAUTSCHRIFT_EN = {
 "tell":"tel","ten":"ten","terminal":"ˈtɜrmɪnəl","test":"test","thank":"θæŋk","thanks":"θæŋks","that":"ðæt",
 "that's":"ðæts","the":"ðə","there":"ðer","there's":"ðerz","thirst":"θɜrst","thirsty":"ˈθɜrsti","this":"ðɪs",
 "three":"θriː","through":"θruː","ticket":"ˈtɪkɪt","tickets":"ˈtɪkɪts","time":"taɪm","timetable":"ˈtaɪmteɪbəl",
-"tip":"tɪp","tire":"ˈtaɪər","tires":"ˈtaɪərz","to":"tuː","today":"təˈdeɪ","together":"təˈɡeðər",
+"tip":"tɪp","tire":"ˈtaɪər","tired":"ˈtaɪərd","tires":"ˈtaɪərz","to":"tuː","today":"təˈdeɪ","together":"təˈɡeðər",
 "tomorrow":"təˈmɑroʊ","tonight":"təˈnaɪt","too":"tuː","took":"tʊk","top":"tɑp","tour":"tʊr","tourist":"ˈtʊrɪst",
 "tow":"toʊ","toward":"təˈwɔrd","towards":"təˈwɔrdz","towel":"ˈtaʊəl","towels":"ˈtaʊəlz","traffic":"ˈtræfɪk",
 "train":"treɪn","tram":"træm","transfer":"ˈtrænsfɜr","transfers":"ˈtrænsfɜrz","translate":"trænsˈleɪt",

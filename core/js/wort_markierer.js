@@ -65,7 +65,11 @@
     if (w.endsWith("ed")) v.push(w.slice(0, -2), w.slice(0, -1), w.slice(0, -3));
     if (w.endsWith("ing")) v.push(w.slice(0, -3), w.slice(0, -3) + "e", w.slice(0, -4));
     if (w.endsWith("ly")) v.push(w.slice(0, -2));
-    for (const x of v) if (idx[x]) return idx[x];
+    // 2026-11-25: -ed / -ing nie auf ein Nomen zurückführen (tired ≠ tire = der Reifen)
+    // RU: -ed / -ing не сводим к существительному (tired – не «шина»)
+    const nomen = (e) => /^(der|die|das)\s/i.test(String(e.de || ""));
+    const verbEnde = w.endsWith("ed") || w.endsWith("ing");
+    for (const x of v) if (idx[x] && !(verbEnde && nomen(idx[x]))) return idx[x];
     return null;
   }
   // ---------- Deutsches Glossar / немецкий глоссарий ----------
