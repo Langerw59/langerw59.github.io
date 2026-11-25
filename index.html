@@ -12,7 +12,11 @@
     <script src="/core/js/core_init.js" defer></script>
     <style>
       .st { max-width: 1060px; margin: 0 auto; padding: 22px 14px 40px; }
-      .st-held { display: flex; gap: 18px; align-items: center; margin-bottom: 18px; }
+      .st-held { display: flex; gap: 18px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 18px; }
+      .st-schnell { display: flex; gap: 8px; flex-wrap: wrap; }
+      .st-schnell a { padding: 9px 14px; border-radius: 10px; background: #fff; border: 1px solid #d9dee7; color: #111827; text-decoration: none; font-size: 15px; }
+      .st-schnell a:hover { border-color: #6b4fa3; }
+      html[data-theme="dark"] .st-schnell a { background: #1d222b; border-color: #353c48; color: #e8ebf1; }
       .st-logo { flex-shrink: 0; width: 78px; height: 78px; border-radius: 20px; display: grid; place-items: center;
         background: linear-gradient(135deg, #2f6fb3, #6b4fa3); color: #fff; font: 800 44px/1 system-ui, Arial, sans-serif; }
       .st-held h1 { margin: 0; font-size: 30px; }
@@ -50,10 +54,13 @@
 
     <main class="st" id="ll-content">
       <section class="st-held">
-        <div class="st-logo" aria-hidden="true">Q</div>
         <div>
-          <h1>Quantura</h1>
+          <h1>Willkommen in Quantura</h1>
           <p class="st-spruch">das Maß &amp; die Klarheit · „Alles wird klar, wenn es messbar wird.“</p>
+        </div>
+        <div class="st-schnell">
+          <a href="/pages/language_lab/stundenplan/index.html">🗓️ der Stundenplan</a>
+          <a href="/etagen.html">🏢 der Etagenplan</a>
         </div>
       </section>
 

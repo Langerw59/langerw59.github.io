@@ -298,3 +298,33 @@ body.etm-offen #navi-knoepfe { display: none !important; }  /* Pfeile verdecken 
   .etm__raum { padding: 9px 8px; font-size: 16px; }   /* größer zum Antippen */
   .etm__fenster { max-height: calc(100vh - 90px); }
 }
+
+
+/* ============================================================
+   2026-11-25: Kopfleiste v3 – alles in EINER Zeile
+   Q Quantura · die Etagen (Dropdown) · rechts Uhr, 📅, 🌙, ⚙️.
+   Passt es nicht, rutschen die Etagen von selbst in eine zweite Zeile.
+   ============================================================ */
+.kopf2__zeile1 { flex-wrap: wrap; row-gap: 4px; padding: 8px 12px; max-width: 1400px; }
+.etm__bereich-innen, .etm__innen { max-width: 1400px; }
+.kopf2__marke { margin-left: 0; margin-right: 6px; font-size: 17px; }
+.kopf2 .brand-badge { border-radius: 9px; background: linear-gradient(135deg, #2f6fb3, #6b4fa3); color: #fff; }
+.kopf2__zeile1 > .kopf2__menue { order: 2; flex: 1 1 auto; max-width: none; margin: 0; padding: 0; overflow: visible; flex-wrap: wrap; row-gap: 4px; }
+.kopf2__zeile1 > .kopf2__rechts { order: 3; }
+/* langes Datum nur auf sehr breiten Bildschirmen */
+@media (max-width: 1700px) {
+  .kopf2__uhr #headerDateTime { font-size: 0; }
+  .kopf2__uhr #headerDateTime::after { content: attr(data-kurz); font-size: 13px; }
+}
+/* Handy: Q + Uhr/Knöpfe oben, die Etagen darunter */
+@media (max-width: 760px) {
+  .kopf2__marke { display: inline-flex !important; }
+  .kopf2__name { display: none; }
+  .kopf2__zeile1 > .kopf2__rechts { order: 2; }
+  .kopf2__zeile1 > .kopf2__menue { order: 3; flex-basis: 100%; }
+  .kopf2__rechts { gap: 4px; }
+  .kopf2__kw { display: none; }
+  .kopf2__uhr #headerDateTime::after { content: attr(data-zeit); font-size: 15px; font-weight: 600; color: var(--k-text); }
+  .kopf2__menue .etm__knopf { padding: 4px 6px; }
+  .kopf2__menue .etm__name { font-size: 13px; }
+}

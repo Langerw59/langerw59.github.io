@@ -82,6 +82,7 @@
     }
 
     for (const e of window.Q_ETAGEN) {
+      if (e.id === "eg") continue;   // das Erdgeschoss = Q Quantura (Logo links)
       const k = document.createElement("button");
       k.type = "button";
       k.className = "nav-link etm__knopf" + (e.keller ? " etm__keller" : "");
@@ -104,7 +105,7 @@
     // die Bereichsleiste: auf jeder Seite eines Bereichs (z. B. die Grammatik)
     // die Nachbarseiten als Reiter zeigen. RU: вкладки раздела под меню.
     for (const e of window.Q_ETAGEN) {
-      if (e.keller) continue;
+      if (e.keller || e.id === "eg") continue;
       for (const g of e.gruppen) {
         const links = g.r.flatMap((r) => (Array.isArray(r[4]) ? r[4] : [r])).filter((r) => r[1] && r[3] !== "idee");
         if (links.length < 2 || !links.some((r) => istHier(r[1]))) continue;
