@@ -2,161 +2,53 @@
 <html lang="de" data-theme="light">
   <head>
     <meta charset="utf-8" />
-    <title>Language Lab – Portal</title>
+    <title>das Language Lab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../../core/assets/style.css" />
-    <script src="../../core/js/core_init.js" defer></script>
+    <link rel="stylesheet" href="/core/assets/style.css" />
+    <!-- 2026-11-25: Seite baut sich aus /core/js/etagen_daten.js (3. Etage) –
+         dieselben Bereiche wie im Menü. RU: страница строится из общего списка. -->
+    <script src="/core/js/etagen_daten.js"></script>
+    <script src="/core/js/core_init.js" defer></script>
+    <style>
+      .ll-kopf h1 { margin: 0 0 4px; }
+      .ll-kopf p { margin: 0 0 18px; color: #5b6475; }
+      .ll-bereiche { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+      .ll-bereich { background: #fff; border: 1px solid #d9dee7; border-top: 5px solid #2f6fb3; border-radius: 14px; padding: 14px 16px 16px; }
+      .ll-bereich h2 { margin: 0 0 2px; font-size: 20px; }
+      .ll-bereich .ll-info { margin: 0 0 10px; font-size: 14px; color: #5b6475; }
+      .ll-bereich a { display: block; padding: 10px 12px; margin-top: 6px; border: 1px solid #e3e7ee; border-left: 4px solid #2f6fb3;
+        border-radius: 10px; text-decoration: none; color: #111827; font-size: 16px; background: #fafbfd; }
+      .ll-bereich a:hover { border-color: #2f6fb3; background: #eef4fb; }
+      .ll-bereich a small { display: block; font-size: 13px; color: #5b6475; }
+      html[data-theme="dark"] .ll-bereich { background: #1d222b; border-color: #353c48; border-top-color: #60a5fa; }
+      html[data-theme="dark"] .ll-bereich a { background: #252b35; border-color: #353c48; border-left-color: #60a5fa; color: #e8ebf1; }
+      html[data-theme="dark"] .ll-bereich a small, html[data-theme="dark"] .ll-info, html[data-theme="dark"] .ll-kopf p { color: #a3acbb; }
+    </style>
   </head>
   <body>
-    <div data-partial="header" data-partial-path="../../core/partials/header.html"></div>
+    <div data-partial="header" data-partial-path="/core/partials/header.html"></div>
 
     <main class="page-wrapper">
-      <div class="card">
-        <h1>Language Lab – Portal</h1>
-        <p>Sprach-Tools: Generatoren, Analysen, Karten.</p>
-
-        <section class="portal-grid">
-          <!-- 2026-11-14: Level 1 – die Grundlagen -->
-          <article class="portal-card">
-            <h3>🧱 Level 1 – die Grundlagen</h3>
-            <p>
-              Pronomen (ich → mein, I → my), sein und haben, ähnliche Wörter (we're / were / where) – Tabelle und schnelle Übung.<br />
-              <small>Основы: местоимения, sein/haben, похожие слова – 5 минут в день.</small>
-            </p>
-            <a href="/pages/language_lab/grundlagen/index.html">→ Grundlagen üben</a>
-          </article>
-
-          <!-- 2026-11-23: der Grammatik-Tagestest -->
-          <article class="portal-card">
-            <h3>📝 der Grammatik-Tagestest</h3>
-            <p>
-              Jeden Tag 15 Minuten: eine Lektion mit 10 Fragen + Wiederholung der Fehler. Zuerst die Grundlagen, dann alle Themen.<br />
-              <small>Ежедневный тест: 15 уроков по порядку, ошибки повторяются.</small>
-            </p>
-            <a href="/pages/language_lab/tagestest/index.html">→ Test von heute</a>
-          </article>
-
-          <!-- 2026-11-14: der Lese-Trainer -->
-          <article class="portal-card">
-            <h3>📖 Der Lese-Trainer</h3>
-            <p>
-              Kurze englische Texte Zeile für Zeile – mit Sprachausgabe, дословно, по-русски und Deutsch.<br />
-              <small>Чтение: короткие тексты с озвучкой и подстрочником.</small>
-            </p>
-            <a href="/pages/language_lab/lesetrainer/index.html">→ Lese-Trainer öffnen</a>
-          </article>
-
-          <!-- 2026-11-14: der Stundenplan -->
-          <article class="portal-card">
-            <h3>🗓️ Der Stundenplan</h3>
-            <p>
-              Was ich heute lerne: 30 Minuten am Tag, Häkchen pro Woche, das Thema der Woche.<br />
-              <small>План занятий: что учить сегодня, галочки, тема недели.</small>
-            </p>
-            <a href="/pages/language_lab/stundenplan/index.html">→ Stundenplan öffnen</a>
-          </article>
-
-          <article class="portal-card">
-            <h3>Satzlabor – Satz bauen &amp; analysieren</h3>
-            <p>
-              🔧 Satz aus Satzgliedern bauen oder 🔍 eigenen Satz (z. B. aus einem Buch) eingeben –
-              mit Satzanalyse, Satzklammer und Erklärungen auf Russisch.
-              Neu: Verben mit fester Präposition (warten auf, sich freuen auf) und 📝 Test „Verb + Präposition“.<br />
-              <small>Лаборатория предложений: собрать или ввести предложение и получить разбор.</small>
-            </p>
-            <a href="/pages/language_lab/apps/generator/de/index_de.html">→ Satzlabor Deutsch 🇩🇪</a><br />
-            <a href="/pages/language_lab/apps/generator/en/index_en.html">→ Satzlabor English 🇬🇧</a>
-          </article>
-
-          <!-- 2026-11-12: die Grammatik – alle Regeln an einem Ort -->
-          <article class="portal-card">
-            <h3>📐 Die Grammatik – alle Regeln</h3>
-            <p>
-              Alle Grammatik-Regeln an einem Ort: Deutsch · English · Русский, mit Beispielen und Sprachausgabe
-              (z. B. die Endung -ing, die Pronomen, die Leseregeln).<br />
-              <small>Грамматика: все правила в одном месте, с примерами и озвучкой.</small>
-            </p>
-            <a href="/pages/language_lab/grammatik/index.html">→ Grammatik öffnen</a>
-          </article>
-
-          <article class="portal-card">
-            <h3>Satzkonstrukteur RU → DE 🎤</h3>
-            <p>
-              Sag auf Russisch, was du sagen willst – das Programm baut den deutschen Satz
-              und erklärt jeden Schritt (Präposition, Kasus, haben/sein, Wortstellung, Nebensatz).<br />
-              <small>Скажи по-русски, что хочешь сказать, – программа построит немецкое предложение и объяснит, почему так.</small>
-            </p>
-            <a href="/pages/language_lab/apps/satzkonstrukteur/index.html">→ Satzkonstrukteur öffnen</a>
-          </article>
-
-          <article class="portal-card">
-            <h3>Talk Levels (Level 0–10)</h3>
-            <p>Alle Themen und Level mit Filtern und TTS.</p>
-            <a href="/pages/language_lab/apps/talk_levels/index.html#topic=all&level=all&tts=de&speed=1">
-              → Talk Levels (Level 0–10) öffnen
-            </a>
-          </article>
-
-          <article class="portal-card">
-            <h3>📖 Glossar – Wörter mit Herkunft</h3>
-            <p>
-              Alle Wörter der SprachBox alphabetisch – mit Herkunft, verwandten Wörtern und Beispielen.<br />
-              <small>Глоссарий: слова по алфавиту – откуда взялось слово, родственные слова, примеры.</small>
-            </p>
-            <a href="/pages/language_lab/glossar/index.html">→ 🇬🇧 Glossar Englisch</a><br />
-            <a href="/pages/language_lab/glossar/de.html">→ 🇩🇪 Glossar Deutsch (Fachwörter der Grammatik)</a><br />
-            <a href="/pages/language_lab/wortdetektiv/index.html">→ 📜 Die Etymologie – Wortgeschichte</a>
-          </article>
-
-          <article class="portal-card">
-            <h3>📜 Die Etymologie – Wortgeschichte</h3>
-            <p>
-              Woher kommen Wörter? Geschichten, Wanderwege der Wörter, Orte auf der Karte.<br />
-              <small>Этимология – история слов: откуда они пришли, места на карте.</small>
-            </p>
-            <a href="/pages/language_lab/wortdetektiv/index.html">→ Etymologie öffnen</a>
-          </article>
-
-          <article class="portal-card">
-            <h3>📜 Weisheiten – Мудрые изречения</h3>
-            <p>
-              Bibelsprüche, Vaterunser, Latein und Lebensweisheiten – Deutsch, Русский, English, Italiano mit Sprachausgabe.<br />
-              <small>Мудрые изречения на четырёх языках, с озвучкой и карточками.</small>
-            </p>
-            <a href="/pages/language_lab/weisheiten/index.html">→ Weisheiten öffnen</a>
-          </article>
-
-          <!-- 2026-11-12: der Lied-Trainer – englische Lieder lernen -->
-          <article class="portal-card">
-            <h3>🎵 Der Lied-Trainer – Lieder lernen</h3>
-            <p>
-              Englische Lieder Zeile für Zeile lesen, hören und auswendig lernen. Eigene Liedtexte einfügen –
-              sie bleiben nur auf diesem Gerät.<br />
-              <small>Тренажёр песен: читать, слушать и учить наизусть по строчкам; свои тексты можно вставлять.</small>
-            </p>
-            <a href="/pages/language_lab/lieder/index.html">→ Lied-Trainer öffnen</a>
-          </article>
-
-          <article class="portal-card">
-            <h3>Sprachführer wählen</h3>
-            <p>Sprachführer nach Sprachpaar auswählen (DE↔EN/IT/ES/FR, RU→DE).</p>
-            <a href="./sprachfuehrer_auswahl/index.html">→ Sprachführer wählen</a>
-          </article>
-
-          <article class="portal-card">
-            <h3>✍️ Diktat-Trainer – Hören &amp; Schreiben</h3>
-            <p>
-              Satz aus dem Sprachführer hören, aufschreiben und Fehler sehen (fehlende Buchstaben und Wörter) –
-              nach Level, Thema und Teil.<br />
-              <small>Диктант: услышать предложение, написать его и увидеть свои ошибки.</small>
-            </p>
-            <a href="/pages/language_lab/diktat-trainer.html#en">→ Dictation Trainer (English) 🇬🇧</a><br />
-            <a href="/pages/language_lab/diktat-trainer.html#de">→ Diktat-Trainer (Deutsch)</a>
-          </article>
-        </section>
+      <div class="ll-kopf">
+        <h1>🔬 das Language Lab</h1>
+        <p>die Sprachen lernen: die Karteikarten, das Satzlabor, die Grammatik, die Texte und die Wörter.</p>
       </div>
+      <section class="ll-bereiche" id="bereiche"></section>
     </main>
 
-    <div data-partial="footer" data-partial-path="../../core/partials/footer.html"></div>
+    <div data-partial="footer" data-partial-path="/core/partials/footer.html"></div>
+
+    <script>
+      (function () {
+        const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+        const e3 = (window.Q_ETAGEN || []).find((e) => e.id === "e3");
+        if (!e3) return;
+        document.getElementById("bereiche").innerHTML = e3.gruppen.map((g) => {
+          const links = g.r.flatMap((r) => (Array.isArray(r[4]) ? r[4] : [r]));
+          return `<article class="ll-bereich"><h2>${esc(g.t)}</h2>${g.info ? `<p class="ll-info">${esc(g.info)}</p>` : ""}
+            ${links.map((r) => `<a href="${esc(r[1])}">${esc(r[0])}${r[2] ? `<small>${esc(r[2])}</small>` : ""}</a>`).join("")}</article>`;
+        }).join("");
+      })();
+    </script>
   </body>
 </html>

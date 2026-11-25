@@ -248,7 +248,7 @@ body:has(.kopf2) #ll-fab-nav { display: none !important; }
 .etm__keller .etm__name { opacity: .7; }
 
 .etm__fenster {
-  position: absolute; top: 100%; left: 0; right: 0; z-index: 9001;
+  position: absolute; top: calc(100% + 0px); left: 0; right: 0; z-index: 9001;
   background: var(--k-bg); color: var(--k-text);
   border-top: 3px solid var(--etm-farbe); border-bottom: 1px solid var(--k-rand);
   box-shadow: 0 14px 30px rgba(15, 23, 42, .18);
@@ -276,6 +276,16 @@ body:has(.kopf2) #ll-fab-nav { display: none !important; }
 .etm__unter[open] > summary .etm__unterpfeil { transform: rotate(90deg); }
 .etm__unterliste { margin: 0 0 4px 14px; border-left: 2px solid var(--etm-farbe); padding-left: 4px; }
 
+/* die Bereichsleiste (Reiter eines Bereichs) */
+.etm__bereich { border-top: 1px solid var(--k-rand); background: color-mix(in srgb, var(--etm-farbe) 7%, var(--k-bg)); }
+.etm__bereich-innen { max-width: 1100px; margin: 0 auto; padding: 6px 12px; display: flex; gap: 6px; align-items: center;
+  overflow-x: auto; scrollbar-width: none; }
+.etm__bereich-innen::-webkit-scrollbar { display: none; }
+.etm__bereich-name { flex-shrink: 0; font-weight: 700; font-size: 14px; color: var(--etm-farbe); margin-right: 4px; display: inline-flex; gap: 6px; align-items: center; }
+.etm__reiter { flex-shrink: 0; padding: 4px 11px; border-radius: 999px; font-size: 14px; text-decoration: none;
+  color: var(--k-text) !important; border: 1px solid var(--k-rand); background: var(--k-bg); }
+.etm__reiter:hover { border-color: var(--etm-farbe); }
+.etm__reiter--hier { background: var(--etm-farbe); color: #fff !important; border-color: var(--etm-farbe); font-weight: 600; }
 body.etm-offen #navi-knoepfe { display: none !important; }  /* Pfeile verdecken das Fenster nicht */
 
 @media (max-width: 600px) {

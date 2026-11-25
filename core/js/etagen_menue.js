@@ -13,6 +13,13 @@
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const pfadOhneIndex = (p) => p.replace(/#.*$/, "").replace(/\/index\.html$/, "/");
   const hier = pfadOhneIndex(window.location.pathname);
+  const hierHash = window.location.hash;
+  // Link passt zur aktuellen Seite? (#de / #en nur, wenn der Hash auch passt)
+  const istHier = (url) => {
+    if (!url || pfadOhneIndex(url) !== hier) return false;
+    const h = (url.match(/#.*$/) || [""])[0];
+    return !h || !hierHash || h === hierHash;
+  };
 
   function daten(fertig) {
     if (window.Q_ETAGEN) return fertig();
@@ -47,11 +54,11 @@
     // ein Raum: Link – oder Untermenü (5. Feld = Liste der Unterpunkte)
     function raum(r) {
       if (Array.isArray(r[4])) {
-        const offen = r[4].some((u) => pfadOhneIndex(u[1]) === hier);
+        const offen = r[4].some((u) => istHier(u[1]));
         return `<details class="etm__unter"${offen ? " open" : ""}><summary class="etm__raum">${esc(r[0])} <span class="etm__unterpfeil">▸</span>${r[2] ? `<small>${esc(r[2])}</small>` : ""}</summary>
           <div class="etm__unterliste">${r[4].map(raum).join("")}</div></details>`;
       }
-      const ist = pfadOhneIndex(r[1]) === hier;
+      const ist = istHier(r[1]);
       return `<a href="${esc(r[1])}" class="etm__raum${r[3] === "idee" ? " etm__idee" : ""}${ist ? " etm__ist-hier" : ""}"${ist ? ' aria-current="page"' : ""}>${esc(r[0])}${r[2] ? `<small>${esc(r[2])}</small>` : ""}</a>`;
     }
 
@@ -65,7 +72,7 @@
              ${e.eingang ? `<a href="${esc(e.eingang)}" class="etm__eingang">➜ Eingang zur Etage</a>` : ""}
              <button type="button" class="etm__zu" aria-label="Schließen">✕</button></div>
            <div class="etm__gruppen">${e.gruppen.map((g) =>
-             `<div class="etm__gruppe"><div class="etm__gtitel">${esc(g.t)}</div>${g.r.map(raum).join("")}</div>`).join("")}</div>
+             `<div class="etm__gruppe"><div class="etm__gtitel" title="${esc(g.info || "")}">${esc(g.t)}</div>${g.r.map(raum).join("")}</div>`).join("")}</div>
          </div>`;
       fenster.querySelector(".etm__zu").addEventListener("click", zu);
       fenster.hidden = false;
@@ -81,8 +88,8 @@
       k.title = `${e.nr} · ${e.name}`;
       k.innerHTML = `<span class="etm__nr">${esc(e.kurz)}</span><span class="etm__name">${esc(e.keller ? "Keller" : e.name)}</span><span class="etm__pfeil">▾</span>`;
       const alle = (r) => Array.isArray(r[4]) ? r[4] : [r];
-      const enthaeltHier = e.gruppen.some((g) => g.r.some((r) => alle(r).some((u) => pfadOhneIndex(u[1]) === hier))) ||
-                           (e.eingang && pfadOhneIndex(e.eingang) === hier);
+      const enthaeltHier = e.gruppen.some((g) => g.r.some((r) => alle(r).some((u) => istHier(u[1])))) ||
+                           (e.eingang && istHier(e.eingang));
       if (enthaeltHier) k.classList.add("ist-hier");
       k.addEventListener("click", (ev) => {
         ev.stopPropagation();
@@ -90,6 +97,24 @@
       });
       knoepfe[e.id] = k;
       nav.appendChild(k);
+    }
+
+    // die Bereichsleiste: auf jeder Seite eines Bereichs (z. B. die Grammatik)
+    // die Nachbarseiten als Reiter zeigen. RU: вкладки раздела под меню.
+    for (const e of window.Q_ETAGEN) {
+      if (e.keller) continue;
+      for (const g of e.gruppen) {
+        const links = g.r.flatMap((r) => (Array.isArray(r[4]) ? r[4] : [r])).filter((r) => r[1] && r[3] !== "idee");
+        if (links.length < 2 || !links.some((r) => istHier(r[1]))) continue;
+        const leiste = document.createElement("div");
+        leiste.className = "etm__bereich";
+        leiste.style.setProperty("--etm-farbe", e.farbe);
+        leiste.innerHTML = `<div class="etm__bereich-innen"><span class="etm__bereich-name"><span class="etm__nr">${esc(e.kurz)}</span> ${esc(g.t)}:</span>${
+          links.map((r) => `<a href="${esc(r[1])}" class="etm__reiter${istHier(r[1]) ? " etm__reiter--hier" : ""}">${esc(r[0])}</a>`).join("")}</div>`;
+        kopf.appendChild(leiste);
+        break;
+      }
+      if (kopf.querySelector(".etm__bereich")) break;
     }
 
     fenster.addEventListener("click", (ev) => ev.stopPropagation());
