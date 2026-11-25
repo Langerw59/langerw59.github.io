@@ -5,7 +5,7 @@
 // RU: Термины курсов математики и электротехники – с артиклем, происхождением, примером.
 //
 // Felder / поля:
-//   w    – Begriff mit Artikel            fach – Mathematik | Elektrotechnik
+//   w    – Begriff mit Artikel            fach – Mathematik | Elektrotechnik | Chemie
 //   auch – gleichbedeutende Namen (z. B. das Vertauschungsgesetz)
 //   k    – weitere Suchformen             ru   – по-русски
 //   h    – Herkunft-Gruppe: lat, griech, arab, germ
@@ -1377,5 +1377,241 @@ window.GLOSSAR_FACH = [
     "https://de.wikipedia.org/wiki/Sieb_des_Eratosthenes"
    ]
   ]
- }
+ },
+{
+ "w": "die Chemie",
+ "fach": "Chemie",
+ "ru": "химия",
+ "h": "arab",
+ "aus": "che-MIE [çeˈmiː] (süddt. auch [keˈmiː])",
+ "her": "араб. al-kīmiyā «алхимия» ← возможно егип. kmt «чёрная земля» (Египет) или греч. chymeia «литьё металла»",
+ "erk": "Наука о веществах и их превращениях. В слове Alchemie сохранился арабский артикль al- – как в Alkohol, Algebra.",
+ "ver": "die Alchemie (алхимия), der Chemiker (химик)",
+ "bsp": [
+  [
+   "Die Chemie ist die Lehre von den Stoffen.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/01-stoffe.html"
+},
+{
+ "w": "der Stoff",
+ "fach": "Chemie",
+ "auch": "die Substanz",
+ "ru": "вещество",
+ "h": "germ",
+ "aus": "STOFF [ʃtɔf]",
+ "her": "через ср.-нидерл. stof «ткань, материал» (ср. рус. «штоф» – ткань); Substanz ← лат. substantia «сущность, то, что лежит в основе»",
+ "erk": "То, из чего состоит тело (предмет): железо, стекло, вода. Тело – ложка; вещество – дерево или сталь.",
+ "bsp": [
+  [
+   "Der Löffel besteht aus dem Stoff Holz.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/01-stoffe.html"
+},
+{
+ "w": "das Gemisch",
+ "fach": "Chemie",
+ "auch": "das Stoffgemisch",
+ "ru": "смесь",
+ "h": "germ",
+ "aus": "ge-MISCH [ɡəˈmɪʃ]",
+ "her": "от mischen «смешивать» ← лат. miscere (ср. Mixer, mix)",
+ "erk": "Несколько веществ вместе; разделяется физическими способами (фильтр, выпаривание, магнит). homogen – однородная, heterogen – неоднородная.",
+ "bsp": [
+  [
+   "Meerwasser ist ein Gemisch aus Wasser und Salz.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/01-stoffe.html"
+},
+{
+ "w": "die Verbindung",
+ "fach": "Chemie",
+ "ru": "(химическое) соединение",
+ "h": "germ",
+ "aus": "ver-BIN-dung [fɛɐ̯ˈbɪndʊŋ]",
+ "her": "от verbinden «соединять» (binden «вязать»)",
+ "erk": "Новое вещество из нескольких элементов с совсем новыми свойствами: натрий + хлор → поваренная соль. Не путать со смесью!",
+ "bsp": [
+  [
+   "Wasser ist eine Verbindung aus Wasserstoff und Sauerstoff.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/01-stoffe.html"
+},
+{
+ "w": "das Element",
+ "fach": "Chemie",
+ "ru": "химический элемент",
+ "h": "lat",
+ "aus": "e-le-MENT [eleˈmɛnt]",
+ "her": "лат. elementum «первоначало, буква алфавита» – возможно от l-m-n (буквы L, M, N подряд, «азы»)",
+ "erk": "Вещество из атомов одного вида (одно число протонов). Химически дальше не разлагается.",
+ "bsp": [
+  [
+   "Gold und Sauerstoff sind Elemente.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/01-stoffe.html"
+},
+{
+ "w": "das Atom",
+ "fach": "Chemie",
+ "ru": "атом",
+ "h": "griech",
+ "aus": "a-TOM [aˈtoːm]",
+ "her": "греч. átomos «неделимый» (a- «не» + tomē «разрез»; ср. Anatomie, Tomografie)",
+ "erk": "Мельчайшая частица элемента. Идея Демокрита (ок. 400 до н. э.). Сегодня знаем: делится на протоны, нейтроны, электроны – но химически остаётся целым.",
+ "bsp": [
+  [
+   "Das Atom besteht aus dem Kern und der Hülle.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/02-atom.html"
+},
+{
+ "w": "das Proton",
+ "fach": "Chemie",
+ "ru": "протон",
+ "h": "griech",
+ "aus": "PRO-ton [ˈproːtɔn]",
+ "her": "греч. prōton «первое»",
+ "erk": "Положительная частица в ядре. Число протонов = порядковый номер = какой это элемент.",
+ "bsp": [
+  [
+   "Der Wasserstoff hat ein Proton.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/02-atom.html"
+},
+{
+ "w": "das Neutron",
+ "fach": "Chemie",
+ "ru": "нейтрон",
+ "h": "lat",
+ "aus": "NEU-tron [ˈnɔɪ̯trɔn]",
+ "her": "лат. neuter «ни тот, ни другой» (ср. neutral)",
+ "erk": "Частица без заряда в ядре. Разное число нейтронов – разные изотопы.",
+ "bsp": [
+  [
+   "Das Neutron ist elektrisch neutral.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/02-atom.html"
+},
+{
+ "w": "die Ordnungszahl",
+ "fach": "Chemie",
+ "auch": "die Kernladungszahl, die Protonenzahl",
+ "ru": "порядковый номер",
+ "h": "germ",
+ "aus": "ORD-nungs-zahl [ˈɔʁdnʊŋsˌtsaːl]",
+ "her": "die Ordnung «порядок» (← лат. ordo) + die Zahl",
+ "erk": "Число протонов в ядре = число электронов в нейтральном атоме = место в таблице Менделеева.",
+ "bsp": [
+  [
+   "Kohlenstoff hat die Ordnungszahl 6.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/02-atom.html"
+},
+{
+ "w": "das Isotop",
+ "fach": "Chemie",
+ "ru": "изотоп",
+ "h": "griech",
+ "aus": "i-so-TOP [izoˈtoːp]",
+ "her": "греч. isos «равный» + topos «место» – стоит на том же месте в таблице (topos – как в die Toponymie)",
+ "erk": "Атомы одного элемента с разным числом нейтронов: ¹²C и ¹⁴C (радиоуглеродный метод).",
+ "bsp": [
+  [
+   "C-14 ist ein radioaktives Isotop.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/02-atom.html"
+},
+{
+ "w": "das Valenzelektron",
+ "fach": "Chemie",
+ "auch": "das Außenelektron",
+ "ru": "валентный (внешний) электрон",
+ "h": "lat",
+ "aus": "va-LENZ-e-lek-tron",
+ "her": "лат. valentia «сила» (valere «быть сильным, стоить») + греч. ēlektron «янтарь»",
+ "erk": "Электроны на внешней оболочке. Определяют, как атом реагирует и его валентность. Число = номер главной группы.",
+ "bsp": [
+  [
+   "Natrium hat ein Valenzelektron.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/02-atom.html"
+},
+{
+ "w": "das Periodensystem",
+ "fach": "Chemie",
+ "auch": "das PSE, das Periodensystem der Elemente",
+ "ru": "периодическая система (таблица Менделеева)",
+ "h": "griech",
+ "aus": "pe-RI-o-den-sys-tem",
+ "her": "греч. periodos «круговорот» (peri «вокруг» + hodos «путь») + systēma «составленное целое»",
+ "erk": "Таблица элементов по порядковому номеру; свойства повторяются периодически. Менделеев (1869) и Лотар Майер. Строка – период, столбец – группа.",
+ "bsp": [
+  [
+   "Mendelejew ordnete 1869 das Periodensystem.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/03-periodensystem.html",
+ "links": [
+  [
+   "das Periodensystem",
+   "https://de.wikipedia.org/wiki/Periodensystem"
+  ]
+ ]
+},
+{
+ "w": "das Halogen",
+ "fach": "Chemie",
+ "ru": "галоген",
+ "h": "griech",
+ "aus": "ha-lo-GEN [haloˈɡeːn]",
+ "her": "греч. hals «соль» + gennan «порождать» = «солеобразователь»",
+ "erk": "Элементы VII главной группы (F, Cl, Br, I): не хватает одного электрона, очень активны, с металлами образуют соли.",
+ "bsp": [
+  [
+   "Chlor ist ein Halogen.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/03-periodensystem.html"
+},
+{
+ "w": "das Edelgas",
+ "fach": "Chemie",
+ "ru": "инертный (благородный) газ",
+ "h": "germ",
+ "aus": "E-del-gas [ˈeːdl̩ɡaːs]",
+ "her": "edel «благородный» – как Edelmetall: ни с кем не «связывается»; рус. «инертный» ← лат. iners «ленивый» (как Argon ← греч. argos «ленивый»)",
+ "erk": "VIII главная группа (He, Ne, Ar): внешняя оболочка заполнена, почти не реагируют. Аргон – защитный газ при сварке.",
+ "bsp": [
+  [
+   "Argon ist ein Edelgas.",
+   ""
+  ]
+ ],
+ "lek": "../chemie/03-periodensystem.html"
+}
 ];

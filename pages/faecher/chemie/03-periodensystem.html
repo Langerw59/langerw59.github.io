@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Das Periodensystem der Elemente – Chemie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-25: Chemie, Etage 1, Lektion 3 – mit Claude -->
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../elektrotechnik/et.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <script src="elemente.js"></script>
+    <style>
+      .pse { display: grid; grid-template-columns: 34px repeat(8, minmax(44px, 1fr)); gap: 4px; margin: 10px 0; }
+      .pse .kopf { font-size: .75em; text-align: center; color: var(--text-muted); align-self: end; }
+      .pse .per { font-size: .75em; color: var(--text-muted); align-self: center; text-align: center; }
+      .pse button { border: 1px solid var(--border-subtle); border-radius: 8px; padding: 4px 2px; cursor: pointer; color: #222; line-height: 1.1; font-size: .95em; }
+      .pse button small { display: block; font-size: .65em; }
+      .pse button b { font-size: 1.25em; }
+      .pse button.aktiv { outline: 3px solid var(--accent); }
+      .pse .leer { visibility: hidden; }
+      .art-Metall { background: #9fc5e8; } .art-Halbmetall { background: #b6d7a8; }
+      .art-Nichtmetall { background: #ffe599; } .art-Edelgas { background: #d5a6f0; }
+      .pse-legende span { display: inline-block; padding: 2px 8px; border-radius: 6px; margin: 2px; color: #222; font-size: .85em; }
+      .pse-info { min-height: 5em; }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="index.html">Chemie</a> › Etage 1 – die Grundlagen › Lektion 3</p>
+        <h1>Das Periodensystem der Elemente</h1>
+        <p class="hint-text">Периодическая система элементов (таблица Менделеева) – «карта» всей химии.</p>
+
+        <h2>1. Die Theorie</h2>
+
+        <h3>Die Geschichte: Mendelejew 1869</h3>
+        <p>Um 1869 kannte man etwa 63 Elemente – ein großes Durcheinander. Der russische Chemiker <b>Dmitri Mendelejew</b>
+          (in Sankt Petersburg) und fast gleichzeitig der Deutsche <b>Lothar Meyer</b> ordneten sie nach der Atommasse und merkten:
+          Die Eigenschaften <b>wiederholen sich periodisch</b> – wie die Wochentage.
+          Mendelejew ließ sogar <b>Lücken</b> für noch unbekannte Elemente und sagte ihre Eigenschaften voraus.
+          Später fand man sie tatsächlich: das Gallium, das Germanium (1886, benannt nach Deutschland!), das Scandium.
+          <span class="ru">Менделеев оставил пустые клетки и предсказал свойства неоткрытых элементов – и оказался прав.</span></p>
+
+        <h3>Die Ordnung</h3>
+        <p>Heute ordnet man nach der <b>Ordnungszahl</b> (der Zahl der Protonen, → Lektion 2). Das Periodensystem hat:</p>
+        <div class="et-box">
+          <p><b>die Periode</b> = die <b>Zeile</b> (waagerecht, 1–7) → gibt die <b>Zahl der Schalen</b> an.<br />
+            Natrium steht in Periode 3 → es hat 3 Schalen (2 – 8 – 1).</p>
+          <p><b>die Hauptgruppe</b> = die <b>Spalte</b> (senkrecht, I–VIII) → gibt die <b>Zahl der Außenelektronen</b> an.<br />
+            Natrium steht in Gruppe I → 1 Außenelektron.</p>
+          <p class="ru">Период – строка = число электронных слоёв. Главная группа – столбец = число внешних электронов.</p>
+          <p class="hint-text">Hinweis: In der modernen Tabelle zählt man die Gruppen 1–18 (mit den Nebengruppen, z. B. Eisen, Kupfer).
+            Die Hauptgruppen I–VIII = die Gruppen 1, 2, 13–18. Für den Anfang reichen die 8 Hauptgruppen.</p>
+        </div>
+
+        <h3>Die Familien – die wichtigsten Hauptgruppen</h3>
+        <table class="et-woerter">
+          <tr><th>die Gruppe</th><th>der Name</th><th>Beispiele</th><th>die Eigenschaft</th></tr>
+          <tr><td>I</td><td>die Alkalimetalle</td><td>Li, Na, K</td><td>weich, reagieren heftig mit Wasser (1 Außenelektron, will es loswerden)</td></tr>
+          <tr><td>II</td><td>die Erdalkalimetalle</td><td>Mg, Ca</td><td>im Kalk, im Gestein</td></tr>
+          <tr><td>VII</td><td>die Halogene</td><td>F, Cl, Br, I</td><td>„Salzbildner“, sehr reaktiv (7 Außenelektronen, 1 fehlt)</td></tr>
+          <tr><td>VIII</td><td>die Edelgase</td><td>He, Ne, Ar</td><td>reagieren (fast) nie – die Schale ist voll</td></tr>
+        </table>
+        <p>Links stehen die <b>Metalle</b> (glänzen, leiten Strom), rechts die <b>Nichtmetalle</b>, dazwischen die <b>Halbmetalle</b>
+          (Silicium – der Halbleiter, → Elektrotechnik!).</p>
+
+        <div class="et-box">
+          <h3>Die Edelgasregel (die Oktettregel) – der Schlüssel zur Chemie</h3>
+          <p>Die Edelgase sind „zufrieden“, weil ihre äußere Schale <b>voll</b> ist (8 Elektronen, beim Helium 2).
+            Alle anderen Atome „wollen“ auch so eine volle Schale – sie <b>geben</b> Elektronen ab, <b>nehmen</b> welche auf oder
+            <b>teilen</b> sie mit anderen. <b>Deshalb gibt es überhaupt chemische Reaktionen.</b><br />
+            Wie viele Elektronen ein Atom abgibt, aufnimmt oder teilt – das ist <b>die Wertigkeit</b> (→ Lektion 4).</p>
+          <p class="ru">Правило октета: атомы стремятся к заполненной внешней оболочке (8 электронов), как у инертных газов.
+            Отсюда – валентность и все реакции.</p>
+        </div>
+
+        <h2>2. Das Beispiel</h2>
+        <div class="et-aufgabe">
+          <p>Der Schwefel (S) steht in <b>Periode 3</b>, <b>Hauptgruppe VI</b>. Was weiß man sofort, ohne etwas nachzuschlagen?</p>
+          <p>3 Schalen · 6 Außenelektronen → Schalen 2 – 8 – 6 → Ordnungszahl 2 + 8 + 6 = <b>16</b>.<br />
+            Ihm fehlen <b>2</b> Elektronen bis zur 8 → er nimmt meist 2 auf (wie sein Nachbar oben, der Sauerstoff: H₂O – H₂S).
+            Er ist ein <b>Nichtmetall</b> (rechts).</p>
+        </div>
+
+        <h2>3. Das kleine Periodensystem – zum Anklicken</h2>
+        <p class="hint-text">Первые 20 элементов. Нажми на клетку – появится описание.</p>
+        <div class="pse" id="pse"></div>
+        <div class="pse-legende"><span class="art-Metall">das Metall</span><span class="art-Halbmetall">das Halbmetall</span>
+          <span class="art-Nichtmetall">das Nichtmetall</span><span class="art-Edelgas">das Edelgas</span></div>
+        <div class="et-box pse-info" id="pseInfo">Wähle ein Element.</div>
+
+        <h2>4. Der Versuch (zum Ansehen)</h2>
+        <div class="et-box">
+          <h3>Die Alkalimetalle im Wasser</h3>
+          <p>Lithium, Natrium und Kalium stehen untereinander (Gruppe I). Im Video sieht man: alle reagieren mit Wasser,
+            aber <b>immer heftiger</b>, je weiter unten – Lithium zischt, Natrium flitzt, Kalium brennt mit violetter Flamme.
+            Warum? Je weiter unten, desto mehr Schalen → das Außenelektron ist weiter vom Kern entfernt und geht leichter weg.</p>
+          <p><a href="https://www.youtube.com/results?search_query=Alkalimetalle+in+Wasser+Lithium+Natrium+Kalium" target="_blank" rel="noopener">▶ YouTube – „Alkalimetalle in Wasser“</a>
+            <span class="tag">Suche</span></p>
+          <p style="color:#d9534f"><b>Nicht zu Hause machen!</b> Diese Metalle bekommt man ohnehin nur im Labor. <span class="ru">Только смотреть видео!</span></p>
+        </div>
+
+        <h2>5. Die Aufgaben</h2>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – Periode und Gruppe</h4>
+          <p>Wo stehen der Kohlenstoff (2 – 4), das Aluminium (2 – 8 – 3) und das Kalium (2 – 8 – 8 – 1)?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">C: Periode 2, Gruppe IV · Al: Periode 3, Gruppe III · K: Periode 4, Gruppe I (Zahl der Schalen = Periode, Außenelektronen = Gruppe)</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – rückwärts</h4>
+          <p>Ein Element steht in Periode 2, Gruppe V. Wie viele Protonen hat es? Welches ist es?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">2 Schalen: 2 – 5 → Z = 7 → <b>der Stickstoff</b> (N), 78 % der Luft.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – die Familie</h4>
+          <p>Warum benutzt man im Schweißgerät Argon als Schutzgas und nicht Sauerstoff?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Argon ist ein <b>Edelgas</b> (Gruppe VIII, volle Schale) – es reagiert nicht und schützt das heiße Metall vor der Luft.
+              Sauerstoff würde das Metall sofort oxidieren (verbrennen). <span class="ru">Аргон – инертный газ.</span></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – Partner finden</h4>
+          <p>Das Natrium (Gruppe I) und das Chlor (Gruppe VII) bilden das Kochsalz NaCl. Welches Paar passt genauso: K + ? und Li + ?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Jedes Element aus Gruppe I gibt 1 Elektron ab, jedes aus Gruppe VII nimmt 1 auf. Also z. B. <b>KCl</b> (das Kaliumchlorid – das „Diät-Salz“, im Dünger)
+              und <b>LiF</b> oder LiCl. Die Familie bestimmt das Verhalten!</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – zum Nachdenken</h4>
+          <p>Silicium und Kohlenstoff stehen in derselben Gruppe IV. Warum spricht man in Science-Fiction von „Lebewesen auf Silicium-Basis“?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Gleiche Gruppe = gleich viele Außenelektronen (4) = ähnliches chemisches Verhalten. Kohlenstoff bildet lange Ketten – die Grundlage des Lebens.
+              Silicium kann das auch ein wenig. Ob es wirklich Silicium-Leben geben kann, weiß niemand – aber unsere Chips sind „Silicium-Gehirne“. 🙂</div>
+          </details>
+        </div>
+
+        <h2>6. Zum Ansehen und Ausprobieren</h2>
+        <ul class="et-list">
+          <li><a href="https://ptable.com/?lang=de" target="_blank" rel="noopener">🧪 Ptable – das interaktive Periodensystem</a>
+            <span class="tag">alle 118 Elemente; Reiter „Elektronen“ zeigt die Schalen</span></li>
+          <li><a href="https://de.wikipedia.org/wiki/Periodensystem" target="_blank" rel="noopener">📖 Wikipedia – das Periodensystem</a>
+            · <a href="https://de.wikipedia.org/wiki/Dmitri_Iwanowitsch_Mendelejew" target="_blank" rel="noopener">Mendelejew</a>
+            · <a href="https://de.wikipedia.org/wiki/Lothar_Meyer" target="_blank" rel="noopener">Lothar Meyer</a>
+            · <a href="https://de.wikipedia.org/wiki/Edelgaskonfiguration" target="_blank" rel="noopener">die Edelgaskonfiguration</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=Periodensystem+einfach+erkl%C3%A4rt+Hauptgruppen+Perioden" target="_blank" rel="noopener">▶ YouTube – „Periodensystem einfach erklärt“</a>
+            <span class="tag">Suche</span></li>
+          <li><a href="../erfinder-quiz/index.html">🗺️ Das Erfinder-Quiz</a> <span class="tag">Idee: Mendelejew – Sankt Petersburg 1869 aufnehmen</span></li>
+        </ul>
+
+        <h2>7. Die Wörter</h2>
+        <table class="et-woerter">
+          <tr><td>das Periodensystem der Elemente (PSE)</td><td>периодическая система элементов</td></tr>
+          <tr><td>die Periode</td><td>период (строка)</td></tr>
+          <tr><td>die Hauptgruppe / die Nebengruppe</td><td>главная / побочная подгруппа</td></tr>
+          <tr><td>das Metall / das Nichtmetall / das Halbmetall</td><td>металл / неметалл / полуметалл</td></tr>
+          <tr><td>die Alkalimetalle</td><td>щелочные металлы</td></tr>
+          <tr><td>die Erdalkalimetalle</td><td>щёлочноземельные металлы</td></tr>
+          <tr><td>die Halogene</td><td>галогены</td></tr>
+          <tr><td>die Edelgase</td><td>инертные (благородные) газы</td></tr>
+          <tr><td>die Edelgasregel (= die Oktettregel)</td><td>правило октета</td></tr>
+          <tr><td>das Symbol (das Elementsymbol)</td><td>химический знак</td></tr>
+        </table>
+        <p class="hint-text">Wortgeschichte: <b>die Periode</b> ← griech. <i>periodos</i> „der Umlauf, der Kreislauf“ (peri = um … herum, hodos = der Weg).
+          <b>das Halogen</b> ← griech. <i>hals</i> „das Salz“ + <i>gennan</i> „erzeugen“ = „Salzbildner“.
+          <b>das Edelgas</b> – „edel“ wie das Edelmetall Gold: es lässt sich mit niemandem ein. Russisch dagegen «инертный» ← lat. <i>iners</i> „träge“ –
+          genau wie <b>das Argon</b> ← griech. <i>argos</i> „faul“.</p>
+
+        <div class="et-nav">
+          <a href="02-atom.html">← Lektion 2: das Atom</a>
+          <a href="index.html">Übersicht Chemie – Lektion 4 (die Wertigkeit) kommt bald →</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const E = window.CHEMIE_ELEMENTE, $ = (id) => document.getElementById(id);
+        const GR = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+        let h = '<div></div>' + GR.map((g) => `<div class="kopf">${g}</div>`).join("");
+        for (let p = 1; p <= 4; p++) {
+          h += `<div class="per">${p}</div>`;
+          for (let g = 1; g <= 8; g++) {
+            const e = E.find((x) => x.p === p && x.g === g);
+            h += e ? `<button type="button" class="art-${e.art}" data-z="${e.z}" title="${e.n}"><small>${e.z}</small><b>${e.s}</b><small>${e.a}</small></button>`
+                   : '<div class="leer"></div>';
+          }
+        }
+        $("pse").innerHTML = h;
+        $("pse").addEventListener("click", (ev) => {
+          const b = ev.target.closest("button[data-z]"); if (!b) return;
+          document.querySelectorAll("#pse button").forEach((x) => x.classList.toggle("aktiv", x === b));
+          const e = E[+b.dataset.z - 1], sch = window.chemieSchalen(e.z);
+          $("pseInfo").innerHTML = `<h3 style="margin-top:0">${e.s} – ${e.n} <span class="ru">(${e.ru})</span></h3>
+            die Ordnungszahl <b>${e.z}</b> · die Massenzahl <b>${e.a}</b> · die Periode <b>${e.p}</b> · die Hauptgruppe <b>${GR[e.g - 1]}</b> · <b>${e.art}</b><br>
+            die Schalen: <b>${sch.join(" – ")}</b> → <b>${sch[sch.length - 1]}</b> Außenelektron(en)<br>
+            ${e.info}<br><i>Name: ${e.lat}</i>`;
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Der Stoff, das Gemisch, der Reinstoff – Chemie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-25: Chemie, Etage 1, Lektion 1 – mit Claude -->
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../elektrotechnik/et.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <style>
+      .sort-karte { font-size: 1.3em; font-weight: 700; text-align: center; margin: 10px 0; }
+      .sort-knoepfe { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+      .sort-knoepfe button { padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); font-size: 1em; cursor: pointer; }
+      .sort-antwort { text-align: center; margin-top: 10px; min-height: 2.6em; }
+      .ok { color: #2e8b57; font-weight: 700; } .falsch { color: #d9534f; font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="index.html">Chemie</a> › Etage 1 – die Grundlagen › Lektion 1</p>
+        <h1>Der Stoff, das Gemisch, der Reinstoff</h1>
+        <p class="hint-text">Вещество, смесь, чистое вещество – с этого начинается любая химия.</p>
+
+        <h2>1. Die Theorie</h2>
+
+        <h3>Der Körper und der Stoff</h3>
+        <p>Ein <b>Körper</b> ist ein Gegenstand: der Löffel, der Nagel, die Fensterscheibe.
+          <b>Der Stoff</b> ist das, <i>woraus</i> der Körper besteht: das Eisen, das Glas, das Holz.
+          Ein Löffel kann aus Holz, aus Stahl oder aus Kunststoff sein – derselbe Körper, verschiedene Stoffe.
+          <span class="ru">Тело – предмет (ложка). Вещество – то, из чего он сделан (железо, дерево).</span></p>
+
+        <h3>Die Stoffeigenschaften</h3>
+        <p>Jeder Stoff hat typische <b>Eigenschaften</b> – daran erkennt man ihn, wie einen Menschen am Gesicht:</p>
+        <table class="et-woerter">
+          <tr><th>die Eigenschaft</th><th>Beispiel</th></tr>
+          <tr><td>die Farbe, der Geruch, der Glanz</td><td>der Schwefel ist gelb, das Gold glänzt</td></tr>
+          <tr><td>die Schmelztemperatur</td><td>das Eis schmilzt bei 0 °C, das Zinn (Lötzinn) bei ca. 230 °C</td></tr>
+          <tr><td>die Siedetemperatur</td><td>das Wasser siedet bei 100 °C, der Alkohol bei 78 °C</td></tr>
+          <tr><td>die Dichte</td><td>das Holz schwimmt, das Eisen sinkt</td></tr>
+          <tr><td>die Löslichkeit</td><td>der Zucker löst sich in Wasser, das Öl nicht</td></tr>
+          <tr><td>die elektrische Leitfähigkeit</td><td>das Kupfer leitet, der Kunststoff isoliert <span class="tag">→ Elektrotechnik</span></td></tr>
+          <tr><td>die Magnetisierbarkeit</td><td>das Eisen wird vom Magnet angezogen, das Aluminium nicht</td></tr>
+        </table>
+
+        <h3>Der Reinstoff und das Gemisch</h3>
+        <p><b>Der Reinstoff</b> besteht nur aus <b>einem</b> Stoff (destilliertes Wasser, Gold, Kochsalz).
+          Er hat <b>feste</b> Eigenschaften: reines Wasser siedet immer bei 100 °C.<br />
+          <b>Das Gemisch</b> besteht aus <b>mehreren</b> Stoffen (Meerwasser = Wasser + Salz; Luft; Milch).
+          Seine Eigenschaften hängen von der Mischung ab: Salzwasser siedet etwas über 100 °C.
+          <span class="ru">Чистое вещество – одно вещество с постоянными свойствами. Смесь – несколько веществ.</span></p>
+
+        <div class="et-box">
+          <h3>Der Stammbaum der Stoffe / «родословная» веществ</h3>
+          <svg class="et-bild" viewBox="0 0 620 250" width="620" aria-label="Einteilung der Stoffe">
+            <g fill="none" stroke="var(--text-muted)" stroke-width="2">
+              <path d="M310 42 L160 82 M310 42 L460 82" />
+              <path d="M160 112 L85 152 M160 112 L235 152" />
+              <path d="M460 112 L385 152 M460 112 L535 152" />
+            </g>
+            <g font-size="15" text-anchor="middle">
+              <rect x="245" y="12" width="130" height="30" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" />
+              <text x="310" y="32">die Stoffe</text>
+              <rect x="85" y="82" width="150" height="30" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" />
+              <text x="160" y="102">der Reinstoff</text>
+              <rect x="385" y="82" width="150" height="30" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" />
+              <text x="460" y="102">das Gemisch</text>
+              <text x="85" y="172">das Element</text>
+              <text x="85" y="192" font-size="12">Gold, Eisen, Sauerstoff</text>
+              <text x="235" y="172">die Verbindung</text>
+              <text x="235" y="192" font-size="12">Wasser H₂O, Salz NaCl</text>
+              <text x="385" y="172">homogen</text>
+              <text x="385" y="192" font-size="12">Salzwasser, Luft, Messing</text>
+              <text x="535" y="172">heterogen</text>
+              <text x="535" y="192" font-size="12">Sand + Wasser, Milch, Rauch</text>
+              <text x="310" y="235" font-size="12">homogen = einheitlich (man sieht keine Teile) · heterogen = uneinheitlich (man sieht die Teile)</text>
+            </g>
+          </svg>
+          <p class="hint-text"><b>das Element</b> (элемент) – нельзя разложить дальше химически. <b>die Verbindung</b> (соединение) – из нескольких элементов,
+            но это <i>новое</i> вещество с новыми свойствами: ядовитый хлор + бурно реагирующий натрий = обычная поваренная соль!</p>
+        </div>
+
+        <h3>Die Arten der Gemische</h3>
+        <table class="et-woerter">
+          <tr><th>das Gemisch</th><th>woraus?</th><th>Beispiel</th></tr>
+          <tr><td>die Lösung</td><td>fest oder gasförmig in flüssig, unsichtbar</td><td>Salzwasser, Zuckerwasser, Mineralwasser (CO₂)</td></tr>
+          <tr><td>die Legierung</td><td>Metall + Metall</td><td>das Messing (Kupfer + Zink), die Bronze, das Lötzinn</td></tr>
+          <tr><td>das Gasgemisch</td><td>Gas + Gas</td><td>die Luft (Stickstoff 78 %, Sauerstoff 21 %, Argon 1 %)</td></tr>
+          <tr><td>die Suspension</td><td>fest in flüssig, sichtbar</td><td>Sand im Wasser, Orangensaft mit Fruchtfleisch</td></tr>
+          <tr><td>die Emulsion</td><td>flüssig in flüssig</td><td>die Milch, die Mayonnaise, die Bohrmilch</td></tr>
+          <tr><td>der Rauch / der Nebel</td><td>fest bzw. flüssig in Gas</td><td>der Rauch vom Feuer / der Nebel, das Spray</td></tr>
+        </table>
+
+        <h3>Die Trennverfahren – wie trennt man ein Gemisch?</h3>
+        <p>Man nutzt einen <b>Unterschied in den Eigenschaften</b>:</p>
+        <table class="et-woerter">
+          <tr><th>das Verfahren</th><th>welche Eigenschaft?</th><th>Beispiel</th></tr>
+          <tr><td>das Sieben</td><td>die Korngröße</td><td>Kies und Sand</td></tr>
+          <tr><td>das Filtrieren (der Filter)</td><td>die Teilchengröße</td><td>Kaffee: das Pulver bleibt im Filter</td></tr>
+          <tr><td>das Dekantieren (Abgießen)</td><td>die Dichte</td><td>Sand setzt sich ab, das Wasser abgießen</td></tr>
+          <tr><td>das Eindampfen</td><td>die Siedetemperatur</td><td>Meersalz gewinnen</td></tr>
+          <tr><td>das Destillieren</td><td>verschiedene Siedetemperaturen</td><td>destilliertes Wasser, der Schnaps, die Raffinerie (Benzin)</td></tr>
+          <tr><td>das Magnetscheiden</td><td>der Magnetismus</td><td>Eisenspäne aus dem Sand, Schrott sortieren</td></tr>
+          <tr><td>das Zentrifugieren</td><td>die Dichte (schnell drehen)</td><td>die Waschmaschine (Schleudern), die Milch → Sahne</td></tr>
+        </table>
+
+        <h3>Der physikalische Vorgang und die chemische Reaktion</h3>
+        <p>Wenn Eis schmilzt, bleibt es <b>Wasser</b> – nur der Zustand ändert sich. Das ist ein <b>physikalischer Vorgang</b>.<br />
+          Wenn Holz brennt, entstehen <b>neue Stoffe</b> (Asche, Kohlenstoffdioxid, Wasserdampf), die man nicht zurückverwandeln kann.
+          Das ist <b>eine chemische Reaktion</b> – und genau damit beschäftigt sich die Chemie.</p>
+        <div class="et-box">
+          <h3>Merke / запомнить</h3>
+          <p>Chemische Reaktion = <b>neue Stoffe mit neuen Eigenschaften</b> entstehen. Typische Zeichen: Farbe ändert sich, Gas entsteht (Bläschen),
+            Wärme oder Licht wird frei, ein Geruch entsteht.
+            <span class="ru">Химическая реакция – образуются новые вещества. Физический процесс – вещество остаётся тем же (лёд → вода).</span></p>
+        </div>
+
+        <h2>2. Das Beispiel</h2>
+        <div class="et-aufgabe">
+          <p>Ein Gemisch aus <b>Sand, Salz und Eisenspänen</b>. Wie bekommt man alle drei Stoffe einzeln zurück?</p>
+          <p>
+            1. <b>Magnetscheiden:</b> mit dem Magnet (in einer Plastiktüte) die Eisenspäne herausholen.<br />
+            2. <b>Lösen:</b> den Rest in Wasser geben und umrühren – das Salz löst sich, der Sand nicht.<br />
+            3. <b>Filtrieren:</b> durch einen Kaffeefilter gießen – der Sand bleibt im Filter.<br />
+            4. <b>Eindampfen:</b> das Salzwasser im Topf kochen, bis das Wasser weg ist – das Salz bleibt übrig.
+          </p>
+        </div>
+
+        <h2>3. Das Sortier-Spiel – Reinstoff oder Gemisch?</h2>
+        <p class="hint-text">Игра: чистое вещество или смесь? Нажми на правильный ответ.</p>
+        <div class="et-box">
+          <div class="sort-karte" id="sKarte"></div>
+          <div class="sort-knoepfe">
+            <button type="button" data-a="R">der Reinstoff</button>
+            <button type="button" data-a="G">das Gemisch</button>
+          </div>
+          <div class="sort-antwort" id="sAntwort"></div>
+          <div class="hint-text" style="text-align:center" id="sStand"></div>
+        </div>
+
+        <h2>4. Der Versuch</h2>
+        <div class="et-box">
+          <h3>Salz aus dem „Meerwasser“ zurückgewinnen</h3>
+          <p><b>Material:</b> 1 Glas Wasser, 2 Teelöffel Salz, 1 Teelöffel Sand (oder Erde), der Kaffeefilter, ein kleiner Topf, der Herd.</p>
+          <ol>
+            <li>Salz und Sand ins Wasser geben, gut umrühren. Was sieht man? Wo ist das Salz „geblieben“?</li>
+            <li>Durch den Kaffeefilter in den Topf gießen. Was bleibt im Filter, was läuft durch?</li>
+            <li>Das klare Wasser probieren (ein Tropfen auf der Zunge) – schmeckt es salzig?</li>
+            <li>Den Topf erhitzen, bis das Wasser verdampft ist. Am Boden bleibt <b>ein weißer Belag</b> – das Salz.</li>
+          </ol>
+          <p class="hint-text">Вывод: соль не исчезла, она растворилась (однородная смесь). Фильтр её не задерживает – помогает только выпаривание.
+            Точно так же образуется накипь (der Kesselstein) в чайнике – это «выпаренный» известь из воды.</p>
+          <p style="color:#d9534f"><b>Achtung:</b> Den leeren Topf nicht zu lange auf der heißen Platte lassen.</p>
+          <p>📸 Ergebnis mit Foto ins <a href="../elektrotechnik/labortagebuch.html">Labortagebuch</a> eintragen.</p>
+        </div>
+
+        <h2>5. Die Aufgaben</h2>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – der Körper oder der Stoff?</h4>
+          <p>Ordne: der Nagel, das Kupfer, die Flasche, das Glas, der Ring, das Gold, das Kabel, der Kunststoff.</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Körper: der Nagel, die Flasche, der Ring, das Kabel<br />Stoffe: das Kupfer, das Glas, das Gold, der Kunststoff</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – homogen oder heterogen?</h4>
+          <p>die Luft, die Milch, das Messing, Sand im Wasser, der Tee (ohne Blätter), der Nebel</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">homogen: die Luft, das Messing, der Tee<br />heterogen: die Milch (unter dem Mikroskop sieht man Fetttröpfchen), Sand im Wasser, der Nebel</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – physikalisch oder chemisch?</h4>
+          <p>a) Das Wasser kocht. b) Das Eisen rostet. c) Der Zucker löst sich im Tee. d) Der Kuchen backt. e) Das Lötzinn schmilzt. f) Das Benzin verbrennt im Motor.</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">physikalisch: a, c, e (der Stoff bleibt derselbe)<br />chemisch: b, d, f (es entstehen neue Stoffe: der Rost, die Kruste, die Abgase)</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – aus der Werkstatt</h4>
+          <p>Warum soll man in das Bügeleisen oder in die Scheibenwaschanlage lieber <b>destilliertes Wasser</b> geben als Leitungswasser?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Leitungswasser ist ein <b>Gemisch</b> – darin sind Kalk und andere Salze gelöst. Wenn das Wasser verdampft, bleiben sie als Belag zurück
+              (Eindampfen!) und verstopfen die Düsen. Destilliertes Wasser ist fast ein <b>Reinstoff</b> und lässt nichts zurück.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – das Trennverfahren wählen</h4>
+          <p>Wie trennt man: a) Öl und Wasser, b) Alkohol und Wasser, c) Erbsen und Linsen, d) Eisen-Späne und Aluminium-Späne?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) Dekantieren / Abschöpfen (das Öl schwimmt oben – die Dichte)<br />
+              b) Destillieren (der Alkohol siedet schon bei 78 °C)<br />c) Sieben (die Größe)<br />
+              d) Magnetscheiden – das Eisen wird angezogen, das Aluminium nicht. (Übrigens: der Rost ist kaum magnetisch – er ist eine <b>Verbindung</b> aus Eisen und Sauerstoff mit neuen Eigenschaften.)</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 6 – zum Nachdenken</h4>
+          <p>Das Wasser (H₂O) besteht aus Wasserstoff und Sauerstoff. Beide sind Gase, und Wasserstoff brennt sogar. Warum löscht Wasser dann das Feuer?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Wasser ist kein Gemisch, sondern eine <b>Verbindung</b> – ein neuer Stoff mit ganz neuen Eigenschaften.
+              Der Wasserstoff hat schon „gebrannt“ (mit Sauerstoff reagiert) – das Ergebnis dieses Brennens ist eben das Wasser.
+              <span class="ru">Вода – это «уже сгоревший» водород. Свойства соединения не похожи на свойства элементов.</span></div>
+          </details>
+        </div>
+
+        <h2>6. Zum Ansehen</h2>
+        <ul class="et-list">
+          <li><a href="https://de.wikipedia.org/wiki/Stoffgemisch" target="_blank" rel="noopener">📖 Wikipedia – das Stoffgemisch</a>
+            · <a href="https://de.wikipedia.org/wiki/Reinstoff" target="_blank" rel="noopener">der Reinstoff</a>
+            · <a href="https://de.wikipedia.org/wiki/Trennverfahren" target="_blank" rel="noopener">die Trennverfahren</a></li>
+          <li><a href="https://www.youtube.com/results?search_query=Reinstoff+Gemisch+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Reinstoff und Gemisch einfach erklärt“</a>
+            <span class="tag">Suche; gute Videos später hier fest eintragen</span></li>
+          <li><a href="https://www.youtube.com/results?search_query=Trennverfahren+Chemie+Destillation+Versuch" target="_blank" rel="noopener">▶ YouTube – „Trennverfahren, die Destillation“</a>
+            <span class="tag">Suche</span></li>
+        </ul>
+
+        <h2>7. Die Wörter</h2>
+        <table class="et-woerter">
+          <tr><td>die Chemie</td><td>химия</td></tr>
+          <tr><td>der Stoff / der Reinstoff</td><td>вещество / чистое вещество</td></tr>
+          <tr><td>der Körper</td><td>тело (предмет)</td></tr>
+          <tr><td>die Eigenschaft</td><td>свойство</td></tr>
+          <tr><td>das Gemisch (homogen / heterogen)</td><td>смесь (однородная / неоднородная)</td></tr>
+          <tr><td>das Element</td><td>химический элемент</td></tr>
+          <tr><td>die Verbindung</td><td>соединение</td></tr>
+          <tr><td>die Lösung / lösen</td><td>раствор / растворять</td></tr>
+          <tr><td>die Legierung</td><td>сплав</td></tr>
+          <tr><td>die Suspension / die Emulsion</td><td>взвесь / эмульсия</td></tr>
+          <tr><td>das Filtrieren, das Eindampfen, das Destillieren</td><td>фильтрование, выпаривание, перегонка</td></tr>
+          <tr><td>die Schmelztemperatur / die Siedetemperatur</td><td>температура плавления / кипения</td></tr>
+          <tr><td>die Dichte</td><td>плотность</td></tr>
+          <tr><td>die chemische Reaktion</td><td>химическая реакция</td></tr>
+        </table>
+        <p class="hint-text">Wortgeschichte: <b>die Chemie</b> ← arabisch <i>al-kīmiyā</i> (die Alchemie, die Kunst der Stoffumwandlung) –
+          vermutlich von altägyptisch <i>kmt</i> „das schwarze Land“ (Ägypten) oder griechisch <i>chymeia</i> „das Gießen von Metall“.
+          Im Wort <b>Al</b>chemie steckt noch der arabische Artikel <i>al-</i> – wie in <b>Al</b>kohol und <b>Al</b>gebra.
+          <a href="../glossar.html#w=Chemie">→ im Fachglossar</a></p>
+
+        <div class="et-nav">
+          <a href="index.html">← Übersicht Chemie</a>
+          <a href="02-atom.html">Nächste Lektion: das Atom →</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const K = [
+          ["das destillierte Wasser", "R", "nur H₂O"], ["das Meerwasser", "G", "Wasser + Salze"], ["die Luft", "G", "Stickstoff, Sauerstoff, Argon …"],
+          ["das Gold (24 Karat)", "R", "ein Element"], ["das Messing", "G", "eine Legierung: Kupfer + Zink"], ["das Kochsalz", "R", "eine Verbindung: NaCl"],
+          ["die Milch", "G", "eine Emulsion: Wasser + Fett + Eiweiß"], ["der Zucker", "R", "eine Verbindung"], ["das Leitungswasser", "G", "Wasser + gelöster Kalk"],
+          ["der Sauerstoff", "R", "ein Element"], ["das Benzin", "G", "viele verschiedene Kohlenwasserstoffe"], ["das Kupfer im Kabel", "R", "ein Element (fast rein)"],
+          ["der Stahl", "G", "eine Legierung: Eisen + Kohlenstoff"], ["der Tee", "G", "Wasser + gelöste Stoffe"], ["das Kohlenstoffdioxid", "R", "eine Verbindung: CO₂"]
+        ];
+        let reihe = K.map((k) => k).sort(() => Math.random() - 0.5), i = 0, richtig = 0, gefragt = 0, gesperrt = false;
+        const $ = (id) => document.getElementById(id);
+        function zeige() {
+          if (i >= reihe.length) { $("sKarte").textContent = "Fertig! 🎉"; $("sAntwort").innerHTML = 'Noch einmal? <button type="button" id="sNeu">↻ neu mischen</button>';
+            $("sNeu").onclick = () => { reihe.sort(() => Math.random() - 0.5); i = 0; richtig = 0; gefragt = 0; zeige(); }; return; }
+          $("sKarte").textContent = reihe[i][0]; $("sAntwort").textContent = ""; gesperrt = false;
+          $("sStand").textContent = richtig + " von " + gefragt + " richtig · Karte " + (i + 1) + " von " + reihe.length;
+        }
+        document.querySelectorAll(".sort-knoepfe button").forEach((b) => b.addEventListener("click", () => {
+          if (gesperrt || i >= reihe.length) return; gesperrt = true; gefragt++;
+          const k = reihe[i], ok = b.dataset.a === k[1]; if (ok) richtig++;
+          $("sAntwort").innerHTML = (ok ? '<span class="ok">✓ Richtig!</span> ' : '<span class="falsch">✗ Leider nicht.</span> ') +
+            (k[1] === "R" ? "der Reinstoff" : "das Gemisch") + " – " + k[2];
+          $("sStand").textContent = richtig + " von " + gefragt + " richtig";
+          setTimeout(() => { i++; zeige(); }, 1900);
+        }));
+        zeige();
+      })();
+    </script>
+  </body>
+</html>

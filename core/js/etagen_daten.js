@@ -50,12 +50,16 @@ window.Q_ETAGEN = [
     { t:"die Physik", r:[
       ["die Physik – Übersicht","/pages/faecher/physik/index.html"],
       ["die Kanonenkugel (Simulation)","/pages/faecher/physik-oberstufe/kanonenkugel_physik.html"]]},
+    { t:"die Chemie", r:[
+      ["⚗️ die Chemie – die Grundlagen","/pages/faecher/chemie/index.html"],
+      ["Lektion 1 – der Stoff, das Gemisch","/pages/faecher/chemie/01-stoffe.html"],
+      ["Lektion 2 – das Atom","/pages/faecher/chemie/02-atom.html","der Atom-Baukasten"],
+      ["Lektion 3 – das Periodensystem","/pages/faecher/chemie/03-periodensystem.html"]]},
     { t:"Für alle Fächer", r:[
       ["🧭 der Wegweiser","/pages/faecher/wegweiser/index.html","Simulationen, Videos, Wörterbücher"],
-      ["📘 das Fachglossar","/pages/faecher/glossar.html","Mathematik, Elektrotechnik"],
+      ["📘 das Fachglossar","/pages/faecher/glossar.html","Mathematik, Elektrotechnik, Chemie"],
       ["🗺️ das Erfinder-Quiz","/pages/faecher/erfinder-quiz/index.html","wer hat was wo erfunden"]]},
     { t:"Ideen und ruhende Fächer", r:[
-      ["die Chemie","/pages/faecher/chemie/index.html","noch leer","idee"],
       ["die Überlebenskunst","/pages/faecher/ueberlebenskunst/index.html","noch leer","idee"],
       ["die Technik","/pages/faecher/technik/index.html","noch leer","idee"],
       ["die Informatik (HTML, CSS, JavaScript)","/pages/faecher/informatik/index.html","ruht – 10 Web-Lektionen","idee"]]}

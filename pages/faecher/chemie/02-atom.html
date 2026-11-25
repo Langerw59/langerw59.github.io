@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Das Atom – Chemie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-25: Chemie, Etage 1, Lektion 2 – mit Claude -->
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../elektrotechnik/et.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <script src="elemente.js"></script>
+    <style>
+      .ab-zahlen { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-top: 8px; }
+      .ab-zahlen div { border: 1px solid var(--border-subtle); border-radius: 10px; padding: 8px; text-align: center; background: var(--bg-surface); }
+      .ab-zahlen b { display: block; font-size: 1.5em; }
+      .ab-steuer { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; }
+      .ab-steuer button { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); font-size: 1.1em; cursor: pointer; }
+      .ab-steuer select { padding: 8px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); font-size: 1em; }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="index.html">Chemie</a> › Etage 1 – die Grundlagen › Lektion 2</p>
+        <h1>Das Atom</h1>
+        <p class="hint-text">Атом: ядро (протоны и нейтроны) и оболочка (электроны). Из этого строится всё остальное.</p>
+
+        <h2>1. Die Theorie</h2>
+
+        <h3>Die Idee: das Unteilbare</h3>
+        <p>Schon vor 2400 Jahren fragte der griechische Philosoph <b>Demokrit</b>: Was passiert, wenn man einen Stein immer weiter teilt?
+          Irgendwann kommt man zu einem Teilchen, das man nicht mehr teilen kann – <i>átomos</i> = „unteilbar“.
+          Heute wissen wir: Das Atom <i>ist</i> teilbar – aber <b>chemisch</b> bleibt es das kleinste Teilchen eines Elements.
+          <span class="ru">Атом – мельчайшая частица химического элемента.</span></p>
+
+        <h3>Der Aufbau des Atoms</h3>
+        <table class="et-woerter">
+          <tr><th>das Teilchen</th><th>wo?</th><th>die Ladung</th><th>die Masse</th></tr>
+          <tr><td><b>das Proton</b> (p⁺)</td><td>im Kern</td><td>+1</td><td>1 u</td></tr>
+          <tr><td><b>das Neutron</b> (n)</td><td>im Kern</td><td>0 (neutral)</td><td>1 u</td></tr>
+          <tr><td><b>das Elektron</b> (e⁻)</td><td>in der Hülle</td><td>−1</td><td>fast 0 (≈ 1/1836 u)</td></tr>
+        </table>
+        <p class="hint-text">u = die atomare Masseneinheit (атомная единица массы). Почти вся масса атома – в ядре.
+          Электрон – тот самый, что течёт по проводу: <a href="../elektrotechnik/etage-1/01-ladung-strom-spannung.html">→ Elektrotechnik, Lektion 1</a>.</p>
+
+        <div class="et-box">
+          <h3>Wie groß? / Насколько мал?</h3>
+          <p>Wäre der Atomkern so groß wie <b>ein Stecknadelkopf</b> im Anstoßpunkt eines <b>Fußballstadions</b>, dann
+            flögen die Elektronen ganz außen auf den Tribünen herum. Dazwischen: <b>nichts</b>. Das Atom ist fast leer!
+            <span class="ru">Если ядро – булавочная головка в центре стадиона, то электроны – на трибунах. Внутри – пустота.</span></p>
+        </div>
+
+        <h3>Die zwei wichtigsten Zahlen</h3>
+        <div class="et-box">
+          <div class="et-formel">die Ordnungszahl Z = die Zahl der Protonen = die Zahl der Elektronen</div>
+          <div class="et-formel">die Massenzahl A = Protonen + Neutronen</div>
+          <p>→ die Zahl der Neutronen = A − Z</p>
+          <p><b>Die Ordnungszahl</b> (= die Kernladungszahl, die Protonenzahl) bestimmt, <b>welches Element</b> es ist:
+            1 Proton = immer Wasserstoff, 6 Protonen = immer Kohlenstoff, 26 Protonen = immer Eisen.
+            <span class="ru">Порядковый номер = число протонов = заряд ядра. Он и определяет элемент.</span></p>
+          <p class="hint-text">Schreibweise: <span style="font-size:1.2em"><sup>12</sup><sub>6</sub>C</span> – oben die Massenzahl, unten die Ordnungszahl.</p>
+        </div>
+
+        <h3>Die Elektronenhülle – das Schalenmodell</h3>
+        <p>Die Elektronen sitzen auf <b>Schalen</b> (Energiestufen), von innen nach außen K, L, M, N …
+          Jede Schale fasst nur eine bestimmte Zahl von Elektronen: <b>max. 2 · n²</b> (K: 2, L: 8, M: 18 …).
+          Für die ersten 20 Elemente gilt die einfache Regel: <b>2 – 8 – 8 – 2</b>.
+          <span class="ru">Электроны расположены по оболочкам (слоям): 2, потом 8, потом 8 …</span></p>
+        <p><b>Am wichtigsten</b> sind die Elektronen auf der <b>äußersten</b> Schale – <b>die Außenelektronen</b> (= die Valenzelektronen).
+          Sie bestimmen, wie ein Element <b>reagiert</b> und welche <b>Wertigkeit</b> es hat (→ Lektion 4).
+          <span class="ru">Внешние (валентные) электроны определяют химические свойства и валентность.</span></p>
+
+        <h3>Das Isotop</h3>
+        <p>Atome desselben Elements können verschieden viele <b>Neutronen</b> haben – das sind <b>Isotope</b>.
+          Beispiel Kohlenstoff: ¹²C (6 n) ist normal, ¹⁴C (8 n) ist radioaktiv und zerfällt langsam – damit bestimmt man das Alter
+          von Holz und Knochen (die Radiokarbonmethode). Chemisch verhalten sich Isotope gleich.</p>
+
+        <h3>Das Ion – ein Ausblick</h3>
+        <p>Gibt ein Atom ein Elektron ab, hat es ein Proton „zu viel“ → <b>positiv</b> geladen (das Kation, z. B. Na⁺).
+          Nimmt es eins auf → <b>negativ</b> (das Anion, z. B. Cl⁻). Geladene Atome heißen <b>Ionen</b> – sie kommen in Lektion 6 wieder
+          (und im Lithium-Ionen-Akku!).</p>
+
+        <h2>2. Das Beispiel</h2>
+        <div class="et-aufgabe">
+          <p>Das Natrium hat die Ordnungszahl 11 und die Massenzahl 23. Wie ist sein Atom aufgebaut?</p>
+          <p>Protonen = Z = <b>11</b> · Elektronen = Z = <b>11</b> · Neutronen = A − Z = 23 − 11 = <b>12</b><br />
+            Schalen: K = 2, L = 8, M = 1 → <b>1 Außenelektron</b>. Dieses eine Elektron gibt Natrium sehr gern ab –
+            deshalb reagiert es so heftig (sogar mit Wasser).</p>
+        </div>
+
+        <h2>3. Der Atom-Baukasten</h2>
+        <p class="hint-text">Выбери элемент (или нажимай + / −) – видно ядро, оболочки и все числа.</p>
+        <div class="et-box">
+          <div class="ab-steuer">
+            <button type="button" id="abMinus" aria-label="ein Proton weniger">−</button>
+            <select id="abWahl" aria-label="das Element wählen"></select>
+            <button type="button" id="abPlus" aria-label="ein Proton mehr">+</button>
+          </div>
+          <svg class="et-bild" id="abBild" viewBox="0 0 360 360" width="360" aria-label="das Schalenmodell"></svg>
+          <div class="ab-zahlen" id="abZahlen"></div>
+          <p class="hint-text" id="abInfo" style="text-align:center"></p>
+        </div>
+
+        <h2>4. Der Versuch</h2>
+        <div class="et-box">
+          <h3>Das Modell aus der Küche</h3>
+          <p><b>Material:</b> ein Teller, rote und grüne Erbsen (oder zwei Sorten Knöpfe/Linsen), kleine Pfefferkörner, ein Faden.</p>
+          <ol>
+            <li>Lege das <b>Kohlenstoff</b>-Atom (Z = 6, A = 12): in die Mitte 6 rote (Protonen) und 6 grüne (Neutronen) Erbsen.</li>
+            <li>Lege mit dem Faden zwei Kreise darum (die Schalen K und L) und verteile 6 Pfefferkörner (Elektronen): 2 innen, 4 außen.</li>
+            <li>Mach daraus Sauerstoff (Z = 8, A = 16): Was musst du hinzufügen?</li>
+          </ol>
+          <p class="hint-text">Хорошо делать вместе с внуками. Масштаб, конечно, неправильный – на самом деле ядро в 10 000 раз меньше атома.</p>
+          <p>📸 Foto ins <a href="../elektrotechnik/labortagebuch.html">Labortagebuch</a>.</p>
+        </div>
+
+        <h2>5. Die Aufgaben</h2>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – die Teilchen</h4>
+          <p>Welches Teilchen ist positiv, welches negativ, welches neutral? Welche sitzen im Kern?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">das Proton +, das Elektron −, das Neutron 0. Im Kern: Protonen und Neutronen (zusammen: die Nukleonen).</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – das Chlor</h4>
+          <p>Das Chlor hat Z = 17 und (meist) A = 35. Wie viele Protonen, Neutronen, Elektronen? Wie viele Außenelektronen?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">p = 17, e = 17, n = 35 − 17 = 18. Schalen 2 – 8 – 7 → <b>7 Außenelektronen</b> – ihm fehlt genau eins bis 8.
+              <br />Das Natrium hat eins zu viel, das Chlor eins zu wenig – kein Wunder, dass sie zusammen das Kochsalz NaCl bilden!</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – welches Element?</h4>
+          <p>Ein Atom hat 14 Protonen und 14 Neutronen. Welches Element ist es, und wo steckt es in deinem Haus?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Z = 14 → <b>das Silicium</b> (A = 28). In jedem Chip, jedem Transistor, in der Solarzelle und im Sand/Glas.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – das Isotop</h4>
+          <p>Der „schwere Wasserstoff“ (das Deuterium) hat A = 2. Wie viele Neutronen hat er? Ist es noch Wasserstoff?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">n = 2 − 1 = 1 Neutron. Ja, es ist Wasserstoff, weil es <b>1 Proton</b> hat – die Protonenzahl bestimmt das Element.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – die Schalen</h4>
+          <p>Schreibe die Schalen-Besetzung für den Sauerstoff (Z = 8), das Magnesium (Z = 12) und das Argon (Z = 18).</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">O: 2 – 6 (6 Außenelektronen)<br />Mg: 2 – 8 – 2 (2 Außenelektronen)<br />Ar: 2 – 8 – 8 (8 – die Schale ist voll: ein Edelgas, reagiert fast nie)</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 6 – zum Nachdenken</h4>
+          <p>Wenn das Atom fast leer ist – warum fällt meine Hand dann nicht durch den Tisch?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Die Elektronenhüllen der Atome in der Hand und im Tisch sind beide <b>negativ</b> geladen und stoßen sich ab.
+              Man „berührt“ eigentlich nie etwas – man spürt die elektrische Abstoßung.
+              <span class="ru">Отталкиваются электронные оболочки – одинаковые заряды.</span></div>
+          </details>
+        </div>
+
+        <h2>6. Zum Ansehen und Ausprobieren</h2>
+        <ul class="et-list">
+          <li><a href="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_de.html" target="_blank" rel="noopener">⚛️ PhET – Baue ein Atom</a>
+            <span class="tag">Protonen, Neutronen, Elektronen hineinziehen; mit Spiel</span></li>
+          <li><a href="https://de.wikipedia.org/wiki/Atom" target="_blank" rel="noopener">📖 Wikipedia – das Atom</a>
+            · <a href="https://de.wikipedia.org/wiki/Schalenmodell_(Atomphysik)" target="_blank" rel="noopener">das Schalenmodell</a>
+            · <a href="https://de.wikipedia.org/wiki/Isotop" target="_blank" rel="noopener">das Isotop</a></li>
+          <li><a href="https://de.wikipedia.org/wiki/Demokrit" target="_blank" rel="noopener">📖 Wikipedia – Demokrit</a> <span class="tag">der Erfinder der Atom-Idee</span></li>
+          <li><a href="https://www.youtube.com/results?search_query=Atombau+Schalenmodell+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶ YouTube – „Atombau, Schalenmodell einfach erklärt“</a>
+            <span class="tag">Suche</span></li>
+        </ul>
+
+        <h2>7. Die Wörter</h2>
+        <table class="et-woerter">
+          <tr><td>das Atom</td><td>атом</td></tr>
+          <tr><td>der Atomkern / die Atomhülle</td><td>ядро атома / оболочка</td></tr>
+          <tr><td>das Proton, das Neutron, das Elektron</td><td>протон, нейтрон, электрон</td></tr>
+          <tr><td>die Ordnungszahl (= die Kernladungszahl, die Protonenzahl)</td><td>порядковый номер (заряд ядра)</td></tr>
+          <tr><td>die Massenzahl</td><td>массовое число</td></tr>
+          <tr><td>die Schale (das Schalenmodell)</td><td>электронный слой (модель оболочек)</td></tr>
+          <tr><td>das Außenelektron (= das Valenzelektron)</td><td>внешний (валентный) электрон</td></tr>
+          <tr><td>das Isotop</td><td>изотоп</td></tr>
+          <tr><td>das Ion (das Kation, das Anion)</td><td>ион (катион, анион)</td></tr>
+          <tr><td>die Ladung (positiv, negativ, neutral)</td><td>заряд (положительный, отрицательный, нейтральный)</td></tr>
+        </table>
+        <p class="hint-text">Wortgeschichte: <b>das Atom</b> ← griech. <i>átomos</i> „unteilbar“ (a- = nicht, tomē = der Schnitt; wie in die Ana<b>tom</b>ie, die To<b>mo</b>grafie).
+          <b>das Proton</b> ← griech. <i>prōton</i> „das Erste“. <b>das Neutron</b> ← lat. <i>neuter</i> „keiner von beiden“ (weder + noch −).
+          <b>das Isotop</b> ← griech. <i>isos</i> „gleich“ + <i>topos</i> „der Ort“ – es steht am <i>gleichen Ort</i> im Periodensystem
+          (dasselbe <i>topos</i> wie in die Topo<b>nymie</b>!). <a href="../glossar.html">→ im Fachglossar</a></p>
+
+        <div class="et-nav">
+          <a href="01-stoffe.html">← Lektion 1: die Stoffe</a>
+          <a href="03-periodensystem.html">Nächste Lektion: das Periodensystem →</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const E = window.CHEMIE_ELEMENTE, $ = (id) => document.getElementById(id);
+        const SCH = ["K", "L", "M", "N"];
+        $("abWahl").innerHTML = E.map((e) => `<option value="${e.z}">${e.z} · ${e.s} · ${e.n}</option>`).join("");
+        let z = 6;
+        function zeichne() {
+          const e = E[z - 1], sch = window.chemieSchalen(z), n = e.a - e.z, cx = 180, cy = 180;
+          let s = "";
+          sch.forEach((anz, k) => {
+            const r = 55 + k * 38;
+            s += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--text-muted)" stroke-dasharray="4 4"/>`;
+            s += `<text x="${cx + r - 4}" y="${cy - 6}" font-size="11">${SCH[k]}</text>`;
+            for (let j = 0; j < anz; j++) {
+              const w = (2 * Math.PI * j) / anz - Math.PI / 2;
+              const aussen = k === sch.length - 1;
+              s += `<circle cx="${(cx + r * Math.cos(w)).toFixed(1)}" cy="${(cy + r * Math.sin(w)).toFixed(1)}" r="7" fill="${aussen ? "#e0a030" : "#3a86c8"}"/>`;
+            }
+          });
+          // Kern
+          const kern = [];
+          for (let i = 0; i < e.z; i++) kern.push("p"); for (let i = 0; i < n; i++) kern.push("n");
+          kern.sort(() => Math.random() - 0.5);
+          const rk = Math.min(36, 8 + Math.sqrt(kern.length) * 4.6);
+          kern.forEach((t, i) => {
+            const w = i * 2.4, r = rk * Math.sqrt((i + 0.5) / kern.length);
+            s += `<circle cx="${(cx + r * Math.cos(w)).toFixed(1)}" cy="${(cy + r * Math.sin(w)).toFixed(1)}" r="5.5" fill="${t === "p" ? "#d9534f" : "#999"}" stroke="#fff" stroke-width=".6"/>`;
+          });
+          $("abBild").innerHTML = s +
+            `<g font-size="12"><circle cx="14" cy="336" r="5" fill="#d9534f"/><text x="24" y="340">das Proton</text>
+             <circle cx="114" cy="336" r="5" fill="#999"/><text x="124" y="340">das Neutron</text>
+             <circle cx="214" cy="336" r="5" fill="#3a86c8"/><text x="224" y="340">das Elektron</text>
+             <circle cx="214" cy="352" r="5" fill="#e0a030"/><text x="224" y="356">das Außenelektron</text></g>`;
+          $("abZahlen").innerHTML =
+            `<div>die Ordnungszahl Z<b>${e.z}</b></div><div>die Protonen<b>${e.z}</b></div><div>die Neutronen<b>${n}</b><small>${e.a} − ${e.z}</small></div>` +
+            `<div>die Elektronen<b>${e.z}</b></div><div>die Massenzahl A<b>${e.a}</b></div><div>die Schalen<b>${sch.join(" – ")}</b></div>` +
+            `<div>die Außenelektronen<b>${sch[sch.length - 1]}</b></div>`;
+          $("abInfo").innerHTML = `<b>${e.n}</b> (${e.s}) – ${e.ru} · ${e.art}<br>${e.info}<br><i>${e.lat}</i>`;
+          $("abWahl").value = z;
+        }
+        $("abWahl").addEventListener("change", (ev) => { z = +ev.target.value; zeichne(); });
+        $("abPlus").addEventListener("click", () => { if (z < 20) { z++; zeichne(); } });
+        $("abMinus").addEventListener("click", () => { if (z > 1) { z--; zeichne(); } });
+        zeichne();
+      })();
+    </script>
+  </body>
+</html>
