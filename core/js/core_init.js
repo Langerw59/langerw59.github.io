@@ -307,3 +307,15 @@
   s.defer = true;
   document.head.appendChild(s);
 })();
+
+// ------------------------------------------------------------
+// 2026-11-25: die Lernbilanz – Lernzeit zählt sich selbst pro Bereich
+// RU: время учёбы считается само по разделам
+// ------------------------------------------------------------
+(function loadLernbilanz() {
+  if (window.__LERNBILANZ__ || document.querySelector('script[src$="lernbilanz.js"]')) return;
+  const s = document.createElement("script");
+  s.src = "/core/js/lernbilanz.js";
+  s.defer = true;
+  document.head.appendChild(s);
+})();

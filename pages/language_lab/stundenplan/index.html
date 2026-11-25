@@ -2,180 +2,250 @@
 <html lang="de" data-theme="light">
   <head>
     <meta charset="utf-8" />
-    <title>Der Stundenplan – План занятий</title>
+    <title>der Stundenplan – die Lernbilanz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../../../core/assets/style.css" />
-    <script src="../../../core/js/core_init.js" defer></script>
-    <!-- 2026-11-14: der Stundenplan – erstellt mit Claude
-         DE: Wochenplan fürs Sprachenlernen: 30 Minuten am Tag, Häkchen pro Woche, Thema der Woche.
-         RU: План занятий на неделю: 30 минут в день, галочки, тема недели.
-         Häkchen werden pro Gerät gespeichert (localStorage). -->
+    <link rel="stylesheet" href="/core/assets/style.css" />
+    <!-- 2026-11-25: der Stundenplan neu – statt festem Wochenplan die Lernbilanz:
+         die Zeit zählt sich selbst (core/js/lernbilanz.js), pro Bereich gibt es
+         „mindestens“ und „höchstens“, dazu Tipps und die Woche im Überblick.
+         RU: вместо жёсткого расписания – статистика, минимум/потолок, советы. -->
+    <script src="/core/js/etagen_daten.js"></script>
+    <script src="/core/js/lernbilanz.js"></script>
+    <script src="/core/js/core_init.js" defer></script>
     <style>
-      .sp-wrap { max-width: 900px; margin: 0 auto; }
-      .sp-sub { color: var(--text-muted, #59636e); margin-top: 0; }
-      .sp-heute { border: 2px solid var(--accent, #1f6feb); border-radius: 14px; padding: 12px 14px; margin: 12px 0 16px; }
-      .sp-heute h2 { margin: 0 0 8px; font-size: 22px; }
-      .sp-auf { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px dashed var(--border-subtle, #d0d7de); }
-      .sp-auf:first-of-type { border-top: 0; }
-      .sp-auf input { width: 26px; height: 26px; flex: 0 0 auto; cursor: pointer; }
-      .sp-auf .min { font-size: 13px; color: var(--text-muted, #59636e); min-width: 48px; }
-      .sp-auf a { font-weight: 600; font-size: 17px; }
-      .sp-auf.fertig a { text-decoration: line-through; opacity: .6; }
-      .sp-woche { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: 15px; }
-      .sp-woche th, .sp-woche td { border: 1px solid var(--border-subtle, #d0d7de); padding: 6px 8px; text-align: left; vertical-align: top; }
-      .sp-woche tr.heute { outline: 2px solid var(--accent, #1f6feb); }
-      .sp-woche .ok { font-size: 18px; text-align: center; width: 44px; }
-      .sp-stand { font-weight: 700; margin: 4px 0 10px; }
-      .sp-balken { height: 10px; border-radius: 6px; background: var(--border-subtle, #d0d7de); overflow: hidden; margin-bottom: 14px; }
-      .sp-balken div { height: 100%; background: #1a7f37; width: 0; transition: width .3s; }
-      .sp-thema select { font: inherit; padding: 6px 10px; border-radius: 8px; margin: 4px 0; max-width: 100%; }
-      .sp-thema .bsp { margin: 6px 0 0; }
-      .sp-regeln li { margin: 4px 0; }
-      .sp-klein { font-size: 13px; color: var(--text-muted, #59636e); }
-      .sp-knopf { font: inherit; cursor: pointer; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--accent, #1f6feb); background: transparent; color: inherit; font-weight: 600; }
+      .lb { max-width: 1000px; margin: 0 auto; padding: 20px 14px 40px; width: 100%; box-sizing: border-box; }
+      .lb h1 { margin: 0 0 4px; }
+      .lb .unter { margin: 0 0 16px; color: #5b6475; }
+      .lb-karte { background: #fff; border: 1px solid #d9dee7; border-radius: 14px; padding: 16px 18px; margin-bottom: 16px; }
+      .lb-karte h2 { margin: 0 0 10px; font-size: 19px; }
+      .lb-zeile { display: grid; grid-template-columns: 210px 1fr 150px; gap: 12px; align-items: center; padding: 7px 0; border-bottom: 1px dashed #e3e7ee; }
+      .lb-zeile:last-child { border-bottom: 0; }
+      .lb-name a { color: inherit; text-decoration: none; font-weight: 600; }
+      .lb-name small { display: block; color: #5b6475; font-weight: 400; }
+      .lb-balken { position: relative; height: 16px; background: #eef1f6; border-radius: 99px; overflow: hidden; }
+      .lb-balken i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; background: #2f6fb3; }
+      .lb-balken b { position: absolute; top: -3px; bottom: -3px; width: 2px; background: #111827; opacity: .45; }
+      .lb-status { font-size: 14px; text-align: right; }
+      .ok { color: #15803d; } .warten { color: #b45309; } .stop { color: #b91c1c; } .frei { color: #5b6475; }
+      .lb-tipps { margin: 0; padding-left: 20px; line-height: 1.6; }
+      .lb-tipps li { margin-bottom: 4px; }
+      table.lb-woche { width: 100%; border-collapse: collapse; font-size: 14px; }
+      .lb-woche th, .lb-woche td { padding: 6px 6px; border-bottom: 1px solid #e3e7ee; text-align: center; }
+      .lb-woche th:first-child, .lb-woche td:first-child { text-align: left; }
+      .lb-woche tr.summe td { font-weight: 700; }
+      .lb-woche td.heute, .lb-woche th.heute { background: #eef4fb; }
+      .lb-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+      .lb-form select, .lb-form input { font-size: 16px; padding: 7px 10px; border: 1px solid #cfd6e2; border-radius: 9px; }
+      .lb-form input { width: 90px; }
+      .lb-knopf { font-size: 15px; padding: 8px 14px; border-radius: 10px; border: 1px solid #cfd6e2; background: #f6f8fb; cursor: pointer; }
+      .lb-knopf.haupt { background: #2f6fb3; color: #fff; border-color: #2f6fb3; }
+      .lb-klein { font-size: 13px; color: #5b6475; }
+      .lb-ziele td input { width: 64px; font-size: 15px; padding: 4px 6px; }
+      @media (max-width: 640px) { .lb-zeile { grid-template-columns: 1fr; gap: 4px; } .lb-status { text-align: left; } }
+      html[data-theme="dark"] .lb-karte { background: #1d222b; border-color: #353c48; }
+      html[data-theme="dark"] .lb-balken { background: #2a313c; }
+      html[data-theme="dark"] .lb-woche td.heute, html[data-theme="dark"] .lb-woche th.heute { background: #23324a; }
     </style>
   </head>
-  <body data-lernzeit="Stundenplan">
-    <div data-partial="header" data-partial-path="../../../core/partials/header.html"></div>
+  <body>
+    <div data-partial="header" data-partial-path="/core/partials/header.html"></div>
 
-    <main class="page-wrapper">
-      <div class="card sp-wrap">
-        <h1>🗓️ Der Stundenplan</h1>
-        <p class="sp-sub">45 Minuten am Tag (5 Min. die Grundlagen + 30 + 10 Min. die Zehnfingertechnik) – lieber jeden Tag ein bisschen als einmal viel.<br />
-          <small>План занятий: 30 минут в день + 10 минут слепой печати (Mo–Sa) – лучше каждый день понемногу.</small></p>
+    <main class="lb">
+      <h1>🗓️ der Stundenplan – die Lernbilanz</h1>
+      <p class="unter">Kein fester Plan, sondern ein Spiegel: Die Zeit zählt sich auf jeder Seite von selbst.
+        Für jeden Bereich gibt es <b>mindestens</b> (damit nichts zu kurz kommt) und <b>höchstens</b> (damit man sich nicht festbeißt).</p>
 
-        <section class="sp-heute" id="spHeute"></section>
+      <section class="lb-karte">
+        <h2 id="heuteTitel">Heute</h2>
+        <div id="heute"></div>
+      </section>
 
-        <div class="sp-stand" id="spStand"></div>
-        <div class="sp-balken"><div id="spBalken"></div></div>
+      <section class="lb-karte">
+        <h2>💡 die Tipps für heute</h2>
+        <ul class="lb-tipps" id="tipps"></ul>
+      </section>
 
-        <section class="sp-thema">
-          <h2>📌 Das Thema der Woche</h2>
-          <select id="spThema"></select>
-          <p class="bsp" id="spThemaBsp"></p>
-          <p class="sp-klein">Montag und Mittwoch auf Deutsch, Freitag dasselbe auf Englisch.
-            <a href="/pages/language_lab/grammatik/index.html">→ die Grammatik</a></p>
-        </section>
+      <section class="lb-karte">
+        <h2>⌨️ Zeit außerhalb von Quantura</h2>
+        <p class="lb-klein" style="margin-top:-4px">Die Zehnfingertechnik (TIPP10), das Lehrbuch, ein Versuch am Tisch – das kann Quantura nicht sehen. Hier eintragen:</p>
+        <div class="lb-form">
+          <select id="manBereich"></select>
+          <input id="manMin" type="number" min="1" max="300" value="15" aria-label="Minuten"> <span>Minuten</span>
+          <button type="button" class="lb-knopf haupt" id="manPlus">＋ eintragen</button>
+          <a class="lb-knopf" href="https://www.tipp10.com/de/" target="_blank" rel="noopener" id="tippStart">▶ TIPP10 öffnen und Zeit messen</a>
+          <span id="tippLauf" class="lb-klein"></span>
+        </div>
+      </section>
 
-        <h2>Die Woche</h2>
-        <table class="sp-woche" id="spWoche"></table>
-        <button type="button" class="sp-knopf" id="spNeu">↺ Häkchen dieser Woche löschen</button>
+      <section class="lb-karte">
+        <h2>die Woche</h2>
+        <div style="overflow-x:auto"><table class="lb-woche" id="woche"></table></div>
+      </section>
 
-        <h2>Die Regeln</h2>
-        <ul class="sp-regeln">
-          <li><b>Die Grammatik – höchstens ein Drittel der Zeit.</b> Den Namen einer Regel nur lernen, wenn man ihn für einen Satz braucht.<br /><small>Грамматика – не больше трети времени.</small></li>
-          <li><b>Ein Thema pro Woche.</b> Erst Deutsch, dann dasselbe auf Englisch.<br /><small>Одна тема на неделю: сначала немецкий, потом английский.</small></li>
-          <li><b>Die Zehnfingertechnik: 10 Minuten, Montag bis Samstag.</b> Nicht auf die Tastatur schauen – lieber langsam und richtig als schnell mit Fehlern. Die Zeigefinger liegen auf <b>F</b> und <b>J</b> (die kleinen Erhebungen).<br /><small>Слепая печать: 10 минут, пн–сб. Не смотреть на клавиатуру – лучше медленно, но правильно. Указательные пальцы на F и J (там бугорки).</small></li>
-          <li><b>Jeden Tag 30 Minuten</b> sind besser als 3 Stunden am Sonntag.<br /><small>Лучше 30 минут каждый день, чем 3 часа в воскресенье.</small></li>
-        </ul>
-        <p class="sp-klein">Die Häkchen werden auf jedem Gerät (der Computer, das iPhone, das Tablet) getrennt gespeichert.<br />
-          Галочки хранятся отдельно на каждом устройстве.</p>
-      </div>
+      <details class="lb-karte">
+        <summary style="cursor:pointer;font-weight:700">⚙️ die Ziele ändern (Minuten pro Tag)</summary>
+        <table class="lb-woche lb-ziele" id="ziele" style="margin-top:10px"></table>
+        <p class="lb-klein">0 = kein Ziel. Ein Bereich ohne Ziel wird trotzdem gezählt.</p>
+        <button type="button" class="lb-knopf" id="zieleStandard">↺ die Standardziele</button>
+      </details>
+
+      <p class="lb-klein">Die Zeit wird auf jedem Gerät (der Computer, das iPhone, das Tablet) getrennt gespeichert.
+        Sie zählt nur, wenn die Seite offen ist und in den letzten 2 Minuten etwas getan wurde.</p>
     </main>
 
+    <div data-partial="footer" data-partial-path="/core/partials/footer.html"></div>
+
     <script>
-    (function () {
-      const L = {
-        sfEN:   { t: "der Sprachführer EN", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html" },
-        slDE:   { t: "das Satzlabor DE – Thema der Woche", u: "/pages/language_lab/apps/generator/de/index_de.html" },
-        slEN:   { t: "das Satzlabor EN – dasselbe Thema auf Englisch", u: "/pages/language_lab/apps/generator/en/index_en.html" },
-        lese:   { t: "die Leseregeln", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/leseregeln.html" },
-        diktat: { t: "der Diktat-Trainer", u: "/pages/language_lab/diktat-trainer.html#de" },
-        etym:   { t: "die Etymologie – Wortgeschichte", u: "/pages/language_lab/wortdetektiv/index.html" },
-        lied:   { t: "der Lied-Trainer", u: "/pages/language_lab/lieder/index.html" },
-        weis:   { t: "die Weisheiten", u: "/pages/language_lab/weisheiten/index.html" },
-        grund:  { t: "die Grundlagen (Pronomen, sein, haben)", u: "/pages/language_lab/grundlagen/index.html" },
-        lesen:  { t: "der Lese-Trainer", u: "/pages/language_lab/lesetrainer/index.html" },
-        wdh:    { t: "die Wiederholung: der Sprachführer, Box 1–2", u: "/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html" },
-        // 2026-11-23: das Zehnfingersystem (слепая печать) – TIPP10 online, kostenlos, deutsche Tastatur; öffnet in neuem Tab
-        tipp:   { t: "⌨️ die Zehnfingertechnik (TIPP10)", u: "https://www.tipp10.com/de/", neu: true },
-        // 2026-11-23: der Grammatik-Tagestest (Lektion + Wiederholung der Fehler)
-        test:   { t: "📝 der Grammatik-Tagestest", u: "/pages/language_lab/tagestest/index.html" }
-      };
-      // Index 0 = Montag
-      const PLAN = [
-        { tag: "Montag",     a: [["grund", 5], ["sfEN", 20], ["slDE", 10], ["tipp", 10], ["test", 15]] },
-        { tag: "Dienstag",   a: [["grund", 5], ["lesen", 20], ["lese", 10], ["tipp", 10], ["test", 15]] },
-        { tag: "Mittwoch",   a: [["grund", 5], ["slDE", 15], ["diktat", 10], ["tipp", 10], ["test", 15]] },
-        { tag: "Donnerstag", a: [["grund", 5], ["sfEN", 15], ["lesen", 15], ["tipp", 10], ["test", 15]] },
-        { tag: "Freitag",    a: [["grund", 5], ["slEN", 15], ["sfEN", 15], ["tipp", 10], ["test", 15]] },
-        { tag: "Samstag",    a: [["lied", 20], ["weis", 10], ["tipp", 10]] },
-        { tag: "Sonntag",    a: [["wdh", 15]], frei: true }
-      ];
-      const THEMEN = [
-        { t: "die trennbaren und untrennbaren Verben", b: "Ich <b>probiere</b> die Jacke <b>an</b>. · Ich <b>verstehe</b> dich. — EN: <i>Can I try this <b>on</b>?</i>" },
-        { t: "das Perfekt: haben oder sein", b: "Ich <b>habe</b> gegessen. · Ich <b>bin</b> gefahren. — EN: <i>I <b>have</b> eaten.</i>" },
-        { t: "die Präpositionen und der Kasus", b: "mit <b>dem</b> Bus · für <b>den</b> Sohn · in <b>die</b> Stadt / in <b>der</b> Stadt" },
-        { t: "der Nebensatz (weil, dass)", b: "…, weil ich keine Zeit <b>habe</b>. — EN: <i>…, because I <b>have</b> no time.</i>" },
-        { t: "die Adjektivendungen", b: "ein schön<b>es</b> Haus · das schön<b>e</b> Haus · mit dem schön<b>en</b> Haus" },
-        { t: "der Konjunktiv II", b: "Ich <b>würde</b> gern … · Ich <b>hätte</b> gern … · Wenn ich Zeit <b>hätte</b> … — EN: <i>I <b>would</b> like …</i>" }
-      ];
+      (function () {
+        const L = window.Q_LERN;
+        const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+        const min = (sek) => Math.round((sek || 0) / 60);
+        const TAGE = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+        const TAGE_LANG = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 
-      // ISO-Woche als Schlüssel
-      function wocheKey(d) {
-        const x = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-        const n = x.getUTCDay() || 7; x.setUTCDate(x.getUTCDate() + 4 - n);
-        const j = new Date(Date.UTC(x.getUTCFullYear(), 0, 1));
-        return x.getUTCFullYear() + "-KW" + Math.ceil(((x - j) / 86400000 + 1) / 7);
-      }
-      const KEY = "stundenplan_v1";
-      function laden() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) { return {}; } }
-      function speichern(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (_) {} }
+        // Bereiche aus dem Menü + die Zehnfingertechnik + das Projekt
+        const bereiche = [];
+        const link = {};
+        for (const e of (window.Q_ETAGEN || [])) {
+          if (e.id === "eg" || e.keller) continue;
+          for (const g of e.gruppen) {
+            bereiche.push(g.t);
+            const erster = g.r.flatMap((r) => (Array.isArray(r[4]) ? r[4] : [r])).find((r) => r[1]);
+            if (erster) link[g.t] = erster[1];
+          }
+        }
+        bereiche.push("die Zehnfingertechnik", "das Projekt Quantura", "Sonstiges");
+        link["die Zehnfingertechnik"] = "https://www.tipp10.com/de/";
 
-      const jetzt = new Date();
-      const heute = (jetzt.getDay() + 6) % 7;
-      const wk = wocheKey(jetzt);
-      let st = laden();
-      st.wochen = st.wochen || {};
-      st.wochen[wk] = st.wochen[wk] || {};
-      if (typeof st.thema !== "number") st.thema = 0;
+        // Zeit aus der alten Stoppuhr (Lernuhr) mitzählen
+        function gesamt() {
+          const neu = L.laden();
+          let alt = {}; try { alt = JSON.parse(localStorage.getItem("lernuhr_log_v1") || "{}") || {}; } catch (e) {}
+          const ALT_NACH = { "SprachBox DE↔EN": "der Sprachführer", "Stundenplan": null };
+          const out = JSON.parse(JSON.stringify(neu));
+          for (const [tag, e] of Object.entries(alt)) {
+            for (const [n, s] of Object.entries(e || {})) {
+              const b = n in ALT_NACH ? ALT_NACH[n] : n;
+              if (!b) continue;
+              out[tag] = out[tag] || {};
+              out[tag][b] = (out[tag][b] || 0) + (Number(s) || 0);
+            }
+          }
+          return out;
+        }
 
-      function istFertig(t, i) { return !!st.wochen[wk][t + "-" + i]; }
-      function setze(t, i, v) { st.wochen[wk][t + "-" + i] = v; speichern(st); zeichnen(); }
+        function zeichnen() {
+          const log = gesamt();
+          const z = L.ziele();
+          const jetzt = new Date();
+          const heute = log[L.tagKey()] || {};
+          document.getElementById("heuteTitel").textContent = `Heute – ${TAGE_LANG[jetzt.getDay()]}, ${jetzt.toLocaleDateString("de-DE")}`;
 
-      function zeichnen() {
-        // heute
-        const p = PLAN[heute];
-        let h = `<h2>Heute: ${p.tag}${p.frei ? " – frei oder Wiederholung" : ""}</h2>`;
-        p.a.forEach(([k, min], i) => {
-          const f = istFertig(heute, i);
-          h += `<label class="sp-auf${f ? " fertig" : ""}"><input type="checkbox" data-t="${heute}" data-i="${i}"${f ? " checked" : ""}>
-                <span class="min">${min} Min.</span><a href="${L[k].u}"${L[k].neu ? ' target="_blank" rel="noopener"' : ""}>${L[k].t}</a></label>`;
-        });
-        document.getElementById("spHeute").innerHTML = h;
+          // Heute: zuerst Bereiche mit Ziel, dann alles, was heute gemacht wurde
+          const reihe = [...new Set([...Object.keys(z).filter((b) => (z[b].min || z[b].max)), ...Object.keys(heute)])];
+          let summe = 0;
+          document.getElementById("heute").innerHTML = reihe.map((b) => {
+            const m = min(heute[b]); summe += heute[b] || 0;
+            const zz = z[b] || { min: 0, max: 0 };
+            const skala = Math.max(m, zz.max || 0, zz.min || 0, 30);
+            let st;
+            if (zz.max && m >= zz.max) st = `<span class="stop">🛑 genug (${m} von höchstens ${zz.max})</span>`;
+            else if (zz.min && m >= zz.min) st = `<span class="ok">✅ ${m} min – geschafft</span>`;
+            else if (zz.min) st = `<span class="warten">⏳ ${m} von ${zz.min} min</span>`;
+            else st = `<span class="frei">${m} min</span>`;
+            const farbe = zz.max && m >= zz.max ? "#b91c1c" : (zz.min && m >= zz.min ? "#15803d" : "#2f6fb3");
+            const ziel = link[b] ? `<a href="${esc(link[b])}"${/^https?:/.test(link[b]) ? ' target="_blank" rel="noopener"' : ""}>${esc(b)}</a>` : esc(b);
+            return `<div class="lb-zeile"><div class="lb-name">${ziel}<small>${zz.min ? "mindestens " + zz.min + " min" : ""}${zz.min && zz.max ? " · " : ""}${zz.max ? "höchstens " + zz.max + " min" : ""}</small></div>
+              <div class="lb-balken"><i style="width:${Math.min(100, (m / skala) * 100)}%;background:${farbe}"></i>
+              ${zz.min ? `<b style="left:${(zz.min / skala) * 100}%"></b>` : ""}${zz.max ? `<b style="left:${Math.min(99.5, (zz.max / skala) * 100)}%;background:#b91c1c"></b>` : ""}</div>
+              <div class="lb-status">${st}</div></div>`;
+          }).join("") + `<p class="lb-klein" style="margin:8px 0 0">Heute insgesamt: <b>${min(summe)} min</b></p>`;
 
-        // Woche
-        let alle = 0, ok = 0;
-        let w = "<tr><th>der Tag</th><th>die Aufgaben</th><th>✓</th></tr>";
-        PLAN.forEach((d, t) => {
-          const teile = d.a.map(([k, min], i) => {
-            alle++; if (istFertig(t, i)) ok++;
-            return `${istFertig(t, i) ? "✅" : "▫️"} <a href="${L[k].u}"${L[k].neu ? ' target="_blank" rel="noopener"' : ""}>${L[k].t}</a> <span class="sp-klein">(${min} Min.)</span>`;
+          // Tipps
+          const tipps = [];
+          const std = jetzt.getHours();
+          const fehlt = Object.keys(z).filter((b) => z[b].min && min(heute[b]) < z[b].min);
+          const zuViel = Object.keys(z).filter((b) => z[b].max && min(heute[b]) >= z[b].max);
+          zuViel.forEach((b) => tipps.push(`<b>${esc(b)}</b> hat heute schon ${min(heute[b])} Minuten – genug. Morgen reichen ${z[b].min || 15} Minuten.`));
+          if (fehlt.length) {
+            const wichtig = fehlt.sort((a, b) => (z[b].min - min(heute[b])) - (z[a].min - min(heute[a])))[0];
+            tipps.push(`${std >= 17 ? "Heute Abend noch" : "Als Nächstes"}: <b>${esc(wichtig)}</b> – ${z[wichtig].min - min(heute[wichtig])} Minuten fehlen.` +
+              (link[wichtig] ? ` <a href="${esc(link[wichtig])}"${/^https?:/.test(link[wichtig]) ? ' target="_blank" rel="noopener"' : ""}>➜ jetzt öffnen</a>` : ""));
+            if (fehlt.length > 1) tipps.push(`Noch offen: ${fehlt.filter((b) => b !== wichtig).map(esc).join(", ")}.`);
+          } else if (Object.keys(heute).length) {
+            tipps.push("Alle Mindestziele für heute sind erreicht. 👍 Was jetzt kommt, ist Zugabe.");
+          }
+          // Woche: was wurde 3 Tage lang vergessen?
+          const letzte3 = [1, 2, 3].map((i) => { const d = new Date(); d.setDate(d.getDate() - i); return log[L.tagKey(d)] || {}; });
+          Object.keys(z).filter((b) => z[b].min).forEach((b) => {
+            if (!letzte3.some((t) => (t[b] || 0) > 60) && !(heute[b] > 60)) tipps.push(`<b>${esc(b)}</b> seit mindestens 3 Tagen nicht mehr – heute einplanen.`);
           });
-          const voll = d.a.every((_, i) => istFertig(t, i));
-          w += `<tr class="${t === heute ? "heute" : ""}"><td><b>${d.tag}</b></td><td>${teile.join("<br>")}</td><td class="ok">${voll ? "✅" : ""}</td></tr>`;
+          tipps.push("Die Regel: zuerst die Mindestziele, danach das Spiel und der Ausbau der Seite.");
+          document.getElementById("tipps").innerHTML = tipps.map((t) => `<li>${t}</li>`).join("");
+
+          // Woche (Montag bis Sonntag der laufenden Woche)
+          const mo = new Date(); mo.setHours(0, 0, 0, 0); mo.setDate(mo.getDate() - ((mo.getDay() + 6) % 7));
+          const tage = [...Array(7)].map((_, i) => { const d = new Date(mo); d.setDate(mo.getDate() + i); return d; });
+          const hk = L.tagKey();
+          const inWoche = [...new Set(tage.flatMap((d) => Object.keys(log[L.tagKey(d)] || {})))];
+          const zeilen = [...new Set([...Object.keys(z).filter((b) => z[b].min), ...inWoche])];
+          let html = `<tr><th>der Bereich</th>${tage.map((d) => `<th class="${L.tagKey(d) === hk ? "heute" : ""}">${TAGE[d.getDay()]} ${d.getDate()}.</th>`).join("")}<th>Σ</th></tr>`;
+          html += zeilen.map((b) => {
+            let s = 0;
+            const zellen = tage.map((d) => { const m = min((log[L.tagKey(d)] || {})[b]); s += m;
+              const zz = z[b] || {}; const kl = zz.max && m >= zz.max ? "stop" : (zz.min && m >= zz.min ? "ok" : "");
+              return `<td class="${L.tagKey(d) === hk ? "heute " : ""}${kl}">${m || "·"}</td>`; }).join("");
+            return `<tr><td>${esc(b)}</td>${zellen}<td><b>${s}</b></td></tr>`;
+          }).join("");
+          const tagSum = tage.map((d) => Object.values(log[L.tagKey(d)] || {}).reduce((a, x) => a + (Number(x) || 0), 0));
+          html += `<tr class="summe"><td>Σ pro Tag</td>${tagSum.map((s, i) => `<td class="${L.tagKey(tage[i]) === hk ? "heute" : ""}">${min(s) || "·"}</td>`).join("")}<td>${min(tagSum.reduce((a, b) => a + b, 0))}</td></tr>`;
+          document.getElementById("woche").innerHTML = html;
+
+          // Ziele
+          document.getElementById("ziele").innerHTML = `<tr><th>der Bereich</th><th>mindestens</th><th>höchstens</th></tr>` +
+            bereiche.map((b) => `<tr><td>${esc(b)}</td><td><input type="number" min="0" max="300" data-b="${esc(b)}" data-f="min" value="${(z[b] || {}).min || 0}"></td>` +
+              `<td><input type="number" min="0" max="600" data-b="${esc(b)}" data-f="max" value="${(z[b] || {}).max || 0}"></td></tr>`).join("");
+        }
+
+        document.getElementById("ziele").addEventListener("change", (ev) => {
+          const i = ev.target.closest("input"); if (!i) return;
+          const z = L.ziele(); const b = i.dataset.b;
+          z[b] = z[b] || { min: 0, max: 0 }; z[b][i.dataset.f] = Math.max(0, Number(i.value) || 0);
+          if (!z[b].min && !z[b].max) delete z[b];
+          L.zieleSpeichern(z); zeichnen();
         });
-        document.getElementById("spWoche").innerHTML = w;
-        document.getElementById("spStand").textContent = `Diese Woche (${wk}): ${ok} von ${alle} erledigt`;
-        document.getElementById("spBalken").style.width = Math.round(ok / alle * 100) + "%";
+        document.getElementById("zieleStandard").addEventListener("click", () => { L.zieleSpeichern(JSON.parse(JSON.stringify(L.STANDARD_ZIELE))); zeichnen(); });
 
-        // Thema
-        const sel = document.getElementById("spThema");
-        sel.innerHTML = THEMEN.map((x, i) => `<option value="${i}"${i === st.thema ? " selected" : ""}>${i + 1}. ${x.t}</option>`).join("");
-        document.getElementById("spThemaBsp").innerHTML = THEMEN[st.thema].b;
-      }
+        // Zeit von Hand eintragen
+        const sel = document.getElementById("manBereich");
+        sel.innerHTML = bereiche.map((b) => `<option${b === "die Zehnfingertechnik" ? " selected" : ""}>${esc(b)}</option>`).join("");
+        document.getElementById("manPlus").addEventListener("click", () => {
+          const m = Math.min(300, Math.max(1, Number(document.getElementById("manMin").value) || 0));
+          L.hinzu(sel.value, m * 60); zeichnen();
+        });
 
-      document.addEventListener("change", (e) => {
-        const el = e.target;
-        if (el.matches("#spHeute input[type=checkbox]")) setze(+el.dataset.t, +el.dataset.i, el.checked);
-        if (el.id === "spThema") { st.thema = +el.value; speichern(st); zeichnen(); }
-      });
-      document.getElementById("spNeu").addEventListener("click", () => {
-        if (!window.confirm("Alle Häkchen dieser Woche löschen?")) return;
-        st.wochen[wk] = {}; speichern(st); zeichnen();
-      });
-      zeichnen();
-    })();
+        // TIPP10: beim Öffnen Startzeit merken, beim Zurückkommen die Zeit eintragen (höchstens 60 min)
+        const T_KEY = "q_tipp10_start";
+        const tippAnzeige = () => {
+          let s = null; try { s = Number(localStorage.getItem(T_KEY)) || null; } catch (e) {}
+          document.getElementById("tippLauf").textContent = s ? `⏱ läuft seit ${new Date(s).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })} – wird beim Zurückkommen eingetragen` : "";
+        };
+        document.getElementById("tippStart").addEventListener("click", () => { try { localStorage.setItem(T_KEY, String(Date.now())); } catch (e) {} tippAnzeige(); });
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState !== "visible") return;
+          let s = null; try { s = Number(localStorage.getItem(T_KEY)) || null; } catch (e) {}
+          if (s) {
+            const sek = Math.min(3600, Math.round((Date.now() - s) / 1000));
+            if (sek >= 60) L.hinzu("die Zehnfingertechnik", sek);
+            try { localStorage.removeItem(T_KEY); } catch (e) {}
+          }
+          tippAnzeige(); zeichnen();
+        });
+
+        tippAnzeige();
+        zeichnen();
+        setInterval(zeichnen, 30000);
+      })();
     </script>
   </body>
 </html>

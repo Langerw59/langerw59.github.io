@@ -96,6 +96,13 @@
 
   // ---------------- Lernzeit-Speicher ----------------
   function logLaden() { const l = lesen(LS_LOG, {}); return l && typeof l === "object" ? l : {}; }
+  function logAlles() {
+    const l = lesen(LS_LOG, {}); const a = l && typeof l === "object" ? JSON.parse(JSON.stringify(l)) : {};
+    // 2026-11-25: Tage aus der automatischen Lernbilanz mitzählen (für die grünen Punkte im Kalender)
+    const n = lesen("q_lernzeit_v1", {});
+    for (const [t, e] of Object.entries(n || {})) { a[t] = a[t] || {}; for (const [k, v] of Object.entries(e || {})) a[t]["auto: " + k] = v; }
+    return a;
+  }
   function sekundenEintragen(name, startMs, endMs) {
     // DE: Zeit über Mitternacht richtig auf die Tage verteilen
     // RU: если занятие шло через полночь – делим по дням
@@ -226,7 +233,7 @@
     if (!pop) return;
     const heute = new Date();
     const hk = tagKey(heute);
-    const log = logLaden();
+    const log = logAlles();
     const j = popMonat.getFullYear(), m = popMonat.getMonth();
     const erster = new Date(j, m, 1);
     const versatz = (erster.getDay() + 6) % 7; // Montag = 0
@@ -325,7 +332,8 @@
   // ---------------- Einbauen ----------------
   function einbauen() {
     stilEinfuegen();
-    lernName = (document.body && document.body.dataset && document.body.dataset.lernzeit) || "";
+    // 2026-11-25: die Stoppuhr ▶ ist aus – die Lernzeit zählt jetzt lernbilanz.js von selbst (sonst doppelt)
+    lernName = "";
     const hatKopf = () => !!document.getElementById("headerDateTime");
 
     // Kopfzeile (header.html) wird per fetch nachgeladen → kurz warten

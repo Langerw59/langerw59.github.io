@@ -111,8 +111,8 @@
       <section class="st-zeit">
         <div class="st-balken" id="balken"></div>
         <ul class="st-zeit-liste" id="zeitListe"></ul>
-        <p class="st-name" style="margin:8px 0 0">Gemessen mit der Lernuhr ⏱️ oben in der Kopfleiste – auf jedem Gerät getrennt.
-          <a href="/pages/language_lab/stundenplan/index.html">➜ der Stundenplan</a></p>
+        <p class="st-name" style="margin:8px 0 0">Die Zeit zählt sich auf jeder Seite von selbst – auf jedem Gerät getrennt.
+          <a href="/pages/language_lab/stundenplan/index.html">➜ die Lernbilanz (der Stundenplan)</a></p>
       </section>
     </main>
 
@@ -155,8 +155,19 @@
         }).join("");
 
         // die Lernzeit aus der Lernuhr (localStorage "lernuhr_log_v1": { "JJJJ-MM-TT": { Name: Sekunden } })
+        // alte Stoppuhr (lernuhr_log_v1) + neue automatische Lernbilanz (q_lernzeit_v1)
         let log = {};
-        try { log = JSON.parse(localStorage.getItem("lernuhr_log_v1") || "{}") || {}; } catch (e) { log = {}; }
+        for (const k of ["lernuhr_log_v1", "q_lernzeit_v1"]) {
+          let t = {}; try { t = JSON.parse(localStorage.getItem(k) || "{}") || {}; } catch (e) {}
+          for (const [tag, e] of Object.entries(t)) {
+            log[tag] = log[tag] || {};
+            for (const [n, sek] of Object.entries(e || {})) {
+              const name = n === "SprachBox DE↔EN" ? "der Sprachführer" : n;
+              if (name === "Stundenplan") continue;
+              log[tag][name] = (log[tag][name] || 0) + (Number(sek) || 0);
+            }
+          }
+        }
         const z2 = (n) => String(n).padStart(2, "0");
         const key = (d) => `${d.getFullYear()}-${z2(d.getMonth() + 1)}-${z2(d.getDate())}`;
         const tage = [], proName = {};
