@@ -59,4 +59,7 @@ window.GRAMMATIK_SYNONYME = [
   { namen: "die Inversion = die Umstellung (das Subjekt steht nach dem Verb)", ru: "обратный порядок слов", such: ["Inversion"] },
   { namen: "das finite Verb = die Personalform = die gebeugte Form", ru: "личная форма глагола", such: ["finite Verb", "finiten Verb", "Personalform"] },
   { namen: "das Satzglied = der Satzteil", ru: "член предложения", such: ["Satzglied"] }
+  // 2026-11-25
+  ,{ namen: "Present Continuous = Present Progressive ≈ die Verlaufsform der Gegenwart (am / is / are + -ing)", ru: "настоящее длительное", such: ["Present Continuous", "Present Progressive", "Verlaufsform"] }
+  ,{ namen: "Future Simple = will-future ≈ das Futur I", ru: "простое будущее", such: ["Future Simple", "will-future"] }
 ];

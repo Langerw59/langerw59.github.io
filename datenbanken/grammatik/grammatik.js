@@ -1403,6 +1403,44 @@ window.GRAMMATIK = {
         { en: "The tires are new.", de: "Die Reifen sind neu.", ru: "Шины новые.", hinweis: "tires [ˈtaɪəz] – die Reifen, не путать с tired" }
       ],
       merke: "tired [ˈtaɪəd] = müde · tires [ˈtaɪəz] = die Reifen. I was tired = Ich war müde: was / were + das Adjektiv, die Zeitangabe (yesterday) im Englischen meist am Ende."
+    },
+    {
+      // 2026-11-25: mit Claude – Frage: warum „Tomorrow I'm driving to Hanover“ und nicht „I'll drive“?
+      id: "en-zukunft-will-goingto-ing",
+      thema: "verb",
+      sprache: "en",
+      datum: "2026-11-25",
+      titel: "die Zukunft im Englischen: I'm driving · I'm going to drive · I'll drive",
+      titel_ru: "будущее в английском: договорённость, намерение или решение сейчас",
+      formel: "fest geplant (der Termin) → am / is / are + V-ing · die Absicht → be going to + Infinitiv · die Entscheidung JETZT, das Versprechen, die Vermutung → will (’ll) + Infinitiv",
+      erklaerung: [
+        "ГЛАВНОЕ. В английском выбор формы будущего зависит не от того, КОГДА это будет (завтра оно и есть завтра), а от того, КАК вы это решили. Это тот же принцип, что в правиле «die Zeitform ≠ die wirkliche Zeit»: Zeitform = f(Zeitbezug, Situation).",
+        "1) das Present Continuous (am / is / are + V-ing) – ДОГОВОРЁННОСТЬ, всё уже организовано: дата известна, сын ждёт, может быть, записано в календаре. Tomorrow I'm driving to Hanover = Morgen fahre ich nach Hannover. Именно поэтому в вашем предложении стоит I'm driving: поездка уже запланирована.",
+        "2) be going to + Infinitiv – НАМЕРЕНИЕ: я решил это раньше, но, может быть, ещё ничего не организовал. I'm going to drive to Hanover (one day) = Ich habe vor, nach Hannover zu fahren.",
+        "3) will / ’ll + Infinitiv (das Futur I) – РЕШЕНИЕ ПРЯМО СЕЙЧАС, в момент разговора; обещание; предсказание. «It's raining.» – «I'll drive you.» (Ich fahre dich – решил только что.) I'll call you tomorrow (обещание). It will be cold tomorrow (прогноз).",
+        "ОШИБКА ЛИ «I will drive to Hanover tomorrow»? Грамматически нет. Но англичанин услышит: «я только что решил» или «обещаю, что поеду». Для поездки, которая уже стоит в плане, естественно сказать I'm driving.",
+        "СРАВНЕНИЕ. Немецкий и русский делают то же самое – будущее через настоящее время: Morgen FAHRE ich nach Hannover (das Präsens, не «werde fahren»). Завтра я ЕДУ в Ганновер (настоящее время, не «буду ехать»). Английский I'm driving – их точный родственник, только в форме Continuous. Ваше «буду ехать» – не то: так описывают процесс в будущем (I'll be driving – Future Continuous: «завтра в 10 я буду в дороге»).",
+        "ОРФОГРАФИЯ. drive → driving: немое -e в конце отпадает перед -ing (drive – driving, make – making, come – coming). Город: по-английски Hanover (одна n), по-немецки Hannover (две n)."
+      ],
+      tabelle: {
+        kopf: ["die Situation · ситуация", "English", "Deutsch", "по-русски"],
+        sprechen: 1,
+        zeilen: [
+          ["fest geplant, der Termin · договорённость", "Tomorrow I'm driving to Hanover.", "Morgen fahre ich nach Hannover.", "Завтра я еду в Ганновер."],
+          ["die Absicht · намерение", "I'm going to drive to Hanover.", "Ich habe vor, nach Hannover zu fahren.", "Я собираюсь поехать в Ганновер."],
+          ["die Entscheidung jetzt · решение сейчас", "OK, I'll drive to Hanover.", "Gut, dann fahre ich nach Hannover.", "Ладно, поеду в Ганновер."],
+          ["das Versprechen · обещание", "I'll call you tomorrow.", "Ich rufe dich morgen an.", "Я позвоню тебе завтра."],
+          ["die Vorhersage · прогноз", "It will be cold tomorrow.", "Morgen wird es kalt.", "Завтра будет холодно."],
+          ["der Vorgang in der Zukunft · процесс", "At ten I'll be driving.", "Um zehn bin ich unterwegs.", "В десять я буду в дороге (буду ехать)."]
+        ]
+      },
+      beispiele: [
+        { en: "Tomorrow I'm driving to Hanover.", de: "Morgen fahre ich nach Hannover.", ru: "Завтра я еду в Ганновер.", hinweis: "уже запланировано → V-ing" },
+        { en: "We're visiting our son on Sunday.", de: "Am Sonntag besuchen wir unseren Sohn.", ru: "В воскресенье мы навещаем сына.", hinweis: "договорённость → V-ing" },
+        { en: "I'm going to learn English.", de: "Ich habe vor, Englisch zu lernen.", ru: "Я собираюсь учить английский.", hinweis: "намерение → going to" },
+        { en: "The phone is ringing. – I'll get it.", de: "Das Telefon klingelt. – Ich gehe ran.", ru: "Телефон звонит. – Я возьму.", hinweis: "решение сейчас → ’ll" }
+      ],
+      merke: "Termin → I'm driving · Absicht → I'm going to drive · jetzt entschieden / Versprechen → I'll drive. Wie im Deutschen (Morgen fahre ich …) und Russischen (Завтра я еду …): fester Plan = die Gegenwartsform."
     }
   ]
 };
