@@ -13,6 +13,12 @@
     <style>
       .st { max-width: 1060px; margin: 0 auto; padding: 22px 14px 40px; }
       .st-held { display: flex; gap: 18px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 18px; }
+      .st-banner { flex: 1 1 420px; background: #24263f; color: #f3f4ff; border-radius: 16px; padding: 20px 24px; }
+      .st-banner h1 { margin: 0; font-size: 30px; color: #fff; }
+      .st-banner .st-logik { margin: 6px 0 10px; font-size: 20px; font-weight: 700; color: #a9b8ff; }
+      .st-held .st-banner .st-spruch { margin: 0; font-size: 15px; color: #c9cce6; }
+      .st-schnell { flex-direction: column; }
+      @media (max-width: 760px) { .st-schnell { flex-direction: row; } }
       .st-schnell { display: flex; gap: 8px; flex-wrap: wrap; }
       .st-schnell a { padding: 9px 14px; border-radius: 10px; background: #fff; border: 1px solid #d9dee7; color: #111827; text-decoration: none; font-size: 15px; }
       .st-schnell a:hover { border-color: #6b4fa3; }
@@ -58,8 +64,9 @@
 
     <main class="st" id="ll-content">
       <section class="st-held">
-        <div>
+        <div class="st-banner" data-farbe-fest>
           <h1>Quantura</h1>
+          <p class="st-logik">Die Logik des Lernens</p>
           <p class="st-spruch">Wissen verstehen. Strukturen erkennen. Zusammenhänge entdecken.</p>
         </div>
         <div class="st-schnell">
