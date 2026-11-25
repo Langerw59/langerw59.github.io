@@ -294,3 +294,16 @@
   script.defer = true;
   document.head.appendChild(script);
 })();
+
+// ------------------------------------------------------------
+// 2026-11-25: Etagen-Menü (Dropdown) in der Kopfleiste
+// RU: выпадающее меню этажей в шапке
+// ------------------------------------------------------------
+(function loadEtagenMenue() {
+  const SRC = "/core/js/etagen_menue.js";
+  if (window.__ETAGEN_MENUE__ || document.querySelector('script[src$="etagen_menue.js"]')) return;
+  const s = document.createElement("script");
+  s.src = SRC;
+  s.defer = true;
+  document.head.appendChild(s);
+})();

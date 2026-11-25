@@ -229,3 +229,61 @@ body:has(.kopf2) #ll-fab-nav { display: none !important; }
 .kopf2__erweitert { border-top: 1px solid rgba(0,0,0,.1); padding-top: 8px; font-size: 14px; }
 .kopf2__erweitert summary { cursor: pointer; color: var(--k-grau); }
 .kopf2__erweitert[open] summary { margin-bottom: 8px; }
+
+/* ============================================================
+   2026-11-25: Etagen-Menü (Dropdown) – etagen_menue.js
+   RU: выпадающее меню этажей
+   ============================================================ */
+.kopf2__menue .etm__knopf {
+  display: inline-flex; align-items: center; gap: 6px;
+  cursor: pointer; font: inherit; font-size: 14px;
+}
+.etm__nr {
+  display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px;
+  border-radius: 6px; background: var(--etm-farbe); color: #fff; font-weight: 700; font-size: 12px;
+}
+.etm__pfeil { font-size: 11px; opacity: .7; transition: transform .15s; }
+.etm__knopf[aria-expanded="true"] { color: var(--k-akzent-stark) !important; background: var(--k-akzent-hell); border-color: var(--etm-farbe) !important; }
+.etm__knopf[aria-expanded="true"] .etm__pfeil { transform: rotate(180deg); }
+.etm__keller .etm__name { opacity: .7; }
+
+.etm__fenster {
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 9001;
+  background: var(--k-bg); color: var(--k-text);
+  border-top: 3px solid var(--etm-farbe); border-bottom: 1px solid var(--k-rand);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, .18);
+  max-height: calc(100vh - 110px); overflow-y: auto;
+}
+.etm__innen { max-width: 1100px; margin: 0 auto; padding: 12px 12px 16px; }
+.etm__titel { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; font-size: 16px; }
+.etm__titel b { color: var(--etm-farbe); }
+.etm__eingang { font-size: 14px; color: var(--k-akzent-stark); text-decoration: none; }
+.etm__eingang:hover { text-decoration: underline; }
+.etm__zu { margin-left: auto; border: 1px solid var(--k-rand); background: transparent; color: var(--k-text);
+  border-radius: 8px; min-width: 34px; min-height: 34px; cursor: pointer; font-size: 15px; }
+.etm__gruppen { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px 18px; }
+.etm__gtitel { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .4px;
+  color: var(--k-grau); padding: 0 8px 4px; border-bottom: 1px solid var(--k-rand); margin-bottom: 4px; }
+.etm__raum { display: block; padding: 7px 8px; border-radius: 8px; color: var(--k-text) !important;
+  text-decoration: none; font-size: 15px; border-left: 3px solid transparent; }
+.etm__raum small { display: block; font-size: 12px; color: var(--k-grau); }
+.etm__raum:hover, .etm__raum:focus { background: var(--k-akzent-hell); border-left-color: var(--etm-farbe); outline: none; }
+.etm__ist-hier { background: var(--k-akzent-hell); border-left-color: var(--etm-farbe); font-weight: 600; }
+.etm__idee { opacity: .55; }
+.etm__unter > summary { list-style: none; cursor: pointer; }
+.etm__unter > summary::-webkit-details-marker { display: none; }
+.etm__unterpfeil { display: inline-block; font-size: 12px; color: var(--etm-farbe); transition: transform .15s; }
+.etm__unter[open] > summary .etm__unterpfeil { transform: rotate(90deg); }
+.etm__unterliste { margin: 0 0 4px 14px; border-left: 2px solid var(--etm-farbe); padding-left: 4px; }
+
+body.etm-offen #navi-knoepfe { display: none !important; }  /* Pfeile verdecken das Fenster nicht */
+
+@media (max-width: 600px) {
+  .kopf2__menue:has(.etm__knopf) { flex-wrap: wrap; overflow: visible; row-gap: 4px; }  /* Handy: 2 Zeilen statt wischen */
+  .kopf2__menue .etm__knopf { padding: 4px 8px; gap: 5px; }
+  .etm__pfeil { display: none; }
+  .etm__name { font-size: 13px; }
+  .etm__gruppen { grid-template-columns: 1fr; gap: 8px; }
+  .etm__raum { padding: 9px 8px; font-size: 16px; }   /* größer zum Antippen */
+  .etm__fenster { max-height: calc(100vh - 90px); }
+}

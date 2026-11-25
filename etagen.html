@@ -4,122 +4,163 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quantura – Etagenplan</title>
+<!--
+  DE: Etagenplan v2 (2026-11-25) – Etagen zum Auf-/Zuklappen, Räume in Gruppen,
+      Suche über alle Räume, Schnellzugriff oben. Alle Einträge stehen unten in ETAGEN.
+  RU: План этажей v2 – этажи раскрываются, комнаты сгруппированы, поиск, быстрый доступ.
+      Все ссылки – в списке ETAGEN внизу; новую страницу добавить = одна строка.
+-->
 <style>
-  :root{--bg:#f4f1ea;--card:#fff;--ink:#1d2433;--muted:#5b6475;--line:#d9d3c5;
+  :root{--bg:#f4f1ea;--card:#fff;--ink:#1d2433;--muted:#5b6475;--line:#d9d3c5;--raum:#faf8f3;
         --e3:#2f6fb3;--e2:#2f8a5b;--e1:#b0742a;--eg:#6b4fa3;--k:#8a8a8a;--pf:#b33a3a}
+  html[data-theme="dark"]{--bg:#14171d;--card:#1d222b;--ink:#e8ebf1;--muted:#a3acbb;--line:#353c48;--raum:#252b35}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,Segoe UI,Arial,sans-serif}
-  main{max-width:1000px;margin:0 auto;padding:24px 16px 48px}
-  h1{margin:0 0 4px;font-size:28px}
-  .lead{color:var(--muted);margin:0 0 20px}
+  main{max-width:1040px;margin:0 auto;padding:20px 14px 48px}
+  h1{margin:0 0 2px;font-size:26px}
   .ru{color:var(--muted);font-size:14px}
+  .lead{color:var(--muted);margin:0 0 14px}
+
+  /* Werkzeugleiste: Suche + Alle auf/zu */
+  .leiste{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px}
+  .leiste input{flex:1 1 260px;font-size:17px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+  .leiste button{font-size:15px;padding:9px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);cursor:pointer}
+  .leiste button:hover{border-color:var(--ink)}
+
+  /* Schnellzugriff */
+  .schnell{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+  .schnell h2{font-size:15px;margin:0 0 8px}
+  .schnell .raeume a{border-left-color:var(--eg)}
+
+  /* Haus und Etagen */
   .haus{border:2px solid var(--ink);border-radius:14px 14px 6px 6px;overflow:hidden;background:var(--card)}
-  .dach{background:var(--ink);color:#fff;padding:10px 16px;font-weight:700;letter-spacing:.3px}
-  .etage{border-top:1px solid var(--line);padding:14px 16px;display:grid;grid-template-columns:150px 1fr;gap:14px}
-  .etage:first-of-type{border-top:0}
-  .nr{font-weight:800;font-size:15px;border-left:6px solid var(--c);padding-left:10px}
-  .nr small{display:block;font-weight:400;color:var(--muted)}
-  .raeume{display:flex;flex-wrap:wrap;gap:8px}
-  .raeume a{display:inline-block;text-decoration:none;color:var(--ink);background:#faf8f3;
-            border:1px solid var(--line);border-left:4px solid var(--c);border-radius:8px;padding:7px 10px;font-size:15px}
-  .raeume a:hover{background:#fff;border-color:var(--c)}
+  .dach{background:var(--ink);color:var(--card);padding:10px 16px;font-weight:700}
+  details.etage{border-top:1px solid var(--line)}
+  details.etage:first-of-type{border-top:0}
+  details.etage > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;user-select:none}
+  details.etage > summary::-webkit-details-marker{display:none}
+  details.etage > summary:hover{background:var(--raum)}
+  .pfeil{font-size:14px;transition:transform .15s;color:var(--c)}
+  details[open] > summary .pfeil{transform:rotate(90deg)}
+  .nr{font-weight:800;font-size:17px;border-left:6px solid var(--c);padding-left:10px;flex:1}
+  .nr small{font-weight:400;color:var(--muted);font-size:14px;margin-left:6px}
+  .zahl{font-size:13px;color:var(--muted);background:var(--raum);border:1px solid var(--line);border-radius:20px;padding:2px 10px;white-space:nowrap}
+  .innen{padding:0 16px 14px 44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:12px}
+  .gruppe{background:var(--raum);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:10px;padding:10px 10px 12px}
+  .gruppe h3{margin:0 0 8px;font-size:15px}
+  .gruppe h3 small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+  .raeume{display:flex;flex-direction:column;gap:6px}
+  .schnell .raeume{flex-direction:row;flex-wrap:wrap}
+  .raeume a{display:block;text-decoration:none;color:var(--ink);background:var(--card);
+            border:1px solid var(--line);border-left:4px solid var(--c,var(--eg));border-radius:8px;padding:8px 10px;font-size:15px}
+  .raeume a:hover,.raeume a:focus{border-color:var(--c,var(--eg));outline:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--c,var(--eg)) 30%,transparent)}
   .raeume a span{display:block;font-size:12px;color:var(--muted)}
-  .hinweis{font-size:13px;color:var(--muted);margin-top:6px}
-  .keller{background:#f0efec}
-  .keller .raeume a{opacity:.75}
-  .portfolio{margin-top:18px;border:2px dashed var(--pf);border-radius:12px;padding:14px 16px;background:var(--card)}
-  @media (max-width:640px){.etage{grid-template-columns:1fr}}
+  .unter{border:1px solid var(--line);border-left:4px solid var(--c);border-radius:8px;padding:6px 8px;background:var(--card)}
+  .unter-titel{font-size:15px;margin-bottom:4px}.unter-titel span{display:block;font-size:12px;color:var(--muted)}
+  .unter a{margin-left:10px}
+  .raeume a.idee{opacity:.65;border-left-style:dashed}
+  .keller{background:color-mix(in srgb,var(--k) 12%,var(--card))}
+  .hinweis{font-size:13px;color:var(--muted);margin:0;grid-column:1/-1}
+  .portfolio{margin-top:16px;border:2px dashed var(--pf);border-radius:12px;background:var(--card)}
+  .portfolio .raeume{flex-direction:row;flex-wrap:wrap}
+  .portfolio:not(:has(details:not([hidden]))){display:none}
+  .leer{display:none;padding:16px;color:var(--muted)}
+  .suche-aktiv .unter:not(:has(a:not([hidden]))),.suche-aktiv .gruppe:not(:has(a:not([hidden]))){display:none}
+  @media (max-width:640px){.innen{padding-left:16px}.nr small{display:block;margin:0}}
 </style>
+<script src="/core/js/etagen_daten.js"></script>
 <script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
 </head>
 <body>
 <main>
-  <h1>Quantura – Etagenplan</h1>
-  <p class="lead">Wo liegt was? Nur ein Wegweiser – es wurde nichts verschoben.<br>
-    <span class="ru">Где что лежит. Это только указатель – ни один файл не перемещён.</span></p>
+  <h1>🏢 Quantura – der Etagenplan</h1>
+  <p class="lead">Alles auf einer Seite – dieselben Etagen stehen auf jeder Seite oben im Menü. <span class="ru">· Те же этажи есть в меню наверху на каждой странице.</span></p>
 
-  <div class="haus">
-    <div class="dach">🏠 Haus Quantura · Дом Quantura</div>
-
-    <div class="etage" style="--c:var(--e3)">
-      <div class="nr">3. Etage<small>Sprachen / Языки<br>(Language Lab)</small></div>
-      <div>
-        <div class="raeume">
-          <a href="/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html">🇬🇧 Sprachführer DE↔EN<span>карточки, английский</span></a>
-          <a href="/pages/language_lab/sprachfuehrer_auswahl/index.html">Sprachführer wählen<span>все пары языков</span></a>
-          <a href="/pages/language_lab/lieder/index.html">🎵 Der Lied-Trainer<span>песни по строчкам</span></a>
-          <a href="/pages/language_lab/apps/generator/de/index_de.html">Satzlabor DE<span>собрать / разобрать</span></a>
-          <a href="/pages/language_lab/apps/generator/en/index_en.html">Satzlabor EN</a>
-          <a href="/pages/language_lab/apps/satzkonstrukteur/index.html">Satzkonstrukteur RU → DE</a>
-          <a href="/pages/language_lab/diktat-trainer.html#de">Diktat-Trainer DE</a>
-          <a href="/pages/language_lab/diktat-trainer.html#en">Diktat-Trainer EN</a>
-          <a href="/pages/language_lab/grammatik/index.html">📐 Grammatik<span>все правила грамматики</span></a>
-          <a href="/pages/language_lab/glossar/index.html">📖 Glossar<span>главный глоссарий</span></a>
-          <a href="/pages/language_lab/wortdetektiv/index.html">📜 Die Etymologie – Wortgeschichte<span>этимология: истории слов, карта</span></a>
-          <a href="/pages/language_lab/weisheiten/index.html">📜 Weisheiten<span>мудрые изречения на 4 языках</span></a>
-          <a href="/pages/language_lab/apps/talk_levels/index.html">Talk Levels 0–10</a>
-          <a href="/pages/language_lab/index.html">Eingang Language Lab<span>вход на этаж</span></a>
-        </div>
-      </div>
-    </div>
-
-    <div class="etage" style="--c:var(--e2)">
-      <div class="nr">2. Etage<small>Mathe &amp; Naturwissenschaften / Математика и науки</small></div>
-      <div>
-        <div class="raeume">
-          <a href="/sections/faecher.html">Fächer – Übersicht<span>все предметы</span></a>
-          <a href="/pages/faecher/mathematik-realschule/index.html">Mathe Realschule<span>классы 5–10</span></a>
-          <a href="/pages/faecher/mathematik/finanzmathematik/index.html">💶 Finanzmathematik<span>кредит, вклад, погашение – указатель</span></a>
-          <a href="/pages/language_lab/apps/mathe/quadratgleichung/index.html">Quadratgleichung<span>сейчас лежит в Language Lab</span></a>
-          <a href="/pages/faecher/physik-oberstufe/kanonenkugel_physik.html">Physik: Kanonenkugel</a>
-          <a href="/pages/faecher/informatik/web-lessons/index.html">Informatik: 10 Web-Lektionen</a>
-          <a href="/pages/bibliothek/index.html">Bibliothek<span>медиа, ресурсы</span></a>
-          <a href="/pages/faecher/erfinder-quiz/index.html">🗺️ Das Erfinder-Quiz<span>кто и где изобрёл – с картой</span></a>
-        </div>
-        <p class="hinweis">Viele Seiten hier sind noch Platzhalter. · Многие страницы здесь пока пустые заготовки.</p>
-      </div>
-    </div>
-
-    <div class="etage" style="--c:var(--e1)">
-      <div class="nr">1. Etage<small>Werkzeuge für den Alltag / Бытовые инструменты</small></div>
-      <div>
-        <div class="raeume">
-          <a href="/pages/language_lab/apps/tools/auto-kauf-assistent/index.html">🚗 Auto-Kauf-Assistent<span>сейчас лежит в Language Lab</span></a>
-          <a href="/pages/store/index.html">Store – Apps &amp; Tools</a>
-          <a href="/pages/portal/werkstatt/index.html">Werkstatt / TagBook</a>
-          <a href="/pages/projekte/index.html">Projekte (Maus)</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="etage" style="--c:var(--eg)">
-      <div class="nr">Erdgeschoss<small>Eingang / Вход</small></div>
-      <div><div class="raeume">
-        <a href="/index.html">Portal – Startseite</a>
-      </div></div>
-    </div>
-
-    <div class="etage keller" style="--c:var(--k)">
-      <div class="nr">Keller<small>Abstellraum – alt, versteckt / Кладовка – старое</small></div>
-      <div>
-        <div class="raeume">
-          <a href="/pages/language_lab/apps/tools/glossar/index.html">Glossar (alt, Tools)<span>2-й глоссарий</span></a>
-          <a href="/pages/language_lab/apps/generator/de/glossar.html">Glossar (alt, Generator)<span>3-й глоссарий</span></a>
-          <a href="/sections/generator.html">Generator-Übersicht (alt)</a>
-          <a href="/pages/legacy/index.html">Legacy-Portal</a>
-        </div>
-        <p class="hinweis">Nicht löschen – nur nicht mehr benutzen. · Не удалять – просто не пользоваться.</p>
-      </div>
-    </div>
+  <div class="leiste">
+    <input id="suche" type="search" placeholder="🔍 Raum suchen … (z. B. Glossar, Mathe, Diktat)" autocomplete="off">
+    <button type="button" id="alleAuf">▾ Alle öffnen</button>
+    <button type="button" id="alleZu">▸ Alle schließen</button>
   </div>
 
-  <div class="portfolio">
-    <div class="nr" style="--c:var(--pf)">🏫 Nebenhaus: Portfolio für Schulen<small>Отдельный дом: портфолио для школ (с паролем)</small></div>
-    <div class="raeume" style="margin-top:10px">
-      <a href="/prog_min/index.html" style="--c:var(--pf)">Portfolio (prog_min)</a>
-      <a href="/demos/prog_min_portfolio/index.html" style="--c:var(--pf)">Portfolio-Kopie (demos)<span>копия; на неё ведёт меню</span></a>
-    </div>
+  <section class="schnell" aria-label="Schnellzugriff">
+    <h2>⭐ der Schnellzugriff <span class="ru">· быстрый доступ – каждый день</span></h2>
+    <div class="raeume" id="schnell"></div>
+  </section>
+
+  <div class="haus" id="haus">
+    <div class="dach">🏠 das Haus Quantura · Дом Quantura</div>
   </div>
+  <p class="leer" id="leer">Nichts gefunden. · Ничего не найдено.</p>
+
 </main>
+
+<script>
+/* ===== Alle Räume an einem Ort / все комнаты в одном месте =====
+   [Name, Link, russischer Hinweis (optional), "idee" = noch Platzhalter] */
+const SCHNELL = [
+  ["🇬🇧 der Sprachführer Deutsch ⇄ English","/pages/language_lab/apps/SprachBox_DE_EN_Leitner_PWA/talk_leitner_pwa/index.html"],
+  ["🗓️ der Stundenplan","/pages/language_lab/stundenplan/index.html"],
+  ["📝 der Grammatik-Tagestest","/pages/language_lab/tagestest/index.html"],
+  ["📐 die Grammatik","/pages/language_lab/grammatik/index.html"],
+  ["📖 das Glossar Englisch","/pages/language_lab/glossar/index.html"],
+  ["⚡ die Elektrotechnik","/pages/faecher/elektrotechnik/index.html"]
+];
+
+const ETAGEN = window.Q_ETAGEN || [];   /* Daten: /core/js/etagen_daten.js */
+
+/* ===== Aufbau / построение ===== */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const link = (r) => `<a href="${esc(r[1])}"${r[3]==="idee"?' class="idee"':''}>${esc(r[0])}${r[2]?`<span>${esc(r[2])}</span>`:''}</a>`;
+const raumPlan = (r) => Array.isArray(r[4])
+  ? `<div class="unter"><div class="unter-titel">${esc(r[0])}${r[2]?`<span>${esc(r[2])}</span>`:''}</div>${r[4].map(link).join("")}</div>`
+  : link(r);
+
+document.getElementById("schnell").innerHTML = SCHNELL.map(link).join("");
+
+let OFFEN = {};
+try { OFFEN = JSON.parse(localStorage.getItem("q_etagen_offen") || "{}"); } catch(e) {}
+
+const haus = document.getElementById("haus");
+for (const e of ETAGEN) {
+  const anzahl = e.gruppen.reduce((n,g)=>n+g.r.reduce((m,r)=>m+(Array.isArray(r[4])?r[4].length:1),0),0);
+  const offen = (e.id in OFFEN) ? OFFEN[e.id] : (e.id === "e3");
+  const d = document.createElement("details");
+  d.className = "etage" + (e.keller ? " keller" : "");
+  d.id = e.id; d.style.setProperty("--c", e.farbe); d.open = offen;
+  d.innerHTML = `<summary><span class="pfeil">▶</span><span class="nr">${esc(e.nr)} · ${esc(e.name)}</span><span class="zahl">${anzahl} Räume</span></summary>
+    <div class="innen">${e.gruppen.map(g=>`<div class="gruppe"><h3>${esc(g.t)}</h3><div class="raeume">${g.r.map(raumPlan).join("")}</div></div>`).join("")}
+    ${e.eingang?`<p class="hinweis">➜ <a href="${esc(e.eingang)}">Eingang zur Etage öffnen</a> · вход на этаж</p>`:""}
+    ${e.keller?`<p class="hinweis">Diese Seiten werden später gelöscht. · Эти страницы потом удалим.</p>`:""}</div>`;
+  d.addEventListener("toggle", () => { OFFEN[e.id] = d.open; try { localStorage.setItem("q_etagen_offen", JSON.stringify(OFFEN)); } catch(err) {} });
+  haus.appendChild(d);
+}
+
+/* Alle öffnen / schließen */
+const alleDetails = () => document.querySelectorAll("details.etage");
+document.getElementById("alleAuf").onclick = () => alleDetails().forEach(d => d.open = true);
+document.getElementById("alleZu").onclick  = () => alleDetails().forEach(d => d.open = false);
+
+/* Suche: blendet nicht passende Räume aus und öffnet passende Etagen */
+const suche = document.getElementById("suche");
+const merkOffen = new Map();
+suche.addEventListener("input", () => {
+  const q = suche.value.trim().toLowerCase();
+  document.body.classList.toggle("suche-aktiv", !!q);
+  let treffer = 0;
+  alleDetails().forEach(d => {
+    if (q && !merkOffen.has(d)) merkOffen.set(d, d.open);
+    let n = 0;
+    d.querySelectorAll(".gruppe a").forEach(a => {
+      const ok = !q || a.textContent.toLowerCase().includes(q);
+      a.hidden = !ok; if (ok) n++;
+    });
+    d.hidden = !!q && n === 0;
+    if (q) d.open = n > 0;
+    treffer += n;
+  });
+  if (!q) { merkOffen.forEach((o,d) => d.open = o); merkOffen.clear(); }
+  document.getElementById("leer").style.display = (q && !treffer) ? "block" : "none";
+});
+</script>
 </body>
 </html>
