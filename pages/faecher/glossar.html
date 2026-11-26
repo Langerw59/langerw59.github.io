@@ -50,7 +50,7 @@
       <div class="card gd-wrap">
         <p class="hint-text"><a href="index.html">die Fächer</a> › das Fachglossar</p>
         <h1>📘 Das Fachglossar – Mathematik, Elektrotechnik, Chemie, Technik</h1>
-        <p class="gd-sub">Alle Fachbegriffe der Kurse mit Artikel, gleichbedeutenden Namen, Herkunft und Beispiel. Auf 🔊 tippen – die deutsche Stimme liest vor.<br />
+        <p class="gd-sub">Alle Fachbegriffe der Kurse mit Artikel, gleichbedeutenden Namen, Herkunft und Beispiel. Oben nach Fach filtern. Auf 🔊 tippen – die deutsche Stimme liest vor, 🔊 EN – die englische.<br />
           <small>Термины курсов: с артиклем, вторым названием, происхождением и примером. Языковые глоссарии – отдельно, в Language Lab.</small></p>
         <details class="gr-box" id="griechisch">
           <summary>🔤 Die griechischen Buchstaben in der Elektrotechnik <small>– греческие буквы: как читаются и что значат</small></summary>
@@ -89,7 +89,10 @@
       const norm = (s) => String(s || "").toLowerCase().replace(/^(der|die|das)\s+/, "").trim();
       const HER = { lat: ["Latein", "из латыни", "#8250df"], griech: ["Griechisch", "из греческого", "#bf3989"], arab: ["Arabisch", "из арабского", "#9a6700"], germ: ["germanisch (Erbwort)", "германское слово", "#1a7f37"] };
       const G = (window.GLOSSAR_FACH || []).slice().sort((a, b) => norm(a.w).localeCompare(norm(b.w), "de"));
-      const FAECHER = ["Alle"].concat([...new Set(G.map((e) => e.fach))]);
+      const fl = (e) => [].concat(e.fach || []);
+      const FAECHER = ["Alle"].concat([...new Set(G.flatMap(fl))]);
+      const W = {}; G.forEach((e) => { W[e.w] = e; });
+      const sagDe = (t) => (W[t] && W[t].sag) || t;
       let fach = "Alle", offen = "";
 
       function sprich(text, rate) {
@@ -97,9 +100,13 @@
         if (!rate && window.TTSManager && window.TTSManager.speak) { window.TTSManager.speak(text, "de"); return; }
         try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "de-DE"; u.rate = rate || 0.85; speechSynthesis.speak(u); } catch (_) {}
       }
+      function sprichEn(text) {
+        if (window.TTSManager && window.TTSManager.speak) { window.TTSManager.speak(text, "en", { rate: 0.8 }); return; }
+        try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-GB"; u.rate = 0.8; speechSynthesis.speak(u); } catch (_) {}
+      }
       const schluessel = (e) => norm(e.w).replace(/[^a-zäöüß0-9]+/g, "-");
 
-      $("gdFaecher").innerHTML = FAECHER.map((f) => `<button type="button" data-fach="${esc(f)}" class="${f === fach ? "aktiv" : ""}">${esc(f === "Alle" ? "Alle Fächer" : "die " + f)} (${f === "Alle" ? G.length : G.filter((e) => e.fach === f).length})</button>`).join("");
+      $("gdFaecher").innerHTML = FAECHER.map((f) => `<button type="button" data-fach="${esc(f)}" class="${f === fach ? "aktiv" : ""}">${esc(f === "Alle" ? "Alle Fächer" : "die " + f)} (${f === "Alle" ? G.length : G.filter((e) => fl(e).includes(f)).length})</button>`).join("");
       $("gdFaecher").addEventListener("click", (ev) => {
         const b = ev.target.closest("[data-fach]"); if (!b) return;
         fach = b.dataset.fach;
@@ -109,8 +116,8 @@
 
       function zeichne() {
         const q = norm($("gdSuche").value);
-        const liste = G.filter((e) => (fach === "Alle" || e.fach === fach) &&
-          (!q || [e.w, e.auch, e.ru, e.erk].concat(e.k || []).some((x) => norm(x).includes(q))));
+        const liste = G.filter((e) => (fach === "Alle" || fl(e).includes(fach)) &&
+          (!q || [e.w, e.auch, e.ru, e.erk, e.en].concat(e.k || []).some((x) => norm(x).includes(q))));
         $("gdZahl").textContent = liste.length + " Begriffe";
         if (!liste.length) { $("gdListe").innerHTML = '<p class="gd-leer">Nichts gefunden / ничего не найдено.</p>'; return; }
         $("gdListe").innerHTML = liste.map((e) => {
@@ -118,7 +125,7 @@
           return `<div class="gd-eintrag ${offen === e.w ? "offen" : ""}" id="w-${esc(schluessel(e))}" data-w="${esc(e.w)}">
             <div class="gd-kopf"><span class="gd-punkt" style="background:${h[2]}" title="${esc(h[0])}"></span>
               <span class="gd-wort">${esc(e.w)}</span><span class="gd-aus">${esc(e.aus || "")}</span>${e.auch ? `<span class="gd-auch">= ${esc(e.auch)}</span>` : ""}
-              <span class="gd-ru">${esc(e.ru)}</span><span class="gd-fach">${esc(e.fach)}</span></div>
+              <span class="gd-ru">${esc(e.ru)}</span>${fl(e).map((f) => `<span class="gd-fach">${esc(f)}</span>`).join("")}</div>
             <div class="gd-body">
               ${e.auch ? `<div><b>Auch / другое название:</b> ${esc(e.auch)}</div>` : ""}
               ${h[0] ? `<span class="gd-her" style="background:${h[2]}">${esc(h[0])} · ${esc(h[1])}</span>` : ""}
@@ -126,12 +133,14 @@
               ${e.erk ? `<div style="margin-top:4px"><b>Erklärung / объяснение:</b> ${esc(e.erk)}</div>` : ""}
               ${e.ver ? `<div style="margin-top:4px"><b>Verwandt / родственные:</b> ${esc(e.ver)}</div>` : ""}
               ${e.aus ? `<div style="margin-top:4px"><b>Aussprache / произношение:</b> ${esc(e.aus)} <small>(БОЛЬШИЕ буквы – ударный слог)</small></div>` : ""}
+              ${e.en ? `<div style="margin-top:4px"><b>Englisch / по-английски:</b> ${esc(e.en)} <span class="gd-aus">${esc(e.aus_en || "")}</span></div>` : ""}
               ${(e.bsp || []).map((b) => `<div class="gd-bsp" data-sag="${esc(b[0])}"><b>${esc(b[0])}</b>${b[1] ? ` – <i>${esc(b[1])}</i>` : ""}</div>`).join("")}
               ${e.links ? `<div class="gd-links"><b>Zum Weiterlesen / почитать:</b><br>${e.links.map((l) => `<a href="${esc(l[1])}" target="_blank" rel="noopener">📖 ${esc(l[0])}</a>`).join("")}</div>` : ""}
               <div class="gd-knoepfe">
                 <button type="button" data-sag="${esc(e.w)}">🔊 ${esc(e.w)}</button>
                 ${e.auch ? `<button type="button" data-sag="${esc(e.auch)}">🔊 ${esc(e.auch)}</button>` : ""}
                 <button type="button" data-langsam="${esc(e.w)}">🐢 langsam</button>
+                ${e.en ? `<button type="button" data-en="${esc(e.en)}">🔊 EN ${esc(e.en)}</button>` : ""}
                 ${e.lek ? `<a href="elektrotechnik/${esc(e.lek)}">📚 zur Lektion</a>` : ""}
               </div>
             </div></div>`;
@@ -139,13 +148,14 @@
       }
 
       $("gdListe").addEventListener("click", (ev) => {
-        const s = ev.target.closest("[data-sag]"); if (s) { sprich(s.dataset.sag); return; }
-        const l = ev.target.closest("[data-langsam]"); if (l) { sprich(l.dataset.langsam, 0.55); return; }
+        const s = ev.target.closest("[data-sag]"); if (s) { sprich(sagDe(s.dataset.sag)); return; }
+        const en = ev.target.closest("[data-en]"); if (en) { sprichEn(en.dataset.en); return; }
+        const l = ev.target.closest("[data-langsam]"); if (l) { sprich(sagDe(l.dataset.langsam), 0.55); return; }
         const k = ev.target.closest(".gd-kopf"); if (!k) return;
         const box = k.parentElement;
         offen = box.classList.contains("offen") ? "" : box.dataset.w;
         document.querySelectorAll(".gd-eintrag").forEach((x) => x.classList.toggle("offen", x.dataset.w === offen));
-        if (offen) sprich(offen);
+        if (offen) sprich(sagDe(offen));
       });
       $("gdSuche").addEventListener("input", zeichne);
       document.querySelectorAll(".gr-sag").forEach((b) => b.addEventListener("click", () => sprich(b.dataset.gr)));

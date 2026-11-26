@@ -12,6 +12,9 @@
 //   her  – Herkunft erklärt               erk  – объяснение
 //   ver  – verwandte Wörter / кальки      bsp  – [[Beispiel, Hinweis], …]
 //   lek  – Link zur Lektion (relativ zu /pages/faecher/elektrotechnik/)
+//   fach darf auch eine Liste sein: ["Elektrotechnik", "Chemie"] – erscheint dann in beiden Fächern
+//   sag  – so spricht die deutsche Stimme das Wort (z. B. Coulomb → „Kulong“)
+//   en, aus_en – englisches Wort und Aussprache (🔊 EN)
 // Neue Begriffe einfach unten anhängen. Im Chat: «в фачглоссарий».
 // ============================================================
 window.GLOSSAR_FACH = [
@@ -1378,528 +1381,739 @@ window.GLOSSAR_FACH = [
    ]
   ]
  },
-{
- "w": "die Chemie",
- "fach": "Chemie",
- "ru": "химия",
- "h": "arab",
- "aus": "che-MIE [çeˈmiː] (süddt. auch [keˈmiː])",
- "her": "араб. al-kīmiyā «алхимия» ← возможно егип. kmt «чёрная земля» (Египет) или греч. chymeia «литьё металла»",
- "erk": "Наука о веществах и их превращениях. В слове Alchemie сохранился арабский артикль al- – как в Alkohol, Algebra.",
- "ver": "die Alchemie (алхимия), der Chemiker (химик)",
- "bsp": [
-  [
-   "Die Chemie ist die Lehre von den Stoffen.",
-   ""
-  ]
- ],
- "lek": "../chemie/01-stoffe.html"
-},
-{
- "w": "der Stoff",
- "fach": "Chemie",
- "auch": "die Substanz",
- "ru": "вещество",
- "h": "germ",
- "aus": "STOFF [ʃtɔf]",
- "her": "через ср.-нидерл. stof «ткань, материал» (ср. рус. «штоф» – ткань); Substanz ← лат. substantia «сущность, то, что лежит в основе»",
- "erk": "То, из чего состоит тело (предмет): железо, стекло, вода. Тело – ложка; вещество – дерево или сталь.",
- "bsp": [
-  [
-   "Der Löffel besteht aus dem Stoff Holz.",
-   ""
-  ]
- ],
- "lek": "../chemie/01-stoffe.html"
-},
-{
- "w": "das Gemisch",
- "fach": "Chemie",
- "auch": "das Stoffgemisch",
- "ru": "смесь",
- "h": "germ",
- "aus": "ge-MISCH [ɡəˈmɪʃ]",
- "her": "от mischen «смешивать» ← лат. miscere (ср. Mixer, mix)",
- "erk": "Несколько веществ вместе; разделяется физическими способами (фильтр, выпаривание, магнит). homogen – однородная, heterogen – неоднородная.",
- "bsp": [
-  [
-   "Meerwasser ist ein Gemisch aus Wasser und Salz.",
-   ""
-  ]
- ],
- "lek": "../chemie/01-stoffe.html"
-},
-{
- "w": "die Verbindung",
- "fach": "Chemie",
- "ru": "(химическое) соединение",
- "h": "germ",
- "aus": "ver-BIN-dung [fɛɐ̯ˈbɪndʊŋ]",
- "her": "от verbinden «соединять» (binden «вязать»)",
- "erk": "Новое вещество из нескольких элементов с совсем новыми свойствами: натрий + хлор → поваренная соль. Не путать со смесью!",
- "bsp": [
-  [
-   "Wasser ist eine Verbindung aus Wasserstoff und Sauerstoff.",
-   ""
-  ]
- ],
- "lek": "../chemie/01-stoffe.html"
-},
-{
- "w": "das Element",
- "fach": "Chemie",
- "ru": "химический элемент",
- "h": "lat",
- "aus": "e-le-MENT [eleˈmɛnt]",
- "her": "лат. elementum «первоначало, буква алфавита» – возможно от l-m-n (буквы L, M, N подряд, «азы»)",
- "erk": "Вещество из атомов одного вида (одно число протонов). Химически дальше не разлагается.",
- "bsp": [
-  [
-   "Gold und Sauerstoff sind Elemente.",
-   ""
-  ]
- ],
- "lek": "../chemie/01-stoffe.html"
-},
-{
- "w": "das Atom",
- "fach": "Chemie",
- "ru": "атом",
- "h": "griech",
- "aus": "a-TOM [aˈtoːm]",
- "her": "греч. átomos «неделимый» (a- «не» + tomē «разрез»; ср. Anatomie, Tomografie)",
- "erk": "Мельчайшая частица элемента. Идея Демокрита (ок. 400 до н. э.). Сегодня знаем: делится на протоны, нейтроны, электроны – но химически остаётся целым.",
- "bsp": [
-  [
-   "Das Atom besteht aus dem Kern und der Hülle.",
-   ""
-  ]
- ],
- "lek": "../chemie/02-atom.html"
-},
-{
- "w": "das Proton",
- "fach": "Chemie",
- "ru": "протон",
- "h": "griech",
- "aus": "PRO-ton [ˈproːtɔn]",
- "her": "греч. prōton «первое»",
- "erk": "Положительная частица в ядре. Число протонов = порядковый номер = какой это элемент.",
- "bsp": [
-  [
-   "Der Wasserstoff hat ein Proton.",
-   ""
-  ]
- ],
- "lek": "../chemie/02-atom.html"
-},
-{
- "w": "das Neutron",
- "fach": "Chemie",
- "ru": "нейтрон",
- "h": "lat",
- "aus": "NEU-tron [ˈnɔɪ̯trɔn]",
- "her": "лат. neuter «ни тот, ни другой» (ср. neutral)",
- "erk": "Частица без заряда в ядре. Разное число нейтронов – разные изотопы.",
- "bsp": [
-  [
-   "Das Neutron ist elektrisch neutral.",
-   ""
-  ]
- ],
- "lek": "../chemie/02-atom.html"
-},
-{
- "w": "die Ordnungszahl",
- "fach": "Chemie",
- "auch": "die Kernladungszahl, die Protonenzahl",
- "ru": "порядковый номер",
- "h": "germ",
- "aus": "ORD-nungs-zahl [ˈɔʁdnʊŋsˌtsaːl]",
- "her": "die Ordnung «порядок» (← лат. ordo) + die Zahl",
- "erk": "Число протонов в ядре = число электронов в нейтральном атоме = место в таблице Менделеева.",
- "bsp": [
-  [
-   "Kohlenstoff hat die Ordnungszahl 6.",
-   ""
-  ]
- ],
- "lek": "../chemie/02-atom.html"
-},
-{
- "w": "das Isotop",
- "fach": "Chemie",
- "ru": "изотоп",
- "h": "griech",
- "aus": "i-so-TOP [izoˈtoːp]",
- "her": "греч. isos «равный» + topos «место» – стоит на том же месте в таблице (topos – как в die Toponymie)",
- "erk": "Атомы одного элемента с разным числом нейтронов: ¹²C и ¹⁴C (радиоуглеродный метод).",
- "bsp": [
-  [
-   "C-14 ist ein radioaktives Isotop.",
-   ""
-  ]
- ],
- "lek": "../chemie/02-atom.html"
-},
-{
- "w": "das Valenzelektron",
- "fach": "Chemie",
- "auch": "das Außenelektron",
- "ru": "валентный (внешний) электрон",
- "h": "lat",
- "aus": "va-LENZ-e-lek-tron",
- "her": "лат. valentia «сила» (valere «быть сильным, стоить») + греч. ēlektron «янтарь»",
- "erk": "Электроны на внешней оболочке. Определяют, как атом реагирует и его валентность. Число = номер главной группы.",
- "bsp": [
-  [
-   "Natrium hat ein Valenzelektron.",
-   ""
-  ]
- ],
- "lek": "../chemie/02-atom.html"
-},
-{
- "w": "das Periodensystem",
- "fach": "Chemie",
- "auch": "das PSE, das Periodensystem der Elemente",
- "ru": "периодическая система (таблица Менделеева)",
- "h": "griech",
- "aus": "pe-RI-o-den-sys-tem",
- "her": "греч. periodos «круговорот» (peri «вокруг» + hodos «путь») + systēma «составленное целое»",
- "erk": "Таблица элементов по порядковому номеру; свойства повторяются периодически. Менделеев (1869) и Лотар Майер. Строка – период, столбец – группа.",
- "bsp": [
-  [
-   "Mendelejew ordnete 1869 das Periodensystem.",
-   ""
-  ]
- ],
- "lek": "../chemie/03-periodensystem.html",
- "links": [
-  [
-   "das Periodensystem",
-   "https://de.wikipedia.org/wiki/Periodensystem"
-  ]
- ]
-},
-{
- "w": "das Halogen",
- "fach": "Chemie",
- "ru": "галоген",
- "h": "griech",
- "aus": "ha-lo-GEN [haloˈɡeːn]",
- "her": "греч. hals «соль» + gennan «порождать» = «солеобразователь»",
- "erk": "Элементы VII главной группы (F, Cl, Br, I): не хватает одного электрона, очень активны, с металлами образуют соли.",
- "bsp": [
-  [
-   "Chlor ist ein Halogen.",
-   ""
-  ]
- ],
- "lek": "../chemie/03-periodensystem.html"
-},
-{
- "w": "das Edelgas",
- "fach": "Chemie",
- "ru": "инертный (благородный) газ",
- "h": "germ",
- "aus": "E-del-gas [ˈeːdl̩ɡaːs]",
- "her": "edel «благородный» – как Edelmetall: ни с кем не «связывается»; рус. «инертный» ← лат. iners «ленивый» (как Argon ← греч. argos «ленивый»)",
- "erk": "VIII главная группа (He, Ne, Ar): внешняя оболочка заполнена, почти не реагируют. Аргон – защитный газ при сварке.",
- "bsp": [
-  [
-   "Argon ist ein Edelgas.",
-   ""
-  ]
- ],
- "lek": "../chemie/03-periodensystem.html"
-},
-{
- "w": "das Getriebe",
- "fach": "Technik",
- "ru": "передача; редуктор; коробка передач",
- "h": "germ",
- "aus": "ge-TRIE-be [ɡəˈtʁiːbə]",
- "her": "от treiben «гнать, приводить в движение» + собирательная приставка ge- (как das Gebirge, das Gewässer): «всё, что приводит в движение»",
- "erk": "Механизм, который передаёт вращение от мотора к машине и меняет обороты, крутящий момент и направление.",
- "ver": "der Antrieb (привод), der Abtrieb (выход) – тот же корень treiben.",
- "bsp": [
-  [
-   "Das Auto hat ein Schaltgetriebe mit 6 Gängen.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "das Zahnrad",
- "fach": "Technik",
- "ru": "зубчатое колесо, шестерня",
- "h": "germ",
- "aus": "ZAHN-rad [ˈtsaːnʁaːt]",
- "her": "der Zahn «зуб» + das Rad «колесо» – буквально «зуб-колесо»",
- "erk": "Колесо с зубьями; зубья двух колёс входят друг в друга – «зуб за зуб».",
- "k": [
-  "Zahnräder"
- ],
- "bsp": [
-  [
-   "Das kleine Zahnrad treibt das große an.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "die Übersetzung",
- "fach": "Technik",
- "auch": "das Übersetzungsverhältnis",
- "ru": "передаточное число (отношение)",
- "h": "germ",
- "aus": "Ü-ber-SET-zung [yːbɐˈzɛtsʊŋ]",
- "her": "über-setzen «перенести на другую сторону» (как паром через реку) – то же слово, что «перевод» с языка на язык",
- "erk": "i = z₂ / z₁ = n₁ / n₂. i > 1 – ins Langsame (понижающая), i < 1 – ins Schnelle (повышающая). Ступени перемножаются: i_ges = i₁ · i₂ · i₃.",
- "ver": "Русское «передача» – тоже «передать дальше»; по-немецки один корень и для языка, и для механики.",
- "bsp": [
-  [
-   "i = 36 : 12 = 3 – die Übersetzung ins Langsame.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "die Untersetzung",
- "fach": "Technik",
- "auch": "die Übersetzung ins Langsame",
- "ru": "понижающая передача, редукция",
- "h": "germ",
- "her": "unter «под, ниже» + setzen – «поставить ниже» (обороты становятся меньше)",
- "erk": "i > 1: обороты меньше, крутящий момент больше.",
- "bsp": [
-  [
-   "Die Untersetzung macht den Motor langsamer, aber stärker.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "die Drehzahl",
- "fach": "Technik",
- "ru": "частота вращения, обороты (об/мин)",
- "h": "germ",
- "aus": "DREH-zahl [ˈdʁeːtsaːl]",
- "her": "drehen «вращать» + die Zahl «число» – «число оборотов»",
- "erk": "Обозначение n, единица 1/min (min⁻¹). n₂ = n₁ / i.",
- "bsp": [
-  [
-   "Der Motor hat eine Drehzahl von 3000 1/min.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "das Drehmoment",
- "fach": "Technik",
- "ru": "крутящий момент",
- "h": "lat",
- "aus": "DREH-mo-ment [ˈdʁeːmoˌmɛnt]",
- "her": "drehen + das Moment ← лат. momentum «движущая сила» ← movimentum ← movere «двигать»",
- "erk": "«Сила вращения» на валу: M = F · r, единица Nm (ньютон-метр). В передаче: M₂ = M₁ · i (без потерь).",
- "ver": "der Moment (мгновение, мужск. род) и das Moment (момент силы, средн. род) – одно латинское слово, разный артикль!",
- "bsp": [
-  [
-   "Im 1. Gang ist das Drehmoment am Rad am größten.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "das Ritzel",
- "fach": "Technik",
- "ru": "малая шестерня; звёздочка (велосипед)",
- "h": "germ",
- "aus": "RIT-zel [ˈʁɪtsl̩]",
- "erk": "Маленькое (обычно ведущее) зубчатое колесо; на велосипеде – задние звёздочки.",
- "bsp": [
-  [
-   "Das Ritzel hat nur 11 Zähne.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "das Zwischenrad",
- "fach": "Technik",
- "ru": "промежуточное (паразитное) колесо",
- "h": "germ",
- "her": "zwischen «между» + das Rad",
- "erk": "Стоит между ведущим и ведомым колесом: меняет только направление вращения, передаточное число не меняет.",
- "bsp": [
-  [
-   "Mit dem Zwischenrad drehen beide Räder in dieselbe Richtung.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "die Welle",
- "fach": "Technik",
- "ru": "вал",
- "h": "germ",
- "her": "от wallen/wälzen «катить, вращать»; то же слово, что «волна» (die Welle im Meer)",
- "erk": "Вращающийся стержень, на котором сидят зубчатые колёса.",
- "ver": "die Welle = 1) вал, 2) волна (Radiowelle) – одно слово, два значения.",
- "bsp": [
-  [
-   "Auf der Zwischenwelle sitzen zwei Zahnräder.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "der Modul",
- "fach": "Technik",
- "ru": "модуль зацепления",
- "h": "lat",
- "aus": "MO-dul [ˈmoːdʊl]",
- "her": "лат. modulus «маленькая мера» ← modus «мера»",
- "erk": "«Размер зуба» в мм: d = m · z. Два колеса работают вместе только при одинаковом модуле.",
- "ver": "Achtung Artikel: der Modul (техника, математика) – но das Modul (блок, часть программы/курса).",
- "bsp": [
-  [
-   "Beide Zahnräder haben den Modul m = 2 mm.",
-   ""
-  ]
- ],
- "lek": "../technik/01-zahnradgetriebe.html"
-},
-{
- "w": "das ohmsche Gesetz",
- "fach": "Elektrotechnik",
- "ru": "закон Ома",
- "h": "germ",
- "k": [
-  "Ohm",
-  "ohmsches Gesetz",
-  "U = R · I",
-  "Ohmsches Gesetz"
- ],
- "her": "по имени Georg Simon Ohm (1789–1854), учитель математики и физики из Эрлангена, опубликовал закон в 1827 г. das Gesetz ← setzen «ставить» → «установленное, поставленное»",
- "erk": "I = U / R: ток растёт с напряжением и падает с сопротивлением. Единица сопротивления – das Ohm (Ω): 1 Ω = 1 V / 1 A. Действует точно только для «омических» сопротивлений (R постоянно).",
- "ver": "das Gesetz и setzen, der Satz (теорема) – одного корня. Пишут и «das Ohm'sche Gesetz», но по новой орфографии – «das ohmsche Gesetz» (с маленькой буквы).",
- "bsp": [
-  [
-   "U = R · I",
-   "12 V = 4 Ω · 3 A"
-  ]
- ],
- "lek": "etage-1/03-ohmsches-gesetz.html",
- "aus": "das OHM-sche ge-SETZ [ˈoːmʃə ɡəˈzɛts]"
-},
-{
- "w": "der Leitwert",
- "fach": "Elektrotechnik",
- "ru": "проводимость",
- "h": "germ",
- "auch": "der reziproke Widerstand",
- "k": [
-  "G",
-  "Siemens",
-  "Leitwert",
-  "Mho"
- ],
- "her": "нем. leiten «вести, проводить» + der Wert «величина» → «величина проводимости». Единица das Siemens (S) – по имени Werner von Siemens (1816–1892).",
- "erk": "Обратная величина сопротивления: G = 1 / R. Чем меньше R, тем больше G. 1 S = 1 / Ω. Наклон прямой на характеристике I(U) – это и есть G.",
- "ver": "Старое (американское) название единицы – «mho» = «ohm» задом наперёд, знак ℧.",
- "bsp": [
-  [
-   "G = 1 / R = 1 / 50 Ω = 0,02 S = 20 mS",
-   ""
-  ]
- ],
- "lek": "etage-1/03-ohmsches-gesetz.html",
- "aus": "LEIT-wert [ˈlaɪ̯tˌveːɐ̯t]"
-},
-{
- "w": "die Kennlinie",
- "fach": "Elektrotechnik",
- "ru": "характеристика (график)",
- "h": "lat",
- "k": [
-  "Kennlinie",
-  "Kennlinien",
-  "Strom-Spannungs-Kennlinie"
- ],
- "her": "нем. kennen «знать» + die Linie ← лат. linea «льняная нить, шнур» ← linum «лён» → «линия, по которой узнают (деталь)»",
- "erk": "График, показывающий, как ток зависит от напряжения (I от U). У омического резистора – прямая через ноль, у лампы накаливания – изогнутая, у диода – совсем другая. По характеристике «узнают» деталь.",
- "ver": "Родственники linea: das Lineal (линейка), linear, das Leinen (лён, полотно), линия, линейка.",
- "bsp": [
-  [
-   "Die Kennlinie eines ohmschen Widerstands ist eine Gerade.",
-   ""
-  ]
- ],
- "lek": "etage-1/03-ohmsches-gesetz.html",
- "aus": "KENN-li-ni-e [ˈkɛnˌliːni̯ə]"
-},
-{
- "w": "die Äquivalenzumformung",
- "fach": "Mathematik",
- "ru": "равносильное преобразование (уравнения)",
- "h": "lat",
- "auch": "die Umformung = „die Formel umstellen“ = „nach x auflösen“",
- "k": [
-  "Umformung",
-  "Formel umstellen",
-  "auflösen",
-  "umstellen",
-  "äquivalent"
- ],
- "her": "лат. aequus «равный» + valere «стоить, иметь силу» → aequivalens «равноценный»; + нем. umformen «переделать форму»",
- "erk": "Действие, которое делают с обеими частями уравнения сразу (+, −, ·, :, √), так что уравнение остаётся верным – как весы в равновесии. Так «переставляют» формулу: U = R · I | : R → I = U / R.",
- "ver": "Родственники aequus: der Äquator (делит Землю на равные половины), adäquat, эквивалент. valere: die Valenz (валентность), die Valuta.",
- "bsp": [
-  [
-   "U = R · I   | : R   →   I = U / R",
-   ""
-  ]
- ],
- "lek": "kurs-1-mathematik/09-formeln-umstellen.html",
- "aus": "ä-qui-va-LENZ-um-for-mung [ɛkvivaˈlɛnt͡sʔʊmˌfɔʁmʊŋ]"
-},
-{
- "w": "der Kehrwert",
- "fach": "Mathematik",
- "ru": "обратная величина, обратное число",
- "h": "germ",
- "auch": "der reziproke Wert = das Reziproke",
- "k": [
-  "Kehrwert",
-  "reziprok",
-  "Reziproke",
-  "1/x"
- ],
- "her": "нем. kehren «поворачивать» (umkehren – перевернуть) + der Wert → «перевёрнутое число». reziprok ← лат. reciprocus «идущий туда и обратно»",
- "erk": "Дробь «переворачивают»: числитель и знаменатель меняются местами. Kehrwert от 2/3 – это 3/2, от 5 – это 1/5. Нужен для деления дробей и для параллельного соединения: 1/R = 1/R₁ + 1/R₂, а в конце – Kehrwert.",
- "ver": "kehren / umkehren / die Kehrseite (обратная сторона медали). Не путать с kehren «подметать» (der Besen kehrt) – это другое слово-омоним.",
- "bsp": [
-  [
-   "Der Kehrwert von 3/4 ist 4/3.",
-   ""
+ {
+  "w": "die Chemie",
+  "fach": "Chemie",
+  "ru": "химия",
+  "h": "arab",
+  "aus": "che-MIE [çeˈmiː] (süddt. auch [keˈmiː])",
+  "her": "араб. al-kīmiyā «алхимия» ← возможно егип. kmt «чёрная земля» (Египет) или греч. chymeia «литьё металла»",
+  "erk": "Наука о веществах и их превращениях. В слове Alchemie сохранился арабский артикль al- – как в Alkohol, Algebra.",
+  "ver": "die Alchemie (алхимия), der Chemiker (химик)",
+  "bsp": [
+   [
+    "Die Chemie ist die Lehre von den Stoffen.",
+    ""
+   ]
   ],
-  [
-   "G = 1 / R – der Leitwert ist der Kehrwert des Widerstands",
-   ""
+  "lek": "../chemie/01-stoffe.html"
+ },
+ {
+  "w": "der Stoff",
+  "fach": "Chemie",
+  "auch": "die Substanz",
+  "ru": "вещество",
+  "h": "germ",
+  "aus": "STOFF [ʃtɔf]",
+  "her": "через ср.-нидерл. stof «ткань, материал» (ср. рус. «штоф» – ткань); Substanz ← лат. substantia «сущность, то, что лежит в основе»",
+  "erk": "То, из чего состоит тело (предмет): железо, стекло, вода. Тело – ложка; вещество – дерево или сталь.",
+  "bsp": [
+   [
+    "Der Löffel besteht aus dem Stoff Holz.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/01-stoffe.html"
+ },
+ {
+  "w": "das Gemisch",
+  "fach": "Chemie",
+  "auch": "das Stoffgemisch",
+  "ru": "смесь",
+  "h": "germ",
+  "aus": "ge-MISCH [ɡəˈmɪʃ]",
+  "her": "от mischen «смешивать» ← лат. miscere (ср. Mixer, mix)",
+  "erk": "Несколько веществ вместе; разделяется физическими способами (фильтр, выпаривание, магнит). homogen – однородная, heterogen – неоднородная.",
+  "bsp": [
+   [
+    "Meerwasser ist ein Gemisch aus Wasser und Salz.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/01-stoffe.html"
+ },
+ {
+  "w": "die Verbindung",
+  "fach": "Chemie",
+  "ru": "(химическое) соединение",
+  "h": "germ",
+  "aus": "ver-BIN-dung [fɛɐ̯ˈbɪndʊŋ]",
+  "her": "от verbinden «соединять» (binden «вязать»)",
+  "erk": "Новое вещество из нескольких элементов с совсем новыми свойствами: натрий + хлор → поваренная соль. Не путать со смесью!",
+  "bsp": [
+   [
+    "Wasser ist eine Verbindung aus Wasserstoff und Sauerstoff.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/01-stoffe.html"
+ },
+ {
+  "w": "das Element",
+  "fach": "Chemie",
+  "ru": "химический элемент",
+  "h": "lat",
+  "aus": "e-le-MENT [eleˈmɛnt]",
+  "her": "лат. elementum «первоначало, буква алфавита» – возможно от l-m-n (буквы L, M, N подряд, «азы»)",
+  "erk": "Вещество из атомов одного вида (одно число протонов). Химически дальше не разлагается.",
+  "bsp": [
+   [
+    "Gold und Sauerstoff sind Elemente.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/01-stoffe.html"
+ },
+ {
+  "w": "das Atom",
+  "fach": "Chemie",
+  "ru": "атом",
+  "h": "griech",
+  "aus": "a-TOM [aˈtoːm]",
+  "her": "греч. átomos «неделимый» (a- «не» + tomē «разрез»; ср. Anatomie, Tomografie)",
+  "erk": "Мельчайшая частица элемента. Идея Демокрита (ок. 400 до н. э.). Сегодня знаем: делится на протоны, нейтроны, электроны – но химически остаётся целым.",
+  "bsp": [
+   [
+    "Das Atom besteht aus dem Kern und der Hülle.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/02-atom.html"
+ },
+ {
+  "w": "das Proton",
+  "fach": "Chemie",
+  "ru": "протон",
+  "h": "griech",
+  "aus": "PRO-ton [ˈproːtɔn]",
+  "her": "греч. prōton «первое»",
+  "erk": "Положительная частица в ядре. Число протонов = порядковый номер = какой это элемент.",
+  "bsp": [
+   [
+    "Der Wasserstoff hat ein Proton.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/02-atom.html"
+ },
+ {
+  "w": "das Neutron",
+  "fach": "Chemie",
+  "ru": "нейтрон",
+  "h": "lat",
+  "aus": "NEU-tron [ˈnɔɪ̯trɔn]",
+  "her": "лат. neuter «ни тот, ни другой» (ср. neutral)",
+  "erk": "Частица без заряда в ядре. Разное число нейтронов – разные изотопы.",
+  "bsp": [
+   [
+    "Das Neutron ist elektrisch neutral.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/02-atom.html"
+ },
+ {
+  "w": "die Ordnungszahl",
+  "fach": "Chemie",
+  "auch": "die Kernladungszahl, die Protonenzahl",
+  "ru": "порядковый номер",
+  "h": "germ",
+  "aus": "ORD-nungs-zahl [ˈɔʁdnʊŋsˌtsaːl]",
+  "her": "die Ordnung «порядок» (← лат. ordo) + die Zahl",
+  "erk": "Число протонов в ядре = число электронов в нейтральном атоме = место в таблице Менделеева.",
+  "bsp": [
+   [
+    "Kohlenstoff hat die Ordnungszahl 6.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/02-atom.html"
+ },
+ {
+  "w": "das Isotop",
+  "fach": "Chemie",
+  "ru": "изотоп",
+  "h": "griech",
+  "aus": "i-so-TOP [izoˈtoːp]",
+  "her": "греч. isos «равный» + topos «место» – стоит на том же месте в таблице (topos – как в die Toponymie)",
+  "erk": "Атомы одного элемента с разным числом нейтронов: ¹²C и ¹⁴C (радиоуглеродный метод).",
+  "bsp": [
+   [
+    "C-14 ist ein radioaktives Isotop.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/02-atom.html"
+ },
+ {
+  "w": "das Valenzelektron",
+  "fach": "Chemie",
+  "auch": "das Außenelektron",
+  "ru": "валентный (внешний) электрон",
+  "h": "lat",
+  "aus": "va-LENZ-e-lek-tron",
+  "her": "лат. valentia «сила» (valere «быть сильным, стоить») + греч. ēlektron «янтарь»",
+  "erk": "Электроны на внешней оболочке. Определяют, как атом реагирует и его валентность. Число = номер главной группы.",
+  "bsp": [
+   [
+    "Natrium hat ein Valenzelektron.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/02-atom.html"
+ },
+ {
+  "w": "das Periodensystem",
+  "fach": "Chemie",
+  "auch": "das PSE, das Periodensystem der Elemente",
+  "ru": "периодическая система (таблица Менделеева)",
+  "h": "griech",
+  "aus": "pe-RI-o-den-sys-tem",
+  "her": "греч. periodos «круговорот» (peri «вокруг» + hodos «путь») + systēma «составленное целое»",
+  "erk": "Таблица элементов по порядковому номеру; свойства повторяются периодически. Менделеев (1869) и Лотар Майер. Строка – период, столбец – группа.",
+  "bsp": [
+   [
+    "Mendelejew ordnete 1869 das Periodensystem.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/03-periodensystem.html",
+  "links": [
+   [
+    "das Periodensystem",
+    "https://de.wikipedia.org/wiki/Periodensystem"
+   ]
   ]
- ],
- "lek": "kurs-1-mathematik/09-formeln-umstellen.html",
- "aus": "KEHR-wert [ˈkeːɐ̯ˌveːɐ̯t]"
-}
+ },
+ {
+  "w": "das Halogen",
+  "fach": "Chemie",
+  "ru": "галоген",
+  "h": "griech",
+  "aus": "ha-lo-GEN [haloˈɡeːn]",
+  "her": "греч. hals «соль» + gennan «порождать» = «солеобразователь»",
+  "erk": "Элементы VII главной группы (F, Cl, Br, I): не хватает одного электрона, очень активны, с металлами образуют соли.",
+  "bsp": [
+   [
+    "Chlor ist ein Halogen.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/03-periodensystem.html"
+ },
+ {
+  "w": "das Edelgas",
+  "fach": "Chemie",
+  "ru": "инертный (благородный) газ",
+  "h": "germ",
+  "aus": "E-del-gas [ˈeːdl̩ɡaːs]",
+  "her": "edel «благородный» – как Edelmetall: ни с кем не «связывается»; рус. «инертный» ← лат. iners «ленивый» (как Argon ← греч. argos «ленивый»)",
+  "erk": "VIII главная группа (He, Ne, Ar): внешняя оболочка заполнена, почти не реагируют. Аргон – защитный газ при сварке.",
+  "bsp": [
+   [
+    "Argon ist ein Edelgas.",
+    ""
+   ]
+  ],
+  "lek": "../chemie/03-periodensystem.html"
+ },
+ {
+  "w": "das Getriebe",
+  "fach": "Technik",
+  "ru": "передача; редуктор; коробка передач",
+  "h": "germ",
+  "aus": "ge-TRIE-be [ɡəˈtʁiːbə]",
+  "her": "от treiben «гнать, приводить в движение» + собирательная приставка ge- (как das Gebirge, das Gewässer): «всё, что приводит в движение»",
+  "erk": "Механизм, который передаёт вращение от мотора к машине и меняет обороты, крутящий момент и направление.",
+  "ver": "der Antrieb (привод), der Abtrieb (выход) – тот же корень treiben.",
+  "bsp": [
+   [
+    "Das Auto hat ein Schaltgetriebe mit 6 Gängen.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "das Zahnrad",
+  "fach": "Technik",
+  "ru": "зубчатое колесо, шестерня",
+  "h": "germ",
+  "aus": "ZAHN-rad [ˈtsaːnʁaːt]",
+  "her": "der Zahn «зуб» + das Rad «колесо» – буквально «зуб-колесо»",
+  "erk": "Колесо с зубьями; зубья двух колёс входят друг в друга – «зуб за зуб».",
+  "k": [
+   "Zahnräder"
+  ],
+  "bsp": [
+   [
+    "Das kleine Zahnrad treibt das große an.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "die Übersetzung",
+  "fach": "Technik",
+  "auch": "das Übersetzungsverhältnis",
+  "ru": "передаточное число (отношение)",
+  "h": "germ",
+  "aus": "Ü-ber-SET-zung [yːbɐˈzɛtsʊŋ]",
+  "her": "über-setzen «перенести на другую сторону» (как паром через реку) – то же слово, что «перевод» с языка на язык",
+  "erk": "i = z₂ / z₁ = n₁ / n₂. i > 1 – ins Langsame (понижающая), i < 1 – ins Schnelle (повышающая). Ступени перемножаются: i_ges = i₁ · i₂ · i₃.",
+  "ver": "Русское «передача» – тоже «передать дальше»; по-немецки один корень и для языка, и для механики.",
+  "bsp": [
+   [
+    "i = 36 : 12 = 3 – die Übersetzung ins Langsame.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "die Untersetzung",
+  "fach": "Technik",
+  "auch": "die Übersetzung ins Langsame",
+  "ru": "понижающая передача, редукция",
+  "h": "germ",
+  "her": "unter «под, ниже» + setzen – «поставить ниже» (обороты становятся меньше)",
+  "erk": "i > 1: обороты меньше, крутящий момент больше.",
+  "bsp": [
+   [
+    "Die Untersetzung macht den Motor langsamer, aber stärker.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "die Drehzahl",
+  "fach": "Technik",
+  "ru": "частота вращения, обороты (об/мин)",
+  "h": "germ",
+  "aus": "DREH-zahl [ˈdʁeːtsaːl]",
+  "her": "drehen «вращать» + die Zahl «число» – «число оборотов»",
+  "erk": "Обозначение n, единица 1/min (min⁻¹). n₂ = n₁ / i.",
+  "bsp": [
+   [
+    "Der Motor hat eine Drehzahl von 3000 1/min.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "das Drehmoment",
+  "fach": "Technik",
+  "ru": "крутящий момент",
+  "h": "lat",
+  "aus": "DREH-mo-ment [ˈdʁeːmoˌmɛnt]",
+  "her": "drehen + das Moment ← лат. momentum «движущая сила» ← movimentum ← movere «двигать»",
+  "erk": "«Сила вращения» на валу: M = F · r, единица Nm (ньютон-метр). В передаче: M₂ = M₁ · i (без потерь).",
+  "ver": "der Moment (мгновение, мужск. род) и das Moment (момент силы, средн. род) – одно латинское слово, разный артикль!",
+  "bsp": [
+   [
+    "Im 1. Gang ist das Drehmoment am Rad am größten.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "das Ritzel",
+  "fach": "Technik",
+  "ru": "малая шестерня; звёздочка (велосипед)",
+  "h": "germ",
+  "aus": "RIT-zel [ˈʁɪtsl̩]",
+  "erk": "Маленькое (обычно ведущее) зубчатое колесо; на велосипеде – задние звёздочки.",
+  "bsp": [
+   [
+    "Das Ritzel hat nur 11 Zähne.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "das Zwischenrad",
+  "fach": "Technik",
+  "ru": "промежуточное (паразитное) колесо",
+  "h": "germ",
+  "her": "zwischen «между» + das Rad",
+  "erk": "Стоит между ведущим и ведомым колесом: меняет только направление вращения, передаточное число не меняет.",
+  "bsp": [
+   [
+    "Mit dem Zwischenrad drehen beide Räder in dieselbe Richtung.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "die Welle",
+  "fach": "Technik",
+  "ru": "вал",
+  "h": "germ",
+  "her": "от wallen/wälzen «катить, вращать»; то же слово, что «волна» (die Welle im Meer)",
+  "erk": "Вращающийся стержень, на котором сидят зубчатые колёса.",
+  "ver": "die Welle = 1) вал, 2) волна (Radiowelle) – одно слово, два значения.",
+  "bsp": [
+   [
+    "Auf der Zwischenwelle sitzen zwei Zahnräder.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "der Modul",
+  "fach": "Technik",
+  "ru": "модуль зацепления",
+  "h": "lat",
+  "aus": "MO-dul [ˈmoːdʊl]",
+  "her": "лат. modulus «маленькая мера» ← modus «мера»",
+  "erk": "«Размер зуба» в мм: d = m · z. Два колеса работают вместе только при одинаковом модуле.",
+  "ver": "Achtung Artikel: der Modul (техника, математика) – но das Modul (блок, часть программы/курса).",
+  "bsp": [
+   [
+    "Beide Zahnräder haben den Modul m = 2 mm.",
+    ""
+   ]
+  ],
+  "lek": "../technik/01-zahnradgetriebe.html"
+ },
+ {
+  "w": "das ohmsche Gesetz",
+  "fach": "Elektrotechnik",
+  "ru": "закон Ома",
+  "h": "germ",
+  "k": [
+   "Ohm",
+   "ohmsches Gesetz",
+   "U = R · I",
+   "Ohmsches Gesetz"
+  ],
+  "her": "по имени Georg Simon Ohm (1789–1854), учитель математики и физики из Эрлангена, опубликовал закон в 1827 г. das Gesetz ← setzen «ставить» → «установленное, поставленное»",
+  "erk": "I = U / R: ток растёт с напряжением и падает с сопротивлением. Единица сопротивления – das Ohm (Ω): 1 Ω = 1 V / 1 A. Действует точно только для «омических» сопротивлений (R постоянно).",
+  "ver": "das Gesetz и setzen, der Satz (теорема) – одного корня. Пишут и «das Ohm'sche Gesetz», но по новой орфографии – «das ohmsche Gesetz» (с маленькой буквы).",
+  "bsp": [
+   [
+    "U = R · I",
+    "12 V = 4 Ω · 3 A"
+   ]
+  ],
+  "lek": "etage-1/03-ohmsches-gesetz.html",
+  "aus": "das OHM-sche ge-SETZ [ˈoːmʃə ɡəˈzɛts]"
+ },
+ {
+  "w": "der Leitwert",
+  "fach": "Elektrotechnik",
+  "ru": "проводимость",
+  "h": "germ",
+  "auch": "der reziproke Widerstand",
+  "k": [
+   "G",
+   "Siemens",
+   "Leitwert",
+   "Mho"
+  ],
+  "her": "нем. leiten «вести, проводить» + der Wert «величина» → «величина проводимости». Единица das Siemens (S) – по имени Werner von Siemens (1816–1892).",
+  "erk": "Обратная величина сопротивления: G = 1 / R. Чем меньше R, тем больше G. 1 S = 1 / Ω. Наклон прямой на характеристике I(U) – это и есть G.",
+  "ver": "Старое (американское) название единицы – «mho» = «ohm» задом наперёд, знак ℧.",
+  "bsp": [
+   [
+    "G = 1 / R = 1 / 50 Ω = 0,02 S = 20 mS",
+    ""
+   ]
+  ],
+  "lek": "etage-1/03-ohmsches-gesetz.html",
+  "aus": "LEIT-wert [ˈlaɪ̯tˌveːɐ̯t]"
+ },
+ {
+  "w": "die Kennlinie",
+  "fach": "Elektrotechnik",
+  "ru": "характеристика (график)",
+  "h": "lat",
+  "k": [
+   "Kennlinie",
+   "Kennlinien",
+   "Strom-Spannungs-Kennlinie"
+  ],
+  "her": "нем. kennen «знать» + die Linie ← лат. linea «льняная нить, шнур» ← linum «лён» → «линия, по которой узнают (деталь)»",
+  "erk": "График, показывающий, как ток зависит от напряжения (I от U). У омического резистора – прямая через ноль, у лампы накаливания – изогнутая, у диода – совсем другая. По характеристике «узнают» деталь.",
+  "ver": "Родственники linea: das Lineal (линейка), linear, das Leinen (лён, полотно), линия, линейка.",
+  "bsp": [
+   [
+    "Die Kennlinie eines ohmschen Widerstands ist eine Gerade.",
+    ""
+   ]
+  ],
+  "lek": "etage-1/03-ohmsches-gesetz.html",
+  "aus": "KENN-li-ni-e [ˈkɛnˌliːni̯ə]"
+ },
+ {
+  "w": "die Äquivalenzumformung",
+  "fach": "Mathematik",
+  "ru": "равносильное преобразование (уравнения)",
+  "h": "lat",
+  "auch": "die Umformung = „die Formel umstellen“ = „nach x auflösen“",
+  "k": [
+   "Umformung",
+   "Formel umstellen",
+   "auflösen",
+   "umstellen",
+   "äquivalent"
+  ],
+  "her": "лат. aequus «равный» + valere «стоить, иметь силу» → aequivalens «равноценный»; + нем. umformen «переделать форму»",
+  "erk": "Действие, которое делают с обеими частями уравнения сразу (+, −, ·, :, √), так что уравнение остаётся верным – как весы в равновесии. Так «переставляют» формулу: U = R · I | : R → I = U / R.",
+  "ver": "Родственники aequus: der Äquator (делит Землю на равные половины), adäquat, эквивалент. valere: die Valenz (валентность), die Valuta.",
+  "bsp": [
+   [
+    "U = R · I   | : R   →   I = U / R",
+    ""
+   ]
+  ],
+  "lek": "kurs-1-mathematik/09-formeln-umstellen.html",
+  "aus": "ä-qui-va-LENZ-um-for-mung [ɛkvivaˈlɛnt͡sʔʊmˌfɔʁmʊŋ]"
+ },
+ {
+  "w": "der Kehrwert",
+  "fach": "Mathematik",
+  "ru": "обратная величина, обратное число",
+  "h": "germ",
+  "auch": "der reziproke Wert = das Reziproke",
+  "k": [
+   "Kehrwert",
+   "reziprok",
+   "Reziproke",
+   "1/x"
+  ],
+  "her": "нем. kehren «поворачивать» (umkehren – перевернуть) + der Wert → «перевёрнутое число». reziprok ← лат. reciprocus «идущий туда и обратно»",
+  "erk": "Дробь «переворачивают»: числитель и знаменатель меняются местами. Kehrwert от 2/3 – это 3/2, от 5 – это 1/5. Нужен для деления дробей и для параллельного соединения: 1/R = 1/R₁ + 1/R₂, а в конце – Kehrwert.",
+  "ver": "kehren / umkehren / die Kehrseite (обратная сторона медали). Не путать с kehren «подметать» (der Besen kehrt) – это другое слово-омоним.",
+  "bsp": [
+   [
+    "Der Kehrwert von 3/4 ist 4/3.",
+    ""
+   ],
+   [
+    "G = 1 / R – der Leitwert ist der Kehrwert des Widerstands",
+    ""
+   ]
+  ],
+  "lek": "kurs-1-mathematik/09-formeln-umstellen.html",
+  "aus": "KEHR-wert [ˈkeːɐ̯ˌveːɐ̯t]"
+ },
+ {
+  "w": "die Ladung",
+  "fach": [
+   "Elektrotechnik",
+   "Chemie"
+  ],
+  "ru": "заряд (электрический)",
+  "h": "germ",
+  "auch": "die elektrische Ladung",
+  "k": [
+   "Q",
+   "Ladung",
+   "Ladungen",
+   "elektrische Ladung"
+  ],
+  "her": "нем. laden «грузить, нагружать» → die Ladung «груз, загрузка». Заряд – это «груз» электричества на теле.",
+  "erk": "Свойство частиц: протон заряжен положительно (+), электрон – отрицательно (−). Знак Q, единица – das Coulomb (C). Одноимённые заряды отталкиваются, разноимённые притягиваются. В химии: заряд иона (Na⁺, Cl⁻).",
+  "ver": "Родственники: laden (заряжать, грузить), das Ladegerät (зарядное устройство), entladen (разряжать), die Ladung eines LKW (груз грузовика). Русское «заряд» ← «заряжать (ружьё)» – тоже «загрузить».",
+  "bsp": [
+   [
+    "Gleiche Ladungen stoßen sich ab.",
+    "одноимённые заряды отталкиваются"
+   ],
+   [
+    "Q = I · t",
+    "заряд = ток · время"
+   ]
+  ],
+  "lek": "etage-1/01-ladung-strom-spannung.html",
+  "aus": "LA-dung [ˈlaːdʊŋ]",
+  "en": "the charge",
+  "aus_en": "[tʃɑːdʒ]"
+ },
+ {
+  "w": "das Coulomb",
+  "fach": "Elektrotechnik",
+  "ru": "кулон (единица заряда)",
+  "h": "",
+  "k": [
+   "C",
+   "Coulomb",
+   "Kulon",
+   "Kulong",
+   "кулон"
+  ],
+  "her": "по имени французского физика Charles-Augustin de Coulomb (1736–1806), открывшего закон притяжения зарядов (закон Кулона, 1785).",
+  "erk": "Единица заряда: 1 C = 1 A · 1 s – заряд, который проходит за 1 секунду при токе 1 ампер. Это примерно 6,24 · 10¹⁸ электронов. Имя французское, поэтому по-немецки читают по-французски: ку-ЛОН с носовым «он» в конце, «m» и «b» не произносятся. По-английски – КУ-лом [ˈkuːlɒm].",
+  "ver": "Название единицы в немецком – среднего рода (das Coulomb), как das Volt, das Ampere, das Ohm. После числа – без множественного числа: 5 Coulomb.",
+  "bsp": [
+   [
+    "1 Coulomb = 1 Ampere mal 1 Sekunde",
+    ""
+   ],
+   [
+    "Wie viel Coulomb sind 2 Amperestunden?",
+    ""
+   ]
+  ],
+  "lek": "etage-1/01-ladung-strom-spannung.html",
+  "aus": "ku-LÕ [kuˈlõː] (по-французски, «ку-ЛОН»)",
+  "sag": "Kulong",
+  "en": "the coulomb",
+  "aus_en": "[ˈkuːlɒm]"
+ },
+ {
+  "w": "das Ampere",
+  "fach": "Elektrotechnik",
+  "ru": "ампер (единица силы тока)",
+  "h": "",
+  "k": [
+   "A",
+   "Ampere",
+   "Ampère"
+  ],
+  "her": "по имени французского физика André-Marie Ampère (1775–1836). В немецком пишется без значка: Ampere.",
+  "erk": "Единица силы тока (der Strom, I). 1 A = 1 C / 1 s: каждую секунду через провод проходит 1 кулон заряда. Измеряют амперметром – последовательно.",
+  "ver": "Род – средний: das Ampere (не der!). Так у всех единиц: das Volt, das Ohm, das Watt. После числа – без окончания: 16 Ampere. Родственники: das Amperemeter, die Amperestunde (Ah).",
+  "bsp": [
+   [
+    "Die Sicherung hat 16 Ampere.",
+    "предохранитель на 16 ампер"
+   ]
+  ],
+  "lek": "etage-1/01-ladung-strom-spannung.html",
+  "aus": "am-PÄR [amˈpɛːɐ̯]",
+  "en": "the ampere / the amp",
+  "aus_en": "[ˈæmpeə]"
+ },
+ {
+  "w": "das Volt",
+  "fach": "Elektrotechnik",
+  "ru": "вольт (единица напряжения)",
+  "h": "",
+  "k": [
+   "V",
+   "Volt"
+  ],
+  "her": "по имени итальянского физика Alessandro Volta (1745–1827), создателя первой батареи (вольтов столб, 1800).",
+  "erk": "Единица напряжения (die Spannung, U). Батарейка – 1,5 V, автомобильный аккумулятор – 12 V, розетка – 230 V.",
+  "ver": "Род средний: das Volt. После числа без окончания: 230 Volt. Родственники: das Voltmeter, die Voltaische Säule (вольтов столб).",
+  "bsp": [
+   [
+    "Die Steckdose hat 230 Volt.",
+    "в розетке 230 вольт"
+   ]
+  ],
+  "lek": "etage-1/01-ladung-strom-spannung.html",
+  "aus": "VOLT [vɔlt]",
+  "en": "the volt",
+  "aus_en": "[vəʊlt]"
+ },
+ {
+  "w": "das Ohm",
+  "fach": "Elektrotechnik",
+  "ru": "ом (единица сопротивления)",
+  "h": "",
+  "k": [
+   "Ω",
+   "Ohm",
+   "Omega"
+  ],
+  "her": "по имени немецкого физика Georg Simon Ohm (1789–1854). Знак – греческая буква das Omega (Ω).",
+  "erk": "Единица сопротивления (der Widerstand, R). 1 Ω = 1 V / 1 A. Знак Ω выбрали, потому что «O» уже занято нулём.",
+  "ver": "Род средний: das Ohm. После числа без окончания: 470 Ohm. Родственники: das ohmsche Gesetz, das Ohmmeter. Не путать с der Ohm (старое слово «дядя»).",
+  "bsp": [
+   [
+    "Der Widerstand hat 100 Ohm.",
+    ""
+   ]
+  ],
+  "lek": "etage-1/03-ohmsches-gesetz.html",
+  "aus": "OHM [oːm]",
+  "en": "the ohm",
+  "aus_en": "[əʊm]"
+ },
+ {
+  "w": "das Elektron",
+  "fach": [
+   "Chemie",
+   "Elektrotechnik"
+  ],
+  "ru": "электрон",
+  "h": "griech",
+  "k": [
+   "e",
+   "e⁻",
+   "Elektronen"
+  ],
+  "her": "греч. ēlektron «янтарь». Натёртый янтарь притягивает бумажки – отсюда и die Elektrizität.",
+  "erk": "Отрицательно заряженная частица в оболочке атома. Электрический ток в металле – это движение электронов. Заряд одного электрона – die Elementarladung.",
+  "ver": "Родственники: die Elektrizität, die Elektronik, der Elektriker. Мн. число: die Elektronen.",
+  "bsp": [
+   [
+    "Das Elektron ist negativ geladen.",
+    ""
+   ]
+  ],
+  "lek": "etage-1/01-ladung-strom-spannung.html",
+  "aus": "E-lek-tron [ˈeːlɛktʁɔn]",
+  "en": "the electron",
+  "aus_en": "[ɪˈlektrɒn]"
+ },
+ {
+  "w": "die Elementarladung",
+  "fach": [
+   "Elektrotechnik",
+   "Chemie"
+  ],
+  "ru": "элементарный заряд",
+  "h": "lat",
+  "k": [
+   "e",
+   "Elementarladung"
+  ],
+  "her": "лат. elementum «первоначало, основа» + нем. die Ladung → «самый маленький, основной заряд»",
+  "erk": "Самый маленький заряд в природе – заряд одного электрона или протона: e = 1,6 · 10⁻¹⁹ C.",
+  "ver": "Родственники: das Element (элемент), elementar (элементарный, простейший).",
+  "bsp": [
+   [
+    "e = 1,6 · 10⁻¹⁹ C",
+    ""
+   ]
+  ],
+  "lek": "etage-1/01-ladung-strom-spannung.html",
+  "aus": "e-le-men-TAR-la-dung [elemɛnˈtaːɐ̯ˌlaːdʊŋ]",
+  "en": "the elementary charge",
+  "aus_en": "[ˌelɪˈmentəri tʃɑːdʒ]"
+ },
+ {
+  "w": "die Amperestunde",
+  "fach": "Elektrotechnik",
+  "ru": "ампер-час",
+  "h": "",
+  "k": [
+   "Ah",
+   "Amperestunde",
+   "Amperestunden"
+  ],
+  "her": "das Ampere + die Stunde «час»",
+  "erk": "Единица заряда для аккумуляторов: 1 Ah = 1 A · 3600 s = 3600 C. Автомобильный аккумулятор 60 Ah может час отдавать ток 60 A (в теории).",
+  "bsp": [
+   [
+    "2 Ah = 7200 Coulomb",
+    ""
+   ]
+  ],
+  "lek": "etage-1/01-ladung-strom-spannung.html",
+  "aus": "am-PÄR-stun-de [amˈpɛːɐ̯ˌʃtʊndə]",
+  "en": "the ampere-hour",
+  "aus_en": "[ˈæmpeər aʊə]"
+ }
 ];
