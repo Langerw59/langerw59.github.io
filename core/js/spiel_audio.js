@@ -14,6 +14,13 @@
   let aktuell = null;
   let nummer = 0;
 
+  // 2026-11-26: das Tempo – langsam / normal / schnell (für alle Spiele gleich)
+  const TEMPO_KEY = 'spiel_tempo_v1';
+  const TEMPI = { langsam: 0.75, normal: 1, schnell: 1.2 };
+  function tempo() { const t = localStorage.getItem(TEMPO_KEY); return TEMPI[t] ? t : 'normal'; }
+  function tempoSetzen(t) { if (TEMPI[t]) localStorage.setItem(TEMPO_KEY, t); }
+  function faktor() { return TEMPI[tempo()]; }
+
   function norm(t) { return String(t == null ? '' : t).normalize('NFC').trim().replace(/\s+/g, ' '); }
 
   function indexLaden() {
@@ -37,7 +44,7 @@
     try {
       const u = new SpeechSynthesisUtterance(text);
       u.lang = lang === 'en' ? 'en-GB' : 'de-DE';
-      u.rate = 0.95;
+      u.rate = 0.95 * faktor();
       const v = window.speechSynthesis.getVoices().find(x => (lang === 'en' ? /^en/i : /^de/i).test(x.lang));
       if (v) u.voice = v;
       window.speechSynthesis.speak(u);
@@ -48,6 +55,8 @@
     return new Promise(fertig => {
       if (meine !== nummer) { fertig(); return; }
       const a = new Audio(url);
+      a.playbackRate = faktor();
+      a.preservesPitch = true;
       aktuell = a;
       a.onended = fertig;
       a.onerror = fertig;
@@ -75,6 +84,7 @@
     for (const d of dateien) {
       if (meine !== nummer) return;
       await abspielen(BASIS + d, meine);
+      if (tempo() === 'langsam') await new Promise(w => setTimeout(w, 180)); // kleine Pause zwischen den Teilen
     }
   }
 
@@ -101,5 +111,5 @@
   }
 
   indexLaden();
-  window.SpielAudio = { sagen, stop, aufgabeTeile, norm, indexLaden };
+  window.SpielAudio = { sagen, stop, aufgabeTeile, norm, indexLaden, tempo, tempoSetzen };
 })();

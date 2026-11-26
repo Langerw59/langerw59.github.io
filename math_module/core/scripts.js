@@ -155,6 +155,8 @@ const LEVEL_HINTS_EN = {
 // 2026-11-26: die Sprache des Spiels (Deutsch / English) – pro Spieler gespeichert
 // RU: язык игры для каждого игрока; позже можно добавить другие языки
 const SPRACHE_KEY = 'math_module_sprache_v1';
+// neu laden, ohne wieder „Wer spielt?“ zu fragen (z. B. nach dem Sprachwechsel)
+function mmNeuLaden() { sessionStorage.setItem('mm_ohne_wer_spielt', '1'); window.location.reload(); }
 function mmSprache() {
   try { const m = JSON.parse(localStorage.getItem(SPRACHE_KEY) || '{}') || {}; return m[sterneSpieler()] === 'en' ? 'en' : 'de'; } catch (e) { return 'de'; }
 }
@@ -993,7 +995,9 @@ function autoOpenWelcomeOnce() {
   purgeOldNameStorage();
   renderWelcome();
   const navType = getNavigationType();
-  if (navType === 'reload') {
+  const ohneFrage = sessionStorage.getItem('mm_ohne_wer_spielt') === '1';
+  sessionStorage.removeItem('mm_ohne_wer_spielt');
+  if (navType === 'reload' && !ohneFrage) {
     clearWelcomeShown();
   }
   if (!sessionStorage.getItem(WELCOME_SHOWN_KEY)) {
@@ -1043,10 +1047,17 @@ function renderWelcome() {
       </button>
       <span class="mm-level-chip" title="Aktuelles Level">${escapeHtml(lvlTitel)}</span>
       <span class="mm-sterne" id="sterne-widget" title="Alle Sterne aus allen Levels">⭐ <strong id="sterne-summe">0</strong>&nbsp;/&nbsp;<span id="sterne-max">${mmLevelListe().length * 3}</span></span>
+      <span class="mm-sprach-mini" role="group" aria-label="Sprache">
+        <button type="button" class="mm-sprach-knopf${mmSprache() === 'de' ? ' aktiv' : ''}" data-sprache="de" title="Deutsch">DE</button><button type="button" class="mm-sprach-knopf${mmSprache() === 'en' ? ' aktiv' : ''}" data-sprache="en" title="English">EN</button>
+      </span>
       <button type="button" class="mm-menue-knopf" id="mm-menue-auf" aria-expanded="false" aria-controls="mm-menue">☰ ${T('Menü', 'Menu')}</button>
     </div>
   `;
   mmMenueAufbauen(name);
+  target.querySelectorAll('.mm-sprach-knopf').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.sprache === mmSprache()) return;
+    mmSpracheSetzen(b.dataset.sprache); mmNeuLaden();
+  }));
   document.querySelectorAll('#mmRennbahn .rb-tier').forEach(img => { img.src = avatar; }); // das Tier auf der Rennbahn = eigenes Team
   applyBilingualLabels(target);
   renderBonusJar(false);
@@ -1214,17 +1225,20 @@ function mmMenueAufbauen() {
         <button type="button" class="mm-sprach-knopf${mmSprache() === 'de' ? ' aktiv' : ''}" data-sprache="de">🇩🇪 Deutsch</button>
         <button type="button" class="mm-sprach-knopf${mmSprache() === 'en' ? ' aktiv' : ''}" data-sprache="en">🇬🇧 English</button>
       </div>
-      <button type="button" class="mm-eintrag" id="change-name" data-de="👥 Spieler wechseln" data-en="Players">👥 Spieler wechseln</button>
+      <button type="button" class="mm-eintrag" id="change-name" data-de="👥 Spieler wechseln" data-en="👥 Players">👥 Spieler wechseln</button>
       <button type="button" class="mm-eintrag" id="mm-klasse">🎒 Klasse wählen</button>
-      <button type="button" class="mm-eintrag" id="mm-team" data-de="🐾 Team wählen" data-en="Choose team">🐾 Team wählen</button>
-      <button type="button" class="mm-eintrag" id="hint-open" data-de="💡 Hinweis" data-en="Hint">💡 Hinweis</button>
-      <button type="button" class="mm-eintrag" id="bg-open" data-de="🖼️ Bild wechseln" data-en="Change image">🖼️ Bild wechseln</button>
-      <button type="button" class="mm-eintrag" id="btnBackgroundOnly" data-de="👀 Nur Hintergrund" data-en="Background only">👀 Nur Hintergrund</button>
-      <button type="button" class="mm-eintrag" id="open-level-results" data-de="📊 Auswertung" data-en="Evaluation">📊 Auswertung</button>
+      <button type="button" class="mm-eintrag" id="mm-team" data-de="🐾 Team wählen" data-en="🐾 Choose team">🐾 Team wählen</button>
+      <button type="button" class="mm-eintrag" id="hint-open" data-de="💡 Hinweis" data-en="💡 Hint">💡 Hinweis</button>
+      <button type="button" class="mm-eintrag" id="bg-open" data-de="🖼️ Bild wechseln" data-en="🖼️ Change image">🖼️ Bild wechseln</button>
+      <button type="button" class="mm-eintrag" id="btnBackgroundOnly" data-de="👀 Nur Hintergrund" data-en="👀 Background only">👀 Nur Hintergrund</button>
+      <button type="button" class="mm-eintrag" id="open-level-results" data-de="📊 Auswertung" data-en="📊 Evaluation">📊 Auswertung</button>
       <label class="mm-schalter"><input type="checkbox" id="mm-ton"> 🔊 ${T('Ton und Sprache', 'Sound and voice')}</label>
-      <button type="button" class="mm-eintrag" id="mm-startseite" data-de="🏠 Mathe-Start" data-en="Start page">🏠 Mathe-Start</button>
-      <button type="button" class="mm-eintrag" id="mm-schach" onclick="location.href='/schach_module/index.html'">♞ Schach-Spaß</button>
-      <button type="button" class="mm-eintrag" id="mm-beenden" data-de="🚪 Spiel beenden" data-en="End game">🚪 Spiel beenden</button>
+      <div class="mm-tempo" role="group" aria-label="Tempo">🐢🐇 ${T('Tempo', 'Speed')}:
+        ${[['langsam', T('langsam', 'slow')], ['normal', 'normal'], ['schnell', T('schnell', 'fast')]].map(([k, txt]) => `<button type="button" class="mm-tempo-knopf${(window.SpielAudio ? window.SpielAudio.tempo() : 'normal') === k ? ' aktiv' : ''}" data-tempo="${k}">${txt}</button>`).join('')}
+      </div>
+      <button type="button" class="mm-eintrag" id="mm-startseite" data-de="🏠 Mathe-Start" data-en="🏠 Start page">🏠 Mathe-Start</button>
+      <button type="button" class="mm-eintrag" id="mm-schach" onclick="location.href='/schach_module/index.html'">♞ ${T('Schach-Spaß', 'Chess fun')}</button>
+      <button type="button" class="mm-eintrag" id="mm-beenden" data-de="🚪 Spiel beenden" data-en="🚪 End game">🚪 Spiel beenden</button>
     </div>
     <details class="mm-gruppe mm-lehrer">
       <summary class="mm-gruppe-titel">🔒 Für Lehrer</summary>
@@ -1265,7 +1279,14 @@ function mmMenueAufbauen() {
   m.querySelectorAll('.mm-sprach-knopf').forEach(b => b.addEventListener('click', () => {
     if (b.dataset.sprache === mmSprache()) return;
     mmSpracheSetzen(b.dataset.sprache);
-    window.location.reload();
+    mmNeuLaden();
+  }));
+  m.querySelectorAll('.mm-tempo-knopf').forEach(b => b.addEventListener('click', () => {
+    if (window.SpielAudio) window.SpielAudio.tempoSetzen(b.dataset.tempo);
+    m.querySelectorAll('.mm-tempo-knopf').forEach(x => x.classList.toggle('aktiv', x === b));
+    const ex = document.querySelector('#tasks .exercise.is-active > p:first-child');
+    if (ex) vorlesen(ex.textContent.replace(/^(Aufgabe|Task)\s*\d+:\s*/, '').replace('🔊', ''));
+    else sprechen(T('Ton ist an.', 'Sound is on.'));
   }));
   const ton = m.querySelector('#mm-ton');
   ton.checked = tonAn();
