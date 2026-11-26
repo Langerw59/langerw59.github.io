@@ -2429,6 +2429,12 @@ function renderTasksForCurrentLevel() {
             updateResults();
             maybeOpenLevelEndModal();
             focusInput(input, true);
+            // 2026-11-26: fertig (richtig oder keine Leben mehr) → automatisch zur nächsten Aufgabe,
+            // damit das Kind nicht zur Maus greifen muss. RU: сам переходит к следующему заданию
+            if (correct || attemptNumber >= MAX_LIVES) {
+              clearTimeout(window.mmWeiterTimer);
+              window.mmWeiterTimer = setTimeout(() => mmZurNaechsten(), correct ? 1300 : 3000);
+            }
           };
 
           checkBtn.addEventListener('click', handleCheck);
@@ -2492,6 +2498,32 @@ function renderTasksForCurrentLevel() {
           checkBtn.click();
         });
         tasksHost.dataset.enterBound = '1';
+      }
+
+      // 2026-11-26: zur nächsten noch offenen Aufgabe springen (auch mit Enter)
+      const mmZurNaechsten = () => {
+        clearTimeout(window.mmWeiterTimer);
+        if (finalModalShown) return;
+        const n = slides.length;
+        for (let k = 1; k <= n; k += 1) {
+          const i = (activeSlide + k) % n;
+          if (!taskDone(slides[i].dataset.taskId)) { setActiveSlide(i); return; }
+        }
+      };
+      window.mmZurNaechstenAufgabe = mmZurNaechsten;
+      if (!window.mmEnterWeiterGebunden) {
+        document.addEventListener('keydown', ev => {
+          const isEnter = ev.key === 'Enter' || ev.code === 'NumpadEnter';
+          if (!isEnter) return;
+          if (document.querySelector('.is-visible[id$="modal"], #name-modal-backdrop.is-visible')) return;
+          const aktiv = document.querySelector('#tasks .exercise.is-active');
+          const inp = aktiv && aktiv.querySelector('input');
+          if (inp && inp.disabled && typeof window.mmZurNaechstenAufgabe === 'function') {
+            ev.preventDefault();
+            window.mmZurNaechstenAufgabe();
+          }
+        });
+        window.mmEnterWeiterGebunden = true;
       }
 
       setActiveSlide = (idx) => {
