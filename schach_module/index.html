@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Schach-Spaß – Quantura</title>
 <script src="/core/js/core_init.js" defer></script>
+<script src="/core/js/spiel_audio.js"></script>
 <style>
 /* 2026-11-26: Schach-Spaß – Lernspiel Schach für Anfänger (gleiche Idee wie Mathe-Spaß)
    RU: шахматы для начинающих – уровни, звёзды, медали, звук */
@@ -148,7 +149,9 @@ const tonOk = () => ton([[660, 0, .15], [880, .12, .3]]);
 const tonNein = () => ton([[260, 0, .22], [200, .18, .3]]);
 const tonFanfare = () => ton([[523, 0, .16], [659, .16, .16], [784, .32, .16], [1047, .5, .7]]);
 function sprechen(t) {
+  if (window.SpielAudio) { window.SpielAudio.sagen(t, 'de'); return; }
   if (!('speechSynthesis' in window)) return;
+  t = Array.isArray(t) ? t.join(' ') : t;
   speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'de-DE'; u.rate = .95;
   const v = speechSynthesis.getVoices().find(x => /^de/i.test(x.lang)); if (v) u.voice = v; speechSynthesis.speak(u);
 }
@@ -284,7 +287,7 @@ function endeZeigen(sterne, zeile) {
   $('auswahl').onclick = () => { $('endeOverlay').classList.remove('zeigen'); startseite(); };
   setTimeout(() => ($('weiter') && sterne >= 2 ? $('weiter') : $('nochmal')).focus(), 100);
   if (sterne >= 2) { tonFanfare(); regen(sterne >= 3 ? 60 : 30); } else ton([[523, 0, .2], [659, .2, .35]]);
-  setTimeout(() => sprechen(sterne >= 1 ? `Hurra, ${wer}! ${text}` : `Gut gekämpft, ${wer}! Probier es gleich noch einmal.`), 800);
+  setTimeout(() => sprechen(sterne >= 1 ? [`Hurra, ${wer}!`, text] : [`Gut gekämpft, ${wer}!`, 'Probier es gleich noch einmal.']), 800);
 }
 
 // ---------- Level 0: die Figuren kennenlernen ----------
@@ -416,7 +419,7 @@ function spielerWahl() {
     let v = $('spieler').value;
     if (v === '__neu') { v = (prompt('Wie heißt du?') || '').trim(); if (!v) { spielerWahl(); return; }
       let l = []; try { l = JSON.parse(localStorage.getItem(SPIELER_KEY) || '[]'); } catch (e) {} if (!l.includes(v)) l.push(v); localStorage.setItem(SPIELER_KEY, JSON.stringify(l)); }
-    localStorage.setItem('schach_aktuell', v); spielerWahl(); startseite(); sprechen(`Hallo ${v}! Los geht's!`);
+    localStorage.setItem('schach_aktuell', v); spielerWahl(); startseite(); sprechen([`Hallo ${v}!`, "Los geht's!"]);
   };
 }
 $('zurStart').onclick = startseite;

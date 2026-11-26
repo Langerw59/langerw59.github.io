@@ -585,8 +585,13 @@ function tonRichtig() { mmTon([[660, 0, 0.15], [880, 0.12, 0.3]]); }
 function tonFalsch() { mmTon([[260, 0, 0.22, 'triangle'], [200, 0.18, 0.3, 'triangle']]); }
 function tonFanfare() { mmTon([[523, 0, 0.16, 'triangle'], [659, 0.16, 0.16, 'triangle'], [784, 0.32, 0.16, 'triangle'], [1047, 0.5, 0.7, 'triangle'], [784, 0.5, 0.7, 'sine'], [659, 0.5, 0.7, 'sine']]); }
 function tonSanft() { mmTon([[523, 0, 0.2], [659, 0.2, 0.35]]); }
-function sprechen(text) {
-  if (!tonAn() || !('speechSynthesis' in window)) return;
+// 2026-11-26: Sprechen mit schöner Stimme (MP3 aus /audio/spiele/), sonst Gerätestimme
+// teile: Text oder Liste von Satzteilen
+function sprechen(teile) {
+  if (!tonAn()) return;
+  if (window.SpielAudio) { window.SpielAudio.sagen(teile, mmSprache()); return; }
+  const text = Array.isArray(teile) ? teile.join(' ') : teile;
+  if (!('speechSynthesis' in window)) return;
   try {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -674,6 +679,11 @@ function aufgabeSprechbarEN(text) {
     .replace(/\?/g, ' what ').replace(/\s+/g, ' ').trim();
 }
 function vorlesen(text) {
+  if (window.SpielAudio) {
+    const teile = window.SpielAudio.aufgabeTeile(String(text).trim(), mmSprache());
+    if (teile) { window.SpielAudio.sagen(teile, mmSprache()); return; }
+    window.SpielAudio.stop();
+  }
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
   const en = mmSprache() === 'en';
@@ -1259,7 +1269,7 @@ function mmMenueAufbauen() {
   }));
   const ton = m.querySelector('#mm-ton');
   ton.checked = tonAn();
-  ton.onchange = () => { localStorage.setItem(TON_KEY, ton.checked ? '1' : '0'); if (ton.checked) sprechen('Ton ist an.'); else window.speechSynthesis?.cancel(); };
+  ton.onchange = () => { localStorage.setItem(TON_KEY, ton.checked ? '1' : '0'); if (ton.checked) sprechen(T('Ton ist an.', 'Sound is on.')); else window.speechSynthesis?.cancel(); };
   const en = m.querySelector('#mm-englisch');
   en.checked = localStorage.getItem(ENGLISCH_KEY) === '1';
   en.onchange = () => { localStorage.setItem(ENGLISCH_KEY, en.checked ? '1' : '0'); mmSchalterAnwenden(); };
@@ -1344,7 +1354,7 @@ function openNameModal() {
 
   const fertig = () => {
     const wer = getUserName();
-    if (wer) sprechen(T(`Hallo ${wer}! Team ${teamNameForAvatar(getAvatar())}. Los geht's!`, `Hello ${wer}! Team ${teamNameForAvatar(getAvatar())}. Let's go!`));
+    if (wer) sprechen([T(`Hallo ${wer}!`, `Hello ${wer}!`), `Team ${teamNameForAvatar(getAvatar())}.`, T("Los geht's!", "Let's go!")]);
     markGameActive(true);
     markWelcomeShown();
     overlay.classList.remove('is-visible');
@@ -2543,16 +2553,16 @@ function renderTasksForCurrentLevel() {
         const naechsterPreis = neueSterne >= 2 ? T('den Pokal', 'the trophy') : neueSterne >= 1 ? T('die Silbermedaille', 'the silver medal') : T('eine Medaille', 'a medal');
         if (neueSterne >= 3) {
           tonFanfare(); sterneRegen(60);
-          setTimeout(() => sprechen(T(`Hurra${wer ? ', ' + wer : ''}! Alle drei Sterne! ${bel.text}`, `Hooray${wer ? ', ' + wer : ''}! All three stars! ${bel.text}`)), 900);
+          setTimeout(() => sprechen([T(`Hurra${wer ? ', ' + wer : ''}!`, `Hooray${wer ? ', ' + wer : ''}!`), T('Alle drei Sterne!', 'All three stars!'), bel.text]), 900);
         } else if (neueSterne >= 2) {
           tonFanfare(); sterneRegen(30);
-          setTimeout(() => sprechen(T(`Super${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}. ${bel.text} Für den Pokal brauchst du drei Sterne.`, `Super${wer ? ', ' + wer : ''}! You have ${sterneSprechen(neueSterne)}. ${bel.text} For the trophy you need three stars.`)), 900);
+          setTimeout(() => sprechen([`Super${wer ? ', ' + wer : ''}!`, T(`Du hast ${sterneSprechen(neueSterne)}.`, `You have ${sterneSprechen(neueSterne)}.`), bel.text, T('Für den Pokal brauchst du drei Sterne.', 'For the trophy you need three stars.')]), 900);
         } else if (neueSterne >= 1) {
           tonSanft(); sterneRegen(12);
-          setTimeout(() => sprechen(T(`Gut gemacht${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}. ${bel.text} Schaffst du ${naechsterPreis}?`, `Well done${wer ? ', ' + wer : ''}! You have ${sterneSprechen(neueSterne)}. ${bel.text} Can you get ${naechsterPreis}?`)), 700);
+          setTimeout(() => sprechen([T(`Gut gemacht${wer ? ', ' + wer : ''}!`, `Well done${wer ? ', ' + wer : ''}!`), T(`Du hast ${sterneSprechen(neueSterne)}.`, `You have ${sterneSprechen(neueSterne)}.`), bel.text, T(`Schaffst du ${naechsterPreis}?`, `Can you get ${naechsterPreis}?`)]), 700);
         } else {
           tonSanft();
-          setTimeout(() => sprechen(T(`Gut gekämpft${wer ? ', ' + wer : ''}! Probier es gleich noch einmal.`, `Good effort${wer ? ', ' + wer : ''}! Try again right now.`)), 600);
+          setTimeout(() => sprechen([T(`Gut gekämpft${wer ? ', ' + wer : ''}!`, `Good effort${wer ? ', ' + wer : ''}!`), T('Probier es gleich noch einmal.', 'Try again right now.')]), 600);
         }
         const naechstesBtn = body?.querySelector('#mm-naechstes-level');
         const nochmalBtn = body?.querySelector('#mm-nochmal');
