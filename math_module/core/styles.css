@@ -733,3 +733,8 @@ body.mm-uebersicht #attemptTableWrap { display: block; max-width: 760px; margin:
 .sterne-regen { position: fixed; inset: 0; pointer-events: none; z-index: 100001; overflow: hidden; }
 .sterne-regen span { position: absolute; top: -50px; animation-name: sternFall; animation-timing-function: linear; animation-fill-mode: forwards; }
 @keyframes sternFall { 0% { transform: translateY(0) rotate(0); opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+/* 2026-11-26: „Nur Hintergrund“ – das Bild scharf und hell, ein kleiner Hinweis zum Zurückkehren */
+body.background-only #mmBild { filter: none !important; }
+body.background-only #bgOnlyExitLayer::after { content: "Antippen oder Esc = zurück zum Spiel"; position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+  background: rgba(0,0,0,0.45); color: #fff; padding: 6px 14px; border-radius: 999px; font-size: 14px; animation: bgHinweis 4s ease forwards; }
+@keyframes bgHinweis { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }

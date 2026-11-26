@@ -251,6 +251,8 @@ function collectBgOnlyTargets(layer, backgroundHost) {
   const children = Array.from(document.body.children);
   children.forEach(el => {
     if (el === layer) return;
+    // 2026-11-26: das Bild selbst NICHT verstecken (sonst bleibt nur das verschwommene)
+    if (el.id === 'mmBild' || el.id === 'mmBildUnscharf') return;
     if (backgroundHost !== document.body && el === backgroundHost) return;
     set.add(el);
   });
