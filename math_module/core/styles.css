@@ -738,3 +738,6 @@ body.background-only #mmBild { filter: none !important; }
 body.background-only #bgOnlyExitLayer::after { content: "Antippen oder Esc = zurück zum Spiel"; position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
   background: rgba(0,0,0,0.45); color: #fff; padding: 6px 14px; border-radius: 999px; font-size: 14px; animation: bgHinweis 4s ease forwards; }
 @keyframes bgHinweis { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+.belohnung-name { text-align: center; margin: 0 0 4px; font-weight: 800; color: #713f12; }
+#mm-nochmal { font-size: 1.15em !important; padding: 12px 22px !important; }
+#mm-naechstes-level.mm-klein { font-size: .95em !important; padding: 8px 14px !important; }

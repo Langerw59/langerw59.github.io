@@ -541,6 +541,14 @@ function mmTon(noten) { // [frequenz, start, dauer, wellenform]
     });
   } catch (e) { /* ohne Ton weiter */ }
 }
+// 2026-11-26: die Belohnung (die Auszeichnung) nach Sternen – der Pokal nur für 3 Sterne
+// RU: награда по звёздам: кубок только за 3 звезды, иначе медали
+function belohnung(n) {
+  if (n >= 3) return { zeichen: '🏆', name: 'der Pokal', text: 'Du bekommst den Pokal!' };
+  if (n >= 2) return { zeichen: '🥈', name: 'die Silbermedaille', text: 'Du bekommst die Silbermedaille!' };
+  if (n >= 1) return { zeichen: '🥉', name: 'die Bronzemedaille', text: 'Du bekommst die Bronzemedaille!' };
+  return { zeichen: '🏁', name: 'das Ziel', text: 'Du bist im Ziel!' };
+}
 function tonRichtig() { mmTon([[660, 0, 0.15], [880, 0.12, 0.3]]); }
 function tonFalsch() { mmTon([[260, 0, 0.22, 'triangle'], [200, 0.18, 0.3, 'triangle']]); }
 function tonFanfare() { mmTon([[523, 0, 0.16, 'triangle'], [659, 0.16, 0.16, 'triangle'], [784, 0.32, 0.16, 'triangle'], [1047, 0.5, 0.7, 'triangle'], [784, 0.5, 0.7, 'sine'], [659, 0.5, 0.7, 'sine']]); }
@@ -608,7 +616,7 @@ function rennbahn(geloest, gesamt) {
   tier.src = getAvatar() || AVATARS[0];
   tier.style.left = `calc(${anteil * 100}% - ${anteil * 44}px)`;
   bahn.querySelector('.rb-spur').style.width = `${anteil * 100}%`;
-  bahn.querySelector('.rb-ziel').textContent = anteil >= 1 ? '🏆' : '🏁';
+  bahn.querySelector('.rb-ziel').textContent = anteil >= 1 ? (bahn.dataset.belohnung || '🏁') : '🏁';
   bahn.classList.toggle('rb-fertig', anteil >= 1);
   bahn.title = `${geloest} von ${gesamt} Aufgaben gelöst`;
 }
@@ -2402,7 +2410,8 @@ function renderTasksForCurrentLevel() {
         const html = `
           <div class="ende-grid">
           <div class="ende-links">
-          <div class="pokal">🏆</div>
+          <div class="pokal">${belohnung(neueSterne).zeichen}</div>
+          <p class="belohnung-name">${belohnung(neueSterne).text}</p>
           <div class="sterne-gross">${sterneHTML(neueSterne)}</div>
           <p class="sterne-zahl-ende">${bruchText(neueSterne)} von 3 Sternen</p>
           <p class="sterne-lob">${lob}</p>
@@ -2414,7 +2423,10 @@ function renderTasksForCurrentLevel() {
             <p class="kind-regel">1. Versuch = 3 Punkte · 2. Versuch = 2 · 3. Versuch = 1</p>
           </div>
           </div>
-          ${mmLevelListe().some(x => String(x.level ?? x.id) === String(Number(levelId) + 1)) ? `<p style="text-align:center"><button type="button" class="pill btn-primary" id="mm-naechstes-level">▶ Nächstes Level: ${escapeHtml(mmLevelTitel(Number(levelId) + 1))}</button></p>` : ''}
+          <p style="text-align:center">
+          ${neueSterne < 2 ? `<button type="button" class="pill btn-primary" id="mm-nochmal">🔁 Nochmal – für mehr Sterne</button> ` : ''}
+          ${mmLevelListe().some(x => String(x.level ?? x.id) === String(Number(levelId) + 1)) ? `<button type="button" class="pill ${neueSterne < 2 ? 'btn-secondary mm-klein' : 'btn-primary'}" id="mm-naechstes-level">▶ Nächstes Level: ${escapeHtml(mmLevelTitel(Number(levelId) + 1))}</button>` : ''}
+          </p>
           <details class="erwachsene"><summary>Für Erwachsene: alle Zahlen</summary>
           <div class="summary">
             <h3>Auswertung</h3>
@@ -2456,18 +2468,32 @@ function renderTasksForCurrentLevel() {
         const restartBtn = body?.querySelector('#restart-level-end');
         const backBtn = body?.querySelector('#back-to-levels-end');
         if (restartBtn) restartBtn.onclick = () => { resetRun(levelId); location.reload(); };
-        rennbahn(1, 1); // am Ende immer im Ziel – der Pokal
+        const bahnEl = document.getElementById('mmRennbahn');
+        if (bahnEl) bahnEl.dataset.belohnung = belohnung(neueSterne).zeichen;
+        rennbahn(1, 1); // am Ende immer im Ziel – mit Pokal oder Medaille
         // Jubel: Fanfare, Sternregen, „Hurra“ – RU: фанфары, звёздный дождь, «ура»
         const wer = getUserName() || '';
-        if (neueSterne >= 1) {
-          tonFanfare(); sterneRegen(neueSterne >= 3 ? 60 : 35);
-          setTimeout(() => sprechen(`Hurra${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}!`), 900);
+        const bel = belohnung(neueSterne);
+        const naechsterPreis = neueSterne >= 2 ? 'den Pokal' : neueSterne >= 1 ? 'die Silbermedaille' : 'eine Medaille';
+        if (neueSterne >= 3) {
+          tonFanfare(); sterneRegen(60);
+          setTimeout(() => sprechen(`Hurra${wer ? ', ' + wer : ''}! Alle drei Sterne! ${bel.text}`), 900);
+        } else if (neueSterne >= 2) {
+          tonFanfare(); sterneRegen(30);
+          setTimeout(() => sprechen(`Super${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}. ${bel.text} Für den Pokal brauchst du drei Sterne.`), 900);
+        } else if (neueSterne >= 1) {
+          tonSanft(); sterneRegen(12);
+          setTimeout(() => sprechen(`Gut gemacht${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}. ${bel.text} Schaffst du ${naechsterPreis}?`), 700);
         } else {
           tonSanft();
           setTimeout(() => sprechen(`Gut gekämpft${wer ? ', ' + wer : ''}! Probier es gleich noch einmal.`), 600);
         }
         const naechstesBtn = body?.querySelector('#mm-naechstes-level');
-        if (naechstesBtn) { naechstesBtn.onclick = () => mmLevelStarten(Number(levelId) + 1); setTimeout(() => naechstesBtn.focus(), 100); }
+        const nochmalBtn = body?.querySelector('#mm-nochmal');
+        if (nochmalBtn) nochmalBtn.onclick = () => { resetRun(levelId); location.reload(); };
+        if (naechstesBtn) naechstesBtn.onclick = () => mmLevelStarten(Number(levelId) + 1);
+        const fokus = nochmalBtn || naechstesBtn;
+        if (fokus) setTimeout(() => fokus.focus(), 100);
         if (backBtn) backBtn.onclick = () => {
           stopTaskTimer();
           markTestRunning(false);
