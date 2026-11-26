@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Die Gleichungen – Formeln umstellen – Kurs 1 Mathematik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-26: Lektion 9 – erstellt mit Claude. Buch A 9. Vorgezogen, weil das ohmsche Gesetz (ET Lektion 3) es braucht. -->
+    <link rel="stylesheet" href="../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../et.css" />
+    <script src="../../../../core/js/core_init.js" defer></script>
+    <style>
+      .fu-tab { width: 100%; border-collapse: collapse; margin: 10px 0; }
+      .fu-tab th, .fu-tab td { border: 1px solid var(--border-subtle); padding: 6px 8px; text-align: center; }
+      .fu-tab th { background: var(--accent-soft); }
+      .fu-tab .f { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.15em; white-space: nowrap; }
+      .fu-schritte { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.15em; line-height: 1.9; margin: 8px 0 8px 12px; }
+      .fu-schritte .op { color: var(--accent); font-family: sans-serif; font-size: .8em; margin-left: 14px; }
+      .waage { width: 100%; max-width: 460px; display: block; margin: 10px auto; }
+      .waage text { font-family: "Cambria Math", "Times New Roman", serif; fill: var(--text-main); }
+      .tr-aufgabe { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.5em; text-align: center; margin: 10px 0; }
+      .tr-frage { text-align: center; margin-bottom: 8px; }
+      .tr-wahl { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; max-width: 640px; margin: 0 auto; }
+      .tr-wahl button { font-family: "Cambria Math", "Times New Roman", serif; font-size: 1.2em; padding: 10px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); cursor: pointer; }
+      .tr-wahl button.richtig { background: #1a7f37; color: #fff; border-color: #1a7f37; }
+      .tr-wahl button.falsch { background: #cf222e; color: #fff; border-color: #cf222e; }
+      .tr-zeile { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+      .tr-zeile button { font-size: 1em; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }
+      .tr-meldung { text-align: center; margin-top: 10px; min-height: 1.5em; }
+      .tr-weg { text-align: center; color: var(--text-muted); font-family: "Cambria Math", "Times New Roman", serif; }
+      .tr-stand { text-align: center; font-size: .9em; color: var(--text-muted); margin-top: 6px; }
+      .fussnote { font-size: .85em; color: var(--text-muted); border-top: 1px dashed var(--border-subtle); margin-top: 8px; padding-top: 6px; }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="../index.html">Elektrotechnik</a> › <a href="index.html">Kurs 1 – die Mathematik</a> › Lektion 9 · Buch A 9</p>
+        <h1>Die Gleichungen – Formeln umstellen</h1>
+        <p class="hint-text">Как «переставить» формулу, чтобы найти нужную величину. Без этого не работает ни закон Ома, ни любая другая формула электротехники.</p>
+
+        <div class="et-box">
+          <h3>⚡ Wofür? / зачем</h3>
+          <p>Diese Lektion ist <b>vorgezogen</b>: Sie wird sofort gebraucht in
+            <a href="../etage-1/03-ohmsches-gesetz.html">Elektrotechnik, Lektion 3: das ohmsche Gesetz</a>
+            (U = R · I → I = ? → R = ?) und schon in Lektion 2 (R = ρ · l / A → l = ?).</p>
+        </div>
+
+        <p class="hint-text inhalt"><b>der Inhalt:</b>
+          <a href="#a1">1. Die Wörter</a> · <a href="#a2">2. Die Regel: die Waage</a> · <a href="#a3">3. Die Gegenoperationen</a> ·
+          <a href="#a4">4. Das Rezept</a> · <a href="#a5">5. Die Beispiele</a> · <a href="#a6">6. Der Trainer</a> ·
+          <a href="#a7">7. Die Aufgaben</a> · <a href="#a8">8. Die Anwendung in der Elektrotechnik</a></p>
+
+        <!-- ===== 1. Wörter ===== -->
+        <h2 id="a1">1. Die Wörter</h2>
+        <table class="et-woerter">
+          <tr><td>die Gleichung</td><td>уравнение (левая часть = правая часть)</td></tr>
+          <tr><td>die Formel</td><td>формула – уравнение с буквами-величинами</td></tr>
+          <tr><td>die linke Seite · die rechte Seite</td><td>левая часть · правая часть</td></tr>
+          <tr><td>das Gleichheitszeichen (=)</td><td>знак равенства</td></tr>
+          <tr><td>die gesuchte Größe</td><td>искомая величина</td></tr>
+          <tr><td>die Formel umstellen · nach <i>x</i> auflösen</td><td>выразить <i>x</i> из формулы</td></tr>
+          <tr><td>die Äquivalenzumformung</td><td>равносильное преобразование</td></tr>
+          <tr><td>die Gegenoperation · die Umkehroperation</td><td>обратное действие</td></tr>
+          <tr><td>der Kehrwert</td><td>обратная величина (перевёрнутая дробь)</td></tr>
+          <tr><td>die Seiten vertauschen</td><td>поменять части местами</td></tr>
+        </table>
+        <div class="fussnote">
+          ¹ <b>Gleichbedeutend:</b> „die Formel umstellen“ = „nach <i>x</i> auflösen“ = „<i>x</i> freistellen / isolieren“ = die Umformung ≈ die Äquivalenzumformung (fachlich genau).
+          „Der Kehrwert“ = der reziproke Wert = das Reziproke. „Die Gegenoperation“ = die Umkehroperation = die inverse Operation.
+          → <a href="../../glossar.html">📘 das Fachglossar</a>
+        </div>
+
+        <!-- ===== 2. Waage ===== -->
+        <h2 id="a2">2. Die Regel: die Waage</h2>
+        <p>Eine Gleichung ist wie <b>eine Waage im Gleichgewicht</b>. Man darf alles machen – aber <b>immer auf beiden Seiten gleich</b>.
+          Dann bleibt die Waage im Gleichgewicht, und die Gleichung bleibt richtig.</p>
+        <svg class="waage" viewBox="0 0 460 170" aria-label="Waage: linke Seite gleich rechte Seite">
+          <polygon points="230,150 210,165 250,165" fill="var(--accent)" />
+          <line x1="230" y1="150" x2="230" y2="55" stroke="var(--text-main)" stroke-width="4" />
+          <line x1="60" y1="55" x2="400" y2="55" stroke="var(--text-main)" stroke-width="5" />
+          <line x1="80" y1="55" x2="80" y2="95" stroke="var(--text-main)" /><line x1="380" y1="55" x2="380" y2="95" stroke="var(--text-main)" />
+          <rect x="20" y="95" width="120" height="44" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" />
+          <rect x="320" y="95" width="120" height="44" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" />
+          <text x="80" y="125" font-size="24" text-anchor="middle">U</text>
+          <text x="380" y="125" font-size="24" text-anchor="middle">R · I</text>
+          <text x="230" y="40" font-size="28" text-anchor="middle">=</text>
+          <text x="80" y="30" font-size="14" text-anchor="middle" style="font-family:sans-serif">die linke Seite</text>
+          <text x="380" y="30" font-size="14" text-anchor="middle" style="font-family:sans-serif">die rechte Seite</text>
+        </svg>
+        <p class="hint-text">Уравнение – как весы в равновесии: любое действие делаем с обеими частями сразу. «Перенос через знак равенства с другим знаком» – это сокращённая запись того же самого.</p>
+
+        <!-- ===== 3. Gegenoperationen ===== -->
+        <h2 id="a3">3. Die Gegenoperationen</h2>
+        <p>Um eine Größe „frei“ zu bekommen, macht man mit ihr das <b>Gegenteil</b> von dem, was gerade mit ihr gemacht wird:</p>
+        <table class="fu-tab">
+          <tr><th>steht da …</th><th>die Gegenoperation</th><th>das Beispiel</th></tr>
+          <tr><td>+ (plus)</td><td>− auf beiden Seiten</td><td class="f">x + 5 = 12 &nbsp;| −5 &nbsp;→ x = 7</td></tr>
+          <tr><td>− (minus)</td><td>+ auf beiden Seiten</td><td class="f">x − 3 = 10 &nbsp;| +3 &nbsp;→ x = 13</td></tr>
+          <tr><td>· (mal)</td><td>: auf beiden Seiten</td><td class="f">4 · x = 20 &nbsp;| :4 &nbsp;→ x = 5</td></tr>
+          <tr><td>: (geteilt)</td><td>· auf beiden Seiten</td><td class="f">x / 3 = 6 &nbsp;| ·3 &nbsp;→ x = 18</td></tr>
+          <tr><td>x² (hoch 2)</td><td>√ auf beiden Seiten</td><td class="f">x² = 49 &nbsp;| √ &nbsp;→ x = 7</td></tr>
+          <tr><td>x steht im Nenner</td><td>· x, dann weiter</td><td class="f">12 / x = 4 &nbsp;| ·x &nbsp;→ 12 = 4x &nbsp;| :4 → x = 3</td></tr>
+        </table>
+        <p class="hint-text">Hinter dem Strich | schreibt man, was man auf beiden Seiten macht – so sieht man jeden Schritt. (Так принято в немецких школах.)</p>
+
+        <!-- ===== 4. Rezept ===== -->
+        <h2 id="a4">4. Das Rezept – in 4 Schritten</h2>
+        <div class="et-box">
+          <ol>
+            <li><b>Markieren:</b> Wo steht die gesuchte Größe? <span class="hint-text">Где стоит искомая?</span></li>
+            <li><b>Fragen:</b> Was wird mit ihr gemacht (mal? geteilt? plus? steht sie unten im Bruch?)</li>
+            <li><b>Gegenoperation</b> auf beiden Seiten – von außen nach innen: zuerst Plus/Minus, dann Mal/Geteilt, zuletzt Potenz/Wurzel.</li>
+            <li><b>Seiten vertauschen</b>, damit die gesuchte Größe links steht – und <b>die Probe</b> mit Zahlen machen.</li>
+          </ol>
+        </div>
+
+        <!-- ===== 5. Beispiele ===== -->
+        <h2 id="a5">5. Die Beispiele aus der Elektrotechnik</h2>
+
+        <h3>a) Das ohmsche Gesetz: U = R · I &nbsp;→ I = ?</h3>
+        <div class="fu-schritte">
+          U = R · I <span class="op">| : R &nbsp;(I wird mit R malgenommen → durch R teilen)</span><br />
+          U / R = I <span class="op">| Seiten vertauschen</span><br />
+          <b>I = U / R</b>
+        </div>
+        <p class="hint-text">Die Probe: U = 12 V, R = 4 Ω → I = 12 / 4 = 3 A. Und zurück: 4 · 3 = 12 ✓</p>
+
+        <h3>b) Dasselbe nach R: U = R · I &nbsp;→ R = ?</h3>
+        <div class="fu-schritte">
+          U = R · I <span class="op">| : I</span><br />
+          <b>R = U / I</b>
+        </div>
+
+        <h3>c) Der Leiterwiderstand: R = ρ · l / A &nbsp;→ l = ? (ET Lektion 2, Aufgabe 4)</h3>
+        <div class="fu-schritte">
+          R = ρ · l / A <span class="op">| · A &nbsp;(l wird durch A geteilt → mit A malnehmen)</span><br />
+          R · A = ρ · l <span class="op">| : ρ</span><br />
+          <b>l = R · A / ρ</b>
+        </div>
+
+        <h3>d) Dieselbe Formel nach A: R = ρ · l / A &nbsp;→ A = ? (A steht im Nenner!)</h3>
+        <div class="fu-schritte">
+          R = ρ · l / A <span class="op">| · A</span><br />
+          R · A = ρ · l <span class="op">| : R</span><br />
+          <b>A = ρ · l / R</b>
+        </div>
+        <p class="hint-text">Merke: Steht die gesuchte Größe <b>unten</b> (im Nenner), zuerst mit ihr <b>malnehmen</b> – dann ist sie oben.</p>
+
+        <h3>e) Die Leistung (ET Lektion 6): P = I² · R &nbsp;→ I = ?</h3>
+        <div class="fu-schritte">
+          P = I² · R <span class="op">| : R</span><br />
+          P / R = I² <span class="op">| √</span><br />
+          <b>I = √(P / R)</b>
+        </div>
+
+        <h3>f) Die Temperatur (ET Lektion 2): R<sub>T</sub> = R<sub>20</sub> · (1 + α · ΔT) &nbsp;→ ΔT = ?</h3>
+        <div class="fu-schritte">
+          R<sub>T</sub> = R<sub>20</sub> · (1 + α · ΔT) <span class="op">| : R<sub>20</sub> &nbsp;(von außen nach innen!)</span><br />
+          R<sub>T</sub> / R<sub>20</sub> = 1 + α · ΔT <span class="op">| − 1</span><br />
+          R<sub>T</sub> / R<sub>20</sub> − 1 = α · ΔT <span class="op">| : α</span><br />
+          <b>ΔT = (R<sub>T</sub> / R<sub>20</sub> − 1) / α</b>
+        </div>
+        <p class="hint-text">Das ist eine echte Anwendung: So misst man die <b>Temperatur einer Motorwicklung</b> – nur mit dem Ohmmeter!</p>
+
+        <div class="et-box">
+          <h3>Das Formeldreieck – und seine Grenze</h3>
+          <p>Für Formeln der Form <b>a = b · c</b> (U = R · I, P = U · I, Q = I · t) hilft das Dreieck:
+            <i>a</i> oben, <i>b</i> und <i>c</i> unten. Für c), d), e), f) funktioniert es <b>nicht</b> – dort hilft nur das Umstellen.</p>
+        </div>
+
+        <!-- ===== 6. Trainer ===== -->
+        <h2 id="a6">6. Der Trainer – welche Umstellung ist richtig?</h2>
+        <div class="et-box">
+          <div class="tr-aufgabe" id="trFormel"></div>
+          <div class="tr-frage" id="trFrage"></div>
+          <div class="tr-wahl" id="trWahl"></div>
+          <div class="tr-meldung" id="trMeldung"></div>
+          <div class="tr-weg" id="trWeg"></div>
+          <div class="tr-zeile"><button type="button" id="trNeu">Neue Aufgabe →</button></div>
+          <div class="tr-stand" id="trStand"></div>
+        </div>
+
+        <!-- ===== 7. Aufgaben ===== -->
+        <h2 id="a7">7. Die Aufgaben</h2>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – zum Aufwärmen</h4>
+          <p>Löse nach <i>x</i> auf: &nbsp; a) 3x + 4 = 19 &nbsp; b) x / 5 − 2 = 6 &nbsp; c) 2(x − 3) = 14</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) 3x = 15 → <b>x = 5</b> &nbsp; b) x / 5 = 8 → <b>x = 40</b> &nbsp; c) x − 3 = 7 → <b>x = 10</b><br />
+              (Bei c) zuerst durch 2 teilen – von außen nach innen.)</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – die Ladung</h4>
+          <p>Q = I · t. Stelle nach <i>t</i> um. Wie lange dauert es, bis ein Akku mit 2 Ah bei 0,5 A leer ist?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung"><b>t = Q / I</b> = 2 Ah / 0,5 A = <b>4 h</b></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – die Leistung</h4>
+          <p>P = U · I. Ein Heizlüfter hat 2000 W an 230 V. Wie groß ist der Strom? Stelle zuerst um.</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung"><b>I = P / U</b> = 2000 W / 230 V ≈ <b>8,7 A</b> (die Sicherung 16 A hält).</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – der Querschnitt</h4>
+          <p>R = ρ · l / A. Eine Kupferleitung (ρ = 0,0178) soll bei 40 m Gesamtlänge höchstens 0,3 Ω haben. Welcher Querschnitt ist nötig?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung"><b>A = ρ · l / R</b> = 0,0178 · 40 / 0,3 ≈ 2,37 mm² → genormt: <b>2,5 mm²</b>.<br />
+              (Das ist schon die Leitungsberechnung – Elektrotechnik, Lektion 7!)</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – mit Wurzel</h4>
+          <p>P = U² / R. Stelle nach <i>U</i> um. Welche Spannung braucht ein Widerstand von 100 Ω für 4 W?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">P = U² / R &nbsp;| ·R → P · R = U² &nbsp;| √ → <b>U = √(P · R)</b> = √(4 · 100) = √400 = <b>20 V</b></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 6 – die warme Wicklung rückwärts</h4>
+          <p>Eine Kupferwicklung (α = 0,0039 1/K) hat kalt (20 °C) 10 Ω, warm 11,56 Ω. Wie warm ist sie?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">ΔT = (R<sub>T</sub> / R<sub>20</sub> − 1) / α = (11,56 / 10 − 1) / 0,0039 = 0,156 / 0,0039 = 40 K<br />
+              → Temperatur = 20 °C + 40 K = <b>60 °C</b></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 7 – Vorschau: die Parallelschaltung</h4>
+          <p>1/R = 1/R₁ + 1/R₂. Wie groß ist R für R₁ = 6 Ω und R₂ = 3 Ω? (Dafür braucht man <b>die Brüche</b> – Kurs 1, Lektion 4!)</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">1/R = 1/6 + 2/6 = 3/6 = 1/2 → der Kehrwert: <b>R = 2 Ω</b>.<br />
+              Merke: Am Ende <b>den Kehrwert</b> bilden (die Brüche umdrehen) – auf beiden Seiten!</div>
+          </details>
+        </div>
+
+        <!-- ===== 8. Anwendung ===== -->
+        <h2 id="a8">8. Die Anwendung in der Elektrotechnik</h2>
+        <table class="fu-tab">
+          <tr><th>die Formel</th><th>umgestellt</th><th>wo?</th></tr>
+          <tr><td class="f">U = R · I</td><td class="f">I = U / R &nbsp;·&nbsp; R = U / I</td><td><a href="../etage-1/03-ohmsches-gesetz.html">ET 3: das ohmsche Gesetz</a></td></tr>
+          <tr><td class="f">R = ρ · l / A</td><td class="f">l = R · A / ρ &nbsp;·&nbsp; A = ρ · l / R</td><td><a href="../etage-1/02-leiter-widerstand.html">ET 2: der Leiter</a></td></tr>
+          <tr><td class="f">Q = I · t</td><td class="f">I = Q / t &nbsp;·&nbsp; t = Q / I</td><td><a href="../etage-1/01-ladung-strom-spannung.html">ET 1: der Akku</a></td></tr>
+          <tr><td class="f">P = U · I</td><td class="f">I = P / U &nbsp;·&nbsp; U = P / I</td><td>ET 6: die Leistung</td></tr>
+          <tr><td class="f">P = I² · R</td><td class="f">I = √(P / R)</td><td>ET 6: die Leistung</td></tr>
+          <tr><td class="f">R<sub>T</sub> = R<sub>20</sub>(1 + αΔT)</td><td class="f">ΔT = (R<sub>T</sub>/R<sub>20</sub> − 1)/α</td><td>ET 2: die Temperatur</td></tr>
+        </table>
+
+        <div class="et-nav">
+          <a href="03-primzahlen.html">← Lektion 3: die Primzahlen</a>
+          <a href="index.html">Kurs 1 – Übersicht</a>
+          <a href="../etage-1/03-ohmsches-gesetz.html">→ Elektrotechnik 3: das ohmsche Gesetz</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        // [Formel, gesucht, richtig, [falsche …], Weg]
+        const A = [
+          ["U = R · I", "I", "I = U / R", ["I = U · R", "I = R / U"], "| : R → I = U / R"],
+          ["U = R · I", "R", "R = U / I", ["R = U · I", "R = I / U"], "| : I → R = U / I"],
+          ["P = U · I", "U", "U = P / I", ["U = P · I", "U = I / P"], "| : I → U = P / I"],
+          ["Q = I · t", "t", "t = Q / I", ["t = Q · I", "t = I / Q"], "| : I → t = Q / I"],
+          ["I = U / R", "U", "U = I · R", ["U = I / R", "U = R / I"], "| · R → U = I · R"],
+          ["I = U / R", "R", "R = U / I", ["R = U · I", "R = I / U"], "| · R → I · R = U | : I → R = U / I"],
+          ["R = ρ · l / A", "l", "l = R · A / ρ", ["l = R · ρ / A", "l = ρ · A / R"], "| · A → R · A = ρ · l | : ρ"],
+          ["R = ρ · l / A", "A", "A = ρ · l / R", ["A = R · l / ρ", "A = R / (ρ · l)"], "| · A → R · A = ρ · l | : R"],
+          ["R = ρ · l / A", "ρ", "ρ = R · A / l", ["ρ = R · l / A", "ρ = l · A / R"], "| · A → R · A = ρ · l | : l"],
+          ["P = I² · R", "I", "I = √(P / R)", ["I = P / R²", "I = √P / R", "I = (P / R)²"], "| : R → I² = P / R | √"],
+          ["P = U² / R", "R", "R = U² / P", ["R = P / U²", "R = P · U²"], "| · R → P · R = U² | : P"],
+          ["P = U² / R", "U", "U = √(P · R)", ["U = √(P / R)", "U = P · R²"], "| · R → P · R = U² | √"],
+          ["W = P · t", "P", "P = W / t", ["P = W · t", "P = t / W"], "| : t → P = W / t"],
+          ["x + a = b", "x", "x = b − a", ["x = b + a", "x = a − b"], "| − a → x = b − a"],
+          ["a · x − b = c", "x", "x = (c + b) / a", ["x = (c − b) / a", "x = c / a + b"], "| + b → a·x = c + b | : a"],
+          ["G = 1 / R", "R", "R = 1 / G", ["R = G", "R = 1 − G"], "der Kehrwert auf beiden Seiten"],
+        ];
+        const KEY = "quantura_mathe_umstellen_trainer";
+        let st = { r: 0, n: 0 }; try { st = Object.assign(st, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+        let akt, beantwortet;
+        const mische = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+        function neu() {
+          const alt = akt; do { akt = A[Math.floor(Math.random() * A.length)]; } while (akt === alt);
+          beantwortet = false;
+          $("trFormel").textContent = akt[0];
+          $("trFrage").innerHTML = "Stelle nach <b>" + akt[1] + "</b> um:";
+          $("trMeldung").textContent = ""; $("trWeg").textContent = "";
+          const opt = mische([akt[2]].concat(akt[3]));
+          $("trWahl").innerHTML = opt.map((o) => '<button type="button">' + o + "</button>").join("");
+        }
+        $("trWahl").addEventListener("click", (e) => {
+          const b = e.target.closest("button"); if (!b || beantwortet) return;
+          beantwortet = true;
+          const ok = b.textContent === akt[2];
+          st.n++; if (ok) st.r++; try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (x) {}
+          $("trWahl").querySelectorAll("button").forEach((x) => { if (x.textContent === akt[2]) x.classList.add("richtig"); });
+          if (!ok) b.classList.add("falsch");
+          $("trMeldung").innerHTML = ok ? "✅ <b>Richtig!</b>" : "❌ Nicht ganz – richtig ist <b>" + akt[2] + "</b>";
+          $("trWeg").textContent = akt[0] + "   " + akt[4];
+          stand();
+        });
+        function stand() { $("trStand").textContent = "Richtig: " + st.r + " von " + st.n + (st.n ? " (" + Math.round(100 * st.r / st.n) + " %)" : ""); }
+        $("trNeu").addEventListener("click", neu);
+        stand(); neu();
+      })();
+    </script>
+  </body>
+</html>

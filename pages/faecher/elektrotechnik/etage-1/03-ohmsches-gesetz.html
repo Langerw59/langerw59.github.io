@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Das ohmsche Gesetz – Elektrotechnik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-26: Lektion 3 – erstellt mit Claude. Buch C 1.1 (S. 46). -->
+    <link rel="stylesheet" href="../../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../et.css" />
+    <script src="../../../../core/js/core_init.js" defer></script>
+    <style>
+      .oh-dreieck { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; align-items: center; }
+      .oh-dreieck svg { width: 220px; height: auto; cursor: pointer; }
+      .oh-dreieck svg text { font-family: "Cambria Math", "Times New Roman", serif; fill: var(--text-main); }
+      .oh-dreieck svg .zu { opacity: .25; }
+      .oh-knoepfe { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin: 6px 0; }
+      .oh-knoepfe button, .tr-zeile button { font-size: 1em; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+      .oh-knoepfe button.zweit, .tr-zeile button.zweit { background: transparent; color: var(--accent); }
+      .oh-vors { width: 100%; border-collapse: collapse; margin: 10px 0; }
+      .oh-vors th, .oh-vors td { border: 1px solid var(--border-subtle); padding: 6px 8px; text-align: center; }
+      .oh-vors th { background: var(--accent-soft); }
+      .kl-svg { width: 100%; max-width: 560px; display: block; margin: 10px auto; }
+      .kl-svg text { font-family: sans-serif; fill: var(--text-main); font-size: 13px; }
+      .kl-svg .gitter { stroke: var(--border-subtle); stroke-width: 1; }
+      .kl-svg .achse { stroke: var(--text-main); stroke-width: 1.5; }
+      .kl-regler { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; }
+      .kl-regler input[type=range] { width: 220px; }
+      .tr-aufgabe { font-size: 1.15em; text-align: center; margin: 10px 0; }
+      .tr-zeile { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; align-items: center; }
+      .tr-zeile input { width: 140px; font-size: 1.2em; padding: 6px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); text-align: center; }
+      .tr-meldung { text-align: center; margin-top: 10px; min-height: 1.5em; }
+      .tr-weg { text-align: center; color: var(--text-muted); font-family: "Cambria Math", "Times New Roman", serif; }
+      .tr-stand { text-align: center; font-size: .9em; color: var(--text-muted); margin-top: 6px; }
+      .oh-gefahr { border: 2px solid #cf222e; border-radius: 10px; padding: 10px 14px; margin: 14px 0; }
+      .messtab { width: 100%; border-collapse: collapse; margin: 8px 0; }
+      .messtab th, .messtab td { border: 1px solid var(--border-subtle); padding: 6px; text-align: center; }
+      .messtab th { background: var(--accent-soft); }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="../index.html">Elektrotechnik</a> › Etage 1 – die Grundlagen › Lektion 3 · Buch C 1.1 (S. 46)</p>
+        <h1>Das ohmsche Gesetz</h1>
+        <p class="hint-text">Закон Ома – связь между напряжением, током и сопротивлением. Самый главный закон электротехники: на нём держится всё остальное.</p>
+
+        <div class="et-box">
+          <h3>🧮 Die Mathematik dazu</h3>
+          <p>Hier braucht man nur eins: <b>die Formel umstellen</b>.
+            → <a href="../kurs-1-mathematik/09-formeln-umstellen.html">Kurs 1, Lektion 9: die Gleichungen – Formeln umstellen</a><br />
+            <span class="hint-text">Математика ровно тогда, когда она нужна: перед этим уроком (или параллельно) – урок «Formeln umstellen».</span></p>
+        </div>
+
+        <p class="hint-text inhalt"><b>der Inhalt:</b>
+          <a href="#a1">1. Die Theorie</a> · <a href="#a2">2. Das Formeldreieck</a> · <a href="#a3">3. Die Vorsätze: mA, kΩ</a> ·
+          <a href="#a4">4. Die Kennlinie</a> · <a href="#a5">5. Der Rechner</a> · <a href="#a6">6. Der Trainer</a> ·
+          <a href="#a7">7. Die Aufgaben</a> · <a href="#a8">8. Der Versuch</a> · <a href="#a9">9. Zum Ansehen</a> · <a href="#a10">10. Die Wörter</a></p>
+
+        <!-- ===== 1. Theorie ===== -->
+        <h2 id="a1">1. Die Theorie</h2>
+        <p>
+          In Lektion 1 haben wir gelernt: <b>die Spannung</b> <i>U</i> „drückt“, <b>der Strom</b> <i>I</i> fließt.
+          In Lektion 2: <b>der Widerstand</b> <i>R</i> „bremst“. Jetzt die Frage: <b>Wie hängen die drei zusammen?</b>
+        </p>
+        <p>
+          <b>Der Versuch</b> (Georg Simon Ohm, 1826): An einen Widerstand legt man nacheinander 2 V, 4 V, 6 V … und misst den Strom.
+          Ergebnis: <b>doppelte Spannung → doppelter Strom</b>. Strom und Spannung sind <b>proportional</b> (пропорциональны).
+          Ein größerer Widerstand lässt bei gleicher Spannung weniger Strom durch.
+        </p>
+
+        <div class="et-box">
+          <h3>Das ohmsche Gesetz</h3>
+          <div class="et-formel">I = U / R &nbsp;&nbsp;⇔&nbsp;&nbsp; U = R · I &nbsp;&nbsp;⇔&nbsp;&nbsp; R = U / I</div>
+          <p><i>U</i> in V (Volt), <i>I</i> in A (Ampere), <i>R</i> in Ω (Ohm). &nbsp; <b>1 Ω = 1 V / 1 A</b>.<br />
+            In Worten: <b>Die Stromstärke ist umso größer, je größer die Spannung und je kleiner der Widerstand ist.</b></p>
+          <p class="hint-text">Ток тем больше, чем больше напряжение и чем меньше сопротивление. 1 Ом – это сопротивление, через которое при 1 В течёт 1 А.</p>
+        </div>
+
+        <p>
+          <b>Das Wassermodell:</b> die Spannung = der Druck der Pumpe, der Strom = wie viel Wasser pro Sekunde fließt,
+          der Widerstand = ein enges Rohr. Mehr Druck → mehr Wasser. Engeres Rohr → weniger Wasser.
+        </p>
+
+        <p>
+          <b>Achtung:</b> Das Gesetz gilt genau nur, wenn <i>R</i> konstant bleibt – solche Bauteile heißen <b>ohmsche Widerstände</b>
+          (z. B. ein Metallschichtwiderstand, Konstantan). Bei einer Glühlampe wird der Draht heiß, <i>R</i> steigt (Lektion 2: die Temperatur!) –
+          dann ist der Zusammenhang <b>nicht linear</b>. Bei der Diode und der LED sowieso nicht (→ Etage 4).
+        </p>
+
+        <div class="oh-gefahr">
+          <b>⚠ Die Sicherheit – warum der Strom gefährlich ist</b><br />
+          Für den Menschen ist <b>der Strom</b> durch den Körper gefährlich, nicht die Spannung allein. Der Körperwiderstand
+          (Hand – Hand) liegt grob bei <b>1000 Ω</b>. An 230 V: I = 230 V / 1000 Ω = 0,23 A = <b>230 mA</b>.
+          Schon ab ca. <b>50 mA</b> kann das Herz aus dem Takt kommen (das Kammerflimmern).
+          Deshalb: Der <b>FI-Schalter</b> schaltet schon bei <b>30 mA</b> Fehlerstrom ab (→ Etage 3).
+          <div class="hint-text">Опасен ток через тело. 230 В / ~1000 Ом ≈ 230 мА – смертельно. Поэтому FI-Schalter (УЗО) срабатывает уже при 30 мА.</div>
+        </div>
+
+        <p class="hint-text">Der Name: <b>Georg Simon Ohm</b> (1789–1854), Lehrer für Mathematik und Physik aus Erlangen.
+          Zuerst glaubte man ihm nicht – heute trägt die Einheit des Widerstands seinen Namen. → <a href="../../glossar.html">📘 das Fachglossar: das ohmsche Gesetz</a></p>
+
+        <!-- ===== 2. Formeldreieck ===== -->
+        <h2 id="a2">2. Das Formeldreieck</h2>
+        <p>Eine Merkhilfe: <b>U oben</b>, <b>R und I unten</b>. Die gesuchte Größe zuhalten – der Rest zeigt die Formel:
+          nebeneinander = mal, übereinander = geteilt.</p>
+        <div class="oh-dreieck">
+          <svg viewBox="0 0 220 190" id="dreieck" aria-label="Formeldreieck U R I">
+            <polygon points="110,10 210,180 10,180" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="3" />
+            <line x1="45" y1="115" x2="175" y2="115" stroke="var(--accent)" stroke-width="3" />
+            <line x1="110" y1="115" x2="110" y2="180" stroke="var(--accent)" stroke-width="3" />
+            <text id="dU" x="110" y="95" font-size="40" text-anchor="middle">U</text>
+            <text id="dR" x="70" y="165" font-size="40" text-anchor="middle">R</text>
+            <text id="dI" x="150" y="165" font-size="40" text-anchor="middle">I</text>
+          </svg>
+          <div>
+            <div class="oh-knoepfe">
+              <button type="button" data-g="U">U gesucht</button>
+              <button type="button" data-g="R">R gesucht</button>
+              <button type="button" data-g="I">I gesucht</button>
+            </div>
+            <div class="et-formel" id="dFormel">Tippe: welche Größe ist gesucht?</div>
+          </div>
+        </div>
+        <p class="hint-text">Треугольник – только подсказка для формул вида a = b · c. Настоящий путь – переставить формулу
+          (<a href="../kurs-1-mathematik/09-formeln-umstellen.html">Formeln umstellen</a>); он работает для любых формул.</p>
+
+        <!-- ===== 3. Vorsätze ===== -->
+        <h2 id="a3">3. Die Vorsätze: mA, kΩ, MΩ</h2>
+        <p>In der Elektronik sind die Ströme oft klein (mA) und die Widerstände groß (kΩ). Die Vorsätze sind
+          <b>die Zehnerpotenzen</b>:</p>
+        <table class="oh-vors">
+          <tr><th>der Vorsatz</th><th>das Zeichen</th><th>der Faktor</th><th>das Beispiel</th></tr>
+          <tr><td>Mega</td><td>M</td><td>10<sup>6</sup> = 1 000 000</td><td>1 MΩ = 1 000 000 Ω</td></tr>
+          <tr><td>Kilo</td><td>k</td><td>10<sup>3</sup> = 1 000</td><td>4,7 kΩ = 4 700 Ω</td></tr>
+          <tr><td>—</td><td>—</td><td>10<sup>0</sup> = 1</td><td>1 A, 1 V, 1 Ω</td></tr>
+          <tr><td>Milli</td><td>m</td><td>10<sup>−3</sup> = 0,001</td><td>20 mA = 0,020 A</td></tr>
+          <tr><td>Mikro</td><td>µ</td><td>10<sup>−6</sup> = 0,000 001</td><td>50 µA = 0,000 050 A</td></tr>
+        </table>
+        <div class="et-box">
+          <h3>Der Trick für die Elektronik</h3>
+          <div class="et-formel">V / mA = kΩ &nbsp;&nbsp;·&nbsp;&nbsp; V / kΩ = mA &nbsp;&nbsp;·&nbsp;&nbsp; kΩ · mA = V</div>
+          <p>Beispiel: 9 V an 1 kΩ → I = 9 / 1 = <b>9 mA</b>. Ohne Umrechnen! Weil 10<sup>3</sup> · 10<sup>−3</sup> = 1.</p>
+          <p class="hint-text">Если напряжение в вольтах, а сопротивление в килоомах – ток сразу выходит в миллиамперах. Подробно: Kurs 1, Lektion 5 (die Zehnerpotenzen).</p>
+        </div>
+
+        <!-- ===== 4. Kennlinie ===== -->
+        <h2 id="a4">4. Die Kennlinie – das ohmsche Gesetz als Funktion</h2>
+        <p>Trägt man die Messwerte auf (waagerecht <i>U</i>, senkrecht <i>I</i>), ergibt sich bei einem ohmschen Widerstand
+          eine <b>Gerade durch den Nullpunkt</b> – <b>die Kennlinie</b>. Mathematisch ist das die Funktion
+          <i>I</i> = (1/<i>R</i>) · <i>U</i>, also wie <i>y</i> = <i>m</i> · <i>x</i> (→ Kurs 1, Lektion 10: die Funktion).
+          Die <b>Steigung</b> ist 1/<i>R</i> = <b>der Leitwert</b> <i>G</i>, Einheit <b>das Siemens</b> (S).</p>
+        <p><b>Kleiner Widerstand → steile Kennlinie. Großer Widerstand → flache Kennlinie.</b> Probieren:</p>
+        <div class="kl-regler">
+          <label>R = <b id="klRwert">100</b> Ω &nbsp;<input type="range" id="klR" min="20" max="500" step="10" value="100" /></label>
+          <label>U = <b id="klUwert">6</b> V &nbsp;<input type="range" id="klU" min="0" max="12" step="0.5" value="6" /></label>
+          <label><input type="checkbox" id="klLampe" /> die Glühlampe (R wird heiß)</label>
+        </div>
+        <svg class="kl-svg" viewBox="0 0 560 330" id="klSvg" aria-label="Kennlinie I über U"></svg>
+        <div class="et-ergebnis" id="klErg" style="text-align:center"></div>
+
+        <!-- ===== 5. Rechner ===== -->
+        <h2 id="a5">5. Der Rechner</h2>
+        <p class="hint-text">Zwei Werte eingeben, das dritte Feld leer lassen – der Rechner zeigt den Weg. Einheiten mit Vorsatz wählen.</p>
+        <div class="et-rechner">
+          <label>die Spannung U
+            <span style="display:flex;gap:4px"><input id="rU" type="number" step="any" value="12" style="flex:1" />
+            <select id="rUe"><option value="1" selected>V</option><option value="0.001">mV</option><option value="1000">kV</option></select></span>
+          </label>
+          <label>der Widerstand R
+            <span style="display:flex;gap:4px"><input id="rR" type="number" step="any" value="" placeholder="leer = gesucht" style="flex:1" />
+            <select id="rRe"><option value="1">Ω</option><option value="1000">kΩ</option><option value="1000000">MΩ</option></select></span>
+          </label>
+          <label>der Strom I
+            <span style="display:flex;gap:4px"><input id="rI" type="number" step="any" value="0.5" style="flex:1" />
+            <select id="rIe"><option value="1" selected>A</option><option value="0.001">mA</option><option value="0.000001">µA</option></select></span>
+          </label>
+        </div>
+        <div class="et-ergebnis" id="rErg"></div>
+        <div class="hint-text" id="rWeg"></div>
+
+        <!-- ===== 6. Trainer ===== -->
+        <h2 id="a6">6. Der Trainer</h2>
+        <div class="et-box">
+          <div class="tr-aufgabe" id="trAufgabe"></div>
+          <div class="tr-zeile">
+            <input id="trEin" type="text" inputmode="decimal" autocomplete="off" />
+            <span id="trEinheit" style="font-size:1.2em"></span>
+            <button type="button" id="trPruef">Prüfen</button>
+            <button type="button" class="zweit" id="trNeu">Neue Aufgabe</button>
+          </div>
+          <div class="tr-meldung" id="trMeldung"></div>
+          <div class="tr-weg" id="trWeg"></div>
+          <div class="tr-stand" id="trStand"></div>
+          <p class="hint-text" style="text-align:center">Komma oder Punkt – beides geht. Gerundet auf 2–3 Stellen reicht (±2 %).</p>
+        </div>
+
+        <!-- ===== 7. Aufgaben ===== -->
+        <h2 id="a7">7. Die Aufgaben</h2>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – die Glühlampe</h4>
+          <p>Eine Glühlampe (60 W) an 230 V nimmt im Betrieb 0,26 A auf. Wie groß ist ihr Widerstand (heiß)?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">R = U / I = 230 V / 0,26 A ≈ <b>885 Ω</b><br />
+              <i>Interessant:</i> Kalt misst man mit dem Multimeter nur ca. 60–70 Ω! Der heiße Wolframdraht hat einen viel größeren Widerstand (Lektion 2).
+              Deshalb brennen Glühlampen meistens <b>beim Einschalten</b> durch – da ist der Strom kurz sehr groß.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – das Relais im Auto</h4>
+          <p>Die Spule eines Kfz-Relais hat 80 Ω. Das Bordnetz hat 12 V (bei laufendem Motor ca. 14 V). Wie groß ist der Spulenstrom in beiden Fällen?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">I = U / R = 12 V / 80 Ω = 0,15 A = <b>150 mA</b>; &nbsp; bei 14 V: 14 / 80 = <b>175 mA</b>.<br />
+              Deshalb kann ein Schalter mit kleinen Kontakten über das Relais große Ströme (Scheinwerfer, Lüfter) schalten.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – mit Vorsätzen</h4>
+          <p>An einem Widerstand von 4,7 kΩ liegen 9 V. Wie groß ist der Strom in mA?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Mit dem Trick: I = 9 V / 4,7 kΩ ≈ <b>1,91 mA</b>.<br />
+              Ausführlich: I = 9 V / 4700 Ω = 0,001 91 A = 1,91 mA.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – die Spannung am Widerstand</h4>
+          <p>Durch einen Widerstand von 220 Ω fließen 20 mA. Welche Spannung liegt am Widerstand?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">U = R · I = 220 Ω · 0,020 A = <b>4,4 V</b> &nbsp; (oder: 0,22 kΩ · 20 mA = 4,4 V).<br />
+              Das ist schon fast der LED-Vorwiderstand (→ Lektion 5, die Reihenschaltung).</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – was passiert, wenn …?</h4>
+          <p>a) Die Spannung wird verdreifacht, R bleibt gleich. &nbsp; b) R wird halbiert, U bleibt gleich. &nbsp;
+            c) U und R werden beide verdoppelt. – Wie ändert sich jeweils der Strom?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">a) <b>dreimal so groß</b> (I ~ U) &nbsp; b) <b>doppelt so groß</b> (I ~ 1/R) &nbsp;
+              c) <b>bleibt gleich</b>: 2U / 2R = U / R.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 6 – die Kennlinie lesen</h4>
+          <p>Bei einer Messung ergab sich: 3 V → 15 mA, 6 V → 30 mA, 9 V → 45 mA. Ist das ein ohmscher Widerstand? Wie groß ist er?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">U / I ist immer gleich: 3 / 0,015 = 6 / 0,030 = 9 / 0,045 = <b>200 Ω</b> → ja, konstant, also ohmsch.
+              Die Kennlinie ist eine Gerade durch den Nullpunkt.</div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 7 – die Sicherheit</h4>
+          <p>Jemand fasst mit nassen Händen einen defekten 230-V-Draht an. Der Körperwiderstand ist durch die Nässe auf ca. 500 Ω gesunken.
+            Wie groß wäre der Strom? Löst der FI-Schalter aus?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">I = 230 V / 500 Ω = 0,46 A = <b>460 mA</b> – lebensgefährlich!
+              Der FI-Schalter löst ab 30 mA aus (in Bruchteilen einer Sekunde). <b>Darum: nie ohne FI-Schalter, nie mit nassen Händen.</b></div>
+          </details>
+        </div>
+
+        <div class="et-aufgabe">
+          <h4>Aufgabe 8 – zum Nachdenken: das Multimeter</h4>
+          <p>Warum soll man den Widerstand eines Bauteils nur messen, wenn die Schaltung <b>ausgeschaltet</b> ist?</p>
+          <details><summary>Lösung zeigen</summary>
+            <div class="loesung">Das Multimeter misst <i>R</i> nach dem ohmschen Gesetz: Es schickt selbst einen kleinen bekannten Strom durch das Bauteil
+              und misst die Spannung, R = U / I. Fremde Spannung aus der Schaltung verfälscht die Messung – und kann das Messgerät beschädigen.
+              (→ Lektion 4: das Messen mit dem Multimeter)</div>
+          </details>
+        </div>
+
+        <!-- ===== 8. Versuch ===== -->
+        <h2 id="a8">8. Der Versuch – für das Labortagebuch</h2>
+        <p><b>Die Kennlinie eines Widerstands selbst messen.</b> Material: ein Widerstand 1 kΩ (aus dem Elektronik-Baukasten),
+          das Multimeter, eine 9-V-Batterie oder ein regelbares Netzteil, (evtl. ein Potentiometer zum Einstellen der Spannung).</p>
+        <ol>
+          <li>Das Multimeter als Strommesser (mA) <b>in Reihe</b> schalten, die Spannung am Widerstand messen.</li>
+          <li>Verschiedene Spannungen einstellen (z. B. 1,5 V · 3 V · 4,5 V · 6 V · 9 V) und U und I aufschreiben.</li>
+          <li>U / I rechnen – kommt immer ca. 1000 Ω heraus? Die Punkte auf Papier eintragen: eine Gerade?</li>
+          <li>Zum Vergleich: dasselbe mit einem kleinen Glühlämpchen – die Kurve biegt sich!</li>
+        </ol>
+        <table class="messtab">
+          <tr><th>U in V</th><th>I in mA</th><th>R = U / I in kΩ</th></tr>
+          <tr><td>1,5</td><td></td><td></td></tr><tr><td>3</td><td></td><td></td></tr><tr><td>4,5</td><td></td><td></td></tr>
+          <tr><td>6</td><td></td><td></td></tr><tr><td>9</td><td></td><td></td></tr>
+        </table>
+        <p class="hint-text">Фото опыта и таблицу – в <a href="../labortagebuch.html">🔬 Mein Labortagebuch</a>. С внуками: лампочка против резистора – наглядно видно, что «горячий» провод ведёт себя иначе.</p>
+
+        <!-- ===== 9. Zum Ansehen ===== -->
+        <h2 id="a9">9. Zum Ansehen</h2>
+        <ul>
+          <li><a href="https://phet.colorado.edu/sims/html/ohms-law/latest/ohms-law_de.html" target="_blank" rel="noopener">PhET – das ohmsche Gesetz</a>
+            <span class="hint-text">– U und R schieben, die Buchstaben der Formel werden größer/kleiner (sehr anschaulich, auch für Kinder)</span></li>
+          <li><a href="https://www.walter-fendt.de/html5/phde/ohmslaw_de.htm" target="_blank" rel="noopener">Walter Fendt – Ohmsches Gesetz</a>
+            <span class="hint-text">– Messung mit Volt- und Amperemeter</span></li>
+          <li><a href="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_de.html" target="_blank" rel="noopener">PhET – Stromkreis-Baukasten</a>
+            <span class="hint-text">– selbst Schaltungen bauen und messen</span></li>
+        </ul>
+
+        <!-- ===== 10. Wörter ===== -->
+        <h2 id="a10">10. Die Wörter</h2>
+        <table class="et-woerter">
+          <tr><td>das ohmsche Gesetz</td><td>закон Ома</td></tr>
+          <tr><td>das Ohm (Ω)</td><td>ом – единица сопротивления</td></tr>
+          <tr><td>der ohmsche Widerstand</td><td>омическое (линейное) сопротивление</td></tr>
+          <tr><td>proportional</td><td>пропорциональный</td></tr>
+          <tr><td>die Kennlinie</td><td>характеристика (график I от U)</td></tr>
+          <tr><td>der Leitwert (G) · das Siemens (S)</td><td>проводимость · сименс; G = 1/R</td></tr>
+          <tr><td>die Steigung</td><td>наклон, крутизна</td></tr>
+          <tr><td>der Vorsatz</td><td>приставка (кило-, милли-)</td></tr>
+          <tr><td>das Formeldreieck</td><td>треугольник формулы</td></tr>
+          <tr><td>das Relais</td><td>реле</td></tr>
+          <tr><td>das Kammerflimmern</td><td>фибрилляция желудочков (сердца)</td></tr>
+          <tr><td>der Körperwiderstand</td><td>сопротивление тела</td></tr>
+        </table>
+
+        <div class="et-nav">
+          <a href="02-leiter-widerstand.html">← Lektion 2: der Leiter und der Widerstand</a>
+          <a href="../index.html">Übersicht Elektrotechnik</a>
+          <span class="hint-text">Nächste Lektion: das Messen mit dem Multimeter (in Vorbereitung)</span>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        const fmt = (x, n) => x.toLocaleString("de-DE", { maximumFractionDigits: n === undefined ? 3 : n });
+
+        // ---- Formeldreieck ----
+        const FORM = { U: "U = R · I", R: "R = U / I", I: "I = U / R" };
+        document.querySelectorAll(".oh-knoepfe button").forEach((b) => b.addEventListener("click", () => zeig(b.dataset.g)));
+        $("dreieck").addEventListener("click", (e) => { const t = e.target.id; if (t && t[0] === "d") zeig(t.slice(1)); });
+        function zeig(g) {
+          ["U", "R", "I"].forEach((x) => $("d" + x).classList.toggle("zu", x === g));
+          $("dFormel").textContent = FORM[g];
+        }
+
+        // ---- Kennlinie ----
+        const svg = $("klSvg");
+        const X0 = 50, Y0 = 290, W = 480, H = 260, UMAX = 12;
+        function lampeI(u, r) { // grobes Modell: R wächst mit der Spannung (heißer Draht)
+          return u / (r * (1 + 0.35 * u));
+        }
+        function zeichne() {
+          const R = +$("klR").value, U = +$("klU").value, lampe = $("klLampe").checked;
+          $("klRwert").textContent = R; $("klUwert").textContent = fmt(U, 1);
+          const IMAX = 0.6; // A
+          const px = (u) => X0 + u / UMAX * W, py = (i) => Y0 - Math.min(i, IMAX) / IMAX * H;
+          let s = "";
+          for (let u = 0; u <= UMAX; u += 2) s += '<line class="gitter" x1="' + px(u) + '" y1="' + (Y0 - H) + '" x2="' + px(u) + '" y2="' + Y0 + '"/><text x="' + px(u) + '" y="' + (Y0 + 18) + '" text-anchor="middle">' + u + "</text>";
+          for (let i = 0; i <= IMAX + 1e-9; i += 0.1) s += '<line class="gitter" x1="' + X0 + '" y1="' + py(i) + '" x2="' + (X0 + W) + '" y2="' + py(i) + '"/><text x="' + (X0 - 6) + '" y="' + (py(i) + 4) + '" text-anchor="end">' + Math.round(i * 1000) + "</text>";
+          s += '<line class="achse" x1="' + X0 + '" y1="' + Y0 + '" x2="' + (X0 + W) + '" y2="' + Y0 + '"/><line class="achse" x1="' + X0 + '" y1="' + Y0 + '" x2="' + X0 + '" y2="' + (Y0 - H) + '"/>';
+          s += '<text x="' + (X0 + W) + '" y="' + (Y0 + 34) + '" text-anchor="end">U in V</text><text x="' + (X0 - 40) + '" y="' + (Y0 - H - 10) + '">I in mA</text>';
+          // Gerade (ohmsch)
+          const uEnd = Math.min(UMAX, IMAX * R);
+          s += '<line x1="' + px(0) + '" y1="' + py(0) + '" x2="' + px(uEnd) + '" y2="' + py(uEnd / R) + '" stroke="var(--accent)" stroke-width="3"/>';
+          s += '<text x="' + (px(uEnd) - 4) + '" y="' + (py(uEnd / R) - 8) + '" text-anchor="end" fill="var(--accent)">R = ' + R + ' Ω</text>';
+          if (lampe) {
+            let d = "M" + px(0) + "," + py(0);
+            for (let u = 0.2; u <= UMAX + 1e-9; u += 0.2) d += " L" + px(u) + "," + py(lampeI(u, R / 4));
+            s += '<path d="' + d + '" fill="none" stroke="#bf8700" stroke-width="3" stroke-dasharray="6 4"/>';
+            s += '<text x="' + px(UMAX) + '" y="' + (py(lampeI(UMAX, R / 4)) + 18) + '" text-anchor="end" fill="#bf8700">die Glühlampe</text>';
+          }
+          const I = U / R;
+          if (I <= IMAX) s += '<circle cx="' + px(U) + '" cy="' + py(I) + '" r="7" fill="#cf222e"/><line x1="' + px(U) + '" y1="' + py(I) + '" x2="' + px(U) + '" y2="' + Y0 + '" stroke="#cf222e" stroke-dasharray="4 3"/><line x1="' + X0 + '" y1="' + py(I) + '" x2="' + px(U) + '" y2="' + py(I) + '" stroke="#cf222e" stroke-dasharray="4 3"/>';
+          svg.innerHTML = s;
+          $("klErg").textContent = "I = U / R = " + fmt(U, 1) + " V / " + R + " Ω = " + fmt(I * 1000, 1) + " mA" + (I > IMAX ? " (außerhalb des Bildes)" : "") +
+            "  ·  G = 1/R = " + fmt(1000 / R, 2) + " mS";
+        }
+        ["klR", "klU", "klLampe"].forEach((id) => $(id).addEventListener("input", zeichne));
+        zeichne();
+
+        // ---- Rechner ----
+        const zahl = (id) => { const v = $(id).value.trim(); return v === "" ? null : parseFloat(v.replace(",", ".")); };
+        function mitEinheit(x, art) {
+          const E = { U: [[1e3, "kV"], [1, "V"], [1e-3, "mV"]], R: [[1e6, "MΩ"], [1e3, "kΩ"], [1, "Ω"]], I: [[1, "A"], [1e-3, "mA"], [1e-6, "µA"]] }[art];
+          const a = Math.abs(x);
+          for (const [f, n] of E) if (a >= f || f === E[E.length - 1][0]) return fmt(x / f, 3) + " " + n;
+        }
+        function rechne() {
+          const U = zahl("rU"), R = zahl("rR"), I = zahl("rI");
+          const u = U === null ? null : U * +$("rUe").value, r = R === null ? null : R * +$("rRe").value, i = I === null ? null : I * +$("rIe").value;
+          const leer = [u, r, i].filter((x) => x === null).length;
+          if (leer !== 1) { $("rErg").textContent = "Genau ein Feld leer lassen – das ist die gesuchte Größe."; $("rWeg").textContent = ""; return; }
+          if (u === null) {
+            const x = r * i; $("rErg").textContent = "U = " + mitEinheit(x, "U");
+            $("rWeg").textContent = "U = R · I = " + fmt(r, 6) + " Ω · " + fmt(i, 6) + " A = " + fmt(x, 6) + " V";
+          } else if (r === null) {
+            if (i === 0) { $("rErg").textContent = "I = 0 → kein Strom, R lässt sich nicht berechnen."; $("rWeg").textContent = ""; return; }
+            const x = u / i; $("rErg").textContent = "R = " + mitEinheit(x, "R");
+            $("rWeg").textContent = "R = U / I = " + fmt(u, 6) + " V / " + fmt(i, 6) + " A = " + fmt(x, 6) + " Ω";
+          } else {
+            if (r === 0) { $("rErg").textContent = "R = 0 → der Kurzschluss! Der Strom wäre unendlich groß."; $("rWeg").textContent = ""; return; }
+            const x = u / r; $("rErg").textContent = "I = " + mitEinheit(x, "I");
+            $("rWeg").textContent = "I = U / R = " + fmt(u, 6) + " V / " + fmt(r, 6) + " Ω = " + fmt(x, 6) + " A";
+          }
+        }
+        ["rU", "rR", "rI", "rUe", "rRe", "rIe"].forEach((id) => $(id).addEventListener("input", rechne));
+        rechne();
+
+        // ---- Trainer ----
+        const KEY = "quantura_et_ohm_trainer";
+        let stand = { r: 0, n: 0 };
+        try { stand = Object.assign(stand, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+        const wahl = (a) => a[Math.floor(Math.random() * a.length)];
+        const RW = [10, 22, 47, 100, 150, 220, 330, 470, 680, 1000, 2200, 4700, 10000];
+        const UW = [1.5, 3, 4.5, 5, 9, 12, 24, 230];
+        let akt = null, versucht = false;
+        function neu() {
+          versucht = false; $("trEin").value = ""; $("trMeldung").textContent = ""; $("trWeg").textContent = "";
+          const art = wahl(["I", "U", "R"]);
+          const R = wahl(RW);
+          if (art === "I") {
+            const U = wahl(UW.slice(0, 7)); const I = U / R;
+            const inMA = I < 1;
+            akt = { soll: inMA ? I * 1000 : I, einheit: inMA ? "mA" : "A",
+              text: "U = " + fmt(U) + " V, &nbsp; R = " + (R >= 1000 ? fmt(R / 1000) + " kΩ" : R + " Ω") + ". &nbsp; <b>I = ?</b>",
+              weg: "I = U / R = " + fmt(U) + " V / " + fmt(R) + " Ω = " + fmt(I, 5) + " A" + (inMA ? " = " + fmt(I * 1000, 3) + " mA" : "") };
+          } else if (art === "U") {
+            const ImA = wahl([2, 5, 10, 15, 20, 25, 30, 50]); const I = ImA / 1000; const U = R * I;
+            akt = { soll: U, einheit: "V", text: "R = " + (R >= 1000 ? fmt(R / 1000) + " kΩ" : R + " Ω") + ", &nbsp; I = " + ImA + " mA. &nbsp; <b>U = ?</b>",
+              weg: "U = R · I = " + fmt(R) + " Ω · " + fmt(I) + " A = " + fmt(U, 3) + " V" };
+          } else {
+            const U = wahl(UW); const I = U / R; const ImA = I * 1000;
+            const zeigI = ImA < 1000 ? fmt(ImA, 3) + " mA" : fmt(I, 3) + " A";
+            const Iexakt = ImA < 1000 ? parseFloat(ImA.toFixed(3)) / 1000 : parseFloat(I.toFixed(3));
+            const Rsoll = U / Iexakt;
+            const inK = Rsoll >= 1000;
+            akt = { soll: inK ? Rsoll / 1000 : Rsoll, einheit: inK ? "kΩ" : "Ω", text: "U = " + fmt(U) + " V, &nbsp; I = " + zeigI + ". &nbsp; <b>R = ?</b>",
+              weg: "R = U / I = " + fmt(U) + " V / " + fmt(Iexakt, 6) + " A ≈ " + fmt(Rsoll, 1) + " Ω" + (inK ? " = " + fmt(Rsoll / 1000, 3) + " kΩ" : "") };
+          }
+          $("trAufgabe").innerHTML = akt.text;
+          $("trEinheit").textContent = akt.einheit;
+          $("trEin").focus({ preventScroll: true });
+        }
+        function zeigeStand() { $("trStand").textContent = "Richtig beim 1. Versuch: " + stand.r + " von " + stand.n + (stand.n ? " (" + Math.round(100 * stand.r / stand.n) + " %)" : ""); }
+        function pruefe() {
+          const v = parseFloat($("trEin").value.replace(",", "."));
+          if (isNaN(v)) { $("trMeldung").textContent = "Bitte eine Zahl eingeben."; return; }
+          const ok = Math.abs(v - akt.soll) <= Math.abs(akt.soll) * 0.02 + 1e-9;
+          if (!versucht) { stand.n++; if (ok) stand.r++; try { localStorage.setItem(KEY, JSON.stringify(stand)); } catch (e) {} }
+          versucht = true;
+          $("trMeldung").innerHTML = ok ? "✅ <b>Richtig!</b>" : "❌ Noch nicht. Richtig: <b>" + fmt(akt.soll, 3) + " " + akt.einheit + "</b>";
+          $("trWeg").textContent = akt.weg;
+          zeigeStand();
+        }
+        $("trPruef").addEventListener("click", pruefe);
+        $("trNeu").addEventListener("click", neu);
+        $("trEin").addEventListener("keydown", (e) => { if (e.key === "Enter") { if (versucht) neu(); else pruefe(); } });
+        zeigeStand(); neu();
+      })();
+    </script>
+  </body>
+</html>

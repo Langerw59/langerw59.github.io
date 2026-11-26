@@ -1779,5 +1779,127 @@ window.GLOSSAR_FACH = [
   ]
  ],
  "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "das ohmsche Gesetz",
+ "fach": "Elektrotechnik",
+ "ru": "закон Ома",
+ "h": "germ",
+ "k": [
+  "Ohm",
+  "ohmsches Gesetz",
+  "U = R · I",
+  "Ohmsches Gesetz"
+ ],
+ "her": "по имени Georg Simon Ohm (1789–1854), учитель математики и физики из Эрлангена, опубликовал закон в 1827 г. das Gesetz ← setzen «ставить» → «установленное, поставленное»",
+ "erk": "I = U / R: ток растёт с напряжением и падает с сопротивлением. Единица сопротивления – das Ohm (Ω): 1 Ω = 1 V / 1 A. Действует точно только для «омических» сопротивлений (R постоянно).",
+ "ver": "das Gesetz и setzen, der Satz (теорема) – одного корня. Пишут и «das Ohm'sche Gesetz», но по новой орфографии – «das ohmsche Gesetz» (с маленькой буквы).",
+ "bsp": [
+  [
+   "U = R · I",
+   "12 V = 4 Ω · 3 A"
+  ]
+ ],
+ "lek": "etage-1/03-ohmsches-gesetz.html",
+ "aus": "das OHM-sche ge-SETZ [ˈoːmʃə ɡəˈzɛts]"
+},
+{
+ "w": "der Leitwert",
+ "fach": "Elektrotechnik",
+ "ru": "проводимость",
+ "h": "germ",
+ "auch": "der reziproke Widerstand",
+ "k": [
+  "G",
+  "Siemens",
+  "Leitwert",
+  "Mho"
+ ],
+ "her": "нем. leiten «вести, проводить» + der Wert «величина» → «величина проводимости». Единица das Siemens (S) – по имени Werner von Siemens (1816–1892).",
+ "erk": "Обратная величина сопротивления: G = 1 / R. Чем меньше R, тем больше G. 1 S = 1 / Ω. Наклон прямой на характеристике I(U) – это и есть G.",
+ "ver": "Старое (американское) название единицы – «mho» = «ohm» задом наперёд, знак ℧.",
+ "bsp": [
+  [
+   "G = 1 / R = 1 / 50 Ω = 0,02 S = 20 mS",
+   ""
+  ]
+ ],
+ "lek": "etage-1/03-ohmsches-gesetz.html",
+ "aus": "LEIT-wert [ˈlaɪ̯tˌveːɐ̯t]"
+},
+{
+ "w": "die Kennlinie",
+ "fach": "Elektrotechnik",
+ "ru": "характеристика (график)",
+ "h": "lat",
+ "k": [
+  "Kennlinie",
+  "Kennlinien",
+  "Strom-Spannungs-Kennlinie"
+ ],
+ "her": "нем. kennen «знать» + die Linie ← лат. linea «льняная нить, шнур» ← linum «лён» → «линия, по которой узнают (деталь)»",
+ "erk": "График, показывающий, как ток зависит от напряжения (I от U). У омического резистора – прямая через ноль, у лампы накаливания – изогнутая, у диода – совсем другая. По характеристике «узнают» деталь.",
+ "ver": "Родственники linea: das Lineal (линейка), linear, das Leinen (лён, полотно), линия, линейка.",
+ "bsp": [
+  [
+   "Die Kennlinie eines ohmschen Widerstands ist eine Gerade.",
+   ""
+  ]
+ ],
+ "lek": "etage-1/03-ohmsches-gesetz.html",
+ "aus": "KENN-li-ni-e [ˈkɛnˌliːni̯ə]"
+},
+{
+ "w": "die Äquivalenzumformung",
+ "fach": "Mathematik",
+ "ru": "равносильное преобразование (уравнения)",
+ "h": "lat",
+ "auch": "die Umformung = „die Formel umstellen“ = „nach x auflösen“",
+ "k": [
+  "Umformung",
+  "Formel umstellen",
+  "auflösen",
+  "umstellen",
+  "äquivalent"
+ ],
+ "her": "лат. aequus «равный» + valere «стоить, иметь силу» → aequivalens «равноценный»; + нем. umformen «переделать форму»",
+ "erk": "Действие, которое делают с обеими частями уравнения сразу (+, −, ·, :, √), так что уравнение остаётся верным – как весы в равновесии. Так «переставляют» формулу: U = R · I | : R → I = U / R.",
+ "ver": "Родственники aequus: der Äquator (делит Землю на равные половины), adäquat, эквивалент. valere: die Valenz (валентность), die Valuta.",
+ "bsp": [
+  [
+   "U = R · I   | : R   →   I = U / R",
+   ""
+  ]
+ ],
+ "lek": "kurs-1-mathematik/09-formeln-umstellen.html",
+ "aus": "ä-qui-va-LENZ-um-for-mung [ɛkvivaˈlɛnt͡sʔʊmˌfɔʁmʊŋ]"
+},
+{
+ "w": "der Kehrwert",
+ "fach": "Mathematik",
+ "ru": "обратная величина, обратное число",
+ "h": "germ",
+ "auch": "der reziproke Wert = das Reziproke",
+ "k": [
+  "Kehrwert",
+  "reziprok",
+  "Reziproke",
+  "1/x"
+ ],
+ "her": "нем. kehren «поворачивать» (umkehren – перевернуть) + der Wert → «перевёрнутое число». reziprok ← лат. reciprocus «идущий туда и обратно»",
+ "erk": "Дробь «переворачивают»: числитель и знаменатель меняются местами. Kehrwert от 2/3 – это 3/2, от 5 – это 1/5. Нужен для деления дробей и для параллельного соединения: 1/R = 1/R₁ + 1/R₂, а в конце – Kehrwert.",
+ "ver": "kehren / umkehren / die Kehrseite (обратная сторона медали). Не путать с kehren «подметать» (der Besen kehrt) – это другое слово-омоним.",
+ "bsp": [
+  [
+   "Der Kehrwert von 3/4 ist 4/3.",
+   ""
+  ],
+  [
+   "G = 1 / R – der Leitwert ist der Kehrwert des Widerstands",
+   ""
+  ]
+ ],
+ "lek": "kurs-1-mathematik/09-formeln-umstellen.html",
+ "aus": "KEHR-wert [ˈkeːɐ̯ˌveːɐ̯t]"
 }
 ];
