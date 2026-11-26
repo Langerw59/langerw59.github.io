@@ -81,6 +81,49 @@
           <p>Keine reelle Zahl ergibt mit sich selbst multipliziert eine negative Zahl: 2² = 4, (−2)² = 4. Darum erfand man
             <b>die imaginäre Einheit</b> i („die gedachte Einheit“, lat. <i>imaginarius</i> «воображаемый») mit <b>i² = −1</b>.
             Eine komplexe Zahl hat zwei Teile: <b>den Realteil</b> und <b>den Imaginärteil</b>: z = 3 + 4i.</p>
+          <p><b>Die Gaußsche Zahlenebene</b> (комплексная плоскость): eine komplexe Zahl ist ein <b>Punkt</b> bzw. ein <b>Zeiger</b> (вектор) –
+            die Summe aus zwei Vektoren: der Realteil a = 3 nach rechts (auf <b>der reellen Achse</b>),
+            der Imaginärteil b = 4 nach oben (parallel zu <b>der imaginären Achse</b>).</p>
+          <svg class="zm" viewBox="0 0 440 340" role="img" aria-label="Die Gaußsche Zahlenebene: z = 3 + 4i als Summe der Vektoren Realteil 3 und Imaginärteil 4, Betrag 5">
+            <rect x="0" y="0" width="440" height="340" rx="14" fill="#fff" stroke="#d0d7de"/>
+            <g stroke="#eaeef2" stroke-width="1">
+              <line x1="110" y1="30" x2="110" y2="300"/><line x1="160" y1="30" x2="160" y2="300"/><line x1="210" y1="30" x2="210" y2="300"/><line x1="260" y1="30" x2="260" y2="300"/>
+              <line x1="40" y1="230" x2="400" y2="230"/><line x1="40" y1="180" x2="400" y2="180"/><line x1="40" y1="130" x2="400" y2="130"/><line x1="40" y1="80" x2="400" y2="80"/>
+            </g>
+            <line x1="40" y1="280" x2="400" y2="280" stroke="#57606a" stroke-width="1.5"/>
+            <polygon points="400,275 412,280 400,285" fill="#57606a"/>
+            <line x1="60" y1="310" x2="60" y2="30" stroke="#57606a" stroke-width="1.5"/>
+            <polygon points="55,30 60,18 65,30" fill="#57606a"/>
+            <text x="410" y="302" font-size="13" fill="#57606a" text-anchor="end">Re – die reelle Achse</text>
+            <text x="70" y="26" font-size="13" fill="#57606a">Im – die imaginäre Achse</text>
+            <g font-size="12" fill="#57606a" text-anchor="middle">
+              <text x="110" y="296">1</text><text x="160" y="296">2</text><text x="210" y="296">3</text><text x="260" y="296">4</text>
+            </g>
+            <g font-size="12" fill="#57606a" text-anchor="end">
+              <text x="52" y="234">i</text><text x="52" y="184">2i</text><text x="52" y="134">3i</text><text x="52" y="84">4i</text>
+            </g>
+            <line x1="60" y1="80" x2="210" y2="80" stroke="#8c959f" stroke-dasharray="5 4"/>
+            <line x1="60" y1="280" x2="200" y2="280" stroke="#1a7f5a" stroke-width="5"/>
+            <polygon points="198,272 214,280 198,288" fill="#1a7f5a"/>
+            <line x1="210" y1="280" x2="210" y2="92" stroke="#c2410c" stroke-width="5"/>
+            <polygon points="202,94 210,78 218,94" fill="#c2410c"/>
+            <line x1="60" y1="280" x2="202" y2="91" stroke="#6e56cf" stroke-width="5"/>
+            <polygon points="194,90 210,80 206,98" fill="#6e56cf"/>
+            <circle cx="210" cy="80" r="6" fill="#6e56cf"/>
+            <path d="M 100 280 A 40 40 0 0 0 84 248" fill="none" stroke="#1d2433" stroke-width="1.5"/>
+            <text x="104" y="266" font-size="14" fill="#1d2433">φ ≈ 53°</text>
+            <text x="135" y="320" font-size="14" fill="#1a7f5a" font-weight="700" text-anchor="middle">der Realteil a = 3</text>
+            <text x="222" y="176" font-size="14" fill="#c2410c" font-weight="700">der Imaginärteil</text>
+            <text x="222" y="194" font-size="14" fill="#c2410c" font-weight="700">b = 4</text>
+            <text x="222" y="72" font-size="16" fill="#4b3aa8" font-weight="700">z = 3 + 4i</text>
+            <text x="70" y="112" font-size="13" fill="#4b3aa8">der Betrag</text>
+            <text x="70" y="130" font-size="13" fill="#4b3aa8">|z| = 5</text>
+          </svg>
+          <p><b>der Betrag</b> (модуль, длина вектора) – по теореме Пифагора (der Satz des Pythagoras): |z| = √(a² + b²) = √(9 + 16) = 5.
+            <b>das Argument</b> (угол φ): tan φ = b / a = 4 / 3 → φ ≈ 53°.
+            Darum addiert man komplexe Zahlen wie Vektoren: (3 + 4i) + (1 + 2i) = 4 + 6i – Realteile und Imaginärteile getrennt.</p>
+          <p>📖 Mehr dazu: <a href="https://de.wikipedia.org/wiki/Komplexe_Zahl" target="_blank" rel="noopener">Wikipedia – die komplexe Zahl</a>
+            · <a href="https://de.wikipedia.org/wiki/Gau%C3%9Fsche_Zahlenebene" target="_blank" rel="noopener">die Gaußsche Zahlenebene</a></p>
           <p><b>Wo braucht man das?</b> In der Elektrotechnik beim <b>Wechselstrom</b>: Spule und Kondensator verschieben die Phase,
             und mit komplexen Zahlen rechnet man das bequem aus (Modul 6). <b>Achtung:</b> Elektriker schreiben <b>j</b> statt i,
             weil i schon der Buchstabe für den Strom ist: Z = R + jX.</p>
