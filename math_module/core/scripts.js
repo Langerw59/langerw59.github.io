@@ -477,6 +477,13 @@ function spielerUmbenennen(alt, neu) {
   const z = zuletztAlle(); if (z[a] && a !== b) { z[b] = z[a]; delete z[a]; localStorage.setItem(ZULETZT_KEY, JSON.stringify(z)); }
   if ((getUserName() || '').toLowerCase() === a) setUserName(neu);
 }
+// 2026-11-26: Fortschritt eines Spielers löschen (Sterne, zuletzt gespielt) – Name, Team und Klasse bleiben
+// RU: сбросить прогресс игрока – имя, команда и класс остаются
+function spielerZuruecksetzen(name) {
+  const a = String(name || '').toLowerCase();
+  const st = sterneAlle(); delete st[a]; localStorage.setItem(STERNE_KEY, JSON.stringify(st));
+  const z = zuletztAlle(); delete z[a]; localStorage.setItem(ZULETZT_KEY, JSON.stringify(z));
+}
 function spielerLoeschen(name) {
   const a = name.toLowerCase();
   spielerSpeichern(spielerListe().filter(p => p.name.toLowerCase() !== a));
@@ -1153,6 +1160,7 @@ function mmMenueAufbauen() {
     <details class="mm-gruppe mm-lehrer">
       <summary class="mm-gruppe-titel">🔒 Für Lehrer</summary>
       <button type="button" class="mm-eintrag" id="mm-alle-level">📋 Alle Level (Übersicht)</button>
+      <button type="button" class="mm-eintrag" id="mm-neustart">🔄 Neu anfangen (Sterne dieses Spielers löschen)</button>
       <label class="mm-schalter"><input type="checkbox" id="mm-uebersicht"> Aufgaben-Übersicht (Tabelle) zeigen</label>
       <label class="mm-schalter"><input type="checkbox" id="mm-englisch"> Englisch anzeigen</label>
     </details>`;
@@ -1170,6 +1178,13 @@ function mmMenueAufbauen() {
   m.querySelector('#mm-beenden').onclick = () => {
     if (!window.confirm('Spiel wirklich beenden?')) return;
     resetGameState();
+    window.location.href = `${MODULE_ROOT}/index.html`;
+  };
+  m.querySelector('#mm-neustart').onclick = () => {
+    const wer = getUserName();
+    if (!wer) { openNameModal(); return; }
+    if (!window.confirm(`${wer} neu anfangen lassen?\n\nAlle Sterne von ${wer} werden gelöscht. Name, Team und Klasse bleiben.`)) return;
+    spielerZuruecksetzen(wer);
     window.location.href = `${MODULE_ROOT}/index.html`;
   };
   m.querySelector('#mm-alle-level').onclick = () => {
@@ -1224,6 +1239,7 @@ function openNameModal() {
           <span class="sp-name">${escapeHtml(p.name)}</span>
           <span class="sp-info">${p.klasse ? '🎒 ' + klasseText(p.klasse) + ' · ' : ''}⭐ ${bruchText(sterneSummeVon(p.name))} von ${LEVEL_ZAHL * 3}${z !== undefined ? ` · zuletzt Level ${escapeHtml(z)}` : ''}</span>
         </button>
+        <button type="button" class="sp-mini" data-neustart="${i}" title="Neu anfangen: alle Sterne löschen">🔄</button>
         <button type="button" class="sp-mini" data-umbenennen="${i}" title="Namen ändern">✏️</button>
         <button type="button" class="sp-mini" data-loeschen="${i}" title="Spieler löschen">🗑️</button>
       </div>`;
@@ -1274,6 +1290,14 @@ function openNameModal() {
     const p = spielerListe()[Number(b.dataset.i)]; if (!p) return;
     setAvatar(p.avatar); setTheme(p.theme || themeForAvatar(p.avatar)); setUserName(p.name);
     fertig();
+  }));
+  overlay.querySelectorAll('[data-neustart]').forEach(b => b.addEventListener('click', () => {
+    const p = spielerListe()[Number(b.dataset.neustart)]; if (!p) return;
+    if (window.confirm(`${p.name} neu anfangen lassen?\n\nAlle Sterne von ${p.name} werden gelöscht. Name, Team und Klasse bleiben.`)) {
+      spielerZuruecksetzen(p.name); renderWelcome(); openNameModal();
+      if (typeof window.wireLevelToolbarNeu === 'function') window.wireLevelToolbarNeu();
+      showToast(`${p.name} fängt neu an – alle Sterne sind gelöscht.`, 'ok');
+    }
   }));
   overlay.querySelectorAll('[data-umbenennen]').forEach(b => b.addEventListener('click', () => {
     const p = spielerListe()[Number(b.dataset.umbenennen)]; if (!p) return;
