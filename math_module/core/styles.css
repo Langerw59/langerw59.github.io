@@ -694,3 +694,8 @@ body.mm-uebersicht #attemptTableWrap { display: block; max-width: 760px; margin:
 .team-karte:hover { border-color: var(--team-accent); transform: translateY(-2px); }
 .team-karte.aktiv { border-color: var(--team-accent); background: var(--team-accent-soft); }
 .team-karte small { font-weight: 600; color: #15803d; }
+.bild-wahl { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.bild-karte { display: grid; gap: 6px; padding: 6px; border-radius: 14px !important; border: 2px solid #dbe3f0; background: #fff; cursor: pointer; color: #0f172a; font-weight: 700; }
+.bild-karte img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 10px; }
+.bild-karte:hover { border-color: var(--team-accent); }
+.bild-karte.aktiv { border-color: var(--team-accent); background: var(--team-accent-soft); }

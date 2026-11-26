@@ -1302,38 +1302,32 @@ function openAvatarModal() {
   }));
 }
 
+// 2026-11-26: „Bild wechseln“ – nur das Hintergrundbild, das Team bleibt gleich
+// RU: меняется только фон, команда остаётся
 function openBackgroundModal() {
-  const theme = getTheme() || pickRandom(THEMES);
-  const { overlay, body } = ensureModal('background-modal', 'Hintergrund wechseln');
+  const jetzt = getTheme();
+  const { overlay, body } = ensureModal('background-modal', 'Welches Bild möchtest du?');
   if (!body) return;
+  const namen = ['Eis und Schnee', 'Bambuswald', 'Teich', 'Herbstwald', 'Dschungel'];
   body.innerHTML = `
-    <div class="modal-block full">
-      <img class="modal-hero wide" src="${theme}" alt="Hintergrund groß">
-      <div class="modal-actions space-between">
-        <div><strong>Aktives Bild</strong></div>
-        <div class="action-row">
-          <button class="pill btn-secondary" id="shuffle-bg" data-de="Bild wechseln" data-en="Change image">Bild wechseln</button>
-          <button class="pill btn-ghost" id="close-bg" data-de="Schließen" data-en="Close">Schließen</button>
-        </div>
-      </div>
+    <div class="bild-wahl">
+      ${THEMES.map((src, i) => `
+        <button type="button" class="bild-karte${src === jetzt ? ' aktiv' : ''}" data-i="${i}">
+          <img src="${src}" alt="">
+          <span>${namen[i] || 'Bild ' + (i + 1)}${src === jetzt ? ' ✔' : ''}</span>
+        </button>`).join('')}
     </div>
-  `;
-  applyBilingualLabels(overlay);
+    <p class="hint-note">Dein Team bleibt gleich – nur das Bild im Hintergrund wechselt.</p>`;
   overlay.classList.add('is-visible');
-  const shuffle = body.querySelector('#shuffle-bg');
-  if (shuffle) shuffle.onclick = () => {
-    // Wähle neuen Avatar/Theme als Paar
-    const nextIdx = Math.floor(Math.random() * AVATARS.length);
-    setAvatarAndThemeByIndex(nextIdx);
-    const hero = body.querySelector('.modal-hero');
-    const theme = THEMES[nextIdx];
-    if (hero) hero.src = theme;
-    applyTheme(theme);
-    renderWelcome();
+  body.querySelectorAll('.bild-karte').forEach(b => b.addEventListener('click', () => {
+    const t = THEMES[Number(b.dataset.i)];
+    setTheme(t);
+    applyTheme(t);
+    const name = getUserName();
+    if (name) spielerMerken(name, getAvatar(), t);
     document.dispatchEvent(new Event('avatar-theme-updated'));
-  };
-  const closeBtn = body.querySelector('#close-bg');
-  if (closeBtn) closeBtn.onclick = () => closeModal('background-modal');
+    overlay.classList.remove('is-visible');
+  }));
 }
 
 function openHintModal() {
