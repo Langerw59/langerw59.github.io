@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>Das Zahnradgetriebe – die Übersetzung – Technik</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- 2026-11-26: Technik, Etage 1, Lektion 1 – das Zahnradgetriebe – mit Claude -->
+    <!-- 2026-11-26: Technik, Etage 1, Lektion 1 – das Zahnradgetriebe – mit Claude; Animation + Rechner jetzt 1–5 Stufen -->
     <link rel="stylesheet" href="../../../core/assets/style.css" />
     <link rel="stylesheet" href="../elektrotechnik/et.css" />
     <script src="../../../core/js/core_init.js" defer></script>
@@ -120,40 +120,32 @@
           Einziger Unterschied: Kette und Riemen ändern die Drehrichtung <b>nicht</b>.
           <span class="ru">Цепная передача (велосипед) и ремённая – те же формулы; направление вращения не меняется.</span></p>
 
-        <h2>2. Das Getriebe in Bewegung</h2>
-        <p class="hint-text">Ставь число зубьев – колёса крутятся (в замедленном виде). Отметка на каждом колесе показывает обороты.</p>
+        <h2>2. Das Getriebe in Bewegung – 1 bis 5 Stufen</h2>
+        <p class="hint-text">Выбери число ступеней (1–5) и число зубьев – колёса крутятся (в замедленном виде), а все передаточные числа,
+          обороты и моменты на каждом валу и общее передаточное число (die Gesamtübersetzung) пересчитываются сразу.</p>
         <div class="et-box">
           <div class="et-rechner">
-            <label>z₁ – das Antriebsrad <input type="number" id="az1" value="12" min="6" max="60" /></label>
-            <label>z₂ – das Abtriebsrad <input type="number" id="az2" value="36" min="6" max="60" /></label>
-            <label>n₁ in 1/min <input type="number" id="an1" value="1500" min="1" max="10000" /></label>
-            <label>M₁ in Nm <input type="number" id="am1" value="10" min="0" step="0.1" /></label>
-            <label>das Zwischenrad
+            <label>die Anzahl der Stufen
+              <select id="aStufen"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
+            <label><span>n<sub>an</sub> – die Antriebsdrehzahl in 1/min</span> <input type="number" id="an1" value="1500" min="1" max="10000" /></label>
+            <label><span>M<sub>an</sub> – das Antriebsmoment in Nm</span> <input type="number" id="am1" value="10" min="0" step="0.1" /></label>
+            <label>das Zwischenrad (in Stufe 1)
               <select id="azw"><option value="0">ohne</option><option value="1">mit (z = 20)</option></select></label>
           </div>
+          <div class="gt-stufe" style="margin-top:12px"><b></b><small>z treibend (klein)</small><small>z getrieben (groß)</small><small>i der Stufe</small></div>
+          <div id="gtStufen"></div>
           <svg class="gt-bild" id="gtSvg" viewBox="0 0 760 300"></svg>
-          <div class="gt-zahlen" id="gtZahlen"></div>
           <p class="hint-text" style="text-align:center">
             <button type="button" class="gt-knopf" id="gtPause">⏸ Pause</button>
-            Zeitlupe: Die Räder drehen viel langsamer als in Wirklichkeit.</p>
-        </div>
-
-        <h2>3. Der Rechner für mehrstufige Getriebe</h2>
-        <p class="hint-text">Калькулятор: до трёх ступеней – общее передаточное число, обороты и момент на выходе.</p>
-        <div class="et-box">
-          <div class="gt-stufe"><b></b><small>treibend (klein)</small><small>getrieben (groß)</small><small>i</small></div>
-          <div class="gt-stufe"><b>Stufe 1</b><input type="number" id="s1a" value="15" /><input type="number" id="s1b" value="45" /><span id="s1i"></span></div>
-          <div class="gt-stufe"><b>Stufe 2</b><input type="number" id="s2a" value="12" /><input type="number" id="s2b" value="48" /><span id="s2i"></span></div>
-          <div class="gt-stufe"><b>Stufe 3</b><input type="number" id="s3a" value="" placeholder="leer = keine" /><input type="number" id="s3b" value="" placeholder="leer = keine" /><span id="s3i"></span></div>
-          <div class="et-rechner" style="margin-top:10px">
-            <label>n am Antrieb in 1/min <input type="number" id="sn" value="2400" /></label>
-            <label>M am Antrieb in Nm <input type="number" id="sm" value="5" step="0.1" /></label>
+            Zeitlupe: Die Räder drehen viel langsamer als in Wirklichkeit. Hell = das große (getriebene) Rad, kräftig = das kleine Rad auf derselben Welle. Die Räder überdecken sich, weil sie in Wirklichkeit <b>hintereinander</b> (in verschiedenen Ebenen) liegen.</p>
+          <div class="gt-zahlen" id="gtZahlen"></div>
+          <div style="overflow-x:auto;margin-top:10px">
+            <table class="et-woerter" id="gtTabelle"></table>
           </div>
-          <div class="et-ergebnis" id="sErg"></div>
-          <p class="hint-text" id="sWeg"></p>
+          <p class="hint-text" id="gtWeg"></p>
         </div>
 
-        <h2>4. Die Beispiele</h2>
+        <h2>3. Die Beispiele</h2>
         <div class="et-aufgabe">
           <h4>Beispiel 1 – eine Stufe</h4>
           <p>z₁ = 12, z₂ = 36, n₁ = 1500 1/min, M₁ = 10 Nm.</p>
@@ -168,7 +160,7 @@
             Zwei Stufen → zweimal Richtungswechsel → Abtrieb dreht <b>wie der Motor</b>.</p>
         </div>
 
-        <h2>5. Die Aufgaben mit Lösung</h2>
+        <h2>4. Die Aufgaben mit Lösung</h2>
         <div class="et-aufgabe">
           <h4>Aufgabe 1 – ins Schnelle</h4>
           <p>Das Antriebsrad hat 40 Zähne und dreht mit 300 1/min. Das Abtriebsrad hat 20 Zähne. Berechne i und n₂.</p>
@@ -228,7 +220,7 @@
             d₁ = 2 · 20 = <b>40 mm</b> · d₂ = 2 · 40 = <b>80 mm</b> · a = 2 · (20 + 40) / 2 = <b>60 mm</b> (= (d₁ + d₂) / 2).</div></details>
         </div>
 
-        <h2>6. Der Aufgaben-Trainer</h2>
+        <h2>5. Der Aufgaben-Trainer</h2>
         <p class="hint-text">Тренажёр: случайные задачи – введи ответ (запятая или точка – всё равно).</p>
         <div class="et-box gt-trainer">
           <div class="frage" id="tFrage"></div>
@@ -239,7 +231,7 @@
           <div class="hint-text" id="tStand"></div>
         </div>
 
-        <h2>7. Der Versuch</h2>
+        <h2>6. Der Versuch</h2>
         <div class="et-box">
           <h3>Die Übersetzung am Fahrrad zählen</h3>
           <ol>
@@ -251,7 +243,7 @@
           <p class="ru">Опыт с велосипедом – отлично подходит для внуков: посчитать зубья и обороты колеса.</p>
         </div>
 
-        <h2>8. Zum Ansehen</h2>
+        <h2>7. Zum Ansehen</h2>
         <ul class="et-list">
           <li><a href="https://de.wikipedia.org/wiki/Zahnradgetriebe" target="_blank" rel="noopener">📖 Wikipedia – das Zahnradgetriebe</a>
             <span class="tag">Arten: Stirnrad, Kegelrad, Schnecke, Planetengetriebe</span></li>
@@ -263,7 +255,7 @@
             <span class="tag">wie die Gänge funktionieren</span></li>
         </ul>
 
-        <h2>9. Die Wörter</h2>
+        <h2>8. Die Wörter</h2>
         <table class="et-woerter">
           <tr><td>das Getriebe</td><td>передача; редуктор; коробка передач</td></tr>
           <tr><td>das Zahnrad (die Zahnräder)</td><td>зубчатое колесо, шестерня</td></tr>
@@ -300,12 +292,15 @@
         const fmt = (x, d) => (Math.round(x * Math.pow(10, d == null ? 2 : d)) / Math.pow(10, d == null ? 2 : d)).toLocaleString("de-DE");
         const zahl = (id) => parseFloat(String($(id).value).replace(",", "."));
 
-        /* ===== Animation / анимация ===== */
-        const SVG = "http://www.w3.org/2000/svg"; let MOD = 4.2;   // px pro Modul (passt sich an)
-        let raeder = [], laeuft = true, letzt = null, winkel0 = 0;
+        /* ===== Animation + Rechner, 1–5 Stufen / анимация и расчёт, 1–5 ступеней ===== */
+        const SVG = "http://www.w3.org/2000/svg"; let MOD = 4.2;
+        const VORGABE = [[12, 36], [15, 45], [12, 48], [10, 30], [16, 32]];
+        const wert = VORGABE.map((p) => p.slice());   // merkt sich Eingaben auch beim Umschalten
+        const PI2 = 2 * Math.PI, modp = (x, p) => ((x % p) + p) % p;
+        let raeder = [], wellen = [], laeuft = true, letzt = null, winkel0 = 0;
 
         function radPfad(z) {
-          const r = MOD * z / 2, ra = r + MOD, rf = r - 1.25 * MOD, t = (2 * Math.PI) / z;
+          const r = MOD * z / 2, ra = r + MOD, rf = r - 1.25 * MOD, t = PI2 / z;
           let d = "";
           for (let k = 0; k < z; k++) {
             const a = k * t, p = [[rf, a - t * 0.5], [rf, a - t * 0.28], [ra, a - t * 0.14], [ra, a + t * 0.14], [rf, a + t * 0.28]];
@@ -313,74 +308,132 @@
           }
           return d + "Z";
         }
-        function baue() {
-          let z1 = Math.round(zahl("az1")) || 12, z2 = Math.round(zahl("az2")) || 36;
-          z1 = Math.min(60, Math.max(6, z1)); z2 = Math.min(60, Math.max(6, z2));
-          const zs = $("azw").value === "1" ? [z1, 20, z2] : [z1, z2];
-          const svg = $("gtSvg"); svg.innerHTML = "";
-          MOD = Math.min(4.2, 200 / Math.max(...zs), 720 / zs.reduce((a, b) => a + b + 2, 0));
-          const breite = zs.reduce((s, z) => s + MOD * z, 0);
-          let x = (760 - breite) / 2, phase = 0, delta = 0;
-          raeder = zs.map((z, k) => {
-            const r = MOD * z / 2; x += r; const cx = x; x += r;
-            if (k > 0) { const vor = zs[k - 1]; phase = Math.PI - delta * vor / z + Math.PI / z; }
-            delta = ((phase % (2 * Math.PI / z)) + 2 * Math.PI / z) % (2 * Math.PI / z);
-            const g = document.createElementNS(SVG, "g");
-            const kl = k === 0 ? "rad1" : k === zs.length - 1 ? "rad2" : "radz";
-            g.innerHTML = `<path class="${kl}" d="${radPfad(z)}" /><circle class="nabe" r="${Math.max(5, r * 0.18)}" />
-              <line class="mark" x1="${r * 0.25}" y1="0" x2="${r * 0.8}" y2="0" />`;
-            svg.appendChild(g);
-            const mitte = k > 0 && k < zs.length - 1, y = mitte ? 140 - r - MOD - 26 : 140 + r + MOD + 20;
-            const t = document.createElementNS(SVG, "text"); t.setAttribute("x", cx); t.setAttribute("y", y); t.setAttribute("text-anchor", "middle");
-            t.innerHTML = `<tspan x="${cx}">${k === 0 ? "der Antrieb" : mitte ? "das Zwischenrad" : "der Abtrieb"}</tspan><tspan x="${cx}" dy="17">z = ${z}</tspan>`; svg.appendChild(t);
-            return { g, z, cx, cy: 140, phase };
-          });
-          winkel0 = 0; zeichne(); rechne(z1, z2);
+        const begrenze = (x, d) => { x = Math.round(x); return isNaN(x) ? d : Math.min(80, Math.max(6, x)); };
+
+        function eingabeFelder() {
+          const N = +$("aStufen").value; let h = "";
+          for (let s = 0; s < N; s++)
+            h += `<div class="gt-stufe"><b>Stufe ${s + 1}</b><input type="number" min="6" max="80" id="za${s}" value="${wert[s][0]}" />` +
+                 `<input type="number" min="6" max="80" id="zb${s}" value="${wert[s][1]}" /><span id="si${s}"></span></div>`;
+          $("gtStufen").innerHTML = h;
+          for (let s = 0; s < N; s++) ["za", "zb"].forEach((k) => $(k + s).addEventListener("change", baue));
+          baue();
         }
-        function zeichne() {
-          raeder.forEach((r, k) => {
-            let w = r.phase;
-            if (k === 0) w = winkel0; else { const v = raeder[k - 1]; w = r.phase - (v.w - v.phase) * v.z / r.z; }
-            r.w = w; r.g.setAttribute("transform", `translate(${r.cx},${r.cy}) rotate(${(w * 180) / Math.PI})`);
+
+        function baue() {
+          const N = +$("aStufen").value, zw = $("azw").value === "1";
+          const st = [];
+          for (let s = 0; s < N; s++) {
+            const a = begrenze(zahl("za" + s), VORGABE[s][0]), b = begrenze(zahl("zb" + s), VORGABE[s][1]);
+            $("za" + s).value = a; $("zb" + s).value = b; wert[s] = [a, b]; st.push([a, b]);
+          }
+          /* die Kette der Räder: [Rad, kämmt mit dem vorigen (true) oder sitzt auf derselben Welle (false)] */
+          const kette = [];
+          st.forEach(([a, b], s) => {
+            if (s === 0) kette.push({ z: a, typ: "an", stufe: 1, kaemmt: false });
+            else kette.push({ z: a, typ: "klein", stufe: s + 1, kaemmt: false });
+            if (s === 0 && zw) kette.push({ z: 20, typ: "zw", stufe: 1, kaemmt: true });
+            kette.push({ z: b, typ: s === N - 1 ? "ab" : "gross", stufe: s + 1, kaemmt: true });
           });
+          /* Maßstab: alles muss in 740 px Breite passen */
+          let breiteMod = kette[0].z / 2 + 1, maxR = 0;
+          kette.forEach((r, k) => { if (k && r.kaemmt) breiteMod += (kette[k - 1].z + r.z) / 2; maxR = Math.max(maxR, r.z / 2 + 1); });
+          breiteMod += kette[kette.length - 1].z / 2 + 1;
+          MOD = Math.min(4.2, 720 / breiteMod, 130 / maxR);
+          const H = Math.max(220, 2 * maxR * MOD + 100), cy = maxR * MOD + 48;
+          const svg = $("gtSvg"); svg.setAttribute("viewBox", `0 0 760 ${Math.round(H)}`); svg.innerHTML = "";
+          /* Positionen, Wellen, Phasen (damit die Zähne ineinander greifen) */
+          let x = (760 - breiteMod * MOD) / 2 + (kette[0].z / 2 + 1) * MOD, welle = -1;
+          wellen = [];
+          kette.forEach((r, k) => {
+            if (k === 0) { welle = 0; r.phase = 0; }
+            else if (r.kaemmt) {
+              const v = kette[k - 1]; x += MOD * (v.z + r.z) / 2; welle++;
+              r.phase = Math.PI - modp(v.phase, PI2 / v.z) * v.z / r.z - Math.PI / r.z;
+              r.von = k - 1;
+            } else { r.phase = 0; }   // gleiche Welle wie das Rad davor
+            r.cx = x; r.welle = welle; wellen[welle] = wellen[welle] || { raeder: [] }; wellen[welle].raeder.push(k);
+          });
+          /* zeichnen: zuerst große Räder (hell), dann kleine (kräftig) darüber */
+          const reihenfolge = kette.map((r, k) => k).sort((p, q) => (kette[q].z - kette[p].z));
+          const farbe = { an: "rad1", klein: "rad1", zw: "radz", gross: "rad2", ab: "rad2" };
+          reihenfolge.forEach((k) => {
+            const r = kette[k], R = MOD * r.z / 2, g = document.createElementNS(SVG, "g");
+            const gemeinsam = wellen[r.welle].raeder.length > 1 && (r.typ === "gross");
+            g.innerHTML = `<path class="${farbe[r.typ]}" d="${radPfad(r.z)}" ${gemeinsam ? 'fill-opacity=".5"' : ""} stroke="#333" stroke-width=".6" />` +
+              `<circle class="nabe" r="${Math.max(4, R * 0.16)}" /><line class="mark" x1="${R * 0.25}" y1="0" x2="${R * 0.8}" y2="0" />`;
+            svg.appendChild(g); r.g = g;
+          });
+          /* Beschriftung der Wellen */
+          wellen.forEach((w, i) => {
+            const r = kette[w.raeder[0]], t = document.createElementNS(SVG, "text");
+            const zs = w.raeder.map((k) => kette[k].z).join(" + ");
+            const name = i === 0 ? "der Antrieb" : i === wellen.length - 1 ? "der Abtrieb" : kette[w.raeder[0]].typ === "zw" ? "das Zwischenrad" : "Welle " + (i + 1);
+            t.setAttribute("x", r.cx); t.setAttribute("y", i % 2 ? 16 : H - 26); t.setAttribute("text-anchor", "middle");
+            t.innerHTML = `<tspan x="${r.cx}">${name}</tspan><tspan x="${r.cx}" dy="16">z = ${zs}</tspan>`;
+            svg.appendChild(t);
+          });
+          raeder = kette.map((r) => { r.cy = cy; return r; });
+          winkel0 = 0; zeichne(); rechne();
+        }
+
+        function zeichne() {
+          /* Winkel je Welle: θ(nächste) = −θ(vorige) · z_treibend / z_getrieben */
+          const theta = [winkel0];
+          raeder.forEach((r) => { if (r.von != null) theta[r.welle] = -theta[raeder[r.von].welle] * raeder[r.von].z / r.z; });
+          raeder.forEach((r) => r.g.setAttribute("transform", `translate(${r.cx},${r.cy}) rotate(${((r.phase + theta[r.welle]) * 180) / Math.PI})`));
         }
         function schritt(t) {
-          if (letzt != null && laeuft) {
+          if (letzt != null && laeuft && raeder.length) {
             const n1 = Math.min(Math.max(zahl("an1") || 0, 0), 10000);
-            const umdrProSek = 0.05 + (n1 / 10000) * 0.6;   // Zeitlupe
-            winkel0 += ((t - letzt) / 1000) * umdrProSek * 2 * Math.PI; zeichne();
+            let tempo = 0.05 + (n1 / 10000) * 0.6;   // Zeitlupe
+            /* die schnellste Welle soll nicht mehr als 1,2 Umdrehungen pro Sekunde machen */
+            let maxF = 1;
+            raeder.forEach((r) => { if (r.von != null) maxF = Math.max(maxF, Math.abs(raederFaktor(r))); });
+            tempo = Math.min(tempo, 1.2 / maxF);
+            winkel0 += ((t - letzt) / 1000) * tempo * PI2; zeichne();
           }
           letzt = t; requestAnimationFrame(schritt);
         }
-        function rechne(z1, z2) {
-          const n1 = zahl("an1") || 0, m1 = zahl("am1") || 0, i = z2 / z1, zw = $("azw").value === "1";
-          const art = i > 1 ? "ins Langsame (die Untersetzung)" : i < 1 ? "ins Schnelle" : "1 : 1";
-          $("gtZahlen").innerHTML = `
-            <div><small>die Übersetzung</small><b>i = ${z2}/${z1} = ${fmt(i, 3)}</b><small>${art}</small></div>
-            <div><small>die Drehzahl n₂</small><b>${fmt(n1 / i, 1)} 1/min</b><small>n₂ = n₁ / i</small></div>
-            <div><small>das Drehmoment M₂</small><b>${fmt(m1 * i, 2)} Nm</b><small>M₂ = M₁ · i (ohne Verluste)</small></div>
-            <div><small>die Drehrichtung</small><b>${zw ? "gleich ↻↻" : "entgegengesetzt ↻↺"}</b><small>${zw ? "dank Zwischenrad" : "zwei Räder"}</small></div>`;
+        function raederFaktor(r) {   // Drehzahl der Welle von r im Verhältnis zum Antrieb
+          let f = 1, k = raeder.indexOf(r);
+          while (k > 0) { const x = raeder[k]; if (x.von != null) { f *= raeder[x.von].z / x.z; k = x.von; } else k--; }
+          return f;
         }
-        ["az1", "az2", "azw"].forEach((id) => $(id).addEventListener("change", baue));
-        ["an1", "am1"].forEach((id) => $(id).addEventListener("input", () => rechne(raeder[0].z, raeder[raeder.length - 1].z)));
-        $("gtPause").onclick = () => { laeuft = !laeuft; $("gtPause").textContent = laeuft ? "⏸ Pause" : "▶ weiter"; };
-        baue(); requestAnimationFrame(schritt);
 
-        /* ===== mehrstufiger Rechner / калькулятор ===== */
-        function stufen() {
-          let iges = 1, n = 0, teile = [];
-          for (let s = 1; s <= 3; s++) {
-            const a = zahl("s" + s + "a"), b = zahl("s" + s + "b");
-            if (a > 0 && b > 0) { const i = b / a; iges *= i; n++; teile.push(fmt(i, 3)); $("s" + s + "i").textContent = "i" + s + " = " + fmt(i, 3); }
-            else $("s" + s + "i").textContent = "–";
+        function rechne() {
+          const N = +$("aStufen").value, zw = $("azw").value === "1";
+          const nan = zahl("an1") || 0, man = zahl("am1") || 0;
+          let iges = 1, n = nan, m = man, teile = [], zeilen = "";
+          zeilen += `<tr><th>die Stufe</th><th>z treibend → z getrieben</th><th>die Übersetzung i</th><th>n danach in 1/min</th><th>M danach in Nm</th><th>die Drehrichtung</th></tr>`;
+          zeilen += `<tr><td>der Antrieb (Welle 1)</td><td>–</td><td>–</td><td>${fmt(nan, 1)}</td><td>${fmt(man, 2)}</td><td>↻</td></tr>`;
+          for (let s = 0; s < N; s++) {
+            const [a, b] = wert[s], i = b / a; iges *= i; n = nan / iges; m = man * iges; teile.push(fmt(i, 3));
+            const wechsel = s + 1 + (zw ? 1 : 0);   // Zahl der Eingriffe bis hier
+            $("si" + s).textContent = "i" + (s + 1) + " = " + fmt(i, 3);
+            zeilen += `<tr><td>Stufe ${s + 1}${s === 0 && zw ? " (+ Zwischenrad)" : ""}</td><td>${a} → ${b}</td><td>i${tiefe(s + 1)} = ${b}/${a} = ${fmt(i, 3)}</td>` +
+                      `<td>${fmt(n, 1)}</td><td>${fmt(m, 2)}</td><td>${wechsel % 2 ? "↺ entgegengesetzt" : "↻ wie der Motor"}</td></tr>`;
           }
-          const nan = zahl("sn") || 0, man = zahl("sm") || 0;
-          if (!n) { $("sErg").textContent = "Bitte mindestens eine Stufe eingeben."; $("sWeg").textContent = ""; return; }
-          $("sErg").innerHTML = `i<sub>ges</sub> = ${fmt(iges, 3)} · n<sub>ab</sub> = ${fmt(nan / iges, 1)} 1/min · M<sub>ab</sub> = ${fmt(man * iges, 2)} Nm`;
-          $("sWeg").innerHTML = `Rechenweg: i<sub>ges</sub> = ${teile.join(" · ")} = ${fmt(iges, 3)} · ${n} Stufe${n > 1 ? "n" : ""} → Drehrichtung am Abtrieb: <b>${n % 2 ? "entgegengesetzt" : "wie der Motor"}</b>`;
+          $("gtTabelle").innerHTML = zeilen;
+          const eingriffe = N + (zw ? 1 : 0), gleich = eingriffe % 2 === 0;
+          const art = iges > 1 ? "ins Langsame (die Untersetzung)" : iges < 1 ? "ins Schnelle" : "1 : 1";
+          $("gtZahlen").innerHTML = `
+            <div><small>die Gesamtübersetzung</small><b>i<sub>ges</sub> = ${fmt(iges, 3)}</b><small>${art}</small></div>
+            <div><small>die Abtriebsdrehzahl</small><b>${fmt(nan / iges, 2)} 1/min</b><small>n<sub>ab</sub> = n<sub>an</sub> / i<sub>ges</sub></small></div>
+            <div><small>das Abtriebsmoment</small><b>${fmt(man * iges, 2)} Nm</b><small>M<sub>ab</sub> = M<sub>an</sub> · i<sub>ges</sub> (ohne Verluste)</small></div>
+            <div><small>die Drehrichtung am Abtrieb</small><b>${gleich ? "gleich ↻↻" : "entgegengesetzt ↻↺"}</b><small>${eingriffe} Eingriff${eingriffe > 1 ? "e" : ""}</small></div>`;
+          $("gtWeg").innerHTML = `Rechenweg: i<sub>ges</sub> = ${N > 1 ? Array.from({ length: N }, (_, s) => "i" + tiefe(s + 1)).join(" · ") + " = " : ""}${teile.join(" · ")} = <b>${fmt(iges, 3)}</b>` +
+            ` · n<sub>ab</sub> = ${fmt(nan, 1)} / ${fmt(iges, 3)} = <b>${fmt(nan / iges, 2)} 1/min</b>` +
+            `<br />Merke: die Übersetzungen der Stufen werden <b>multipliziert</b>. ${zw ? "Das Zwischenrad ändert nur die Drehrichtung. " : ""}` +
+            `Jeder Eingriff ändert die Drehrichtung: ${eingriffe} Eingriff${eingriffe > 1 ? "e" : ""} → ${gleich ? "gerade Zahl → gleich wie der Motor" : "ungerade Zahl → entgegengesetzt"}.`;
         }
-        ["s1a", "s1b", "s2a", "s2b", "s3a", "s3b", "sn", "sm"].forEach((id) => $(id).addEventListener("input", stufen));
-        stufen();
+        function tiefe(k) { return "₀₁₂₃₄₅₆₇₈₉"[k] || k; }
+
+        $("aStufen").addEventListener("change", eingabeFelder);
+        $("azw").addEventListener("change", baue);
+        ["an1", "am1"].forEach((id) => $(id).addEventListener("input", rechne));
+        $("gtPause").onclick = () => { laeuft = !laeuft; $("gtPause").textContent = laeuft ? "⏸ Pause" : "▶ weiter"; };
+        eingabeFelder(); requestAnimationFrame(schritt);
 
         /* ===== Aufgaben-Trainer / тренажёр ===== */
         const r = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
@@ -394,8 +447,9 @@
             return { q: `Ins Schnelle: z₁ = ${z1}, z₂ = ${z2}, n₁ = ${n1} 1/min. Wie groß ist <b>n₂</b>?`, a: n1 * f, e: "1/min", w: `i = ${z2}/${z1} = ${fmt(1 / f, 3)} → n₂ = ${n1} / ${fmt(1 / f, 3)} = ${n1 * f} 1/min` }; },
           () => { const i1 = r(2, 5), i2 = r(2, 5), n = wahl([1200, 1440, 1800, 2400, 3000, 3600]);
             return { q: `Zweistufig: i₁ = ${i1}, i₂ = ${i2}, n<sub>an</sub> = ${n} 1/min. Wie groß ist <b>n<sub>ab</sub></b>?`, a: n / (i1 * i2), e: "1/min", w: `i<sub>ges</sub> = ${i1} · ${i2} = ${i1 * i2} → n<sub>ab</sub> = ${n} / ${i1 * i2} = ${fmt(n / (i1 * i2), 2)} 1/min` }; },
-          () => { const i1 = r(2, 4), i2 = r(2, 4), i3 = r(2, 3);
-            return { q: `Dreistufig: i₁ = ${i1}, i₂ = ${i2}, i₃ = ${i3}. Wie groß ist <b>i<sub>ges</sub></b>?`, a: i1 * i2 * i3, e: "", w: `i<sub>ges</sub> = ${i1} · ${i2} · ${i3} = ${i1 * i2 * i3} (multiplizieren!)` }; },
+          () => { const N = r(3, 5), i = Array.from({ length: N }, () => (N > 3 ? r(2, 3) : r(2, 4))), p = i.reduce((x, y) => x * y, 1);
+            const name = ["", "", "", "Dreistufig", "Vierstufig", "Fünfstufig"][N];
+            return { q: `${name}: ${i.map((v, k) => "i" + "₁₂₃₄₅"[k] + " = " + v).join(", ")}. Wie groß ist <b>i<sub>ges</sub></b>?`, a: p, e: "", w: `i<sub>ges</sub> = ${i.join(" · ")} = ${p} (multiplizieren!)` }; },
           () => { const z1 = wahl([12, 14, 15, 16, 18, 20]), i = wahl([2, 2.5, 3, 4, 5]), z2 = z1 * i;
             if (z2 % 1) return TYPEN[0]();
             return { q: `Das Ritzel hat z₁ = ${z1} Zähne, gewünscht ist i = ${fmt(i)}. Wie viele Zähne braucht <b>z₂</b>?`, a: z2, e: "Zähne", w: `z₂ = i · z₁ = ${fmt(i)} · ${z1} = ${z2}` }; },
