@@ -3,7 +3,7 @@
 // 2026-11-26
 // DE: Spielt fertige MP3-Dateien (neuronale Microsoft-Stimmen, erzeugt mit
 //     tools/audio_spiele/make_audio_spiele.py) aus /audio/spiele/.
-//     Ein Satz besteht aus Teilen, z. B. ["Hallo Philipp!", "Team Tiger.", "Los geht's!"].
+//     Ein Satz besteht aus Teilen, z. B. ["Hallo Tom!", "Team Tiger.", "Los geht's!"].
 //     Fehlt auch nur ein Teil als MP3, spricht die Gerätestimme den ganzen Satz.
 // RU: проигрывает готовые MP3 (красивый голос); если файла нет – голос устройства.
 // ============================================================

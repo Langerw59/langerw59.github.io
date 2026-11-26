@@ -1130,7 +1130,7 @@ window.GRAMMATIK = {
       erklaerung: [
         "ШЕСТЬ РУССКИХ ПАДЕЖЕЙ: именительный (кто? что?), родительный (кого? чего?), дательный (кому? чему?), винительный (кого? что?), творительный (кем? чем?), предложный (о ком? о чём?).",
         "ЧЕТЫРЕ НЕМЕЦКИХ: der Nominativ, der Genitiv, der Dativ, der Akkusativ. Творительного (der Instrumental) и предложного (der Präpositiv) падежа в немецком НЕТ. Поэтому русский вопрос «кем? чем?» нельзя переносить в немецкий – нужно смотреть по смыслу.",
-        "СЛУЧАЙ 1: «является кем?» → der Nominativ. По-русски: он является пилотОМ, он стал пилотОМ (творительный). По-немецки после sein, werden, bleiben, heißen – всегда Nominativ: Er ist Pilot. Er wurde Pilot. Er bleibt Pilot. Er heißt Jewgeni. Это der Gleichsetzungsnominativ, а слово после глагола – das Prädikativ (именная часть сказуемого).",
+        "СЛУЧАЙ 1: «является кем?» → der Nominativ. По-русски: он является пилотОМ, он стал пилотОМ (творительный). По-немецки после sein, werden, bleiben, heißen – всегда Nominativ: Er ist Pilot. Er wurde Pilot. Er bleibt Pilot. Er heißt Paul. Это der Gleichsetzungsnominativ, а слово после глагола – das Prädikativ (именная часть сказуемого).",
         "КАК ЗАПОМНИТЬ – ТРИ СПОСОБА. 1) Глаголы-«знаки равенства»: sein, werden, bleiben, heißen → сразу Nominativ, думать не нужно. 2) Замените «является» на старое «есть»: он есть КТО? – пилот → кто? = именительный = Nominativ. Немецкий «думает» именно так: Er ist wer? – Pilot. 3) Если между подлежащим и словом можно поставить «=» (он = пилот), это Nominativ.",
         "СРАВНИТЕ С ДОПОЛНЕНИЕМ. Er ist Pilot: er = Pilot (один человек) → das Prädikativ, Nominativ. Er fliegt ein Flugzeug: er ≠ Flugzeug (два разных предмета) → das Objekt, Akkusativ.",
         "СЛУЧАЙ 2: творительный «чем? с кем?» (орудие, вместе с) → mit + der Dativ: пишу ручкой → Ich schreibe mit dem Stift; еду с сыном → Ich fahre mit dem Sohn.",
@@ -1153,7 +1153,7 @@ window.GRAMMATIK = {
       beispiele: [
         { de: "Er ist Pilot.", en: "He is a pilot.", ru: "Он является пилотом.", hinweis: "является кем? → Nominativ · EN: обязательно a" },
         { de: "Er wurde Pilot.", en: "He became a pilot.", ru: "Он стал пилотом.", hinweis: "werden + Nominativ" },
-        { de: "Er heißt Jewgeni.", en: "His name is Jewgeni.", ru: "Его зовут Евгений.", hinweis: "heißen + Nominativ" },
+        { de: "Er heißt Paul.", en: "His name is Paul.", ru: "Его зовут Пауль.", hinweis: "heißen + Nominativ" },
         { de: "Ich schreibe mit dem Stift.", en: "I write with a pen.", ru: "Я пишу ручкой.", hinweis: "творительный «чем?» → mit + Dativ" },
         { de: "Ich fahre mit dem Sohn.", en: "I am going with my son.", ru: "Я еду с сыном.", hinweis: "«с кем?» → mit + Dativ" }
       ],
@@ -1196,7 +1196,7 @@ window.GRAMMATIK = {
         { en: "I don't like that.", de: "Das gefällt mir nicht.", ru: "Мне это (то, что ты сказал/сделал) не нравится.", hinweis: "реакция на чужие слова → that" },
         { en: "I don't like this.", de: "Das hier gefällt mir nicht.", ru: "Мне это (вот это, сейчас) не нравится.", hinweis: "то, что передо мной → this" },
         { en: "That's right.", de: "Das stimmt.", ru: "Верно.", hinweis: "ответ на слова собеседника → that" },
-        { en: "This is my wife, Lidia.", de: "Das ist meine Frau Lidia.", ru: "Это моя жена Лидия.", hinweis: "знакомлю – человек рядом → this" },
+        { en: "This is my wife, Anna.", de: "Das ist meine Frau Anna.", ru: "Это моя жена Анна.", hinweis: "знакомлю – человек рядом → this" },
         { en: "Look at that castle!", de: "Schau dir das Schloss dort an!", ru: "Посмотри на тот замок!", hinweis: "далеко → that" },
         { en: "These apples are good.", de: "Diese Äpfel sind gut.", ru: "Эти яблоки хорошие.", hinweis: "мн. число, рядом → these" },
         { en: "Who are those people?", de: "Wer sind die Leute dort?", ru: "Кто те люди?", hinweis: "мн. число, далеко → those" },

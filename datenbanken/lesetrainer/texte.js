@@ -12,7 +12,7 @@ window.LESETEXTE = [
 { id: "mein_tag", titel: "Mein Tag", titel_en: "My Day", stufe: "A1",
   info: "Простое настоящее время: I get up, I drink, I learn. Ориентир: «каждый день / обычно».",
   zeilen: [
-  ["My name is Wladimir.", "Моё имя есть Владимир.", "Меня зовут Владимир.", "Ich heiße Wladimir."],
+  ["My name is Alex.", "Моё имя есть Алекс.", "Меня зовут Алекс.", "Ich heiße Alex."],
   ["I live in Willich.", "", "Я живу в Willich.", "Ich wohne in Willich."],
   ["I get up at seven o'clock.", "Я встаю вверх в семь от часов.", "Я встаю в семь часов.", "Ich stehe um sieben Uhr auf."],
   ["I drink a cup of coffee.", "Я пью одну чашку от кофе.", "Я выпиваю чашку кофе.", "Ich trinke eine Tasse Kaffee."],
@@ -281,7 +281,7 @@ window.LESETEXTE = [
  ]
 },
 
-// 2026-11-14: Der Hahn und der Fuchs – die Fassung, die Wladimir auswendig gelernt hat
+// 2026-11-14: Der Hahn und der Fuchs – die Fassung, die der Autor auswendig gelernt hat
 {
  "id": "hahn_fuchs",
  "titel": "Der Hahn und der Fuchs",

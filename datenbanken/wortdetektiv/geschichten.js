@@ -541,7 +541,7 @@ window.WORTDETEKTIV = [
 },
 
 {
-  // 2026-11-19: mit Claude – Wladimirs Entdeckung: yesterday = gestern
+  // 2026-11-19: mit Claude – Entdeckung des Autors: yesterday = gestern
   id: "yesterday",
   titel: "gestern → yesterday: das deutsche G wird zum englischen Y",
   ru: "Почему немецкое gestern по-английски yesterday – и ещё десяток таких пар",

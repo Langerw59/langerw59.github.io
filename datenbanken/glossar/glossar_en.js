@@ -331,7 +331,7 @@ window.GLOSSAR_EN = [
 // ---------------- N ----------------
 { w:"name", de:"der Name", ru:"имя", h:"germ",
   her:"Древнеангл. nama – немецкое «Name», латинское nomen и русское «имя» – один древний корень.",
-  ver:"DE der Name · LAT nomen · RU имя", bsp:["My name is Wladimir.","Ich heiße Wladimir."], t:["Über mich"] },
+  ver:"DE der Name · LAT nomen · RU имя", bsp:["My name is Alex.","Ich heiße Alex."], t:["Über mich"] },
 { w:"near", f:["nearest"], de:"nah; nächste", ru:"близко; ближайший", h:"germ",
   her:"Древнеангл. nēah – немецкое «nah», nearest ≈ «nächste».",
   ver:"DE nah, nächste", bsp:["Where is the nearest pharmacy?","Wo ist die nächste Apotheke?"], t:["Unterwegs"] },

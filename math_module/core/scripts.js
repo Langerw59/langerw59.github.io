@@ -1352,7 +1352,7 @@ function openNameModal() {
       <h3>${T('Wer spielt?', 'Who is playing?')}</h3>
       ${liste.length ? `<div class="sp-liste">${karten}</div>` : `<p class="name-sub">${T('Noch kein Spieler – lege unten einen an.', 'No player yet – add one below.')}</p>`}
       <details class="sp-neu"${liste.length ? '' : ' open'}><summary>＋ ${T('Neuer Spieler', 'New player')}</summary>
-        <input type="text" id="name-input" placeholder="${T('Name, z. B. Philipp', 'Name, e.g. Philipp')}" autocomplete="off" />
+        <input type="text" id="name-input" placeholder="${T('Name, z. B. Tom', 'Name, e.g. Tom')}" autocomplete="off" />
         <div class="team-picker" id="team-picker" aria-label="Team auswählen">
           ${AVATARS.map((src, idx) => `
             <label class="team-option">
