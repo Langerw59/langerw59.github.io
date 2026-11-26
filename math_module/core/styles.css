@@ -505,7 +505,7 @@ body.background-only #btnBackgroundOnly { display: none !important; }
    ============================================================ */
 #mmBildUnscharf { position: fixed; inset: -40px; z-index: -1; background-size: cover; background-position: center; pointer-events: none; }
 body { position: relative; }
-body:not(.mm-en) .btn-en { display: none !important; }
+body:not(.mm-en):not(.mm-sprache-en) .btn-en { display: none !important; }
 body.mm-en .btn-en { display: block !important; }
 
 .player-bar, .level-info-card, .exercise, .level, .level-toolbar, .summary,
@@ -741,3 +741,9 @@ body.background-only #bgOnlyExitLayer::after { content: "Antippen oder Esc = zur
 .belohnung-name { text-align: center; margin: 0 0 4px; font-weight: 800; color: #713f12; }
 #mm-nochmal { font-size: 1.15em !important; padding: 12px 22px !important; }
 #mm-naechstes-level.mm-klein { font-size: .95em !important; padding: 8px 14px !important; }
+/* 2026-11-26: Sprachschalter Deutsch / English */
+body.mm-sprache-en:not(.mm-en) .btn-de { display: none !important; }
+body.mm-sprache-en:not(.mm-en) .btn-en { display: block !important; font-size: 1em; opacity: 1; margin: 0; font-weight: inherit; }
+.mm-sprache { display: flex; gap: 6px; margin: 2px 0 6px; }
+.mm-sprach-knopf { flex: 1; border: 1px solid #dbe3f0; background: #fff; padding: 7px 8px; cursor: pointer; font-weight: 700; color: #0f172a; font-size: .95em; }
+.mm-sprach-knopf.aktiv { background: var(--team-accent-soft); border-color: var(--team-accent); }

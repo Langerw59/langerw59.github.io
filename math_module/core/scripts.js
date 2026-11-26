@@ -138,6 +138,32 @@ const LEVEL_HINTS = {
   '11': 'Schriftlich teilen: von links nach rechts, Stelle für Stelle.',
 };
 
+const LEVEL_HINTS_EN = {
+  '0': 'Plus and minus up to 10: use your fingers or the dots.',
+  '1': 'Plus up to 20: first make 10, then add the rest.',
+  '2': 'Minus up to 20: first go back to 10, then go on.',
+  '3': 'Up to 100: first the tens, then the ones.',
+  '4': 'Times tables: 5 × 6 means 5 times the 6.',
+  '5': 'Divided by: how many times does the number fit in?',
+  '6': 'Up to 1000: hundreds, tens and ones separately.',
+  '7': 'With tens: 30 × 4 is like 3 × 4, just ten times bigger. Multiply first!',
+  '8': 'With remainder: how many times does it fit? What is left over is the remainder.',
+  '9': 'Big numbers: write them under each other – ones under ones.',
+  '10': 'Long multiplication: from right to left, remember to carry.',
+  '11': 'Long division: from left to right, digit by digit.',
+};
+// 2026-11-26: die Sprache des Spiels (Deutsch / English) – pro Spieler gespeichert
+// RU: язык игры для каждого игрока; позже можно добавить другие языки
+const SPRACHE_KEY = 'math_module_sprache_v1';
+function mmSprache() {
+  try { const m = JSON.parse(localStorage.getItem(SPRACHE_KEY) || '{}') || {}; return m[sterneSpieler()] === 'en' ? 'en' : 'de'; } catch (e) { return 'de'; }
+}
+function mmSpracheSetzen(sp) {
+  let m = {}; try { m = JSON.parse(localStorage.getItem(SPRACHE_KEY) || '{}') || {}; } catch (e) {}
+  m[sterneSpieler()] = sp; localStorage.setItem(SPRACHE_KEY, JSON.stringify(m));
+}
+function T(de, en) { return mmSprache() === 'en' ? en : de; }
+
 // DE: Laufende Level-Stats für Pop-ups
 // EN: Current level stats for popups
 // RU: Ð¢ÐµÐºÑƒÑ‰Ð°Ñ ÑÑ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÐ° ÑƒÑ€Ð¾Ð²Ð½Ñ Ð´Ð»Ñ Ð¼Ð¾Ð´Ð°Ð»Ð¾Ðº
@@ -449,7 +475,7 @@ function klasseSetzen(name, k) {
   const l = spielerListe().map(p => (p.name.toLowerCase() === n ? { ...p, klasse: Number(k) } : p));
   spielerSpeichern(l);
 }
-function klasseText(k) { return k >= 5 ? '5. Klasse oder höher' : `${k}. Klasse`; }
+function klasseText(k) { return k >= 5 ? T('5. Klasse oder höher', 'Grade 5 or higher') : T(`${k}. Klasse`, `Grade ${k}`); }
 function levelKlasse(id) {
   const l = mmLevelListe().find(x => String(x.level ?? x.id) === String(id));
   return l && l.klasse ? Number(l.klasse) : null;
@@ -507,13 +533,19 @@ function bruchText(x) {
   return (g || !r ? String(g) : '') + (r === 1 ? '⅓' : r === 2 ? '⅔' : '');
 }
 function sterneHTML(n) {
-  return '<span class="st-reihe" title="' + bruchText(n) + ' von 3 Sternen">' + [0, 1, 2].map(i => {
+  return '<span class="st-reihe" title="' + bruchText(n) + ' ' + T('von 3 Sternen', 'of 3 stars') + '">' + [0, 1, 2].map(i => {
     const f = Math.max(0, Math.min(1, (Number(n) || 0) - i));
     return `<span class="st" style="--f:${Math.round(f * 100)}%">★</span>`;
   }).join('') + '</span>';
 }
 function sterneSprechen(x) {
   const d = Math.round(x * 3); const g = Math.floor(d / 3), r = d % 3;
+  if (mmSprache() === 'en') {
+    const teil = r === 1 ? 'one third' : r === 2 ? 'two thirds' : '';
+    if (!g && teil) return `${teil} of a star`;
+    if (!teil) return g === 1 ? 'one star' : `${g} stars`;
+    return `${g} and ${teil} stars`;
+  }
   const teil = r === 1 ? 'ein Drittel' : r === 2 ? 'zwei Drittel' : '';
   if (!g && teil) return `${teil} Stern`;
   if (!teil) return g === 1 ? 'einen Stern' : `${g} Sterne`;
@@ -544,10 +576,10 @@ function mmTon(noten) { // [frequenz, start, dauer, wellenform]
 // 2026-11-26: die Belohnung (die Auszeichnung) nach Sternen – der Pokal nur für 3 Sterne
 // RU: награда по звёздам: кубок только за 3 звезды, иначе медали
 function belohnung(n) {
-  if (n >= 3) return { zeichen: '🏆', name: 'der Pokal', text: 'Du bekommst den Pokal!' };
-  if (n >= 2) return { zeichen: '🥈', name: 'die Silbermedaille', text: 'Du bekommst die Silbermedaille!' };
-  if (n >= 1) return { zeichen: '🥉', name: 'die Bronzemedaille', text: 'Du bekommst die Bronzemedaille!' };
-  return { zeichen: '🏁', name: 'das Ziel', text: 'Du bist im Ziel!' };
+  if (n >= 3) return { zeichen: '🏆', text: T('Du bekommst den Pokal!', 'You get the trophy!') };
+  if (n >= 2) return { zeichen: '🥈', text: T('Du bekommst die Silbermedaille!', 'You get the silver medal!') };
+  if (n >= 1) return { zeichen: '🥉', text: T('Du bekommst die Bronzemedaille!', 'You get the bronze medal!') };
+  return { zeichen: '🏁', text: T('Du bist im Ziel!', 'You reached the finish!') };
 }
 function tonRichtig() { mmTon([[660, 0, 0.15], [880, 0.12, 0.3]]); }
 function tonFalsch() { mmTon([[260, 0, 0.22, 'triangle'], [200, 0.18, 0.3, 'triangle']]); }
@@ -558,8 +590,9 @@ function sprechen(text) {
   try {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'de-DE'; u.rate = 0.95; u.pitch = 1.1;
-    const st = window.speechSynthesis.getVoices().find(v => /^de/i.test(v.lang));
+    const en = mmSprache() === 'en';
+    u.lang = en ? 'en-GB' : 'de-DE'; u.rate = 0.95; u.pitch = 1.1;
+    const st = window.speechSynthesis.getVoices().find(v => (en ? /^en/i : /^de/i).test(v.lang));
     if (st) u.voice = st;
     window.speechSynthesis.speak(u);
   } catch (e) {}
@@ -632,12 +665,21 @@ function aufgabeSprechbar(text) {
     .replace(/=\s*$/, ' gleich wie viel').replace(/=/g, ' gleich ')
     .replace(/\?/g, '.').replace(/\s+/g, ' ').trim();
 }
+function aufgabeSprechbarEN(text) {
+  return String(text)
+    .replace(/^Calculate:\s*/, '').replace(/^Fill in:\s*/, '')
+    .replace(/×/g, ' times ').replace(/÷/g, ' divided by ')
+    .replace(/\+/g, ' plus ').replace(/(\d)\s*-\s*(\d)/g, '$1 minus $2')
+    .replace(/=\s*$/, ' equals what').replace(/=/g, ' equals ')
+    .replace(/\?/g, ' what ').replace(/\s+/g, ' ').trim();
+}
 function vorlesen(text) {
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(aufgabeSprechbar(text));
-  u.lang = 'de-DE'; u.rate = 0.9;
-  const st = window.speechSynthesis.getVoices().find(v => /^de/i.test(v.lang));
+  const en = mmSprache() === 'en';
+  const u = new SpeechSynthesisUtterance(en ? aufgabeSprechbarEN(text) : aufgabeSprechbar(text));
+  u.lang = en ? 'en-GB' : 'de-DE'; u.rate = 0.9;
+  const st = window.speechSynthesis.getVoices().find(v => (en ? /^en/i : /^de/i).test(v.lang));
   if (st) u.voice = st;
   window.speechSynthesis.speak(u);
 }
@@ -645,7 +687,7 @@ document.addEventListener('click', (ev) => {
   const b = ev.target.closest && ev.target.closest('[data-action="vorlesen"]');
   if (!b) return;
   const p = b.closest('p');
-  const t = p ? p.textContent.replace(/^Aufgabe\s*\d+:\s*/, '').replace('🔊', '') : '';
+  const t = p ? p.textContent.replace(/^(Aufgabe|Task)\s*\d+:\s*/, '').replace('🔊', '') : '';
   vorlesen(t);
 });
 function maskottchen(art) {
@@ -982,7 +1024,7 @@ function renderWelcome() {
   // 2026-11-26: neues Design – eine schmale Leiste oben, alle Knöpfe im Seitenmenü rechts
   // RU: одна тонкая строка сверху, все кнопки – в выдвижном меню справа
   const lvlNow = parseCurrentLevel();
-  const lvlTitel = lvlNow !== null ? mmLevelTitel(lvlNow) + (levelKlasse(lvlNow) ? ` · ${levelKlasse(lvlNow)}. Klasse` : '') : 'Mathe-Spaß';
+  const lvlTitel = lvlNow !== null ? mmLevelTitel(lvlNow) + (levelKlasse(lvlNow) ? ` · ${klasseText(levelKlasse(lvlNow))}` : '') : 'Mathe-Spaß';
   target.innerHTML = `
     <div class="mm-leiste">
       <button type="button" class="mm-spieler" id="avatar-open" title="Team wählen">
@@ -991,7 +1033,7 @@ function renderWelcome() {
       </button>
       <span class="mm-level-chip" title="Aktuelles Level">${escapeHtml(lvlTitel)}</span>
       <span class="mm-sterne" id="sterne-widget" title="Alle Sterne aus allen Levels">⭐ <strong id="sterne-summe">0</strong>&nbsp;/&nbsp;<span id="sterne-max">${mmLevelListe().length * 3}</span></span>
-      <button type="button" class="mm-menue-knopf" id="mm-menue-auf" aria-expanded="false" aria-controls="mm-menue">☰ Menü</button>
+      <button type="button" class="mm-menue-knopf" id="mm-menue-auf" aria-expanded="false" aria-controls="mm-menue">☰ ${T('Menü', 'Menu')}</button>
     </div>
   `;
   mmMenueAufbauen(name);
@@ -1060,15 +1102,19 @@ function mmLevelListe() {
   try { const l = JSON.parse(localStorage.getItem('math_module_levels_cache') || '[]'); if (Array.isArray(l) && l.length) return l; } catch (e) {}
   return [...Array(12).keys()].map(i => ({ level: i, klasse: Math.floor(i / 3) + 1, title: `Level ${i}`, description: '' }));
 }
+function lvTitel(l) { return (mmSprache() === 'en' && l.title_en) ? l.title_en : l.title; }
+function lvBeschreibung(l) { return (mmSprache() === 'en' && l.description_en) ? l.description_en : l.description; }
 function mmLevelTitel(id) {
   const l = mmLevelListe().find(x => String(x.level ?? x.id) === String(id));
-  return l ? l.title : `Level ${id}`;
+  return l ? lvTitel(l) : `Level ${id}`;
 }
 function mmLevelStarten(id) {
   resetRun(String(id));
   window.location.href = `${MODULE_ROOT}/levels/level${id}.html`;
 }
 function mmSchalterAnwenden() {
+  document.body.classList.toggle('mm-sprache-en', mmSprache() === 'en');
+  document.documentElement.lang = mmSprache();
   document.body.classList.toggle('mm-en', localStorage.getItem(ENGLISCH_KEY) === '1');
   document.body.classList.toggle('mm-uebersicht', localStorage.getItem(UEBERSICHT_KEY) === '1');
 }
@@ -1102,16 +1148,16 @@ function mmLevelKnoepfe() {
     const istMeine = meine && Math.min(4, meine) === Number(k);
     const knoepfe = gruppen[k].map(l => {
       const id = String(l.level ?? l.id);
-      const titel = String(l.title || `Level ${id}`).replace(/^Level\s*\d+\s*[–-]\s*/, '');
+      const titel = String(lvTitel(l) || `Level ${id}`).replace(/^Level\s*\d+\s*[–-]\s*/, '');
       return `<button type="button" class="mm-level${id === String(aktuell) ? ' aktiv' : ''}" data-level="${id}">
         <span class="mm-level-nr">${id}</span><span class="mm-level-name">${escapeHtml(titel)}</span><span class="mm-level-sterne">${sterneHTML(sterneFuer(id))}</span></button>`;
     }).join('');
-    const kopf = Number(k) ? `${k}. Klasse${istMeine ? ' <span class="mm-meine">deine Klasse</span>' : ''}` : 'Level';
+    const kopf = Number(k) ? `${klasseText(Number(k))}${istMeine ? ` <span class="mm-meine">${T('deine Klasse', 'your grade')}</span>` : ''}` : 'Level';
     return `<div class="mm-klassen-gruppe${istMeine ? ' meine' : ''}"><div class="mm-klasse-kopf">${kopf}</div>${knoepfe}</div>`;
   }).join('');
   host.querySelectorAll('.mm-level').forEach(b => b.addEventListener('click', () => mmLevelStarten(b.dataset.level)));
   const kBtn = document.getElementById('mm-klasse');
-  if (kBtn) kBtn.textContent = meine ? `🎒 Klasse: ${klasseText(meine)} – ändern` : '🎒 Klasse wählen';
+  if (kBtn) kBtn.textContent = meine ? T(`🎒 Klasse: ${klasseText(meine)} – ändern`, `🎒 ${klasseText(meine)} – change`) : T('🎒 Klasse wählen', '🎒 Choose grade');
 }
 // Klasse ändern (für den aktuellen Spieler)
 function openKlasseModal() {
@@ -1150,10 +1196,14 @@ function mmMenueAufbauen() {
   m.id = 'mm-menue';
   m.setAttribute('aria-label', 'Menü');
   m.innerHTML = `
-    <div class="mm-menue-kopf"><strong>Menü</strong><button type="button" class="mm-zu" id="mm-menue-zu" aria-label="Menü schließen">✕</button></div>
-    <div class="mm-gruppe"><div class="mm-gruppe-titel">Level wählen</div><div id="mm-level-liste"></div></div>
+    <div class="mm-menue-kopf"><strong>${T('Menü', 'Menu')}</strong><button type="button" class="mm-zu" id="mm-menue-zu" aria-label="Menü schließen">✕</button></div>
+    <div class="mm-gruppe"><div class="mm-gruppe-titel">${T('Level wählen', 'Choose level')}</div><div id="mm-level-liste"></div></div>
     <div class="mm-gruppe">
-      <div class="mm-gruppe-titel">Spiel</div>
+      <div class="mm-gruppe-titel">${T('Spiel', 'Game')}</div>
+      <div class="mm-sprache" role="group" aria-label="Sprache">
+        <button type="button" class="mm-sprach-knopf${mmSprache() === 'de' ? ' aktiv' : ''}" data-sprache="de">🇩🇪 Deutsch</button>
+        <button type="button" class="mm-sprach-knopf${mmSprache() === 'en' ? ' aktiv' : ''}" data-sprache="en">🇬🇧 English</button>
+      </div>
       <button type="button" class="mm-eintrag" id="change-name" data-de="👥 Spieler wechseln" data-en="Players">👥 Spieler wechseln</button>
       <button type="button" class="mm-eintrag" id="mm-klasse">🎒 Klasse wählen</button>
       <button type="button" class="mm-eintrag" id="mm-team" data-de="🐾 Team wählen" data-en="Choose team">🐾 Team wählen</button>
@@ -1161,7 +1211,7 @@ function mmMenueAufbauen() {
       <button type="button" class="mm-eintrag" id="bg-open" data-de="🖼️ Bild wechseln" data-en="Change image">🖼️ Bild wechseln</button>
       <button type="button" class="mm-eintrag" id="btnBackgroundOnly" data-de="👀 Nur Hintergrund" data-en="Background only">👀 Nur Hintergrund</button>
       <button type="button" class="mm-eintrag" id="open-level-results" data-de="📊 Auswertung" data-en="Evaluation">📊 Auswertung</button>
-      <label class="mm-schalter"><input type="checkbox" id="mm-ton"> 🔊 Ton und Sprache</label>
+      <label class="mm-schalter"><input type="checkbox" id="mm-ton"> 🔊 ${T('Ton und Sprache', 'Sound and voice')}</label>
       <button type="button" class="mm-eintrag" id="mm-startseite" data-de="🏠 Mathe-Start" data-en="Start page">🏠 Mathe-Start</button>
       <button type="button" class="mm-eintrag" id="mm-beenden" data-de="🚪 Spiel beenden" data-en="End game">🚪 Spiel beenden</button>
     </div>
@@ -1170,7 +1220,7 @@ function mmMenueAufbauen() {
       <button type="button" class="mm-eintrag" id="mm-alle-level">📋 Alle Level (Übersicht)</button>
       <button type="button" class="mm-eintrag" id="mm-neustart">🔄 Neu anfangen (Sterne dieses Spielers löschen)</button>
       <label class="mm-schalter"><input type="checkbox" id="mm-uebersicht"> Aufgaben-Übersicht (Tabelle) zeigen</label>
-      <label class="mm-schalter"><input type="checkbox" id="mm-englisch"> Englisch anzeigen</label>
+      <label class="mm-schalter"><input type="checkbox" id="mm-englisch"> Beide Sprachen auf den Knöpfen zeigen</label>
     </details>`;
   document.body.appendChild(m);
   applyBilingualLabels(m);
@@ -1201,6 +1251,11 @@ function mmMenueAufbauen() {
     const d = document.getElementById('allLevelsDetails');
     if (d) { d.open = true; d.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   };
+  m.querySelectorAll('.mm-sprach-knopf').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.sprache === mmSprache()) return;
+    mmSpracheSetzen(b.dataset.sprache);
+    window.location.reload();
+  }));
   const ton = m.querySelector('#mm-ton');
   ton.checked = tonAn();
   ton.onchange = () => { localStorage.setItem(TON_KEY, ton.checked ? '1' : '0'); if (ton.checked) sprechen('Ton ist an.'); else window.speechSynthesis?.cancel(); };
@@ -1216,7 +1271,8 @@ function mmMenueAufbauen() {
   }
   mmLevelKnoepfe();
   // Level-Namen noch nicht im Speicher? → einmal aus levels.json holen
-  if (!localStorage.getItem('math_module_levels_cache')) {
+  if (!window.mmLevelsGeholt) {
+    window.mmLevelsGeholt = true;
     fetch(`${MODULE_ROOT}/data/levels.json`).then(r => r.json()).then(levels => {
       try { localStorage.setItem('math_module_levels_cache', JSON.stringify(levels)); } catch (e) {}
       mmLevelKnoepfe();
@@ -1287,7 +1343,7 @@ function openNameModal() {
 
   const fertig = () => {
     const wer = getUserName();
-    if (wer) sprechen(`Hallo ${wer}! Team ${teamNameForAvatar(getAvatar())}. Los geht's!`);
+    if (wer) sprechen(T(`Hallo ${wer}! Team ${teamNameForAvatar(getAvatar())}. Los geht's!`, `Hello ${wer}! Team ${teamNameForAvatar(getAvatar())}. Let's go!`));
     markGameActive(true);
     markWelcomeShown();
     overlay.classList.remove('is-visible');
@@ -1465,7 +1521,7 @@ function renderResultTable(rows) {
 // RU: ребёнок сам выбирает команду; картинка-фон меняется вместе с командой
 function openAvatarModal() {
   const jetzt = getAvatar();
-  const { overlay, body } = ensureModal('avatar-modal', 'Für welches Team spielst du?');
+  const { overlay, body } = ensureModal('avatar-modal', T('Für welches Team spielst du?', 'Which team do you play for?'));
   if (!body) return;
   body.innerHTML = `
     <div class="team-wahl">
@@ -1489,7 +1545,7 @@ function openAvatarModal() {
     renderWelcome();
     document.dispatchEvent(new Event('avatar-theme-updated'));
     overlay.classList.remove('is-visible');
-    showToast(`Du spielst jetzt für Team ${TEAM_NAMES[i]}! 🎉`, 'ok');
+    showToast(T(`Du spielst jetzt für Team ${TEAM_NAMES[i]}! 🎉`, `You now play for Team ${TEAM_NAMES[i]}! 🎉`), 'ok');
   }));
 }
 
@@ -1497,7 +1553,7 @@ function openAvatarModal() {
 // RU: меняется только фон, команда остаётся
 function openBackgroundModal() {
   const jetzt = getTheme();
-  const { overlay, body } = ensureModal('background-modal', 'Welches Bild möchtest du?');
+  const { overlay, body } = ensureModal('background-modal', T('Welches Bild möchtest du?', 'Which picture would you like?'));
   if (!body) return;
   const namen = ['Eis und Schnee', 'Bambuswald', 'Teich', 'Herbstwald', 'Dschungel'];
   body.innerHTML = `
@@ -1523,7 +1579,7 @@ function openBackgroundModal() {
 
 function openHintModal() {
   const lvl = parseCurrentLevel() || '0';
-  const hint = LEVEL_HINTS[String(lvl)] || 'Kleiner Tipp: erst lesen, dann rechnen.';
+  const hint = (mmSprache() === 'en' ? LEVEL_HINTS_EN : LEVEL_HINTS)[String(lvl)] || T('Kleiner Tipp: erst lesen, dann rechnen.', 'Little tip: read first, then calculate.');
   const { overlay, body } = ensureModal('hint-modal', 'Hinweis');
   if (!body) return;
   body.innerHTML = `
@@ -1555,88 +1611,97 @@ function verlaufSpeichern(v) { try { localStorage.setItem(VERLAUF_KEY, JSON.stri
 
 // eine einzelne Zufallsaufgabe für das Level: { text, answer, solution }
 // 2026-11-26: 12 Level, nach Klassen geordnet (Klasse 1: L0–2, Klasse 2: L3–5, Klasse 3: L6–8, Klasse 4: L9–11)
-function zahlDE(n) { return Number(n).toLocaleString('de-DE'); }
+function zahlDE(n) { return Number(n).toLocaleString(T('de-DE', 'en-GB')); }
+const TIERE_EN = ['the frog', 'the panda', 'the penguin', 'the squirrel', 'the tiger'];
 function zufallsAufgabe(levelId) {
   const r = randInt;
-  const tier = () => TIERE_TEXT[r(0, TIERE_TEXT.length - 1)];
+  const en = mmSprache() === 'en';
+  const tier = () => { const i = r(0, TIERE_TEXT.length - 1); return en ? TIERE_EN[i] : TIERE_TEXT[i]; };
   const gross = t => t.charAt(0).toUpperCase() + t.slice(1);
   const Z = zahlDE;
+  const MAL = en ? '×' : '·', GETEILT = en ? '÷' : ':';
+  const RE = en ? 'Calculate:' : 'Rechne:', ERG = en ? 'Fill in:' : 'Ergänze:';
+  const rechne = (aufg, ans, lsg) => ({ text: `${RE} ${aufg} =`, answer: ans, solution: lsg });
   switch (String(levelId)) {
     // ---------- Klasse 1 ----------
-    case '0': { // plus und minus bis 10
+    case '0': {
       const art = r(1, 6);
-      if (art === 1) { const a = r(1, 9); return { text: `Ergänze: ${a} + ? = 10`, answer: 10 - a, solution: `${a} + ${10 - a} = 10.` }; }
-      if (art === 2) { const a = r(2, 5), b = r(1, 10 - a); return { text: `${gross(tier())} hat ${a} Äpfel und findet ${b} dazu. Wie viele Äpfel sind es?`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
-      if (art <= 4) { const a = r(1, 9), b = r(1, 10 - a); return { text: `Rechne: ${a} + ${b} =`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
-      const a = r(2, 10), b = r(1, a); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
+      if (art === 1) { const a = r(1, 9); return { text: `${ERG} ${a} + ? = 10`, answer: 10 - a, solution: `${a} + ${10 - a} = 10.` }; }
+      if (art === 2) { const a = r(2, 5), b = r(1, 10 - a); return { text: en ? `${gross(tier())} has ${a} apples and finds ${b} more. How many apples are there?` : `${gross(tier())} hat ${a} Äpfel und findet ${b} dazu. Wie viele Äpfel sind es?`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
+      if (art <= 4) { const a = r(1, 9), b = r(1, 10 - a); return rechne(`${a} + ${b}`, a + b, `${a} + ${b} = ${a + b}.`); }
+      const a = r(2, 10), b = r(1, a); return rechne(`${a} - ${b}`, a - b, `${a} - ${b} = ${a - b}.`);
     }
-    case '1': { // plus bis 20
+    case '1': {
       const art = r(1, 6);
-      if (art === 1) { const a = r(3, 15), s = r(a + 1, 20); return { text: `Ergänze: ${a} + ? = ${s}`, answer: s - a, solution: `${a} + ${s - a} = ${s}.` }; }
-      if (art === 2) { const a = r(4, 12), b = r(2, 20 - a); return { text: `${gross(tier())} sammelt ${a} Nüsse und dann noch ${b}. Wie viele Nüsse sind es?`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
-      const a = r(5, 15), b = r(1, 20 - a); return { text: `Rechne: ${a} + ${b} =`, answer: a + b, solution: `${a} + ${b} = ${a + b}. Tipp: zuerst bis 10 auffüllen.` };
+      if (art === 1) { const a = r(3, 15), s = r(a + 1, 20); return { text: `${ERG} ${a} + ? = ${s}`, answer: s - a, solution: `${a} + ${s - a} = ${s}.` }; }
+      if (art === 2) { const a = r(4, 12), b = r(2, 20 - a); return { text: en ? `${gross(tier())} collects ${a} nuts and then ${b} more. How many nuts are there?` : `${gross(tier())} sammelt ${a} Nüsse und dann noch ${b}. Wie viele Nüsse sind es?`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
+      const a = r(5, 15), b = r(1, 20 - a); return rechne(`${a} + ${b}`, a + b, `${a} + ${b} = ${a + b}. ${T('Tipp: zuerst bis 10 auffüllen.', 'Tip: first make 10.')}`);
     }
-    case '2': { // minus bis 20
+    case '2': {
       const art = r(1, 6);
-      if (art === 1) { const a = r(10, 20), d = r(1, a - 1); return { text: `Ergänze: ${a} - ? = ${d}`, answer: a - d, solution: `${a} - ${a - d} = ${d}.` }; }
-      if (art === 2) { const a = r(8, 20), b = r(1, a - 1); return { text: `${gross(tier())} hat ${a} Fische und frisst ${b}. Wie viele Fische bleiben?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
-      const a = r(8, 20), b = r(1, a); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
+      if (art === 1) { const a = r(10, 20), d = r(1, a - 1); return { text: `${ERG} ${a} - ? = ${d}`, answer: a - d, solution: `${a} - ${a - d} = ${d}.` }; }
+      if (art === 2) { const a = r(8, 20), b = r(1, a - 1); return { text: en ? `${gross(tier())} has ${a} fish and eats ${b}. How many fish are left?` : `${gross(tier())} hat ${a} Fische und frisst ${b}. Wie viele Fische bleiben?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
+      const a = r(8, 20), b = r(1, a); return rechne(`${a} - ${b}`, a - b, `${a} - ${b} = ${a - b}.`);
     }
     // ---------- Klasse 2 ----------
-    case '3': { // plus und minus bis 100
+    case '3': {
       const art = r(1, 6);
-      if (art === 1) { const a = r(10, 90), s = r(a + 1, 100); return { text: `Ergänze: ${a} + ? = ${s}`, answer: s - a, solution: `${a} + ${s - a} = ${s}.` }; }
-      if (art === 2) { const a = r(20, 99), b = r(5, a - 1); return { text: `${gross(tier())} hat ${a} Cent und kauft ein Eis für ${b} Cent. Wie viele Cent bleiben?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
-      if (art <= 4) { const a = r(11, 89), b = r(2, 100 - a); return { text: `Rechne: ${a} + ${b} =`, answer: a + b, solution: `${a} + ${b} = ${a + b}. Tipp: zuerst die Zehner, dann die Einer.` }; }
-      const a = r(20, 100), b = r(2, a - 1); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
+      if (art === 1) { const a = r(10, 90), s = r(a + 1, 100); return { text: `${ERG} ${a} + ? = ${s}`, answer: s - a, solution: `${a} + ${s - a} = ${s}.` }; }
+      if (art === 2) { const a = r(20, 99), b = r(5, a - 1); return { text: en ? `${gross(tier())} has ${a} cents and buys an ice cream for ${b} cents. How many cents are left?` : `${gross(tier())} hat ${a} Cent und kauft ein Eis für ${b} Cent. Wie viele Cent bleiben?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
+      if (art <= 4) { const a = r(11, 89), b = r(2, 100 - a); return rechne(`${a} + ${b}`, a + b, `${a} + ${b} = ${a + b}. ${T('Tipp: zuerst die Zehner, dann die Einer.', 'Tip: first the tens, then the ones.')}`); }
+      const a = r(20, 100), b = r(2, a - 1); return rechne(`${a} - ${b}`, a - b, `${a} - ${b} = ${a - b}.`);
     }
-    case '4': { // das kleine Einmaleins
+    case '4': {
       const a = r(1, 10), b = r(1, 10);
       const art = r(1, 5);
-      if (art === 1) return { text: `${gross(tier())} hat ${a} Körbe mit je ${b} Beeren. Wie viele Beeren sind es?`, answer: a * b, solution: `${a} · ${b} = ${a * b}.` };
-      if (art === 2) return { text: `Ergänze: ${a} · ? = ${a * b}`, answer: b, solution: `${a} · ${b} = ${a * b}.` };
-      return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a} · ${b} = ${a * b}.` };
+      if (art === 1) return { text: en ? `${gross(tier())} has ${a} baskets with ${b} berries each. How many berries are there?` : `${gross(tier())} hat ${a} Körbe mit je ${b} Beeren. Wie viele Beeren sind es?`, answer: a * b, solution: `${a} ${MAL} ${b} = ${a * b}.` };
+      if (art === 2) return { text: `${ERG} ${a} ${MAL} ? = ${a * b}`, answer: b, solution: `${a} ${MAL} ${b} = ${a * b}.` };
+      return rechne(`${a} ${MAL} ${b}`, a * b, `${a} ${MAL} ${b} = ${a * b}.`);
     }
-    case '5': { // geteilt durch (ohne Rest)
+    case '5': {
       const a = r(2, 10), b = r(1, 10), d = a * b;
-      if (r(1, 5) === 1) return { text: `${d} Bonbons werden an ${a} Kinder verteilt. Wie viele bekommt jedes Kind?`, answer: b, solution: `${d} : ${a} = ${b}, denn ${a} · ${b} = ${d}.` };
-      return { text: `Rechne: ${d} : ${a} =`, answer: b, solution: `${d} : ${a} = ${b}, denn ${a} · ${b} = ${d}.` };
+      const lsg = `${d} ${GETEILT} ${a} = ${b}, ${T('denn', 'because')} ${a} ${MAL} ${b} = ${d}.`;
+      if (r(1, 5) === 1) return { text: en ? `${d} sweets are shared among ${a} children. How many does each child get?` : `${d} Bonbons werden an ${a} Kinder verteilt. Wie viele bekommt jedes Kind?`, answer: b, solution: lsg };
+      return rechne(`${d} ${GETEILT} ${a}`, b, lsg);
     }
     // ---------- Klasse 3 ----------
-    case '6': { // plus und minus bis 1000
+    case '6': {
       const art = r(1, 5);
-      if (art === 1) { const a = r(100, 900), s = r(a + 1, 1000); return { text: `Ergänze: ${a} + ? = ${s}`, answer: s - a, solution: `${a} + ${s - a} = ${s}.` }; }
-      if (art === 2) { const a = r(200, 999), b = r(20, a - 1); return { text: `Ein Zug hat ${a} Plätze. ${b} sind besetzt. Wie viele Plätze sind frei?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
-      if (art === 3) { const a = r(101, 899), b = r(11, 1000 - a); return { text: `Rechne: ${a} + ${b} =`, answer: a + b, solution: `${a} + ${b} = ${a + b}. Tipp: Hunderter, Zehner, Einer einzeln.` }; }
-      const a = r(150, 1000), b = r(11, a - 1); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
+      if (art === 1) { const a = r(100, 900), s = r(a + 1, 1000); return { text: `${ERG} ${a} + ? = ${Z(s)}`, answer: s - a, solution: `${a} + ${s - a} = ${Z(s)}.` }; }
+      if (art === 2) { const a = r(200, 999), b = r(20, a - 1); return { text: en ? `A train has ${a} seats. ${b} are taken. How many seats are free?` : `Ein Zug hat ${a} Plätze. ${b} sind besetzt. Wie viele Plätze sind frei?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
+      if (art === 3) { const a = r(101, 899), b = r(11, 1000 - a); return rechne(`${a} + ${b}`, a + b, `${a} + ${b} = ${Z(a + b)}. ${T('Tipp: Hunderter, Zehner, Einer einzeln.', 'Tip: hundreds, tens and ones separately.')}`); }
+      const a = r(150, 1000), b = r(11, a - 1); return rechne(`${Z(a)} - ${b}`, a - b, `${Z(a)} - ${b} = ${a - b}.`);
     }
-    case '7': { // mal und geteilt mit Zehnern, Punkt vor Strich
+    case '7': {
       const art = r(1, 4);
-      if (art === 1) { const a = r(2, 9) * 10, b = r(2, 9); return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a / 10} · ${b} = ${a / 10 * b}, also ${a} · ${b} = ${a * b}.` }; }
-      if (art === 2) { const a = r(2, 9), b = r(2, 9) * 10, d = a * b; return { text: `Rechne: ${d} : ${a} =`, answer: b, solution: `${d / 10} : ${a} = ${b / 10}, also ${d} : ${a} = ${b}.` }; }
-      if (art === 3) { const a = r(2, 9), b = r(2, 9), c = r(1, 50); return { text: `Rechne: ${c} + ${a} · ${b} =`, answer: c + a * b, solution: `Punkt vor Strich: ${a} · ${b} = ${a * b}, dann ${c} + ${a * b} = ${c + a * b}.` }; }
-      const a = r(11, 19), b = r(2, 6); return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a} · ${b} = 10 · ${b} + ${a - 10} · ${b} = ${10 * b} + ${(a - 10) * b} = ${a * b}.` };
+      if (art === 1) { const a = r(2, 9) * 10, b = r(2, 9); return rechne(`${a} ${MAL} ${b}`, a * b, `${a / 10} ${MAL} ${b} = ${a / 10 * b}, ${T('also', 'so')} ${a} ${MAL} ${b} = ${a * b}.`); }
+      if (art === 2) { const a = r(2, 9), b = r(2, 9) * 10, d = a * b; return rechne(`${d} ${GETEILT} ${a}`, b, `${d / 10} ${GETEILT} ${a} = ${b / 10}, ${T('also', 'so')} ${d} ${GETEILT} ${a} = ${b}.`); }
+      if (art === 3) { const a = r(2, 9), b = r(2, 9), c = r(1, 50); return rechne(`${c} + ${a} ${MAL} ${b}`, c + a * b, `${T('Punkt vor Strich', 'Multiply first')}: ${a} ${MAL} ${b} = ${a * b}, ${T('dann', 'then')} ${c} + ${a * b} = ${c + a * b}.`); }
+      const a = r(11, 19), b = r(2, 6); return rechne(`${a} ${MAL} ${b}`, a * b, `${a} ${MAL} ${b} = 10 ${MAL} ${b} + ${a - 10} ${MAL} ${b} = ${10 * b} + ${(a - 10) * b} = ${a * b}.`);
     }
-    case '8': { // geteilt mit Rest
+    case '8': {
       const t = r(2, 9), q = r(2, 10), rest = r(1, t - 1), d = t * q + rest;
-      if (r(1, 2) === 1) return { text: `Rechne: ${d} : ${t} = ${q} Rest ?`, answer: rest, solution: `${t} · ${q} = ${t * q}, bis ${d} fehlen noch ${rest}. Also ${d} : ${t} = ${q} Rest ${rest}.` };
-      return { text: `Rechne: ${d} : ${t} = ? Rest ${rest}`, answer: q, solution: `${t} · ${q} = ${t * q}, dazu der Rest ${rest} = ${d}. Also ${d} : ${t} = ${q} Rest ${rest}.` };
+      const R = T('Rest', 'remainder');
+      const lsg = `${t} ${MAL} ${q} = ${t * q}, + ${rest} = ${d}. ${T('Also', 'So')} ${d} ${GETEILT} ${t} = ${q} ${R} ${rest}.`;
+      if (r(1, 2) === 1) return { text: `${RE} ${d} ${GETEILT} ${t} = ${q} ${R} ?`, answer: rest, solution: lsg };
+      return { text: `${RE} ${d} ${GETEILT} ${t} = ? ${R} ${rest}`, answer: q, solution: lsg };
     }
     // ---------- Klasse 4 ----------
-    case '9': { // große Zahlen bis 1 Million
+    case '9': {
       const art = r(1, 4);
-      if (art === 1) { const a = r(1000, 500000), b = r(1000, 400000); return { text: `Rechne: ${Z(a)} + ${Z(b)} =`, answer: a + b, solution: `${Z(a)} + ${Z(b)} = ${Z(a + b)}. Tipp: schriftlich untereinander rechnen.` }; }
-      if (art === 2) { const a = r(10000, 999999), b = r(1000, a - 1); return { text: `Rechne: ${Z(a)} - ${Z(b)} =`, answer: a - b, solution: `${Z(a)} - ${Z(b)} = ${Z(a - b)}. Tipp: schriftlich untereinander rechnen.` }; }
-      if (art === 3) { const a = r(1, 999) * 1000; return { text: `Wie viel fehlt bis 1 Million? ${Z(a)} + ? = ${Z(1000000)}`, answer: 1000000 - a, solution: `${Z(a)} + ${Z(1000000 - a)} = ${Z(1000000)}.` }; }
-      const a = r(1000, 99000), b = r(1, 9) * 1000; return { text: `Rechne: ${Z(a)} + ${Z(b)} =`, answer: a + b, solution: `${Z(a)} + ${Z(b)} = ${Z(a + b)}.` };
+      const tipp = T('Tipp: schriftlich untereinander rechnen.', 'Tip: write the numbers under each other.');
+      if (art === 1) { const a = r(1000, 500000), b = r(1000, 400000); return rechne(`${Z(a)} + ${Z(b)}`, a + b, `${Z(a)} + ${Z(b)} = ${Z(a + b)}. ${tipp}`); }
+      if (art === 2) { const a = r(10000, 999999), b = r(1000, a - 1); return rechne(`${Z(a)} - ${Z(b)}`, a - b, `${Z(a)} - ${Z(b)} = ${Z(a - b)}. ${tipp}`); }
+      if (art === 3) { const a = r(1, 999) * 1000; return { text: `${T('Wie viel fehlt bis 1 Million?', 'How much is missing to 1 million?')} ${Z(a)} + ? = ${Z(1000000)}`, answer: 1000000 - a, solution: `${Z(a)} + ${Z(1000000 - a)} = ${Z(1000000)}.` }; }
+      const a = r(1000, 99000), b = r(1, 9) * 1000; return rechne(`${Z(a)} + ${Z(b)}`, a + b, `${Z(a)} + ${Z(b)} = ${Z(a + b)}.`);
     }
-    case '10': { // schriftlich malnehmen
-      if (r(1, 3) === 1) { const a = r(12, 99), b = r(2, 9) * 10; return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a} · ${b / 10} = ${a * b / 10}, mal 10 = ${Z(a * b)}.` }; }
-      const a = r(102, 999), b = r(2, 9); return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a} · ${b} = ${Z(a * b)}. Tipp: schriftlich von rechts nach links, Übertrag nicht vergessen.` };
+    case '10': {
+      if (r(1, 3) === 1) { const a = r(12, 99), b = r(2, 9) * 10; return rechne(`${a} ${MAL} ${b}`, a * b, `${a} ${MAL} ${b / 10} = ${a * b / 10}, ${MAL} 10 = ${Z(a * b)}.`); }
+      const a = r(102, 999), b = r(2, 9); return rechne(`${a} ${MAL} ${b}`, a * b, `${a} ${MAL} ${b} = ${Z(a * b)}. ${T('Tipp: schriftlich von rechts nach links, Übertrag nicht vergessen.', 'Tip: from right to left, don’t forget to carry.')}`);
     }
-    case '11': { // schriftlich teilen
+    case '11': {
       const t = r(2, 9), q = r(21, 999), d = t * q;
-      return { text: `Rechne: ${Z(d)} : ${t} =`, answer: q, solution: `${Z(d)} : ${t} = ${q}, denn ${q} · ${t} = ${Z(d)}. Tipp: schriftlich von links nach rechts teilen.` };
+      return rechne(`${Z(d)} ${GETEILT} ${t}`, q, `${Z(d)} ${GETEILT} ${t} = ${q}, ${T('denn', 'because')} ${q} ${MAL} ${t} = ${Z(d)}.`);
     }
     default: return null;
   }
@@ -1894,8 +1959,8 @@ function renderLevelMapIfPresent() {
         div.dataset.level = id;
         div.id = `level-${id}`;
         div.innerHTML = `
-          <h3>${level.title}</h3>
-          <p>${level.description}</p>
+          <h3>${lvTitel(level)}</h3>
+          <p>${lvBeschreibung(level)}</p>
           <progress value="${percent}" max="100"></progress>
           <a href="${MODULE_ROOT}/levels/level${id}.html" data-de="Starten" data-en="Start">Starten</a>
         `;
@@ -2187,7 +2252,7 @@ function renderTasksForCurrentLevel() {
 
       const newBtn = document.createElement('button');
       newBtn.type = 'button';
-      newBtn.textContent = '🎲 Neue Aufgaben';
+      newBtn.textContent = T('🎲 Neue Aufgaben', '🎲 New tasks');
       newBtn.className = 'btn-secondary pill';
       newBtn.title = 'Neue zufällige Aufgaben für dieses Level';
       newBtn.setAttribute('data-de', '🎲 Neue Aufgaben');
@@ -2390,10 +2455,10 @@ function renderTasksForCurrentLevel() {
         sterneSummeZeigen();
         const kindZeilen = tasks.map((t, i) => {
           const v = versuchVon(t);
-          const was = v === 1 ? '✅ beim 1. Versuch' : v === 2 ? '✅ beim 2. Versuch' : v === 3 ? '✅ beim 3. Versuch' : `❌ Lösung: ${escapeHtml(String(t.answer))}`;
+          const was = v ? T(`✅ beim ${v}. Versuch`, `✅ ${['', '1st', '2nd', '3rd'][v]} try`) : `❌ ${T('Lösung', 'Answer')}: ${escapeHtml(String(t.answer))}`;
           return `<tr class="${v ? 'ok' : 'nein'}"><td>${i + 1}</td><td>${escapeHtml(t.text)}</td><td>${was}</td><td>${v ? 4 - v : 0}</td></tr>`;
         }).join('');
-        const lob = neueSterne >= 3 ? 'Super! Alle drei Sterne! 🎉' : neueSterne >= 2 ? 'Sehr gut gemacht! 👏' : neueSterne >= 1 ? 'Gut gemacht! Schaffst du mehr Sterne? 🙂' : 'Nicht aufgeben – nochmal probieren! 💪';
+        const lob = neueSterne >= 3 ? T('Super! Alle drei Sterne! 🎉', 'Super! All three stars! 🎉') : neueSterne >= 2 ? T('Sehr gut gemacht! 👏', 'Very well done! 👏') : neueSterne >= 1 ? T('Gut gemacht! Schaffst du mehr Sterne? 🙂', 'Well done! Can you get more stars? 🙂') : T('Nicht aufgeben – nochmal probieren! 💪', 'Don’t give up – try again! 💪');
         const rows = tasks.map((task, idx) => {
           const log = taskAttemptLog.get(task.id) || [];
           return `
@@ -2413,19 +2478,19 @@ function renderTasksForCurrentLevel() {
           <div class="pokal">${belohnung(neueSterne).zeichen}</div>
           <p class="belohnung-name">${belohnung(neueSterne).text}</p>
           <div class="sterne-gross">${sterneHTML(neueSterne)}</div>
-          <p class="sterne-zahl-ende">${bruchText(neueSterne)} von 3 Sternen</p>
+          <p class="sterne-zahl-ende">${bruchText(neueSterne)} ${T('von 3 Sternen', 'of 3 stars')}</p>
           <p class="sterne-lob">${lob}</p>
-          <p class="kind-ergebnis">${kindPunkte} von ${kindMax} Punkten</p>
+          <p class="kind-ergebnis">${kindPunkte} ${T('von', 'of')} ${kindMax} ${T('Punkten', 'points')}</p>
           </div>
           <div class="ende-rechts">
-            <h4>So hast du gerechnet</h4>
-            <table class="kind-tabelle"><thead><tr><th>Nr.</th><th>Aufgabe</th><th>Geschafft</th><th>Punkte</th></tr></thead><tbody>${kindZeilen}</tbody></table>
-            <p class="kind-regel">1. Versuch = 3 Punkte · 2. Versuch = 2 · 3. Versuch = 1</p>
+            <h4>${T('So hast du gerechnet', 'How you did')}</h4>
+            <table class="kind-tabelle"><thead><tr><th>${T('Nr.', 'No.')}</th><th>${T('Aufgabe', 'Task')}</th><th>${T('Geschafft', 'Result')}</th><th>${T('Punkte', 'Points')}</th></tr></thead><tbody>${kindZeilen}</tbody></table>
+            <p class="kind-regel">${T('1. Versuch = 3 Punkte · 2. Versuch = 2 · 3. Versuch = 1', '1st try = 3 points · 2nd try = 2 · 3rd try = 1')}</p>
           </div>
           </div>
           <p style="text-align:center">
-          ${neueSterne < 2 ? `<button type="button" class="pill btn-primary" id="mm-nochmal">🔁 Nochmal – für mehr Sterne</button> ` : ''}
-          ${mmLevelListe().some(x => String(x.level ?? x.id) === String(Number(levelId) + 1)) ? `<button type="button" class="pill ${neueSterne < 2 ? 'btn-secondary mm-klein' : 'btn-primary'}" id="mm-naechstes-level">▶ Nächstes Level: ${escapeHtml(mmLevelTitel(Number(levelId) + 1))}</button>` : ''}
+          ${neueSterne < 2 ? `<button type="button" class="pill btn-primary" id="mm-nochmal">${T('🔁 Nochmal – für mehr Sterne', '🔁 Again – for more stars')}</button> ` : ''}
+          ${mmLevelListe().some(x => String(x.level ?? x.id) === String(Number(levelId) + 1)) ? `<button type="button" class="pill ${neueSterne < 2 ? 'btn-secondary mm-klein' : 'btn-primary'}" id="mm-naechstes-level">▶ ${T('Nächstes Level', 'Next level')}: ${escapeHtml(mmLevelTitel(Number(levelId) + 1))}</button>` : ''}
           </p>
           <details class="erwachsene"><summary>Für Erwachsene: alle Zahlen</summary>
           <div class="summary">
@@ -2459,11 +2524,11 @@ function renderTasksForCurrentLevel() {
           </table>
           </details>
           <div class="modal-actions">
-            <button type="button" class="pill btn-primary" id="restart-level-end">Nochmal spielen</button>
-            <button type="button" class="pill btn-secondary" id="back-to-levels-end">Zur Level-Auswahl</button>
+            <button type="button" class="pill btn-primary" id="restart-level-end">${T('Nochmal spielen', 'Play again')}</button>
+            <button type="button" class="pill btn-secondary" id="back-to-levels-end">${T('Zur Level-Auswahl', 'Choose level')}</button>
           </div>
         `;
-        openModal('level-end-modal', 'Level beendet', html);
+        openModal('level-end-modal', T('Level beendet', 'Level finished'), html);
         const body = document.querySelector('#level-end-modal .modal-body');
         const restartBtn = body?.querySelector('#restart-level-end');
         const backBtn = body?.querySelector('#back-to-levels-end');
@@ -2474,19 +2539,19 @@ function renderTasksForCurrentLevel() {
         // Jubel: Fanfare, Sternregen, „Hurra“ – RU: фанфары, звёздный дождь, «ура»
         const wer = getUserName() || '';
         const bel = belohnung(neueSterne);
-        const naechsterPreis = neueSterne >= 2 ? 'den Pokal' : neueSterne >= 1 ? 'die Silbermedaille' : 'eine Medaille';
+        const naechsterPreis = neueSterne >= 2 ? T('den Pokal', 'the trophy') : neueSterne >= 1 ? T('die Silbermedaille', 'the silver medal') : T('eine Medaille', 'a medal');
         if (neueSterne >= 3) {
           tonFanfare(); sterneRegen(60);
-          setTimeout(() => sprechen(`Hurra${wer ? ', ' + wer : ''}! Alle drei Sterne! ${bel.text}`), 900);
+          setTimeout(() => sprechen(T(`Hurra${wer ? ', ' + wer : ''}! Alle drei Sterne! ${bel.text}`, `Hooray${wer ? ', ' + wer : ''}! All three stars! ${bel.text}`)), 900);
         } else if (neueSterne >= 2) {
           tonFanfare(); sterneRegen(30);
-          setTimeout(() => sprechen(`Super${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}. ${bel.text} Für den Pokal brauchst du drei Sterne.`), 900);
+          setTimeout(() => sprechen(T(`Super${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}. ${bel.text} Für den Pokal brauchst du drei Sterne.`, `Super${wer ? ', ' + wer : ''}! You have ${sterneSprechen(neueSterne)}. ${bel.text} For the trophy you need three stars.`)), 900);
         } else if (neueSterne >= 1) {
           tonSanft(); sterneRegen(12);
-          setTimeout(() => sprechen(`Gut gemacht${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}. ${bel.text} Schaffst du ${naechsterPreis}?`), 700);
+          setTimeout(() => sprechen(T(`Gut gemacht${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}. ${bel.text} Schaffst du ${naechsterPreis}?`, `Well done${wer ? ', ' + wer : ''}! You have ${sterneSprechen(neueSterne)}. ${bel.text} Can you get ${naechsterPreis}?`)), 700);
         } else {
           tonSanft();
-          setTimeout(() => sprechen(`Gut gekämpft${wer ? ', ' + wer : ''}! Probier es gleich noch einmal.`), 600);
+          setTimeout(() => sprechen(T(`Gut gekämpft${wer ? ', ' + wer : ''}! Probier es gleich noch einmal.`, `Good effort${wer ? ', ' + wer : ''}! Try again right now.`)), 600);
         }
         const naechstesBtn = body?.querySelector('#mm-naechstes-level');
         const nochmalBtn = body?.querySelector('#mm-nochmal');
@@ -2546,12 +2611,12 @@ function renderTasksForCurrentLevel() {
         taskAttemptLog.set(task.id, []);
 
         ex.innerHTML = `
-          <p><strong>Aufgabe ${task.slide}:</strong> ${task.text} <button type="button" class="pill btn-ghost btn-vorlesen" data-action="vorlesen" title="Aufgabe vorlesen">🔊</button></p>
-          ${['0','1','2'].includes(String(levelId)) && zwanzigerfeld(task.text) ? `<details class="zf-hilfe"${String(levelId) === '0' ? ' open' : ''}><summary>🔴 mit Punkten zählen</summary>${zwanzigerfeld(task.text)}</details>` : ''}
+          <p><strong>${T('Aufgabe', 'Task')} ${task.slide}:</strong> ${task.text} <button type="button" class="pill btn-ghost btn-vorlesen" data-action="vorlesen" title="${T('Aufgabe vorlesen', 'Read aloud')}">🔊</button></p>
+          ${['0','1','2'].includes(String(levelId)) && zwanzigerfeld(task.text) ? `<details class="zf-hilfe"${String(levelId) === '0' ? ' open' : ''}><summary>🔴 ${T('mit Punkten zählen', 'count with dots')}</summary>${zwanzigerfeld(task.text)}</details>` : ''}
           <p class="meta">Max: ${maxPts} Punkte · Versuche: <span class="attempts">${attempts}</span> · <span class="status-badge status-pending">⏳</span></p>
-          <div class="lives-row">Leben: <span class="life-dots">${renderLifeDots(marks)}</span></div>
+          <div class="lives-row">${T('Leben', 'Lives')}: <span class="life-dots">${renderLifeDots(marks)}</span></div>
           <div class=\"row\">
-            <label for=\"answer-${task.id}\">Antwort:</label>
+            <label for=\"answer-${task.id}\">${T('Antwort', 'Answer')}:</label>
             <input id=\"answer-${task.id}\" type=\"text\" autocomplete=\"off\">
           </div>
           <div class=\"actions\">
@@ -2624,13 +2689,13 @@ function renderTasksForCurrentLevel() {
                 statusBadge.className = 'status-badge status-ok';
               }
               const bonus = awardTaskBonus(task.id, 'Aufgabe gelöst');
-              showToast(['Super!', 'Toll!', 'Prima!', 'Klasse!', 'Spitze!'][Math.floor(Math.random() * 5)] + ' 🎉', 'ok');
+              showToast((mmSprache() === 'en' ? ['Great!', 'Super!', 'Well done!', 'Brilliant!', 'Awesome!'] : ['Super!', 'Toll!', 'Prima!', 'Klasse!', 'Spitze!'])[Math.floor(Math.random() * 5)] + ' 🎉', 'ok');
               maskottchen('huepf');
               tonRichtig();
               if (bonus > 0 && feedback) {
-                feedback.textContent = `Richtig! 🎉`;
+                feedback.textContent = T('Richtig! 🎉', 'Correct! 🎉');
               }
-              lockTask(task.id, `Richtig! 🎉`, true);
+              lockTask(task.id, T('Richtig! 🎉', 'Correct! 🎉'), true);
             } else if (!solved.has(task.id)) {
               marksNow[attemptIndex] = 'bad';
               taskAttemptMarks.set(task.id, marksNow);
@@ -2642,7 +2707,7 @@ function renderTasksForCurrentLevel() {
                 statusBadge.textContent = '❌';
                 statusBadge.className = 'status-badge status-warn';
               }
-              showToast(`Versuch ${attemptNumber} nicht ganz richtig.`, 'warn');
+              showToast(T(`Versuch ${attemptNumber} nicht ganz richtig.`, `Try ${attemptNumber} not quite right.`), 'warn');
               maskottchen('wackel');
               tonFalsch();
               if (attemptsEl) attemptsEl.textContent = attemptsNow.toString();
@@ -2650,7 +2715,7 @@ function renderTasksForCurrentLevel() {
               marksNow[lifeIdx] = 'bad';
               taskAttemptMarks.set(task.id, marksNow);
               if (attemptsNow >= MAX_LIVES) {
-                lockTask(task.id, `Versuch ${attemptNumber} nicht ganz richtig. Keine Versuche mehr.`, false);
+                lockTask(task.id, T(`Versuch ${attemptNumber} nicht ganz richtig. Keine Versuche mehr.`, `Try ${attemptNumber} not quite right. No tries left.`), false);
                 if (statusBadge) statusBadge.textContent = '⛔';
               } else {
                 // still lives left; prepare for next try
@@ -2666,16 +2731,16 @@ function renderTasksForCurrentLevel() {
               const zahlKind = Number(String(rawVal).replace(/[\s.]/g, '').replace(',', '.'));
               const zahlSoll = Number(String(task.answer).replace(',', '.'));
               if (!correct && rawVal && Number.isFinite(zahlKind) && Number.isFinite(zahlSoll)) {
-                tipp = zahlKind > zahlSoll ? ' Tipp: Deine Zahl ist zu groß. 🔽' : ' Tipp: Deine Zahl ist zu klein. 🔼';
+                tipp = zahlKind > zahlSoll ? T(' Tipp: Deine Zahl ist zu groß. 🔽', ' Tip: your number is too big. 🔽') : T(' Tipp: Deine Zahl ist zu klein. 🔼', ' Tip: your number is too small. 🔼');
               } else if (!correct && rawVal && !Number.isFinite(zahlKind)) {
-                tipp = ' Tipp: Bitte nur eine Zahl eintippen.';
+                tipp = T(' Tipp: Bitte nur eine Zahl eintippen.', ' Tip: please type only a number.');
               }
               const restLeben = MAX_LIVES - attemptNumber;
               feedback.textContent = correct
-                ? `Richtig! 🎉`
+                ? T('Richtig! 🎉', 'Correct! 🎉')
                 : (restLeben > 0
-                    ? `Versuch ${attemptNumber} nicht ganz richtig.${tipp} Noch ${restLeben} ${restLeben === 1 ? 'Leben' : 'Leben'}.`
-                    : `Leider nicht richtig. Die Lösung ist ${task.answer}.`);
+                    ? T(`Versuch ${attemptNumber} nicht ganz richtig.${tipp} Noch ${restLeben} Leben.`, `Try ${attemptNumber} not quite right.${tipp} ${restLeben} ${restLeben === 1 ? 'life' : 'lives'} left.`)
+                    : T(`Leider nicht richtig. Die Lösung ist ${task.answer}.`, `Sorry, not right. The answer is ${task.answer}.`));
               feedback.className = 'feedback ' + (correct ? 'ok' : 'warn');
             }
 
@@ -2710,7 +2775,7 @@ function renderTasksForCurrentLevel() {
 
         if (attempts >= MAX_LIVES) {
           updateTaskVisuals(task.id, taskScores.get(task.id) || 0);
-          lockTask(task.id, 'Alle 3 Versuche verbraucht.', false);
+          lockTask(task.id, T('Alle 3 Versuche verbraucht.', 'All 3 tries used.'), false);
         }
 
         // focus first task's input on load
@@ -2931,7 +2996,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const anderesLevel = document.getElementById('mm-anderes-level');
   if (anderesLevel) anderesLevel.addEventListener('click', () => mmMenueAuf());
   const hallo = document.getElementById('mm-hallo');
-  const halloSetzen = () => { const n = getUserName(); if (hallo && n) hallo.textContent = `Hallo ${n}! Los geht's mit:`; };
+  const halloSetzen = () => { const n = getUserName(); if (hallo) hallo.textContent = n ? T(`Hallo ${n}! Los geht's mit:`, `Hello ${n}! Let's go with:`) : T("Hallo! Los geht's mit:", "Hello! Let's go with:"); };
+  const startBtnTxt = document.getElementById('levelStartBtn'); if (startBtnTxt) startBtnTxt.textContent = T("▶ Los geht's", "▶ Let's go");
+  if (anderesLevel) anderesLevel.textContent = T('☰ anderes Level wählen', '☰ choose another level');
   halloSetzen();
   document.addEventListener('ll-game-activated', () => { halloSetzen(); renderWelcome(); });
   if (new URLSearchParams(window.location.search).get('lehrer') === '1') {

@@ -1,14 +1,14 @@
 [
-  {"level": 0, "klasse": 1, "title": "Level 0 – Plus und Minus bis 10", "description": "Zahlen bis 10 zusammenzählen und abziehen", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 1, "klasse": 1, "title": "Level 1 – Plus bis 20", "description": "Mit Zehnerübergang: erst bis 10 auffüllen", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 2, "klasse": 1, "title": "Level 2 – Minus bis 20", "description": "Rückwärts rechnen bis 20", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 3, "klasse": 2, "title": "Level 3 – Plus und Minus bis 100", "description": "Zehner und Einer rechnen", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 4, "klasse": 2, "title": "Level 4 – Das kleine Einmaleins", "description": "Malaufgaben bis 10 · 10", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 5, "klasse": 2, "title": "Level 5 – Geteilt durch", "description": "Das Einmaleins umgekehrt", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 6, "klasse": 3, "title": "Level 6 – Plus und Minus bis 1000", "description": "Hunderter, Zehner, Einer", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 7, "klasse": 3, "title": "Level 7 – Mal und geteilt mit Zehnern", "description": "z. B. 30 · 4 und 240 : 6, Punkt vor Strich", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 8, "klasse": 3, "title": "Level 8 – Geteilt mit Rest", "description": "Was bleibt übrig? – der Rest", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 9, "klasse": 4, "title": "Level 9 – Große Zahlen bis 1 Million", "description": "Plus und Minus mit großen Zahlen", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 10, "klasse": 4, "title": "Level 10 – Schriftlich malnehmen", "description": "Mehrstellige Zahl mal einstellige oder Zehnerzahl", "recommended_minutes": 5, "time_mode": "bonus"},
-  {"level": 11, "klasse": 4, "title": "Level 11 – Schriftlich teilen", "description": "Mehrstellige Zahl durch eine einstellige Zahl", "recommended_minutes": 5, "time_mode": "bonus"}
+  {"level": 0, "klasse": 1, "title": "Level 0 – Plus und Minus bis 10", "description": "Zahlen bis 10 zusammenzählen und abziehen", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 0 – Plus and minus up to 10", "description_en": "Adding and taking away up to 10"},
+  {"level": 1, "klasse": 1, "title": "Level 1 – Plus bis 20", "description": "Mit Zehnerübergang: erst bis 10 auffüllen", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 1 – Plus up to 20", "description_en": "Crossing ten: first make 10"},
+  {"level": 2, "klasse": 1, "title": "Level 2 – Minus bis 20", "description": "Rückwärts rechnen bis 20", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 2 – Minus up to 20", "description_en": "Counting back up to 20"},
+  {"level": 3, "klasse": 2, "title": "Level 3 – Plus und Minus bis 100", "description": "Zehner und Einer rechnen", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 3 – Plus and minus up to 100", "description_en": "Tens and ones"},
+  {"level": 4, "klasse": 2, "title": "Level 4 – Das kleine Einmaleins", "description": "Malaufgaben bis 10 · 10", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 4 – Times tables", "description_en": "Times tables up to 10 × 10"},
+  {"level": 5, "klasse": 2, "title": "Level 5 – Geteilt durch", "description": "Das Einmaleins umgekehrt", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 5 – Divided by", "description_en": "Times tables backwards"},
+  {"level": 6, "klasse": 3, "title": "Level 6 – Plus und Minus bis 1000", "description": "Hunderter, Zehner, Einer", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 6 – Plus and minus up to 1000", "description_en": "Hundreds, tens and ones"},
+  {"level": 7, "klasse": 3, "title": "Level 7 – Mal und geteilt mit Zehnern", "description": "z. B. 30 · 4 und 240 : 6, Punkt vor Strich", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 7 – Times and divide with tens", "description_en": "e.g. 30 × 4 and 240 ÷ 6, multiply first"},
+  {"level": 8, "klasse": 3, "title": "Level 8 – Geteilt mit Rest", "description": "Was bleibt übrig? – der Rest", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 8 – Division with remainder", "description_en": "What is left over? – the remainder"},
+  {"level": 9, "klasse": 4, "title": "Level 9 – Große Zahlen bis 1 Million", "description": "Plus und Minus mit großen Zahlen", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 9 – Big numbers up to 1 million", "description_en": "Plus and minus with big numbers"},
+  {"level": 10, "klasse": 4, "title": "Level 10 – Schriftlich malnehmen", "description": "Mehrstellige Zahl mal einstellige oder Zehnerzahl", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 10 – Long multiplication", "description_en": "Multi-digit number times a single digit or tens"},
+  {"level": 11, "klasse": 4, "title": "Level 11 – Schriftlich teilen", "description": "Mehrstellige Zahl durch eine einstellige Zahl", "recommended_minutes": 5, "time_mode": "bonus", "title_en": "Level 11 – Long division", "description_en": "Multi-digit number divided by a single digit"}
 ]
