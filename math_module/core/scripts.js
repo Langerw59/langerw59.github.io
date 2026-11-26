@@ -124,13 +124,18 @@ function applyTeamToneByAvatar(avatarPath) {
 // EN: Short hints per level (UI DE/EN only)
 // RU: ÐŸÐ¾Ð´ÑÐºÐ°Ð·ÐºÐ¸ ÑƒÑ€Ð¾Ð²Ð½Ñ (Ð´Ð»Ñ UI Ð±ÐµÐ· Ñ€ÑƒÑÑÐºÐ¾Ð³Ð¾ Ñ‚ÐµÐºÑÑ‚Ð°)
 const LEVEL_HINTS = {
-  '0': 'Rechne sauber: plus und minus bis 10. Nutze Finger oder Skizze.',
-  '1': 'Addieren bis 20: zuerst auf 10 auffüllen, dann den Rest addieren.',
-  '2': 'Subtraktion: Zahlengerade denken. Von groß nach klein rückwärts zählen.',
-  '3': 'Multiplikation bis 100: Nutze Päckchen (5er, 10er) und Zerlegen.',
-  '4': 'Division ohne Rest: Prüfe, ob die Zahl im Multiplikationsfeld liegt.',
-  '5': 'Zwei Schritte: erst Plus, dann Minus (oder umgekehrt). Klammern helfen.',
-  '6': 'Gemischt: Reihenfolge beachten. Multiplizieren/Dividieren vor Addieren.',
+  '0': 'Plus und Minus bis 10: Nimm die Finger oder die Punkte zu Hilfe.',
+  '1': 'Plus bis 20: zuerst bis 10 auffüllen, dann den Rest dazu.',
+  '2': 'Minus bis 20: zuerst bis 10 zurück, dann weiter.',
+  '3': 'Bis 100: zuerst die Zehner rechnen, dann die Einer.',
+  '4': 'Das Einmaleins: 5 · 6 ist 5 mal die 6. Tipp: Kernaufgaben 2 ·, 5 ·, 10 · kennst du schon.',
+  '5': 'Geteilt: Frag dich: Wie oft passt die Zahl hinein? Das Einmaleins hilft.',
+  '6': 'Bis 1000: Hunderter, Zehner und Einer einzeln rechnen.',
+  '7': 'Mit Zehnern: 30 · 4 ist wie 3 · 4, nur zehnmal so viel. Punkt vor Strich!',
+  '8': 'Mit Rest: Wie oft passt die Zahl hinein? Was übrig bleibt, ist der Rest.',
+  '9': 'Große Zahlen: schriftlich untereinander rechnen – Einer unter Einer.',
+  '10': 'Schriftlich malnehmen: von rechts nach links, den Übertrag merken.',
+  '11': 'Schriftlich teilen: von links nach rechts, Stelle für Stelle.',
 };
 
 // DE: Laufende Level-Stats für Pop-ups
@@ -425,9 +430,38 @@ function spielerSpeichern(l) { localStorage.setItem(SPIELER_KEY, JSON.stringify(
 function spielerMerken(name, avatar, theme) {
   const n = normalizePlayerName(name); if (!n) return;
   const l = spielerListe(); const i = l.findIndex(p => p.name.toLowerCase() === n.toLowerCase());
-  const eintrag = { name: n, avatar: avatar || getAvatar() || AVATARS[0], theme: theme || getTheme() || THEMES[0] };
+  const eintrag = { ...(i >= 0 ? l[i] : {}), name: n, avatar: avatar || getAvatar() || AVATARS[0], theme: theme || getTheme() || THEMES[0] };
   if (i >= 0) l[i] = eintrag; else l.push(eintrag);
   spielerSpeichern(l);
+}
+// 2026-11-26: die Klasse des Spielers (1–4; 5 = „5 oder höher“) – bestimmt das Start-Level
+// RU: класс ученика – с какого уровня начинать
+const KLASSE_START = { 1: 0, 2: 3, 3: 6, 4: 9, 5: 9 };
+function klasseFuer(name) {
+  const n = String(name || getUserName() || '').toLowerCase();
+  const p = spielerListe().find(x => x.name.toLowerCase() === n);
+  return p && p.klasse ? Number(p.klasse) : null;
+}
+function klasseSetzen(name, k) {
+  const n = String(name || '').toLowerCase();
+  const l = spielerListe().map(p => (p.name.toLowerCase() === n ? { ...p, klasse: Number(k) } : p));
+  spielerSpeichern(l);
+}
+function klasseText(k) { return k >= 5 ? '5. Klasse oder höher' : `${k}. Klasse`; }
+function levelKlasse(id) {
+  const l = mmLevelListe().find(x => String(x.level ?? x.id) === String(id));
+  return l && l.klasse ? Number(l.klasse) : null;
+}
+// Start-Level: zuletzt gespielt, sonst das erste Level der eigenen Klasse ohne 3 Sterne
+function startLevelFuer(name) {
+  const z = zuletztFuer(name);
+  if (z !== undefined && z !== null) return String(z);
+  const k = klasseFuer(name);
+  if (!k) return '0';
+  const kk = Math.min(4, k);
+  const eigene = mmLevelListe().filter(x => Number(x.klasse) === kk).map(x => String(x.level ?? x.id));
+  const offen = eigene.find(id => sterneFuer(id) < 3);
+  return offen || eigene[0] || String(KLASSE_START[k] || 0);
 }
 function zuletztAlle() { try { return JSON.parse(localStorage.getItem(ZULETZT_KEY) || '{}') || {}; } catch (e) { return {}; } }
 function zuletztSetzen(levelId) { const a = zuletztAlle(); a[sterneSpieler()] = String(levelId); localStorage.setItem(ZULETZT_KEY, JSON.stringify(a)); }
@@ -859,7 +893,7 @@ function renderWelcome() {
   // 2026-11-26: neues Design – eine schmale Leiste oben, alle Knöpfe im Seitenmenü rechts
   // RU: одна тонкая строка сверху, все кнопки – в выдвижном меню справа
   const lvlNow = parseCurrentLevel();
-  const lvlTitel = lvlNow !== null ? mmLevelTitel(lvlNow) : 'Mathe-Spaß';
+  const lvlTitel = lvlNow !== null ? mmLevelTitel(lvlNow) + (levelKlasse(lvlNow) ? ` · ${levelKlasse(lvlNow)}. Klasse` : '') : 'Mathe-Spaß';
   target.innerHTML = `
     <div class="mm-leiste">
       <button type="button" class="mm-spieler" id="avatar-open" title="Team wählen">
@@ -867,7 +901,7 @@ function renderWelcome() {
         <span class="mm-spieler-name">${escapeHtml(name)} <small>· Team ${teamName}</small></span>
       </button>
       <span class="mm-level-chip" title="Aktuelles Level">${escapeHtml(lvlTitel)}</span>
-      <span class="mm-sterne" id="sterne-widget" title="Alle Sterne aus allen Levels">⭐ <strong id="sterne-summe">0</strong>&nbsp;/&nbsp;<span id="sterne-max">21</span></span>
+      <span class="mm-sterne" id="sterne-widget" title="Alle Sterne aus allen Levels">⭐ <strong id="sterne-summe">0</strong>&nbsp;/&nbsp;<span id="sterne-max">${mmLevelListe().length * 3}</span></span>
       <button type="button" class="mm-menue-knopf" id="mm-menue-auf" aria-expanded="false" aria-controls="mm-menue">☰ Menü</button>
     </div>
   `;
@@ -971,13 +1005,47 @@ function mmLevelKnoepfe() {
   const host = document.getElementById('mm-level-liste');
   if (!host) return;
   const aktuell = parseCurrentLevel();
-  host.innerHTML = mmLevelListe().map(l => {
-    const id = String(l.level ?? l.id);
-    const titel = String(l.title || `Level ${id}`).replace(/^Level\s*\d+\s*[–-]\s*/, '');
-    return `<button type="button" class="mm-level${id === String(aktuell) ? ' aktiv' : ''}" data-level="${id}">
-      <span class="mm-level-nr">${id}</span><span class="mm-level-name">${escapeHtml(titel)}</span><span class="mm-level-sterne">${sternText(sterneFuer(id))}</span></button>`;
+  const meine = klasseFuer();
+  const liste = mmLevelListe();
+  const gruppen = {};
+  liste.forEach(l => { const k = Number(l.klasse) || 0; (gruppen[k] = gruppen[k] || []).push(l); });
+  host.innerHTML = Object.keys(gruppen).sort((x, y) => x - y).map(k => {
+    const istMeine = meine && Math.min(4, meine) === Number(k);
+    const knoepfe = gruppen[k].map(l => {
+      const id = String(l.level ?? l.id);
+      const titel = String(l.title || `Level ${id}`).replace(/^Level\s*\d+\s*[–-]\s*/, '');
+      return `<button type="button" class="mm-level${id === String(aktuell) ? ' aktiv' : ''}" data-level="${id}">
+        <span class="mm-level-nr">${id}</span><span class="mm-level-name">${escapeHtml(titel)}</span><span class="mm-level-sterne">${sternText(sterneFuer(id))}</span></button>`;
+    }).join('');
+    const kopf = Number(k) ? `${k}. Klasse${istMeine ? ' <span class="mm-meine">deine Klasse</span>' : ''}` : 'Level';
+    return `<div class="mm-klassen-gruppe${istMeine ? ' meine' : ''}"><div class="mm-klasse-kopf">${kopf}</div>${knoepfe}</div>`;
   }).join('');
   host.querySelectorAll('.mm-level').forEach(b => b.addEventListener('click', () => mmLevelStarten(b.dataset.level)));
+  const kBtn = document.getElementById('mm-klasse');
+  if (kBtn) kBtn.textContent = meine ? `🎒 Klasse: ${klasseText(meine)} – ändern` : '🎒 Klasse wählen';
+}
+// Klasse ändern (für den aktuellen Spieler)
+function openKlasseModal() {
+  const name = getUserName();
+  if (!name) { openNameModal(); return; }
+  if (!spielerListe().some(p => p.name.toLowerCase() === name.toLowerCase())) spielerMerken(name);
+  const jetzt = klasseFuer(name);
+  const { overlay, body } = ensureModal('klasse-modal', `In welche Klasse geht ${name}?`);
+  if (!body) return;
+  body.innerHTML = `<div class="klasse-wahl">${[1, 2, 3, 4, 5].map(k => `
+      <button type="button" class="klasse-karte${k === jetzt ? ' aktiv' : ''}" data-k="${k}"><strong>${k >= 5 ? '5+' : k}</strong><span>${klasseText(k)}</span></button>`).join('')}</div>
+    <p class="hint-note">Danach beginnt das Spiel mit den Aufgaben dieser Klasse. Alle anderen Level bleiben im Menü frei wählbar.${''}</p>
+    <p class="hint-note">Für die 5. Klasse und höher gibt es hier vorerst die Aufgaben der 4. Klasse (Kopfrechnen-Training) – eigene Aufgaben bis Klasse 8 kommen später.</p>`;
+  overlay.classList.add('is-visible');
+  body.querySelectorAll('.klasse-karte').forEach(b => b.addEventListener('click', () => {
+    klasseSetzen(name, b.dataset.k);
+    // zuletzt gespielt löschen, damit das Start-Level zur neuen Klasse passt
+    const z = zuletztAlle(); delete z[name.toLowerCase()]; localStorage.setItem(ZULETZT_KEY, JSON.stringify(z));
+    overlay.classList.remove('is-visible');
+    mmLevelKnoepfe();
+    if (typeof window.wireLevelToolbarNeu === 'function') window.wireLevelToolbarNeu();
+    showToast(`${name}: ${klasseText(Number(b.dataset.k))} 🎒`, 'ok');
+  }));
 }
 function mmMenueAufbauen() {
   let m = document.getElementById('mm-menue');
@@ -998,6 +1066,7 @@ function mmMenueAufbauen() {
     <div class="mm-gruppe">
       <div class="mm-gruppe-titel">Spiel</div>
       <button type="button" class="mm-eintrag" id="change-name" data-de="👥 Spieler wechseln" data-en="Players">👥 Spieler wechseln</button>
+      <button type="button" class="mm-eintrag" id="mm-klasse">🎒 Klasse wählen</button>
       <button type="button" class="mm-eintrag" id="mm-team" data-de="🐾 Team wählen" data-en="Choose team">🐾 Team wählen</button>
       <button type="button" class="mm-eintrag" id="hint-open" data-de="💡 Hinweis" data-en="Hint">💡 Hinweis</button>
       <button type="button" class="mm-eintrag" id="bg-open" data-de="🖼️ Bild wechseln" data-en="Change image">🖼️ Bild wechseln</button>
@@ -1021,6 +1090,7 @@ function mmMenueAufbauen() {
   // nach jedem Knopf (außer Schaltern) das Menü schließen, damit das Bild frei ist
   m.querySelectorAll('.mm-eintrag').forEach(b => b.addEventListener('click', () => setTimeout(mmMenueZu, 0)));
   m.querySelector('#mm-team').onclick = () => openAvatarModal();
+  m.querySelector('#mm-klasse').onclick = () => openKlasseModal();
   m.querySelector('#mm-startseite').onclick = () => { window.location.href = `${MODULE_ROOT}/index.html`; };
   m.querySelector('#mm-beenden').onclick = () => {
     if (!window.confirm('Spiel wirklich beenden?')) return;
@@ -1066,14 +1136,14 @@ function openNameModal() {
   const aktuell = getUserName() || localStorage.getItem(PLAYER_NAME_KEY) || '';
   if (aktuell && !spielerListe().some(p => p.name.toLowerCase() === aktuell.toLowerCase())) spielerMerken(aktuell);
   const liste = spielerListe();
-  const LEVEL_ZAHL = 7;
+  const LEVEL_ZAHL = mmLevelListe().length;
   const karten = liste.map((p, i) => {
     const z = zuletztFuer(p.name);
     return `<div class="sp-karte" data-i="${i}">
         <button type="button" class="sp-waehlen" data-i="${i}" title="Mit ${escapeHtml(p.name)} spielen">
           <img src="${p.avatar}" alt="" width="52" height="52">
           <span class="sp-name">${escapeHtml(p.name)}</span>
-          <span class="sp-info">⭐ ${sterneSummeVon(p.name)} von ${LEVEL_ZAHL * 3}${z !== undefined ? ` · zuletzt Level ${escapeHtml(z)}` : ''}</span>
+          <span class="sp-info">${p.klasse ? '🎒 ' + klasseText(p.klasse) + ' · ' : ''}⭐ ${sterneSummeVon(p.name)} von ${LEVEL_ZAHL * 3}${z !== undefined ? ` · zuletzt Level ${escapeHtml(z)}` : ''}</span>
         </button>
         <button type="button" class="sp-mini" data-umbenennen="${i}" title="Namen ändern">✏️</button>
         <button type="button" class="sp-mini" data-loeschen="${i}" title="Spieler löschen">🗑️</button>
@@ -1099,6 +1169,12 @@ function openNameModal() {
             </label>`).join('')}
         </div>
         <p class="sp-klein" id="team-wahl-hinweis">Wähle dein Team: Für wen spielst du?</p>
+        <label class="sp-klasse">🎒 In welche Klasse gehst du?
+          <select id="klasse-input">
+            <option value="1">1. Klasse</option><option value="2">2. Klasse</option>
+            <option value="3">3. Klasse</option><option value="4">4. Klasse</option>
+            <option value="5">5. Klasse oder höher</option>
+          </select></label>
         <div class="name-actions"><button id="name-submit">Los geht's!</button></div>
       </details>
       ${tabelle}
@@ -1137,6 +1213,8 @@ function openNameModal() {
     const theme = sel ? (sel.dataset.theme || themeForAvatar(avatar)) : THEMES[0];
     setAvatar(avatar); setTheme(theme); setUserName(val);
     spielerMerken(val, avatar, theme);
+    const kSel = overlay.querySelector('#klasse-input');
+    if (kSel) klasseSetzen(val, kSel.value);
     fertig();
   };
   overlay.querySelector('#name-submit').addEventListener('click', neuAnlegen);
@@ -1363,15 +1441,19 @@ function verlaufLaden() { try { return JSON.parse(localStorage.getItem(VERLAUF_K
 function verlaufSpeichern(v) { try { localStorage.setItem(VERLAUF_KEY, JSON.stringify(v)); } catch (e) {} }
 
 // eine einzelne Zufallsaufgabe für das Level: { text, answer, solution }
+// 2026-11-26: 12 Level, nach Klassen geordnet (Klasse 1: L0–2, Klasse 2: L3–5, Klasse 3: L6–8, Klasse 4: L9–11)
+function zahlDE(n) { return Number(n).toLocaleString('de-DE'); }
 function zufallsAufgabe(levelId) {
   const r = randInt;
   const tier = () => TIERE_TEXT[r(0, TIERE_TEXT.length - 1)];
   const gross = t => t.charAt(0).toUpperCase() + t.slice(1);
+  const Z = zahlDE;
   switch (String(levelId)) {
-    case '0': { // plus und minus bis 10, manchmal „Ergänze auf 10“
+    // ---------- Klasse 1 ----------
+    case '0': { // plus und minus bis 10
       const art = r(1, 6);
       if (art === 1) { const a = r(1, 9); return { text: `Ergänze: ${a} + ? = 10`, answer: 10 - a, solution: `${a} + ${10 - a} = 10.` }; }
-      if (art === 2) { const a = r(1, 5), b = r(1, 10 - a); return { text: `${gross(tier())} hat ${a} Äpfel und findet ${b} dazu. Wie viele Äpfel sind es?`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
+      if (art === 2) { const a = r(2, 5), b = r(1, 10 - a); return { text: `${gross(tier())} hat ${a} Äpfel und findet ${b} dazu. Wie viele Äpfel sind es?`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
       if (art <= 4) { const a = r(1, 9), b = r(1, 10 - a); return { text: `Rechne: ${a} + ${b} =`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
       const a = r(2, 10), b = r(1, a); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
     }
@@ -1387,29 +1469,61 @@ function zufallsAufgabe(levelId) {
       if (art === 2) { const a = r(8, 20), b = r(1, a - 1); return { text: `${gross(tier())} hat ${a} Fische und frisst ${b}. Wie viele Fische bleiben?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
       const a = r(8, 20), b = r(1, a); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
     }
-    case '3': { // das Einmaleins
-      const a = r(2, 10), b = r(2, 10);
-      if (r(1, 5) === 1) return { text: `${gross(tier())} hat ${a} Körbe mit je ${b} Beeren. Wie viele Beeren sind es?`, answer: a * b, solution: `${a} · ${b} = ${a * b}.` };
+    // ---------- Klasse 2 ----------
+    case '3': { // plus und minus bis 100
+      const art = r(1, 6);
+      if (art === 1) { const a = r(10, 90), s = r(a + 1, 100); return { text: `Ergänze: ${a} + ? = ${s}`, answer: s - a, solution: `${a} + ${s - a} = ${s}.` }; }
+      if (art === 2) { const a = r(20, 99), b = r(5, a - 1); return { text: `${gross(tier())} hat ${a} Cent und kauft ein Eis für ${b} Cent. Wie viele Cent bleiben?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
+      if (art <= 4) { const a = r(11, 89), b = r(2, 100 - a); return { text: `Rechne: ${a} + ${b} =`, answer: a + b, solution: `${a} + ${b} = ${a + b}. Tipp: zuerst die Zehner, dann die Einer.` }; }
+      const a = r(20, 100), b = r(2, a - 1); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
+    }
+    case '4': { // das kleine Einmaleins
+      const a = r(1, 10), b = r(1, 10);
+      const art = r(1, 5);
+      if (art === 1) return { text: `${gross(tier())} hat ${a} Körbe mit je ${b} Beeren. Wie viele Beeren sind es?`, answer: a * b, solution: `${a} · ${b} = ${a * b}.` };
+      if (art === 2) return { text: `Ergänze: ${a} · ? = ${a * b}`, answer: b, solution: `${a} · ${b} = ${a * b}.` };
       return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a} · ${b} = ${a * b}.` };
     }
-    case '4': { // geteilt ohne Rest
-      const a = r(2, 10), b = r(2, 10), d = a * b;
+    case '5': { // geteilt durch (ohne Rest)
+      const a = r(2, 10), b = r(1, 10), d = a * b;
       if (r(1, 5) === 1) return { text: `${d} Bonbons werden an ${a} Kinder verteilt. Wie viele bekommt jedes Kind?`, answer: b, solution: `${d} : ${a} = ${b}, denn ${a} · ${b} = ${d}.` };
       return { text: `Rechne: ${d} : ${a} =`, answer: b, solution: `${d} : ${a} = ${b}, denn ${a} · ${b} = ${d}.` };
     }
-    case '5': { // zwei Schritte plus und minus
-      const a = r(5, 20), b = r(1, 10), c = r(1, a + b);
-      if (r(1, 2) === 1) return { text: `Rechne: ${a} + ${b} - ${c} =`, answer: a + b - c, solution: `${a} + ${b} = ${a + b}, dann ${a + b} - ${c} = ${a + b - c}.` };
-      const c2 = r(1, a - 1), d = r(1, 10);
-      return { text: `Rechne: ${a} - ${c2} + ${d} =`, answer: a - c2 + d, solution: `${a} - ${c2} = ${a - c2}, dann ${a - c2} + ${d} = ${a - c2 + d}.` };
+    // ---------- Klasse 3 ----------
+    case '6': { // plus und minus bis 1000
+      const art = r(1, 5);
+      if (art === 1) { const a = r(100, 900), s = r(a + 1, 1000); return { text: `Ergänze: ${a} + ? = ${s}`, answer: s - a, solution: `${a} + ${s - a} = ${s}.` }; }
+      if (art === 2) { const a = r(200, 999), b = r(20, a - 1); return { text: `Ein Zug hat ${a} Plätze. ${b} sind besetzt. Wie viele Plätze sind frei?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
+      if (art === 3) { const a = r(101, 899), b = r(11, 1000 - a); return { text: `Rechne: ${a} + ${b} =`, answer: a + b, solution: `${a} + ${b} = ${a + b}. Tipp: Hunderter, Zehner, Einer einzeln.` }; }
+      const a = r(150, 1000), b = r(11, a - 1); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
     }
-    case '6': { // mal und geteilt gemischt, Punkt vor Strich
-      const art = r(1, 3);
-      if (art === 1) { const a = r(2, 9), b = r(2, 9), c = r(1, 20); return { text: `Rechne: ${a} · ${b} + ${c} =`, answer: a * b + c, solution: `Punkt vor Strich: ${a} · ${b} = ${a * b}, dann + ${c} = ${a * b + c}.` }; }
-      if (art === 2) { const a = r(2, 9), b = r(2, 9), c = r(1, 30); return { text: `Rechne: ${c} + ${a * b} : ${a} =`, answer: c + b, solution: `Punkt vor Strich: ${a * b} : ${a} = ${b}, dann ${c} + ${b} = ${c + b}.` }; }
-      const a = r(2, 9), b = r(2, 9), c = r(2, 6);
-      if ((a * b) % c !== 0) return null;
-      return { text: `Rechne: ${a} · ${b} : ${c} =`, answer: (a * b) / c, solution: `${a} · ${b} = ${a * b}, dann ${a * b} : ${c} = ${(a * b) / c}.` };
+    case '7': { // mal und geteilt mit Zehnern, Punkt vor Strich
+      const art = r(1, 4);
+      if (art === 1) { const a = r(2, 9) * 10, b = r(2, 9); return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a / 10} · ${b} = ${a / 10 * b}, also ${a} · ${b} = ${a * b}.` }; }
+      if (art === 2) { const a = r(2, 9), b = r(2, 9) * 10, d = a * b; return { text: `Rechne: ${d} : ${a} =`, answer: b, solution: `${d / 10} : ${a} = ${b / 10}, also ${d} : ${a} = ${b}.` }; }
+      if (art === 3) { const a = r(2, 9), b = r(2, 9), c = r(1, 50); return { text: `Rechne: ${c} + ${a} · ${b} =`, answer: c + a * b, solution: `Punkt vor Strich: ${a} · ${b} = ${a * b}, dann ${c} + ${a * b} = ${c + a * b}.` }; }
+      const a = r(11, 19), b = r(2, 6); return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a} · ${b} = 10 · ${b} + ${a - 10} · ${b} = ${10 * b} + ${(a - 10) * b} = ${a * b}.` };
+    }
+    case '8': { // geteilt mit Rest
+      const t = r(2, 9), q = r(2, 10), rest = r(1, t - 1), d = t * q + rest;
+      if (r(1, 2) === 1) return { text: `Rechne: ${d} : ${t} = ${q} Rest ?`, answer: rest, solution: `${t} · ${q} = ${t * q}, bis ${d} fehlen noch ${rest}. Also ${d} : ${t} = ${q} Rest ${rest}.` };
+      return { text: `Rechne: ${d} : ${t} = ? Rest ${rest}`, answer: q, solution: `${t} · ${q} = ${t * q}, dazu der Rest ${rest} = ${d}. Also ${d} : ${t} = ${q} Rest ${rest}.` };
+    }
+    // ---------- Klasse 4 ----------
+    case '9': { // große Zahlen bis 1 Million
+      const art = r(1, 4);
+      if (art === 1) { const a = r(1000, 500000), b = r(1000, 400000); return { text: `Rechne: ${Z(a)} + ${Z(b)} =`, answer: a + b, solution: `${Z(a)} + ${Z(b)} = ${Z(a + b)}. Tipp: schriftlich untereinander rechnen.` }; }
+      if (art === 2) { const a = r(10000, 999999), b = r(1000, a - 1); return { text: `Rechne: ${Z(a)} - ${Z(b)} =`, answer: a - b, solution: `${Z(a)} - ${Z(b)} = ${Z(a - b)}. Tipp: schriftlich untereinander rechnen.` }; }
+      if (art === 3) { const a = r(1, 999) * 1000; return { text: `Wie viel fehlt bis 1 Million? ${Z(a)} + ? = ${Z(1000000)}`, answer: 1000000 - a, solution: `${Z(a)} + ${Z(1000000 - a)} = ${Z(1000000)}.` }; }
+      const a = r(1000, 99000), b = r(1, 9) * 1000; return { text: `Rechne: ${Z(a)} + ${Z(b)} =`, answer: a + b, solution: `${Z(a)} + ${Z(b)} = ${Z(a + b)}.` };
+    }
+    case '10': { // schriftlich malnehmen
+      if (r(1, 3) === 1) { const a = r(12, 99), b = r(2, 9) * 10; return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a} · ${b / 10} = ${a * b / 10}, mal 10 = ${Z(a * b)}.` }; }
+      const a = r(102, 999), b = r(2, 9); return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a} · ${b} = ${Z(a * b)}. Tipp: schriftlich von rechts nach links, Übertrag nicht vergessen.` };
+    }
+    case '11': { // schriftlich teilen
+      const t = r(2, 9), q = r(21, 999), d = t * q;
+      return { text: `Rechne: ${Z(d)} : ${t} =`, answer: q, solution: `${Z(d)} : ${t} = ${q}, denn ${q} · ${t} = ${Z(d)}. Tipp: schriftlich von links nach rechts teilen.` };
     }
     default: return null;
   }
@@ -1554,13 +1668,14 @@ function wireLevelToolbar(levels, container) {
   };
 
   const initialFromUrl = new URLSearchParams(window.location.search).get('level');
-  const zuletzt = zuletztFuer(getUserName());
-  renderSelected(initialFromUrl || (zuletzt !== undefined && byId.has(String(zuletzt)) ? zuletzt : select.value));
+  const startId = startLevelFuer(getUserName());
+  renderSelected(initialFromUrl || (byId.has(startId) ? startId : select.value));
   // nach einem Spielerwechsel neu einstellen
   window.wireLevelToolbarNeu = () => {
     const z = zuletztFuer(getUserName());
     Array.from(select.options).forEach(o => { const it = byId.get(o.value); if (it) o.textContent = `${it.title}  ${sternText(sterneFuer(it.id))}`; });
-    renderSelected(z !== undefined && byId.has(String(z)) ? z : levelData[0].id);
+    const st = startLevelFuer(getUserName());
+    renderSelected(byId.has(st) ? st : levelData[0].id);
   };
 
   if (!select.dataset.bound) {
@@ -2172,6 +2287,7 @@ function renderTasksForCurrentLevel() {
           <div class="sterne-gross">${sternText(sterneAusProzent(stats.percent))}</div>
           <p class="sterne-lob">${['Nicht aufgeben – nochmal probieren! 💪', 'Gut! Ein Stern. Schaffst du zwei? 🙂', 'Sehr gut! Zwei Sterne! 👏', 'Super! Alle drei Sterne! 🎉'][sterneAusProzent(stats.percent)]}</p>
           <p class="kind-ergebnis">${stats.correctCount || 0} von ${stats.tasksTotal || 0} Aufgaben richtig</p>
+          ${mmLevelListe().some(x => String(x.level ?? x.id) === String(Number(levelId) + 1)) ? `<p style="text-align:center"><button type="button" class="pill btn-primary" id="mm-naechstes-level">▶ Nächstes Level: ${escapeHtml(mmLevelTitel(Number(levelId) + 1))}</button></p>` : ''}
           <details class="erwachsene"><summary>Für Erwachsene: alle Zahlen</summary>
           <div class="summary">
             <h3>Auswertung</h3>
@@ -2213,6 +2329,8 @@ function renderTasksForCurrentLevel() {
         const restartBtn = body?.querySelector('#restart-level-end');
         const backBtn = body?.querySelector('#back-to-levels-end');
         if (restartBtn) restartBtn.onclick = () => { resetRun(levelId); location.reload(); };
+        const naechstesBtn = body?.querySelector('#mm-naechstes-level');
+        if (naechstesBtn) { naechstesBtn.onclick = () => mmLevelStarten(Number(levelId) + 1); setTimeout(() => naechstesBtn.focus(), 100); }
         if (backBtn) backBtn.onclick = () => {
           stopTaskTimer();
           markTestRunning(false);
@@ -2321,8 +2439,9 @@ function renderTasksForCurrentLevel() {
             const attemptNumber = attemptsUsed + 1; // 1..3 human-readable
             const attemptIndex = attemptNumber - 1;
             const rawVal = (input.value || '').trim();
-            const val = rawVal.toLowerCase();
-            const expected = (task.answer || '').toString().trim().toLowerCase();
+            // 2026-11-26: Leerzeichen und Tausenderpunkte egal (12.345 = 12345)
+            const val = rawVal.toLowerCase().replace(/[\s.]/g, '');
+            const expected = (task.answer || '').toString().trim().toLowerCase().replace(/[\s.]/g, '');
             const correct = val && val === expected;
             const pts = correct ? POINTS_PER_CORRECT : 0;
             const marksNow = taskAttemptMarks.get(task.id) || ['empty', 'empty', 'empty'];
@@ -2379,7 +2498,7 @@ function renderTasksForCurrentLevel() {
             if (feedback) {
               // 2026-11-25: kindgerechter Tipp bei falscher Zahl
               let tipp = '';
-              const zahlKind = Number(String(rawVal).replace(',', '.'));
+              const zahlKind = Number(String(rawVal).replace(/[\s.]/g, '').replace(',', '.'));
               const zahlSoll = Number(String(task.answer).replace(',', '.'));
               if (!correct && rawVal && Number.isFinite(zahlKind) && Number.isFinite(zahlSoll)) {
                 tipp = zahlKind > zahlSoll ? ' Tipp: Deine Zahl ist zu groß. 🔽' : ' Tipp: Deine Zahl ist zu klein. 🔼';

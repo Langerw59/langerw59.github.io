@@ -699,3 +699,15 @@ body.mm-uebersicht #attemptTableWrap { display: block; max-width: 760px; margin:
 .bild-karte img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 10px; }
 .bild-karte:hover { border-color: var(--team-accent); }
 .bild-karte.aktiv { border-color: var(--team-accent); background: var(--team-accent-soft); }
+/* 2026-11-26: Level nach Klassen */
+.mm-klassen-gruppe { display: grid; gap: 2px; margin-bottom: 6px; padding: 4px; border-radius: 12px; }
+.mm-klassen-gruppe.meine { background: rgba(250, 204, 21, 0.14); }
+.mm-klasse-kopf { font-size: .85em; font-weight: 800; color: #334155; padding: 2px 6px; }
+.mm-meine { font-size: .8em; font-weight: 700; color: #854d0e; background: #fef08a; border-radius: 999px; padding: 1px 8px; margin-left: 4px; }
+.klasse-wahl { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
+.klasse-karte { display: grid; justify-items: center; gap: 2px; padding: 12px 6px; border-radius: 16px !important; border: 2px solid #dbe3f0; background: #fff; cursor: pointer; color: #0f172a; }
+.klasse-karte strong { font-size: 2em; }
+.klasse-karte.aktiv, .klasse-karte:hover { border-color: var(--team-accent); background: var(--team-accent-soft); }
+.sp-klasse { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-weight: 700; margin: 6px 0; }
+.sp-klasse select { font-size: 1em; padding: 6px 10px; border-radius: 10px; border: 1px solid #cbd5e1; }
+#mm-naechstes-level { font-size: 1.15em !important; padding: 12px 22px !important; }
