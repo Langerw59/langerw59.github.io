@@ -12,6 +12,7 @@
     <script src="/core/js/etagen_daten.js"></script>
     <script src="/core/js/lernbilanz.js"></script>
     <script src="/core/js/core_init.js" defer></script>
+    <script src="/core/js/privat.js" defer></script>
     <style>
       .lb { max-width: 1000px; margin: 0 auto; padding: 20px 14px 40px; width: 100%; box-sizing: border-box; }
       .lb h1 { margin: 0 0 4px; }
@@ -47,10 +48,10 @@
       html[data-theme="dark"] .lb-woche td.heute, html[data-theme="dark"] .lb-woche th.heute { background: #23324a; }
     </style>
   </head>
-  <body>
+  <body data-privat-seite><!-- 2026-11-26: private Seite – nur mit PIN (/core/js/privat.js) -->
     <div data-partial="header" data-partial-path="/core/partials/header.html"></div>
 
-    <main class="lb">
+    <main class="lb" hidden>
       <h1>🗓️ der Stundenplan – die Lernbilanz</h1>
       <p class="unter">Kein fester Plan, sondern ein Spiegel: Die Zeit zählt sich auf jeder Seite von selbst.
         Für jeden Bereich gibt es <b>mindestens</b> (damit nichts zu kurz kommt) und <b>höchstens</b> (damit man sich nicht festbeißt).</p>

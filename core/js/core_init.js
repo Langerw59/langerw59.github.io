@@ -312,6 +312,18 @@
 })();
 
 // ------------------------------------------------------------
+// 2026-11-26: der Privatbereich (PIN) – 🔓 in der Kopfleiste, Eintrag im ⚙️-Fenster
+// RU: приватная зона по PIN-коду
+// ------------------------------------------------------------
+(function loadPrivat() {
+  if (window.__Q_PRIVAT_JS__ || document.querySelector('script[src$="privat.js"]')) return;
+  const s = document.createElement("script");
+  s.src = "/core/js/privat.js";
+  s.defer = true;
+  document.head.appendChild(s);
+})();
+
+// ------------------------------------------------------------
 // 2026-11-25: die Lernbilanz – Lernzeit zählt sich selbst pro Bereich
 // RU: время учёбы считается само по разделам
 // ------------------------------------------------------------

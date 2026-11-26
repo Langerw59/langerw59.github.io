@@ -5,6 +5,8 @@
        Neue Seite = eine Zeile: ["Name", "/pfad/zur/seite.html", "Hinweis", "idee"]
        Untermenü: ["Name", "", "Hinweis", "", [ [Unterpunkt], [Unterpunkt] ]]
        Neues Fenster: ["Name", "/pfad", "Hinweis", "", "neu"]
+       Privat (nur mit PIN sichtbar, 2026-11-26): ["Name", "/pfad", "Hinweis", "privat"]
+         oder bei einer Etage/Gruppe: privat:true  (siehe /core/js/privat.js)
    RU: Все комнаты Quantura в одном месте. Из этого списка строится
        меню в шапке и план этажей. Новая страница = одна строка.
    ============================================================ */
@@ -69,7 +71,7 @@ window.Q_ETAGEN = [
       ["die Überlebenskunst","/pages/faecher/ueberlebenskunst/index.html","noch leer","idee"],
       ["die Informatik (HTML, CSS, JavaScript)","/pages/faecher/informatik/index.html","ruht – 10 Web-Lektionen","idee"]]}
    ]},
- { id:"e1", kurz:"1", nr:"1. Etage", name:"die Programme", motto:"Wissen praktisch anwenden", farbe:"#b0742a",
+ { id:"e1", privat:true, kurz:"1", nr:"1. Etage", name:"die Programme", motto:"Wissen praktisch anwenden", farbe:"#b0742a",
    info:"Programme, die Claude gebaut hat – sie öffnen in Claude (Anmeldung nötig)",
    gruppen:[
     { t:"das Auto", r:[
@@ -90,7 +92,7 @@ window.Q_ETAGEN = [
    gruppen:[
     { t:"Start", r:[
       ["🏠 die Startseite – was ist Quantura?","/index.html"],
-      ["🗓️ der Stundenplan","/pages/language_lab/stundenplan/index.html","was heute dran ist"],
+      ["🗓️ der Stundenplan","/pages/language_lab/stundenplan/index.html","was heute dran ist","privat"],
       ["🏢 der Etagenplan – alles auf einer Seite","/etagen.html"]]}
    ]}
 ];
@@ -100,3 +102,25 @@ window.Q_ETAGEN = [
    Videos aus der Bibliothek liegen jetzt in /portfolio/videos/.
    Nur versteckt (Datei bleibt): weitere Sprachpaare IT/ES/FR/TR (/pages/language_lab/sprachfuehrer_auswahl/),
    Informatik-Kurse (/pages/faecher/informatik/). */
+
+/* 2026-11-26: der Privatbereich – ohne PIN (siehe /core/js/privat.js) werden private
+   Etagen, Gruppen und Räume aus allen Menüs entfernt.
+   RU: без PIN-кода приватные этажи/группы/комнаты убираются из всех меню. */
+(function () {
+  let offen = false;
+  try { offen = localStorage.getItem("q_privat_v1") === "offen"; } catch (e) {}
+  window.Q_PRIVAT = offen;
+  if (offen) return;
+  const istPrivat = (r) => r[3] === "privat";
+  window.Q_ETAGEN = window.Q_ETAGEN
+    .filter((e) => !e.privat)
+    .map((e) => Object.assign({}, e, {
+      gruppen: e.gruppen
+        .filter((g) => !g.privat)
+        .map((g) => Object.assign({}, g, {
+          r: g.r.filter((r) => !istPrivat(r)).map((r) =>
+            Array.isArray(r[4]) ? r.slice(0, 4).concat([r[4].filter((u) => !istPrivat(u))], r.slice(5)) : r)
+        }))
+        .filter((g) => g.r.length)
+    }));
+})();

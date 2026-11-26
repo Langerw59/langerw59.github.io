@@ -69,7 +69,8 @@
   @media (max-width:640px){.innen{padding-left:16px}.nr small{display:block;margin:0}}
 </style>
 <script src="/core/js/etagen_daten.js"></script>
-<script src="/core/js/core_init.js" defer></script>  <!-- Kopfleiste v2 -->
+<script src="/core/js/core_init.js" defer></script>
+<script src="/core/js/privat.js" defer></script>  <!-- Kopfleiste v2 -->
 </head>
 <body>
 <main>
@@ -115,7 +116,7 @@ const raumPlan = (r) => Array.isArray(r[4])
   ? `<div class="unter"><div class="unter-titel">${esc(r[0])}${r[2]?`<span>${esc(r[2])}</span>`:''}</div>${r[4].map(link).join("")}</div>`
   : link(r);
 
-document.getElementById("schnell").innerHTML = SCHNELL.map(link).join("");
+document.getElementById("schnell").innerHTML = SCHNELL.filter((r) => window.Q_PRIVAT || !/stundenplan/.test(r[1])).map(link).join("");   /* 2026-11-26: privat */
 
 let OFFEN = {};
 try { OFFEN = JSON.parse(localStorage.getItem("q_etagen_offen") || "{}"); } catch(e) {}

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/core/assets/style.css" />
     <script src="/core/js/etagen_daten.js"></script>
     <script src="/core/js/core_init.js" defer></script>
+    <script src="/core/js/privat.js" defer></script>
     <style>
       .st { width: 100%; box-sizing: border-box; max-width: 1060px; margin: 0 auto; padding: 22px 14px 40px; }
       .st-held { display: flex; gap: 18px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 18px; }
@@ -79,7 +80,7 @@
           <p class="st-spruch">Wissen verstehen. Strukturen erkennen. Zusammenhänge entdecken.</p>
         </div>
         <div class="st-schnell">
-          <a href="/pages/language_lab/stundenplan/index.html">🗓️ der Stundenplan</a>
+          <a href="/pages/language_lab/stundenplan/index.html" data-privat hidden>🗓️ der Stundenplan</a>
           <a href="/etagen.html">🏢 der Etagenplan</a>
         </div>
       </section>
@@ -107,6 +108,8 @@
       <h2 class="st-h">🏢 die Etagen</h2>
       <section class="st-etagen" id="etagen"></section>
 
+      <!-- 2026-11-26: privat – nur mit PIN sichtbar (/core/js/privat.js) -->
+      <div data-privat hidden>
       <h2 class="st-h">⏱️ die Lernzeit – die letzten 7 Tage</h2>
       <section class="st-zeit">
         <div class="st-balken" id="balken"></div>
@@ -114,6 +117,7 @@
         <p class="st-name" style="margin:8px 0 0">Die Zeit zählt sich auf jeder Seite von selbst – auf jedem Gerät getrennt.
           <a href="/pages/language_lab/stundenplan/index.html">➜ die Lernbilanz (der Stundenplan)</a></p>
       </section>
+      </div>
     </main>
 
     <div data-partial="footer" data-partial-path="/core/partials/footer.html"></div>
