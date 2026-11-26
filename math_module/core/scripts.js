@@ -1213,6 +1213,7 @@ function mmMenueAufbauen() {
       <button type="button" class="mm-eintrag" id="open-level-results" data-de="📊 Auswertung" data-en="Evaluation">📊 Auswertung</button>
       <label class="mm-schalter"><input type="checkbox" id="mm-ton"> 🔊 ${T('Ton und Sprache', 'Sound and voice')}</label>
       <button type="button" class="mm-eintrag" id="mm-startseite" data-de="🏠 Mathe-Start" data-en="Start page">🏠 Mathe-Start</button>
+      <button type="button" class="mm-eintrag" id="mm-schach" onclick="location.href='/schach_module/index.html'">♞ Schach-Spaß</button>
       <button type="button" class="mm-eintrag" id="mm-beenden" data-de="🚪 Spiel beenden" data-en="End game">🚪 Spiel beenden</button>
     </div>
     <details class="mm-gruppe mm-lehrer">

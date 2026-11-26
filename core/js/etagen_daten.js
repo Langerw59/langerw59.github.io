@@ -40,6 +40,7 @@ window.Q_ETAGEN = [
     { t:"die Mathematik", r:[
       ["die Mathematik – Übersicht","/pages/faecher/mathematik/index.html"],
       ["🐯 Mathe-Spaß – das Level-System","/math_module/index.html","öffnet in neuem Fenster ↗","","neu"],
+      ["♞ Schach-Spaß – Schach für Anfänger","/schach_module/index.html","Figuren, Felder, Springer-Rundreise","","neu"],
       ["die Grundschule (Klasse 1–4) – die Themen","/mathe_grundschule.html"],
       ["die Realschule (Klasse 5–10)","/pages/faecher/mathematik-realschule/index.html"],
       ["💶 die Finanzmathematik","/pages/faecher/mathematik/finanzmathematik/index.html","Kredit, Sparplan"],

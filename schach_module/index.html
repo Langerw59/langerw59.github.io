@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schach-Spaß – Quantura</title>
+<script src="/core/js/core_init.js" defer></script>
+<style>
+/* 2026-11-26: Schach-Spaß – Lernspiel Schach für Anfänger (gleiche Idee wie Mathe-Spaß)
+   RU: шахматы для начинающих – уровни, звёзды, медали, звук */
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; font-family: Arial, sans-serif; color: #0f172a; font-size: 18px;
+  background: radial-gradient(circle at 30% 20%, #3f6b4f, #1f3a2c 60%, #142519); }
+main { max-width: 1000px; margin: 0 auto; padding: 10px 12px 30px; }
+button { font: inherit; cursor: pointer; border-radius: 999px; }
+.leiste { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.85); box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+.leiste .titel { font-weight: 800; }
+.leiste .chip { margin: 0 auto; padding: 4px 14px; border-radius: 999px; background: #ecfccb; border: 1px solid #bef264; font-weight: 700; font-size: .9em; }
+.leiste .sterne { color: #713f12; white-space: nowrap; }
+.leiste select { font: inherit; font-size: .9em; padding: 4px 8px; border-radius: 10px; border: 1px solid #cbd5e1; }
+.knopf { border: 1px solid #cbd5e1; background: #fff; padding: 8px 16px; font-weight: 700; }
+.knopf.haupt { background: #16a34a; color: #fff; border-color: #15803d; }
+.knopf.haupt:hover { background: #15803d; }
+.knopf:hover { filter: brightness(.97); }
+.levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 14px; }
+.level-karte { text-align: left; border: 2px solid transparent; background: rgba(255,255,255,.9); border-radius: 16px; padding: 12px 14px; display: grid; gap: 4px; }
+.level-karte:hover { border-color: #84cc16; }
+.level-karte .nr { font-size: .8em; color: #4d7c0f; font-weight: 800; }
+.level-karte .name { font-weight: 800; font-size: 1.05em; }
+.level-karte .bes { font-size: .85em; color: #475569; }
+.level-karte.bald { opacity: .55; cursor: default; }
+.spiel { margin-top: 14px; display: grid; grid-template-columns: auto minmax(260px, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 820px) { .spiel { grid-template-columns: 1fr; justify-items: center; } }
+.karte { background: rgba(255,255,255,.92); border-radius: 16px; padding: 14px 16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.aufgabe { font-size: 1.3em; font-weight: 800; margin: 0 0 6px; }
+.info { color: #334155; margin: 4px 0; }
+.rueck { font-weight: 700; min-height: 1.4em; margin: 8px 0; }
+.rueck.ok { color: #15803d; } .rueck.nein { color: #b91c1c; }
+.fortschritt { display: flex; gap: 6px; margin: 6px 0 10px; }
+.fortschritt span { width: 22px; height: 22px; border-radius: 50%; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; font-size: .7em; font-weight: 700; }
+.fortschritt span.ok { background: #86efac; } .fortschritt span.nein { background: #fca5a5; } .fortschritt span.jetzt { outline: 3px solid #f59e0b; }
+.reihe { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+/* das Schachbrett */
+.brett-rahmen { display: inline-grid; grid-template-columns: 22px auto; grid-template-rows: auto 22px; background: #5b3a1e; padding: 8px; border-radius: 12px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+.brett { display: grid; border: 2px solid #3b2410; }
+.feld { width: var(--f, 56px); height: var(--f, 56px); display: flex; align-items: center; justify-content: center; position: relative; font-size: calc(var(--f, 56px) * .72); line-height: 1; user-select: none; cursor: pointer; }
+.feld.hell { background: #f0d9b5; } .feld.dunkel { background: #b58863; }
+.feld.markiert::after { content: ""; position: absolute; width: 34%; height: 34%; border-radius: 50%; background: rgba(37, 99, 235, .55); }
+.feld.richtig { box-shadow: inset 0 0 0 4px #16a34a; } .feld.falsch { box-shadow: inset 0 0 0 4px #dc2626; } .feld.fehlt { box-shadow: inset 0 0 0 4px #f59e0b; }
+.feld.besucht { background-image: linear-gradient(rgba(22,163,74,.35), rgba(22,163,74,.35)); }
+.feld.moeglich::after { content: ""; position: absolute; width: 28%; height: 28%; border-radius: 50%; background: rgba(22,163,74,.6); }
+.feld.tipp { box-shadow: inset 0 0 0 4px #f59e0b; }
+.feld .zahl { position: absolute; left: 4px; top: 2px; font-size: 13px; font-weight: 800; color: #14532d; }
+.feld .fig { filter: drop-shadow(0 2px 1px rgba(0,0,0,.35)); }
+.feld .fig.w { color: #fff; -webkit-text-stroke: 1.5px #222; } .feld .fig.s { color: #111; }
+.koord-y { display: grid; color: #f0d9b5; font-size: 13px; font-weight: 700; } .koord-y span { display: flex; align-items: center; justify-content: center; }
+.koord-x { display: grid; color: #f0d9b5; font-size: 13px; font-weight: 700; grid-column: 2; } .koord-x span { text-align: center; }
+.brett.blind .feld { background: #94a3b8 !important; cursor: default; }
+.gross-koord { font-size: 3em; font-weight: 900; text-align: center; margin: 10px 0; letter-spacing: 2px; }
+.farb-knopf { font-size: 1.2em; padding: 14px 26px; border: 3px solid #0f172a; font-weight: 800; }
+.farb-knopf.weiss { background: #fff; } .farb-knopf.schwarz { background: #1f2937; color: #fff; }
+/* Ende */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: none; align-items: center; justify-content: center; z-index: 1000; }
+.overlay.zeigen { display: flex; }
+.ende { background: #fff; border-radius: 18px; padding: 18px 22px; width: min(520px, 94vw); text-align: center; }
+.ende .preis { font-size: 3.2em; }
+.st { font-size: 2.2em; background: linear-gradient(90deg, #f5b301 var(--f), #cbd5e1 var(--f)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.mini .st { font-size: 1em; }
+.regen { position: fixed; inset: 0; pointer-events: none; z-index: 1001; overflow: hidden; }
+.regen span { position: absolute; top: -50px; animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: .2; } }
+.versteckt { display: none !important; }
+.tipp-text { font-size: .9em; color: #475569; background: #fef9c3; border-radius: 10px; padding: 8px 10px; margin-top: 8px; }
+</style>
+</head>
+<body data-kein-kopf data-farbwaechter="aus">
+<main>
+  <div class="leiste">
+    <span class="titel">♞ Schach-Spaß</span>
+    <span class="chip" id="chip">Level wählen</span>
+    <span class="sterne" title="alle Sterne">⭐ <b id="summe">0</b> / <span id="max">0</span></span>
+    <select id="spieler" aria-label="Wer spielt?"></select>
+    <button class="knopf" id="zurStart" type="button">☰ Level</button>
+  </div>
+
+  <section id="start">
+    <div class="levels" id="levels"></div>
+  </section>
+
+  <section id="spiel" class="spiel versteckt">
+    <div id="brettHost"></div>
+    <div class="karte">
+      <p class="aufgabe" id="aufgabe"></p>
+      <div class="fortschritt" id="fortschritt"></div>
+      <p class="info" id="info"></p>
+      <div id="extra"></div>
+      <p class="rueck" id="rueck"></p>
+      <div class="reihe" id="knoepfe"></div>
+    </div>
+  </section>
+</main>
+
+<div class="overlay" id="endeOverlay"><div class="ende" id="ende"></div></div>
+
+<script>
+// ===========================
+// Grundlagen: Spieler, Sterne, Ton, Sprache
+// ===========================
+const STERNE_KEY = 'schach_sterne_v1';     // { spieler: { level: sterne } }
+const REKORD_KEY = 'schach_rekord_v1';     // { spieler: beste Springer-Felder }
+const SPIELER_KEY = 'schach_spieler_v1';
+const FIG = { K: '♚', D: '♛', T: '♜', L: '♝', S: '♞', B: '♟' };
+const FIG_NAME = { K: 'der König', D: 'die Dame', T: 'der Turm', L: 'der Läufer', S: 'der Springer', B: 'der Bauer' };
+const BUCH = 'abcdefgh';
+const $ = id => document.getElementById(id);
+const r = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const misch = a => { for (let i = a.length - 1; i > 0; i--) { const j = r(0, i); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+function spielerListe() {
+  const namen = new Set();
+  try { (JSON.parse(localStorage.getItem('math_module_spieler_v1') || '[]') || []).forEach(p => p && p.name && namen.add(p.name)); } catch (e) {}
+  try { (JSON.parse(localStorage.getItem(SPIELER_KEY) || '[]') || []).forEach(n => namen.add(n)); } catch (e) {}
+  return [...namen];
+}
+function spieler() { return localStorage.getItem('schach_aktuell') || spielerListe()[0] || 'Gast'; }
+function alleSterne() { try { return JSON.parse(localStorage.getItem(STERNE_KEY) || '{}') || {}; } catch (e) { return {}; } }
+function sterneVon(lv) { return ((alleSterne()[spieler().toLowerCase()] || {})[lv]) || 0; }
+function sterneMerken(lv, n) {
+  const a = alleSterne(); const k = spieler().toLowerCase(); a[k] = a[k] || {};
+  if (n > (a[k][lv] || 0)) a[k][lv] = n;
+  localStorage.setItem(STERNE_KEY, JSON.stringify(a));
+}
+function bruch(x) { const d = Math.round(x * 3), g = Math.floor(d / 3), t = d % 3; return (g || !t ? String(g) : '') + (t === 1 ? '⅓' : t === 2 ? '⅔' : ''); }
+function sterneHTML(n) { return [0, 1, 2].map(i => `<span class="st" style="--f:${Math.round(Math.max(0, Math.min(1, n - i)) * 100)}%">★</span>`).join(''); }
+function preis(n) { return n >= 3 ? ['🏆', 'Du bekommst den Pokal!'] : n >= 2 ? ['🥈', 'Du bekommst die Silbermedaille!'] : n >= 1 ? ['🥉', 'Du bekommst die Bronzemedaille!'] : ['🏁', 'Du bist im Ziel!']; }
+
+let audio = null;
+function ton(noten) {
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    const t0 = audio.currentTime + .02;
+    noten.forEach(([f, s, d]) => { const o = audio.createOscillator(), g = audio.createGain(); o.type = 'triangle'; o.frequency.value = f;
+      g.gain.setValueAtTime(.0001, t0 + s); g.gain.exponentialRampToValueAtTime(.2, t0 + s + .02); g.gain.exponentialRampToValueAtTime(.0001, t0 + s + d);
+      o.connect(g); g.connect(audio.destination); o.start(t0 + s); o.stop(t0 + s + d + .05); });
+  } catch (e) {}
+}
+const tonOk = () => ton([[660, 0, .15], [880, .12, .3]]);
+const tonNein = () => ton([[260, 0, .22], [200, .18, .3]]);
+const tonFanfare = () => ton([[523, 0, .16], [659, .16, .16], [784, .32, .16], [1047, .5, .7]]);
+function sprechen(t) {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'de-DE'; u.rate = .95;
+  const v = speechSynthesis.getVoices().find(x => /^de/i.test(x.lang)); if (v) u.voice = v; speechSynthesis.speak(u);
+}
+// „e4“ zum Vorlesen: „E vier“
+function feldSprechen(f) { return `${f[0].toUpperCase()} ${['', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht'][Number(f[1])]}`; }
+function regen(n) {
+  const b = document.createElement('div'); b.className = 'regen';
+  for (let i = 0; i < n; i++) { const s = document.createElement('span'); s.textContent = ['⭐', '🌟', '♞', '🎉'][i % 4];
+    s.style.left = Math.random() * 100 + '%'; s.style.fontSize = (18 + Math.random() * 24) + 'px';
+    s.style.animationDuration = (2.2 + Math.random() * 1.8) + 's'; s.style.animationDelay = Math.random() * 1.2 + 's'; b.appendChild(s); }
+  document.body.appendChild(b); setTimeout(() => b.remove(), 5000);
+}
+
+// ===========================
+// Das Schachbrett zeichnen
+// ===========================
+// felder: Größe (8 oder 5); figuren: { 'e4': 'wT' }; klick(feldName)
+function brettZeichnen({ groesse = 8, figuren = {}, klick = null, blind = false, feldPx = null }) {
+  const host = $('brettHost');
+  const px = feldPx || Math.max(34, Math.min(groesse === 5 ? 78 : 60, Math.floor((Math.min(window.innerWidth, 720) - 70) / groesse)));
+  const reihen = [...Array(groesse).keys()].map(i => groesse - i); // 8..1
+  let html = `<div class="brett-rahmen" style="--f:${px}px"><div class="koord-y" style="grid-template-rows:repeat(${groesse},${px}px)">${reihen.map(n => `<span>${n}</span>`).join('')}</div>`;
+  html += `<div class="brett${blind ? ' blind' : ''}" style="grid-template-columns:repeat(${groesse},${px}px)">`;
+  reihen.forEach(rank => { for (let f = 0; f < groesse; f++) {
+    const name = BUCH[f] + rank; const dunkel = (f + rank) % 2 === 1; // a1 ist dunkel
+    const fig = figuren[name];
+    html += `<div class="feld ${dunkel ? 'dunkel' : 'hell'}" data-feld="${name}">${fig ? `<span class="fig ${fig[0]}">${FIG[fig[1]]}</span>` : ''}</div>`;
+  } });
+  html += `</div><div class="koord-x" style="grid-template-columns:repeat(${groesse},${px}px)">${[...Array(groesse).keys()].map(f => `<span>${BUCH[f]}</span>`).join('')}</div></div>`;
+  host.innerHTML = html;
+  if (klick) host.querySelectorAll('.feld').forEach(el => el.addEventListener('click', () => klick(el.dataset.feld, el)));
+}
+const feldEl = n => document.querySelector(`.feld[data-feld="${n}"]`);
+const xy = n => [BUCH.indexOf(n[0]), Number(n.slice(1)) - 1];
+const nm = (x, y) => BUCH[x] + (y + 1);
+
+// Felder, auf die eine Figur auf leerem Brett ziehen kann
+function zielFelder(fig, von, groesse = 8) {
+  const [x, y] = xy(von); const z = [];
+  const drin = (a, b) => a >= 0 && b >= 0 && a < groesse && b < groesse;
+  const strahl = dirs => dirs.forEach(([dx, dy]) => { let a = x + dx, b = y + dy; while (drin(a, b)) { z.push(nm(a, b)); a += dx; b += dy; } });
+  const sprung = dirs => dirs.forEach(([dx, dy]) => { if (drin(x + dx, y + dy)) z.push(nm(x + dx, y + dy)); });
+  const gerade = [[1, 0], [-1, 0], [0, 1], [0, -1]], schraeg = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
+  if (fig === 'T') strahl(gerade);
+  if (fig === 'L') strahl(schraeg);
+  if (fig === 'D') strahl([...gerade, ...schraeg]);
+  if (fig === 'K') sprung([...gerade, ...schraeg]);
+  if (fig === 'S') sprung([[1, 2], [2, 1], [-1, 2], [-2, 1], [1, -2], [2, -1], [-1, -2], [-2, -1]]);
+  if (fig === 'B') { if (y < 7) z.push(nm(x, y + 1)); if (y === 1) z.push(nm(x, y + 2)); }
+  return z;
+}
+
+// ===========================
+// Die Level
+// ===========================
+const LEVELS = [
+  { id: 0, name: 'Die Figuren kennenlernen', bes: 'Wohin kann die Figur ziehen? Alle Felder antippen.', start: lvFiguren },
+  { id: 1, name: 'Die Felder finden', bes: 'Wo ist e4? Die Koordinaten (die Felder-Namen) lernen.', start: lvKoordinaten },
+  { id: 2, name: 'Welche Farbe hat das Feld?', bes: 'Ohne Brett: hell oder dunkel? Training fürs Blindschach.', start: lvFarbe },
+  { id: 3, name: 'Die Springer-Rundreise 5 × 5', bes: 'Mit dem Springer möglichst viele Felder besuchen – schaffst du alle 25?', start: lvSpringer },
+  { id: 4, name: 'Schlagen', bes: 'Kommt bald: Welche Figur kann man schlagen?', bald: true },
+  { id: 5, name: 'Schach und Matt in 1', bes: 'Kommt bald.', bald: true },
+];
+let aktLevel = null, runde = null;
+
+function startseite() {
+  $('spiel').classList.add('versteckt'); $('start').classList.remove('versteckt'); $('chip').textContent = 'Level wählen';
+  $('levels').innerHTML = LEVELS.map(l => `<button type="button" class="level-karte${l.bald ? ' bald' : ''}" data-id="${l.id}"${l.bald ? ' disabled' : ''}>
+      <span class="nr">Level ${l.id}</span><span class="name">${l.name}</span><span class="bes">${l.bes}</span>
+      ${l.bald ? '' : `<span class="mini">${sterneHTML(sterneVon(l.id))}</span>`}
+      ${l.id === 3 && rekord() ? `<span class="bes">Dein Rekord: ${rekord()} Felder</span>` : ''}</button>`).join('');
+  $('levels').querySelectorAll('.level-karte:not(.bald)').forEach(b => b.addEventListener('click', () => levelStarten(Number(b.dataset.id))));
+  summeZeigen();
+}
+function summeZeigen() {
+  const spielbar = LEVELS.filter(l => !l.bald);
+  $('summe').textContent = bruch(spielbar.reduce((a, l) => a + sterneVon(l.id), 0));
+  $('max').textContent = spielbar.length * 3;
+}
+function levelStarten(id) {
+  aktLevel = LEVELS.find(l => l.id === id);
+  $('start').classList.add('versteckt'); $('spiel').classList.remove('versteckt');
+  $('chip').textContent = `Level ${id} – ${aktLevel.name}`;
+  $('rueck').textContent = ''; $('extra').innerHTML = ''; $('knoepfe').innerHTML = '';
+  aktLevel.start();
+}
+
+// gemeinsamer Ablauf für Level mit 8 Aufgaben (Punkte: 1. Versuch 3, 2. Versuch 2, 3. Versuch 1)
+function rundeStarten(anzahl, aufgabeZeigen) {
+  runde = { anzahl, nr: 0, punkte: [], versuche: 0, zeigen: aufgabeZeigen };
+  naechsteAufgabe();
+}
+function fortschrittZeigen() {
+  $('fortschritt').innerHTML = [...Array(runde.anzahl).keys()].map(i => {
+    const p = runde.punkte[i]; return `<span class="${p === undefined ? (i === runde.nr ? 'jetzt' : '') : p > 0 ? 'ok' : 'nein'}">${i + 1}</span>`;
+  }).join('');
+}
+function naechsteAufgabe() {
+  if (runde.nr >= runde.anzahl) { rundeEnde(); return; }
+  runde.versuche = 0; $('rueck').textContent = ''; $('rueck').className = 'rueck';
+  fortschrittZeigen(); runde.zeigen();
+}
+function antwort(richtig, loesungText) {
+  if (richtig) {
+    runde.punkte[runde.nr] = 3 - runde.versuche; tonOk();
+    $('rueck').textContent = ['Richtig! 🎉', 'Super! 🎉', 'Prima! 🎉', 'Klasse! 🎉'][r(0, 3)]; $('rueck').className = 'rueck ok';
+    runde.nr++; fortschrittZeigen(); setTimeout(naechsteAufgabe, 1200); return true;
+  }
+  runde.versuche++; tonNein();
+  if (runde.versuche >= 3) {
+    runde.punkte[runde.nr] = 0; $('rueck').textContent = `Leider nicht. ${loesungText || ''}`; $('rueck').className = 'rueck nein';
+    runde.nr++; fortschrittZeigen(); setTimeout(naechsteAufgabe, 2600); return false;
+  }
+  $('rueck').textContent = `Nicht ganz – noch ${3 - runde.versuche} Versuch${3 - runde.versuche === 1 ? '' : 'e'}.`; $('rueck').className = 'rueck nein';
+  return false;
+}
+function rundeEnde() {
+  const p = runde.punkte.reduce((a, b) => a + b, 0), max = runde.anzahl * 3;
+  endeZeigen(Math.round(p / max * 9) / 3, `${p} von ${max} Punkten`);
+}
+function endeZeigen(sterne, zeile) {
+  sterneMerken(aktLevel.id, sterne); summeZeigen();
+  const [zeichen, text] = preis(sterne); const wer = spieler();
+  $('ende').innerHTML = `<div class="preis">${zeichen}</div><h2 style="margin:4px 0">${text}</h2><div>${sterneHTML(sterne)}</div>
+    <p><b>${bruch(sterne)} von 3 Sternen</b> · ${zeile}</p>
+    <div class="reihe" style="justify-content:center">
+      <button class="knopf${sterne < 2 ? ' haupt' : ''}" id="nochmal">🔁 Nochmal</button>
+      ${LEVELS.find(l => l.id === aktLevel.id + 1 && !l.bald) ? `<button class="knopf${sterne >= 2 ? ' haupt' : ''}" id="weiter">▶ Nächstes Level</button>` : ''}
+      <button class="knopf" id="auswahl">☰ Level-Auswahl</button></div>`;
+  $('endeOverlay').classList.add('zeigen');
+  $('nochmal').onclick = () => { $('endeOverlay').classList.remove('zeigen'); levelStarten(aktLevel.id); };
+  if ($('weiter')) $('weiter').onclick = () => { $('endeOverlay').classList.remove('zeigen'); levelStarten(aktLevel.id + 1); };
+  $('auswahl').onclick = () => { $('endeOverlay').classList.remove('zeigen'); startseite(); };
+  setTimeout(() => ($('weiter') && sterne >= 2 ? $('weiter') : $('nochmal')).focus(), 100);
+  if (sterne >= 2) { tonFanfare(); regen(sterne >= 3 ? 60 : 30); } else ton([[523, 0, .2], [659, .2, .35]]);
+  setTimeout(() => sprechen(sterne >= 1 ? `Hurra, ${wer}! ${text}` : `Gut gekämpft, ${wer}! Probier es gleich noch einmal.`), 800);
+}
+
+// ---------- Level 0: die Figuren kennenlernen ----------
+function lvFiguren() {
+  const folge = misch(['T', 'L', 'D', 'K', 'S', 'T', 'L', 'S']);
+  rundeStarten(folge.length, () => {
+    const fig = folge[runde.nr]; const von = nm(r(1, 6), r(1, 6));
+    const ziel = new Set(zielFelder(fig, von)); const gewaehlt = new Set();
+    $('aufgabe').textContent = `Wohin kann ${FIG_NAME[fig]} ziehen?`;
+    $('info').textContent = `${FIG_NAME[fig].replace(/^\w+ /, m => m.charAt(0).toUpperCase() + m.slice(1))} steht auf ${von}. Tippe ALLE Felder an, auf die er ziehen kann – dann „Prüfen“.`;
+    $('extra').innerHTML = `<p class="tipp-text">${{ T: 'Der Turm zieht gerade: nach oben, unten, links, rechts – so weit er will.', L: 'Der Läufer zieht schräg (diagonal) – so weit er will. Er bleibt immer auf seiner Farbe.', D: 'Die Dame zieht wie Turm und Läufer zusammen: gerade und schräg.', K: 'Der König zieht nur ein Feld – in jede Richtung.', S: 'Der Springer springt wie ein „L“: zwei Felder gerade und eins zur Seite.' }[fig]}</p>`;
+    brettZeichnen({ figuren: { [von]: 'w' + fig }, klick: (f, el) => {
+      if (f === von) return;
+      if (gewaehlt.has(f)) { gewaehlt.delete(f); el.classList.remove('markiert'); } else { gewaehlt.add(f); el.classList.add('markiert'); }
+    } });
+    $('knoepfe').innerHTML = '<button class="knopf haupt" id="pruefen">✔ Prüfen</button><button class="knopf" id="alleWeg">Alle Punkte weg</button>';
+    $('alleWeg').onclick = () => { gewaehlt.clear(); document.querySelectorAll('.feld.markiert').forEach(e => e.classList.remove('markiert')); };
+    $('pruefen').onclick = () => {
+      document.querySelectorAll('.feld').forEach(e => e.classList.remove('richtig', 'falsch', 'fehlt'));
+      let falsch = 0, fehlt = 0;
+      gewaehlt.forEach(f => { if (!ziel.has(f)) { falsch++; feldEl(f).classList.add('falsch'); } else feldEl(f).classList.add('richtig'); });
+      ziel.forEach(f => { if (!gewaehlt.has(f)) fehlt++; });
+      if (!falsch && !fehlt) { antwort(true); return; }
+      const letzter = runde.versuche + 1 >= 3;
+      antwort(false, 'Orange = diese Felder fehlten, Rot = falsch.');
+      if (letzter) { ziel.forEach(f => { if (!gewaehlt.has(f)) feldEl(f).classList.add('fehlt'); }); $('pruefen').disabled = true; }
+      else $('rueck').textContent += ` ${falsch ? falsch + ' Feld(er) falsch (rot). ' : ''}${fehlt ? fehlt + ' Feld(er) fehlen noch.' : ''}`;
+    };
+  });
+}
+
+// ---------- Level 1: die Felder finden ----------
+function lvKoordinaten() {
+  rundeStarten(10, () => {
+    const ziel = nm(r(0, 7), r(0, 7));
+    $('aufgabe').textContent = `Tippe auf das Feld ${ziel}`;
+    $('info').textContent = 'Zuerst der Buchstabe (die Linie, unten), dann die Zahl (die Reihe, links).';
+    $('extra').innerHTML = ''; $('knoepfe').innerHTML = '<button class="knopf" id="hoeren">🔊 Anhören</button>';
+    $('hoeren').onclick = () => sprechen(feldSprechen(ziel));
+    sprechen(feldSprechen(ziel));
+    let fertig = false;
+    brettZeichnen({ klick: (f, el) => {
+      if (fertig) return;
+      if (f === ziel) { el.classList.add('richtig'); fertig = true; antwort(true); }
+      else { el.classList.add('falsch'); $('extra').innerHTML = `<p class="tipp-text">Das war ${f}.</p>`;
+        const letzter = runde.versuche + 1 >= 3;
+        antwort(false, `Das Feld ${ziel} ist grün markiert.`);
+        if (letzter) { feldEl(ziel).classList.add('richtig'); fertig = true; } }
+    } });
+  });
+}
+
+// ---------- Level 2: welche Farbe hat das Feld? ----------
+function lvFarbe() {
+  rundeStarten(10, () => {
+    const x = r(0, 7), y = r(0, 7), f = nm(x, y); const dunkel = (x + y) % 2 === 0;
+    $('aufgabe').textContent = 'Welche Farbe hat das Feld?';
+    $('info').textContent = 'Stell dir das Brett im Kopf vor. Merke: a1 ist dunkel. Ein Schritt weiter (b1 oder a2) wechselt die Farbe.';
+    $('brettHost').innerHTML = `<div class="karte"><div class="gross-koord">${f}</div></div>`;
+    $('extra').innerHTML = `<div class="reihe" style="justify-content:center"><button class="farb-knopf weiss" id="hellBtn">hell ⬜</button><button class="farb-knopf schwarz" id="dunkelBtn">dunkel ⬛</button></div>
+      <p class="tipp-text">🧠 Trick: Buchstabe in Zahl umwandeln (a=1, b=2 … h=8) und zur Reihe addieren. <b>Gerade Summe = dunkel</b>, ungerade = hell. Beispiel: c5 → 3 + 5 = 8 → gerade → dunkel.</p>`;
+    $('knoepfe').innerHTML = '<button class="knopf" id="hoeren">🔊 Anhören</button>';
+    $('hoeren').onclick = () => sprechen(feldSprechen(f)); sprechen(feldSprechen(f));
+    let fertig = false;
+    const pruef = istDunkel => {
+      if (fertig) return;
+      const ok = istDunkel === dunkel;
+      const lsg = `${f}: ${BUCH.indexOf(f[0]) + 1} + ${f[1]} = ${BUCH.indexOf(f[0]) + 1 + Number(f[1])} → ${dunkel ? 'dunkel' : 'hell'}.`;
+      if (ok) { fertig = true; antwort(true); $('rueck').textContent += ' ' + lsg; return; }
+      // bei zwei Möglichkeiten ist der 2. Versuch immer richtig → nach 1 Fehler gleich auflösen
+      runde.versuche = 2; antwort(false, lsg); fertig = true;
+    };
+    $('hellBtn').onclick = () => pruef(false); $('dunkelBtn').onclick = () => pruef(true);
+  });
+}
+
+// ---------- Level 3: die Springer-Rundreise 5 × 5 ----------
+function rekord() { try { return (JSON.parse(localStorage.getItem(REKORD_KEY) || '{}') || {})[spieler().toLowerCase()] || 0; } catch (e) { return 0; } }
+function rekordMerken(n) { let m = {}; try { m = JSON.parse(localStorage.getItem(REKORD_KEY) || '{}') || {}; } catch (e) {} const k = spieler().toLowerCase(); if (n > (m[k] || 0)) { m[k] = n; localStorage.setItem(REKORD_KEY, JSON.stringify(m)); return true; } return false; }
+function lvSpringer() {
+  $('fortschritt').innerHTML = '';
+  let weg = [], tippZeigen = false;
+  const freie = von => zielFelder('S', von, 5).filter(f => !weg.includes(f));
+  const zeichnen = () => {
+    const jetzt = weg[weg.length - 1];
+    brettZeichnen({ groesse: 5, figuren: jetzt ? { [jetzt]: 'wS' } : {}, klick: feldKlick });
+    weg.forEach((f, i) => { const el = feldEl(f); el.classList.add('besucht'); el.insertAdjacentHTML('afterbegin', `<span class="zahl">${i + 1}</span>`); });
+    if (jetzt) {
+      const moegl = freie(jetzt);
+      moegl.forEach(f => feldEl(f).classList.add('moeglich'));
+      if (tippZeigen && moegl.length) { // Warnsdorff-Regel: das Feld mit den wenigsten Weiterwegen
+        const best = moegl.map(f => [f, zielFelder('S', f, 5).filter(g => !weg.includes(g) && g !== f).length]).sort((a, b) => a[1] - b[1])[0][0];
+        feldEl(best).classList.add('tipp');
+      }
+      $('aufgabe').textContent = `${weg.length} von 25 Feldern`;
+      if (!moegl.length) ende();
+    } else $('aufgabe').textContent = 'Wo soll der Springer anfangen?';
+  };
+  const feldKlick = f => {
+    const jetzt = weg[weg.length - 1];
+    if (!jetzt) { weg.push(f); tonOk(); zeichnen(); return; }
+    if (freie(jetzt).includes(f)) { weg.push(f); ton([[500 + weg.length * 20, 0, .12]]); zeichnen(); }
+    else { tonNein(); $('rueck').textContent = weg.includes(f) ? 'Dort war der Springer schon.' : 'So kann der Springer nicht springen (nur wie ein „L“).'; $('rueck').className = 'rueck nein'; setTimeout(() => { $('rueck').textContent = ''; }, 1800); }
+  };
+  const ende = () => {
+    const n = weg.length; const neu = rekordMerken(n);
+    $('rueck').textContent = n === 25 ? '🎉 Alle 25 Felder! Eine vollständige Springer-Rundreise!' : `Keine Sprünge mehr: ${n} Felder.${neu ? ' Neuer Rekord!' : ''}`;
+    $('rueck').className = 'rueck ' + (n === 25 ? 'ok' : '');
+    // Sterne: 25 Felder = 3, ab 20 = 2, ab 14 = 1 (in Dritteln dazwischen)
+    const sterne = n >= 25 ? 3 : n >= 20 ? 2 + Math.floor((n - 20) / 5 * 3) / 3 : n >= 14 ? 1 + Math.floor((n - 14) / 6 * 3) / 3 : Math.floor(n / 14 * 3) / 3;
+    setTimeout(() => endeZeigen(sterne, `${n} von 25 Feldern${rekord() ? ` · dein Rekord: ${rekord()}` : ''}`), 900);
+  };
+  $('info').textContent = 'Tippe ein Startfeld an. Dann springt der Springer – jedes Feld darf er nur einmal besuchen. Grüne Punkte zeigen, wohin er springen kann.';
+  $('extra').innerHTML = `<p class="tipp-text">Rekord: <b>${rekord() || '–'}</b> Felder. 💡 Kleines Geheimnis: Fang in einer <b>Ecke</b> an – und springe lieber zuerst an den <b>Rand</b>, die Mitte hebst du dir für später auf.</p>`;
+  $('knoepfe').innerHTML = '<button class="knopf" id="zurueck">↩ Einen Sprung zurück</button><button class="knopf" id="neu">🔄 Neu anfangen</button><button class="knopf" id="tipp">💡 Tipp zeigen</button>';
+  $('zurueck').onclick = () => { weg.pop(); zeichnen(); };
+  $('neu').onclick = () => { weg = []; zeichnen(); };
+  $('tipp').onclick = () => { tippZeigen = !tippZeigen; $('tipp').textContent = tippZeigen ? '💡 Tipp aus' : '💡 Tipp zeigen'; zeichnen(); };
+  zeichnen();
+}
+
+// ===========================
+// Start
+// ===========================
+function spielerWahl() {
+  const liste = spielerListe(); const akt = spieler();
+  $('spieler').innerHTML = [...new Set([akt, ...liste])].map(n => `<option${n === akt ? ' selected' : ''}>${n}</option>`).join('') + '<option value="__neu">＋ Neuer Spieler</option>';
+  $('spieler').onchange = () => {
+    let v = $('spieler').value;
+    if (v === '__neu') { v = (prompt('Wie heißt du?') || '').trim(); if (!v) { spielerWahl(); return; }
+      let l = []; try { l = JSON.parse(localStorage.getItem(SPIELER_KEY) || '[]'); } catch (e) {} if (!l.includes(v)) l.push(v); localStorage.setItem(SPIELER_KEY, JSON.stringify(l)); }
+    localStorage.setItem('schach_aktuell', v); spielerWahl(); startseite(); sprechen(`Hallo ${v}! Los geht's!`);
+  };
+}
+$('zurStart').onclick = startseite;
+window.addEventListener('keydown', e => { if (e.key === 'Escape') $('endeOverlay').classList.remove('zeigen'); });
+spielerWahl(); startseite();
+</script>
+</body>
+</html>
