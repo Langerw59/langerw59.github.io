@@ -862,7 +862,7 @@ function renderWelcome() {
   const lvlTitel = lvlNow !== null ? mmLevelTitel(lvlNow) : 'Mathe-Spaß';
   target.innerHTML = `
     <div class="mm-leiste">
-      <button type="button" class="mm-spieler" id="avatar-open" title="Tier und Bild wählen">
+      <button type="button" class="mm-spieler" id="avatar-open" title="Team wählen">
         <img class="avatar-img" src="${avatar}" alt="Avatar" width="34" height="34" />
         <span class="mm-spieler-name">${escapeHtml(name)} <small>· Team ${teamName}</small></span>
       </button>
@@ -872,6 +872,7 @@ function renderWelcome() {
     </div>
   `;
   mmMenueAufbauen(name);
+  document.querySelectorAll('#mmRennbahn .rb-tier').forEach(img => { img.src = avatar; }); // das Tier auf der Rennbahn = eigenes Team
   applyBilingualLabels(target);
   renderBonusJar(false);
   sterneSummeZeigen();
@@ -997,6 +998,7 @@ function mmMenueAufbauen() {
     <div class="mm-gruppe">
       <div class="mm-gruppe-titel">Spiel</div>
       <button type="button" class="mm-eintrag" id="change-name" data-de="👥 Spieler wechseln" data-en="Players">👥 Spieler wechseln</button>
+      <button type="button" class="mm-eintrag" id="mm-team" data-de="🐾 Team wählen" data-en="Choose team">🐾 Team wählen</button>
       <button type="button" class="mm-eintrag" id="hint-open" data-de="💡 Hinweis" data-en="Hint">💡 Hinweis</button>
       <button type="button" class="mm-eintrag" id="bg-open" data-de="🖼️ Bild wechseln" data-en="Change image">🖼️ Bild wechseln</button>
       <button type="button" class="mm-eintrag" id="btnBackgroundOnly" data-de="👀 Nur Hintergrund" data-en="Background only">👀 Nur Hintergrund</button>
@@ -1018,6 +1020,7 @@ function mmMenueAufbauen() {
   m.querySelector('#mm-menue-zu').onclick = mmMenueZu;
   // nach jedem Knopf (außer Schaltern) das Menü schließen, damit das Bild frei ist
   m.querySelectorAll('.mm-eintrag').forEach(b => b.addEventListener('click', () => setTimeout(mmMenueZu, 0)));
+  m.querySelector('#mm-team').onclick = () => openAvatarModal();
   m.querySelector('#mm-startseite').onclick = () => { window.location.href = `${MODULE_ROOT}/index.html`; };
   m.querySelector('#mm-beenden').onclick = () => {
     if (!window.confirm('Spiel wirklich beenden?')) return;
@@ -1090,11 +1093,12 @@ function openNameModal() {
         <div class="team-picker" id="team-picker" aria-label="Team auswählen">
           ${AVATARS.map((src, idx) => `
             <label class="team-option">
-              <input type="radio" name="team" value="${src}" data-theme="${THEMES[idx] || THEMES[0]}"${idx === 0 ? ' checked' : ''}>
+              <input type="radio" name="team" value="${src}" data-theme="${THEMES[idx] || THEMES[0]}">
               <img src="${src}" alt="${TEAM_NAMES[idx] || 'Tier'}" width="52" height="52" />
               <span>${TEAM_NAMES[idx] || 'Tier'}</span>
             </label>`).join('')}
         </div>
+        <p class="sp-klein" id="team-wahl-hinweis">Wähle dein Team: Für wen spielst du?</p>
         <div class="name-actions"><button id="name-submit">Los geht's!</button></div>
       </details>
       ${tabelle}
@@ -1128,7 +1132,8 @@ function openNameModal() {
     const val = normalizePlayerName((input.value || '').trim());
     if (!val) { input.focus(); input.placeholder = 'Bitte einen Namen eingeben'; return; }
     const sel = overlay.querySelector('#team-picker input[type="radio"]:checked');
-    const avatar = sel ? sel.value : AVATARS[0];
+    if (!sel) { const h = overlay.querySelector('#team-wahl-hinweis'); if (h) { h.textContent = '👆 Bitte zuerst ein Team antippen!'; h.style.color = '#b91c1c'; } return; }
+    const avatar = sel.value;
     const theme = sel ? (sel.dataset.theme || themeForAvatar(avatar)) : THEMES[0];
     setAvatar(avatar); setTheme(theme); setUserName(val);
     spielerMerken(val, avatar, theme);
@@ -1265,64 +1270,36 @@ function renderResultTable(rows) {
 // DE: Avatar/Theme Modal anzeigen
 // EN: Show avatar/theme modal
 // RU: ÐžÐºÐ½Ð¾ Ð²Ñ‹Ð±Ð¾Ñ€Ð° Ð°Ð²Ð°Ñ‚Ð°Ñ€Ð°/Ñ„Ð¾Ð½Ð°
+// 2026-11-26: „Für welches Team spielst du?“ – das Kind wählt sein Team selbst (nicht mehr zufällig)
+// RU: ребёнок сам выбирает команду; картинка-фон меняется вместе с командой
 function openAvatarModal() {
-  const avatar = getAvatar() || pickRandom(AVATARS);
-  const theme = getTheme() || pickRandom(THEMES);
-  const { overlay, body } = ensureModal('avatar-modal', 'Avatar & Agent');
+  const jetzt = getAvatar();
+  const { overlay, body } = ensureModal('avatar-modal', 'Für welches Team spielst du?');
   if (!body) return;
   body.innerHTML = `
-    <div class="modal-grid">
-      <div class="modal-block">
-        <p class="eyebrow">Avatar</p>
-        <img class="modal-hero" id="avatar-hero" src="${avatar}" alt="Avatar groß">
-        <div class="modal-actions">
-          <button class="pill btn-secondary" id="swap-avatar" data-de="Avatar" data-en="Avatar">Avatar</button>
-        </div>
-      </div>
-      <div class="modal-block">
-        <p class="eyebrow">Hintergrund</p>
-        <img class="modal-hero" id="theme-hero" src="${theme}" alt="Hintergrund groß">
-        <div class="modal-actions">
-          <button class="pill btn-secondary" id="swap-theme" data-de="Bild wechseln" data-en="Change image">Bild wechseln</button>
-        </div>
-      </div>
+    <div class="team-wahl">
+      ${AVATARS.map((src, i) => `
+        <button type="button" class="team-karte${src === jetzt ? ' aktiv' : ''}" data-i="${i}">
+          <img src="${src}" alt="" width="84" height="84">
+          <span>Team ${TEAM_NAMES[i] || 'Tier'}</span>
+          ${src === jetzt ? '<small>✔ dein Team</small>' : ''}
+        </button>`).join('')}
     </div>
-    <p class="hint-note">Tipp: Avatar anklicken öffnet dieses Fenster immer.</p>
-  `;
-  applyBilingualLabels(overlay);
+    <p class="hint-note">Das Bild im Hintergrund passt zum Team. Ein anderes Bild gibt es im Menü unter „Bild wechseln“.</p>`;
   overlay.classList.add('is-visible');
-
-  const avatarImg = body.querySelector('#avatar-hero');
-  const themeImg = body.querySelector('#theme-hero');
-
-  const refresh = () => {
-    const a = getAvatar() || avatar;
-    const t = getTheme() || themeForAvatar(a);
-    if (avatarImg) avatarImg.src = a;
-    if (themeImg) themeImg.src = t;
-    applyTheme(t);
+  body.querySelectorAll('.team-karte').forEach(b => b.addEventListener('click', () => {
+    const i = Number(b.dataset.i);
+    const avatar = AVATARS[i];
+    setAvatar(avatar);
+    setTheme(THEMES[i] || themeForAvatar(avatar));
+    applyTheme(getTheme());
+    const name = getUserName();
+    if (name) spielerMerken(name, avatar, getTheme());
     renderWelcome();
-  };
-
-  const swapAvatar = body.querySelector('#swap-avatar');
-  if (swapAvatar) {
-    swapAvatar.onclick = () => {
-      const nextAvatar = pickRandom(AVATARS);
-      setAvatar(nextAvatar); // setAvatar sets theme pair
-      refresh();
-    };
-  }
-  const swapTheme = body.querySelector('#swap-theme');
-  if (swapTheme) {
-    swapTheme.onclick = () => {
-      const current = getAvatar() || avatar;
-      const idx = AVATARS.indexOf(current);
-      const nextIdx = idx >= 0 ? idx : 0;
-      setAvatarAndThemeByIndex(nextIdx);
-      refresh();
-      document.dispatchEvent(new Event('avatar-theme-updated'));
-    };
-  }
+    document.dispatchEvent(new Event('avatar-theme-updated'));
+    overlay.classList.remove('is-visible');
+    showToast(`Du spielst jetzt für Team ${TEAM_NAMES[i]}! 🎉`, 'ok');
+  }));
 }
 
 function openBackgroundModal() {
