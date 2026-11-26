@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <title>Das Zahnradgetriebe – die Übersetzung – Technik</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-26: Technik, Etage 1, Lektion 1 – das Zahnradgetriebe – mit Claude -->
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../elektrotechnik/et.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+    <style>
+      .gt-bild { width: 100%; max-width: 760px; height: auto; display: block; margin: 8px auto; }
+      .gt-bild .rad1 { fill: #e8a33d; } .gt-bild .rad2 { fill: #4a90c2; } .gt-bild .radz { fill: #9aa3b0; }
+      .gt-bild .nabe { fill: var(--bg-surface, #fff); stroke: #333; stroke-width: 1.5; }
+      .gt-bild .mark { stroke: #222; stroke-width: 3; stroke-linecap: round; }
+      .gt-bild text { fill: var(--text-main); font-family: sans-serif; font-size: 14px; }
+      .gt-zahlen { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; }
+      .gt-zahlen div { border: 1px solid var(--border-subtle); border-radius: 10px; padding: 8px 10px; background: var(--bg-surface); }
+      .gt-zahlen b { display: block; font-size: 1.25em; color: var(--accent-strong); }
+      .gt-zahlen small { color: var(--text-muted); }
+      .gt-stufe { display: grid; grid-template-columns: auto 1fr 1fr auto; gap: 8px; align-items: center; margin: 6px 0; }
+      .gt-stufe input { width: 100%; padding: 6px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); font-size: 1em; }
+      .gt-trainer { text-align: center; }
+      .gt-trainer .frage { font-size: 1.15em; margin: 10px 0; line-height: 1.5; }
+      .gt-trainer input { width: 140px; padding: 8px; font-size: 1.1em; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); text-align: center; }
+      .gt-trainer button, .gt-knopf { padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-main); font-size: 1em; cursor: pointer; margin: 4px; }
+      .ok { color: #2e8b57; font-weight: 700; } .falsch { color: #d9534f; font-weight: 700; }
+      .fuss { font-size: .85em; color: var(--text-muted); }
+    </style>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="index.html">Technik</a> › Etage 1 – die Kraftübertragung › Lektion 1</p>
+        <h1>⚙️ Das Zahnradgetriebe – die Übersetzung</h1>
+        <p class="hint-text">Зубчатая передача: ведущее и ведомое колесо, передаточное число, многоступенчатая передача – и задачи.</p>
+
+        <h2>1. Die Theorie</h2>
+
+        <h3>Wozu braucht man ein Getriebe?</h3>
+        <p><b>Das Getriebe</b> verbindet einen Motor mit der Maschine und ändert dabei
+          <b>die Drehzahl</b>, <b>das Drehmoment</b> und manchmal <b>die Drehrichtung</b>.
+          Ein Elektromotor dreht z. B. mit 1500 Umdrehungen pro Minute – die Trommel der Waschmaschine,
+          das Rad des Autos oder der Zeiger der Uhr brauchen aber eine ganz andere Drehzahl.
+          <span class="ru">Редуктор/коробка передач меняет частоту вращения, крутящий момент и иногда направление вращения.</span></p>
+
+        <h3>Das Antriebsrad und das Abtriebsrad</h3>
+        <table class="et-woerter">
+          <tr><th>der Begriff</th><th>das Zeichen</th><th>по-русски</th></tr>
+          <tr><td><b>das Antriebsrad</b> (das treibende Rad) – sitzt auf der Motorwelle</td><td>z₁, n₁, M₁</td><td>ведущее колесо</td></tr>
+          <tr><td><b>das Abtriebsrad</b> (das getriebene Rad) – wird angetrieben</td><td>z₂, n₂, M₂</td><td>ведомое колесо</td></tr>
+          <tr><td><b>die Zähnezahl</b> (die Zahl der Zähne)</td><td>z</td><td>число зубьев</td></tr>
+          <tr><td><b>die Drehzahl</b> – Umdrehungen pro Minute</td><td>n in 1/min</td><td>частота вращения (об/мин)</td></tr>
+          <tr><td><b>das Drehmoment</b> – die „Drehkraft“ an der Welle</td><td>M in Nm</td><td>крутящий момент</td></tr>
+          <tr><td><b>die Übersetzung</b> (das Übersetzungsverhältnis)</td><td>i</td><td>передаточное число (отношение)</td></tr>
+        </table>
+        <p class="fuss">¹ Gleichbedeutend: das Antriebsrad = das treibende Rad = Rad 1 · das Abtriebsrad = das getriebene Rad = Rad 2 ·
+          das kleine Zahnrad heißt oft <b>das Ritzel</b> (auch am Fahrrad: hinten das Ritzel = „звёздочка“).
+          Russisch „шестерня“ (маленькое) / „зубчатое колесо“ (большое).</p>
+
+        <h3>Die Grundidee: Zahn um Zahn</h3>
+        <p>Die Räder greifen ineinander: Wenn das Antriebsrad <b>einen</b> Zahn weiterdreht, dreht sich auch das Abtriebsrad um genau <b>einen</b> Zahn.
+          Hat Rad 1 nur <b>12</b> Zähne und Rad 2 aber <b>36</b>, muss sich Rad 1 <b>3-mal</b> drehen, bis Rad 2 <b>einmal</b> herum ist.
+          <span class="ru">Зубья проходят «зуб за зуб»: малое колесо (12 зубьев) делает 3 оборота, пока большое (36) делает один.</span></p>
+
+        <div class="et-box">
+          <h3>Merke / запомнить – die Übersetzung</h3>
+          <div class="et-formel">i = z₂ / z₁ = n₁ / n₂</div>
+          <p>Daraus: <b>n₂ = n₁ / i</b> &nbsp;und&nbsp; <b>M₂ = M₁ · i</b> (ohne Reibungsverluste).</p>
+          <ul>
+            <li><b>i &gt; 1</b> – die Übersetzung <b>ins Langsame</b> (auch: <b>die Untersetzung</b>): langsamer, aber <b>mehr Kraft</b> (Drehmoment). <span class="ru">понижающая передача</span></li>
+            <li><b>i &lt; 1</b> – die Übersetzung <b>ins Schnelle</b>: schneller, aber weniger Kraft. <span class="ru">повышающая передача</span></li>
+            <li><b>i = 1</b> – gleiche Drehzahl, nur die Richtung ändert sich.</li>
+          </ul>
+          <p><b>Die goldene Regel der Mechanik:</b> Was man an Drehzahl gewinnt, verliert man an Drehmoment – und umgekehrt. Die Leistung bleibt (fast) gleich.
+            <span class="ru">«Золотое правило механики»: выигрываем в силе – проигрываем в скорости.</span></p>
+        </div>
+        <p class="fuss">² Hinweis: Nach der Norm (DIN 868) gilt immer i = n<sub>an</sub> / n<sub>ab</sub> (Antrieb durch Abtrieb). In manchen russischen Büchern steht
+          „передаточное число“ immer ≥ 1 und „передаточное отношение“ kann auch kleiner als 1 sein – hier rechnen wir immer nach der Norm.</p>
+
+        <h3>Die Drehrichtung und das Zwischenrad</h3>
+        <p>Zwei außen verzahnte Räder drehen sich immer <b>gegeneinander</b> (eins rechts herum, das andere links herum).
+          Soll das Abtriebsrad in <b>dieselbe</b> Richtung drehen, setzt man <b>ein Zwischenrad</b> dazwischen.
+          Das Zwischenrad ändert <b>nur die Richtung</b> – <b>nicht</b> die Übersetzung! Seine Zähnezahl kürzt sich heraus:
+          <span class="ru">Промежуточное (паразитное) колесо меняет только направление, передаточное число не меняется.</span></p>
+        <div class="et-formel">i = (z<sub>Z</sub> / z₁) · (z₂ / z<sub>Z</sub>) = z₂ / z₁</div>
+
+        <h3>Das mehrstufige Getriebe – die Gesamtübersetzung</h3>
+        <p>Reicht eine Stufe nicht, baut man mehrere <b>Stufen</b> hintereinander: Auf derselben <b>Welle</b> sitzen ein großes Rad (getrieben von der Stufe davor)
+          und ein kleines Rad (treibt die nächste Stufe). So entsteht ein <b>zweistufiges</b> oder <b>dreistufiges Getriebe</b>.
+          <span class="ru">Многоступенчатая передача: на одном валу сидят большое колесо (ведомое) и малое (ведущее следующей ступени).</span></p>
+        <svg class="et-bild" viewBox="0 0 560 230" aria-label="Schema zweistufiges Getriebe">
+          <g stroke="#555" stroke-width="2" fill="none">
+            <line x1="60" y1="30" x2="60" y2="200" /><line x1="230" y1="30" x2="230" y2="200" /><line x1="430" y1="30" x2="430" y2="200" />
+          </g>
+          <circle cx="60" cy="70" r="32" fill="#e8a33d" opacity=".85" /><circle cx="60" cy="70" r="4" fill="#333" />
+          <circle cx="190" cy="70" r="98" fill="#4a90c2" opacity=".35" /><circle cx="190" cy="70" r="4" fill="#333" />
+          <circle cx="230" cy="160" r="28" fill="#e8a33d" opacity=".85" /><circle cx="230" cy="160" r="4" fill="#333" />
+          <circle cx="370" cy="160" r="112" fill="#4a90c2" opacity=".35" />
+          <text x="18" y="22">Welle 1 (Motor)</text>
+          <text x="40" y="75">z₁</text><text x="150" y="40">z₂</text>
+          <text x="214" y="165">z₃</text><text x="400" y="200">z₄</text>
+          <text x="245" y="225">Welle 2 (Zwischenwelle): z₂ und z₃</text>
+          <text x="440" y="60">Welle 3</text><text x="440" y="76">(Abtrieb)</text>
+          <text x="80" y="210">Stufe 1: i₁ = z₂/z₁</text>
+          <text x="300" y="20">Stufe 2: i₂ = z₄/z₃</text>
+        </svg>
+        <p class="hint-text" style="text-align:center">Schema (nicht maßstäblich): das kleine Rad z₃ sitzt auf derselben Welle wie das große Rad z₂.</p>
+        <div class="et-box">
+          <h3>Merke – die Gesamtübersetzung / общее передаточное число</h3>
+          <div class="et-formel">i<sub>ges</sub> = i₁ · i₂ · i₃ · …</div>
+          <p>Die Übersetzungen der Stufen werden <b>multipliziert</b> (nicht addiert!). Dann:
+            <b>n<sub>ab</sub> = n<sub>an</sub> / i<sub>ges</sub></b> &nbsp;und&nbsp; <b>M<sub>ab</sub> = M<sub>an</sub> · i<sub>ges</sub></b>.
+            <span class="ru">Передаточные числа ступеней перемножаются.</span></p>
+        </div>
+
+        <h3>Dasselbe beim Ketten- und Riemengetriebe</h3>
+        <p>Beim Fahrrad (<b>das Kettengetriebe</b>) zählt man die Zähne der Kettenräder genauso: vorne <b>das Kettenblatt</b> (treibend), hinten <b>das Ritzel</b> (getrieben).
+          Beim <b>Riemengetriebe</b> (der Keilriemen im Auto) nimmt man statt der Zähne die <b>Durchmesser</b>: i = d₂ / d₁.
+          Einziger Unterschied: Kette und Riemen ändern die Drehrichtung <b>nicht</b>.
+          <span class="ru">Цепная передача (велосипед) и ремённая – те же формулы; направление вращения не меняется.</span></p>
+
+        <h2>2. Das Getriebe in Bewegung</h2>
+        <p class="hint-text">Ставь число зубьев – колёса крутятся (в замедленном виде). Отметка на каждом колесе показывает обороты.</p>
+        <div class="et-box">
+          <div class="et-rechner">
+            <label>z₁ – das Antriebsrad <input type="number" id="az1" value="12" min="6" max="60" /></label>
+            <label>z₂ – das Abtriebsrad <input type="number" id="az2" value="36" min="6" max="60" /></label>
+            <label>n₁ in 1/min <input type="number" id="an1" value="1500" min="1" max="10000" /></label>
+            <label>M₁ in Nm <input type="number" id="am1" value="10" min="0" step="0.1" /></label>
+            <label>das Zwischenrad
+              <select id="azw"><option value="0">ohne</option><option value="1">mit (z = 20)</option></select></label>
+          </div>
+          <svg class="gt-bild" id="gtSvg" viewBox="0 0 760 300"></svg>
+          <div class="gt-zahlen" id="gtZahlen"></div>
+          <p class="hint-text" style="text-align:center">
+            <button type="button" class="gt-knopf" id="gtPause">⏸ Pause</button>
+            Zeitlupe: Die Räder drehen viel langsamer als in Wirklichkeit.</p>
+        </div>
+
+        <h2>3. Der Rechner für mehrstufige Getriebe</h2>
+        <p class="hint-text">Калькулятор: до трёх ступеней – общее передаточное число, обороты и момент на выходе.</p>
+        <div class="et-box">
+          <div class="gt-stufe"><b></b><small>treibend (klein)</small><small>getrieben (groß)</small><small>i</small></div>
+          <div class="gt-stufe"><b>Stufe 1</b><input type="number" id="s1a" value="15" /><input type="number" id="s1b" value="45" /><span id="s1i"></span></div>
+          <div class="gt-stufe"><b>Stufe 2</b><input type="number" id="s2a" value="12" /><input type="number" id="s2b" value="48" /><span id="s2i"></span></div>
+          <div class="gt-stufe"><b>Stufe 3</b><input type="number" id="s3a" value="" placeholder="leer = keine" /><input type="number" id="s3b" value="" placeholder="leer = keine" /><span id="s3i"></span></div>
+          <div class="et-rechner" style="margin-top:10px">
+            <label>n am Antrieb in 1/min <input type="number" id="sn" value="2400" /></label>
+            <label>M am Antrieb in Nm <input type="number" id="sm" value="5" step="0.1" /></label>
+          </div>
+          <div class="et-ergebnis" id="sErg"></div>
+          <p class="hint-text" id="sWeg"></p>
+        </div>
+
+        <h2>4. Die Beispiele</h2>
+        <div class="et-aufgabe">
+          <h4>Beispiel 1 – eine Stufe</h4>
+          <p>z₁ = 12, z₂ = 36, n₁ = 1500 1/min, M₁ = 10 Nm.</p>
+          <p>i = z₂ / z₁ = 36 / 12 = <b>3</b> (ins Langsame) · n₂ = 1500 / 3 = <b>500 1/min</b> · M₂ = 10 · 3 = <b>30 Nm</b> ·
+            Rad 2 dreht <b>entgegengesetzt</b>.</p>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Beispiel 2 – zwei Stufen</h4>
+          <p>Stufe 1: 15 → 45 Zähne, Stufe 2: 12 → 48 Zähne, Motor 2400 1/min, 5 Nm.</p>
+          <p>i₁ = 45/15 = 3 · i₂ = 48/12 = 4 · <b>i<sub>ges</sub> = 3 · 4 = 12</b><br />
+            n<sub>ab</sub> = 2400 / 12 = <b>200 1/min</b> · M<sub>ab</sub> = 5 · 12 = <b>60 Nm</b>.
+            Zwei Stufen → zweimal Richtungswechsel → Abtrieb dreht <b>wie der Motor</b>.</p>
+        </div>
+
+        <h2>5. Die Aufgaben mit Lösung</h2>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 1 – ins Schnelle</h4>
+          <p>Das Antriebsrad hat 40 Zähne und dreht mit 300 1/min. Das Abtriebsrad hat 20 Zähne. Berechne i und n₂.</p>
+          <details><summary>Lösung zeigen</summary><div class="loesung">
+            i = 20 / 40 = <b>0,5</b> (i &lt; 1 → ins Schnelle) · n₂ = 300 / 0,5 = <b>600 1/min</b>. Das Abtriebsrad dreht doppelt so schnell, hat aber nur die halbe Kraft.</div></details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 2 – das Zwischenrad</h4>
+          <p>z₁ = 20, Zwischenrad z<sub>Z</sub> = 50, z₂ = 40, n₁ = 1000 1/min. Berechne n₂. In welche Richtung dreht Rad 2?</p>
+          <details><summary>Lösung zeigen</summary><div class="loesung">
+            Das Zwischenrad kürzt sich heraus: i = 40 / 20 = <b>2</b> · n₂ = 1000 / 2 = <b>500 1/min</b>.
+            Drei Räder in einer Reihe → Rad 2 dreht in <b>dieselbe</b> Richtung wie Rad 1.</div></details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 3 – die Zähnezahl gesucht</h4>
+          <p>Ein Motor dreht mit 1440 1/min, die Maschine braucht 360 1/min. Das Ritzel hat 18 Zähne. Wie viele Zähne braucht das große Rad?</p>
+          <details><summary>Lösung zeigen</summary><div class="loesung">
+            i = n₁ / n₂ = 1440 / 360 = <b>4</b> · z₂ = i · z₁ = 4 · 18 = <b>72 Zähne</b>.</div></details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 4 – drei Stufen</h4>
+          <p>Ein dreistufiges Getriebe: i₁ = 2, i₂ = 3, i₃ = 4. Der Motor dreht mit 1440 1/min und hat 2 Nm. Berechne i<sub>ges</sub>, n<sub>ab</sub> und M<sub>ab</sub>.</p>
+          <details><summary>Lösung zeigen</summary><div class="loesung">
+            i<sub>ges</sub> = 2 · 3 · 4 = <b>24</b> · n<sub>ab</sub> = 1440 / 24 = <b>60 1/min</b> (= 1 Umdrehung pro Sekunde) · M<sub>ab</sub> = 2 · 24 = <b>48 Nm</b>.
+            Drei Stufen → dreimal Richtungswechsel → Abtrieb dreht <b>entgegengesetzt</b> zum Motor.</div></details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 5 – die Uhr</h4>
+          <p>Vom Minutenzeiger zum Stundenzeiger braucht man i = 12 (der Minutenzeiger dreht 12-mal, der Stundenzeiger einmal).
+            Stufe 1: 10 → 30 Zähne. Stufe 2: das Ritzel hat 8 Zähne. Wie viele Zähne hat das letzte Rad?</p>
+          <details><summary>Lösung zeigen</summary><div class="loesung">
+            i₁ = 30 / 10 = 3 · i₂ = i<sub>ges</sub> / i₁ = 12 / 3 = 4 · z₄ = 4 · 8 = <b>32 Zähne</b>.</div></details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 6 – das Fahrrad</h4>
+          <p>Vorne das Kettenblatt: 44 Zähne, hinten das Ritzel: 11 Zähne. Der Radumfang ist 2,10 m.
+            Man tritt 60-mal pro Minute (die Trittfrequenz). Wie schnell fährt man? Und mit dem Ritzel 22?</p>
+          <details><summary>Lösung zeigen</summary><div class="loesung">
+            i = 11 / 44 = <b>0,25</b> (ins Schnelle) → das Hinterrad dreht 4-mal pro Kurbelumdrehung: n = 60 / 0,25 = 240 1/min.<br />
+            Weg pro Minute: 240 · 2,10 m = 504 m → pro Stunde 504 · 60 = 30 240 m ≈ <b>30,2 km/h</b>.<br />
+            Mit dem Ritzel 22: i = 0,5 → 120 1/min → ≈ <b>15,1 km/h</b> (bergauf leichter, aber langsamer).</div></details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 7 – das Auto (für Profis)</h4>
+          <p>Der Motor dreht mit 3000 1/min. Im 5. Gang ist die Gangübersetzung i<sub>G</sub> = 0,8, die Achsübersetzung (das Differential) i<sub>A</sub> = 3,5.
+            Der Reifen hat einen Abrollumfang von 1,95 m. Wie schnell fährt das Auto? Und im 1. Gang (i<sub>G</sub> = 3,6)?</p>
+          <details><summary>Lösung zeigen</summary><div class="loesung">
+            i<sub>ges</sub> = 0,8 · 3,5 = <b>2,8</b> · n<sub>Rad</sub> = 3000 / 2,8 ≈ 1071 1/min<br />
+            v = 1071 · 1,95 m · 60 / 1000 ≈ <b>125 km/h</b>.<br />
+            1. Gang: i<sub>ges</sub> = 3,6 · 3,5 = 12,6 · n<sub>Rad</sub> ≈ 238 1/min · v ≈ <b>28 km/h</b> – dafür 12,6-faches Drehmoment am Rad (Anfahren!).</div></details>
+        </div>
+        <div class="et-aufgabe">
+          <h4>Aufgabe 8 – der Modul und der Achsabstand (für Profis)</h4>
+          <p>Damit zwei Räder zusammenpassen, müssen sie <b>denselben Modul m</b> haben (die „Zahngröße“). Es gilt: Teilkreisdurchmesser d = m · z,
+            Achsabstand a = m · (z₁ + z₂) / 2. Berechne d₁, d₂ und a für m = 2 mm, z₁ = 20, z₂ = 40.</p>
+          <details><summary>Lösung zeigen</summary><div class="loesung">
+            d₁ = 2 · 20 = <b>40 mm</b> · d₂ = 2 · 40 = <b>80 mm</b> · a = 2 · (20 + 40) / 2 = <b>60 mm</b> (= (d₁ + d₂) / 2).</div></details>
+        </div>
+
+        <h2>6. Der Aufgaben-Trainer</h2>
+        <p class="hint-text">Тренажёр: случайные задачи – введи ответ (запятая или точка – всё равно).</p>
+        <div class="et-box gt-trainer">
+          <div class="frage" id="tFrage"></div>
+          <input type="text" id="tEin" inputmode="decimal" autocomplete="off" />
+          <button type="button" id="tPruef">Prüfen</button>
+          <button type="button" id="tNeu">Neue Aufgabe →</button>
+          <div id="tAntwort" style="min-height:2.6em;margin-top:8px"></div>
+          <div class="hint-text" id="tStand"></div>
+        </div>
+
+        <h2>7. Der Versuch</h2>
+        <div class="et-box">
+          <h3>Die Übersetzung am Fahrrad zählen</h3>
+          <ol>
+            <li>Fahrrad umdrehen (auf Sattel und Lenker stellen). Am Hinterrad das Ventil mit Kreide oder einem Klebeband markieren.</li>
+            <li>Die Kurbel <b>genau einmal</b> langsam drehen und zählen: Wie oft dreht sich das Hinterrad?</li>
+            <li>Die Zähne vorne (Kettenblatt) und hinten (Ritzel) zählen und i = z<sub>Ritzel</sub> / z<sub>Kettenblatt</sub> rechnen. Stimmt es mit dem Zählen überein?</li>
+            <li>Einen anderen Gang wählen und wiederholen. Welcher Gang ist für den Berg, welcher für die Ebene?</li>
+          </ol>
+          <p class="ru">Опыт с велосипедом – отлично подходит для внуков: посчитать зубья и обороты колеса.</p>
+        </div>
+
+        <h2>8. Zum Ansehen</h2>
+        <ul class="et-list">
+          <li><a href="https://de.wikipedia.org/wiki/Zahnradgetriebe" target="_blank" rel="noopener">📖 Wikipedia – das Zahnradgetriebe</a>
+            <span class="tag">Arten: Stirnrad, Kegelrad, Schnecke, Planetengetriebe</span></li>
+          <li><a href="https://de.wikipedia.org/wiki/%C3%9Cbersetzung_(Technik)" target="_blank" rel="noopener">📖 Wikipedia – die Übersetzung (Technik)</a>
+            <span class="tag">die Formeln, die Norm</span></li>
+          <li><a href="https://www.youtube.com/results?search_query=Zahnradgetriebe+%C3%9Cbersetzung+einfach+erkl%C3%A4rt" target="_blank" rel="noopener">▶️ YouTube – „Zahnradgetriebe Übersetzung einfach erklärt“</a>
+            <span class="tag">Videos zum Auswählen</span></li>
+          <li><a href="https://www.youtube.com/results?search_query=Schaltgetriebe+Funktion+Animation" target="_blank" rel="noopener">▶️ YouTube – das Schaltgetriebe im Auto (Animation)</a>
+            <span class="tag">wie die Gänge funktionieren</span></li>
+        </ul>
+
+        <h2>9. Die Wörter</h2>
+        <table class="et-woerter">
+          <tr><td>das Getriebe</td><td>передача; редуктор; коробка передач</td></tr>
+          <tr><td>das Zahnrad (die Zahnräder)</td><td>зубчатое колесо, шестерня</td></tr>
+          <tr><td>das Ritzel</td><td>малая шестерня; звёздочка (велосипед)</td></tr>
+          <tr><td>das Antriebsrad / das Abtriebsrad</td><td>ведущее / ведомое колесо</td></tr>
+          <tr><td>die Zähnezahl</td><td>число зубьев</td></tr>
+          <tr><td>die Welle</td><td>вал</td></tr>
+          <tr><td>die Drehzahl</td><td>частота вращения (обороты)</td></tr>
+          <tr><td>das Drehmoment</td><td>крутящий момент</td></tr>
+          <tr><td>die Drehrichtung</td><td>направление вращения</td></tr>
+          <tr><td>die Übersetzung / die Gesamtübersetzung</td><td>передаточное число / общее передаточное число</td></tr>
+          <tr><td>die Untersetzung</td><td>понижающая передача (редукция)</td></tr>
+          <tr><td>das Zwischenrad</td><td>промежуточное (паразитное) колесо</td></tr>
+          <tr><td>die Stufe / zweistufig / dreistufig</td><td>ступень / двух-, трёхступенчатый</td></tr>
+          <tr><td>das Kettenblatt / die Kette / der Riemen</td><td>передняя звезда / цепь / ремень</td></tr>
+          <tr><td>der Modul / der Achsabstand</td><td>модуль зацепления / межосевое расстояние</td></tr>
+          <tr><td>das Schaltgetriebe / das Differential</td><td>механическая коробка передач / дифференциал</td></tr>
+        </table>
+        <p class="hint-text">Wortgeschichte: <b>die Übersetzung</b> ist dasselbe Wort wie beim Sprachenlernen! „über-setzen“ = etwas auf die andere Seite bringen –
+          die Bedeutung von einer Sprache in die andere, die Drehung von einer Welle auf die andere.
+          <b>das Getriebe</b> ← <i>treiben</i> (antreiben). <b>das Moment</b> ← lat. <i>momentum</i> „die Bewegungskraft“ ← <i>movere</i> „bewegen“.
+          <a href="../glossar.html#w=Übersetzung">→ im Fachglossar</a></p>
+
+        <div class="et-nav">
+          <a href="index.html">← Übersicht Technik</a>
+          <a href="/pages/faecher/index.html">die Fächer →</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        const fmt = (x, d) => (Math.round(x * Math.pow(10, d == null ? 2 : d)) / Math.pow(10, d == null ? 2 : d)).toLocaleString("de-DE");
+        const zahl = (id) => parseFloat(String($(id).value).replace(",", "."));
+
+        /* ===== Animation / анимация ===== */
+        const SVG = "http://www.w3.org/2000/svg"; let MOD = 4.2;   // px pro Modul (passt sich an)
+        let raeder = [], laeuft = true, letzt = null, winkel0 = 0;
+
+        function radPfad(z) {
+          const r = MOD * z / 2, ra = r + MOD, rf = r - 1.25 * MOD, t = (2 * Math.PI) / z;
+          let d = "";
+          for (let k = 0; k < z; k++) {
+            const a = k * t, p = [[rf, a - t * 0.5], [rf, a - t * 0.28], [ra, a - t * 0.14], [ra, a + t * 0.14], [rf, a + t * 0.28]];
+            p.forEach(([rr, w], j) => { d += (k === 0 && j === 0 ? "M" : "L") + (rr * Math.cos(w)).toFixed(2) + "," + (rr * Math.sin(w)).toFixed(2); });
+          }
+          return d + "Z";
+        }
+        function baue() {
+          let z1 = Math.round(zahl("az1")) || 12, z2 = Math.round(zahl("az2")) || 36;
+          z1 = Math.min(60, Math.max(6, z1)); z2 = Math.min(60, Math.max(6, z2));
+          const zs = $("azw").value === "1" ? [z1, 20, z2] : [z1, z2];
+          const svg = $("gtSvg"); svg.innerHTML = "";
+          MOD = Math.min(4.2, 200 / Math.max(...zs), 720 / zs.reduce((a, b) => a + b + 2, 0));
+          const breite = zs.reduce((s, z) => s + MOD * z, 0);
+          let x = (760 - breite) / 2, phase = 0, delta = 0;
+          raeder = zs.map((z, k) => {
+            const r = MOD * z / 2; x += r; const cx = x; x += r;
+            if (k > 0) { const vor = zs[k - 1]; phase = Math.PI - delta * vor / z + Math.PI / z; }
+            delta = ((phase % (2 * Math.PI / z)) + 2 * Math.PI / z) % (2 * Math.PI / z);
+            const g = document.createElementNS(SVG, "g");
+            const kl = k === 0 ? "rad1" : k === zs.length - 1 ? "rad2" : "radz";
+            g.innerHTML = `<path class="${kl}" d="${radPfad(z)}" /><circle class="nabe" r="${Math.max(5, r * 0.18)}" />
+              <line class="mark" x1="${r * 0.25}" y1="0" x2="${r * 0.8}" y2="0" />`;
+            svg.appendChild(g);
+            const mitte = k > 0 && k < zs.length - 1, y = mitte ? 140 - r - MOD - 26 : 140 + r + MOD + 20;
+            const t = document.createElementNS(SVG, "text"); t.setAttribute("x", cx); t.setAttribute("y", y); t.setAttribute("text-anchor", "middle");
+            t.innerHTML = `<tspan x="${cx}">${k === 0 ? "der Antrieb" : mitte ? "das Zwischenrad" : "der Abtrieb"}</tspan><tspan x="${cx}" dy="17">z = ${z}</tspan>`; svg.appendChild(t);
+            return { g, z, cx, cy: 140, phase };
+          });
+          winkel0 = 0; zeichne(); rechne(z1, z2);
+        }
+        function zeichne() {
+          raeder.forEach((r, k) => {
+            let w = r.phase;
+            if (k === 0) w = winkel0; else { const v = raeder[k - 1]; w = r.phase - (v.w - v.phase) * v.z / r.z; }
+            r.w = w; r.g.setAttribute("transform", `translate(${r.cx},${r.cy}) rotate(${(w * 180) / Math.PI})`);
+          });
+        }
+        function schritt(t) {
+          if (letzt != null && laeuft) {
+            const n1 = Math.min(Math.max(zahl("an1") || 0, 0), 10000);
+            const umdrProSek = 0.05 + (n1 / 10000) * 0.6;   // Zeitlupe
+            winkel0 += ((t - letzt) / 1000) * umdrProSek * 2 * Math.PI; zeichne();
+          }
+          letzt = t; requestAnimationFrame(schritt);
+        }
+        function rechne(z1, z2) {
+          const n1 = zahl("an1") || 0, m1 = zahl("am1") || 0, i = z2 / z1, zw = $("azw").value === "1";
+          const art = i > 1 ? "ins Langsame (die Untersetzung)" : i < 1 ? "ins Schnelle" : "1 : 1";
+          $("gtZahlen").innerHTML = `
+            <div><small>die Übersetzung</small><b>i = ${z2}/${z1} = ${fmt(i, 3)}</b><small>${art}</small></div>
+            <div><small>die Drehzahl n₂</small><b>${fmt(n1 / i, 1)} 1/min</b><small>n₂ = n₁ / i</small></div>
+            <div><small>das Drehmoment M₂</small><b>${fmt(m1 * i, 2)} Nm</b><small>M₂ = M₁ · i (ohne Verluste)</small></div>
+            <div><small>die Drehrichtung</small><b>${zw ? "gleich ↻↻" : "entgegengesetzt ↻↺"}</b><small>${zw ? "dank Zwischenrad" : "zwei Räder"}</small></div>`;
+        }
+        ["az1", "az2", "azw"].forEach((id) => $(id).addEventListener("change", baue));
+        ["an1", "am1"].forEach((id) => $(id).addEventListener("input", () => rechne(raeder[0].z, raeder[raeder.length - 1].z)));
+        $("gtPause").onclick = () => { laeuft = !laeuft; $("gtPause").textContent = laeuft ? "⏸ Pause" : "▶ weiter"; };
+        baue(); requestAnimationFrame(schritt);
+
+        /* ===== mehrstufiger Rechner / калькулятор ===== */
+        function stufen() {
+          let iges = 1, n = 0, teile = [];
+          for (let s = 1; s <= 3; s++) {
+            const a = zahl("s" + s + "a"), b = zahl("s" + s + "b");
+            if (a > 0 && b > 0) { const i = b / a; iges *= i; n++; teile.push(fmt(i, 3)); $("s" + s + "i").textContent = "i" + s + " = " + fmt(i, 3); }
+            else $("s" + s + "i").textContent = "–";
+          }
+          const nan = zahl("sn") || 0, man = zahl("sm") || 0;
+          if (!n) { $("sErg").textContent = "Bitte mindestens eine Stufe eingeben."; $("sWeg").textContent = ""; return; }
+          $("sErg").innerHTML = `i<sub>ges</sub> = ${fmt(iges, 3)} · n<sub>ab</sub> = ${fmt(nan / iges, 1)} 1/min · M<sub>ab</sub> = ${fmt(man * iges, 2)} Nm`;
+          $("sWeg").innerHTML = `Rechenweg: i<sub>ges</sub> = ${teile.join(" · ")} = ${fmt(iges, 3)} · ${n} Stufe${n > 1 ? "n" : ""} → Drehrichtung am Abtrieb: <b>${n % 2 ? "entgegengesetzt" : "wie der Motor"}</b>`;
+        }
+        ["s1a", "s1b", "s2a", "s2b", "s3a", "s3b", "sn", "sm"].forEach((id) => $(id).addEventListener("input", stufen));
+        stufen();
+
+        /* ===== Aufgaben-Trainer / тренажёр ===== */
+        const r = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+        const wahl = (arr) => arr[Math.floor(Math.random() * arr.length)];
+        const TYPEN = [
+          () => { const z1 = wahl([10, 12, 15, 16, 18, 20, 24]), f = wahl([2, 3, 4, 5]), z2 = z1 * f;
+            return { q: `z₁ = ${z1}, z₂ = ${z2}. Wie groß ist die Übersetzung <b>i</b>?`, a: f, e: "", w: `i = z₂ / z₁ = ${z2} / ${z1} = ${f}` }; },
+          () => { const z1 = wahl([12, 15, 18, 20, 24]), f = wahl([2, 3, 4, 5, 6]), z2 = z1 * f, n1 = wahl([600, 900, 1200, 1440, 1500, 1800, 3000]);
+            return { q: `z₁ = ${z1}, z₂ = ${z2}, n₁ = ${n1} 1/min. Wie groß ist <b>n₂</b>?`, a: n1 / f, e: "1/min", w: `i = ${f} → n₂ = ${n1} / ${f} = ${fmt(n1 / f, 2)} 1/min` }; },
+          () => { const z2 = wahl([12, 15, 16, 20]), f = wahl([2, 3, 4]), z1 = z2 * f, n1 = wahl([100, 150, 200, 300, 400]);
+            return { q: `Ins Schnelle: z₁ = ${z1}, z₂ = ${z2}, n₁ = ${n1} 1/min. Wie groß ist <b>n₂</b>?`, a: n1 * f, e: "1/min", w: `i = ${z2}/${z1} = ${fmt(1 / f, 3)} → n₂ = ${n1} / ${fmt(1 / f, 3)} = ${n1 * f} 1/min` }; },
+          () => { const i1 = r(2, 5), i2 = r(2, 5), n = wahl([1200, 1440, 1800, 2400, 3000, 3600]);
+            return { q: `Zweistufig: i₁ = ${i1}, i₂ = ${i2}, n<sub>an</sub> = ${n} 1/min. Wie groß ist <b>n<sub>ab</sub></b>?`, a: n / (i1 * i2), e: "1/min", w: `i<sub>ges</sub> = ${i1} · ${i2} = ${i1 * i2} → n<sub>ab</sub> = ${n} / ${i1 * i2} = ${fmt(n / (i1 * i2), 2)} 1/min` }; },
+          () => { const i1 = r(2, 4), i2 = r(2, 4), i3 = r(2, 3);
+            return { q: `Dreistufig: i₁ = ${i1}, i₂ = ${i2}, i₃ = ${i3}. Wie groß ist <b>i<sub>ges</sub></b>?`, a: i1 * i2 * i3, e: "", w: `i<sub>ges</sub> = ${i1} · ${i2} · ${i3} = ${i1 * i2 * i3} (multiplizieren!)` }; },
+          () => { const z1 = wahl([12, 14, 15, 16, 18, 20]), i = wahl([2, 2.5, 3, 4, 5]), z2 = z1 * i;
+            if (z2 % 1) return TYPEN[0]();
+            return { q: `Das Ritzel hat z₁ = ${z1} Zähne, gewünscht ist i = ${fmt(i)}. Wie viele Zähne braucht <b>z₂</b>?`, a: z2, e: "Zähne", w: `z₂ = i · z₁ = ${fmt(i)} · ${z1} = ${z2}` }; },
+          () => { const f = wahl([2, 3, 4, 5]), m = wahl([2, 4, 5, 8, 10, 12]);
+            return { q: `i = ${f}, M₁ = ${m} Nm (ohne Verluste). Wie groß ist <b>M₂</b>?`, a: m * f, e: "Nm", w: `M₂ = M₁ · i = ${m} · ${f} = ${m * f} Nm` }; }
+        ];
+        let akt = null, richtig = 0, gefragt = 0, beantwortet = false;
+        function neu() { akt = wahl(TYPEN)(); beantwortet = false; $("tFrage").innerHTML = akt.q + (akt.e ? ` <small>(in ${akt.e})</small>` : "");
+          $("tEin").value = ""; $("tAntwort").textContent = ""; if (gefragt) $("tEin").focus({ preventScroll: true }); }
+        function pruef() {
+          if (!akt || beantwortet) return; const x = parseFloat($("tEin").value.replace(/\s/g, "").replace(",", "."));
+          if (isNaN(x)) { $("tAntwort").textContent = "Bitte eine Zahl eingeben."; return; }
+          beantwortet = true; gefragt++; const ok = Math.abs(x - akt.a) <= Math.max(0.011, Math.abs(akt.a) * 0.005); if (ok) richtig++;
+          $("tAntwort").innerHTML = (ok ? '<span class="ok">✓ Richtig!</span> ' : '<span class="falsch">✗ Leider nicht.</span> ') + akt.w;
+          $("tStand").textContent = `${richtig} von ${gefragt} richtig (${Math.round((richtig / gefragt) * 100)} %)`;
+        }
+        $("tPruef").onclick = pruef; $("tNeu").onclick = neu;
+        $("tEin").addEventListener("keydown", (e) => { if (e.key === "Enter") { beantwortet ? neu() : pruef(); } });
+        neu();
+      })();
+    </script>
+  </body>
+</html>

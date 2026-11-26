@@ -5,7 +5,7 @@
 // RU: Термины курсов математики и электротехники – с артиклем, происхождением, примером.
 //
 // Felder / поля:
-//   w    – Begriff mit Artikel            fach – Mathematik | Elektrotechnik | Chemie
+//   w    – Begriff mit Artikel            fach – Mathematik | Elektrotechnik | Chemie | Technik
 //   auch – gleichbedeutende Namen (z. B. das Vertauschungsgesetz)
 //   k    – weitere Suchformen             ru   – по-русски
 //   h    – Herkunft-Gruppe: lat, griech, arab, germ
@@ -1613,5 +1613,171 @@ window.GLOSSAR_FACH = [
   ]
  ],
  "lek": "../chemie/03-periodensystem.html"
+},
+{
+ "w": "das Getriebe",
+ "fach": "Technik",
+ "ru": "передача; редуктор; коробка передач",
+ "h": "germ",
+ "aus": "ge-TRIE-be [ɡəˈtʁiːbə]",
+ "her": "от treiben «гнать, приводить в движение» + собирательная приставка ge- (как das Gebirge, das Gewässer): «всё, что приводит в движение»",
+ "erk": "Механизм, который передаёт вращение от мотора к машине и меняет обороты, крутящий момент и направление.",
+ "ver": "der Antrieb (привод), der Abtrieb (выход) – тот же корень treiben.",
+ "bsp": [
+  [
+   "Das Auto hat ein Schaltgetriebe mit 6 Gängen.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "das Zahnrad",
+ "fach": "Technik",
+ "ru": "зубчатое колесо, шестерня",
+ "h": "germ",
+ "aus": "ZAHN-rad [ˈtsaːnʁaːt]",
+ "her": "der Zahn «зуб» + das Rad «колесо» – буквально «зуб-колесо»",
+ "erk": "Колесо с зубьями; зубья двух колёс входят друг в друга – «зуб за зуб».",
+ "k": [
+  "Zahnräder"
+ ],
+ "bsp": [
+  [
+   "Das kleine Zahnrad treibt das große an.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "die Übersetzung",
+ "fach": "Technik",
+ "auch": "das Übersetzungsverhältnis",
+ "ru": "передаточное число (отношение)",
+ "h": "germ",
+ "aus": "Ü-ber-SET-zung [yːbɐˈzɛtsʊŋ]",
+ "her": "über-setzen «перенести на другую сторону» (как паром через реку) – то же слово, что «перевод» с языка на язык",
+ "erk": "i = z₂ / z₁ = n₁ / n₂. i > 1 – ins Langsame (понижающая), i < 1 – ins Schnelle (повышающая). Ступени перемножаются: i_ges = i₁ · i₂ · i₃.",
+ "ver": "Русское «передача» – тоже «передать дальше»; по-немецки один корень и для языка, и для механики.",
+ "bsp": [
+  [
+   "i = 36 : 12 = 3 – die Übersetzung ins Langsame.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "die Untersetzung",
+ "fach": "Technik",
+ "auch": "die Übersetzung ins Langsame",
+ "ru": "понижающая передача, редукция",
+ "h": "germ",
+ "her": "unter «под, ниже» + setzen – «поставить ниже» (обороты становятся меньше)",
+ "erk": "i > 1: обороты меньше, крутящий момент больше.",
+ "bsp": [
+  [
+   "Die Untersetzung macht den Motor langsamer, aber stärker.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "die Drehzahl",
+ "fach": "Technik",
+ "ru": "частота вращения, обороты (об/мин)",
+ "h": "germ",
+ "aus": "DREH-zahl [ˈdʁeːtsaːl]",
+ "her": "drehen «вращать» + die Zahl «число» – «число оборотов»",
+ "erk": "Обозначение n, единица 1/min (min⁻¹). n₂ = n₁ / i.",
+ "bsp": [
+  [
+   "Der Motor hat eine Drehzahl von 3000 1/min.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "das Drehmoment",
+ "fach": "Technik",
+ "ru": "крутящий момент",
+ "h": "lat",
+ "aus": "DREH-mo-ment [ˈdʁeːmoˌmɛnt]",
+ "her": "drehen + das Moment ← лат. momentum «движущая сила» ← movimentum ← movere «двигать»",
+ "erk": "«Сила вращения» на валу: M = F · r, единица Nm (ньютон-метр). В передаче: M₂ = M₁ · i (без потерь).",
+ "ver": "der Moment (мгновение, мужск. род) и das Moment (момент силы, средн. род) – одно латинское слово, разный артикль!",
+ "bsp": [
+  [
+   "Im 1. Gang ist das Drehmoment am Rad am größten.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "das Ritzel",
+ "fach": "Technik",
+ "ru": "малая шестерня; звёздочка (велосипед)",
+ "h": "germ",
+ "aus": "RIT-zel [ˈʁɪtsl̩]",
+ "erk": "Маленькое (обычно ведущее) зубчатое колесо; на велосипеде – задние звёздочки.",
+ "bsp": [
+  [
+   "Das Ritzel hat nur 11 Zähne.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "das Zwischenrad",
+ "fach": "Technik",
+ "ru": "промежуточное (паразитное) колесо",
+ "h": "germ",
+ "her": "zwischen «между» + das Rad",
+ "erk": "Стоит между ведущим и ведомым колесом: меняет только направление вращения, передаточное число не меняет.",
+ "bsp": [
+  [
+   "Mit dem Zwischenrad drehen beide Räder in dieselbe Richtung.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "die Welle",
+ "fach": "Technik",
+ "ru": "вал",
+ "h": "germ",
+ "her": "от wallen/wälzen «катить, вращать»; то же слово, что «волна» (die Welle im Meer)",
+ "erk": "Вращающийся стержень, на котором сидят зубчатые колёса.",
+ "ver": "die Welle = 1) вал, 2) волна (Radiowelle) – одно слово, два значения.",
+ "bsp": [
+  [
+   "Auf der Zwischenwelle sitzen zwei Zahnräder.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
+},
+{
+ "w": "der Modul",
+ "fach": "Technik",
+ "ru": "модуль зацепления",
+ "h": "lat",
+ "aus": "MO-dul [ˈmoːdʊl]",
+ "her": "лат. modulus «маленькая мера» ← modus «мера»",
+ "erk": "«Размер зуба» в мм: d = m · z. Два колеса работают вместе только при одинаковом модуле.",
+ "ver": "Achtung Artikel: der Modul (техника, математика) – но das Modul (блок, часть программы/курса).",
+ "bsp": [
+  [
+   "Beide Zahnräder haben den Modul m = 2 mm.",
+   ""
+  ]
+ ],
+ "lek": "../technik/01-zahnradgetriebe.html"
 }
 ];

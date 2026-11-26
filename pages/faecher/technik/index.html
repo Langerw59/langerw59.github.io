@@ -1,33 +1,64 @@
 <!DOCTYPE html>
 <html lang="de" data-theme="light">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Technik</title>
-  <link rel="stylesheet" href="../../../core/assets/style.css">
-  <script src="../../../core/js/core_init.js" defer></script>
-</head>
-<body>
-  <div data-partial="header" data-partial-path="../../../core/partials/header.html"></div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Die Technik – wie Maschinen funktionieren</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 2026-11-26: Fach „die Technik“ neu angelegt (wie Chemie), Lektion 1 das Zahnradgetriebe – mit Claude -->
+    <link rel="stylesheet" href="../../../core/assets/style.css" />
+    <link rel="stylesheet" href="../elektrotechnik/et.css" />
+    <script src="../../../core/js/core_init.js" defer></script>
+  </head>
+  <body>
+    <main class="page-wrapper">
+      <div class="card">
+        <p class="hint-text"><a href="/pages/faecher/index.html">Fächer</a> › die Technik</p>
+        <h1>⚙️ Die Technik – wie Maschinen funktionieren</h1>
+        <p class="hint-text">Техника: как устроены и работают механизмы – передачи, рычаги, коробка передач автомобиля. С расчётами и задачами.</p>
 
-  <main class="page-wrapper">
-    <div class="card">
-      <header>
-        <h1>Technik</h1>
-        <p class="lead">Hinweis: Der frühere OpenAI-Block wurde archiviert. Starte stattdessen den gemeinsamen Web-Basics-Kurs in Informatik.</p>
-      </header>
-      <div class="grid">
-        <a class="card" href="../informatik/web-basics/index.html">
-          <h2>Web Basics (HTML + CSS + JavaScript)</h2>
-          <p>Kurs mit Lesson 01–03 und Live-Playground für HTML, CSS, JavaScript.</p>
-        </a>
+        <div class="et-box">
+          <h3>Was ist die Technik? / Что такое техника?</h3>
+          <p><b>Die Technik</b> zeigt, wie Maschinen und Werkzeuge funktionieren – und wie man sie <b>berechnet</b>:
+            Wie schnell dreht sich das Rad? Wie viel Kraft kommt an? Warum hat das Fahrrad Gänge?
+            <span class="ru">Как работают машины и как их рассчитать.</span></p>
+          <p><b>Wie lernen?</b> Jede Lektion hat dieselben Teile wie in der Chemie und der Elektrotechnik:
+            die Theorie → das Beispiel → die Aufgaben mit Lösung → der Trainer → der Versuch → zum Ansehen → die Wörter.
+            Fachwörter stehen im <a href="../glossar.html">📘 Fachglossar</a> (Fach: Technik).</p>
+        </div>
+
+        <section class="et-etage">
+          <h2>Etage 1 – die Kraftübertragung</h2>
+          <p class="ru">Передачи: как вращение и сила передаются от мотора к машине.</p>
+          <ul class="et-list">
+            <li><a href="01-zahnradgetriebe.html"><b>Lektion 1 – das Zahnradgetriebe, die Übersetzung</b></a>
+              <span class="tag">ведущее/ведомое колесо, передаточное число, многоступенчатая передача, задачи</span></li>
+            <li class="bald">Lektion 2 – das Ketten- und Riemengetriebe <span class="tag">велосипед, ремень ГРМ</span></li>
+            <li class="bald">Lektion 3 – das Schaltgetriebe im Auto <span class="tag">коробка передач: зачем 5–6 передач</span></li>
+            <li class="bald">Lektion 4 – das Differential <span class="tag">почему колёса в повороте крутятся по-разному</span></li>
+            <li class="bald">Lektion 5 – das Schneckengetriebe und das Planetengetriebe</li>
+          </ul>
+        </section>
+
+        <section class="et-etage">
+          <h2>Etage 2 – die einfachen Maschinen (später)</h2>
+          <ul class="et-list">
+            <li class="bald">der Hebel <span class="tag">рычаг – «дайте мне точку опоры»</span></li>
+            <li class="bald">die Rolle und der Flaschenzug <span class="tag">блок и полиспаст</span></li>
+            <li class="bald">die schiefe Ebene, der Keil, die Schraube</li>
+            <li class="bald">das Werkzeug – wie funktioniert es? <span class="tag">→ Werkstatt-Lexikon im Wortdetektiv</span></li>
+          </ul>
+        </section>
+
+        <h2>Für den ganzen Kurs</h2>
+        <ul class="et-list">
+          <li><a href="https://de.wikipedia.org/wiki/Getriebe" target="_blank" rel="noopener">📖 Wikipedia – das Getriebe</a>
+            <span class="tag">alle Arten von Getrieben</span></li>
+          <li><a href="../wegweiser/index.html">🧭 Der Wegweiser</a> <span class="tag">Simulationen und Videos</span></li>
+          <li><a href="../physik/index.html">die Physik</a> <span class="tag">die Kraft, das Drehmoment, die Leistung</span></li>
+        </ul>
+
+        <div class="et-nav"><a href="/pages/faecher/index.html">← Fächer</a><a href="01-zahnradgetriebe.html">Los geht's: Lektion 1 →</a></div>
       </div>
-      <section>
-        <a class="link" href="../index.html">Zurück zur Fächer-Übersicht</a>
-      </section>
-    </div>
-  </main>
-
-  <div data-partial="footer" data-partial-path="../../../core/partials/footer.html"></div>
-</body>
+    </main>
+  </body>
 </html>

@@ -58,13 +58,15 @@ window.Q_ETAGEN = [
       ["Lektion 1 – der Stoff, das Gemisch","/pages/faecher/chemie/01-stoffe.html"],
       ["Lektion 2 – das Atom","/pages/faecher/chemie/02-atom.html","der Atom-Baukasten"],
       ["Lektion 3 – das Periodensystem","/pages/faecher/chemie/03-periodensystem.html"]]},
+    { t:"die Technik", r:[
+      ["⚙️ die Technik – Übersicht","/pages/faecher/technik/index.html","wie Maschinen funktionieren"],
+      ["Lektion 1 – das Zahnradgetriebe","/pages/faecher/technik/01-zahnradgetriebe.html","die Übersetzung, Aufgaben-Trainer"]]},
     { t:"Für alle Fächer", r:[
       ["🧭 der Wegweiser","/pages/faecher/wegweiser/index.html","Simulationen, Videos, Wörterbücher"],
-      ["📘 das Fachglossar","/pages/faecher/glossar.html","Mathematik, Elektrotechnik, Chemie"],
+      ["📘 das Fachglossar","/pages/faecher/glossar.html","Mathematik, Elektrotechnik, Chemie, Technik"],
       ["🗺️ das Erfinder-Quiz","/pages/faecher/erfinder-quiz/index.html","wer hat was wo erfunden"]]},
     { t:"Ideen und ruhende Fächer", r:[
       ["die Überlebenskunst","/pages/faecher/ueberlebenskunst/index.html","noch leer","idee"],
-      ["die Technik","/pages/faecher/technik/index.html","noch leer","idee"],
       ["die Informatik (HTML, CSS, JavaScript)","/pages/faecher/informatik/index.html","ruht – 10 Web-Lektionen","idee"]]}
    ]},
  { id:"e1", kurz:"1", nr:"1. Etage", name:"die Programme", motto:"Wissen praktisch anwenden", farbe:"#b0742a",
