@@ -71,6 +71,17 @@ button { font: inherit; cursor: pointer; border-radius: 999px; }
 .regen span { position: absolute; top: -50px; animation: fall linear forwards; }
 @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: .2; } }
 .versteckt { display: none !important; }
+.gruppe-titel { color: #fff; font-size: 1.15em; margin: 18px 4px 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.levels { display: block !important; }
+.levels-gruppe { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.knopf.klein { font-size: .8em; padding: 5px 10px; }
+.regel-reihe { margin-top: 10px; }
+.ende.breit { width: min(760px, 95vw); max-height: 90vh; overflow-y: auto; text-align: left; }
+.merk { padding-left: 22px; } .merk li { margin: 6px 0; line-height: 1.4; padding: 4px 6px; border-radius: 8px; }
+.merk li.hervor { background: #fef08a; }
+.blind-karte { min-width: 280px; text-align: center; }
+.feld-ein { font-size: 1.6em; width: 110px; text-align: center; padding: 8px; border-radius: 12px; border: 2px solid #94a3b8; text-transform: lowercase; }
+.zahl-knopf { font-size: 1.3em; min-width: 54px; }
 .tipp-text { font-size: .9em; color: #475569; background: #fef9c3; border-radius: 10px; padding: 8px 10px; margin-top: 8px; }
 </style>
 </head>
@@ -81,6 +92,7 @@ button { font: inherit; cursor: pointer; border-radius: 999px; }
     <span class="chip" id="chip">Level wählen</span>
     <span class="sterne" title="alle Sterne">⭐ <b id="summe">0</b> / <span id="max">0</span></span>
     <select id="spieler" aria-label="Wer spielt?"></select>
+    <button class="knopf" id="merkLeiste" type="button" title="die Merkregeln fürs Blindschach">📖</button>
     <button class="knopf" id="zurStart" type="button">☰ Level</button>
   </div>
 
@@ -208,22 +220,56 @@ function zielFelder(fig, von, groesse = 8) {
 // Die Level
 // ===========================
 const LEVELS = [
-  { id: 0, name: 'Die Figuren kennenlernen', bes: 'Wohin kann die Figur ziehen? Alle Felder antippen.', start: lvFiguren },
-  { id: 1, name: 'Die Felder finden', bes: 'Wo ist e4? Die Koordinaten (die Felder-Namen) lernen.', start: lvKoordinaten },
-  { id: 2, name: 'Welche Farbe hat das Feld?', bes: 'Ohne Brett: hell oder dunkel? Training fürs Blindschach.', start: lvFarbe },
-  { id: 3, name: 'Die Springer-Rundreise 5 × 5', bes: 'Mit dem Springer möglichst viele Felder besuchen – schaffst du alle 25?', start: lvSpringer },
-  { id: 4, name: 'Schlagen', bes: 'Kommt bald: Welche Figur kann man schlagen?', bald: true },
-  { id: 5, name: 'Schach und Matt in 1', bes: 'Kommt bald.', bald: true },
+  { id: 0, gruppe: 'g', name: 'Die Figuren kennenlernen', bes: 'Wohin kann die Figur ziehen? Alle Felder antippen.', start: lvFiguren },
+  { id: 1, gruppe: 'g', name: 'Die Felder finden', bes: 'Wo ist e4? Die Koordinaten (die Felder-Namen) lernen.', start: lvKoordinaten },
+  { id: 3, gruppe: 'g', name: 'Die Springer-Rundreise 5 × 5', bes: 'Mit dem Springer möglichst viele Felder besuchen – schaffst du alle 25?', start: lvSpringer },
+  { id: 4, gruppe: 'g', name: 'Schlagen', bes: 'Kommt bald: Welche Figur kann man schlagen?', bald: true },
+  { id: 5, gruppe: 'g', name: 'Schach und Matt in 1', bes: 'Kommt bald.', bald: true },
+  // 2026-11-26: die Gruppe „Blindschach“ – ohne Brett, nur im Kopf (Regeln: 📖 die Merkregeln)
+  { id: 2, gruppe: 'b', name: 'B1 · Welche Farbe hat das Feld?', bes: 'Hell oder dunkel? Regel 1–3.', start: lvFarbe },
+  { id: 6, gruppe: 'b', name: 'B2 · Dieselbe Diagonale?', bes: 'Liegen zwei Felder auf einer Diagonale? Regel 4–5.', start: lvDiagonale },
+  { id: 7, gruppe: 'b', name: 'B3 · Der blinde Turm und Läufer', bes: 'Kann die Figur in einem Zug dorthin? Regel 6–7.', start: lvBlindLinie },
+  { id: 8, gruppe: 'b', name: 'B4 · Der blinde Springer', bes: 'Springer auf b1 – kann er nach c3? Regel 8–10.', start: lvBlindSpringer },
+  { id: 9, gruppe: 'b', name: 'B5 · Wohin springt der Springer?', bes: 'Tippe ein Feld ein, auf das er springen kann.', start: lvSpringerZiel },
+  { id: 10, gruppe: 'b', name: 'B6 · Der Springer-Weg', bes: 'Wie viele Sprünge braucht der Springer von a1 nach h8?', start: lvSpringerWeg },
 ];
+const GRUPPEN = { g: '♟ Die Grundlagen', b: '🧠 Blindschach – Schach im Kopf' };
+// die Merkregeln für das Blindschach (das Merkmal / die Regel)
+const MERKREGELN = [
+  ['Die Feldfarbe', 'Buchstabe als Zahl (a = 1, b = 2 … h = 8) + Reihe. <b>Gerade Summe = dunkel</b>, ungerade = hell. Beispiel: c5 → 3 + 5 = 8 → dunkel.'],
+  ['Die Ecken', '<b>a1 und h8 sind dunkel</b>, h1 und a8 sind hell. Merksatz: „Rechts unten ist hell“ (h1).'],
+  ['Die Dame steht auf ihrer Farbe', 'Die weiße Dame steht am Anfang auf d1 (hell), die schwarze auf d8 (dunkel).'],
+  ['Die zwei großen Diagonalen', '<b>a1–h8 ist ganz dunkel</b> (a1, b2, c3 … h8: Buchstabe = Zahl). <b>h1–a8 ist ganz hell</b> (Buchstabe + Zahl = 9).'],
+  ['Dieselbe Diagonale', 'Zwei Felder liegen auf einer Diagonale, wenn <b>der Abstand der Buchstaben = der Abstand der Zahlen</b>. Beispiel: c1 und h6 → 5 Buchstaben, 5 Reihen → ja.'],
+  ['Der Turm', 'Der Turm erreicht ein Feld in einem Zug, wenn <b>der Buchstabe gleich</b> (dieselbe Linie) <b>oder die Zahl gleich</b> ist (dieselbe Reihe) – auf leerem Brett.'],
+  ['Der Läufer bleibt auf seiner Farbe', 'Ein Läufer auf einem dunklen Feld kommt <b>nie</b> auf ein helles Feld. Andere Farbe → sofort „nein“.'],
+  ['Der Springer wechselt die Farbe', 'Bei <b>jedem</b> Sprung wechselt der Springer die Farbe: dunkel → hell → dunkel. Gleiche Farbe → in einem Sprung unmöglich.'],
+  ['Der Springer-Sprung', 'Ein Sprung ist immer <b>2 + 1</b>: zwei Buchstaben und eine Zahl weiter – oder eine Buchstabe und zwei Zahlen. Beispiel: b1 → c3 (1 Buchstabe, 2 Zahlen).'],
+  ['Der Springer am Rand', 'In der Ecke hat der Springer nur <b>2</b> Sprünge, am Rand 3–4, in der Mitte <b>8</b>. „Ein Springer am Rand bringt Kummer und Schand.“'],
+  ['Der Springer-Weg', 'Von a1 nach b2 (direkt daneben, schräg) braucht der Springer <b>4</b> Sprünge – ein bekannter Trick! Von a1 nach h8: <b>6</b> Sprünge.'],
+  ['Das Zentrum und die Flügel', 'Das Zentrum: d4, e4, d5, e5. Der Damenflügel: Linien a–d. Der Königsflügel: Linien e–h.'],
+];
+function merkregelnZeigen(nr) {
+  $('ende').innerHTML = `<h2 style="margin:0 0 8px">📖 Die Merkregeln fürs Blindschach</h2>
+    <ol class="merk">${MERKREGELN.map((r, i) => `<li id="regel-${i + 1}"${nr === i + 1 ? ' class="hervor"' : ''}><b>${r[0]}:</b> ${r[1]}</li>`).join('')}</ol>
+    <div class="reihe" style="justify-content:center"><button class="knopf haupt" id="merkZu">Schließen</button></div>`;
+  $('ende').classList.add('breit');
+  $('endeOverlay').classList.add('zeigen');
+  $('merkZu').onclick = () => { $('endeOverlay').classList.remove('zeigen'); $('ende').classList.remove('breit'); };
+  if (nr) setTimeout(() => { const el = $('regel-' + nr); if (el) el.scrollIntoView({ block: 'center' }); }, 50);
+}
 let aktLevel = null, runde = null;
 
 function startseite() {
   $('spiel').classList.add('versteckt'); $('start').classList.remove('versteckt'); $('chip').textContent = 'Level wählen';
-  $('levels').innerHTML = LEVELS.map(l => `<button type="button" class="level-karte${l.bald ? ' bald' : ''}" data-id="${l.id}"${l.bald ? ' disabled' : ''}>
-      <span class="nr">Level ${l.id}</span><span class="name">${l.name}</span><span class="bes">${l.bes}</span>
+  const karte = l => `<button type="button" class="level-karte${l.bald ? ' bald' : ''}" data-id="${l.id}"${l.bald ? ' disabled' : ''}>
+      <span class="nr">${l.gruppe === 'b' ? 'Blindschach' : 'Level ' + l.id}</span><span class="name">${l.name}</span><span class="bes">${l.bes}</span>
       ${l.bald ? '' : `<span class="mini">${sterneHTML(sterneVon(l.id))}</span>`}
-      ${l.id === 3 && rekord() ? `<span class="bes">Dein Rekord: ${rekord()} Felder</span>` : ''}</button>`).join('');
+      ${l.id === 3 && rekord() ? `<span class="bes">Dein Rekord: ${rekord()} Felder</span>` : ''}</button>`;
+  $('levels').innerHTML = Object.keys(GRUPPEN).map(g => `<h2 class="gruppe-titel">${GRUPPEN[g]}${g === 'b' ? ' <button type="button" class="knopf klein" id="merkBtn">📖 die Merkregeln</button>' : ''}</h2>
+      <div class="levels-gruppe">${LEVELS.filter(l => l.gruppe === g).map(karte).join('')}</div>`).join('');
   $('levels').querySelectorAll('.level-karte:not(.bald)').forEach(b => b.addEventListener('click', () => levelStarten(Number(b.dataset.id))));
+  $('merkBtn').onclick = () => merkregelnZeigen();
   summeZeigen();
 }
 function summeZeigen() {
@@ -234,7 +280,7 @@ function summeZeigen() {
 function levelStarten(id) {
   aktLevel = LEVELS.find(l => l.id === id);
   $('start').classList.add('versteckt'); $('spiel').classList.remove('versteckt');
-  $('chip').textContent = `Level ${id} – ${aktLevel.name}`;
+  $('chip').textContent = aktLevel.gruppe === 'b' ? `🧠 ${aktLevel.name}` : `Level ${id} – ${aktLevel.name}`;
   $('rueck').textContent = ''; $('extra').innerHTML = ''; $('knoepfe').innerHTML = '';
   aktLevel.start();
 }
@@ -272,18 +318,23 @@ function rundeEnde() {
   const p = runde.punkte.reduce((a, b) => a + b, 0), max = runde.anzahl * 3;
   endeZeigen(Math.round(p / max * 9) / 3, `${p} von ${max} Punkten`);
 }
+function naechstesLevel() {
+  const i = LEVELS.indexOf(aktLevel); const n = LEVELS[i + 1];
+  return n && !n.bald && n.gruppe === aktLevel.gruppe ? n : null;
+}
 function endeZeigen(sterne, zeile) {
+  $('ende').classList.remove('breit');
   sterneMerken(aktLevel.id, sterne); summeZeigen();
   const [zeichen, text] = preis(sterne); const wer = spieler();
   $('ende').innerHTML = `<div class="preis">${zeichen}</div><h2 style="margin:4px 0">${text}</h2><div>${sterneHTML(sterne)}</div>
     <p><b>${bruch(sterne)} von 3 Sternen</b> · ${zeile}</p>
     <div class="reihe" style="justify-content:center">
       <button class="knopf${sterne < 2 ? ' haupt' : ''}" id="nochmal">🔁 Nochmal</button>
-      ${LEVELS.find(l => l.id === aktLevel.id + 1 && !l.bald) ? `<button class="knopf${sterne >= 2 ? ' haupt' : ''}" id="weiter">▶ Nächstes Level</button>` : ''}
+      ${naechstesLevel() ? `<button class="knopf${sterne >= 2 ? ' haupt' : ''}" id="weiter">▶ Nächstes Level</button>` : ''}
       <button class="knopf" id="auswahl">☰ Level-Auswahl</button></div>`;
   $('endeOverlay').classList.add('zeigen');
   $('nochmal').onclick = () => { $('endeOverlay').classList.remove('zeigen'); levelStarten(aktLevel.id); };
-  if ($('weiter')) $('weiter').onclick = () => { $('endeOverlay').classList.remove('zeigen'); levelStarten(aktLevel.id + 1); };
+  if ($('weiter')) $('weiter').onclick = () => { $('endeOverlay').classList.remove('zeigen'); levelStarten(naechstesLevel().id); };
   $('auswahl').onclick = () => { $('endeOverlay').classList.remove('zeigen'); startseite(); };
   setTimeout(() => ($('weiter') && sterne >= 2 ? $('weiter') : $('nochmal')).focus(), 100);
   if (sterne >= 2) { tonFanfare(); regen(sterne >= 3 ? 60 : 30); } else ton([[523, 0, .2], [659, .2, .35]]);
@@ -348,7 +399,9 @@ function lvFarbe() {
     $('info').textContent = 'Stell dir das Brett im Kopf vor. Merke: a1 ist dunkel. Ein Schritt weiter (b1 oder a2) wechselt die Farbe.';
     $('brettHost').innerHTML = `<div class="karte"><div class="gross-koord">${f}</div></div>`;
     $('extra').innerHTML = `<div class="reihe" style="justify-content:center"><button class="farb-knopf weiss" id="hellBtn">hell ⬜</button><button class="farb-knopf schwarz" id="dunkelBtn">dunkel ⬛</button></div>
-      <p class="tipp-text">🧠 Trick: Buchstabe in Zahl umwandeln (a=1, b=2 … h=8) und zur Reihe addieren. <b>Gerade Summe = dunkel</b>, ungerade = hell. Beispiel: c5 → 3 + 5 = 8 → gerade → dunkel.</p>`;
+      <p class="tipp-text">🧠 Trick: Buchstabe in Zahl umwandeln (a=1, b=2 … h=8) und zur Reihe addieren. <b>Gerade Summe = dunkel</b>, ungerade = hell. Beispiel: c5 → 3 + 5 = 8 → gerade → dunkel.</p>
+      <div class="reihe regel-reihe">${regelKnopf([1, 2, 4])}</div>`;
+    $('extra').querySelectorAll('[data-regel]').forEach(b => b.onclick = () => merkregelnZeigen(Number(b.dataset.regel)));
     $('knoepfe').innerHTML = '<button class="knopf" id="hoeren">🔊 Anhören</button>';
     $('hoeren').onclick = () => sprechen(feldSprechen(f)); sprechen(feldSprechen(f));
     let fertig = false;
@@ -361,6 +414,121 @@ function lvFarbe() {
       runde.versuche = 2; antwort(false, lsg); fertig = true;
     };
     $('hellBtn').onclick = () => pruef(false); $('dunkelBtn').onclick = () => pruef(true);
+  });
+}
+
+// ---------- Blindschach: gemeinsame Hilfen ----------
+const dx = (a, b) => Math.abs(xy(a)[0] - xy(b)[0]);
+const dy = (a, b) => Math.abs(xy(a)[1] - xy(b)[1]);
+const istDunkel = f => (xy(f)[0] + xy(f)[1]) % 2 === 0;
+const zufallsFeld = () => nm(r(0, 7), r(0, 7));
+function regelKnopf(nrn) {
+  return nrn.map(n => `<button type="button" class="knopf klein" data-regel="${n}">📖 Regel ${n}: ${MERKREGELN[n - 1][0]}</button>`).join(' ');
+}
+function blindAufgabe({ frage, info, regeln, antworten, pruef, loesung, sprich }) {
+  $('aufgabe').textContent = frage;
+  $('info').innerHTML = info || '';
+  $('brettHost').innerHTML = `<div class="karte blind-karte"><div class="gross-koord">${sprich ? sprich.join(' → ') : ''}</div><p class="info" style="text-align:center">🙈 ohne Brett – nur im Kopf</p></div>`;
+  $('extra').innerHTML = `<div class="reihe" style="justify-content:center">${antworten}</div><div class="reihe regel-reihe">${regelKnopf(regeln)}</div>`;
+  $('extra').querySelectorAll('[data-regel]').forEach(b => b.onclick = () => merkregelnZeigen(Number(b.dataset.regel)));
+  $('knoepfe').innerHTML = sprich ? '<button class="knopf" id="hoeren">🔊 Anhören</button>' : '';
+  if (sprich) { const t = sprich.map(feldSprechen); $('hoeren').onclick = () => sprechen(t); sprechen(t); }
+  let fertig = false;
+  return wert => {
+    if (fertig) return;
+    const ok = (pruef || blindPruefen)(wert);
+    if (ok) { fertig = true; antwort(true); $('rueck').textContent += ' ' + loesung; return; }
+    const letzter = runde.versuche + 1 >= 3;
+    antwort(false, loesung);
+    if (letzter) fertig = true;
+  };
+}
+const jaNein = '<button class="farb-knopf weiss" data-a="ja">✔ ja</button><button class="farb-knopf schwarz" data-a="nein">✖ nein</button>';
+function jaNeinBinden(fn) { $('extra').querySelectorAll('[data-a]').forEach(b => b.onclick = () => fn(b.dataset.a === 'ja')); }
+// bei ja/nein: ein Fehler = gleich auflösen (zweiter Versuch wäre sonst geschenkt)
+function jaNeinPruef(richtig, loesung, istJa) {
+  if (istJa === richtig) { antwort(true); $('rueck').textContent += ' ' + loesung; return; }
+  runde.versuche = 2; antwort(false, loesung);
+}
+
+// ---------- B2: dieselbe Diagonale? ----------
+function lvDiagonale() {
+  rundeStarten(10, () => {
+    const a = zufallsFeld(); let b;
+    if (Math.random() < 0.5) { // absichtlich eine echte Diagonale
+      const d = zielFelder('L', a); b = d.length ? d[r(0, d.length - 1)] : zufallsFeld();
+    } else { do { b = zufallsFeld(); } while (b === a); }
+    const ja = dx(a, b) === dy(a, b);
+    const loesung = `${a} → ${b}: ${dx(a, b)} Buchstabe(n), ${dy(a, b)} Reihe(n) → ${ja ? 'gleich → ja, dieselbe Diagonale' : 'nicht gleich → nein'}.`;
+    blindAufgabe({ frage: `Liegen ${a} und ${b} auf derselben Diagonale?`, info: 'Zähle: wie viele Buchstaben und wie viele Reihen liegen dazwischen?', regeln: [4, 5], antworten: jaNein, loesung, sprich: [a, b] });
+    let fertig = false; jaNeinBinden(j => { if (fertig) return; fertig = true; jaNeinPruef(ja, loesung, j); });
+  });
+}
+
+// ---------- B3: der blinde Turm und Läufer ----------
+function lvBlindLinie() {
+  rundeStarten(10, () => {
+    const fig = Math.random() < 0.5 ? 'T' : 'L'; const a = zufallsFeld(); let b;
+    if (Math.random() < 0.5) { const z = zielFelder(fig, a); b = z[r(0, z.length - 1)]; } else { do { b = zufallsFeld(); } while (b === a); }
+    const ja = zielFelder(fig, a).includes(b);
+    const loesung = fig === 'T'
+      ? `${a} → ${b}: ${a[0] === b[0] ? 'gleicher Buchstabe' : a[1] === b[1] ? 'gleiche Zahl' : 'weder gleicher Buchstabe noch gleiche Zahl'} → ${ja ? 'ja' : 'nein'}.`
+      : `${a} → ${b}: ${istDunkel(a) !== istDunkel(b) ? 'andere Farbe → nein' : `${dx(a, b)} Buchstabe(n), ${dy(a, b)} Reihe(n) → ${ja ? 'ja' : 'nein'}`}.`;
+    blindAufgabe({ frage: `${fig === 'T' ? 'Der Turm' : 'Der Läufer'} steht auf ${a}. Kann er in einem Zug nach ${b}?`, info: 'Das Brett ist leer – keine Figur steht im Weg.', regeln: fig === 'T' ? [6] : [7, 5], antworten: jaNein, loesung, sprich: [a, b] });
+    let fertig = false; jaNeinBinden(j => { if (fertig) return; fertig = true; jaNeinPruef(ja, loesung, j); });
+  });
+}
+
+// ---------- B4: der blinde Springer ----------
+function lvBlindSpringer() {
+  rundeStarten(10, () => {
+    const a = zufallsFeld(); let b;
+    if (Math.random() < 0.5) { const z = zielFelder('S', a); b = z[r(0, z.length - 1)]; }
+    else { do { b = nm(Math.max(0, Math.min(7, xy(a)[0] + r(-2, 2))), Math.max(0, Math.min(7, xy(a)[1] + r(-2, 2)))); } while (b === a); }
+    const ja = zielFelder('S', a).includes(b);
+    const loesung = `${a} → ${b}: ${dx(a, b)} Buchstabe(n) und ${dy(a, b)} Zahl(en) ${ja ? '→ 2 + 1 → ja' : '→ kein 2 + 1 → nein'}.${istDunkel(a) === istDunkel(b) ? ' (Gleiche Farbe – das geht nie in einem Sprung!)' : ''}`;
+    blindAufgabe({ frage: `Der Springer steht auf ${a}. Kann er nach ${b} springen?`, info: 'Erst die Farbe prüfen (Regel 8), dann 2 + 1 zählen (Regel 9).', regeln: [8, 9], antworten: jaNein, loesung, sprich: [a, b] });
+    let fertig = false; jaNeinBinden(j => { if (fertig) return; fertig = true; jaNeinPruef(ja, loesung, j); });
+  });
+}
+
+// ---------- B5: wohin springt der Springer? (Feld eintippen) ----------
+function lvSpringerZiel() {
+  rundeStarten(8, () => {
+    const a = zufallsFeld(); const z = zielFelder('S', a);
+    const loesung = `Möglich waren: ${z.join(', ')} (${z.length} Felder).`;
+    const fn = blindAufgabe({ frage: `Der Springer steht auf ${a}. Nenne ein Feld, auf das er springen kann.`, info: 'Tippe das Feld ein, z. B. c3, und drücke Enter.', regeln: [9, 10], antworten: '<input id="feldEin" class="feld-ein" maxlength="2" autocomplete="off" placeholder="z. B. c3"><button class="knopf haupt" id="feldOk">✔ Prüfen</button>', loesung, sprich: [a] });
+    const ein = $('feldEin'); setTimeout(() => ein.focus(), 50);
+    const go = () => { const v = (ein.value || '').trim().toLowerCase(); if (!/^[a-h][1-8]$/.test(v)) { $('rueck').textContent = 'Bitte ein Feld wie c3 eintippen.'; $('rueck').className = 'rueck nein'; return; } fn(v); ein.value = ''; };
+    $('feldOk').onclick = go; ein.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); go(); } };
+    blindPruefen = v => z.includes(v);
+  });
+}
+let blindPruefen = null;
+
+// ---------- B6: der Springer-Weg (wie viele Sprünge?) ----------
+function springerAbstand(a, b) {
+  const weit = { [a]: 0 }; const schlange = [a];
+  while (schlange.length) { const f = schlange.shift(); if (f === b) return weit[f]; zielFelder('S', f).forEach(g => { if (weit[g] === undefined) { weit[g] = weit[f] + 1; schlange.push(g); } }); }
+  return -1;
+}
+function lvSpringerWeg() {
+  const klassiker = [['a1', 'b2'], ['a1', 'h8'], ['b1', 'c3'], ['g1', 'f3'], ['e4', 'e5'], ['d4', 'e5']];
+  rundeStarten(8, () => {
+    let a, b;
+    if (runde.nr < 2) [a, b] = klassiker[r(0, klassiker.length - 1)];
+    else { a = zufallsFeld(); do { b = zufallsFeld(); } while (b === a); }
+    const n = springerAbstand(a, b);
+    const loesung = `Von ${a} nach ${b} braucht der Springer ${n} Sprung/Sprünge.${istDunkel(a) === istDunkel(b) ? ' Gleiche Farbe → die Zahl ist immer gerade.' : ' Andere Farbe → die Zahl ist immer ungerade.'}`;
+    blindAufgabe({ frage: `Wie viele Sprünge braucht der Springer von ${a} nach ${b}?`, info: 'Tipp: Gleiche Farbe → gerade Zahl (2, 4, 6), andere Farbe → ungerade (1, 3, 5).', regeln: [8, 11], antworten: [1, 2, 3, 4, 5, 6].map(k => `<button class="knopf zahl-knopf" data-z="${k}">${k}</button>`).join(''), loesung, sprich: [a, b] });
+    let fertig = false;
+    $('extra').querySelectorAll('[data-z]').forEach(btn => btn.onclick = () => {
+      if (fertig) return;
+      const k = Number(btn.dataset.z);
+      if (k === n) { fertig = true; antwort(true); $('rueck').textContent += ' ' + loesung; return; }
+      const letzter = runde.versuche + 1 >= 3; antwort(false, loesung); btn.disabled = true;
+      if (!letzter) $('rueck').textContent += k < n ? ' Es sind mehr.' : ' Es sind weniger.'; else fertig = true;
+    });
   });
 }
 
@@ -423,6 +591,7 @@ function spielerWahl() {
   };
 }
 $('zurStart').onclick = startseite;
+$('merkLeiste').onclick = () => merkregelnZeigen();
 window.addEventListener('keydown', e => { if (e.key === 'Escape') $('endeOverlay').classList.remove('zeigen'); });
 spielerWahl(); startseite();
 </script>
