@@ -86,8 +86,8 @@ details.mehr{background:var(--panel);border:2px solid var(--gold);border-radius:
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 {
-const THEMEN=[{id:'technik',name:'die Technik',aktiv:true},{id:'tiere',name:'die Tiere',aktiv:false},{id:'entdeckungen',name:'die Entdeckungen',aktiv:false}];
-const FRAGEN=[
+const THEMEN=[{id:'technik',name:'die Technik',aktiv:true},{id:'tiere',name:'die Tiere',aktiv:false},{id:'entdeckungen',name:'die Entdeckungen',aktiv:true}];
+const POOL_TECHNIK=[
 {ding:'die Schreibmaschine',frage:'Wer erhielt 1868 das Patent auf die Schreibmaschine, aus der unsere heutige Tastatur entstand?',
  opts:['Christopher Latham Sholes','Thomas Alva Edison','Werner von Siemens','Alexander Graham Bell'],r:0,
  wer:'Christopher Latham Sholes (mit Carlos Glidden und Samuel Soule)',wo:'Milwaukee, USA',wann:'1868 (Patent), ab 1874 in Serie bei Remington',
@@ -149,8 +149,142 @@ const FRAGEN=[
  text:'In Russland ist der 7. Mai bis heute „der Tag des Radios“. Im selben Jahr experimentierte Guglielmo Marconi bei Bologna und erhielt 1896 in England ein Patent. Die Grundlage schuf Heinrich Hertz: Er wies 1886–1888 in Karlsruhe die elektromagnetischen Wellen nach.',
  wort:'das Radio – lat. radius „der Strahl“; daher auch der Radius beim Kreis.',
  wiki:'Alexander_Stepanowitsch_Popow',orte:[['Sankt Petersburg',59.93,30.36],['Bologna',44.49,11.34],['Karlsruhe',49.01,8.40],['Fulda',50.55,9.68]],
- mehr:{titel:'Wer hat das Radio wirklich erfunden?',text:'Eine Antwort gibt es nicht – viele haben zur gleichen Zeit gearbeitet. Heinrich Hertz wies 1886–1888 in Karlsruhe die elektromagnetischen Wellen nach. 1894 zeigte Oliver Lodge in England eine Übertragung mit Wellen. Am 7. Mai 1895 führte Alexander Popow in Sankt Petersburg seinen Empfänger vor – in Russland gilt er deshalb als der Erfinder. Guglielmo Marconi meldete 1896 in England das erste Patent an und baute daraus ein Geschäft; 1909 erhielt er den Nobelpreis für Physik – zusammen mit dem Deutschen Ferdinand Braun aus Fulda, der die Sender stark verbessert hat (von ihm stammt auch die Braunsche Röhre, die Bildröhre). Nikola Tesla hielt schon 1893 Vorträge über drahtlose Übertragung und erhielt 1900 Patente in den USA. 1943 erklärte das Oberste Gericht der USA wichtige Teile von Marconis Patent für ungültig, weil Tesla, Lodge und andere das schon vorher hatten.',orte:'Fazit: Popow, Marconi, Tesla, Lodge und Braun – jeder hat einen Teil beigetragen. Welcher Name genannt wird, hängt oft vom Land ab. Auf der Karte: Fulda (Ferdinand Braun).',links:[['Erfindung des Radios – Wikipedia','https://de.wikipedia.org/wiki/Hörfunk'],['Ferdinand Braun – Wikipedia','https://de.wikipedia.org/wiki/Ferdinand_Braun'],['Nikola Tesla – Wikipedia','https://de.wikipedia.org/wiki/Nikola_Tesla']]}}
+ mehr:{titel:'Wer hat das Radio wirklich erfunden?',text:'Eine Antwort gibt es nicht – viele haben zur gleichen Zeit gearbeitet. Heinrich Hertz wies 1886–1888 in Karlsruhe die elektromagnetischen Wellen nach. 1894 zeigte Oliver Lodge in England eine Übertragung mit Wellen. Am 7. Mai 1895 führte Alexander Popow in Sankt Petersburg seinen Empfänger vor – in Russland gilt er deshalb als der Erfinder. Guglielmo Marconi meldete 1896 in England das erste Patent an und baute daraus ein Geschäft; 1909 erhielt er den Nobelpreis für Physik – zusammen mit dem Deutschen Ferdinand Braun aus Fulda, der die Sender stark verbessert hat (von ihm stammt auch die Braunsche Röhre, die Bildröhre). Nikola Tesla hielt schon 1893 Vorträge über drahtlose Übertragung und erhielt 1900 Patente in den USA. 1943 erklärte das Oberste Gericht der USA wichtige Teile von Marconis Patent für ungültig, weil Tesla, Lodge und andere das schon vorher hatten.',orte:'Fazit: Popow, Marconi, Tesla, Lodge und Braun – jeder hat einen Teil beigetragen. Welcher Name genannt wird, hängt oft vom Land ab. Auf der Karte: Fulda (Ferdinand Braun).',links:[['Erfindung des Radios – Wikipedia','https://de.wikipedia.org/wiki/Hörfunk'],['Ferdinand Braun – Wikipedia','https://de.wikipedia.org/wiki/Ferdinand_Braun'],['Nikola Tesla – Wikipedia','https://de.wikipedia.org/wiki/Nikola_Tesla']]}},
+{ding:'die Dampfmaschine',frage:'Wer verbesserte ab 1769 die Dampfmaschine so stark, dass sie die Industrie veränderte?',
+ opts:['George Stephenson','James Watt','Isaac Newton','Robert Fulton'],r:1,
+ wer:'James Watt, Instrumentenbauer an der Universität Glasgow',wo:'Glasgow; ab 1775 Birmingham (mit Matthew Boulton)',wann:'1769 (Patent)',
+ text:'Dampfmaschinen gab es schon vorher, doch sie verbrauchten sehr viel Kohle. Watt erfand den getrennten Kondensator: Der Dampf wird in einem eigenen Gefäß abgekühlt, der Zylinder bleibt heiß. So brauchte die Maschine etwa drei Viertel weniger Kohle. Mit dem Unternehmer Matthew Boulton baute er die Maschinen in Birmingham in Serie.',
+ wort:'das Watt – die Einheit der Leistung ist nach James Watt benannt: ein Eponym, wie der Diesel.',
+ wiki:'James_Watt',orte:[['Glasgow',55.86,-4.25],['Birmingham',52.49,-1.89]]},
+{ding:'die Eisenbahn',frage:'Wie hieß die erste Dampflokomotive, die 1835 in Deutschland fuhr – von Nürnberg nach Fürth?',
+ opts:['der Adler','die Rocket','die Saxonia','der Pfeil'],r:0,
+ wer:'gebaut von Robert Stephenson & Co. in Newcastle (England)',wo:'Nürnberg – Fürth (die Ludwigseisenbahn)',wann:'7. Dezember 1835',
+ text:'Die Strecke war nur etwa 6 km lang. Die Lokomotive „Adler“ kam in Einzelteilen aus England, auch der Lokführer William Wilson war Engländer. In England fuhr schon 1825 die erste öffentliche Eisenbahn zwischen Stockton und Darlington. Ein Nachbau des Adlers steht heute im DB Museum in Nürnberg.',
+ wort:'die Lokomotive – lat. loco „vom Ort“ + motivus „bewegend“: die Maschine, die sich vom Ort fortbewegt.',
+ wiki:'Adler_(Lokomotive)',orte:[['Nürnberg',49.45,11.08],['Fürth',49.48,10.99],['Newcastle',54.98,-1.62]]},
+{ding:'der Ottomotor',frage:'Wer baute 1876 in Köln-Deutz den ersten Viertaktmotor – den Vorfahren fast aller Benzinmotoren?',
+ opts:['Nikolaus August Otto','Rudolf Diesel','Carl Benz','Robert Bosch'],r:0,
+ wer:'Nikolaus August Otto, früher Kaufmann',wo:'Köln-Deutz (Gasmotoren-Fabrik Deutz)',wann:'1876',
+ text:'Otto hatte keine technische Ausbildung – er war Handelsreisender und brachte sich die Technik selbst bei. Sein Motor arbeitet in vier Takten: Ansaugen, Verdichten, Arbeiten, Ausstoßen. Bei Deutz arbeiteten damals auch Gottlieb Daimler und Wilhelm Maybach.',
+ wort:'der Motor – lat. motor „der Beweger“, von movere „bewegen“.',
+ wiki:'Nikolaus_August_Otto',orte:[['Köln-Deutz',50.94,6.97]]},
+{ding:'das Motorrad',frage:'Wer baute 1885 in Cannstatt den „Reitwagen“ – das erste Motorrad mit Benzinmotor?',
+ opts:['Carl Benz','Gottlieb Daimler und Wilhelm Maybach','August Horch','Ferdinand Porsche'],r:1,
+ wer:'Gottlieb Daimler und Wilhelm Maybach',wo:'Cannstatt (heute Stuttgart-Bad Cannstatt)',wann:'1885',
+ text:'Der Reitwagen hatte einen Holzrahmen und zwei kleine Stützräder an der Seite. Eigentlich war er ein Prüfstand für den neuen leichten Motor. Im November 1885 fuhr Daimlers Sohn Paul damit von Cannstatt nach Untertürkheim. Daimlers Werkstatt war ein umgebautes Gewächshaus in seinem Garten.',
+ wort:'das Motorrad – ein Kompositum (zusammengesetztes Wort): der Motor + das Rad.',
+ wiki:'Daimler_Reitwagen',orte:[['Cannstatt',48.80,9.21]]},
+{ding:'der Kühlschrank',frage:'Welcher Münchner Professor entwickelte in den 1870er-Jahren die Kältemaschine – die Grundlage des Kühlschranks?',
+ opts:['Carl von Linde','Werner von Siemens','Justus von Liebig','Rudolf Diesel'],r:0,
+ wer:'Carl von Linde, Professor an der Technischen Hochschule München',wo:'München',wann:'1873 erste Anlage, 1876 Patent',
+ text:'Die ersten Kunden waren Brauereien: Bier braucht beim Brauen Kälte, auch im Sommer. Eine der ersten Anlagen lief in der Spaten-Brauerei in München. Rudolf Diesel war übrigens Lindes Student und arbeitete später in seiner Firma. Kühlschränke für zu Hause kamen erst viel später, nach 1910.',
+ wort:'der Kühlschrank – ein Kompositum: kühl + der Schrank.',
+ wiki:'Carl_von_Linde',orte:[['München',48.14,11.58]]},
+{ding:'die Fotografie',frage:'Wer machte um 1826 das älteste heute erhaltene Foto der Welt?',
+ opts:['Louis Daguerre','Joseph Nicéphore Niépce','William Henry Fox Talbot','George Eastman'],r:1,
+ wer:'Joseph Nicéphore Niépce',wo:'Saint-Loup-de-Varennes (Burgund, Frankreich)',wann:'um 1826/1827',
+ text:'Das Bild zeigt den Blick aus seinem Arbeitszimmer auf Dächer und einen Hof. Die Belichtung dauerte viele Stunden, vielleicht sogar Tage. Später arbeitete Niépce mit Louis Daguerre zusammen; 1839 wurde in Paris dessen Verfahren, die Daguerreotypie, vorgestellt – das gilt als Geburtsjahr der Fotografie.',
+ wort:'die Fotografie – griech. phōs, phōtós „das Licht“ + gráphein „schreiben“: „mit Licht schreiben“.',
+ wiki:'Nicéphore_Niépce',orte:[['Saint-Loup-de-Varennes',46.72,4.86],['Paris',48.86,2.35]]},
+{ding:'der Telegraf',frage:'Wer schickte 1844 die erste Telegrafen-Nachricht von Washington nach Baltimore – mit Punkten und Strichen?',
+ opts:['Samuel Morse','Thomas Alva Edison','Alexander Graham Bell','Werner von Siemens'],r:0,
+ wer:'Samuel Morse, eigentlich Kunstmaler',wo:'Washington → Baltimore (USA)',wann:'24. Mai 1844',
+ text:'Die Nachricht lautete „What hath God wrought“ (etwa: „Was hat Gott geschaffen“), ein Satz aus der Bibel. Für die Buchstaben benutzte man kurze und lange Signale – den Morsecode. Morse war zuerst Maler; er begann mit dem Telegrafen, nachdem ihn die Nachricht vom Tod seiner Frau viel zu spät erreicht hatte.',
+ wort:'der Telegraf – griech. tēle „fern“ + gráphein „schreiben“: der „Fernschreiber“.',
+ wiki:'Samuel_F._B._Morse',orte:[['Washington',38.90,-77.04],['Baltimore',39.29,-76.61]]},
+{ding:'das Fernsehen',frage:'Welcher Student meldete 1884 in Berlin eine drehende Lochscheibe zum Patent an – eine Grundlage des Fernsehens?',
+ opts:['Paul Nipkow','Ferdinand Braun','John Logie Baird','Manfred von Ardenne'],r:0,
+ wer:'Paul Nipkow',wo:'Berlin',wann:'1884 (Patent)',
+ text:'Die Nipkow-Scheibe zerlegt ein Bild in viele Zeilen: Durch Löcher in einer Spirale wird das Bild Punkt für Punkt abgetastet. Nipkow selbst hat das Gerät nie gebaut. Erst 1926 zeigte der Schotte John Logie Baird in London damit bewegte Bilder. Später ersetzte die Braunsche Röhre die Scheibe.',
+ wort:'das Fernsehen – eine Lehnübersetzung (Calque) von Television: griech. tēle „fern“ + lat. visio „das Sehen“.',
+ wiki:'Paul_Nipkow',orte:[['Berlin',52.52,13.40],['London',51.51,-0.13]]},
+{ding:'die Braunsche Röhre',frage:'Wer erfand 1897 in Straßburg die Kathodenstrahlröhre – das Herz des Oszilloskops und des alten Fernsehers?',
+ opts:['Heinrich Hertz','Ferdinand Braun','Wilhelm Conrad Röntgen','Werner von Siemens'],r:1,
+ wer:'Ferdinand Braun, Physikprofessor',wo:'Straßburg (damals Deutsches Reich, heute Frankreich)',wann:'1897',
+ text:'Ein Elektronenstrahl wird abgelenkt und malt einen Leuchtpunkt auf einen Schirm. Braun wollte damit zuerst nur schnelle elektrische Schwingungen sichtbar machen – genau das tut bis heute das Oszilloskop. Braun stammte aus Fulda und erhielt 1909 zusammen mit Marconi den Nobelpreis für Physik. Er hat die Röhre nie patentieren lassen.',
+ wort:'das Oszilloskop – lat. oscillare „schaukeln, schwingen“ + griech. skopeín „betrachten“: der „Schwingungsbetrachter“.',
+ wiki:'Ferdinand_Braun',orte:[['Straßburg',48.58,7.75],['Fulda',50.55,9.68]]},
+{ding:'der Transistor',frage:'Wo wurde 1947 der erste Transistor gebaut – der Baustein jedes Computers und Handys?',
+ opts:['bei Siemens in München','in den Bell Labs in Murray Hill (USA)','bei Philips in Eindhoven','an der Universität Cambridge'],r:1,
+ wer:'John Bardeen, Walter Brattain und William Shockley',wo:'Bell Labs, Murray Hill, New Jersey (USA)',wann:'Dezember 1947',
+ text:'Der erste Transistor war ein Spitzentransistor aus Germanium, etwa so groß wie eine Hand. Er ersetzte die großen, heißen Elektronenröhren. 1956 bekamen die drei Forscher dafür den Nobelpreis für Physik. Ein heutiger Handy-Prozessor enthält viele Milliarden Transistoren.',
+ wort:'der Transistor – Kunstwort aus engl. transfer „übertragen“ + resistor „der Widerstand“.',
+ wiki:'Transistor',orte:[['Murray Hill',40.68,-74.40]]},
+{ding:'die Zündkerze',frage:'In welcher Firma entstand 1902 die Hochspannungs-Magnetzündung mit Zündkerze, die jedes Benzinauto braucht?',
+ opts:['bei Bosch in Stuttgart','bei Daimler in Cannstatt','bei Siemens in Berlin','bei Benz in Mannheim'],r:0,
+ wer:'Gottlob Honold, Ingenieur bei Robert Bosch',wo:'Stuttgart',wann:'1902',
+ text:'Vorher zündeten die Motoren unzuverlässig, oft mit einem glühenden Rohr. Die Magnetzündung erzeugt den Funken selbst, ohne Batterie – im richtigen Moment springt er an der Zündkerze über. Damit wurde Bosch weltberühmt; das Firmenzeichen von Bosch zeigt bis heute einen Zündanker.',
+ wort:'die Kerze – ahd. charza, wohl von lat. charta „der Papyrus“ (als Docht).',
+ wiki:'Gottlob_Honold',orte:[['Stuttgart',48.78,9.18]]}
 ];
+const POOL_ENTDECKUNGEN=[
+{ding:'die Röntgenstrahlen',frage:'Wer entdeckte 1895 in Würzburg Strahlen, mit denen man durch den Körper sehen kann?',
+ opts:['Wilhelm Conrad Röntgen','Marie Curie','Heinrich Hertz','Max Planck'],r:0,
+ wer:'Wilhelm Conrad Röntgen, Physikprofessor',wo:'Würzburg',wann:'8. November 1895',
+ text:'Röntgen experimentierte mit einer Röhre und sah, dass ein Schirm im Raum zu leuchten begann – obwohl die Röhre mit Pappe abgedeckt war. Das erste Röntgenbild zeigt die Hand seiner Frau Anna Bertha mit dem Ehering. Er nannte die Strahlen „X-Strahlen“ und ließ sie nie patentieren. 1901 erhielt er den allerersten Nobelpreis für Physik.',
+ wort:'die Röntgenstrahlen – nach Röntgen benannt; englisch heißen sie bis heute X-rays.',
+ wiki:'Wilhelm_Conrad_Röntgen',orte:[['Würzburg',49.79,9.93]]},
+{ding:'das Penicillin',frage:'Wer entdeckte 1928 in London das Penicillin – das erste Antibiotikum?',
+ opts:['Robert Koch','Louis Pasteur','Alexander Fleming','Paul Ehrlich'],r:2,
+ wer:'Alexander Fleming, schottischer Arzt',wo:'London (St Mary’s Hospital)',wann:'1928',
+ text:'Fleming kam aus dem Urlaub zurück und sah, dass in einer Schale mit Bakterien ein Schimmelpilz wuchs – und rund um den Pilz waren die Bakterien tot. Erst um 1940 machten Forscher in Oxford daraus ein Medikament. 1945 bekamen Fleming, Florey und Chain den Nobelpreis.',
+ wort:'das Penicillin – von lat. penicillum „der kleine Pinsel“: so sieht der Schimmelpilz unter dem Mikroskop aus.',
+ wiki:'Alexander_Fleming',orte:[['London',51.517,-0.174],['Oxford',51.75,-1.26]]},
+{ding:'die Schwerkraft',frage:'Wer beschrieb 1687 das Gesetz der Schwerkraft – warum der Apfel fällt und der Mond um die Erde kreist?',
+ opts:['Galileo Galilei','Isaac Newton','Johannes Kepler','Albert Einstein'],r:1,
+ wer:'Isaac Newton',wo:'Cambridge (England); geboren in Woolsthorpe',wann:'1687 (das Buch „Principia“)',
+ text:'Die Geschichte vom Apfel erzählte Newton selbst im Alter: Im Garten seiner Mutter in Woolsthorpe habe ein fallender Apfel ihn zum Nachdenken gebracht. Er erkannte, dass dieselbe Kraft den Apfel und den Mond anzieht. Die Einheit der Kraft heißt nach ihm das Newton.',
+ wort:'die Gravitation – lat. gravitas „die Schwere“, von gravis „schwer“.',
+ wiki:'Isaac_Newton',orte:[['Cambridge',52.21,0.12],['Woolsthorpe',52.81,-0.63]]},
+{ding:'die Planetenbahnen',frage:'Wer entdeckte 1609 in Prag, dass die Planeten auf Ellipsen um die Sonne laufen?',
+ opts:['Nikolaus Kopernikus','Tycho Brahe','Johannes Kepler','Galileo Galilei'],r:2,
+ wer:'Johannes Kepler, kaiserlicher Mathematiker',wo:'Prag; geboren in Weil der Stadt (Württemberg)',wann:'1609 (das Buch „Astronomia nova“)',
+ text:'Kepler rechnete jahrelang mit den sehr genauen Beobachtungen des Dänen Tycho Brahe, vor allem mit der Bahn des Mars. Nichts passte zu Kreisen – erst die Ellipse stimmte. Die drei Keplerschen Gesetze lernt man bis heute in der Schule.',
+ wort:'die Ellipse – griech. élleipsis „das Auslassen, der Mangel“.',
+ wiki:'Johannes_Kepler',orte:[['Prag',50.08,14.42],['Weil der Stadt',48.75,8.87]]},
+{ding:'das Periodensystem',frage:'Wer ordnete 1869 in Sankt Petersburg alle chemischen Elemente in einer Tabelle?',
+ opts:['Dmitri Mendelejew','Michail Lomonossow','Antoine Lavoisier','Robert Bunsen'],r:0,
+ wer:'Dmitri Mendelejew; unabhängig davon Lothar Meyer in Karlsruhe',wo:'Sankt Petersburg',wann:'1869',
+ text:'Mendelejew ordnete die Elemente nach dem Atomgewicht und sah, dass sich die Eigenschaften regelmäßig wiederholen. In seiner Tabelle ließ er Lücken frei und sagte voraus, dass man dort noch unbekannte Elemente finden wird – später entdeckte man das Gallium und das Germanium. Fast gleichzeitig kam der Deutsche Lothar Meyer zu einer ähnlichen Ordnung.',
+ wort:'das Periodensystem – griech. períodos „der Umlauf, die Wiederkehr“: die Eigenschaften kehren regelmäßig wieder.',
+ wiki:'Dmitri_Iwanowitsch_Mendelejew',orte:[['Sankt Petersburg',59.93,30.36],['Karlsruhe',49.01,8.40]]},
+{ding:'der Neandertaler',frage:'Wo fand man 1856 die Knochen des Neandertalers – ganz in der Nähe von Düsseldorf?',
+ opts:['im Neandertal bei Mettmann','in der Eifel','im Siebengebirge','am Niederrhein bei Xanten'],r:0,
+ wer:'Steinbrucharbeiter; erkannt von dem Lehrer Johann Carl Fuhlrott',wo:'das Neandertal bei Mettmann',wann:'1856',
+ text:'Arbeiter fanden die Knochen in einer Höhle und hielten sie zuerst für Knochen eines Höhlenbären. Der Elberfelder Lehrer Fuhlrott erkannte, dass sie von einem sehr alten Menschen stammen. Das Tal heißt nach Joachim Neander, einem Pfarrer und Liederdichter des 17. Jahrhunderts. Heute gibt es dort das Neanderthal Museum – ein schönes Ausflugsziel.',
+ wort:'der Neandertaler – Joachim Neander übersetzte seinen Familiennamen Neumann ins Griechische: néos „neu“ + anḗr, andrós „der Mann“.',
+ wiki:'Neandertaler',orte:[['Neandertal',51.227,6.95]]},
+{ding:'Troja',frage:'Wer grub ab 1871 in der heutigen Türkei die Stadt Troja aus?',
+ opts:['Heinrich Schliemann','Howard Carter','Arthur Evans','Ernst Curtius'],r:0,
+ wer:'Heinrich Schliemann, Kaufmann',wo:'Hisarlık (Türkei); geboren in Neubukow (Mecklenburg)',wann:'ab 1871',
+ text:'Schliemann las als Kind Homers Ilias und glaubte fest, dass Troja wirklich existiert hat. Als Kaufmann wurde er reich – unter anderem in Sankt Petersburg – und bezahlte die Ausgrabungen selbst. Er lernte viele Sprachen mit seiner eigenen Methode: Texte laut lesen, auswendig lernen und in mehreren Sprachen vergleichen. 1873 fand er den „Schatz des Priamos“.',
+ wort:'die Archäologie – griech. archaíos „alt“ + lógos „die Lehre“: die Lehre vom Alten.',
+ wiki:'Heinrich_Schliemann',orte:[['Hisarlık',39.957,26.239],['Neubukow',54.03,11.67]]},
+{ding:'die Funkwellen',frage:'Wer wies 1886–1888 in Karlsruhe als Erster elektromagnetische Wellen nach?',
+ opts:['Heinrich Hertz','Michael Faraday','James Clerk Maxwell','Nikola Tesla'],r:0,
+ wer:'Heinrich Hertz, Physikprofessor',wo:'Karlsruhe',wann:'1886–1888',
+ text:'Der Schotte Maxwell hatte die Wellen nur berechnet – Hertz zeigte sie im Experiment: Ein Funke in einem Sender erzeugte einen kleinen Funken in einem Empfänger auf der anderen Seite des Raumes. Hertz glaubte selbst, dass man damit nichts Nützliches anfangen kann. Wenige Jahre später entstand daraus das Radio.',
+ wort:'das Hertz – die Einheit der Frequenz (Schwingungen pro Sekunde) ist nach Heinrich Hertz benannt: wieder ein Eponym.',
+ wiki:'Heinrich_Hertz',orte:[['Karlsruhe',49.01,8.40]]},
+{ding:'der Tuberkulose-Erreger',frage:'Wer entdeckte 1882 in Berlin das Bakterium, das die Tuberkulose verursacht?',
+ opts:['Robert Koch','Rudolf Virchow','Paul Ehrlich','Emil von Behring'],r:0,
+ wer:'Robert Koch, Arzt',wo:'Berlin',wann:'24. März 1882',
+ text:'Damals starb in Europa etwa jeder siebte Mensch an Tuberkulose. Koch färbte die winzigen Bakterien so, dass man sie unter dem Mikroskop sehen konnte. Der 24. März ist heute der Welttuberkulosetag. 1905 erhielt Koch den Nobelpreis für Medizin; das Robert Koch-Institut in Berlin trägt seinen Namen.',
+ wort:'das Bakterium – griech. baktērion „das Stäbchen“: viele Bakterien sehen wie kleine Stäbchen aus.',
+ wiki:'Robert_Koch',orte:[['Berlin',52.52,13.38]]},
+{ding:'Amerika',frage:'Wer erreichte 1492 mit drei Schiffen eine Insel in Amerika – und glaubte, er sei in Indien?',
+ opts:['Amerigo Vespucci','Christoph Kolumbus','Vasco da Gama','Ferdinand Magellan'],r:1,
+ wer:'Christoph Kolumbus, Seefahrer aus Genua, im Auftrag Spaniens',wo:'Abfahrt in Palos de la Frontera (Spanien); Landung auf den Bahamas',wann:'3. August – 12. Oktober 1492',
+ text:'Kolumbus wollte nach Westen segeln, um nach Indien zu kommen. Die Insel nannte er San Salvador. Weil er dachte, er sei in Indien, nannte er die Menschen dort „Indios“ – daher noch heute das Wort „Indianer“. Lange vor ihm waren schon die Wikinger um das Jahr 1000 in Nordamerika.',
+ wort:'Amerika – benannt nach Amerigo Vespucci: Der deutsche Kartenzeichner Martin Waldseemüller schrieb 1507 den Namen als Erster auf eine Weltkarte.',
+ wiki:'Christoph_Kolumbus',orte:[['San Salvador (Bahamas)',24.05,-74.48],['Palos de la Frontera',37.23,-6.89]]}
+];
+const POOL={technik:POOL_TECHNIK,entdeckungen:POOL_ENTDECKUNGEN};
+const RUNDE=10;
+let FRAGEN=[];
+function mische(a){a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;}
+function neueRunde(){FRAGEN=mische(POOL[thema]).slice(0,RUNDE);i=0;punkte=0;}
+
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let thema='technik',i=0,punkte=0,beantwortet=false,map=null;
@@ -176,9 +310,30 @@ const NAMEN={
  'die Laufmaschine':[['Karl Drais','de'],['Schwetzingen','de']],
  'der Computer':[['Konrad Zuse','de'],['Kreuzberg','de']],
  'das Flugzeug':[['Orville Wright','en'],['Wilbur Wright','en'],['Kitty Hawk','en'],['North Carolina','en'],['Otto Lilienthal','de'],['Lichterfelde','de'],['Anklam','de'],['Stölln','de'],['Gollenberg','de']],
- 'das Radio':[['Alexander Stepanowitsch Popow','ru','Александр Степанович Попов'],['Guglielmo Marconi','it'],['Bologna','it'],['Heinrich Hertz','de'],['Karlsruhe','de'],['Ferdinand Braun','de'],['Fulda','de'],['Oliver Lodge','en'],['Nikola Tesla','en']]
+ 'das Radio':[['Alexander Stepanowitsch Popow','ru','Александр Степанович Попов'],['Guglielmo Marconi','it'],['Bologna','it'],['Heinrich Hertz','de'],['Karlsruhe','de'],['Ferdinand Braun','de'],['Fulda','de'],['Oliver Lodge','en'],['Nikola Tesla','en']],
+ 'die Dampfmaschine':[['James Watt','en'],['Glasgow','en'],['Matthew Boulton','en'],['Birmingham','en']],
+ 'die Eisenbahn':[['Nürnberg','de'],['Fürth','de'],['Robert Stephenson','en'],['Newcastle','en'],['William Wilson','en'],['Stockton','en'],['Darlington','en']],
+ 'der Ottomotor':[['Nikolaus August Otto','de'],['Köln-Deutz','de'],['Gottlieb Daimler','de'],['Wilhelm Maybach','de']],
+ 'das Motorrad':[['Gottlieb Daimler','de'],['Wilhelm Maybach','de'],['Cannstatt','de'],['Untertürkheim','de']],
+ 'der Kühlschrank':[['Carl von Linde','de'],['München','de']],
+ 'die Fotografie':[['Joseph Nicéphore Niépce','fr'],['Saint-Loup-de-Varennes','fr'],['Louis Daguerre','fr'],['Paris','fr']],
+ 'der Telegraf':[['Samuel Morse','en'],['Washington','en'],['Baltimore','en'],['What hath God wrought','en']],
+ 'das Fernsehen':[['Paul Nipkow','de'],['John Logie Baird','en'],['London','en']],
+ 'die Braunsche Röhre':[['Ferdinand Braun','de'],['Straßburg','de'],['Fulda','de']],
+ 'der Transistor':[['John Bardeen','en'],['Walter Brattain','en'],['William Shockley','en'],['Murray Hill','en']],
+ 'die Zündkerze':[['Gottlob Honold','de'],['Robert Bosch','de'],['Stuttgart','de']],
+ 'die Röntgenstrahlen':[['Wilhelm Conrad Röntgen','de'],['Würzburg','de'],['X-rays','en']],
+ 'das Penicillin':[['Alexander Fleming','en'],['London','en'],['Oxford','en']],
+ 'die Schwerkraft':[['Isaac Newton','en'],['Cambridge','en'],['Woolsthorpe','en'],['Principia','en']],
+ 'die Planetenbahnen':[['Johannes Kepler','de'],['Tycho Brahe','da'],['Prag','de'],['Praha','cs'],['Weil der Stadt','de']],
+ 'das Periodensystem':[['Dmitri Mendelejew','ru','Дмитрий Менделеев'],['Sankt Petersburg','de'],['Lothar Meyer','de'],['Karlsruhe','de']],
+ 'der Neandertaler':[['Neandertal','de'],['Mettmann','de'],['Johann Carl Fuhlrott','de'],['Joachim Neander','de']],
+ 'Troja':[['Heinrich Schliemann','de'],['Hisarlık','tr'],['Neubukow','de'],['Homer','de']],
+ 'die Funkwellen':[['Heinrich Hertz','de'],['Karlsruhe','de'],['James Clerk Maxwell','en']],
+ 'der Tuberkulose-Erreger':[['Robert Koch','de'],['Berlin','de']],
+ 'Amerika':[['Cristoforo Colombo','it'],['Cristóbal Colón','es'],['Palos de la Frontera','es'],['San Salvador','es'],['Amerigo Vespucci','it'],['Martin Waldseemüller','de']]
 };
-const SPR={de:'de-DE',en:'en-US',it:'it-IT',ru:'ru-RU',da:'da-DK'};
+const SPR={de:'de-DE',en:'en-US',it:'it-IT',ru:'ru-RU',da:'da-DK',fr:'fr-FR',es:'es-ES',cs:'cs-CZ',tr:'tr-TR'};
 function nameSprechen(n){
   stumm();if(!('speechSynthesis' in window))return;
   const text=n[2]||n[0],loc=SPR[n[1]]||'de-DE';
@@ -186,7 +341,7 @@ function nameSprechen(n){
   else{const u=new SpeechSynthesisUtterance(text);u.lang=loc;u.rate=.85;speechSynthesis.speak(u);}
 }
 /* Bilder: Suche bei Wikimedia Commons (freie Fotos), öffnet im eigenen Tab */
-const BILD={'die Schreibmaschine':'Sholes and Glidden typewriter','das Telefon':'Philipp Reis Telefon','das Automobil':'Benz Patent-Motorwagen','der Buchdruck':'Gutenberg Druckerpresse','die Glühlampe':'Edison light bulb 1879','der Dieselmotor':'Diesel Motor 1897 MAN','die Laufmaschine':'Laufmaschine Drais','der Computer':'Zuse Z3 Deutsches Museum','das Flugzeug':'Wright Flyer 1903','das Radio':'Popov radio receiver'};
+const BILD={'die Schreibmaschine':'Sholes and Glidden typewriter','das Telefon':'Philipp Reis Telefon','das Automobil':'Benz Patent-Motorwagen','der Buchdruck':'Gutenberg Druckerpresse','die Glühlampe':'Edison light bulb 1879','der Dieselmotor':'Diesel Motor 1897 MAN','die Laufmaschine':'Laufmaschine Drais','der Computer':'Zuse Z3 Deutsches Museum','das Flugzeug':'Wright Flyer 1903','das Radio':'Popov radio receiver','die Dampfmaschine':'James Watt steam engine','die Eisenbahn':'Adler Lokomotive 1835','der Ottomotor':'Otto Viertaktmotor 1876','das Motorrad':'Daimler Reitwagen','der Kühlschrank':'Linde Kältemaschine','die Fotografie':'View from the Window at Le Gras','der Telegraf':'Morse telegraph 1844','das Fernsehen':'Nipkow disk','die Braunsche Röhre':'Braunsche Röhre','der Transistor':'first transistor 1947','die Zündkerze':'Bosch Magnetzündung','die Röntgenstrahlen':'Röntgen Hand mit Ringen','das Penicillin':'Penicillium notatum','die Schwerkraft':'Woolsthorpe Manor apple tree','die Planetenbahnen':'Kepler Astronomia nova','das Periodensystem':'Mendeleev periodic table 1869','der Neandertaler':'Neanderthal Museum Mettmann','Troja':'Troy excavation Hisarlik','die Funkwellen':'Heinrich Hertz apparatus','der Tuberkulose-Erreger':'Robert Koch Mikroskop','Amerika':'Waldseemüller map 1507'};
 function bildLink(f){const q=BILD[f.ding];return q?'<a href="https://commons.wikimedia.org/w/index.php?search='+encodeURIComponent(q)+'&title=Special:MediaSearch&type=image" target="_blank" rel="noopener">🖼 Bilder ansehen ↗</a>':'';}
 function glossarLink(f){const w=f.wort.split(' – ')[0];return '<a href="/pages/language_lab/glossar/de.html#w='+encodeURIComponent(w)+'" target="_blank" rel="noopener">📖 '+esc(w)+' im Glossar ↗</a>';}
 function namenLeiste(f){
@@ -266,21 +421,22 @@ function ende(){
   stumm();leereKarte();
   const proz=Math.round(punkte/FRAGEN.length*100);
   $('#side').innerHTML=themenLeiste()+'<div class="card end"><p class="small">Das Ergebnis</p><div class="big">'+punkte+' / '+FRAGEN.length+'</div><p><b>'+proz+' %</b> richtig</p><p>'+(proz>=80?'Ausgezeichnet!':proz>=50?'Gut gemacht!':'Beim nächsten Mal klappt es besser.')+'</p><button class="next" type="button" id="neu">Noch einmal spielen</button></div>'+
-  '<p class="small">Weitere Themen (die Tiere, die Entdeckungen) kommen später dazu.</p>';
+  '<p class="small">Jede Runde: 10 zufällige Fragen aus dem Thema. Das Thema „die Tiere“ kommt später dazu.</p>';
 }
 $('#side').addEventListener('click',e=>{
   const nb=e.target.closest('.name');if(nb){nameSprechen(NAMEN[FRAGEN[i].ding][+nb.dataset.n]);return;}
   const v=e.target.closest('.vorlesen');if(v){const f=FRAGEN[i];vorlesen(v,v.dataset.lesen==='frage'?frageText(f):v.dataset.lesen==='mehr'?f.mehr.text+' '+f.mehr.orte:infoText(f));return;}
   const o=e.target.closest('.opt');if(o){antwort(+o.dataset.k);return;}
   if(e.target.closest('#weiter')){i++;if(i<FRAGEN.length)frage();else ende();return;}
-  if(e.target.closest('#neu')){i=0;punkte=0;frage();}
+  const c=e.target.closest('[data-thema]');if(c&&!c.disabled){thema=c.dataset.thema;neueRunde();frage();return;}
+  if(e.target.closest('#neu')){neueRunde();frage();}
 });
 document.addEventListener('keydown',e=>{
   if(!beantwortet&&/^[1-4]$/.test(e.key)&&document.querySelector('.opt')){antwort(+e.key-1);}
   else if(beantwortet&&(e.key==='Enter'||e.key==='ArrowRight')&&document.getElementById('weiter')&&document.activeElement.id!=='weiter'){$('#weiter').click();}
 });
 if(typeof L==='undefined'){$('#maperr').style.display='flex';}else{karteStart();}
-frage();
+neueRunde();frage();
 }
 </script>
 </body>
