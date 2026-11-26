@@ -82,6 +82,8 @@ const THEMES = [
   `${SITE_ROOT}/assets/themes/tigr.jpg`,
 ];
 const TEAM_NAMES = ['Pinguin', 'Panda', 'Frosch', 'Eichhörnchen', 'Tiger'];
+const TEAM_NAMES_EN = ['Penguin', 'Panda', 'Frog', 'Squirrel', 'Tiger'];
+function teamNr(i) { return (typeof mmSprache === 'function' && mmSprache() === 'en' ? TEAM_NAMES_EN : TEAM_NAMES)[i]; }
 const TEAM_TONES = [
   { accent: '#3b82f6', accentStrong: '#1d4ed8', onAccent: '#ffffff', accentSoft: '#e0ecff', accentBorder: '#b6ccff' },
   { accent: '#f59e0b', accentStrong: '#b45309', onAccent: '#ffffff', accentSoft: '#fff2d8', accentBorder: '#f5d39a' },
@@ -104,7 +106,7 @@ function setAvatarAndThemeByIndex(idx) {
 
 function teamNameForAvatar(avatarPath) {
   const idx = AVATARS.indexOf(normalizeAsset(avatarPath));
-  return TEAM_NAMES[idx] || 'Avatar';
+  return teamNr(idx) || 'Avatar';
 }
 
 function applyTeamToneByAvatar(avatarPath) {
@@ -1103,14 +1105,14 @@ function renderWelcome() {
   if (resultsBtn) resultsBtn.onclick = () => {
     if (!currentLevelStats) { openHintModal(); return; }
     const rows = [
-      ['Gesamtpunkte', `${currentLevelStats.earned}/${currentLevelStats.max}`],
-      ['Prozent', `${currentLevelStats.percent}%`],
-      ['Note', currentLevelStats.grade],
+      [T('Gesamtpunkte', 'Total points'), `${currentLevelStats.earned}/${currentLevelStats.max}`],
+      [T('Prozent', 'Percent'), `${currentLevelStats.percent}%`],
+      [T('Note', 'Grade (1–6)'), currentLevelStats.grade],
       ['Zeitmodus', currentLevelStats.timeModeEnabled ? 'An' : 'Aus'],
       ['Zeitbonus', currentLevelStats.timeModeEnabled ? `${currentLevelStats.timeBonusPoints}/${currentLevelStats.timeBonusMax}` : '–'],
-      ['Versuche gesamt', currentLevelStats.attemptsTotal ?? 0],
+      [T('Versuche gesamt', 'Tries in total'), currentLevelStats.attemptsTotal ?? 0],
     ];
-    openModal('results-modal', 'Auswertung', renderResultTable(rows));
+    openModal('results-modal', T('Auswertung', 'Evaluation'), renderResultTable(rows));
   };
 }
 
@@ -1186,12 +1188,12 @@ function openKlasseModal() {
   if (!name) { openNameModal(); return; }
   if (!spielerListe().some(p => p.name.toLowerCase() === name.toLowerCase())) spielerMerken(name);
   const jetzt = klasseFuer(name);
-  const { overlay, body } = ensureModal('klasse-modal', `In welche Klasse geht ${name}?`);
+  const { overlay, body } = ensureModal('klasse-modal', T(`In welche Klasse geht ${name}?`, `Which grade is ${name} in?`));
   if (!body) return;
   body.innerHTML = `<div class="klasse-wahl">${[1, 2, 3, 4, 5].map(k => `
       <button type="button" class="klasse-karte${k === jetzt ? ' aktiv' : ''}" data-k="${k}"><strong>${k >= 5 ? '5+' : k}</strong><span>${klasseText(k)}</span></button>`).join('')}</div>
-    <p class="hint-note">Danach beginnt das Spiel mit den Aufgaben dieser Klasse. Alle anderen Level bleiben im Menü frei wählbar.${''}</p>
-    <p class="hint-note">Für die 5. Klasse und höher gibt es hier vorerst die Aufgaben der 4. Klasse (Kopfrechnen-Training) – eigene Aufgaben bis Klasse 8 kommen später.</p>`;
+    <p class="hint-note">${T('Danach beginnt das Spiel mit den Aufgaben dieser Klasse. Alle anderen Level bleiben im Menü frei wählbar.', 'Then the game starts with the tasks of this grade. All other levels can still be chosen in the menu.')}</p>
+    <p class="hint-note">${T('Für die 5. Klasse und höher gibt es hier vorerst die Aufgaben der 4. Klasse (Kopfrechnen-Training) – eigene Aufgaben bis Klasse 8 kommen später.', 'For grade 5 and higher there are the grade 4 tasks for now (mental maths training) – own tasks up to grade 8 will come later.')}</p>`;
   overlay.classList.add('is-visible');
   body.querySelectorAll('.klasse-karte').forEach(b => b.addEventListener('click', () => {
     klasseSetzen(name, b.dataset.k);
@@ -1330,46 +1332,44 @@ function openNameModal() {
   const karten = liste.map((p, i) => {
     const z = zuletztFuer(p.name);
     return `<div class="sp-karte" data-i="${i}">
-        <button type="button" class="sp-waehlen" data-i="${i}" title="Mit ${escapeHtml(p.name)} spielen">
+        <button type="button" class="sp-waehlen" data-i="${i}" title="${T('Mit', 'Play as')} ${escapeHtml(p.name)}${T(' spielen', '')}">
           <img src="${p.avatar}" alt="" width="52" height="52">
           <span class="sp-name">${escapeHtml(p.name)}</span>
-          <span class="sp-info">${p.klasse ? '🎒 ' + klasseText(p.klasse) + ' · ' : ''}⭐ ${bruchText(sterneSummeVon(p.name))} von ${LEVEL_ZAHL * 3}${z !== undefined ? ` · zuletzt Level ${escapeHtml(z)}` : ''}</span>
+          <span class="sp-info">${p.klasse ? '🎒 ' + klasseText(p.klasse) + ' · ' : ''}⭐ ${bruchText(sterneSummeVon(p.name))} ${T('von', 'of')} ${LEVEL_ZAHL * 3}${z !== undefined ? ` · ${T('zuletzt', 'last')} Level ${escapeHtml(z)}` : ''}</span>
         </button>
-        <button type="button" class="sp-mini" data-neustart="${i}" title="Neu anfangen: alle Sterne löschen">🔄</button>
-        <button type="button" class="sp-mini" data-umbenennen="${i}" title="Namen ändern">✏️</button>
-        <button type="button" class="sp-mini" data-loeschen="${i}" title="Spieler löschen">🗑️</button>
+        <button type="button" class="sp-mini" data-neustart="${i}" title="${T('Neu anfangen: alle Sterne löschen', 'Start again: delete all stars')}">🔄</button>
+        <button type="button" class="sp-mini" data-umbenennen="${i}" title="${T('Namen ändern', 'Change name')}">✏️</button>
+        <button type="button" class="sp-mini" data-loeschen="${i}" title="${T('Spieler löschen', 'Delete player')}">🗑️</button>
       </div>`;
   }).join('');
-  const tabelle = liste.length ? `<details class="sp-erwachsene"><summary>👥 Übersicht für Erwachsene</summary>
-      <table class="result-table"><tr><th>Spieler</th>${[...Array(LEVEL_ZAHL).keys()].map(l => `<th>L${l}</th>`).join('')}<th>⭐</th></tr>
+  const tabelle = liste.length ? `<details class="sp-erwachsene"><summary>👥 ${T('Übersicht für Erwachsene', 'Overview for adults')}</summary>
+      <table class="result-table"><tr><th>${T('Spieler', 'Player')}</th>${[...Array(LEVEL_ZAHL).keys()].map(l => `<th>L${l}</th>`).join('')}<th>⭐</th></tr>
       ${liste.map(p => { const m = sterneAlle()[p.name.toLowerCase()] || {};
         return `<tr><td>${escapeHtml(p.name)}</td>${[...Array(LEVEL_ZAHL).keys()].map(l => `<td>${m[l] ? bruchText(m[l]) : '–'}</td>`).join('')}<td><b>${bruchText(sterneSummeVon(p.name))}</b></td></tr>`; }).join('')}
-      </table><p class="sp-klein">Die Zahlen eines Levels (Punkte, Versuche, Note) zeigt der Knopf „Auswertung“ oben – unter „Für Erwachsene“.</p></details>` : '';
+      </table><p class="sp-klein">${T('Die Zahlen eines Levels (Punkte, Versuche, Note) zeigt der Knopf „Auswertung“ im Menü.', 'The numbers of a level (points, tries, grade) are shown under „Evaluation“ in the menu.')}</p></details>` : '';
   overlay.innerHTML = `
     <div class="name-modal sp-modal">
-      <h3>Wer spielt?</h3>
-      ${liste.length ? `<div class="sp-liste">${karten}</div>` : '<p class="name-sub">Noch kein Spieler – lege unten einen an.</p>'}
-      <details class="sp-neu"${liste.length ? '' : ' open'}><summary>＋ Neuer Spieler</summary>
-        <input type="text" id="name-input" placeholder="Name, z. B. Philipp" autocomplete="off" />
+      <h3>${T('Wer spielt?', 'Who is playing?')}</h3>
+      ${liste.length ? `<div class="sp-liste">${karten}</div>` : `<p class="name-sub">${T('Noch kein Spieler – lege unten einen an.', 'No player yet – add one below.')}</p>`}
+      <details class="sp-neu"${liste.length ? '' : ' open'}><summary>＋ ${T('Neuer Spieler', 'New player')}</summary>
+        <input type="text" id="name-input" placeholder="${T('Name, z. B. Philipp', 'Name, e.g. Philipp')}" autocomplete="off" />
         <div class="team-picker" id="team-picker" aria-label="Team auswählen">
           ${AVATARS.map((src, idx) => `
             <label class="team-option">
               <input type="radio" name="team" value="${src}" data-theme="${THEMES[idx] || THEMES[0]}">
-              <img src="${src}" alt="${TEAM_NAMES[idx] || 'Tier'}" width="52" height="52" />
-              <span>${TEAM_NAMES[idx] || 'Tier'}</span>
+              <img src="${src}" alt="${teamNr(idx) || 'Tier'}" width="52" height="52" />
+              <span>${teamNr(idx) || 'Tier'}</span>
             </label>`).join('')}
         </div>
-        <p class="sp-klein" id="team-wahl-hinweis">Wähle dein Team: Für wen spielst du?</p>
-        <label class="sp-klasse">🎒 In welche Klasse gehst du?
+        <p class="sp-klein" id="team-wahl-hinweis">${T('Wähle dein Team: Für wen spielst du?', 'Choose your team: who do you play for?')}</p>
+        <label class="sp-klasse">🎒 ${T('In welche Klasse gehst du?', 'Which grade are you in?')}
           <select id="klasse-input">
-            <option value="1">1. Klasse</option><option value="2">2. Klasse</option>
-            <option value="3">3. Klasse</option><option value="4">4. Klasse</option>
-            <option value="5">5. Klasse oder höher</option>
+            ${[1, 2, 3, 4, 5].map(k => `<option value="${k}">${klasseText(k)}</option>`).join('')}
           </select></label>
-        <div class="name-actions"><button id="name-submit">Los geht's!</button></div>
+        <div class="name-actions"><button id="name-submit">${T("Los geht's!", "Let's go!")}</button></div>
       </details>
       ${tabelle}
-      <div class="name-actions"><button type="button" id="name-later" class="name-later">Schließen</button></div>
+      <div class="name-actions"><button type="button" id="name-later" class="name-later">${T('Schließen', 'Close')}</button></div>
     </div>`;
   document.body.appendChild(overlay);
 
@@ -1389,27 +1389,27 @@ function openNameModal() {
   }));
   overlay.querySelectorAll('[data-neustart]').forEach(b => b.addEventListener('click', () => {
     const p = spielerListe()[Number(b.dataset.neustart)]; if (!p) return;
-    if (window.confirm(`${p.name} neu anfangen lassen?\n\nAlle Sterne von ${p.name} werden gelöscht. Name, Team und Klasse bleiben.`)) {
+    if (window.confirm(T(`${p.name} neu anfangen lassen?\n\nAlle Sterne von ${p.name} werden gelöscht. Name, Team und Klasse bleiben.`, `Let ${p.name} start again?\n\nAll stars of ${p.name} will be deleted. Name, team and grade stay.`))) {
       spielerZuruecksetzen(p.name); renderWelcome(); openNameModal();
       if (typeof window.wireLevelToolbarNeu === 'function') window.wireLevelToolbarNeu();
-      showToast(`${p.name} fängt neu an – alle Sterne sind gelöscht.`, 'ok');
+      showToast(T(`${p.name} fängt neu an – alle Sterne sind gelöscht.`, `${p.name} starts again – all stars deleted.`), 'ok');
     }
   }));
   overlay.querySelectorAll('[data-umbenennen]').forEach(b => b.addEventListener('click', () => {
     const p = spielerListe()[Number(b.dataset.umbenennen)]; if (!p) return;
-    const neu = window.prompt('Neuer Name:', p.name);
+    const neu = window.prompt(T('Neuer Name:', 'New name:'), p.name);
     if (neu && neu.trim()) { spielerUmbenennen(p.name, neu.trim()); openNameModal(); }
   }));
   overlay.querySelectorAll('[data-loeschen]').forEach(b => b.addEventListener('click', () => {
     const p = spielerListe()[Number(b.dataset.loeschen)]; if (!p) return;
-    if (window.confirm(`${p.name} löschen? Seine Sterne gehen dabei verloren.`)) { spielerLoeschen(p.name); renderWelcome(); openNameModal(); }
+    if (window.confirm(T(`${p.name} löschen? Seine Sterne gehen dabei verloren.`, `Delete ${p.name}? The stars will be lost.`))) { spielerLoeschen(p.name); renderWelcome(); openNameModal(); }
   }));
   const input = overlay.querySelector('#name-input');
   const neuAnlegen = () => {
     const val = normalizePlayerName((input.value || '').trim());
-    if (!val) { input.focus(); input.placeholder = 'Bitte einen Namen eingeben'; return; }
+    if (!val) { input.focus(); input.placeholder = T('Bitte einen Namen eingeben', 'Please enter a name'); return; }
     const sel = overlay.querySelector('#team-picker input[type="radio"]:checked');
-    if (!sel) { const h = overlay.querySelector('#team-wahl-hinweis'); if (h) { h.textContent = '👆 Bitte zuerst ein Team antippen!'; h.style.color = '#b91c1c'; } return; }
+    if (!sel) { const h = overlay.querySelector('#team-wahl-hinweis'); if (h) { h.textContent = T('👆 Bitte zuerst ein Team antippen!', '👆 Please tap a team first!'); h.style.color = '#b91c1c'; } return; }
     const avatar = sel.value;
     const theme = sel ? (sel.dataset.theme || themeForAvatar(avatar)) : THEMES[0];
     setAvatar(avatar); setTheme(theme); setUserName(val);
@@ -1560,11 +1560,11 @@ function openAvatarModal() {
       ${AVATARS.map((src, i) => `
         <button type="button" class="team-karte${src === jetzt ? ' aktiv' : ''}" data-i="${i}">
           <img src="${src}" alt="" width="84" height="84">
-          <span>Team ${TEAM_NAMES[i] || 'Tier'}</span>
-          ${src === jetzt ? '<small>✔ dein Team</small>' : ''}
+          <span>Team ${teamNr(i) || 'Tier'}</span>
+          ${src === jetzt ? `<small>✔ ${T('dein Team', 'your team')}</small>` : ''}
         </button>`).join('')}
     </div>
-    <p class="hint-note">Das Bild im Hintergrund passt zum Team. Ein anderes Bild gibt es im Menü unter „Bild wechseln“.</p>`;
+    <p class="hint-note">${T('Das Bild im Hintergrund passt zum Team. Ein anderes Bild gibt es im Menü unter „Bild wechseln“.', 'The background picture belongs to the team. Another picture: menu → „Change image“.')}</p>`;
   overlay.classList.add('is-visible');
   body.querySelectorAll('.team-karte').forEach(b => b.addEventListener('click', () => {
     const i = Number(b.dataset.i);
@@ -1577,7 +1577,7 @@ function openAvatarModal() {
     renderWelcome();
     document.dispatchEvent(new Event('avatar-theme-updated'));
     overlay.classList.remove('is-visible');
-    showToast(T(`Du spielst jetzt für Team ${TEAM_NAMES[i]}! 🎉`, `You now play for Team ${TEAM_NAMES[i]}! 🎉`), 'ok');
+    showToast(T(`Du spielst jetzt für Team ${teamNr(i)}! 🎉`, `You now play for Team ${teamNr(i)}! 🎉`), 'ok');
   }));
 }
 
@@ -1587,7 +1587,7 @@ function openBackgroundModal() {
   const jetzt = getTheme();
   const { overlay, body } = ensureModal('background-modal', T('Welches Bild möchtest du?', 'Which picture would you like?'));
   if (!body) return;
-  const namen = ['Eis und Schnee', 'Bambuswald', 'Teich', 'Herbstwald', 'Dschungel'];
+  const namen = mmSprache() === 'en' ? ['Ice and snow', 'Bamboo forest', 'Pond', 'Autumn forest', 'Jungle'] : ['Eis und Schnee', 'Bambuswald', 'Teich', 'Herbstwald', 'Dschungel'];
   body.innerHTML = `
     <div class="bild-wahl">
       ${THEMES.map((src, i) => `
@@ -1596,7 +1596,7 @@ function openBackgroundModal() {
           <span>${namen[i] || 'Bild ' + (i + 1)}${src === jetzt ? ' ✔' : ''}</span>
         </button>`).join('')}
     </div>
-    <p class="hint-note">Dein Team bleibt gleich – nur das Bild im Hintergrund wechselt.</p>`;
+    <p class="hint-note">${T('Dein Team bleibt gleich – nur das Bild im Hintergrund wechselt.', 'Your team stays the same – only the background picture changes.')}</p>`;
   overlay.classList.add('is-visible');
   body.querySelectorAll('.bild-karte').forEach(b => b.addEventListener('click', () => {
     const t = THEMES[Number(b.dataset.i)];
@@ -1612,12 +1612,12 @@ function openBackgroundModal() {
 function openHintModal() {
   const lvl = parseCurrentLevel() || '0';
   const hint = (mmSprache() === 'en' ? LEVEL_HINTS_EN : LEVEL_HINTS)[String(lvl)] || T('Kleiner Tipp: erst lesen, dann rechnen.', 'Little tip: read first, then calculate.');
-  const { overlay, body } = ensureModal('hint-modal', 'Hinweis');
+  const { overlay, body } = ensureModal('hint-modal', T('Hinweis', 'Hint'));
   if (!body) return;
   body.innerHTML = `
     <p class="eyebrow">Level ${lvl}</p>
     <p class="hint-body">${hint}</p>
-    <p class="hint-sub">Wenn du festhängst: Schritt für Schritt notieren und Zwischenergebnisse prüfen.</p>
+    <p class="hint-sub">${T('Wenn du festhängst: Schritt für Schritt notieren und Zwischenergebnisse prüfen.', 'If you get stuck: write it down step by step and check each result.')}</p>
   `;
   applyBilingualLabels(overlay);
   overlay.classList.add('is-visible');
