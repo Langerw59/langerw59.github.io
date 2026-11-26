@@ -505,7 +505,8 @@ body.background-only #btnBackgroundOnly { display: none !important; }
    ============================================================ */
 #mmBildUnscharf { position: fixed; inset: -40px; z-index: -1; background-size: cover; background-position: center; pointer-events: none; }
 body { position: relative; }
-.btn-en { display: none !important; }
+body:not(.mm-en) .btn-en { display: none !important; }
+body.mm-en .btn-en { display: block !important; }
 
 .player-bar, .level-info-card, .exercise, .level, .level-toolbar, .summary,
 .attempt-log-wrap, .timer-panel, #levelDetail, details#allLevelsDetails {
@@ -614,3 +615,74 @@ details.erwachsene > summary { cursor: pointer; color: #64748b; font-size: .9em;
 .name-modal.sp-modal .sp-mini { background: #fff !important; color: #0f172a !important; border: 1px solid #dbe3f0 !important; border-radius: 12px !important; padding: 0 12px !important; }
 .name-modal.sp-modal .sp-mini:hover { background: #fef2f2 !important; }
 .name-modal.sp-modal .sp-info { color: #475569; font-weight: 400; }
+
+
+/* ============================================================
+   2026-11-26: neues Design „Bild zuerst“
+   DE: eine schmale Leiste oben, alle Knöpfe im Seitenmenü rechts,
+       kleine Aufgabenkarte in der Mitte – das Bild bleibt sichtbar.
+   RU: тонкая строка сверху, кнопки в выдвижном меню справа,
+       маленькая карточка задания по центру – картинку видно.
+   ============================================================ */
+#header-placeholder { display: none !important; }          /* alte dunkle Kopfleiste weg */
+#welcome { margin: 8px 0 10px; }
+.mm-leiste { display: flex; align-items: center; gap: 10px; padding: 5px 8px 5px 6px; border-radius: 999px;
+  background: rgba(255,255,255,0.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
+.mm-spieler { display: inline-flex; align-items: center; gap: 8px; border: none; background: transparent; cursor: pointer; padding: 0 6px 0 0; color: #0f172a; font-size: 0.95em; font-weight: 700; }
+#welcome .mm-spieler .avatar-img { width: 34px; height: 34px; }
+.mm-spieler small { font-weight: 400; color: #475569; }
+.mm-level-chip { margin: 0 auto; padding: 4px 14px; border-radius: 999px; background: var(--team-accent-soft); border: 1px solid var(--team-accent-border);
+  color: #0f172a; font-size: 0.9em; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 45%; }
+.mm-sterne { font-size: 0.95em; color: #713f12; white-space: nowrap; }
+.mm-menue-knopf { border: 1px solid var(--team-accent-border); background: #fff; color: #0f172a; font-weight: 700; padding: 6px 14px; cursor: pointer; font-size: 0.95em; }
+.mm-menue-knopf:hover { background: var(--team-accent-soft); }
+@media (max-width: 600px) { .mm-spieler small, .mm-level-chip { display: none; } .mm-sterne { margin-left: auto; } }
+
+/* das Seitenmenü */
+#mm-menue-schatten { position: fixed; inset: 0; background: rgba(0,0,0,0.18); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 99998; }
+#mm-menue-schatten.offen { opacity: 1; pointer-events: auto; }
+#mm-menue { position: fixed; top: 0; right: 0; bottom: 0; width: min(320px, 88vw); z-index: 99999; overflow-y: auto;
+  background: rgba(255,255,255,0.96); box-shadow: -8px 0 30px rgba(0,0,0,0.2); padding: 10px 14px 20px;
+  transform: translateX(105%); transition: transform .22s ease; font-size: 16px; color: #0f172a; }
+#mm-menue.offen { transform: translateX(0); }
+.mm-menue-kopf { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 1.1em; }
+.mm-zu { border: none; background: #f1f5f9; width: 34px; height: 34px; cursor: pointer; font-size: 1em; }
+.mm-gruppe { border-top: 1px solid #e2e8f0; padding: 8px 0; display: grid; gap: 4px; }
+.mm-gruppe-titel { font-size: 0.8em; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 2px; cursor: default; }
+details.mm-gruppe > summary.mm-gruppe-titel { cursor: pointer; }
+.mm-eintrag, .mm-level { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; border: none; background: transparent;
+  border-radius: 10px !important; padding: 8px 10px; cursor: pointer; color: #0f172a; font-size: 1em; font-weight: 600; }
+.mm-eintrag:hover, .mm-level:hover { background: var(--team-accent-soft); }
+.mm-eintrag .btn-label { align-items: flex-start; }
+.mm-level.aktiv { background: var(--team-accent-soft); outline: 2px solid var(--team-accent-border); }
+.mm-level-nr { flex: 0 0 26px; height: 26px; border-radius: 50%; background: var(--team-accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: .85em; }
+.mm-level-name { flex: 1; font-weight: 600; font-size: .95em; }
+.mm-level-sterne { font-size: .8em; white-space: nowrap; }
+.mm-schalter { display: flex; gap: 8px; align-items: center; padding: 6px 10px; font-size: .95em; cursor: pointer; }
+body.background-only #mm-menue, body.background-only #mm-menue-schatten { display: none; }
+
+/* Startseite: kleine Karte in der Mitte */
+.mm-startkarte { max-width: 420px; margin: 12vh auto 0; text-align: center; padding: 16px 20px !important; border-radius: 18px;
+  background: rgba(255,255,255,0.72) !important; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
+.mm-startkarte .mm-hallo { margin: 0; color: #475569; font-size: .95em; }
+.mm-startkarte h3 { margin: 4px 0 2px; font-size: 1.35em; }
+.mm-startkarte #levelDetailDesc { margin: 0 0 12px; color: #334155; font-size: .95em; }
+.mm-startkarte #levelStartBtn { width: auto; min-width: 200px; padding: 10px 26px; font-size: 1.1em; margin: 0; }
+.mm-link-knopf { display: block; margin: 10px auto 0; border: none; background: none; color: #1e3a8a; text-decoration: underline; cursor: pointer; font-size: .9em; }
+#allLevelsDetails { display: none; }
+body.mm-lehrer-sicht #allLevelsDetails { display: block; margin-top: 16px; }
+
+/* Level-Seite: Titelkarte weg (der Titel steht in der Leiste), Aufgabe schmal und mittig */
+.level-info-card { display: none !important; }
+#mmRennbahn { max-width: 620px; margin-left: auto !important; margin-right: auto !important; padding-top: 4px !important; padding-bottom: 4px !important; }
+#tasks { max-width: 620px; margin: 0 auto; }
+#tasks .exercise { text-align: center; }
+#tasks .exercise .row, #tasks .exercise .actions, #tasks .exercise .lives-row { justify-content: center; }
+#tasks .exercise .meta { display: none; }
+#tasks .slide-nav { justify-content: center; }
+#tasks > .btn-secondary.pill { display: block; margin: 0 auto 8px; }
+#attemptTableWrap { display: none; }
+body.mm-uebersicht #attemptTableWrap { display: block; max-width: 760px; margin: 16px auto; }
+.level-toolbar[hidden] { display: none !important; }

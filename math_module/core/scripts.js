@@ -856,30 +856,22 @@ function renderWelcome() {
   setTheme(theme);
   applyTheme(theme);
   const teamName = teamNameForAvatar(avatar);
+  // 2026-11-26: neues Design – eine schmale Leiste oben, alle Knöpfe im Seitenmenü rechts
+  // RU: одна тонкая строка сверху, все кнопки – в выдвижном меню справа
+  const lvlNow = parseCurrentLevel();
+  const lvlTitel = lvlNow !== null ? mmLevelTitel(lvlNow) : 'Mathe-Spaß';
   target.innerHTML = `
-    <div class=\"welcome-row player-bar\">
-      <button type=\"button\" class=\"avatar-chip\" id=\"avatar-open\">
-        <img class=\"avatar-img\" src=\"${avatar}\" alt=\"Avatar\" width=\"48\" height=\"48\" />
-        <div class=\"welcome-copy\">
-          <span class=\"welcome-text\">Das Spiel für Team ${teamName}</span>
-          <div class=\"welcome-meta\"><small>Spieler: ${name}</small></div>
-        </div>
+    <div class="mm-leiste">
+      <button type="button" class="mm-spieler" id="avatar-open" title="Tier und Bild wählen">
+        <img class="avatar-img" src="${avatar}" alt="Avatar" width="34" height="34" />
+        <span class="mm-spieler-name">${escapeHtml(name)} <small>· Team ${teamName}</small></span>
       </button>
-      <div class=\"welcome-actions\">
-        <button class=\"linklike\" id=\"change-name\" data-de=\"👥 Spieler wechseln\" data-en=\"Players\">👥 Spieler wechseln</button>
-        <button class=\"linklike\" id=\"hint-open\" data-de=\"Hinweis\" data-en=\"Hint\">Hinweis</button>
-        <button class=\"linklike\" id=\"bg-open\" data-de=\"Bild wechseln\" data-en=\"Change image\">Bild wechseln</button>
-        <button class=\"linklike\" id=\"btnBackgroundOnly\" data-de=\"Nur Hintergrund\" data-en=\"Background only\">Nur Hintergrund</button>
-        <button class=\"linklike\" id=\"open-level-results\" data-de=\"Auswertung\" data-en=\"Evaluation\">Auswertung</button>
-      </div>
-      <div class=\"bonus-widget sterne-widget\" id=\"sterne-widget\" title=\"Alle Sterne aus allen Levels\">
-        <div class=\"bonus-kicker\">Meine Sterne</div>
-        <div class=\"sterne-zahl\">⭐ <strong id=\"sterne-summe\">0</strong></div>
-        <div class=\"bonus-points\">von <span id=\"sterne-max\">21</span></div>
-</div>
-      </div>
+      <span class="mm-level-chip" title="Aktuelles Level">${escapeHtml(lvlTitel)}</span>
+      <span class="mm-sterne" id="sterne-widget" title="Alle Sterne aus allen Levels">⭐ <strong id="sterne-summe">0</strong>&nbsp;/&nbsp;<span id="sterne-max">21</span></span>
+      <button type="button" class="mm-menue-knopf" id="mm-menue-auf" aria-expanded="false" aria-controls="mm-menue">☰ Menü</button>
     </div>
   `;
+  mmMenueAufbauen(name);
   applyBilingualLabels(target);
   renderBonusJar(false);
   sterneSummeZeigen();
@@ -933,6 +925,132 @@ function renderWelcome() {
     ];
     openModal('results-modal', 'Auswertung', renderResultTable(rows));
   };
+}
+
+// ===========================
+// 2026-11-26: das Seitenmenü (rechts) – RU: выдвижное меню справа
+// ===========================
+const ENGLISCH_KEY = 'math_module_englisch_v1';
+const UEBERSICHT_KEY = 'math_module_uebersicht_v1';
+function mmLevelListe() {
+  try { const l = JSON.parse(localStorage.getItem('math_module_levels_cache') || '[]'); if (Array.isArray(l) && l.length) return l; } catch (e) {}
+  return [0, 1, 2, 3, 4, 5, 6].map(i => ({ level: i, title: `Level ${i}`, description: '' }));
+}
+function mmLevelTitel(id) {
+  const l = mmLevelListe().find(x => String(x.level ?? x.id) === String(id));
+  return l ? l.title : `Level ${id}`;
+}
+function mmLevelStarten(id) {
+  resetRun(String(id));
+  window.location.href = `${MODULE_ROOT}/levels/level${id}.html`;
+}
+function mmSchalterAnwenden() {
+  document.body.classList.toggle('mm-en', localStorage.getItem(ENGLISCH_KEY) === '1');
+  document.body.classList.toggle('mm-uebersicht', localStorage.getItem(UEBERSICHT_KEY) === '1');
+}
+function mmMenueZu() {
+  const m = document.getElementById('mm-menue');
+  if (m) m.classList.remove('offen');
+  const sch = document.getElementById('mm-menue-schatten');
+  if (sch) sch.classList.remove('offen');
+  const k = document.getElementById('mm-menue-auf');
+  if (k) k.setAttribute('aria-expanded', 'false');
+}
+function mmMenueAuf() {
+  const m = document.getElementById('mm-menue');
+  if (!m) return;
+  mmLevelKnoepfe();
+  m.classList.add('offen');
+  const sch = document.getElementById('mm-menue-schatten');
+  if (sch) sch.classList.add('offen');
+  const k = document.getElementById('mm-menue-auf');
+  if (k) k.setAttribute('aria-expanded', 'true');
+}
+function mmLevelKnoepfe() {
+  const host = document.getElementById('mm-level-liste');
+  if (!host) return;
+  const aktuell = parseCurrentLevel();
+  host.innerHTML = mmLevelListe().map(l => {
+    const id = String(l.level ?? l.id);
+    const titel = String(l.title || `Level ${id}`).replace(/^Level\s*\d+\s*[–-]\s*/, '');
+    return `<button type="button" class="mm-level${id === String(aktuell) ? ' aktiv' : ''}" data-level="${id}">
+      <span class="mm-level-nr">${id}</span><span class="mm-level-name">${escapeHtml(titel)}</span><span class="mm-level-sterne">${sternText(sterneFuer(id))}</span></button>`;
+  }).join('');
+  host.querySelectorAll('.mm-level').forEach(b => b.addEventListener('click', () => mmLevelStarten(b.dataset.level)));
+}
+function mmMenueAufbauen() {
+  let m = document.getElementById('mm-menue');
+  if (m) m.remove();
+  let sch = document.getElementById('mm-menue-schatten');
+  if (!sch) {
+    sch = document.createElement('div');
+    sch.id = 'mm-menue-schatten';
+    sch.addEventListener('click', mmMenueZu);
+    document.body.appendChild(sch);
+  }
+  m = document.createElement('aside');
+  m.id = 'mm-menue';
+  m.setAttribute('aria-label', 'Menü');
+  m.innerHTML = `
+    <div class="mm-menue-kopf"><strong>Menü</strong><button type="button" class="mm-zu" id="mm-menue-zu" aria-label="Menü schließen">✕</button></div>
+    <div class="mm-gruppe"><div class="mm-gruppe-titel">Level wählen</div><div id="mm-level-liste"></div></div>
+    <div class="mm-gruppe">
+      <div class="mm-gruppe-titel">Spiel</div>
+      <button type="button" class="mm-eintrag" id="change-name" data-de="👥 Spieler wechseln" data-en="Players">👥 Spieler wechseln</button>
+      <button type="button" class="mm-eintrag" id="hint-open" data-de="💡 Hinweis" data-en="Hint">💡 Hinweis</button>
+      <button type="button" class="mm-eintrag" id="bg-open" data-de="🖼️ Bild wechseln" data-en="Change image">🖼️ Bild wechseln</button>
+      <button type="button" class="mm-eintrag" id="btnBackgroundOnly" data-de="👀 Nur Hintergrund" data-en="Background only">👀 Nur Hintergrund</button>
+      <button type="button" class="mm-eintrag" id="open-level-results" data-de="📊 Auswertung" data-en="Evaluation">📊 Auswertung</button>
+      <button type="button" class="mm-eintrag" id="mm-startseite" data-de="🏠 Mathe-Start" data-en="Start page">🏠 Mathe-Start</button>
+      <button type="button" class="mm-eintrag" id="mm-beenden" data-de="🚪 Spiel beenden" data-en="End game">🚪 Spiel beenden</button>
+    </div>
+    <details class="mm-gruppe mm-lehrer">
+      <summary class="mm-gruppe-titel">🔒 Für Lehrer</summary>
+      <button type="button" class="mm-eintrag" id="mm-alle-level">📋 Alle Level (Übersicht)</button>
+      <label class="mm-schalter"><input type="checkbox" id="mm-uebersicht"> Aufgaben-Übersicht (Tabelle) zeigen</label>
+      <label class="mm-schalter"><input type="checkbox" id="mm-englisch"> Englisch anzeigen</label>
+    </details>`;
+  document.body.appendChild(m);
+  applyBilingualLabels(m);
+  mmSchalterAnwenden();
+  const auf = document.getElementById('mm-menue-auf');
+  if (auf) auf.onclick = () => (m.classList.contains('offen') ? mmMenueZu() : mmMenueAuf());
+  m.querySelector('#mm-menue-zu').onclick = mmMenueZu;
+  // nach jedem Knopf (außer Schaltern) das Menü schließen, damit das Bild frei ist
+  m.querySelectorAll('.mm-eintrag').forEach(b => b.addEventListener('click', () => setTimeout(mmMenueZu, 0)));
+  m.querySelector('#mm-startseite').onclick = () => { window.location.href = `${MODULE_ROOT}/index.html`; };
+  m.querySelector('#mm-beenden').onclick = () => {
+    if (!window.confirm('Spiel wirklich beenden?')) return;
+    resetGameState();
+    window.location.href = `${MODULE_ROOT}/index.html`;
+  };
+  m.querySelector('#mm-alle-level').onclick = () => {
+    if (parseCurrentLevel() !== null) { window.location.href = `${MODULE_ROOT}/index.html?lehrer=1`; return; }
+    document.body.classList.add('mm-lehrer-sicht');
+    const d = document.getElementById('allLevelsDetails');
+    if (d) { d.open = true; d.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  };
+  const en = m.querySelector('#mm-englisch');
+  en.checked = localStorage.getItem(ENGLISCH_KEY) === '1';
+  en.onchange = () => { localStorage.setItem(ENGLISCH_KEY, en.checked ? '1' : '0'); mmSchalterAnwenden(); };
+  const ue = m.querySelector('#mm-uebersicht');
+  ue.checked = localStorage.getItem(UEBERSICHT_KEY) === '1';
+  ue.onchange = () => { localStorage.setItem(UEBERSICHT_KEY, ue.checked ? '1' : '0'); mmSchalterAnwenden(); };
+  if (!window.mmEscGebunden) {
+    document.addEventListener('keydown', ev => { if (ev.key === 'Escape') mmMenueZu(); });
+    window.mmEscGebunden = true;
+  }
+  mmLevelKnoepfe();
+  // Level-Namen noch nicht im Speicher? → einmal aus levels.json holen
+  if (!localStorage.getItem('math_module_levels_cache')) {
+    fetch(`${MODULE_ROOT}/data/levels.json`).then(r => r.json()).then(levels => {
+      try { localStorage.setItem('math_module_levels_cache', JSON.stringify(levels)); } catch (e) {}
+      mmLevelKnoepfe();
+      const chip = document.querySelector('.mm-level-chip');
+      const lv = parseCurrentLevel();
+      if (chip && lv !== null) chip.textContent = mmLevelTitel(lv);
+    }).catch(() => {});
+  }
 }
 
 function openNameModal() {
@@ -1264,102 +1382,87 @@ function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// 2026-11-26: der Zufallsgenerator – bei jedem Start neue Aufgaben.
+// Die letzten 30 Aufgaben pro Level werden gemerkt und nicht wiederholt.
+// RU: генератор – каждый раз новые задания, последние 30 не повторяются
+const VERLAUF_KEY = 'math_module_verlauf_v1';
+const AUFGABEN_PRO_RUNDE = 5;
+const TIERE_TEXT = ['der Frosch', 'der Panda', 'der Pinguin', 'das Eichhörnchen', 'der Tiger'];
+function verlaufLaden() { try { return JSON.parse(localStorage.getItem(VERLAUF_KEY) || '{}') || {}; } catch (e) { return {}; } }
+function verlaufSpeichern(v) { try { localStorage.setItem(VERLAUF_KEY, JSON.stringify(v)); } catch (e) {} }
+
+// eine einzelne Zufallsaufgabe für das Level: { text, answer, solution }
+function zufallsAufgabe(levelId) {
+  const r = randInt;
+  const tier = () => TIERE_TEXT[r(0, TIERE_TEXT.length - 1)];
+  const gross = t => t.charAt(0).toUpperCase() + t.slice(1);
+  switch (String(levelId)) {
+    case '0': { // plus und minus bis 10, manchmal „Ergänze auf 10“
+      const art = r(1, 6);
+      if (art === 1) { const a = r(1, 9); return { text: `Ergänze: ${a} + ? = 10`, answer: 10 - a, solution: `${a} + ${10 - a} = 10.` }; }
+      if (art === 2) { const a = r(1, 5), b = r(1, 10 - a); return { text: `${gross(tier())} hat ${a} Äpfel und findet ${b} dazu. Wie viele Äpfel sind es?`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
+      if (art <= 4) { const a = r(1, 9), b = r(1, 10 - a); return { text: `Rechne: ${a} + ${b} =`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
+      const a = r(2, 10), b = r(1, a); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
+    }
+    case '1': { // plus bis 20
+      const art = r(1, 6);
+      if (art === 1) { const a = r(3, 15), s = r(a + 1, 20); return { text: `Ergänze: ${a} + ? = ${s}`, answer: s - a, solution: `${a} + ${s - a} = ${s}.` }; }
+      if (art === 2) { const a = r(4, 12), b = r(2, 20 - a); return { text: `${gross(tier())} sammelt ${a} Nüsse und dann noch ${b}. Wie viele Nüsse sind es?`, answer: a + b, solution: `${a} + ${b} = ${a + b}.` }; }
+      const a = r(5, 15), b = r(1, 20 - a); return { text: `Rechne: ${a} + ${b} =`, answer: a + b, solution: `${a} + ${b} = ${a + b}. Tipp: zuerst bis 10 auffüllen.` };
+    }
+    case '2': { // minus bis 20
+      const art = r(1, 6);
+      if (art === 1) { const a = r(10, 20), d = r(1, a - 1); return { text: `Ergänze: ${a} - ? = ${d}`, answer: a - d, solution: `${a} - ${a - d} = ${d}.` }; }
+      if (art === 2) { const a = r(8, 20), b = r(1, a - 1); return { text: `${gross(tier())} hat ${a} Fische und frisst ${b}. Wie viele Fische bleiben?`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` }; }
+      const a = r(8, 20), b = r(1, a); return { text: `Rechne: ${a} - ${b} =`, answer: a - b, solution: `${a} - ${b} = ${a - b}.` };
+    }
+    case '3': { // das Einmaleins
+      const a = r(2, 10), b = r(2, 10);
+      if (r(1, 5) === 1) return { text: `${gross(tier())} hat ${a} Körbe mit je ${b} Beeren. Wie viele Beeren sind es?`, answer: a * b, solution: `${a} · ${b} = ${a * b}.` };
+      return { text: `Rechne: ${a} · ${b} =`, answer: a * b, solution: `${a} · ${b} = ${a * b}.` };
+    }
+    case '4': { // geteilt ohne Rest
+      const a = r(2, 10), b = r(2, 10), d = a * b;
+      if (r(1, 5) === 1) return { text: `${d} Bonbons werden an ${a} Kinder verteilt. Wie viele bekommt jedes Kind?`, answer: b, solution: `${d} : ${a} = ${b}, denn ${a} · ${b} = ${d}.` };
+      return { text: `Rechne: ${d} : ${a} =`, answer: b, solution: `${d} : ${a} = ${b}, denn ${a} · ${b} = ${d}.` };
+    }
+    case '5': { // zwei Schritte plus und minus
+      const a = r(5, 20), b = r(1, 10), c = r(1, a + b);
+      if (r(1, 2) === 1) return { text: `Rechne: ${a} + ${b} - ${c} =`, answer: a + b - c, solution: `${a} + ${b} = ${a + b}, dann ${a + b} - ${c} = ${a + b - c}.` };
+      const c2 = r(1, a - 1), d = r(1, 10);
+      return { text: `Rechne: ${a} - ${c2} + ${d} =`, answer: a - c2 + d, solution: `${a} - ${c2} = ${a - c2}, dann ${a - c2} + ${d} = ${a - c2 + d}.` };
+    }
+    case '6': { // mal und geteilt gemischt, Punkt vor Strich
+      const art = r(1, 3);
+      if (art === 1) { const a = r(2, 9), b = r(2, 9), c = r(1, 20); return { text: `Rechne: ${a} · ${b} + ${c} =`, answer: a * b + c, solution: `Punkt vor Strich: ${a} · ${b} = ${a * b}, dann + ${c} = ${a * b + c}.` }; }
+      if (art === 2) { const a = r(2, 9), b = r(2, 9), c = r(1, 30); return { text: `Rechne: ${c} + ${a * b} : ${a} =`, answer: c + b, solution: `Punkt vor Strich: ${a * b} : ${a} = ${b}, dann ${c} + ${b} = ${c + b}.` }; }
+      const a = r(2, 9), b = r(2, 9), c = r(2, 6);
+      if ((a * b) % c !== 0) return null;
+      return { text: `Rechne: ${a} · ${b} : ${c} =`, answer: (a * b) / c, solution: `${a} · ${b} = ${a * b}, dann ${a * b} : ${c} = ${(a * b) / c}.` };
+    }
+    default: return null;
+  }
+}
+
 function generateTasksForLevel(levelId) {
+  const id = String(levelId);
+  const verlauf = verlaufLaden();
+  const alt = new Set(verlauf[id] || []);
   const tasks = [];
   const seen = new Set();
-
-  const addTask = (text, answer, points, solution) => {
-    if (seen.has(text)) return false;
-    seen.add(text);
+  let versuche = 0;
+  while (tasks.length < AUFGABEN_PRO_RUNDE && versuche < 500) {
+    versuche += 1;
+    const t = zufallsAufgabe(id);
+    if (!t) continue;
+    if (seen.has(t.text)) continue;
+    if (alt.has(t.text) && versuche < 400) continue; // zuletzt gehabt → überspringen
+    seen.add(t.text);
     const slide = tasks.length + 1;
-    tasks.push({
-      id: `gen-${levelId}-${Date.now()}-${slide}`,
-      slide,
-      text,
-      answer: String(answer),
-      points,
-      solution,
-    });
-    return true;
-  };
-
-  const need = 5;
-  while (tasks.length < need) {
-    switch (String(levelId)) {
-      case '0': {
-        const a = randInt(0, 10);
-        const b = randInt(0, 10);
-        const op = Math.random() < 0.5 ? '+' : '-';
-        const res = op === '+' ? a + b : a - b;
-        if (op === '-' && res < 0) continue;
-        const text = `Rechne: ${a} ${op} ${b} =`;
-        const pts = res <= 10 ? 1 : 2;
-        addTask(text, res, pts, `${a} ${op} ${b} = ${res}.`);
-        break;
-      }
-      case '1': {
-        const a = randInt(5, 15);
-        const b = randInt(1, 10);
-        const res = a + b;
-        if (res > 20) continue;
-        const text = `Addiere: ${a} + ${b} =`;
-        const pts = res > 15 ? 2 : 1;
-        addTask(text, res, pts, `${a} + ${b} = ${res}.`);
-        break;
-      }
-      case '2': {
-        const a = randInt(8, 20);
-        const b = randInt(1, a);
-        const res = a - b;
-        const text = `Subtrahiere: ${a} - ${b} =`;
-        const pts = res < 8 ? 1 : 2;
-        addTask(text, res, pts, `${a} - ${b} = ${res}.`);
-        break;
-      }
-      case '3': {
-        const a = randInt(2, 10);
-        const b = randInt(2, 10);
-        const res = a * b;
-        const text = `Multipliziere: ${a} · ${b} =`;
-        const pts = res > 50 ? 3 : 2;
-        addTask(text, res, pts, `${a}·${b}=${res}.`);
-        break;
-      }
-      case '4': {
-        const a = randInt(2, 10);
-        const b = randInt(2, 10);
-        const res = b;
-        const dividend = a * b;
-        const text = `Dividiere: ${dividend} ÷ ${a} =`;
-        const pts = dividend > 50 ? 3 : 2;
-        addTask(text, res, pts, `${dividend}÷${a}=${res}.`);
-        break;
-      }
-      case '5': {
-        const a = randInt(5, 20);
-        const b = randInt(1, 10);
-        const c = randInt(1, 10);
-        const res = a + b - c;
-        const text = `Kombiniert: ${a} + ${b} - ${c} =`;
-        const pts = Math.abs(res - a) > 5 ? 3 : 2;
-        addTask(text, res, pts, `${a}+${b}-${c}=${res}.`);
-        break;
-      }
-      case '6': {
-        const a = randInt(2, 9);
-        const b = randInt(2, 9);
-        const c = randInt(2, 6);
-        const res = (a * b) / c;
-        if (!Number.isInteger(res)) continue;
-        const text = `Gemischt: ${a} · ${b} ÷ ${c} =`;
-        const pts = res >= 15 ? 3 : 2;
-        addTask(text, res, pts, `${a}·${b}=${a * b}, ÷${c}=${res}.`);
-        break;
-      }
-      default:
-        addTask('Placeholder', '0', 1, '—');
-    }
+    tasks.push({ id: `gen-${id}-${Date.now()}-${slide}`, slide, text: t.text, answer: String(t.answer), points: 3, solution: t.solution });
   }
+  verlauf[id] = [...(verlauf[id] || []), ...tasks.map(t => t.text)].slice(-30);
+  verlaufSpeichern(verlauf);
   return tasks;
 }
 
@@ -1831,9 +1934,13 @@ function renderTasksForCurrentLevel() {
     timerInterval = null;
   }
 
+  // 2026-11-26: bei jedem Start neue Zufallsaufgaben (tasks.json nur noch als Notlösung)
   const getTasks = () => {
-    if (generatedStore[levelId]) {
-      return Promise.resolve(generatedStore[levelId]);
+    const neu = generateTasksForLevel(levelId);
+    if (neu.length) {
+      generatedStore[levelId] = neu;
+      saveGeneratedStore(generatedStore);
+      return Promise.resolve(neu);
     }
     return fetch(`${MODULE_ROOT}/data/tasks.json`).then(res => {
       if (!res.ok) {
@@ -2533,6 +2640,18 @@ function wireResetButton() {
 // EN: Initialize everything after DOM load
 // RU: Ð˜Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¿Ð¾ÑÐ»Ðµ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ DOM
 window.addEventListener('DOMContentLoaded', () => {
+  // 2026-11-26: Startkarte und Lehrer-Ansicht
+  const anderesLevel = document.getElementById('mm-anderes-level');
+  if (anderesLevel) anderesLevel.addEventListener('click', () => mmMenueAuf());
+  const hallo = document.getElementById('mm-hallo');
+  const halloSetzen = () => { const n = getUserName(); if (hallo && n) hallo.textContent = `Hallo ${n}! Los geht's mit:`; };
+  halloSetzen();
+  document.addEventListener('ll-game-activated', () => { halloSetzen(); renderWelcome(); });
+  if (new URLSearchParams(window.location.search).get('lehrer') === '1') {
+    document.body.classList.add('mm-lehrer-sicht');
+    const d = document.getElementById('allLevelsDetails');
+    if (d) d.open = true;
+  }
   initBackgroundOnly();
   initWelcomeEnterHandler();
   applyBilingualLabels(document);
