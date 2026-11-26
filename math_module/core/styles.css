@@ -711,3 +711,25 @@ body.mm-uebersicht #attemptTableWrap { display: block; max-width: 760px; margin:
 .sp-klasse { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-weight: 700; margin: 6px 0; }
 .sp-klasse select { font-size: 1em; padding: 6px 10px; border-radius: 10px; border: 1px solid #cbd5e1; }
 #mm-naechstes-level { font-size: 1.15em !important; padding: 12px 22px !important; }
+
+/* 2026-11-26: Sterne in Dritteln, Jubel, Ergebnis-Tabelle */
+.st-reihe { display: inline-flex; gap: 1px; vertical-align: middle; }
+.st { font-size: 1.1em; line-height: 1; background: linear-gradient(90deg, #f5b301 var(--f), #cbd5e1 var(--f)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sterne-gross { text-align: center; }
+.sterne-gross .st { font-size: 1.9em; }
+#level-end-modal .modal-window { width: min(900px, 95vw); max-width: 900px; }
+.mm-level-sterne .st { font-size: 1.05em; }
+.sterne-zahl-ende { text-align: center; margin: 0; font-weight: 700; color: #854d0e; }
+.pokal { text-align: center; font-size: 3em; animation: mmHuepf 1s ease 2; }
+.ende-grid { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(260px, 1.3fr); gap: 16px; align-items: start; }
+@media (max-width: 700px) { .ende-grid { grid-template-columns: 1fr; } }
+.ende-rechts h4 { margin: 0 0 6px; }
+.kind-tabelle { width: 100%; border-collapse: collapse; font-size: .9em; }
+.kind-tabelle th, .kind-tabelle td { padding: 5px 6px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+.kind-tabelle tr.ok td:nth-child(3) { color: #15803d; font-weight: 700; }
+.kind-tabelle tr.nein td:nth-child(3) { color: #b91c1c; font-weight: 700; }
+.kind-tabelle td:last-child, .kind-tabelle th:last-child { text-align: center; }
+.kind-regel { font-size: .78em; color: #64748b; margin: 6px 0 0; }
+.sterne-regen { position: fixed; inset: 0; pointer-events: none; z-index: 100001; overflow: hidden; }
+.sterne-regen span { position: absolute; top: -50px; animation-name: sternFall; animation-timing-function: linear; animation-fill-mode: forwards; }
+@keyframes sternFall { 0% { transform: translateY(0) rotate(0); opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }

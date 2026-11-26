@@ -487,10 +487,82 @@ function sterneSummeZeigen() {
   const el = document.getElementById('sterne-summe');
   if (!el) return;
   const meine = sterneAlle()[sterneSpieler()] || {};
-  el.textContent = String(Object.values(meine).reduce((a, b) => a + (Number(b) || 0), 0));
+  el.textContent = bruchText(Object.values(meine).reduce((a, b) => a + (Number(b) || 0), 0));
 }
 function sterneAusProzent(p) { return p >= 90 ? 3 : p >= 70 ? 2 : p >= 40 ? 1 : 0; }
-function sternText(n) { return '⭐'.repeat(n) + '☆'.repeat(3 - n); }
+// 2026-11-26: Sterne in Dritteln (z. B. 2⅔) – Punkte je Aufgabe: 1. Versuch 3, 2. Versuch 2, 3. Versuch 1
+// RU: звёзды по третям: с 1-й попытки 3 очка, со 2-й – 2, с 3-й – 1
+function sternText(n) { const v = Math.round((Number(n) || 0)); return '⭐'.repeat(Math.min(3, v)) + '☆'.repeat(Math.max(0, 3 - v)); }
+function bruchText(x) {
+  const d = Math.round((Number(x) || 0) * 3); const g = Math.floor(d / 3), r = d % 3;
+  return (g || !r ? String(g) : '') + (r === 1 ? '⅓' : r === 2 ? '⅔' : '');
+}
+function sterneHTML(n) {
+  return '<span class="st-reihe" title="' + bruchText(n) + ' von 3 Sternen">' + [0, 1, 2].map(i => {
+    const f = Math.max(0, Math.min(1, (Number(n) || 0) - i));
+    return `<span class="st" style="--f:${Math.round(f * 100)}%">★</span>`;
+  }).join('') + '</span>';
+}
+function sterneSprechen(x) {
+  const d = Math.round(x * 3); const g = Math.floor(d / 3), r = d % 3;
+  const teil = r === 1 ? 'ein Drittel' : r === 2 ? 'zwei Drittel' : '';
+  if (!g && teil) return `${teil} Stern`;
+  if (!teil) return g === 1 ? 'einen Stern' : `${g} Sterne`;
+  return `${g} und ${teil} Sterne`;
+}
+
+// 2026-11-26: Ton und Sprache – RU: звуки и озвучка
+const TON_KEY = 'math_module_ton_v1';
+function tonAn() { return localStorage.getItem(TON_KEY) !== '0'; }
+let mmAudio = null;
+function mmTon(noten) { // [frequenz, start, dauer, wellenform]
+  if (!tonAn()) return;
+  try {
+    mmAudio = mmAudio || new (window.AudioContext || window.webkitAudioContext)();
+    if (mmAudio.state === 'suspended') mmAudio.resume();
+    const t0 = mmAudio.currentTime + 0.02;
+    noten.forEach(([f, st, d, typ]) => {
+      const o = mmAudio.createOscillator(); const g = mmAudio.createGain();
+      o.type = typ || 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t0 + st);
+      g.gain.exponentialRampToValueAtTime(0.22, t0 + st + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + st + d);
+      o.connect(g); g.connect(mmAudio.destination);
+      o.start(t0 + st); o.stop(t0 + st + d + 0.05);
+    });
+  } catch (e) { /* ohne Ton weiter */ }
+}
+function tonRichtig() { mmTon([[660, 0, 0.15], [880, 0.12, 0.3]]); }
+function tonFalsch() { mmTon([[260, 0, 0.22, 'triangle'], [200, 0.18, 0.3, 'triangle']]); }
+function tonFanfare() { mmTon([[523, 0, 0.16, 'triangle'], [659, 0.16, 0.16, 'triangle'], [784, 0.32, 0.16, 'triangle'], [1047, 0.5, 0.7, 'triangle'], [784, 0.5, 0.7, 'sine'], [659, 0.5, 0.7, 'sine']]); }
+function tonSanft() { mmTon([[523, 0, 0.2], [659, 0.2, 0.35]]); }
+function sprechen(text) {
+  if (!tonAn() || !('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'de-DE'; u.rate = 0.95; u.pitch = 1.1;
+    const st = window.speechSynthesis.getVoices().find(v => /^de/i.test(v.lang));
+    if (st) u.voice = st;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+// Sterne fallen vom Himmel – RU: падающие звёздочки
+function sterneRegen(anzahl = 40) {
+  const box = document.createElement('div');
+  box.className = 'sterne-regen';
+  for (let i = 0; i < anzahl; i += 1) {
+    const s = document.createElement('span');
+    s.textContent = ['⭐', '🌟', '✨', '🎉'][i % 4];
+    s.style.left = `${Math.random() * 100}%`;
+    s.style.animationDelay = `${Math.random() * 1.5}s`;
+    s.style.animationDuration = `${2.2 + Math.random() * 1.8}s`;
+    s.style.fontSize = `${18 + Math.random() * 26}px`;
+    box.appendChild(s);
+  }
+  document.body.appendChild(box);
+  setTimeout(() => box.remove(), 5000);
+}
 
 function zwanzigerfeld(text) {
   const m = String(text).match(/(\d+)\s*([+\-])\s*(\d+|\?)\s*=\s*(\d+)?/);
@@ -969,7 +1041,7 @@ const ENGLISCH_KEY = 'math_module_englisch_v1';
 const UEBERSICHT_KEY = 'math_module_uebersicht_v1';
 function mmLevelListe() {
   try { const l = JSON.parse(localStorage.getItem('math_module_levels_cache') || '[]'); if (Array.isArray(l) && l.length) return l; } catch (e) {}
-  return [0, 1, 2, 3, 4, 5, 6].map(i => ({ level: i, title: `Level ${i}`, description: '' }));
+  return [...Array(12).keys()].map(i => ({ level: i, klasse: Math.floor(i / 3) + 1, title: `Level ${i}`, description: '' }));
 }
 function mmLevelTitel(id) {
   const l = mmLevelListe().find(x => String(x.level ?? x.id) === String(id));
@@ -1015,7 +1087,7 @@ function mmLevelKnoepfe() {
       const id = String(l.level ?? l.id);
       const titel = String(l.title || `Level ${id}`).replace(/^Level\s*\d+\s*[–-]\s*/, '');
       return `<button type="button" class="mm-level${id === String(aktuell) ? ' aktiv' : ''}" data-level="${id}">
-        <span class="mm-level-nr">${id}</span><span class="mm-level-name">${escapeHtml(titel)}</span><span class="mm-level-sterne">${sternText(sterneFuer(id))}</span></button>`;
+        <span class="mm-level-nr">${id}</span><span class="mm-level-name">${escapeHtml(titel)}</span><span class="mm-level-sterne">${sterneHTML(sterneFuer(id))}</span></button>`;
     }).join('');
     const kopf = Number(k) ? `${k}. Klasse${istMeine ? ' <span class="mm-meine">deine Klasse</span>' : ''}` : 'Level';
     return `<div class="mm-klassen-gruppe${istMeine ? ' meine' : ''}"><div class="mm-klasse-kopf">${kopf}</div>${knoepfe}</div>`;
@@ -1072,6 +1144,7 @@ function mmMenueAufbauen() {
       <button type="button" class="mm-eintrag" id="bg-open" data-de="🖼️ Bild wechseln" data-en="Change image">🖼️ Bild wechseln</button>
       <button type="button" class="mm-eintrag" id="btnBackgroundOnly" data-de="👀 Nur Hintergrund" data-en="Background only">👀 Nur Hintergrund</button>
       <button type="button" class="mm-eintrag" id="open-level-results" data-de="📊 Auswertung" data-en="Evaluation">📊 Auswertung</button>
+      <label class="mm-schalter"><input type="checkbox" id="mm-ton"> 🔊 Ton und Sprache</label>
       <button type="button" class="mm-eintrag" id="mm-startseite" data-de="🏠 Mathe-Start" data-en="Start page">🏠 Mathe-Start</button>
       <button type="button" class="mm-eintrag" id="mm-beenden" data-de="🚪 Spiel beenden" data-en="End game">🚪 Spiel beenden</button>
     </div>
@@ -1103,6 +1176,9 @@ function mmMenueAufbauen() {
     const d = document.getElementById('allLevelsDetails');
     if (d) { d.open = true; d.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   };
+  const ton = m.querySelector('#mm-ton');
+  ton.checked = tonAn();
+  ton.onchange = () => { localStorage.setItem(TON_KEY, ton.checked ? '1' : '0'); if (ton.checked) sprechen('Ton ist an.'); else window.speechSynthesis?.cancel(); };
   const en = m.querySelector('#mm-englisch');
   en.checked = localStorage.getItem(ENGLISCH_KEY) === '1';
   en.onchange = () => { localStorage.setItem(ENGLISCH_KEY, en.checked ? '1' : '0'); mmSchalterAnwenden(); };
@@ -1119,6 +1195,7 @@ function mmMenueAufbauen() {
     fetch(`${MODULE_ROOT}/data/levels.json`).then(r => r.json()).then(levels => {
       try { localStorage.setItem('math_module_levels_cache', JSON.stringify(levels)); } catch (e) {}
       mmLevelKnoepfe();
+      const smax = document.getElementById('sterne-max'); if (smax) smax.textContent = String(levels.length * 3);
       const chip = document.querySelector('.mm-level-chip');
       const lv = parseCurrentLevel();
       if (chip && lv !== null) chip.textContent = mmLevelTitel(lv);
@@ -1143,7 +1220,7 @@ function openNameModal() {
         <button type="button" class="sp-waehlen" data-i="${i}" title="Mit ${escapeHtml(p.name)} spielen">
           <img src="${p.avatar}" alt="" width="52" height="52">
           <span class="sp-name">${escapeHtml(p.name)}</span>
-          <span class="sp-info">${p.klasse ? '🎒 ' + klasseText(p.klasse) + ' · ' : ''}⭐ ${sterneSummeVon(p.name)} von ${LEVEL_ZAHL * 3}${z !== undefined ? ` · zuletzt Level ${escapeHtml(z)}` : ''}</span>
+          <span class="sp-info">${p.klasse ? '🎒 ' + klasseText(p.klasse) + ' · ' : ''}⭐ ${bruchText(sterneSummeVon(p.name))} von ${LEVEL_ZAHL * 3}${z !== undefined ? ` · zuletzt Level ${escapeHtml(z)}` : ''}</span>
         </button>
         <button type="button" class="sp-mini" data-umbenennen="${i}" title="Namen ändern">✏️</button>
         <button type="button" class="sp-mini" data-loeschen="${i}" title="Spieler löschen">🗑️</button>
@@ -1152,7 +1229,7 @@ function openNameModal() {
   const tabelle = liste.length ? `<details class="sp-erwachsene"><summary>👥 Übersicht für Erwachsene</summary>
       <table class="result-table"><tr><th>Spieler</th>${[...Array(LEVEL_ZAHL).keys()].map(l => `<th>L${l}</th>`).join('')}<th>⭐</th></tr>
       ${liste.map(p => { const m = sterneAlle()[p.name.toLowerCase()] || {};
-        return `<tr><td>${escapeHtml(p.name)}</td>${[...Array(LEVEL_ZAHL).keys()].map(l => `<td>${m[l] ? '⭐'.repeat(m[l]) : '–'}</td>`).join('')}<td><b>${sterneSummeVon(p.name)}</b></td></tr>`; }).join('')}
+        return `<tr><td>${escapeHtml(p.name)}</td>${[...Array(LEVEL_ZAHL).keys()].map(l => `<td>${m[l] ? bruchText(m[l]) : '–'}</td>`).join('')}<td><b>${bruchText(sterneSummeVon(p.name))}</b></td></tr>`; }).join('')}
       </table><p class="sp-klein">Die Zahlen eines Levels (Punkte, Versuche, Note) zeigt der Knopf „Auswertung“ oben – unter „Für Erwachsene“.</p></details>` : '';
   overlay.innerHTML = `
     <div class="name-modal sp-modal">
@@ -1183,6 +1260,8 @@ function openNameModal() {
   document.body.appendChild(overlay);
 
   const fertig = () => {
+    const wer = getUserName();
+    if (wer) sprechen(`Hallo ${wer}! Team ${teamNameForAvatar(getAvatar())}. Los geht's!`);
     markGameActive(true);
     markWelcomeShown();
     overlay.classList.remove('is-visible');
@@ -1662,7 +1741,7 @@ function wireLevelToolbar(levels, container) {
     const item = byId.get(String(levelId)) || levelData[0];
     if (!item) return;
     select.value = item.id;
-    detailTitle.textContent = `${item.title}  ${sternText(sterneFuer(item.id))}`;
+    detailTitle.innerHTML = `${escapeHtml(item.title)} ${sterneHTML(sterneFuer(item.id))}`;
     detailDesc.textContent = item.desc;
     startBtn.dataset.href = item.href;
   };
@@ -2268,8 +2347,19 @@ function renderTasksForCurrentLevel() {
           timeSavedMin: 0,
           timeLimitSec: getTimeLimitSec(),
         };
-        sterneSpeichern(levelId, sterneAusProzent(stats.percent));
+        // 2026-11-26: Punkte nach Versuchen: 1. Versuch 3, 2. Versuch 2, 3. Versuch 1, nicht geschafft 0
+        const versuchVon = t => { const log = taskAttemptLog.get(t.id) || []; const i = log.findIndex(x => x.ok); return i >= 0 ? i + 1 : 0; };
+        const kindPunkte = tasks.reduce((n, t) => { const v = versuchVon(t); return n + (v ? 4 - v : 0); }, 0);
+        const kindMax = tasks.length * 3;
+        const neueSterne = kindMax ? Math.round((kindPunkte / kindMax) * 9) / 3 : 0;
+        sterneSpeichern(levelId, neueSterne);
         sterneSummeZeigen();
+        const kindZeilen = tasks.map((t, i) => {
+          const v = versuchVon(t);
+          const was = v === 1 ? '✅ beim 1. Versuch' : v === 2 ? '✅ beim 2. Versuch' : v === 3 ? '✅ beim 3. Versuch' : `❌ Lösung: ${escapeHtml(String(t.answer))}`;
+          return `<tr class="${v ? 'ok' : 'nein'}"><td>${i + 1}</td><td>${escapeHtml(t.text)}</td><td>${was}</td><td>${v ? 4 - v : 0}</td></tr>`;
+        }).join('');
+        const lob = neueSterne >= 3 ? 'Super! Alle drei Sterne! 🎉' : neueSterne >= 2 ? 'Sehr gut gemacht! 👏' : neueSterne >= 1 ? 'Gut gemacht! Schaffst du mehr Sterne? 🙂' : 'Nicht aufgeben – nochmal probieren! 💪';
         const rows = tasks.map((task, idx) => {
           const log = taskAttemptLog.get(task.id) || [];
           return `
@@ -2284,9 +2374,20 @@ function renderTasksForCurrentLevel() {
           `;
         }).join('');
         const html = `
-          <div class="sterne-gross">${sternText(sterneAusProzent(stats.percent))}</div>
-          <p class="sterne-lob">${['Nicht aufgeben – nochmal probieren! 💪', 'Gut! Ein Stern. Schaffst du zwei? 🙂', 'Sehr gut! Zwei Sterne! 👏', 'Super! Alle drei Sterne! 🎉'][sterneAusProzent(stats.percent)]}</p>
-          <p class="kind-ergebnis">${stats.correctCount || 0} von ${stats.tasksTotal || 0} Aufgaben richtig</p>
+          <div class="ende-grid">
+          <div class="ende-links">
+          <div class="pokal">🏆</div>
+          <div class="sterne-gross">${sterneHTML(neueSterne)}</div>
+          <p class="sterne-zahl-ende">${bruchText(neueSterne)} von 3 Sternen</p>
+          <p class="sterne-lob">${lob}</p>
+          <p class="kind-ergebnis">${kindPunkte} von ${kindMax} Punkten</p>
+          </div>
+          <div class="ende-rechts">
+            <h4>So hast du gerechnet</h4>
+            <table class="kind-tabelle"><thead><tr><th>Nr.</th><th>Aufgabe</th><th>Geschafft</th><th>Punkte</th></tr></thead><tbody>${kindZeilen}</tbody></table>
+            <p class="kind-regel">1. Versuch = 3 Punkte · 2. Versuch = 2 · 3. Versuch = 1</p>
+          </div>
+          </div>
           ${mmLevelListe().some(x => String(x.level ?? x.id) === String(Number(levelId) + 1)) ? `<p style="text-align:center"><button type="button" class="pill btn-primary" id="mm-naechstes-level">▶ Nächstes Level: ${escapeHtml(mmLevelTitel(Number(levelId) + 1))}</button></p>` : ''}
           <details class="erwachsene"><summary>Für Erwachsene: alle Zahlen</summary>
           <div class="summary">
@@ -2329,6 +2430,16 @@ function renderTasksForCurrentLevel() {
         const restartBtn = body?.querySelector('#restart-level-end');
         const backBtn = body?.querySelector('#back-to-levels-end');
         if (restartBtn) restartBtn.onclick = () => { resetRun(levelId); location.reload(); };
+        rennbahn(1, 1); // am Ende immer im Ziel – der Pokal
+        // Jubel: Fanfare, Sternregen, „Hurra“ – RU: фанфары, звёздный дождь, «ура»
+        const wer = getUserName() || '';
+        if (neueSterne >= 1) {
+          tonFanfare(); sterneRegen(neueSterne >= 3 ? 60 : 35);
+          setTimeout(() => sprechen(`Hurra${wer ? ', ' + wer : ''}! Du hast ${sterneSprechen(neueSterne)}!`), 900);
+        } else {
+          tonSanft();
+          setTimeout(() => sprechen(`Gut gekämpft${wer ? ', ' + wer : ''}! Probier es gleich noch einmal.`), 600);
+        }
         const naechstesBtn = body?.querySelector('#mm-naechstes-level');
         if (naechstesBtn) { naechstesBtn.onclick = () => mmLevelStarten(Number(levelId) + 1); setTimeout(() => naechstesBtn.focus(), 100); }
         if (backBtn) backBtn.onclick = () => {
@@ -2463,6 +2574,7 @@ function renderTasksForCurrentLevel() {
               const bonus = awardTaskBonus(task.id, 'Aufgabe gelöst');
               showToast(['Super!', 'Toll!', 'Prima!', 'Klasse!', 'Spitze!'][Math.floor(Math.random() * 5)] + ' 🎉', 'ok');
               maskottchen('huepf');
+              tonRichtig();
               if (bonus > 0 && feedback) {
                 feedback.textContent = `Richtig! 🎉`;
               }
@@ -2480,6 +2592,7 @@ function renderTasksForCurrentLevel() {
               }
               showToast(`Versuch ${attemptNumber} nicht ganz richtig.`, 'warn');
               maskottchen('wackel');
+              tonFalsch();
               if (attemptsEl) attemptsEl.textContent = attemptsNow.toString();
               const lifeIdx = attemptNumber - 1;
               marksNow[lifeIdx] = 'bad';
